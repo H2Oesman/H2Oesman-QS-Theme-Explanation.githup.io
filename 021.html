@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surah Al-Anbiya - The Prophets (Verse Theme Elaboration)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --prophets-bg: #fff0f0;
+            --unity-bg: #f0fff0;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --prophets-bg: #3a1f1f;
+            --unity-bg: #1f3a1f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid #3498db;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid var(--tafsir-border);
+            transition: all 0.3s ease;
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid #3498db;
+        }
+        .top-home-link:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+
+        .new-badge {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .structure-item {
+            background: var(--structure-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .structure-item h4 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+
+        .benefits-list {
+            background: var(--benefits-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .benefits-list ul {
+            padding-left: 20px;
+        }
+
+        .theme-overview {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .dark-mode .theme-overview {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+
+        .info-box {
+            background-color: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid var(--verse-border);
+        }
+
+        .prophets-context {
+            background-color: var(--prophets-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #c0392b;
+        }
+
+        .unity-section {
+            background-color: var(--unity-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #27ae60;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .timeline-item {
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: var(--verse-bg);
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .structure-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <!-- Adding Uthmanic Script HAFS font for proper Arabic display -->
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Adding Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+
+            <h1 class="surah-title">Surah Al-Anbiya (Para Nabi) - Tafsir Tematik</h1>
+            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info - Surah Al-Anbiya</a>, Tafsir Ibn Kathir, dan Kementerian Agama RI</div>
+
+            <div class="arabic">اقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ وَهُمْ فِي غَفْلَةٍ مُّعْرِضُونَ</div>
+            <div class="transliteration">Iqtaraba li-n-nāsi ḥisābuhum wa hum fī ghaflatin muʿ'riḍūn</div>
+            <p style="text-align: center; font-style: italic;">"Telah dekat kepada manusia perhitungan (hari kiamat) mereka, sedang mereka dalam keadaan lalai (dari kiamat), berpaling (dari peringatan)." (Al-Anbiya 21:1)</p>
+
+            <div class="theme-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Gambaran Umum Surah Al-Anbiya</h3>
+                <p>Surah Al-Anbiya (سورة الأنبياء) adalah surah ke-21 dalam Al-Qur'an yang terdiri dari 112 ayat. Surah ini termasuk dalam kategori Makkiyah (diturunkan di Makkah) dan merupakan salah satu surah yang menekankan keesaan Allah, hari akhir, dan kisah-kisah para nabi. Nama "Al-Anbiya" berarti "para nabi" yang diambil dari pembahasan utama surah ini tentang berbagai nabi Allah dan perjuangan mereka dalam menyampaikan risalah tauhid. Surah ini secara tematis membahas tentang <strong>konsep tauhid</strong>, <strong>hari kebangkitan</strong>, <strong>kisah para nabi</strong>, dan <strong>tantangan dakwah</strong>.</p>
+                <p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, Surah Al-Anbiya memiliki signifikansi khusus karena menegaskan kesatuan risalah para nabi dan kesinambungan ajaran tauhid dari Nabi Adam hingga Nabi Muhammad ﷺ.</p>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+                <p>Untuk membaca teks lengkap Surah Al-Anbiya beserta terjemahannya, kunjungi: 
+                <a href="https://quran.com/21" target="_blank">Quran.com - Surah Al-Anbiya</a></p>
+            </div>
+
+            <div class="bonus">
+                <div class="section-title">Sumber Tafsir Terpercaya</div>
+                <p>Pembahasan dalam halaman ini didasarkan pada analisis tematik dari sumber-sumber terpercaya termasuk IslamicStudies.info, Tafsir Ibn Kathir, dan terjemahan resmi Kementerian Agama Republik Indonesia.</p>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Surah Al-Anbiya</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/021.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Struktur dan Kandungan Surah</h2>
+                
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-hourglass-end verse-title-icon"></i> Ayat 1-29: Hari Kiamat & Keesaan Allah</h4>
+                        <p>Pembahasan tentang kedekatan hari kiamat, keesaan Allah, penciptaan langit dan bumi, serta bantahan terhadap syirik.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-users verse-title-icon"></i> Ayat 30-73: Kisah Para Nabi</h4>
+                        <p>Narasi tentang Nabi Ibrahim, Musa, Harun, Daud, Sulaiman, Ayyub, Yunus, Zakaria, Yahya, dan Isa beserta pelajaran dari perjuangan mereka.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-balance-scale verse-title-icon"></i> Ayat 74-90: Tantangan Dakwah</h4>
+                        <p>Penjelasan tentang tantangan yang dihadapi para nabi, ketabahan mereka, dan konsekuensi mengingkari risalah.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-handshake verse-title-icon"></i> Ayat 91-112: Penutup & Perintah Beribadah</h4>
+                        <p>Penegasan tentang keesaan Allah, perintah untuk beribadah hanya kepada-Nya, dan janji kemenangan bagi orang-orang beriman.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prophets-context">
+                <h3><i class="fas fa-history"></i> Konteks Pewahyuan: Periode Mekah</h3>
+                <p>Surah Al-Anbiya diturunkan di Mekah pada periode ketika kaum Muslim menghadapi penindasan dan penolakan yang keras dari kaum musyrikin Quraisy. Surah ini memberikan penguatan iman dengan mengingatkan tentang perjuangan para nabi sebelumnya yang juga menghadapi penolakan dari kaum mereka, namun akhirnya meraih kemenangan dengan pertolongan Allah.</p>
+                <div class="timeline">
+                    <div class="timeline-item"><strong>Periode:</strong> Mekah Pertengahan (sekitar tahun 5-6 kenabian)</div>
+                    <div class="timeline-item"><strong>Situasi:</strong> Tekanan terhadap kaum Muslim meningkat, banyak yang disiksa dan diboikot</div>
+                    <div class="timeline-item"><strong>Tujuan Surah:</strong> Menguatkan hati kaum Muslim dengan kisah ketabahan para nabi</div>
+                    <div class="timeline-item"><strong>Tema Utama:</strong> Keesaan Allah, hari akhir, dan kesinambungan risalah para nabi</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Tema Utama Surah Al-Anbiya</h2>
+                
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-clock verse-title-icon"></i> 1. Kedekatan Hari Kiamat</div>
+                    <p>Surah ini dimulai dengan peringatan tentang kedekatan hari perhitungan (kiamat) dan kecaman terhadap manusia yang lalai dari persiapan menghadapinya.</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://quranwbw.com/21:1" target="_blank">Al-Anbiya 21:1</a>
+                        <div class="arabic">اقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ وَهُمْ فِي غَفْلَةٍ مُّعْرِضُونَ</div>
+                        <div class="transliteration">Iqtaraba li-n-nāsi ḥisābuhum wa hum fī ghaflatin muʿ'riḍūn</div>
+                        <p>"Telah dekat kepada manusia perhitungan (hari kiamat) mereka, sedang mereka dalam keadaan lalai (dari kiamat), berpaling (dari peringatan)."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir IslamicStudies.info:</strong> Menurut analisis <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, ayat ini membuka surah dengan tema sentral tentang kedekatan hari kiamat. Kata "iqtaraba" (telah dekat) menunjukkan bahwa kiamat sudah sangat dekat dari perspektif waktu ilahi, atau bahwa konsekuensi dari amal perbuatan manusia sudah mulai dirasakan. Manusia yang lalai dan berpaling dari peringatan akan menghadapi akibat yang serius ketika kiamat tiba.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-fist-raised verse-title-icon"></i> 2. Keesaan Allah (Tauhid)</div>
+                    <p>Surah Al-Anbiya menegaskan keesaan Allah dengan argumen-argumen rasional dan menolak segala bentuk syirik serta penyembahan berhala.</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://quranwbw.com/21:22" target="_blank">Al-Anbiya 21:22</a>
+                        <div class="arabic">لَوْ كَانَ فِيهِمَا آلِهَةٌ إِلَّا اللَّهُ لَفَسَدَتَا ۚ فَسُبْحَانَ اللَّهِ رَبِّ الْعَرْشِ عَمَّا يَصِفُونَ</div>
+                        <div class="transliteration">Law kāna fīhimā ālihatun illā llāhu lafasadata, fasubḥāna llāhi rabbi l-ʿarshi ʿammā yaṣifūn</div>
+                        <p>"Sekiranya ada di langit dan di bumi tuhan-tuhan selain Allah, tentulah keduanya itu telah rusak binasa. Maka Mahasuci Allah yang mempunyai Arsy daripada apa yang mereka sifatkan."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir Ibn Kathir:</strong> Ayat ini memberikan argumen logis tentang keesaan Allah. Jika ada lebih dari satu pengatur alam semesta, pasti akan terjadi konflik dan kekacauan dalam pengaturan alam. Kenyataan bahwa alam semesta berjalan dengan keteraturan yang sempurna membuktikan bahwa hanya ada satu Pengatur, yaitu Allah SWT. Ini adalah bantahan telak terhadap kepercayaan politeisme yang dianut oleh kaum musyrikin Arab.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-hand-holding-heart verse-title-icon"></i> 3. Kesatuan Risalah Para Nabi</div>
+                    <p>Surah ini menegaskan bahwa semua nabi membawa risalah yang sama: mengajak manusia untuk menyembah Allah semata dan menjauhi thaghut.</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://quranwbw.com/21:25" target="_blank">Al-Anbiya 21:25</a>
+                        <div class="arabic">وَمَا أَرْسَلْنَا مِن قَبْلِكَ مِن رَّسُولٍ إِلَّا نُوحِي إِلَيْهِ أَنَّهُ لَا إِلَٰهَ إِلَّا أَنَا فَاعْبُدُونِ</div>
+                        <div class="transliteration">Wa mā arsalnā min qablika min rasūlin illā nūḥī ilayhi annahu lā ilāha illā anā fa-ʿ'budūn</div>
+                        <p>"Dan Kami tidak mengutus seorang rasul pun sebelum engkau (Muhammad) melainkan Kami wahyukan kepadanya, bahwa tidak ada tuhan (yang berhak disembah) selain Aku, maka sembahlah Aku."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir Kemenag RI:</strong> Ayat ini menegaskan kesatuan dan kontinuitas risalah kenabian. Semua nabi dari Adam hingga Muhammad membawa pesan yang sama: tauhid (mengesakan Allah). Perbedaan hanya terletak pada syariat yang disesuaikan dengan zaman dan kondisi umat masing-masing. Ini merupakan bantahan terhadap klaim bahwa Islam adalah agama baru, padahal Islam adalah kelanjutan dan penyempurnaan dari agama-agama samawi sebelumnya.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="unity-section">
+                    <div class="theme-title"><i class="fas fa-scale-balanced verse-title-icon"></i> 4. Perlawanan terhadap Kebatilan</div>
+                    <p>Surah Al-Anbiya menggambarkan perjuangan para nabi dalam melawan kebatilan dan bagaimana mereka tetap sabar menghadapi penindasan dari kaumnya.</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://quranwbw.com/21:18" target="_blank">Al-Anbiya 21:18</a>
+                        <div class="arabic">بَلْ نَقْذِفُ بِالْحَقِّ عَلَى الْبَاطِلِ فَيَدْمَغُهُ فَإِذَا هُوَ زَاهِقٌ ۚ وَلَكُمُ الْوَيْلُ مِمَّا تَصِفُونَ</div>
+                        <div class="transliteration">Bal naqdhifu bi-l-ḥaqqi ʿalā l-bāṭili fa-yadmaghuhū fa-idhā huwa zāhiq, wa lakumu l-waylu mimmā taṣifūn</div>
+                        <p>"Bahkan Kami melontarkan yang hak (kebenaran) kepada yang batil (kebatilan) lalu (kebenaran) itu menghancurkannya, maka seketika itu (kebatilan) pun lenyap. Dan celakalah kamu karena apa yang kamu sifatkan (sekutu-sekutu bagi Allah)."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir IslamicStudies.info:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, ayat ini menggunakan metafora yang kuat: kebenaran seperti batu besar yang dihancurkan terhadap kebatilan yang rapuh. Meskipun kebatilan mungkin tampak kuat sementara, pada akhirnya kebenaran akan menghancurkannya. Ini memberikan semangat kepada Nabi Muhammad ﷺ dan kaum Muslim awal bahwa meskipun mereka lemah secara jumlah dan materi, kebenaran yang mereka bawa akan menang atas kebatilan kaum musyrikin.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-users verse-title-icon"></i> 5. Karakteristik Para Nabi</div>
+                    <p>Surah ini menjelaskan karakteristik umum para nabi: manusia biasa yang dipilih Allah, memiliki sifat-sifat mulia, dan diutus untuk membimbing umatnya.</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://quranwbw.com/21:107" target="_blank">Al-Anbiya 21:107</a>
+                        <div class="arabic">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ</div>
+                        <div class="transliteration">Wa mā arsalnāka illā raḥmatan li-l-ʿālamīn</div>
+                        <p>"Dan Kami tidak mengutus engkau (Muhammad) melainkan untuk (menjadi) rahmat bagi seluruh alam."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir Kemenag RI:</strong> Ayat ini menegaskan misi universal Nabi Muhammad ﷺ sebagai rahmat bagi seluruh alam, bukan hanya untuk bangsa Arab atau umat Islam saja. Konsep rahmat mencakup semua aspek: spiritual, sosial, ekonomi, dan politik. Ini membedakan Islam dari agama-agama lain yang mungkin terbatas pada bangsa atau kelompok tertentu. Ayat ini juga menjadi bantahan bagi yang menuduh Islam disebarkan dengan pedang.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-balance-scale section-title-icon"></i> Kisah Para Nabi dalam Surah Al-Anbiya</h2>
+                
+                <div class="verse">
+                    <strong>Pelajaran dari Kisah Nabi Ibrahim:</strong> 
+                    <a href="https://quranwbw.com/21:51-70" target="_blank">Al-Anbiya 21:51-70</a>
+                    <div class="arabic">وَلَقَدْ آتَيْنَا إِبْرَاهِيمَ رُشْدَهُ مِن قَبْلُ وَكُنَّا بِهِ عَالِمِينَ</div>
+                    <div class="transliteration">Wa laqad ātaynā ibrāhīma rushdahū min qablu wa kunnā bihī ʿālimīn</div>
+                    <p>"Dan sesungguhnya telah Kami anugerahkan kepada Ibrahim hidayah kebenaran sebelum (Musa dan Harun), dan adalah Kami mengetahui (keadaan)nya."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir IslamicStudies.info:</strong> Kisah Nabi Ibrahim dalam surah ini (ayat 51-70) memberikan pelajaran penting tentang pencarian tauhid melalui akal dan logika. Ibrahim mencari kebenaran dengan merenungkan alam semesta, hingga sampai pada kesimpulan bahwa hanya Allah yang berhak disembah. Peristiwa penghancuran berhala-berhala dan ujian api yang dihadapinya menunjukkan bahwa kebenaran akan selalu dilindungi Allah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, kisah ini relevan untuk semua zaman sebagai contoh bagaimana menghadapi sistem kepercayaan yang menyimpang dengan bijaksana namun tegas.
+                    </div>
+                </div>
+
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-user-check verse-title-icon"></i> Nabi Ibrahim (21:51-70)</h4>
+                        <p>Pencarian tauhid melalui logika, penghancuran berhala, dan keselamatan dari api. Pelajaran: keberanian dalam membela kebenaran.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-user-check verse-title-icon"></i> Nabi Musa & Harun (21:48-50)</h4>
+                        <p>Pemberian Taurat sebagai petunjuk dan pembeda antara hak dan batil. Pelajaran: pentingnya kitab suci sebagai pedoman.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-user-check verse-title-icon"></i> Nabi Daud & Sulaiman (21:78-82)</h4>
+                        <p>Hikmah dalam memutuskan perkara, kekuasaan atas angin dan jin. Pelajaran: ilmu dan hikmah sebagai anugerah Allah.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-user-check verse-title-icon"></i> Nabi Ayyub, Yunus, Zakaria (21:83-90)</h4>
+                        <p>Kesabaran dalam ujian, doa yang mustajab, dan pertolongan Allah. Pelajaran: kesabaran dan doa sebagai senjata orang beriman.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Pelajaran Spiritual dari Surah Al-Anbiya</h2>
+                
+                <div class="benefits-list">
+                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Pelajaran Penting untuk Umat Islam</h3>
+                    <ul>
+                        <li><strong>Kesadaran Akhirat:</strong> Kiamat sudah dekat, perlu persiapan dengan amal shaleh</li>
+                        <li><strong>Konsistensi Tauhid:</strong> Semua nabi membawa pesan yang sama: La ilaha illallah</li>
+                        <li><strong>Ketabahan dalam Dakwah:</strong> Para nabi menghadapi penolakan tetapi tetap sabar dan teguh</li>
+                        <li><strong>Kebenaran vs Kebatilan:</strong> Kebenaran mungkin lemah di awal tetapi pasti menang pada akhirnya</li>
+                        <li><strong>Universalitas Islam:</strong> Risalah Nabi Muhammad untuk seluruh alam sebagai rahmat</li>
+                    </ul>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-lightbulb verse-title-icon"></i> Relevansi untuk Masa Kini</div>
+                    <p>Berdasarkan analisis dari <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, Surah Al-Anbiya memberikan pelajaran penting untuk kehidupan kontemporer:</p>
+                    <ol>
+                        <li><strong>Dialog Antaragama:</strong> Kesatuan risalah para nabi menjadi dasar dialog yang konstruktif antar pemeluk agama samawi</li>
+                        <li><strong>Melawan Materialisme:</strong> Peringatan tentang kiamat mengingatkan manusia bahwa kehidupan dunia hanya sementara</li>
+                        <li><strong>Keteguhan Prinsip:</strong> Kisah para nabi mengajarkan keteguhan dalam memegang prinsip kebenaran meski menghadapi tekanan</li>
+                        <li><strong>Pendekatan Rasional:</strong> Argumen tentang keesaan Allah dapat digunakan dalam dakwah kepada kaum intelektual</li>
+                        <li><strong>Keseimbangan Spiritual-Duniawi:</strong> Para nabi adalah contoh manusia seimbang antara urusan spiritual dan duniawi</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Hubungan dengan Surah Lain</h2>
+                
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> Dengan Surah Sebelumnya (Ta Ha)</h4>
+                        <p>Surah Ta Ha berfokus pada kisah Musa dan misi kenabian, sedangkan Surah Al-Anbiya melengkapi dengan kisah berbagai nabi untuk menegaskan kesatuan risalah.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> Dengan Surah Sesudahnya (Al-Hajj)</h4>
+                        <p>Surah Al-Anbiya menekankan tauhid dan kisah nabi, sedangkan Al-Hajj membahas ibadah haji dan jihad sebagai implementasi tauhid.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-book verse-title-icon"></i> Dengan Surah Al-An'am (6:74-90)</h4>
+                        <p>Kedua surah sama-sama menceritakan kisah Nabi Ibrahim dalam konteks pencarian tauhid dan perlawanan terhadap penyembahan berhala.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> Dengan Surah Maryam (19)</h4>
+                        <p>Surah Maryam berfokus pada kisah Nabi Isa dan keluarganya, sedangkan Al-Anbiya memberikan gambaran lebih luas tentang berbagai nabi.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+
+            <h1 class="surah-title">Surah Al-Anbiya (The Prophets) - Thematic Tafsir</h1>
+            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info - Surah Al-Anbiya</a>, Tafsir Ibn Kathir, and Indonesian Ministry of Religious Affairs</div>
+
+            <div class="arabic">اقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ وَهُمْ فِي غَفْلَةٍ مُّعْرِضُونَ</div>
+            <div class="transliteration">Iqtaraba li-n-nāsi ḥisābuhum wa hum fī ghaflatin muʿ'riḍūn</div>
+            <p style="text-align: center; font-style: italic;">"The time of people's reckoning has drawn near, yet they are heedless and turn away." (Al-Anbiya 21:1)</p>
+
+            <div class="theme-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Overview of Surah Al-Anbiya</h3>
+                <p>Surah Al-Anbiya (سورة الأنبياء) is the 21st chapter of the Qur'an consisting of 112 verses. It is categorized as Makki (revealed in Mecca) and is one of the surahs that emphasizes Allah's oneness, the Hereafter, and stories of the prophets. The name "Al-Anbiya" means "the prophets" taken from the main discussion of this surah about various prophets of Allah and their struggles in delivering the message of monotheism. Thematically, this surah deals with <strong>the concept of tawhid</strong>, <strong>the Day of Resurrection</strong>, <strong>stories of the prophets</strong>, and <strong>challenges of da'wah</strong>.</p>
+                <p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, Surah Al-Anbiya has special significance as it affirms the unity of the prophets' messages and the continuity of tawhid teachings from Prophet Adam to Prophet Muhammad ﷺ.</p>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
+                <p>To read the complete text of Surah Al-Anbiya along with its translation, visit: 
+                <a href="https://quran.com/21" target="_blank">Quran.com - Surah Al-Anbiya</a></p>
+            </div>
+
+            <div class="bonus">
+                <div class="section-title">Reliable Tafsir Sources</div>
+                <p>The discussion in this page is based on thematic analysis from reliable sources including IslamicStudies.info, Tafsir Ibn Kathir, and the official translation by the Indonesian Ministry of Religious Affairs.</p>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to Surah Al-Anbiya</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/021.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Structure and Content of the Surah</h2>
+                
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-hourglass-end verse-title-icon"></i> Verses 1-29: Day of Judgment & Allah's Oneness</h4>
+                        <p>Discussion about the proximity of the Day of Judgment, Allah's oneness, creation of heavens and earth, and refutation of shirk.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-users verse-title-icon"></i> Verses 30-73: Stories of the Prophets</h4>
+                        <p>Narration about Prophets Ibrahim, Musa, Harun, Dawud, Sulaiman, Ayyub, Yunus, Zakariya, Yahya, and Isa along with lessons from their struggles.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-balance-scale verse-title-icon"></i> Verses 74-90: Challenges of Da'wah</h4>
+                        <p>Explanation of challenges faced by prophets, their patience, and consequences of rejecting the message.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-handshake verse-title-icon"></i> Verses 91-112: Conclusion & Command to Worship</h4>
+                        <p>Affirmation of Allah's oneness, command to worship Him alone, and promise of victory for believers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prophets-context">
+                <h3><i class="fas fa-history"></i> Revelation Context: Meccan Period</h3>
+                <p>Surah Al-Anbiya was revealed in Mecca during the period when Muslims faced severe oppression and rejection from the polytheistic Quraysh. This surah strengthens faith by reminding about the struggles of previous prophets who also faced rejection from their people, but eventually achieved victory with Allah's help.</p>
+                <div class="timeline">
+                    <div class="timeline-item"><strong>Period:</strong> Middle Meccan (around 5-6 years after prophethood)</div>
+                    <div class="timeline-item"><strong>Situation:</strong> Pressure on Muslims increased, many were tortured and boycotted</div>
+                    <div class="timeline-item"><strong>Surah's Purpose:</strong> Strengthening Muslims' hearts with stories of prophets' patience</div>
+                    <div class="timeline-item"><strong>Main Theme:</strong> Allah's oneness, the Hereafter, and continuity of prophets' messages</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Main Themes of Surah Al-Anbiya</h2>
+                
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-clock verse-title-icon"></i> 1. Proximity of the Day of Judgment</div>
+                    <p>This surah begins with a warning about the proximity of the Day of Reckoning and criticism of people who are heedless of preparing for it.</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://quranwbw.com/21:1" target="_blank">Al-Anbiya 21:1</a>
+                        <div class="arabic">اقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ وَهُمْ فِي غَفْلَةٍ مُّعْرِضُونَ</div>
+                        <div class="transliteration">Iqtaraba li-n-nāsi ḥisābuhum wa hum fī ghaflatin muʿ'riḍūn</div>
+                        <p>"The time of people's reckoning has drawn near, yet they are heedless and turn away."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir from IslamicStudies.info:</strong> According to analysis from <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, this verse opens the surah with the central theme about the proximity of the Day of Judgment. The word "iqtaraba" (has drawn near) indicates that the Judgment Day is very near from the perspective of divine time, or that the consequences of human deeds are already beginning to be felt. People who are heedless and turn away from warning will face serious consequences when the Judgment Day arrives.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-fist-raised verse-title-icon"></i> 2. Oneness of Allah (Tawhid)</div>
+                    <p>Surah Al-Anbiya affirms Allah's oneness with rational arguments and rejects all forms of shirk and idol worship.</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://quranwbw.com/21:22" target="_blank">Al-Anbiya 21:22</a>
+                        <div class="arabic">لَوْ كَانَ فِيهِمَا آلِهَةٌ إِلَّا اللَّهُ لَفَسَدَتَا ۚ فَسُبْحَانَ اللَّهِ رَبِّ الْعَرْشِ عَمَّا يَصِفُونَ</div>
+                        <div class="transliteration">Law kāna fīhimā ālihatun illā llāhu lafasadata, fasubḥāna llāhi rabbi l-ʿarshi ʿammā yaṣifūn</div>
+                        <p>"Had there been within the heavens and earth gods besides Allah, they both would have been ruined. So exalted is Allah, Lord of the Throne, above what they describe."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir Ibn Kathir:</strong> This verse provides a logical argument about Allah's oneness. If there were more than one regulator of the universe, there would certainly be conflict and chaos in governing nature. The fact that the universe runs with perfect order proves that there is only one Regulator, Allah SWT. This is a decisive refutation of the polytheistic beliefs held by the Arab polytheists.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-hand-holding-heart verse-title-icon"></i> 3. Unity of Prophets' Messages</div>
+                    <p>This surah affirms that all prophets brought the same message: calling people to worship Allah alone and avoid false deities.</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://quranwbw.com/21:25" target="_blank">Al-Anbiya 21:25</a>
+                        <div class="arabic">وَمَا أَرْسَلْنَا مِن قَبْلِكَ مِن رَّسُولٍ إِلَّا نُوحِي إِلَيْهِ أَنَّهُ لَا إِلَٰهَ إِلَّا أَنَا فَاعْبُدُونِ</div>
+                        <div class="transliteration">Wa mā arsalnā min qablika min rasūlin illā nūḥī ilayhi annahu lā ilāha illā anā fa-ʿ'budūn</div>
+                        <p>"And We sent not before you any messenger except that We revealed to him that there is no deity except Me, so worship Me."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir from Indonesian Ministry of Religious Affairs:</strong> This verse affirms the unity and continuity of prophetic messages. All prophets from Adam to Muhammad brought the same message: tawhid (oneness of Allah). Differences only lie in the sharia adjusted to the era and conditions of each people. This is a refutation of claims that Islam is a new religion, whereas Islam is actually a continuation and perfection of previous Abrahamic religions.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="unity-section">
+                    <div class="theme-title"><i class="fas fa-scale-balanced verse-title-icon"></i> 4. Resistance against Falsehood</div>
+                    <p>Surah Al-Anbiya depicts the struggles of prophets in fighting falsehood and how they remained patient facing oppression from their people.</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://quranwbw.com/21:18" target="_blank">Al-Anbiya 21:18</a>
+                        <div class="arabic">بَلْ نَقْذِفُ بِالْحَقِّ عَلَى الْبَاطِلِ فَيَدْمَغُهُ فَإِذَا هُوَ زَاهِقٌ ۚ وَلَكُمُ الْوَيْلُ مِمَّا تَصِفُونَ</div>
+                        <div class="transliteration">Bal naqdhifu bi-l-ḥaqqi ʿalā l-bāṭili fa-yadmaghuhū fa-idhā huwa zāhiq, wa lakumu l-waylu mimmā taṣifūn</div>
+                        <p>"Rather, We dash the truth upon falsehood, and it destroys it, and thereupon it departs. And for you is destruction from that which you describe."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir from IslamicStudies.info:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, this verse uses a powerful metaphor: truth is like a large stone thrown against fragile falsehood. Although falsehood may appear strong temporarily, ultimately truth will destroy it. This gives spirit to Prophet Muhammad ﷺ and early Muslims that although they were weak in numbers and material, the truth they carried would triumph over the falsehood of the polytheists.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-users verse-title-icon"></i> 5. Characteristics of Prophets</div>
+                    <p>This surah explains common characteristics of prophets: ordinary humans chosen by Allah, possessing noble attributes, and sent to guide their people.</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://quranwbw.com/21:107" target="_blank">Al-Anbiya 21:107</a>
+                        <div class="arabic">وَمَا أَرْسَلْنَاكَ إِلَّا رَحْمَةً لِّلْعَالَمِينَ</div>
+                        <div class="transliteration">Wa mā arsalnāka illā raḥmatan li-l-ʿālamīn</div>
+                        <p>"And We have not sent you, [O Muhammad], except as a mercy to the worlds."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir from Indonesian Ministry of Religious Affairs:</strong> This verse affirms the universal mission of Prophet Muhammad ﷺ as mercy to all worlds, not only for Arabs or Muslims. The concept of mercy encompasses all aspects: spiritual, social, economic, and political. This distinguishes Islam from other religions that may be limited to specific nations or groups. This verse also refutes those who accuse Islam of being spread by the sword.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-balance-scale section-title-icon"></i> Stories of Prophets in Surah Al-Anbiya</h2>
+                
+                <div class="verse">
+                    <strong>Lessons from Prophet Ibrahim's Story:</strong> 
+                    <a href="https://quranwbw.com/21:51-70" target="_blank">Al-Anbiya 21:51-70</a>
+                    <div class="arabic">وَلَقَدْ آتَيْنَا إِبْرَاهِيمَ رُشْدَهُ مِن قَبْلُ وَكُنَّا بِهِ عَالِمِينَ</div>
+                    <div class="transliteration">Wa laqad ātaynā ibrāhīma rushdahū min qablu wa kunnā bihī ʿālimīn</div>
+                    <p>"And We had certainly given Abraham his sound judgement before, and We were of him well-aware."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir from IslamicStudies.info:</strong> The story of Prophet Ibrahim in this surah (verses 51-70) provides important lessons about seeking tawhid through intellect and logic. Ibrahim searched for truth by contemplating the universe until reaching the conclusion that only Allah deserves to be worshipped. The incident of destroying idols and the trial of fire he faced show that truth will always be protected by Allah. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, this story is relevant for all times as an example of how to face deviant belief systems wisely yet firmly.
+                    </div>
+                </div>
+
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-user-check verse-title-icon"></i> Prophet Ibrahim (21:51-70)</h4>
+                        <p>Seeking tawhid through logic, destroying idols, and salvation from fire. Lesson: courage in defending truth.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-user-check verse-title-icon"></i> Prophet Musa & Harun (21:48-50)</h4>
+                        <p>Bestowal of Torah as guidance and distinction between right and wrong. Lesson: importance of scripture as guidance.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-user-check verse-title-icon"></i> Prophet Dawud & Sulaiman (21:78-82)</h4>
+                        <p>Wisdom in judgment, authority over wind and jinn. Lesson: knowledge and wisdom as Allah's gifts.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-user-check verse-title-icon"></i> Prophet Ayyub, Yunus, Zakariya (21:83-90)</h4>
+                        <p>Patience in trials, answered prayers, and Allah's help. Lesson: patience and prayer as believers' weapons.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Spiritual Lessons from Surah Al-Anbiya</h2>
+                
+                <div class="benefits-list">
+                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Important Lessons for Muslims</h3>
+                    <ul>
+                        <li><strong>Awareness of Hereafter:</strong> Judgment Day is near, preparation with righteous deeds is necessary</li>
+                        <li><strong>Consistency of Tawhid:</strong> All prophets brought the same message: La ilaha illallah</li>
+                        <li><strong>Steadfastness in Da'wah:</strong> Prophets faced rejection but remained patient and firm</li>
+                        <li><strong>Truth vs Falsehood:</strong> Truth may be weak initially but will certainly triumph eventually</li>
+                        <li><strong>Universality of Islam:</strong> Prophet Muhammad's message is for all worlds as mercy</li>
+                    </ul>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-lightbulb verse-title-icon"></i> Relevance for Contemporary Times</div>
+                    <p>Based on analysis from <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a>, Surah Al-Anbiya provides important lessons for contemporary life:</p>
+                    <ol>
+                        <li><strong>Interfaith Dialogue:</strong> Unity of prophets' messages provides basis for constructive dialogue among Abrahamic faith followers</li>
+                        <li><strong>Combating Materialism:</strong> Warning about Judgment Day reminds humans that worldly life is only temporary</li>
+                        <li><strong>Principle Steadfastness:</strong> Stories of prophets teach firmness in holding to truth principles despite facing pressure</li>
+                        <li><strong>Rational Approach:</strong> Arguments about Allah's oneness can be used in da'wah to intellectuals</li>
+                        <li><strong>Spiritual-Worldly Balance:</strong> Prophets are examples of humans balanced between spiritual and worldly affairs</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Relationship with Other Surahs</h2>
+                
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> With Previous Surah (Ta Ha)</h4>
+                        <p>Surah Ta Ha focuses on Musa's story and prophetic mission, while Surah Al-Anbiya complements with stories of various prophets to affirm unity of messages.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> With Next Surah (Al-Hajj)</h4>
+                        <p>Surah Al-Anbiya emphasizes tawhid and prophets' stories, while Al-Hajj discusses hajj and jihad as implementation of tawhid.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-book verse-title-icon"></i> With Surah Al-An'am (6:74-90)</h4>
+                        <p>Both surahs narrate Prophet Ibrahim's story in context of seeking tawhid and resisting idol worship.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> With Surah Maryam (19)</h4>
+                        <p>Surah Maryam focuses on Prophet Isa and his family, while Al-Anbiya provides broader picture of various prophets.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2025 AD) 1447 AH - Surah Al-Anbiya Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle
+            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (currentLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
