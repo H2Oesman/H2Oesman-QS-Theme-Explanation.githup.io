@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surah Ibrahim (Abraham) - Thematic Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --prophet-bg: #fff0f0;
+            --monotheism-bg: #f0fff0;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --prophet-bg: #3a1f1f;
+            --monotheism-bg: #1f3a1f;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid #3498db;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid var(--tafsir-border);
+            transition: all 0.3s ease;
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid #3498db;
+        }
+        .top-home-link:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+
+        .new-badge {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .structure-item {
+            background: var(--structure-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .structure-item h4 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+
+        .benefits-list {
+            background: var(--benefits-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .benefits-list ul {
+            padding-left: 20px;
+        }
+
+        .theme-overview {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .dark-mode .theme-overview {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+
+        .info-box {
+            background-color: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid var(--verse-border);
+        }
+
+        .prophet-stories {
+            background-color: var(--prophet-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #c0392b;
+        }
+
+        .monotheism-section {
+            background-color: var(--monotheism-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #27ae60;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        .timeline-item {
+            padding: 10px 20px;
+            margin: 10px 0;
+            background-color: var(--verse-bg);
+            border-radius: 5px;
+            border-left: 4px solid #3498db;
+        }
+
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .structure-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <!-- Adding Uthmanic Script HAFS font for proper Arabic display -->
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Adding Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+
+            <h1 class="surah-title">Surah Ibrahim (Abraham) - Tafsir Tematik</h1>
+            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info - Surah Ibrahim</a>, Tafsir Ibn Kathir, dan Kementerian Agama RI</div>
+
+            <div class="arabic">الر ۚ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ لِتُخْرِجَ النَّاسَ مِنَ الظُّلُمَاتِ إِلَى النُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَاطِ الْعَزِيزِ الْحَمِيدِ</div>
+            <div class="transliteration">Alif-Lām-Rā. Kitābun anzalnāhu ilayka litukhrija n-nāsa mina ẓ-ẓulumāti ilā n-nūri bi-idhni rabbihim ilā ṣirāṭi l-'azīzi l-ḥamīd</div>
+            <p style="text-align: center; font-style: italic;">"Alif Lam Ra. (Ini adalah) Kitab yang Kami turunkan kepadamu (Muhammad) agar engkau mengeluarkan manusia dari kegelapan kepada cahaya terang-benderang dengan izin Tuhan mereka, (yaitu) menuju jalan Tuhan Yang Mahaperkasa, Maha Terpuji." (Ibrahim 14:1)</p>
+
+            <div class="theme-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Gambaran Umum Surah Ibrahim</h3>
+                <p>Surah Ibrahim (سورة إبراهيم) adalah surah ke-14 dalam Al-Qur'an yang terdiri dari 52 ayat. Surah ini termasuk dalam kategori Makkiyah (diturunkan di Makkah) dan dinamai sesuai dengan nama Nabi Ibrahim AS yang disebutkan dalam ayat-ayatnya. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info</a>, Surah Ibrahim secara tematis membahas tentang <strong>tugas utama para rasul</strong>, <strong>kisah perjuangan Nabi Ibrahim AS</strong>, <strong>perumpamaan-perumpamaan tentang kebenaran dan kebatilan</strong>, serta <strong>konsekuensi keimanan dan kekafiran</strong>.</p>
+                <p>Surah ini menekankan misi universal Al-Qur'an sebagai petunjuk yang mengeluarkan manusia dari kegelapan (kesyirikan, kebodohan, dan kesesatan) menuju cahaya (tauhid, ilmu, dan hidayah). Surah Ibrahim juga mengandung doa-doa Nabi Ibrahim AS yang sangat penting bagi umat Islam.</p>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+                <p>Untuk membaca teks lengkap Surah Ibrahim beserta terjemahannya, kunjungi: 
+                <a href="https://quran.com/14" target="_blank">Quran.com - Surah Ibrahim</a></p>
+            </div>
+
+            <div class="bonus">
+                <div class="section-title">Sumber Tafsir Terpercaya</div>
+                <p>Pembahasan dalam halaman ini didasarkan pada analisis tematik dari sumber-sumber terpercaya termasuk <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, dan terjemahan resmi Kementerian Agama Republik Indonesia.</p>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Surah Ibrahim</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/014.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Struktur dan Kandungan Surah</h2>
+                
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-flag verse-title-icon"></i> Ayat 1-4: Misi Al-Qur'an</h4>
+                        <p>Penjelasan tentang tujuan diturunkannya Al-Qur'an sebagai petunjuk yang mengeluarkan manusia dari kegelapan kepada cahaya.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-exclamation-triangle verse-title-icon"></i> Ayat 5-12: Kisah Nabi Musa AS</h4>
+                        <p>Pengingatan tentang pengutusan Nabi Musa AS kepada Fir'aun dan kaumnya, serta pelajaran dari penolakan mereka.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-balance-scale verse-title-icon"></i> Ayat 13-41: Kisah Nabi Ibrahim AS</h4>
+                        <p>Narasi detail tentang perjuangan Nabi Ibrahim AS dalam menegakkan tauhid, termasuk doa-doa pentingnya untuk keturunannya.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-handshake verse-title-icon"></i> Ayat 42-52: Hari Kiamat & Balasan</h4>
+                        <p>Gambaran tentang Hari Kiamat, perumpamaan tentang kebenaran dan kebatilan, serta konsekuensi akhir dari keimanan dan kekafiran.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prophet-stories">
+                <h3><i class="fas fa-history"></i> Konteks Historis: Nabi Ibrahim AS</h3>
+                <p>Nabi Ibrahim AS (sekitar 1996-1821 SM) dikenal sebagai "Bapak Para Nabi" (أبو الأنبياء) dan "Kekasih Allah" (خليل الله). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info</a>, Surah Ibrahim menampilkan sisi penting dari perjuangannya dalam menegakkan tauhid di tengah masyarakat penyembah berhala, serta doa-doa yang dipanjatkannya untuk keturunannya dan kota Makkah.</p>
+                <div class="timeline">
+                    <div class="timeline-item"><strong>Latar Belakang:</strong> Nabi Ibrahim lahir di Babilonia (Irak sekarang) di tengah masyarakat penyembah berhala</div>
+                    <div class="timeline-item"><strong>Perjuangan Tauhid:</strong> Menghancurkan berhala-berhala, berdakwah kepada ayahnya (Azar) dan Raja Namrud</div>
+                    <div class="timeline-item"><strong>Ujian Besar:</strong> Perintah menyembelih putranya Ismail AS (ujian ketakwaan tertinggi)</div>
+                    <div class="timeline-item"><strong>Warisan:</strong> Mendirikan Ka'bah bersama Ismail AS, meletakkan dasar agama hanif (monoteisme murni)</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Tema Utama Surah Ibrahim</h2>
+                
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-gem verse-title-icon"></i> 1. Misi Universal Al-Qur'an</div>
+                    <p>Surah Ibrahim dimulai dengan penegasan bahwa Al-Qur'an diturunkan untuk mengeluarkan manusia dari segala bentuk kegelapan menuju cahaya hidayah.</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1" target="_blank">Ibrahim 14:1</a>
+                        <div class="arabic">الر ۚ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ لِتُخْرِجَ النَّاسَ مِنَ الظُّلُمَاتِ إِلَى النُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَاطِ الْعَزِيزِ الْحَمِيدِ</div>
+                        <div class="transliteration">Alif-Lām-Rā. Kitābun anzalnāhu ilayka litukhrija n-nāsa mina ẓ-ẓulumāti ilā n-nūri bi-idhni rabbihim ilā ṣirāṭi l-'azīzi l-ḥamīd</div>
+                        <p>"Alif Lam Ra. (Ini adalah) Kitab yang Kami turunkan kepadamu (Muhammad) agar engkau mengeluarkan manusia dari kegelapan kepada cahaya terang-benderang dengan izin Tuhan mereka, (yaitu) menuju jalan Tuhan Yang Mahaperkasa, Maha Terpuji."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir IslamicStudies.info:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1" target="_blank">IslamicStudies.info</a>, ayat ini menegaskan misi utama Rasulullah ﷺ dan Al-Qur'an. "Kegelapan" (الظلمات) dalam bentuk jamak mengacu pada berbagai bentuk kesesatan: kegelapan syirik, kebodohan, hawa nafsu, dan sistem kehidupan yang batil. Sedangkan "cahaya" (النور) dalam bentuk tunggal menunjukkan bahwa kebenaran hanya satu, yaitu tauhid dan petunjuk Allah.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-fist-raised verse-title-icon"></i> 2. Perjuangan Para Rasul</div>
+                    <p>Surah Ibrahim menceritakan perjuangan para rasul dalam menghadapi penolakan dan permusuhan dari kaum mereka, dengan fokus pada kisah Nabi Musa dan Nabi Ibrahim.</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=9" target="_blank">Ibrahim 14:9</a>
+                        <div class="arabic">أَلَمْ يَأْتِكُمْ نَبَأُ الَّذِينَ مِن قَبْلِكُمْ قَوْمِ نُوحٍ وَعَادٍ وَثَمُودَ وَالَّذِينَ مِن بَعْدِهِمْ لَا يَعْلَمُهُمْ إِلَّا اللَّهُ ۚ جَاءَتْهُمْ رُسُلُهُم بِالْبَيِّنَاتِ فَرَدُّوا أَيْدِيَهُمْ فِي أَفْوَاهِهِمْ وَقَالُوا إِنَّا كَفَرْنَا بِمَا أُرْسِلْتُم بِهِ وَإِنَّا لَفِي شَكٍّ مِّمَّا تَدْعُونَنَا إِلَيْهِ مُرِيبٍ</div>
+                        <div class="transliteration">A-lam ya'tikum naba'u l-ladhīna min qablikum qawmi nūḥin wa 'ādin wa thamūda wa l-ladhīna min ba'dihim lā ya'lamuhum illā llāh, jā'athum rusuluhum bi-l-bayyināti faraddū aydiyahum fī afwāhihim wa qālū innā kafarnā bimā ursiltum bihī wa innā lafī shakkim mimmā tad'ūnanā ilayhi murīb</div>
+                        <p>"Belumkah sampai kepadamu berita orang-orang sebelum kamu (yaitu) kaum Nuh, 'Ad, Tsamud, dan orang-orang setelah mereka? Hanya Allah yang mengetahuinya. Rasul-rasul mereka datang kepada mereka dengan membawa bukti-bukti yang nyata, tetapi mereka menutupkan tangannya ke mulutnya (karena marah) dan berkata, 'Sesungguhnya kami mengingkari apa yang kamu diutus untuk menyampaikannya dan sesungguhnya kami benar-benar dalam keraguan yang menggelisahkan terhadap apa yang kamu ajak kami kepadanya.'"</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir Ibn Kathir:</strong> Ayat ini mengingatkan tentang pola penolakan yang konsisten terhadap para rasul sepanjang sejarah. Menurut Ibn Kathir, "menutupkan tangan ke mulut" adalah ekspresi kemarahan dan penolakan keras. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=9" target="_blank">IslamicStudies.info</a> menambahkan bahwa ayat ini menunjukkan bahwa tantangan yang dihadapi Rasulullah ﷺ bukan hal baru, tetapi mengikuti pola sejarah penolakan terhadap kebenaran.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-hand-holding-heart verse-title-icon"></i> 3. Doa-doa Nabi Ibrahim AS</div>
+                    <p>Surah Ibrahim memuat doa-doa penting Nabi Ibrahim AS yang menjadi warisan spiritual bagi umat Islam, khususnya terkait keturunannya dan kota Makkah.</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35" target="_blank">Ibrahim 14:35</a>
+                        <div class="arabic">وَإِذْ قَالَ إِبْرَاهِيمُ رَبِّ اجْعَلْ هَٰذَا الْبَلَدَ آمِنًا وَاجْنُبْنِي وَبَنِيَّ أَن نَّعْبُدَ الْأَصْنَامَ</div>
+                        <div class="transliteration">Wa idh qāla ibrāhīmu rabbi j'al hādha l-balada āminan wa-j'nubnī wa banīyya an na'bud al-aṣnām</div>
+                        <p>"Dan (ingatlah) ketika Ibrahim berdoa, 'Ya Tuhanku, jadikanlah negeri ini (Makkah) negeri yang aman, dan jauhkanlah aku beserta anak cucuku daripada menyembah berhala.'"</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir Kemenag RI:</strong> Doa Nabi Ibrahim AS ini mengandung permohonan penting: keamanan untuk Makkah dan perlindungan dari syirik untuk dirinya dan keturunannya. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35" target="_blank">IslamicStudies.info</a>, doa ini dikabulkan oleh Allah dengan menjadikan Makkah sebagai tanah haram yang aman dan melindungi keturunan Ibrahim yang beriman dari penyembahan berhala.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="monotheism-section">
+                    <div class="theme-title"><i class="fas fa-scale-balanced verse-title-icon"></i> 4. Perumpamaan Kebenaran dan Kebatilan</div>
+                    <p>Surah Ibrahim mengandung perumpamaan yang indah tentang kata yang baik (kalimah thayyibah) dan kata yang buruk (kalimah khabitsah).</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=24" target="_blank">Ibrahim 14:24</a>
+                        <div class="arabic">أَلَمْ تَرَ كَيْفَ ضَرَبَ اللَّهُ مَثَلًا كَلِمَةً طَيِّبَةً كَشَجَرَةٍ طَيِّبَةٍ أَصْلُهَا ثَابِتٌ وَفَرْعُهَا فِي السَّمَاءِ</div>
+                        <div class="transliteration">A-lam tara kayfa ḍaraba llāhu mathalan kalimatan ṭayyibatan kashajaratin ṭayyibatin aṣluhā thābitun wa far'uhā fī s-samā'</div>
+                        <p>"Tidakkah kamu memperhatikan bagaimana Allah telah membuat perumpamaan kalimat yang baik seperti pohon yang baik, akarnya kuat dan cabangnya (menjulang) ke langit."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir IslamicStudies.info:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=24" target="_blank">IslamicStudies.info</a>, "kalimat thayyibah" (كلمة طيبة) adalah kalimat tauhid "Laa ilaaha illallah" (لا إله إلا الله). Perumpamaan sebagai pohon yang baik menunjukkan bahwa tauhid memiliki: (1) akar yang kuat (keyakinan yang mendalam), (2) batang yang tegak (konsistensi dalam pengamalan), (3) cabang yang tinggi (pengaruh yang luas), (4) buah yang terus menerus (manfaat yang berkelanjutan). Sebaliknya, kalimat khabitsah (syirik) seperti pohon yang buruk yang mudah tercabut.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-users verse-title-icon"></i> 5. Syukur atas Nikmat Allah</div>
+                    <p>Surah Ibrahim menekankan pentingnya bersyukur atas nikmat-nikmat Allah dan konsekuensi mengingkari nikmat tersebut.</p>
+                    
+                    <div class="verse">
+                        <strong>Ayat Kunci:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=7" target="_blank">Ibrahim 14:7</a>
+                        <div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ</div>
+                        <div class="transliteration">Wa idh ta'adhdhana rabbukum la-in shakartum la-azīdannakum wa la-in kafartum inna 'adhābī lashadīd</div>
+                        <p>"Dan (ingatlah) ketika Tuhanmu memaklumkan, 'Sesungguhnya jika kamu bersyukur, niscaya Aku akan menambah (nikmat) kepadamu, tetapi jika kamu mengingkari (nikmat-Ku), maka pasti azab-Ku sangat berat.'"</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir Kemenag RI:</strong> Ayat ini mengandung janji Allah yang sangat penting. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=7" target="_blank">IslamicStudies.info</a>, syukur bukan hanya pengakuan lisan tetapi meliputi: (1) syukur dengan hati (mengakui nikmat dari Allah), (2) syukur dengan lisan (memuji Allah), (3) syukur dengan anggota badan (menggunakan nikmat untuk ketaatan). Janji "Aku akan menambah" mencakup tambahan dalam hal duniawi dan ukhrawi, iman dan amal, ilmu dan pemahaman.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-balance-scale section-title-icon"></i> Doa Nabi Ibrahim AS yang Terkenal (Ayat 35-41)</h2>
+                
+                <div class="verse">
+                    <strong>Ayat Penting:</strong> 
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35" target="_blank">Ibrahim 14:35-41</a>
+                    <div class="arabic">وَإِذْ قَالَ إِبْرَاهِيمُ رَبِّ اجْعَلْ هَٰذَا الْبَلَدَ آمِنًا وَاجْنُبْنِي وَبَنِيَّ أَن نَّعْبُدَ الْأَصْنَامَ . رَبِّ إِنَّهُنَّ أَضْلَلْنَ كَثِيرًا مِّنَ النَّاسِ ۖ فَمَن تَبِعَنِي فَإِنَّهُ مِنِّي ۖ وَمَنْ عَصَانِي فَإِنَّكَ غَفُورٌ رَّحِيمٌ . رَّبَّنَا إِنِّي أَسْكَنتُ مِن ذُرِّيَّتِي بِوَادٍ غَيْرِ ذِي زَرْعٍ عِندَ بَيْتِكَ الْمُحَرَّمِ رَبَّنَا لِيُقِيمُوا الصَّلَاةَ فَاجْعَلْ أَفْئِدَةً مِّنَ النَّاسِ تَهْوِي إِلَيْهِمْ وَارْزُقْهُم مِّنَ الثَّمَرَاتِ لَعَلَّهُمْ يَشْكُرُونَ . رَبَّنَا إِنَّكَ تَعْلَمُ مَا نُخْفِي وَمَا نُعْلِنُ ۗ وَمَا يَخْفَىٰ عَلَى اللَّهِ مِن شَيْءٍ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ . الْحَمْدُ لِلَّهِ الَّذِي وَهَبَ لِي عَلَى الْكِبَرِ إِسْمَاعِيلَ وَإِسْحَاقَ ۚ إِنَّ رَبِّي لَسَمِيعُ الدُّعَاءِ . رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ</div>
+                    <div class="transliteration">Wa idh qāla ibrāhīmu rabbi j'al hādha l-balada āminan wa-j'nubnī wa banīyya an na'bud al-aṣnām. Rabbi innahunna aḍlalna kathīran mina n-nās, fa man tabi'anī fa-innahu minnī, wa man 'aṣānī fa-innaka ghafūrun raḥīm. Rabbanā innī askantu min dhurriyyatī bi-wādin ghayri dhī zar'in 'inda baytika l-muḥarrami rabbanā liyuqīmū ṣ-ṣalāta faj'al af'idatan mina n-nāsi tahwī ilayhim warzuqhum mina th-thamarāti la'allahum yashkurūn. Rabbanā innaka ta'lamu mā nukhfī wa mā nu'līn, wa mā yakhfā 'alā llāhi min shay'in fī l-arḍi wa lā fī s-samā'. Al-ḥamdu li-llāhi l-ladhī wahaba lī 'alā l-kibari ismā'īla wa isḥāq, inna rabbī lasamī'u d-du'ā'. Rabbi j'alnī muqīma ṣ-ṣalāti wa min dhurriyyatī, rabbanā wa taqabbal du'ā'</div>
+                    <p>"Dan (ingatlah) ketika Ibrahim berdoa, 'Ya Tuhanku, jadikanlah negeri ini (Makkah) negeri yang aman, dan jauhkanlah aku beserta anak cucuku daripada menyembah berhala. Ya Tuhanku, sesungguhnya berhala-berhala itu telah menyesatkan kebanyakan manusia. Barangsiapa mengikutiku, maka sesungguhnya orang itu termasuk golonganku; dan barangsiapa mendurhakaiku, maka Engkau Maha Pengampun, Maha Penyayang. Ya Tuhan kami, sesungguhnya aku telah menempatkan sebagian keturunanku di lembah yang tidak mempunyai tanam-tanaman di dekat rumah-Mu (Baitullah) yang dihormati. Ya Tuhan kami, (yang demikian itu) agar mereka melaksanakan salat, maka jadikanlah hati sebagian manusia cenderung kepada mereka dan berilah mereka rezeki dari buah-buahan, mudah-mudahan mereka bersyukur. Ya Tuhan kami, sesungguhnya Engkau mengetahui apa yang kami sembunyikan dan apa yang kami nyatakan; dan tidak ada sesuatu pun yang tersembunyi bagi Allah di bumi dan tidak (pula) di langit. Segala puji bagi Allah yang telah menganugerahkan kepadaku di hari tua (ku) Ismail dan Ishak. Sungguh, Tuhanku benar-benar Maha Mendengar (memperkenankan) doa. Ya Tuhanku, jadikanlah aku dan anak cucuku orang yang tetap melaksanakan salat. Ya Tuhan kami, perkenankanlah doaku.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir IslamicStudies.info:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35" target="_blank">IslamicStudies.info</a>, doa-doa Nabi Ibrahim AS dalam ayat-ayat ini mengandung permohonan-permohonan penting: (1) Keamanan untuk Makkah, (2) Perlindungan dari syirik, (3) Kecenderungan hati manusia kepada keturunannya, (4) Rezeki yang halal dan baik, (5) Kemampuan untuk tetap menegakkan salat. Doa-doa ini menunjukkan prioritas Nabi Ibrahim: pertama-tama memohon perlindungan dari syirik, baru kemudian memohon kebutuhan duniawi.
+                    </div>
+                </div>
+
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> Permohonan Perlindungan</h4>
+                        <p>Keamanan untuk Makkah dan perlindungan dari syirik untuk diri dan keturunannya.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-heart verse-title-icon"></i> Permohonan Kecenderungan Hati</h4>
+                        <p>Agar hati manusia cenderung kepada keturunannya (para nabi dan orang beriman).</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-apple-alt verse-title-icon"></i> Permohonan Rezeki</h4>
+                        <p>Rezeki dari buah-buahan (makanan yang halal dan baik) untuk penduduk Makkah.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-pray verse-title-icon"></i> Permohonan Ibadah</h4>
+                        <p>Kemampuan untuk menegakkan salat secara konsisten untuk diri dan keturunannya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Pelajaran Spiritual dari Surah Ibrahim</h2>
+                
+                <div class="benefits-list">
+                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Pelajaran Penting untuk Umat Islam</h3>
+                    <ul>
+                        <li><strong>Misi Al-Qur'an yang Jelas:</strong> Al-Qur'an diturunkan untuk mengeluarkan manusia dari segala kegelapan menuju cahaya tauhid</li>
+                        <li><strong>Keteladanan Nabi Ibrahim:</strong> Keteguhan dalam tauhid, keberanian menghadapi kesyirikan, dan kepedulian terhadap keturunan</li>
+                        <li><strong>Kekuatan Doa:</strong> Doa-doa Nabi Ibrahim menunjukkan pentingnya memohon perlindungan dari syirik dan memprioritaskan akhirat</li>
+                        <li><strong>Perumpamaan yang Mengajar:</strong> Perumpamaan kalimat thayyibah membantu memahami hakikat tauhid dan syirik</li>
+                        <li><strong>Syukur sebagai Kunci:</strong> Janji Allah untuk menambah nikmat bagi yang bersyukur dan azab bagi yang ingkar</li>
+                    </ul>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-lightbulb verse-title-icon"></i> Relevansi untuk Masa Kini</div>
+                    <p>Berdasarkan analisis dari <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info</a>, Surah Ibrahim memberikan pelajaran penting untuk kehidupan kontemporer:</p>
+                    <ol>
+                        <li><strong>Memahami Misi Islam:</strong> Islam datang untuk membebaskan manusia dari kegelapan modern: materialisme, sekularisme, hedonisme</li>
+                        <li><strong>Keteguhan dalam Prinsip:</strong> Meneladani keteguhan Nabi Ibrahim dalam mempertahankan tauhid di tengah arus globalisasi</li>
+                        <li><strong>Pendidikan Keluarga:</strong> Doa-doa Nabi Ibrahim mengajarkan pentingnya mendoakan dan mengarahkan keturunan kepada tauhid</li>
+                        <li><strong>Syukur di Era Konsumerisme:</strong> Mengingatkan untuk bersyukur di tengah budaya konsumerisme yang selalu merasa kurang</li>
+                        <li><strong>Kebangkitan Spiritual:</strong> Perumpamaan kalimat thayyibah menginspirasi untuk membangun keimanan yang kuat dan berbuah</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Hubungan dengan Surah Lain</h2>
+                
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> Dengan Surah Sebelumnya (Ar-Ra'd)</h4>
+                        <p>Surah Ar-Ra'd berakhir dengan penegasan bahwa Al-Qur'an adalah kebenaran, sedangkan Surah Ibrahim menjelaskan misi Al-Qur'an mengeluarkan manusia dari kegelapan.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> Dengan Surah Sesudahnya (Al-Hijr)</h4>
+                        <p>Surah Ibrahim menekankan misi para rasul, sedangkan Al-Hijr menceritakan penolakan terhadap Rasulullah ﷺ dan janji perlindungan Allah.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-book verse-title-icon"></i> Dengan Surah Al-Baqarah (2:124-129)</h4>
+                        <p>Kedua surah sama-sama membahas kisah Nabi Ibrahim AS dan doa-doa pentingnya, dengan perspektif yang saling melengkapi.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> Dengan Surah Al-Hajj (22:26-29)</h4>
+                        <p>Kedua surah sama-sama membahas tentang Nabi Ibrahim AS dan pendirian Ka'bah, dengan Surah Ibrahim lebih fokus pada doa-doa spiritualnya.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+
+            <h1 class="surah-title">Surah Ibrahim (Abraham) - Thematic Analysis</h1>
+            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info - Surah Ibrahim</a>, Tafsir Ibn Kathir, and Indonesian Ministry of Religious Affairs</div>
+
+            <div class="arabic">الر ۚ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ لِتُخْرِجَ النَّاسَ مِنَ الظُّلُمَاتِ إِلَى النُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَاطِ الْعَزِيزِ الْحَمِيدِ</div>
+            <div class="transliteration">Alif-Lām-Rā. Kitābun anzalnāhu ilayka litukhrija n-nāsa mina ẓ-ẓulumāti ilā n-nūri bi-idhni rabbihim ilā ṣirāṭi l-'azīzi l-ḥamīd</div>
+            <p style="text-align: center; font-style: italic;">"Alif Lam Ra. [This is] a Book which We have revealed to you, [O Muhammad], that you might bring mankind out of darknesses into the light by permission of their Lord - to the path of the Exalted in Might, the Praiseworthy." (Ibrahim 14:1)</p>
+
+            <div class="theme-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Overview of Surah Ibrahim</h3>
+                <p>Surah Ibrahim (سورة إبراهيم) is the 14th chapter of the Qur'an consisting of 52 verses. It is categorized as Makki (revealed in Mecca) and is named after Prophet Ibrahim (Abraham) AS who is mentioned in its verses. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info</a>, Surah Ibrahim thematically deals with <strong>the primary mission of messengers</strong>, <strong>the struggle of Prophet Ibrahim AS</strong>, <strong>parables about truth and falsehood</strong>, and <strong>consequences of faith and disbelief</strong>.</p>
+                <p>This surah emphasizes the universal mission of the Qur'an as guidance that brings people out of darkness (shirk, ignorance, and misguidance) into light (tawhid, knowledge, and guidance). Surah Ibrahim also contains the important prayers of Prophet Ibrahim AS that are significant for Muslims.</p>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
+                <p>To read the complete text of Surah Ibrahim along with its translation, visit: 
+                <a href="https://quran.com/14" target="_blank">Quran.com - Surah Ibrahim</a></p>
+            </div>
+
+            <div class="bonus">
+                <div class="section-title">Reliable Tafsir Sources</div>
+                <p>The discussion in this page is based on thematic analysis from reliable sources including <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, and the official translation by the Indonesian Ministry of Religious Affairs.</p>
+            </div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to Surah Ibrahim</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/014.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Structure and Content of the Surah</h2>
+                
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-flag verse-title-icon"></i> Verses 1-4: Mission of the Qur'an</h4>
+                        <p>Explanation of the purpose of the Qur'an's revelation as guidance that brings people out of darkness into light.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-exclamation-triangle verse-title-icon"></i> Verses 5-12: Story of Prophet Musa AS</h4>
+                        <p>Reminder of the sending of Prophet Musa AS to Pharaoh and his people, and lessons from their rejection.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-balance-scale verse-title-icon"></i> Verses 13-41: Story of Prophet Ibrahim AS</h4>
+                        <p>Detailed narration of Prophet Ibrahim's AS struggle in establishing tawhid, including his important prayers for his descendants.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-handshake verse-title-icon"></i> Verses 42-52: Day of Judgment & Recompense</h4>
+                        <p>Description of the Day of Judgment, parables about truth and falsehood, and final consequences of faith and disbelief.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prophet-stories">
+                <h3><i class="fas fa-history"></i> Historical Context: Prophet Ibrahim AS</h3>
+                <p>Prophet Ibrahim AS (approximately 1996-1821 BC) is known as the "Father of Prophets" (أبو الأنبياء) and "Friend of Allah" (خليل الله). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info</a>, Surah Ibrahim presents important aspects of his struggle in establishing tawhid among idol-worshipping society, as well as the prayers he made for his descendants and the city of Mecca.</p>
+                <div class="timeline">
+                    <div class="timeline-item"><strong>Background:</strong> Prophet Ibrahim was born in Babylon (present-day Iraq) among idol-worshipping society</div>
+                    <div class="timeline-item"><strong>Tawhid Struggle:</strong> Destroying idols, preaching to his father (Azar) and King Nimrod</div>
+                    <div class="timeline-item"><strong>Great Test:</strong> Command to sacrifice his son Ismail AS (highest test of piety)</div>
+                    <div class="timeline-item"><strong>Legacy:</strong> Establishing the Ka'bah with Ismail AS, laying foundation of hanif religion (pure monotheism)</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Main Themes of Surah Ibrahim</h2>
+                
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-gem verse-title-icon"></i> 1. Universal Mission of the Qur'an</div>
+                    <p>Surah Ibrahim begins with affirmation that the Qur'an was revealed to bring people out of all forms of darkness into the light of guidance.</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1" target="_blank">Ibrahim 14:1</a>
+                        <div class="arabic">الر ۚ كِتَابٌ أَنزَلْنَاهُ إِلَيْكَ لِتُخْرِجَ النَّاسَ مِنَ الظُّلُمَاتِ إِلَى النُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَاطِ الْعَزِيزِ الْحَمِيدِ</div>
+                        <div class="transliteration">Alif-Lām-Rā. Kitābun anzalnāhu ilayka litukhrija n-nāsa mina ẓ-ẓulumāti ilā n-nūri bi-idhni rabbihim ilā ṣirāṭi l-'azīzi l-ḥamīd</div>
+                        <p>"Alif Lam Ra. [This is] a Book which We have revealed to you, [O Muhammad], that you might bring mankind out of darknesses into the light by permission of their Lord - to the path of the Exalted in Might, the Praiseworthy."</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir from IslamicStudies.info:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1" target="_blank">IslamicStudies.info</a>, this verse affirms the primary mission of the Messenger ﷺ and the Qur'an. "Darknesses" (الظلمات) in plural refers to various forms of misguidance: darkness of shirk, ignorance, desires, and false systems of life. While "light" (النور) in singular indicates that truth is one, namely tawhid and Allah's guidance.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-fist-raised verse-title-icon"></i> 2. Struggle of the Messengers</div>
+                    <p>Surah Ibrahim narrates the struggle of messengers in facing rejection and hostility from their people, with focus on the stories of Prophet Musa and Prophet Ibrahim.</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=9" target="_blank">Ibrahim 14:9</a>
+                        <div class="arabic">أَلَمْ يَأْتِكُمْ نَبَأُ الَّذِينَ مِن قَبْلِكُمْ قَوْمِ نُوحٍ وَعَادٍ وَثَمُودَ وَالَّذِينَ مِن بَعْدِهِمْ لَا يَعْلَمُهُمْ إِلَّا اللَّهُ ۚ جَاءَتْهُمْ رُسُلُهُم بِالْبَيِّنَاتِ فَرَدُّوا أَيْدِيَهُمْ فِي أَفْوَاهِهِمْ وَقَالُوا إِنَّا كَفَرْنَا بِمَا أُرْسِلْتُم بِهِ وَإِنَّا لَفِي شَكٍّ مِّمَّا تَدْعُونَنَا إِلَيْهِ مُرِيبٍ</div>
+                        <div class="transliteration">A-lam ya'tikum naba'u l-ladhīna min qablikum qawmi nūḥin wa 'ādin wa thamūda wa l-ladhīna min ba'dihim lā ya'lamuhum illā llāh, jā'athum rusuluhum bi-l-bayyināti faraddū aydiyahum fī afwāhihim wa qālū innā kafarnā bimā ursiltum bihī wa innā lafī shakkim mimmā tad'ūnanā ilayhi murīb</div>
+                        <p>"Has there not reached you the news of those before you - the people of Noah and 'Aad and Thamud and those after them? No one knows them but Allah. Their messengers brought them clear proofs, but they returned their hands to their mouths and said, 'Indeed, we disbelieve in that with which you have been sent, and indeed we are, about that to which you invite us, in disquieting doubt.'"</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir Ibn Kathir:</strong> This verse reminds of the consistent pattern of rejection of messengers throughout history. According to Ibn Kathir, "returned their hands to their mouths" is an expression of anger and strong rejection. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=9" target="_blank">IslamicStudies.info</a> adds that this verse shows that the challenges faced by the Messenger ﷺ were not new, but followed the historical pattern of rejecting truth.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-hand-holding-heart verse-title-icon"></i> 3. Prayers of Prophet Ibrahim AS</div>
+                    <p>Surah Ibrahim contains important prayers of Prophet Ibrahim AS that form spiritual heritage for Muslims, particularly regarding his descendants and the city of Mecca.</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35" target="_blank">Ibrahim 14:35</a>
+                        <div class="arabic">وَإِذْ قَالَ إِبْرَاهِيمُ رَبِّ اجْعَلْ هَٰذَا الْبَلَدَ آمِنًا وَاجْنُبْنِي وَبَنِيَّ أَن نَّعْبُدَ الْأَصْنَامَ</div>
+                        <div class="transliteration">Wa idh qāla ibrāhīmu rabbi j'al hādha l-balada āminan wa-j'nubnī wa banīyya an na'bud al-aṣnām</div>
+                        <p>"And [mention, O Muhammad], when Abraham said, 'My Lord, make this city [Makkah] secure and keep me and my sons away from worshipping idols.'"</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir from Indonesian Ministry of Religious Affairs:</strong> This prayer of Prophet Ibrahim AS contains important requests: security for Mecca and protection from shirk for himself and his descendants. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35" target="_blank">IslamicStudies.info</a>, this prayer was answered by Allah by making Mecca a secure sacred land and protecting Ibrahim's believing descendants from idol worship.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="monotheism-section">
+                    <div class="theme-title"><i class="fas fa-scale-balanced verse-title-icon"></i> 4. Parable of Truth and Falsehood</div>
+                    <p>Surah Ibrahim contains beautiful parables about the good word (kalimah tayyibah) and the evil word (kalimah khabitsah).</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=24" target="_blank">Ibrahim 14:24</a>
+                        <div class="arabic">أَلَمْ تَرَ كَيْفَ ضَرَبَ اللَّهُ مَثَلًا كَلِمَةً طَيِّبَةً كَشَجَرَةٍ طَيِّبَةٍ أَصْلُهَا ثَابِتٌ وَفَرْعُهَا فِي السَّمَاءِ</div>
+                        <div class="transliteration">A-lam tara kayfa ḍaraba llāhu mathalan kalimatan ṭayyibatan kashajaratin ṭayyibatin aṣluhā thābitun wa far'uhā fī s-samā'</div>
+                        <p>"Have you not considered how Allah presents an example, [making] a good word like a good tree, whose root is firmly fixed and its branches [high] in the sky?"</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir from IslamicStudies.info:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=24" target="_blank">IslamicStudies.info</a>, "kalimah tayyibah" (كلمة طيبة) is the word of tawhid "Laa ilaaha illallah" (لا إله إلا الله). The parable as a good tree shows that tawhid has: (1) strong roots (deep conviction), (2) upright trunk (consistency in practice), (3) high branches (wide influence), (4) continuous fruits (sustained benefits). Conversely, kalimah khabitsah (shirk) is like a bad tree that is easily uprooted.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-users verse-title-icon"></i> 5. Gratitude for Allah's Blessings</div>
+                    <p>Surah Ibrahim emphasizes the importance of being grateful for Allah's blessings and the consequences of denying those blessings.</p>
+                    
+                    <div class="verse">
+                        <strong>Key Verse:</strong> 
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=7" target="_blank">Ibrahim 14:7</a>
+                        <div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ</div>
+                        <div class="transliteration">Wa idh ta'adhdhana rabbukum la-in shakartum la-azīdannakum wa la-in kafartum inna 'adhābī lashadīd</div>
+                        <p>"And [remember] when your Lord proclaimed, 'If you are grateful, I will surely increase you [in favor]; but if you deny, indeed, My punishment is severe.'"</p>
+                        <div class="tafsir-box">
+                            <strong>Tafsir from Indonesian Ministry of Religious Affairs:</strong> This verse contains a very important promise from Allah. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=7" target="_blank">IslamicStudies.info</a>, gratitude is not only verbal acknowledgment but includes: (1) gratitude with the heart (recognizing blessings from Allah), (2) gratitude with the tongue (praising Allah), (3) gratitude with limbs (using blessings for obedience). The promise "I will increase you" includes increase in worldly and hereafter matters, faith and deeds, knowledge and understanding.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-balance-scale section-title-icon"></i> Famous Prayers of Prophet Ibrahim AS (Verses 35-41)</h2>
+                
+                <div class="verse">
+                    <strong>Important Verse:</strong> 
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35" target="_blank">Ibrahim 14:35-41</a>
+                    <div class="arabic">وَإِذْ قَالَ إِبْرَاهِيمُ رَبِّ اجْعَلْ هَٰذَا الْبَلَدَ آمِنًا وَاجْنُبْنِي وَبَنِيَّ أَن نَّعْبُدَ الْأَصْنَامَ . رَبِّ إِنَّهُنَّ أَضْلَلْنَ كَثِيرًا مِّنَ النَّاسِ ۖ فَمَن تَبِعَنِي فَإِنَّهُ مِنِّي ۖ وَمَنْ عَصَانِي فَإِنَّكَ غَفُورٌ رَّحِيمٌ . رَّبَّنَا إِنِّي أَسْكَنتُ مِن ذُرِّيَّتِي بِوَادٍ غَيْرِ ذِي زَرْعٍ عِندَ بَيْتِكَ الْمُحَرَّمِ رَبَّنَا لِيُقِيمُوا الصَّلَاةَ فَاجْعَلْ أَفْئِدَةً مِّنَ النَّاسِ تَهْوِي إِلَيْهِمْ وَارْزُقْهُم مِّنَ الثَّمَرَاتِ لَعَلَّهُمْ يَشْكُرُونَ . رَبَّنَا إِنَّكَ تَعْلَمُ مَا نُخْفِي وَمَا نُعْلِنُ ۗ وَمَا يَخْفَىٰ عَلَى اللَّهِ مِن شَيْءٍ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ . الْحَمْدُ لِلَّهِ الَّذِي وَهَبَ لِي عَلَى الْكِبَرِ إِسْمَاعِيلَ وَإِسْحَاقَ ۚ إِنَّ رَبِّي لَسَمِيعُ الدُّعَاءِ . رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ</div>
+                    <div class="transliteration">Wa idh qāla ibrāhīmu rabbi j'al hādha l-balada āminan wa-j'nubnī wa banīyya an na'bud al-aṣnām. Rabbi innahunna aḍlalna kathīran mina n-nās, fa man tabi'anī fa-innahu minnī, wa man 'aṣānī fa-innaka ghafūrun raḥīm. Rabbanā innī askantu min dhurriyyatī bi-wādin ghayri dhī zar'in 'inda baytika l-muḥarrami rabbanā liyuqīmū ṣ-ṣalāta faj'al af'idatan mina n-nāsi tahwī ilayhim warzuqhum mina th-thamarāti la'allahum yashkurūn. Rabbanā innaka ta'lamu mā nukhfī wa mā nu'līn, wa mā yakhfā 'alā llāhi min shay'in fī l-arḍi wa lā fī s-samā'. Al-ḥamdu li-llāhi l-ladhī wahaba lī 'alā l-kibari ismā'īla wa isḥāq, inna rabbī lasamī'u d-du'ā'. Rabbi j'alnī muqīma ṣ-ṣalāti wa min dhurriyyatī, rabbanā wa taqabbal du'ā'</div>
+                    <p>"And [mention, O Muhammad], when Abraham said, 'My Lord, make this city [Makkah] secure and keep me and my sons away from worshipping idols. My Lord, indeed they have led astray many among the people. So whoever follows me - then he is of me; and whoever disobeys me - indeed, You are [yet] Forgiving and Merciful. Our Lord, I have settled some of my descendants in an uncultivated valley near Your sacred House, our Lord, that they may establish prayer. So make hearts among the people incline toward them and provide for them from the fruits that they might be grateful. Our Lord, indeed You know what we conceal and what we declare, and nothing is hidden from Allah on the earth or in the heaven. Praise to Allah, who has granted to me in old age Ishmael and Isaac. Indeed, my Lord is the Hearer of supplication. My Lord, make me an establisher of prayer, and [many] from my descendants. Our Lord, and accept my supplication.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir from IslamicStudies.info:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35" target="_blank">IslamicStudies.info</a>, the prayers of Prophet Ibrahim AS in these verses contain important requests: (1) Security for Mecca, (2) Protection from shirk, (3) Inclination of people's hearts toward his descendants, (4) Halal and good provision, (5) Ability to establish prayer consistently. These prayers show Prophet Ibrahim's priorities: first requesting protection from shirk, then requesting worldly needs.
+                    </div>
+                </div>
+
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> Request for Protection</h4>
+                        <p>Security for Mecca and protection from shirk for himself and his descendants.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-heart verse-title-icon"></i> Request for Heart Inclination</h4>
+                        <p>That people's hearts incline toward his descendants (prophets and believers).</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-apple-alt verse-title-icon"></i> Request for Provision</h4>
+                        <p>Provision from fruits (halal and good food) for the inhabitants of Mecca.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-pray verse-title-icon"></i> Request for Worship</h4>
+                        <p>Ability to establish prayer consistently for himself and his descendants.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Spiritual Lessons from Surah Ibrahim</h2>
+                
+                <div class="benefits-list">
+                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Important Lessons for Muslims</h3>
+                    <ul>
+                        <li><strong>Clear Mission of the Qur'an:</strong> The Qur'an was revealed to bring people out of all darkness into the light of tawhid</li>
+                        <li><strong>Exemplary Character of Prophet Ibrahim:</strong> Steadfastness in tawhid, courage in facing shirk, and concern for descendants</li>
+                        <li><strong>Power of Prayer:</strong> Prophet Ibrahim's prayers show the importance of seeking protection from shirk and prioritizing the hereafter</li>
+                        <li><strong>Instructive Parables:</strong> The parable of kalimah tayyibah helps understand the essence of tawhid and shirk</li>
+                        <li><strong>Gratitude as Key:</strong> Allah's promise to increase blessings for the grateful and punishment for the ungrateful</li>
+                    </ul>
+                </div>
+
+                <div class="theme-point">
+                    <div class="theme-title"><i class="fas fa-lightbulb verse-title-icon"></i> Relevance for Contemporary Times</div>
+                    <p>Based on analysis from <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info</a>, Surah Ibrahim provides important lessons for contemporary life:</p>
+                    <ol>
+                        <li><strong>Understanding Islam's Mission:</strong> Islam came to liberate humanity from modern darkness: materialism, secularism, hedonism</li>
+                        <li><strong>Steadfastness in Principles:</strong> Emulating Prophet Ibrahim's steadfastness in maintaining tawhid amidst globalization currents</li>
+                        <li><strong>Family Education:</strong> Prophet Ibrahim's prayers teach the importance of praying for and guiding descendants to tawhid</li>
+                        <li><strong>Gratitude in Consumerist Era:</strong> Reminding to be grateful amidst consumerist culture that always feels lacking</li>
+                        <li><strong>Spiritual Revival:</strong> The parable of kalimah tayyibah inspires building strong and fruitful faith</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Relationship with Other Surahs</h2>
+                
+                <div class="structure-grid">
+                    <div class="structure-item">
+                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> With Previous Surah (Ar-Ra'd)</h4>
+                        <p>Surah Ar-Ra'd ends with affirmation that the Qur'an is truth, while Surah Ibrahim explains the Qur'an's mission of bringing people out of darkness.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> With Next Surah (Al-Hijr)</h4>
+                        <p>Surah Ibrahim emphasizes the mission of messengers, while Al-Hijr narrates rejection of the Messenger ﷺ and Allah's promise of protection.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-book verse-title-icon"></i> With Surah Al-Baqarah (2:124-129)</h4>
+                        <p>Both surahs discuss the story of Prophet Ibrahim AS and his important prayers, with complementary perspectives.</p>
+                    </div>
+                    <div class="structure-item">
+                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> With Surah Al-Hajj (22:26-29)</h4>
+                        <p>Both surahs discuss Prophet Ibrahim AS and the establishment of the Ka'bah, with Surah Ibrahim more focused on his spiritual prayers.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2025 AD) 1447 AH - Surah Ibrahim Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php?sura=14" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle
+            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (currentLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
