@@ -1,4 +1,4 @@
-/<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -32,6 +32,13 @@
     
     .header div {
       margin: 4px 0;
+    }
+    
+    .thematic-tafsir {
+      font-size: 14px;
+      color: #2c3e50;
+      font-style: italic;
+      margin-top: 6px;
     }
     
     .search-container {
@@ -82,16 +89,37 @@
       padding: 10px 6px;
       border-radius: 6px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
       text-align: center;
       min-height: 90px;
       display: flex;
       align-items: center;
       justify-content: center;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .name-box.playing-audio {
+      background-color: #e8f6f3;
+      box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
+    }
+    
+    .name-box.loading-audio {
+      background-color: #fff9e6;
+      box-shadow: 0 4px 12px rgba(241, 196, 15, 0.2);
     }
     
     .name-box:nth-child(even) {
       background-color: #f8f9fa;
+    }
+    
+    .name-box:nth-child(even).playing-audio {
+      background-color: #d5f4f0;
+    }
+    
+    .name-box:nth-child(even).loading-audio {
+      background-color: #fff4cc;
     }
     
     .name-box:hover {
@@ -105,6 +133,7 @@
       display: block;
       font-size: 13px;
       line-height: 1.3;
+      width: 100%;
     }
     
     .name-box a:hover {
@@ -116,6 +145,127 @@
       font-size: 18px;
       direction: rtl;
       margin-bottom: 4px;
+    }
+    
+    .audio-indicator {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: #2ecc71;
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .audio-indicator.playing {
+      opacity: 1;
+      animation: pulse 1.5s infinite;
+    }
+    
+    .audio-indicator.loading {
+      opacity: 1;
+      background-color: #f39c12;
+      animation: spin 1s infinite linear;
+    }
+    
+    .audio-indicator.loading::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border: 2px solid transparent;
+      border-top-color: white;
+      border-radius: 50%;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .audio-hint {
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      background-color: #2ecc71;
+      color: white;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      opacity: 0.8;
+      font-weight: bold;
+    }
+    
+    .audio-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      padding: 10px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 200px;
+      display: none;
+    }
+    
+    .audio-controls.show {
+      display: flex;
+      animation: slideUp 0.3s ease;
+    }
+    
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    .audio-controls button {
+      background: #3498db;
+      border: none;
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+    
+    .audio-controls button:hover {
+      background: #2980b9;
+    }
+    
+    .audio-info {
+      font-size: 12px;
+      color: #2c3e50;
+      flex-grow: 1;
+      text-align: center;
+    }
+    
+    .audio-info .surah-name {
+      font-weight: bold;
+      color: #1a5276;
+    }
+    
+    .audio-info .reciter {
+      font-size: 11px;
+      color: #7f8c8d;
+      margin-top: 2px;
     }
     
     .reference {
@@ -221,6 +371,18 @@
         font-size: 15px;
         padding: 8px;
       }
+      
+      .audio-controls {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+      }
+      
+      .audio-hint {
+        font-size: 8px;
+        padding: 1px 4px;
+      }
     }
     
     @media screen and (max-width: 480px) {
@@ -240,6 +402,11 @@
       .name-box {
         min-height: 80px;
         padding: 6px 3px;
+      }
+      
+      .audio-hint {
+        font-size: 7px;
+        padding: 1px 3px;
       }
     }
     
@@ -264,11 +431,22 @@
 
   <button class="language-toggle" id="languageToggle">Switch to English</button>
 
+  <!-- Audio Controls -->
+  <div class="audio-controls" id="audioControls">
+    <button id="playPauseBtn">▶</button>
+    <div class="audio-info">
+      <div class="surah-name" id="currentSurahName"></div>
+      <div class="reciter">Mishaari Raashid Al-3afaasee</div>
+    </div>
+    <button id="stopBtn">⏹</button>
+  </div>
+
   <!-- English Content -->
   <div id="english-content" class="hidden">
     <div class="header">
       <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 20px;">﷽</div>
       <div><strong>Bismillāhir-Raḥmānir-Raḥīm</strong> — In the name of Allah, the Most Gracious, the Most Merciful</div>
+      <div class="thematic-tafsir">Thematic Tafsir</div>
     </div>
 
     <div class="search-container">
@@ -282,7 +460,7 @@
       <a href="introduction.html">Introduction</a>
     </div>
 
-    <div class="instruction">Click on one of the Names</div>
+    <div class="instruction">Click on a Surah to listen to recitation. Click again or use audio controls to navigate.</div>
 
     <div class="names-container" id="englishNamesContainer">
       <!-- Names will be populated by JavaScript -->
@@ -298,6 +476,7 @@
     <div class="header">
       <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 20px;">﷽</div>
       <div><strong>Bismillāhir-Raḥmānir-Raḥīm</strong></div>
+      <div class="thematic-tafsir">Tafsir Tematik</div>
     </div>
 
     <div class="search-container">
@@ -311,7 +490,7 @@
       <a href="introduction.html">Pengantar</a>
     </div>
 
-    <div class="instruction">Klik salah satu Nama</div>
+    <div class="instruction">Klik pada Surah untuk mendengarkan bacaan. Klik lagi atau gunakan kontrol audio untuk navigasi.</div>
 
     <div class="names-container" id="indonesianNamesContainer">
       <!-- Names will be populated by JavaScript -->
@@ -324,9 +503,15 @@
 
   <footer>
     <p>&copy; (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.</p>
+    <p style="font-size: 11px; color: #95a5a6; margin-top: 5px;">Audio by Mishaari Raashid Al-3afaasee from quranicaudio.com</p>
   </footer>
 
   <script>
+    // Audio player instance
+    let audioPlayer = new Audio();
+    let currentPlayingBox = null;
+    let currentSurahNumber = null;
+
     // Names data structure - With juz and page information
     const namesData = [
       { number: 1, arabic: "ٱلْفَاتِحَة", transliteration: "Al-Fātiḥah", english: "The Opening", indonesian: "Pembukaan", juz: 1, page: 1 },
@@ -445,6 +630,110 @@
       { number: 114, arabic: "ٱلنَّاس", transliteration: "An-Nās", english: "Mankind", indonesian: "Manusia", juz: 30, page: 604 }
     ];
 
+    // Audio URLs for Mishaari Raashid Al-3afaasee recitation
+    function getAudioUrl(surahNumber) {
+      const paddedNumber = surahNumber.toString().padStart(3, '0');
+      return `https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${paddedNumber}.mp3`;
+    }
+
+    // Play audio for a surah
+    function playSurahAudio(surahNumber, surahName, boxElement) {
+      // Stop current audio if playing
+      stopAudio();
+      
+      // Update current playing info
+      currentPlayingBox = boxElement;
+      currentSurahNumber = surahNumber;
+      
+      // Set loading state
+      boxElement.classList.add('loading-audio');
+      const indicator = boxElement.querySelector('.audio-indicator');
+      if (indicator) indicator.classList.add('loading');
+      
+      // Update audio controls
+      document.getElementById('currentSurahName').textContent = `${surahNumber}. ${surahName}`;
+      document.getElementById('audioControls').classList.add('show');
+      document.getElementById('playPauseBtn').textContent = '⏸';
+      
+      // Set audio source
+      const audioUrl = getAudioUrl(surahNumber);
+      audioPlayer.src = audioUrl;
+      
+      // Play audio
+      audioPlayer.play().catch(error => {
+        console.error('Error playing audio:', error);
+        // Remove loading state on error
+        boxElement.classList.remove('loading-audio');
+        if (indicator) indicator.classList.remove('loading');
+      });
+    }
+
+    // Stop audio
+    function stopAudio() {
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+      
+      // Remove playing state from all boxes
+      document.querySelectorAll('.name-box.playing-audio, .name-box.loading-audio').forEach(box => {
+        box.classList.remove('playing-audio', 'loading-audio');
+        const indicator = box.querySelector('.audio-indicator');
+        if (indicator) indicator.classList.remove('playing', 'loading');
+      });
+      
+      currentPlayingBox = null;
+      currentSurahNumber = null;
+    }
+
+    // Pause/resume audio
+    function togglePlayPause() {
+      if (audioPlayer.paused) {
+        audioPlayer.play();
+        document.getElementById('playPauseBtn').textContent = '⏸';
+      } else {
+        audioPlayer.pause();
+        document.getElementById('playPauseBtn').textContent = '▶';
+      }
+    }
+
+    // Handle box click for audio
+    function handleBoxClick(boxElement, surahNumber, surahName) {
+      if (currentPlayingBox === boxElement) {
+        // Clicking the same box - navigate to surah page
+        const link = boxElement.querySelector('a');
+        if (link && link.href) {
+          window.location.href = link.href;
+        }
+      } else {
+        // Clicking a different box - play audio
+        playSurahAudio(surahNumber, surahName, boxElement);
+      }
+    }
+
+    // Set up audio event listeners
+    audioPlayer.addEventListener('play', function() {
+      if (currentPlayingBox) {
+        currentPlayingBox.classList.remove('loading-audio');
+        currentPlayingBox.classList.add('playing-audio');
+        const indicator = currentPlayingBox.querySelector('.audio-indicator');
+        if (indicator) {
+          indicator.classList.remove('loading');
+          indicator.classList.add('playing');
+        }
+      }
+    });
+
+    audioPlayer.addEventListener('pause', function() {
+      if (currentPlayingBox) {
+        const indicator = currentPlayingBox.querySelector('.audio-indicator');
+        if (indicator) indicator.classList.remove('playing');
+      }
+    });
+
+    audioPlayer.addEventListener('ended', function() {
+      stopAudio();
+      document.getElementById('audioControls').classList.remove('show');
+    });
+
     // Check for saved language preference or set default to Indonesian
     function getPreferredLanguage() {
       return localStorage.getItem('language') || 'indonesian';
@@ -504,13 +793,23 @@
         englishBox.setAttribute('data-english', name.english.toLowerCase());
         englishBox.setAttribute('data-juz', Array.isArray(name.juz) ? name.juz.join(',') : name.juz.toString());
         englishBox.setAttribute('data-page', name.page.toString());
+        
         englishBox.innerHTML = `
           <a href="${name.number.toString().padStart(3, '0')}.html">
             <span class="arabic">${name.arabic}</span><br>
             ${name.number}. ${name.transliteration}<br>
             ${name.english}<br>
             <small style="color: #666; font-size: 11px;">${juzText} • ${pageText}</small>
-          </a>`;
+          </a>
+          <div class="audio-indicator"></div>
+          <div class="audio-hint">Click to listen</div>`;
+        
+        englishBox.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          handleBoxClick(this, name.number, name.transliteration);
+        });
+        
         englishContainer.appendChild(englishBox);
         
         // Indonesian version
@@ -522,13 +821,23 @@
         indonesianBox.setAttribute('data-indonesian', name.indonesian.toLowerCase());
         indonesianBox.setAttribute('data-juz', Array.isArray(name.juz) ? name.juz.join(',') : name.juz.toString());
         indonesianBox.setAttribute('data-page', name.page.toString());
+        
         indonesianBox.innerHTML = `
           <a href="${name.number.toString().padStart(3, '0')}.html">
             <span class="arabic">${name.arabic}</span><br>
             ${name.number}. ${name.transliteration}<br>
             ${name.indonesian}<br>
             <small style="color: #666; font-size: 11px;">${juzText} • Halaman ${name.page}</small>
-          </a>`;
+          </a>
+          <div class="audio-indicator"></div>
+          <div class="audio-hint">Klik untuk dengar</div>`;
+        
+        indonesianBox.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          handleBoxClick(this, name.number, name.transliteration);
+        });
+        
         indonesianContainer.appendChild(indonesianBox);
       });
     }
@@ -651,6 +960,10 @@
       const indonesianContent = document.getElementById('indonesian-content');
       const toggleButton = document.getElementById('languageToggle');
       
+      // Stop audio when switching languages
+      stopAudio();
+      document.getElementById('audioControls').classList.remove('show');
+      
       if (englishContent.classList.contains('hidden')) {
         // Switch to English
         englishContent.classList.remove('hidden');
@@ -673,6 +986,18 @@
       
       // Add event listener for language toggle
       document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+      
+      // Add event listeners for audio controls
+      document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
+      document.getElementById('stopBtn').addEventListener('click', stopAudio);
+      
+      // Allow clicking links directly for navigation (bypassing audio)
+      document.querySelectorAll('.name-box a').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.stopPropagation();
+          // Don't prevent default - allow navigation
+        });
+      });
     });
   </script>
 </body>
