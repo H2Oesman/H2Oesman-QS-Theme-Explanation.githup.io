@@ -172,6 +172,29 @@
       font-size: 18px;
       direction: rtl;
       margin-bottom: 4px;
+      display: block;
+    }
+    
+    .transliteration {
+      font-size: 13px;
+      color: #2c3e50;
+      margin-bottom: 4px;
+      display: block;
+    }
+    
+    .translation {
+      font-size: 12px;
+      color: #34495e;
+      margin-bottom: 4px;
+      display: block;
+      font-weight: 500;
+    }
+    
+    .meta-info {
+      font-size: 11px;
+      color: #666;
+      display: block;
+      margin-top: 3px;
     }
     
     .audio-indicator {
@@ -367,7 +390,7 @@
       
       .name-box {
         padding: 8px 4px;
-        min-height: 85px;
+        min-height: 90px;
       }
       
       .name-box a {
@@ -376,6 +399,18 @@
       
       .arabic {
         font-size: 16px;
+      }
+      
+      .transliteration {
+        font-size: 12px;
+      }
+      
+      .translation {
+        font-size: 11px;
+      }
+      
+      .meta-info {
+        font-size: 10px;
       }
       
       .language-toggle {
@@ -427,12 +462,24 @@
         font-size: 14px;
       }
       
+      .transliteration {
+        font-size: 11px;
+      }
+      
+      .translation {
+        font-size: 10px;
+      }
+      
+      .meta-info {
+        font-size: 9px;
+      }
+      
       .names-container {
         gap: 8px;
       }
       
       .name-box {
-        min-height: 80px;
+        min-height: 85px;
         padding: 6px 3px;
       }
       
@@ -450,8 +497,20 @@
         font-size: 13px;
       }
       
+      .transliteration {
+        font-size: 10px;
+      }
+      
+      .translation {
+        font-size: 9px;
+      }
+      
+      .meta-info {
+        font-size: 8px;
+      }
+      
       .name-box {
-        min-height: 75px;
+        min-height: 80px;
       }
       
       .audio-hint {
@@ -527,7 +586,7 @@
       <a href="introduction.html">Pengantar</a>
     </div>
 
-    <div class="instruction">Klik sekali: Pergi ke halaman tafsir. Klik dua kali: Dengarkan tilawah.</div>
+    <div class="instruction">Klik sekali: Pergi ke halaman tafsir. Dua kali (double click): Dengarkan tilawah.</div>
 
     <div class="names-container" id="indonesianNamesContainer">
       <!-- Names will be populated by JavaScript -->
@@ -793,13 +852,9 @@
 
     function formatJuz(juzData) {
       if (Array.isArray(juzData)) {
-        return juzData.length === 2 ? `Juz ${juzData[0]}-${juzData[1]}` : `Juz ${juzData.join(', ')}`;
+        return juzData.length === 2 ? `${juzData[0]}-${juzData[1]}` : juzData.join(', ');
       }
-      return `Juz ${juzData}`;
-    }
-
-    function formatPage(pageData) {
-      return `Page ${pageData}`;
+      return `${juzData}`;
     }
 
     function populateNames() {
@@ -811,8 +866,8 @@
       
       namesData.forEach(name => {
         const juzText = formatJuz(name.juz);
-        const pageText = formatPage(name.page);
         
+        // English box
         const englishBox = document.createElement('div');
         englishBox.className = 'name-box';
         englishBox.setAttribute('data-number', name.number);
@@ -823,11 +878,13 @@
         englishBox.setAttribute('data-page', name.page.toString());
         
         englishBox.innerHTML = `
-          <span class="arabic">${name.arabic}</span><br>
-          ${name.number}. ${name.transliteration}<br>
-          ${name.english}<br>
-          <small style="color: #666; font-size: 11px;">${juzText} • ${pageText}</small>
-          <div class="audio-indicator"></div>`;
+          <div style="width: 100%;">
+            <span class="arabic">${name.arabic}</span>
+            <span class="transliteration">${name.number}. ${name.transliteration}</span>
+            <span class="translation">${name.english}</span>
+            <span class="meta-info">Juz ${juzText} • Page ${name.page}</span>
+            <div class="audio-indicator"></div>
+          </div>`;
         
         let clickCount = 0;
         let clickTimer;
@@ -852,6 +909,7 @@
         
         englishContainer.appendChild(englishBox);
         
+        // Indonesian box
         const indonesianBox = document.createElement('div');
         indonesianBox.className = 'name-box';
         indonesianBox.setAttribute('data-number', name.number);
@@ -862,11 +920,13 @@
         indonesianBox.setAttribute('data-page', name.page.toString());
         
         indonesianBox.innerHTML = `
-          <span class="arabic">${name.arabic}</span><br>
-          ${name.number}. ${name.transliteration}<br>
-          ${name.indonesian}<br>
-          <small style="color: #666; font-size: 11px;">${juzText} • Halaman ${name.page}</small>
-          <div class="audio-indicator"></div>`;
+          <div style="width: 100%;">
+            <span class="arabic">${name.arabic}</span>
+            <span class="transliteration">${name.number}. ${name.transliteration}</span>
+            <span class="translation">${name.indonesian}</span>
+            <span class="meta-info">Juz ${juzText} • Halaman ${name.page}</span>
+            <div class="audio-indicator"></div>
+          </div>`;
         
         let clickCountIndo = 0;
         let clickTimerIndo;
