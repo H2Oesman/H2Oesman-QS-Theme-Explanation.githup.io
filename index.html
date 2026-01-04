@@ -35,7 +35,7 @@
     }
     
     .bismillah {
-      margin-bottom: 20px; /* 2 line spaces after Bismillah */
+      margin-bottom: 20px;
     }
     
     .date-line {
@@ -55,7 +55,7 @@
     .hijri-date {
       text-align: right;
       flex: 1;
-      display: none; /* Hide Hijri date */
+      display: none;
     }
     
     .thematic-tafsir {
@@ -160,6 +160,7 @@
       font-size: 13px;
       line-height: 1.3;
       width: 100%;
+      pointer-events: none;
     }
     
     .name-box a:hover {
@@ -358,7 +359,6 @@
       color: #666;
     }
     
-    /* Responsive adjustments */
     @media screen and (max-width: 768px) {
       body {
         padding: 10px;
@@ -410,8 +410,7 @@
       }
       
       .gregorian-date,
-      .thematic-tafsir,
-      .hijri-date {
+      .thematic-tafsir {
         flex: 100%;
         text-align: center;
         margin: 2px 0;
@@ -460,14 +459,12 @@
       }
     }
   </style>
-  <!-- Adding Arabic font support -->
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Scheherazade+New&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <button class="language-toggle" id="languageToggle">Switch to English</button>
 
-  <!-- Audio Controls -->
   <div class="audio-controls" id="audioControls">
     <button id="playPauseBtn">▶</button>
     <div class="audio-info">
@@ -477,7 +474,6 @@
     <button id="stopBtn">⏹</button>
   </div>
 
-  <!-- English Content -->
   <div id="english-content" class="hidden">
     <div class="header">
       <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 20px;">﷽</div>
@@ -485,7 +481,6 @@
       <div class="date-line">
         <div class="gregorian-date" id="englishGregorianDate"></div>
         <div class="thematic-tafsir">Thematic Tafsir</div>
-        <div class="hijri-date" id="englishHijriDate"></div>
       </div>
     </div>
 
@@ -500,7 +495,7 @@
       <a href="introduction.html">Introduction</a>
     </div>
 
-    <div class="instruction">Click to Listen to listen to recitation. Click the surah again or use audio controls to navigate.</div>
+    <div class="instruction">Single click: Go to tafsir page. Double-click: Listen to recitation.</div>
 
     <div class="names-container" id="englishNamesContainer">
       <!-- Names will be populated by JavaScript -->
@@ -511,7 +506,6 @@
     </div>
   </div>
 
-  <!-- Indonesian Content (Shown by Default) -->
   <div id="indonesian-content">
     <div class="header">
       <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 20px;">﷽</div>
@@ -519,7 +513,6 @@
       <div class="date-line">
         <div class="gregorian-date" id="indonesianGregorianDate"></div>
         <div class="thematic-tafsir">Tafsir Tematik</div>
-        <div class="hijri-date" id="indonesianHijriDate"></div>
       </div>
     </div>
 
@@ -534,7 +527,7 @@
       <a href="introduction.html">Pengantar</a>
     </div>
 
-    <div class="instruction">Klik untuk Tilawah untuk mendengarkan bacaan. Klik surah lagi atau gunakan kontrol audio untuk navigasi.</div>
+    <div class="instruction">Klik sekali: Pergi ke halaman tafsir. Klik dua kali: Dengarkan tilawah.</div>
 
     <div class="names-container" id="indonesianNamesContainer">
       <!-- Names will be populated by JavaScript -->
@@ -551,16 +544,12 @@
   </footer>
 
   <script>
-    // Audio player instance
     let audioPlayer = new Audio();
     let currentPlayingBox = null;
     let currentSurahNumber = null;
 
-    // Function to format dates
     function formatDates() {
       const now = new Date();
-      
-      // Format Gregorian date
       const gregorianOptions = { 
         weekday: 'long', 
         year: 'numeric', 
@@ -569,16 +558,10 @@
       };
       const gregorianDate = now.toLocaleDateString('en-US', gregorianOptions);
       
-      // Update date displays (only Gregorian)
       document.getElementById('englishGregorianDate').textContent = gregorianDate;
       document.getElementById('indonesianGregorianDate').textContent = gregorianDate;
-      
-      // Hide Hijri date elements
-      document.getElementById('englishHijriDate').style.display = 'none';
-      document.getElementById('indonesianHijriDate').style.display = 'none';
     }
 
-    // Names data structure - With juz and page information
     const namesData = [
       { number: 1, arabic: "ٱلْفَاتِحَة", transliteration: "Al-Fātiḥah", english: "The Opening", indonesian: "Pembukaan", juz: 1, page: 1 },
       { number: 2, arabic: "ٱلْبَقَرَة", transliteration: "Al-Baqarah", english: "The Cow", indonesian: "Sapi Betina", juz: [1,2,3], page: 2 },
@@ -696,50 +679,40 @@
       { number: 114, arabic: "ٱلنَّاس", transliteration: "An-Nās", english: "Mankind", indonesian: "Manusia", juz: 30, page: 604 }
     ];
 
-    // Audio URLs for Mishaari Raashid Al-3afaasee recitation
     function getAudioUrl(surahNumber) {
       const paddedNumber = surahNumber.toString().padStart(3, '0');
       return `https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${paddedNumber}.mp3`;
     }
 
-    // Play audio for a surah
     function playSurahAudio(surahNumber, surahName, boxElement) {
-      // Stop current audio if playing
       stopAudio();
       
-      // Update current playing info
       currentPlayingBox = boxElement;
       currentSurahNumber = surahNumber;
       
-      // Set loading state
       boxElement.classList.add('loading-audio');
       const indicator = boxElement.querySelector('.audio-indicator');
       if (indicator) indicator.classList.add('loading');
       
-      // Update audio controls
       document.getElementById('currentSurahName').textContent = `${surahNumber}. ${surahName}`;
       document.getElementById('audioControls').classList.add('show');
       document.getElementById('playPauseBtn').textContent = '⏸';
       
-      // Set audio source
       const audioUrl = getAudioUrl(surahNumber);
       audioPlayer.src = audioUrl;
       
-      // Play audio
       audioPlayer.play().catch(error => {
         console.error('Error playing audio:', error);
-        // Remove loading state on error
         boxElement.classList.remove('loading-audio');
         if (indicator) indicator.classList.remove('loading');
+        alert('Unable to play audio. Please check your internet connection or try another surah.');
       });
     }
 
-    // Stop audio
     function stopAudio() {
       audioPlayer.pause();
       audioPlayer.currentTime = 0;
       
-      // Remove playing state from all boxes
       document.querySelectorAll('.name-box.playing-audio, .name-box.loading-audio').forEach(box => {
         box.classList.remove('playing-audio', 'loading-audio');
         const indicator = box.querySelector('.audio-indicator');
@@ -750,7 +723,6 @@
       currentSurahNumber = null;
     }
 
-    // Pause/resume audio
     function togglePlayPause() {
       if (audioPlayer.paused) {
         audioPlayer.play();
@@ -761,21 +733,19 @@
       }
     }
 
-    // Handle box click for audio
-    function handleBoxClick(boxElement, surahNumber, surahName) {
-      if (currentPlayingBox === boxElement) {
-        // Clicking the same box - navigate to surah page
-        const link = boxElement.querySelector('a');
-        if (link && link.href) {
-          window.location.href = link.href;
-        }
-      } else {
-        // Clicking a different box - play audio
+    function navigateToTafsir(surahNumber) {
+      const paddedNumber = surahNumber.toString().padStart(3, '0');
+      window.location.href = `${paddedNumber}.html`;
+    }
+
+    function handleBoxClick(boxElement, surahNumber, surahName, isDoubleClick = false) {
+      if (isDoubleClick) {
         playSurahAudio(surahNumber, surahName, boxElement);
+      } else {
+        navigateToTafsir(surahNumber);
       }
     }
 
-    // Set up audio event listeners
     audioPlayer.addEventListener('play', function() {
       if (currentPlayingBox) {
         currentPlayingBox.classList.remove('loading-audio');
@@ -800,12 +770,10 @@
       document.getElementById('audioControls').classList.remove('show');
     });
 
-    // Check for saved language preference or set default to Indonesian
     function getPreferredLanguage() {
       return localStorage.getItem('language') || 'indonesian';
     }
 
-    // Set the initial language based on preference
     function setInitialLanguage() {
       const language = getPreferredLanguage();
       const englishContent = document.getElementById('english-content');
@@ -823,7 +791,6 @@
       }
     }
 
-    // Helper function to format juz information
     function formatJuz(juzData) {
       if (Array.isArray(juzData)) {
         return juzData.length === 2 ? `Juz ${juzData[0]}-${juzData[1]}` : `Juz ${juzData.join(', ')}`;
@@ -831,26 +798,21 @@
       return `Juz ${juzData}`;
     }
 
-    // Helper function to format page information
     function formatPage(pageData) {
       return `Page ${pageData}`;
     }
 
-    // Populate names in the containers
     function populateNames() {
       const englishContainer = document.getElementById('englishNamesContainer');
       const indonesianContainer = document.getElementById('indonesianNamesContainer');
       
-      // Clear existing content
       englishContainer.innerHTML = '';
       indonesianContainer.innerHTML = '';
       
-      // Add names to containers
       namesData.forEach(name => {
         const juzText = formatJuz(name.juz);
         const pageText = formatPage(name.page);
         
-        // English version
         const englishBox = document.createElement('div');
         englishBox.className = 'name-box';
         englishBox.setAttribute('data-number', name.number);
@@ -861,24 +823,35 @@
         englishBox.setAttribute('data-page', name.page.toString());
         
         englishBox.innerHTML = `
-          <a href="${name.number.toString().padStart(3, '0')}.html">
-            <span class="arabic">${name.arabic}</span><br>
-            ${name.number}. ${name.transliteration}<br>
-            ${name.english}<br>
-            <small style="color: #666; font-size: 11px;">${juzText} • ${pageText}</small>
-            <span class="audio-hint">Click to Listen</span>
-          </a>
+          <span class="arabic">${name.arabic}</span><br>
+          ${name.number}. ${name.transliteration}<br>
+          ${name.english}<br>
+          <small style="color: #666; font-size: 11px;">${juzText} • ${pageText}</small>
           <div class="audio-indicator"></div>`;
+        
+        let clickCount = 0;
+        let clickTimer;
         
         englishBox.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
-          handleBoxClick(this, name.number, name.transliteration);
+          
+          clickCount++;
+          
+          if (clickCount === 1) {
+            clickTimer = setTimeout(() => {
+              handleBoxClick(this, name.number, name.transliteration, false);
+              clickCount = 0;
+            }, 250);
+          } else {
+            clearTimeout(clickTimer);
+            handleBoxClick(this, name.number, name.transliteration, true);
+            clickCount = 0;
+          }
         });
         
         englishContainer.appendChild(englishBox);
         
-        // Indonesian version
         const indonesianBox = document.createElement('div');
         indonesianBox.className = 'name-box';
         indonesianBox.setAttribute('data-number', name.number);
@@ -889,26 +862,37 @@
         indonesianBox.setAttribute('data-page', name.page.toString());
         
         indonesianBox.innerHTML = `
-          <a href="${name.number.toString().padStart(3, '0')}.html">
-            <span class="arabic">${name.arabic}</span><br>
-            ${name.number}. ${name.transliteration}<br>
-            ${name.indonesian}<br>
-            <small style="color: #666; font-size: 11px;">${juzText} • Halaman ${name.page}</small>
-            <span class="audio-hint">Klik untuk Tilawah</span>
-          </a>
+          <span class="arabic">${name.arabic}</span><br>
+          ${name.number}. ${name.transliteration}<br>
+          ${name.indonesian}<br>
+          <small style="color: #666; font-size: 11px;">${juzText} • Halaman ${name.page}</small>
           <div class="audio-indicator"></div>`;
+        
+        let clickCountIndo = 0;
+        let clickTimerIndo;
         
         indonesianBox.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
-          handleBoxClick(this, name.number, name.transliteration);
+          
+          clickCountIndo++;
+          
+          if (clickCountIndo === 1) {
+            clickTimerIndo = setTimeout(() => {
+              handleBoxClick(this, name.number, name.transliteration, false);
+              clickCountIndo = 0;
+            }, 250);
+          } else {
+            clearTimeout(clickTimerIndo);
+            handleBoxClick(this, name.number, name.transliteration, true);
+            clickCountIndo = 0;
+          }
         });
         
         indonesianContainer.appendChild(indonesianBox);
       });
     }
 
-    // Enhanced Search Function for English
     function searchNames() {
       const input = document.getElementById("searchInput").value.trim().toLowerCase();
       const boxes = document.querySelectorAll("#english-content .name-box");
@@ -930,7 +914,6 @@
         const juz = box.getAttribute('data-juz');
         const page = box.getAttribute('data-page');
         
-        // Check if input matches any of the searchable fields
         const isMatch = 
           number === input || 
           number.padStart(3, '0') === input.padStart(3, '0') ||
@@ -948,7 +931,6 @@
         }
       }
       
-      // Show no results message if needed
       const container = document.getElementById('englishNamesContainer');
       const existingMessage = container.querySelector('.no-results');
       
@@ -964,7 +946,6 @@
       }
     }
 
-    // Enhanced Search Function for Indonesian
     function searchNamesIndo() {
       const input = document.getElementById("searchInputIndo").value.trim().toLowerCase();
       const boxes = document.querySelectorAll("#indonesian-content .name-box");
@@ -986,7 +967,6 @@
         const juz = box.getAttribute('data-juz');
         const page = box.getAttribute('data-page');
         
-        // Check if input matches any of the searchable fields
         const isMatch = 
           number === input || 
           number.padStart(3, '0') === input.padStart(3, '0') ||
@@ -1004,7 +984,6 @@
         }
       }
       
-      // Show no results message if needed
       const container = document.getElementById('indonesianNamesContainer');
       const existingMessage = container.querySelector('.no-results');
       
@@ -1020,24 +999,20 @@
       }
     }
 
-    // Toggle language function
     function toggleLanguage() {
       const englishContent = document.getElementById('english-content');
       const indonesianContent = document.getElementById('indonesian-content');
       const toggleButton = document.getElementById('languageToggle');
       
-      // Stop audio when switching languages
       stopAudio();
       document.getElementById('audioControls').classList.remove('show');
       
       if (englishContent.classList.contains('hidden')) {
-        // Switch to English
         englishContent.classList.remove('hidden');
         indonesianContent.classList.add('hidden');
         toggleButton.textContent = 'Switch to Indonesian';
         localStorage.setItem('language', 'english');
       } else {
-        // Switch to Indonesian
         englishContent.classList.add('hidden');
         indonesianContent.classList.remove('hidden');
         toggleButton.textContent = 'Switch to English';
@@ -1045,26 +1020,14 @@
       }
     }
 
-    // Initialize the page
     document.addEventListener('DOMContentLoaded', function() {
       setInitialLanguage();
       populateNames();
-      formatDates(); // Format and display dates
+      formatDates();
       
-      // Add event listener for language toggle
       document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
-      
-      // Add event listeners for audio controls
       document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
       document.getElementById('stopBtn').addEventListener('click', stopAudio);
-      
-      // Allow clicking links directly for navigation (bypassing audio)
-      document.querySelectorAll('.name-box a').forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.stopPropagation();
-          // Don't prevent default - allow navigation
-        });
-      });
     });
   </script>
 </body>
