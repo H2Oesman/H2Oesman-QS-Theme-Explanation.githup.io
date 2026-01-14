@@ -107,6 +107,26 @@
       background-color: #fff9e6;
       box-shadow: 0 4px 12px rgba(241, 196, 15, 0.2);
     }
+    .name-box.recently-viewed {
+      background-color: #e8f6f3 !important;
+      box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4) !important;
+      border: 2px solid #2ecc71 !important;
+      animation: pulse-highlight 2s ease-in-out infinite;
+      position: relative;
+    }
+    .name-box.recently-viewed::before {
+      content: "Last Viewed";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background-color: #2ecc71;
+      color: white;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: bold;
+      z-index: 1;
+    }
     .name-box:nth-child(even) {
       background-color: #f8f9fa;
     }
@@ -115,6 +135,10 @@
     }
     .name-box:nth-child(even).loading-audio {
       background-color: #fff4cc;
+    }
+    .name-box:nth-child(even).recently-viewed {
+      background-color: #d5f4f0 !important;
+      border: 2px solid #2ecc71 !important;
     }
     .name-box:hover {
       transform: translateY(-2px);
@@ -197,6 +221,11 @@
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+    @keyframes pulse-highlight {
+      0% { transform: scale(1); box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4); }
+      50% { transform: scale(1.02); box-shadow: 0 6px 16px rgba(46, 204, 113, 0.6); }
+      100% { transform: scale(1); box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4); }
     }
     .audio-hint {
       color: #2ecc71;
@@ -354,6 +383,10 @@
       .audio-hint {
         font-size: 10px;
       }
+      .name-box.recently-viewed::before {
+        font-size: 8px;
+        padding: 1px 4px;
+      }
     }
     @media screen and (max-width: 480px) {
       .name-box a {
@@ -385,6 +418,11 @@
       }
       .audio-hint {
         font-size: 9px;
+      }
+      .name-box.recently-viewed::before {
+        font-size: 7px;
+        top: 2px;
+        left: 2px;
       }
     }
     @media screen and (max-width: 360px) {
@@ -651,6 +689,9 @@
     }
 
     function navigateToTafsir(surahNumber) {
+      // Store the last viewed surah before navigating
+      localStorage.setItem('lastViewedSurah', surahNumber.toString());
+      localStorage.setItem('lastViewedSurahTime', Date.now().toString());
       stopAudio();
       const paddedNumber = surahNumber.toString().padStart(3, '0');
       window.location.href = `${paddedNumber}.html`;
@@ -661,6 +702,72 @@
         playSurahAudio(surahNumber, surahName, boxElement);
       } else {
         navigateToTafsir(surahNumber);
+      }
+    }
+
+    function highlightAndScrollToLastSurah() {
+      const lastSurahNumber = localStorage.getItem('lastViewedSurah');
+      const lastSurahTime = localStorage.getItem('lastViewedSurahTime');
+      
+      if (!lastSurahNumber) return;
+      
+      // Clear the last viewed surah after 30 minutes (1800000 ms) instead of 5 minutes
+      if (lastSurahTime && (Date.now() - parseInt(lastSurahTime) > 1800000)) {
+        localStorage.removeItem('lastViewedSurah');
+        localStorage.removeItem('lastViewedSurahTime');
+        return;
+      }
+      
+      const surahNumber = parseInt(lastSurahNumber);
+      
+      // Find the active content (English or Indonesian)
+      const englishContent = document.getElementById('english-content');
+      const indonesianContent = document.getElementById('indonesian-content');
+      let activeContainer = null;
+      
+      if (!englishContent.classList.contains('hidden')) {
+        activeContainer = document.getElementById('englishNamesContainer');
+      } else if (!indonesianContent.classList.contains('hidden')) {
+        activeContainer = document.getElementById('indonesianNamesContainer');
+      }
+      
+      if (!activeContainer) return;
+      
+      const targetBox = activeContainer.querySelector(`.name-box[data-number="${surahNumber}"]`);
+      
+      if (targetBox) {
+        // Remove any existing highlights first
+        document.querySelectorAll('.name-box.recently-viewed').forEach(box => {
+          box.classList.remove('recently-viewed');
+        });
+        
+        // Highlight the box
+        targetBox.classList.add('recently-viewed');
+        
+        // Remove highlight after 10 seconds
+        setTimeout(() => {
+          targetBox.classList.remove('recently-viewed');
+        }, 10000);
+        
+        // Scroll to the box with proper offset calculation
+        setTimeout(() => {
+          const headerHeight = document.querySelector('.search-container').offsetHeight + 
+                              document.querySelector('.instruction').offsetHeight + 20;
+          const boxRect = targetBox.getBoundingClientRect();
+          const absoluteTop = window.pageYOffset + boxRect.top;
+          const scrollPosition = absoluteTop - headerHeight;
+          
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+          });
+          
+          // Add a subtle focus effect
+          targetBox.style.transform = 'scale(1.03)';
+          setTimeout(() => {
+            targetBox.style.transform = '';
+          }, 500);
+        }, 300); // Small delay to ensure DOM is ready
       }
     }
 
@@ -900,11 +1007,15 @@
         indonesianContent.classList.add('hidden');
         toggleButton.textContent = 'Switch to Indonesian';
         localStorage.setItem('language', 'english');
+        // Highlight and scroll to last surah in the new language
+        setTimeout(highlightAndScrollToLastSurah, 100);
       } else {
         englishContent.classList.add('hidden');
         indonesianContent.classList.remove('hidden');
         toggleButton.textContent = 'Switch to English';
         localStorage.setItem('language', 'indonesian');
+        // Highlight and scroll to last surah in the new language
+        setTimeout(highlightAndScrollToLastSurah, 100);
       }
     }
 
@@ -914,6 +1025,9 @@
       document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
       document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
       document.getElementById('stopBtn').addEventListener('click', stopAudio);
+      
+      // Highlight and scroll to last viewed surah after page loads
+      setTimeout(highlightAndScrollToLastSurah, 300);
     });
   </script>
 </body>
