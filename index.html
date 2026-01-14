@@ -107,6 +107,12 @@
       background-color: #fff9e6;
       box-shadow: 0 4px 12px rgba(241, 196, 15, 0.2);
     }
+    .name-box.recently-viewed {
+      background-color: #fff8e1;
+      box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+      border: 2px solid #ffc107;
+      animation: pulse-highlight 2s ease-in-out;
+    }
     .name-box:nth-child(even) {
       background-color: #f8f9fa;
     }
@@ -115,6 +121,10 @@
     }
     .name-box:nth-child(even).loading-audio {
       background-color: #fff4cc;
+    }
+    .name-box:nth-child(even).recently-viewed {
+      background-color: #fff3cd;
+      border: 2px solid #ffc107;
     }
     .name-box:hover {
       transform: translateY(-2px);
@@ -197,6 +207,11 @@
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+    @keyframes pulse-highlight {
+      0% { transform: scale(1); box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3); }
+      50% { transform: scale(1.02); box-shadow: 0 6px 16px rgba(255, 193, 7, 0.5); }
+      100% { transform: scale(1); box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3); }
     }
     .audio-hint {
       color: #2ecc71;
@@ -651,6 +666,9 @@
     }
 
     function navigateToTafsir(surahNumber) {
+      // Store the last viewed surah before navigating
+      localStorage.setItem('lastViewedSurah', surahNumber.toString());
+      localStorage.setItem('lastViewedSurahTime', Date.now().toString());
       stopAudio();
       const paddedNumber = surahNumber.toString().padStart(3, '0');
       window.location.href = `${paddedNumber}.html`;
@@ -661,6 +679,49 @@
         playSurahAudio(surahNumber, surahName, boxElement);
       } else {
         navigateToTafsir(surahNumber);
+      }
+    }
+
+    function highlightAndScrollToLastSurah() {
+      const lastSurahNumber = localStorage.getItem('lastViewedSurah');
+      const lastSurahTime = localStorage.getItem('lastViewedSurahTime');
+      
+      if (!lastSurahNumber) return;
+      
+      // Clear the last viewed surah after 5 minutes (300000 ms) to avoid showing old selections
+      if (lastSurahTime && (Date.now() - parseInt(lastSurahTime) > 300000)) {
+        localStorage.removeItem('lastViewedSurah');
+        localStorage.removeItem('lastViewedSurahTime');
+        return;
+      }
+      
+      const surahNumber = parseInt(lastSurahNumber);
+      const activeContent = document.querySelector('#english-content:not(.hidden), #indonesian-content:not(.hidden)');
+      if (!activeContent) return;
+      
+      const container = activeContent.querySelector('.names-container');
+      const targetBox = container.querySelector(`.name-box[data-number="${surahNumber}"]`);
+      
+      if (targetBox) {
+        // Highlight the box
+        targetBox.classList.add('recently-viewed');
+        
+        // Remove highlight after 5 seconds
+        setTimeout(() => {
+          targetBox.classList.remove('recently-viewed');
+        }, 5000);
+        
+        // Scroll to the box with offset for header
+        setTimeout(() => {
+          const headerOffset = 100;
+          const elementPosition = targetBox.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }, 100);
       }
     }
 
@@ -900,11 +961,15 @@
         indonesianContent.classList.add('hidden');
         toggleButton.textContent = 'Switch to Indonesian';
         localStorage.setItem('language', 'english');
+        // Highlight and scroll to last surah in the new language
+        setTimeout(highlightAndScrollToLastSurah, 100);
       } else {
         englishContent.classList.add('hidden');
         indonesianContent.classList.remove('hidden');
         toggleButton.textContent = 'Switch to English';
         localStorage.setItem('language', 'indonesian');
+        // Highlight and scroll to last surah in the new language
+        setTimeout(highlightAndScrollToLastSurah, 100);
       }
     }
 
@@ -914,8 +979,10 @@
       document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
       document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
       document.getElementById('stopBtn').addEventListener('click', stopAudio);
+      
+      // Highlight and scroll to last viewed surah after page loads
+      setTimeout(highlightAndScrollToLastSurah, 300);
     });
   </script>
 </body>
 </html>
-
