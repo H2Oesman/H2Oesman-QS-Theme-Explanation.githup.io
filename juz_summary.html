@@ -152,11 +152,17 @@
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
     }
     
     .juz-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    
+    .juz-card:active {
+      transform: translateY(-2px);
     }
     
     .juz-number {
@@ -387,6 +393,24 @@
       display: none;
     }
     
+    .click-hint {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #3498db;
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .juz-card:hover .click-hint {
+      opacity: 1;
+    }
+    
     @media (max-width: 768px) {
       body {
         padding: 10px;
@@ -438,6 +462,13 @@
         height: 35px;
         font-size: 18px;
       }
+      
+      .click-hint {
+        opacity: 1;
+        font-size: 9px;
+        top: 5px;
+        right: 5px;
+      }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Scheherazade+New&display=swap" rel="stylesheet">
@@ -481,6 +512,7 @@
     <div class="footer">
       <p>&copy; (2025 AD) 1447 AH - Dibuat dan Dipelihara oleh Hermansjah. Hak cipta dilindungi.</p>
       <p style="font-size: 12px; margin-top: 10px;">Berdasarkan pembagian standar 30 Juz Al-Quran dengan nama-nama tradisional</p>
+      <p style="font-size: 11px; margin-top: 5px; color: #3498db;"><i class="fas fa-mouse-pointer"></i> Klik pada kotak Juz untuk melihat detail lengkap</p>
     </div>
   </div>
   
@@ -515,11 +547,12 @@
     <div class="footer">
       <p>&copy; (2025 AD) 1447 AH - Created and Maintained by Hermansjah. All rights reserved.</p>
       <p style="font-size: 12px; margin-top: 10px;">Based on the standard 30 Juz division of the Quran with traditional names</p>
+      <p style="font-size: 11px; margin-top: 5px; color: #3498db;"><i class="fas fa-mouse-pointer"></i> Click on Juz box to view complete details</p>
     </div>
   </div>
 
   <script>
-    // Juz data with names in Arabic and Latin, including alternative names
+    // Indonesian Juz data
     const juzData = [
       {
         number: 1,
@@ -1426,6 +1459,8 @@
     function createJuzCard(juz, language) {
       const card = document.createElement('div');
       card.className = 'juz-card';
+      card.dataset.juzNumber = juz.number;
+      
       if (juz.number === 30) {
         card.classList.add('juz-30-special');
       }
@@ -1470,7 +1505,12 @@
         ? `${juz.surahs.length} Surah`
         : `${juz.surahs.length} Surah${juz.surahs.length > 1 ? 's' : ''}`;
       
+      const clickHint = language === 'indonesian' 
+        ? 'Klik untuk detail'
+        : 'Click for details';
+      
       card.innerHTML = `
+        <div class="click-hint">${clickHint}</div>
         <div class="juz-number">
           <span>Juz ${juz.number}</span>
           <span class="juz-name-arabic">${juz.nameArabic}</span>
@@ -1485,6 +1525,14 @@
         </ul>
         <div class="page-range">${pageRangeText}</div>
       `;
+      
+      // Add click event listener to navigate to juz_#.html
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        const juzNumber = this.dataset.juzNumber;
+        const paddedNumber = juzNumber.toString().padStart(2, '0');
+        window.location.href = `juz_${paddedNumber}.html`;
+      });
       
       return card;
     }
