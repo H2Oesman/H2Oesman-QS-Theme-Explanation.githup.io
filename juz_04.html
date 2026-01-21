@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 4 - Surah Thematic Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --table-header-bg: #3498db;
+            --table-header-color: white;
+            --table-row-even: #f9f9f9;
+            --table-row-odd: #ffffff;
+            --link-color: #2980b9;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --table-header-bg: #2c3e50;
+            --table-header-color: #ecf0f1;
+            --table-row-even: #2d3748;
+            --table-row-odd: #1a202c;
+            --link-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid var(--link-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid var(--link-color);
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-table th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table td {
+            padding: 15px;
+            border: 1px solid var(--verse-border);
+            background-color: var(--table-row-odd);
+            color: var(--text-color);
+        }
+        .theme-table tr:nth-child(even) td {
+            background-color: var(--table-row-even);
+        }
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .audio-player h3 {
+            margin-top: 0;
+            color: var(--section-title-color);
+        }
+        .message-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .message-box h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .message-box ul {
+            padding-left: 20px;
+        }
+        .message-box li {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .access-link {
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border: 1px solid var(--link-color);
+            background: var(--verse-bg);
+        }
+        .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--verse-bg);
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .pagination a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--link-color);
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .surah-divider {
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            margin: 50px 0;
+            border-radius: 2px;
+        }
+        .overview-box {
+            background: var(--structure-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .overview-box p {
+            color: var(--text-color);
+        }
+        .dark-mode .overview-box {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- English Content (Default) -->
+        <div id="english-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="surah-title">Juz 4 - Thematic Analysis</h1>
+            <div class="surah-source"><strong>Sources:</strong> Tafsir Ibn Kathir, Indonesian Ministry of Religious Affairs, IslamicStudies.info</div>
+
+            <!-- Surah Ali 'Imran (Verses 92-200) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ali 'Imran (The Family of Imran) - Verses 92-200 (Continuation)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Ali 'Imran (Part 2 - End of Surah)</h3>
+                    <p>This continuation of Surah Ali 'Imran (verses 92-200) completes the third chapter of the Quran. It contains profound teachings on perseverance, unity, preparation for trials, and the importance of faith during challenging times. The surah concludes with powerful reminders about the transient nature of this world and the eternal reality of the Hereafter.</p>
+                    <p>These verses emphasize the importance of unity among Muslims, preparation for both spiritual and physical challenges, and the ultimate triumph of truth over falsehood.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Ali 'Imran (Verses 92-200)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/3" target="_blank" class="access-link">Quran.com - Surah Ali 'Imran</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 92-97</td>
+                                <td>Righteousness and Hajj</td>
+                                <td>True righteousness, significance of Kaaba and Hajj pilgrimage</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 98-120</td>
+                                <td>People of the Book Relations</td>
+                                <td>Guidance on dealing with People of the Book, warnings against their plots</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 121-148</td>
+                                <td>Battle of Uhud Lessons</td>
+                                <td>Analysis of Uhud battle, importance of obedience and patience</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 149-179</td>
+                                <td>Faith and Perseverance</td>
+                                <td>Tests of faith, steadfastness, Allah's support for believers</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 180-200</td>
+                                <td>Conclusion and Exhortation</td>
+                                <td>Final exhortations, patience, preparation, and ultimate success</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms Allah's promise of victory for believers, reality of testing, and ultimate accountability in the Hereafter</li>
+                        <li><strong>Worship:</strong> Emphasizes Hajj pilgrimage, remembrance of Allah in all circumstances, and seeking forgiveness through patience and prayer</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches unity among Muslims, wisdom in dealing with non-Muslims, courage in battle, and perseverance through difficulties</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=3" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah An-Nisa (Verses 1-23) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah An-Nisa (The Women) - Verses 1-23</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah An-Nisa (Beginning)</h3>
+                    <p>Surah An-Nisa is the fourth chapter of the Quran, revealed in Medina. This portion (verses 1-23) deals primarily with family law, inheritance, marriage regulations, and social justice. It establishes foundational principles for family structure and women's rights in Islamic society.</p>
+                    <p>The surah begins by reminding humanity of their common origin and then proceeds to detail laws regarding orphans, marriage, inheritance, and family relations, emphasizing justice and compassion.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah An-Nisa (Verses 1-23)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/004.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/4" target="_blank" class="access-link">Quran.com - Surah An-Nisa</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-6</td>
+                                <td>Human Origin and Orphans</td>
+                                <td>Common origin of humanity, proper treatment and protection of orphans</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 7-10</td>
+                                <td>Inheritance Laws</td>
+                                <td>Basic inheritance shares for children, parents, and spouses</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 11-14</td>
+                                <td>Detailed Inheritance</td>
+                                <td>Specific shares for various relatives, divine wisdom in distribution</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 15-23</td>
+                                <td>Marriage Regulations</td>
+                                <td>Prohibited marriages, rights of women, marital relations and obligations</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Emphasizes Allah's justice in legislation, wisdom behind divine laws, and accountability for fulfilling rights</li>
+                        <li><strong>Worship:</strong> Includes obedience to Allah's commands regarding family and social matters as part of comprehensive worship</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches justice in dealing with orphans and women, fairness in inheritance, respect for family ties, and protection of the vulnerable</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=4" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_03.html"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 4</span>
+                <a href="juz_05.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+
+        <!-- Indonesian Content (Hidden by Default) -->
+        <div id="indonesian-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <h1 class="surah-title">Juz 4 - Analisis Tematik</h1>
+            <div class="surah-source"><strong>Sumber:</strong> Tafsir Ibn Kathir, Kementerian Agama RI, IslamicStudies.info</div>
+
+            <!-- Surah Ali 'Imran (Verses 92-200) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ali 'Imran (Keluarga Imran) - Ayat 92-200 (Lanjutan)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Ali 'Imran (Bagian 2 - Akhir Surah)</h3>
+                    <p>Kelanjutan Surah Ali 'Imran (ayat 92-200) ini menyelesaikan surah ketiga dalam Al-Quran. Berisi ajaran mendalam tentang ketekunan, persatuan, persiapan menghadapi ujian, dan pentingnya iman di masa sulit. Surah ini diakhiri dengan pengingat yang kuat tentang sifat fana dunia ini dan realitas kekal Akhirat.</p>
+                    <p>Ayat-ayat ini menekankan pentingnya persatuan di antara Muslim, persiapan menghadapi tantangan spiritual dan fisik, serta kemenangan akhir kebenaran atas kebatilan.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Ali 'Imran (Ayat 92-200)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/3" target="_blank" class="access-link">Quran.com - Surah Ali 'Imran</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 92-97</td>
+                                <td>Kebajikan dan Haji</td>
+                                <td>Kebajikan sejati, signifikansi Ka'bah dan ibadah Haji</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 98-120</td>
+                                <td>Hubungan dengan Ahli Kitab</td>
+                                <td>Bimbingan berhubungan dengan Ahli Kitab, peringatan terhadap rencana mereka</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 121-148</td>
+                                <td>Pelajaran Perang Uhud</td>
+                                <td>Analisis perang Uhud, pentingnya ketaatan dan kesabaran</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 149-179</td>
+                                <td>Iman dan Ketekunan</td>
+                                <td>Ujian iman, keteguhan hati, dukungan Allah untuk orang beriman</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 180-200</td>
+                                <td>Penutup dan Nasihat</td>
+                                <td>Nasihat akhir, kesabaran, persiapan, dan kesuksesan akhir</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan janji Allah tentang kemenangan bagi orang beriman, realitas ujian, dan pertanggungjawaban akhir di Akhirat</li>
+                        <li><strong>Ibadah:</strong> Menekankan ibadah Haji, mengingat Allah dalam semua keadaan, dan mencari ampunan melalui kesabaran dan shalat</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan persatuan di antara Muslim, kebijaksanaan dalam berhubungan dengan non-Muslim, keberanian dalam pertempuran, dan ketekunan melalui kesulitan</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=3" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah An-Nisa (Verses 1-23) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah An-Nisa (Wanita) - Ayat 1-23</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah An-Nisa (Awal)</h3>
+                    <p>Surah An-Nisa adalah surah keempat dalam Al-Quran, diturunkan di Madinah. Bagian ini (ayat 1-23) terutama membahas hukum keluarga, warisan, peraturan perkawinan, dan keadilan sosial. Ini menetapkan prinsip-prinsip dasar untuk struktur keluarga dan hak-hak perempuan dalam masyarakat Islam.</p>
+                    <p>Surah ini dimulai dengan mengingatkan manusia tentang asal usul mereka yang sama kemudian merinci hukum mengenai anak yatim, perkawinan, warisan, dan hubungan keluarga, menekankan keadilan dan kasih sayang.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah An-Nisa (Ayat 1-23)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/004.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/4" target="_blank" class="access-link">Quran.com - Surah An-Nisa</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-6</td>
+                                <td>Asal Usul Manusia dan Anak Yatim</td>
+                                <td>Asal usul manusia yang sama, perlakuan dan perlindungan yang tepat untuk anak yatim</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 7-10</td>
+                                <td>Hukum Warisan</td>
+                                <td>Bagian warisan dasar untuk anak, orang tua, dan pasangan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 11-14</td>
+                                <td>Warisan Terperinci</td>
+                                <td>Bagian khusus untuk berbagai kerabat, hikmah ilahi dalam distribusi</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 15-23</td>
+                                <td>Peraturan Perkawinan</td>
+                                <td>Perkawinan yang dilarang, hak-hak perempuan, hubungan dan kewajiban perkawinan</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menekankan keadilan Allah dalam perundangan, hikmah di balik hukum ilahi, dan pertanggungjawaban dalam memenuhi hak</li>
+                        <li><strong>Ibadah:</strong> Mencakup ketaatan terhadap perintah Allah mengenai urusan keluarga dan sosial sebagai bagian dari ibadah yang komprehensif</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan keadilan dalam memperlakukan anak yatim dan perempuan, keadilan dalam warisan, penghormatan terhadap hubungan keluarga, dan perlindungan bagi yang rentan</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=4" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_03.html"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 4</span>
+                <a href="juz_05.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle
+            const currentLanguage = localStorage.getItem('language') || 'english';
+            if (currentLanguage === 'indonesian') {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
