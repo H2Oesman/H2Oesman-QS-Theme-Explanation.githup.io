@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 11 - Surah Thematic Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --table-header-bg: #3498db;
+            --table-header-color: white;
+            --table-row-even: #f9f9f9;
+            --table-row-odd: #ffffff;
+            --link-color: #2980b9;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --table-header-bg: #2c3e50;
+            --table-header-color: #ecf0f1;
+            --table-row-even: #2d3748;
+            --table-row-odd: #1a202c;
+            --link-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid var(--link-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid var(--link-color);
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-table th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table td {
+            padding: 15px;
+            border: 1px solid var(--verse-border);
+            background-color: var(--table-row-odd);
+            color: var(--text-color);
+        }
+        .theme-table tr:nth-child(even) td {
+            background-color: var(--table-row-even);
+        }
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .audio-player h3 {
+            margin-top: 0;
+            color: var(--section-title-color);
+        }
+        .message-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .message-box h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .message-box ul {
+            padding-left: 20px;
+        }
+        .message-box li {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .access-link {
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border: 1px solid var(--link-color);
+            background: var(--verse-bg);
+        }
+        .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--verse-bg);
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .pagination a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--link-color);
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .surah-divider {
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            margin: 50px 0;
+            border-radius: 2px;
+        }
+        .overview-box {
+            background: var(--structure-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .overview-box p {
+            color: var(--text-color);
+        }
+        .dark-mode .overview-box {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- English Content (Default) -->
+        <div id="english-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="surah-title">Juz 11 - Thematic Analysis</h1>
+            <div class="surah-source"><strong>Sources:</strong> Tafsir Ibn Kathir, Indonesian Ministry of Religious Affairs, IslamicStudies.info</div>
+
+            <!-- Surah At-Taubah (Verses 93-129) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah At-Taubah (The Repentance) - Verses 93-129 (Juz 11 Portion)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah At-Taubah (Juz 11 Portion)</h3>
+                    <p>Surah At-Taubah continues in Juz 11 with verses 93-129, which conclude the surah. This portion addresses the remaining issues related to the Battle of Tabuk and the behavior of various groups within the Muslim community. It discusses those who remained behind with valid excuses, the importance of supporting the Prophet and the community, and the characteristics of true believers versus hypocrites.</p>
+                    <p>The surah concludes with powerful verses emphasizing Allah's mercy, the Prophet's role, and the importance of sincere faith. Verses 128-129 are particularly significant as they highlight the Prophet's concern for the believers and Allah's compassion and mercy as sufficient for all.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah At-Taubah (Verses 93-129)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/009.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/9" target="_blank" class="access-link">Quran.com - Surah At-Taubah</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 93-96</td>
+                                <td>Excuses of Those Who Stayed Behind</td>
+                                <td>The way is only against those who ask permission while they are rich</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 97-99</td>
+                                <td>Bedouin Arabs' Attitude</td>
+                                <td>Bedouin Arabs are the worst in disbelief and hypocrisy</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 100-102</td>
+                                <td>Categories of Believers</td>
+                                <td>Foremost believers, those who followed them in goodness, and others who confessed sins</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 103-104</td>
+                                <td>Charity Purifies</td>
+                                <td>Take charity from their wealth to purify and bless them</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 105-106</td>
+                                <td>Allah Sees All Actions</td>
+                                <td>Do and Allah will see your deeds, as will His Messenger and the believers</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 107-110</td>
+                                <td>Mosque of Dissension</td>
+                                <td>Those who built a mosque for harm, disbelief, and division among believers</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 111-112</td>
+                                <td>True Believers' Transaction</td>
+                                <td>Allah has purchased from believers their lives and properties for Paradise</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 113-114</td>
+                                <td>Not Praying for Polytheists</td>
+                                <td>It is not for Prophet and believers to pray for forgiveness for polytheists</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 115-117</td>
+                                <td>Allah's Forgiveness</td>
+                                <td>Allah would not condemn people while they seek forgiveness</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 118-119</td>
+                                <td>Repentance of Three Who Stayed Behind</td>
+                                <td>Allah accepted repentance of three who were left behind</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 120-121</td>
+                                <td>Reward for Believers' Efforts</td>
+                                <td>It was not for people of Madinah to remain behind Messenger</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 122-123</td>
+                                <td>Division of Labor in Learning</td>
+                                <td>Not all believers should go forth for fighting; some should devote to religious learning</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 124-127</td>
+                                <td>Effect of Revelations</td>
+                                <td>Whenever a surah is revealed, some hypocrites say: "Has this increased faith of any?"</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 128-129</td>
+                                <td>Prophet's Concern and Allah's Mercy</td>
+                                <td>There has come to you a Messenger from among yourselves; Allah is sufficient as protector</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms that Allah sees all actions and knows what is in hearts, belief in Allah's transaction with believers (Paradise in exchange for lives and wealth), acceptance that Allah accepts sincere repentance, and faith in Allah's sufficient protection and mercy.</li>
+                        <li><strong>Worship:</strong> Emphasizes giving charity as purification, praying for fellow believers but not for persistent polytheists, seeking knowledge of religion, and responding to the call for jihad when required.</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches sincerity in actions, avoiding hypocrisy, supporting the Muslim community, being truthful about one's circumstances, showing concern for others' faith, and maintaining unity by avoiding divisive actions.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=9" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Yunus (Verses 1-109) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Yunus (Jonah) - Verses 1-109 (Juz 11 Portion)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Yunus (Juz 11 Portion)</h3>
+                    <p>Surah Yunus is a Makkan surah that begins in Juz 11 and continues into Juz 12. This portion (verses 1-109) focuses on fundamental aspects of Islamic belief: the Oneness of Allah, the truth of revelation, the reality of resurrection, and the consequences of accepting or rejecting truth. The surah takes its name from Prophet Yunus (Jonah), whose story appears in verses 98-99.</p>
+                    <p>The surah addresses arguments against polytheism, provides logical proofs for monotheism, recounts stories of previous prophets and their communities, and emphasizes that guidance comes only from Allah. It invites reflection on the natural world as evidence of Allah's existence and power.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Yunus (Verses 1-109)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/010.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/10" target="_blank" class="access-link">Quran.com - Surah Yunus</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-6</td>
+                                <td>Revelation and Signs in Creation</td>
+                                <td>These are verses of the wise Book; indeed in alternation of night and day are signs</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 7-10</td>
+                                <td>Consequences of Disbelief</td>
+                                <td>Those who do not expect meeting with Us are content with worldly life</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 11-14</td>
+                                <td>Allah's Mercy and Justice</td>
+                                <td>If Allah hastened evil for people as they wish good, their term would have ended</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 15-17</td>
+                                <td>Rejecters' Demand for Different Revelation</td>
+                                <td>When Our verses are recited, those who don't expect meeting Us say: Bring different Quran</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 18-20</td>
+                                <td>False Gods Cannot Create</td>
+                                <td>They worship besides Allah what neither harms nor benefits them</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 21-23</td>
+                                <td>Human Nature in Adversity and Prosperity</td>
+                                <td>When We give people mercy after adversity, they plot against Our verses</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 24-27</td>
+                                <td>Parable of Worldly Life</td>
+                                <td>Example of worldly life is like rain that brings forth vegetation then becomes debris</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 28-30</td>
+                                <td>Day of Gathering</td>
+                                <td>On Day We gather them all then ask those associated: Where are your associates?</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 31-36</td>
+                                <td>Logical Arguments for Tawhid</td>
+                                <td>Who provides for you from heaven and earth? Who controls hearing and sight?</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 37-41</td>
+                                <td>Quran Could Not Be Fabricated</td>
+                                <td>This Quran is not invented by other than Allah but confirmation of what was before it</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 42-44</td>
+                                <td>Allah's Guidance</td>
+                                <td>Among them are those who listen to you but can you make deaf hear though they do not reason?</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 45-53</td>
+                                <td>Resurrection and Recompense</td>
+                                <td>On Day He gathers them, it will seem they had remained only an hour of a day</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 54-60</td>
+                                <td>Universal Message</td>
+                                <td>If every wrongdoer had all on earth, he would offer it as ransom on Day of Resurrection</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 61-64</td>
+                                <td>Allah's Knowledge Encompasses All</td>
+                                <td>You are not in any situation nor recite any Quran nor do any deed except We are witness</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 65-70</td>
+                                <td>Prophets' Stories: Nuh</td>
+                                <td>We sent Nuh to his people: Worship Allah; you have no other deity</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 71-73</td>
+                                <td>Prophets' Stories: Musa</td>
+                                <td>Recite to them story of Nuh when he said to his people</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 74-78</td>
+                                <td>Rejection of Previous Nations</td>
+                                <td>Then after him We sent messengers to their peoples with clear proofs</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 79-82</td>
+                                <td>Musa and Pharaoh's Magicians</td>
+                                <td>Pharaoh said: Bring me every learned magician</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 83-86</td>
+                                <td>Believers with Musa</td>
+                                <td>None believed in Musa except descendants of his people for fear of Pharaoh</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 87-89</td>
+                                <td>Salvation of Bani Israel</td>
+                                <td>We inspired Musa and his brother: Settle your people in Egypt in houses</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 90-93</td>
+                                <td>Pharaoh's Late Repentance</td>
+                                <td>We took Bani Israel across the sea; Pharaoh and his hosts pursued in insolence</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 94-97</td>
+                                <td>People of the Book as Witness</td>
+                                <td>If you are in doubt about what We revealed to you, ask those who read Scripture before you</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 98-99</td>
+                                <td>Story of Yunus' People</td>
+                                <td>Why has there not been a city that believed and its faith benefited it except people of Yunus?</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 100-103</td>
+                                <td>Allah's Will in Guidance</td>
+                                <td>It is not for any soul to believe except by permission of Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 104-107</td>
+                                <td>Call to Tawhid</td>
+                                <td>Say: O mankind, if you are in doubt about my religion, I do not worship what you worship besides Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 108-109</td>
+                                <td>Final Exhortation</td>
+                                <td>Say: O mankind, truth has come to you from your Lord</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms the Oneness of Allah (Tawhid) as the central Islamic doctrine, belief in all prophets and revealed scriptures, acceptance of resurrection and accountability, faith in Allah's absolute knowledge encompassing all things, and conviction that guidance comes only from Allah.</li>
+                        <li><strong>Worship:</strong> Emphasizes worshipping Allah alone without partners, reflecting on creation as an act of worship, calling people to truth with wisdom and good instruction, seeking Allah's mercy and forgiveness, and turning to Allah in all circumstances.</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches patience in delivering the message, speaking truth even when unpopular, gratitude for blessings, humility before Allah's signs, fairness in dealing with others, and consistency between belief and action.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=10" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_10.html"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 11</span>
+                <a href="juz_12.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+
+        <!-- Indonesian Content (Hidden by Default) -->
+        <div id="indonesian-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <h1 class="surah-title">Juz 11 - Analisis Tematik</h1>
+            <div class="surah-source"><strong>Sumber:</strong> Tafsir Ibn Kathir, Kementerian Agama RI, IslamicStudies.info</div>
+
+            <!-- Surah At-Taubah (Verses 93-129) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah At-Taubah (Pengampunan) - Ayat 93-129 (Bagian Juz 11)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah At-Taubah (Bagian Juz 11)</h3>
+                    <p>Surah At-Taubah berlanjut di Juz 11 dengan ayat 93-129, yang mengakhiri surah ini. Bagian ini membahas masalah-masalah yang tersisa terkait Perang Tabuk dan perilaku berbagai kelompok dalam komunitas Muslim. Ini membahas mereka yang tetap tinggal dengan alasan yang sah, pentingnya mendukung Nabi dan komunitas, serta karakteristik orang beriman sejati versus munafik.</p>
+                    <p>Surah ini diakhiri dengan ayat-ayat kuat yang menekankan rahmat Allah, peran Nabi, dan pentingnya iman yang tulus. Ayat 128-129 sangat signifikan karena menyoroti kepedulian Nabi terhadap orang beriman dan kasih sayang serta rahmat Allah yang cukup untuk semua.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah At-Taubah (Ayat 93-129)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/009.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/9" target="_blank" class="access-link">Quran.com - Surah At-Taubah</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 93-96</td>
+                                <td>Alasan Mereka yang Tinggal di Belakang</td>
+                                <td>Jalan hanya terhadap mereka yang meminta izin padahal mereka kaya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 97-99</td>
+                                <td>Sikap Arab Badui</td>
+                                <td>Arab Badui adalah yang terburuk dalam kekafiran dan kemunafikan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 100-102</td>
+                                <td>Kategori Orang Beriman</td>
+                                <td>Orang beriman yang pertama, mereka yang mengikuti mereka dalam kebaikan, dan lainnya yang mengakui dosa</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 103-104</td>
+                                <td>Sedekah Membersihkan</td>
+                                <td>Ambillah sedekah dari harta mereka untuk menyucikan dan memberkati mereka</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 105-106</td>
+                                <td>Allah Melihat Semua Tindakan</td>
+                                <td>Berbuatlah dan Allah akan melihat perbuatanmu, begitu juga Rasul-Nya dan orang beriman</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 107-110</td>
+                                <td>Masjid Dlarar</td>
+                                <td>Mereka yang membangun masjid untuk bahaya, kekafiran, dan perpecahan di antara orang beriman</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 111-112</td>
+                                <td>Transaksi Orang Beriman Sejati</td>
+                                <td>Allah telah membeli dari orang beriman jiwa dan harta mereka dengan Surga</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 113-114</td>
+                                <td>Tidak Mendoakan Orang Musyrik</td>
+                                <td>Tidak pantas bagi Nabi dan orang beriman mendoakan pengampunan untuk orang musyrik</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 115-117</td>
+                                <td>Pengampunan Allah</td>
+                                <td>Allah tidak akan mengutuk orang sementara mereka memohon ampunan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 118-119</td>
+                                <td>Taubat Tiga Orang yang Tinggal di Belakang</td>
+                                <td>Allah menerima taubat tiga orang yang tertinggal</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 120-121</td>
+                                <td>Pahala untuk Usaha Orang Beriman</td>
+                                <td>Tidak pantas bagi penduduk Madinah untuk tetap tinggal di belakang Rasul</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 122-123</td>
+                                <td>Pembagian Tugas dalam Belajar</td>
+                                <td>Tidak semua orang beriman harus pergi untuk berperang; sebagian harus mendalami ilmu agama</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 124-127</td>
+                                <td>Efek Wahyu</td>
+                                <td>Setiap kali surah diturunkan, sebagian munafik berkata: "Apakah ini menambah keimanan siapa pun?"</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 128-129</td>
+                                <td>Kepedulian Nabi dan Rahmat Allah</td>
+                                <td>Telah datang kepadamu seorang Rasul dari kalanganmu sendiri; Allah cukup sebagai pelindung</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan bahwa Allah melihat semua tindakan dan mengetahui apa yang ada di hati, kepercayaan pada transaksi Allah dengan orang beriman (Surga sebagai ganti jiwa dan harta), penerimaan bahwa Allah menerima taubat yang tulus, dan iman pada perlindungan dan rahmat Allah yang cukup.</li>
+                        <li><strong>Ibadah:</strong> Menekankan memberi sedekah sebagai penyucian, mendoakan sesama orang beriman tetapi tidak untuk orang musyrik yang persisten, mencari ilmu agama, dan menanggapi panggilan jihad ketika diperlukan.</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan ketulusan dalam tindakan, menghindari kemunafikan, mendukung komunitas Muslim, bersikap jujur tentang keadaan seseorang, menunjukkan kepedulian terhadap iman orang lain, dan menjaga persatuan dengan menghindari tindakan memecah belah.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=9" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Yunus (Verses 1-109) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Yunus (Yunus) - Ayat 1-109 (Bagian Juz 11)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Yunus (Bagian Juz 11)</h3>
+                    <p>Surah Yunus adalah surah Makkiyah yang dimulai di Juz 11 dan berlanjut ke Juz 12. Bagian ini (ayat 1-109) berfokus pada aspek-aspek fundamental keimanan Islam: Keesaan Allah, kebenaran wahyu, realitas kebangkitan, dan konsekuensi menerima atau menolak kebenaran. Surah ini mengambil nama dari Nabi Yunus, yang kisahnya muncul dalam ayat 98-99.</p>
+                    <p>Surah ini membahas argumen melawan kemusyrikan, memberikan bukti logis untuk monoteisme, menceritakan kisah nabi-nabi sebelumnya dan komunitas mereka, dan menekankan bahwa petunjuk hanya datang dari Allah. Ini mengajak refleksi pada alam sebagai bukti keberadaan dan kekuasaan Allah.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Yunus (Ayat 1-109)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/010.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/10" target="_blank" class="access-link">Quran.com - Surah Yunus</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-6</td>
+                                <td>Wahyu dan Tanda dalam Ciptaan</td>
+                                <td>Inilah ayat-ayat Kitab yang bijaksana; sungguh dalam pergantian malam dan siang ada tanda-tanda</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 7-10</td>
+                                <td>Konsekuensi Kekafiran</td>
+                                <td>Mereka yang tidak mengharapkan pertemuan dengan Kami puas dengan kehidupan dunia</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 11-14</td>
+                                <td>Rahmat dan Keadilan Allah</td>
+                                <td>Jika Allah menyegerakan kejahatan untuk manusia seperti mereka menginginkan kebaikan, ajal mereka akan berakhir</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 15-17</td>
+                                <td>Tuntutan Penolak untuk Wahyu Berbeda</td>
+                                <td>Ketika ayat-ayat Kami dibacakan, mereka yang tidak mengharapkan pertemuan Kami berkata: Bawakan Quran yang berbeda</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 18-20</td>
+                                <td>Tuhan Palsu Tidak Dapat Menciptakan</td>
+                                <td>Mereka menyembah selain Allah apa yang tidak merugikan maupun menguntungkan mereka</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 21-23</td>
+                                <td>Sifat Manusia dalam Kesulitan dan Kemakmuran</td>
+                                <td>Ketika Kami memberi manusia rahmat setelah kesulitan, mereka merencanakan terhadap ayat-ayat Kami</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 24-27</td>
+                                <td>Perumpamaan Kehidupan Dunia</td>
+                                <td>Perumpamaan kehidupan dunia seperti hujan yang menumbuhkan vegetasi kemudian menjadi reruntuhan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 28-30</td>
+                                <td>Hari Berkumpul</td>
+                                <td>Pada Hari Kami mengumpulkan mereka semua kemudian bertanya kepada yang disekutukan: Di mana sekutu-sekutumu?</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 31-36</td>
+                                <td>Argumen Logis untuk Tauhid</td>
+                                <td>Siapa yang memberi rezeki kepadamu dari langit dan bumi? Siapa yang mengendalikan pendengaran dan penglihatan?</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 37-41</td>
+                                <td>Quran Tidak Dapat Dipalsukan</td>
+                                <td>Quran ini tidak dibuat-buat selain oleh Allah tetapi konfirmasi dari apa yang sebelumnya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 42-44</td>
+                                <td>Petunjuk Allah</td>
+                                <td>Di antara mereka ada yang mendengarkanmu tetapi dapatkah kamu membuat tuli mendengar meski mereka tidak berpikir?</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 45-53</td>
+                                <td>Kebangkitan dan Balasan</td>
+                                <td>Pada Hari Dia mengumpulkan mereka, akan terlihat mereka hanya tinggal sesaat dari sehari</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 54-60</td>
+                                <td>Pesan Universal</td>
+                                <td>Jika setiap pelaku salah memiliki semua di bumi, dia akan menawarkannya sebagai tebusan pada Hari Kebangkitan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 61-64</td>
+                                <td>Pengetahuan Allah Meliputi Segala</td>
+                                <td>Kamu tidak dalam situasi apa pun, tidak membaca Quran apa pun, tidak melakukan perbuatan apa pun kecuali Kami menyaksikan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 65-70</td>
+                                <td>Kisah Nabi: Nuh</td>
+                                <td>Kami mengutus Nuh kepada kaumnya: Sembahlah Allah; kamu tidak memiliki tuhan lain</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 71-73</td>
+                                <td>Kisah Nabi: Musa</td>
+                                <td>Bacakan kepada mereka kisah Nuh ketika dia berkata kepada kaumnya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 74-78</td>
+                                <td>Penolakan Umat Sebelumnya</td>
+                                <td>Kemudian setelahnya Kami mengutus rasul-rasul kepada kaum mereka dengan bukti-bukti jelas</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 79-82</td>
+                                <td>Musa dan Penyihir Fir'aun</td>
+                                <td>Fir'aun berkata: Bawakan kepadaku setiap penyihir yang berilmu</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 83-86</td>
+                                <td>Orang Beriman dengan Musa</td>
+                                <td>Tidak ada yang beriman kepada Musa kecuali keturunan kaumnya karena takut kepada Fir'aun</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 87-89</td>
+                                <td>Keselamatan Bani Israel</td>
+                                <td>Kami mengilhami Musa dan saudaranya: Tempatkan kaummu di Mesir di rumah-rumah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 90-93</td>
+                                <td>Taubat Terlambat Fir'aun</td>
+                                <td>Kami menyeberangkan Bani Israel melintasi laut; Fir'aun dan bala tentaranya mengejar dengan kesombongan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 94-97</td>
+                                <td>Ahli Kitab sebagai Saksi</td>
+                                <td>Jika kamu ragu tentang apa yang Kami wahyukan kepadamu, tanyakan kepada mereka yang membaca Kitab sebelummu</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 98-99</td>
+                                <td>Kisah Kaum Yunus</td>
+                                <td>Mengapa tidak ada kota yang beriman dan imannya menguntungkannya kecuali kaum Yunus?</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 100-103</td>
+                                <td>Kehendak Allah dalam Petunjuk</td>
+                                <td>Tidak ada jiwa yang beriman kecuali dengan izin Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 104-107</td>
+                                <td>Seruan kepada Tauhid</td>
+                                <td>Katakan: Wahai manusia, jika kamu ragu tentang agamaku, aku tidak menyembah apa yang kamu sembah selain Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 108-109</td>
+                                <td>Nasihat Terakhir</td>
+                                <td>Katakan: Wahai manusia, kebenaran telah datang kepadamu dari Tuhanmu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan Keesaan Allah (Tauhid) sebagai doktrin sentral Islam, kepercayaan pada semua nabi dan kitab suci yang diwahyukan, penerimaan kebangkitan dan pertanggungjawaban, iman pada pengetahuan Allah yang mutlak meliputi segala sesuatu, dan keyakinan bahwa petunjuk hanya datang dari Allah.</li>
+                        <li><strong>Ibadah:</strong> Menekankan menyembah Allah saja tanpa sekutu, merenungkan ciptaan sebagai bentuk ibadah, menyeru manusia kepada kebenaran dengan hikmah dan pengajaran yang baik, mencari rahmat dan ampunan Allah, dan berpaling kepada Allah dalam semua keadaan.</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan kesabaran dalam menyampaikan pesan, berbicara kebenaran meski tidak populer, syukur atas berkah, kerendahan hati di hadapan tanda-tanda Allah, keadilan dalam berurusan dengan orang lain, dan konsistensi antara kepercayaan dan tindakan.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=10" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_10.html"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 11</span>
+                <a href="juz_12.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle
+            const currentLanguage = localStorage.getItem('language') || 'english';
+            if (currentLanguage === 'indonesian') {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
