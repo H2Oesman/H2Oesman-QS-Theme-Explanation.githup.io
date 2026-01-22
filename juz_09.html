@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 9 - Surah Thematic Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --table-header-bg: #3498db;
+            --table-header-color: white;
+            --table-row-even: #f9f9f9;
+            --table-row-odd: #ffffff;
+            --link-color: #2980b9;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --table-header-bg: #2c3e50;
+            --table-header-color: #ecf0f1;
+            --table-row-even: #2d3748;
+            --table-row-odd: #1a202c;
+            --link-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid var(--link-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid var(--link-color);
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-table th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table td {
+            padding: 15px;
+            border: 1px solid var(--verse-border);
+            background-color: var(--table-row-odd);
+            color: var(--text-color);
+        }
+        .theme-table tr:nth-child(even) td {
+            background-color: var(--table-row-even);
+        }
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .audio-player h3 {
+            margin-top: 0;
+            color: var(--section-title-color);
+        }
+        .message-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .message-box h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .message-box ul {
+            padding-left: 20px;
+        }
+        .message-box li {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .access-link {
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border: 1px solid var(--link-color);
+            background: var(--verse-bg);
+        }
+        .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--verse-bg);
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .pagination a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--link-color);
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .surah-divider {
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            margin: 50px 0;
+            border-radius: 2px;
+        }
+        .overview-box {
+            background: var(--structure-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .overview-box p {
+            color: var(--text-color);
+        }
+        .dark-mode .overview-box {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- English Content (Default) -->
+        <div id="english-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="surah-title">Juz 9 - Thematic Analysis</h1>
+            <div class="surah-source"><strong>Sources:</strong> Tafsir Ibn Kathir, Indonesian Ministry of Religious Affairs, IslamicStudies.info</div>
+
+            <!-- Surah Al-A'raf (Verses 88-206) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-A'raf (The Heights) - Verses 88-206 (Juz 9 Portion)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-A'raf (Juz 9 Portion)</h3>
+                    <p>Surah Al-A'raf is a Makkan surah that spans across Juz 8 and Juz 9. This portion (verses 88-206) concludes the surah in Juz 9. The surah takes its name from "Al-A'raf" (the heights), referring to a place between Paradise and Hell. This section continues the stories of previous prophets, emphasizing the consequences of rejecting divine guidance and the ultimate triumph of truth over falsehood.</p>
+                    <p>The surah addresses themes of resurrection, accountability, and the importance of following divine guidance. It warns against arrogance and pride while encouraging patience and trust in Allah's wisdom. The portion in Juz 9 contains the story of Prophet Shu'ayb and the final warnings to humanity.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-A'raf (Verses 88-206)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/007.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/7" target="_blank" class="access-link">Quran.com - Surah Al-A'raf</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 88-89</td>
+                                <td>Shu'ayb's People's Threat</td>
+                                <td>Threat to expel Shu'ayb and believers unless they return to their ways</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 90-93</td>
+                                <td>Rejection and Punishment</td>
+                                <td>Rejection of Shu'ayb leads to destruction of his people</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 94-102</td>
+                                <td>Pattern of Prophethood</td>
+                                <td>Every nation sent a messenger, most rejected and were destroyed</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 103-108</td>
+                                <td>Moses Sent to Pharaoh</td>
+                                <td>Moses and Aaron sent with clear signs to Pharaoh</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 109-126</td>
+                                <td>Magic Contest</td>
+                                <td>Pharaoh's magicians vs Moses' miracle, magicians believe</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 127-129</td>
+                                <td>Pharaoh's Oppression</td>
+                                <td>Pharaoh increases oppression, believers remain patient</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 130-136</td>
+                                <td>Plagues and Deliverance</td>
+                                <td>Various plagues sent, Pharaoh breaks promises</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 137-141</td>
+                                <td>Israelites' Inheritance</td>
+                                <td>Israelites inherit land, then worship calf</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 142-147</td>
+                                <td>Moses' Appointment</td>
+                                <td>Moses appointed for 40 nights, tablets given</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 148-156</td>
+                                <td>The Golden Calf</td>
+                                <td>Aaron's trial with calf worshippers, Moses' return</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 157-158</td>
+                                <td>Prophet Muhammad Foretold</td>
+                                <td>Description of the unlettered Prophet in previous scriptures</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 159-171</td>
+                                <td>Varied Responses to Truth</td>
+                                <td>Different groups among People of Moses</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 172-174</td>
+                                <td>Covenant of Lordship</td>
+                                <td>Primordial covenant where all souls acknowledged Allah as Lord</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 175-179</td>
+                                <td>Example of One Who Rejected</td>
+                                <td>Story of one who received knowledge but followed desires</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 180-188</td>
+                                <td>Allah's Beautiful Names</td>
+                                <td>Call Allah by His beautiful names, avoid divisive names</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 189-206</td>
+                                <td>Final Exhortations</td>
+                                <td>Creation of humanity, patience, and concluding prayers</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms the primordial covenant (mithaq) where all souls acknowledged Allah as Lord, belief in all prophets including Shu'ayb, Moses, and Muhammad, acceptance of resurrection and accountability, and rejection of arrogance and pride.</li>
+                        <li><strong>Worship:</strong> Emphasizes calling upon Allah by His beautiful names, patience in worship during persecution, remembering Allah in all circumstances, and seeking refuge in Allah from Satan.</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches humility before Allah, patience in adversity, honesty in dealings, rejection of oppression and corruption, and importance of fulfilling covenants and promises.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=7" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Anfal (Verses 1-40) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Anfal (The Spoils of War) - Verses 1-40 (Juz 9 Portion)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Anfal (Juz 9 Portion)</h3>
+                    <p>Surah Al-Anfal is a Madinan surah that begins in Juz 9 and continues into Juz 10. The surah primarily deals with the Battle of Badr (2 AH/624 CE) and the lessons derived from it. This portion (verses 1-40) covers the beginning of the surah, addressing issues related to war booty, battle ethics, divine assistance, and the consequences of disbelief.</p>
+                    <p>The surah emphasizes that victory comes from Allah alone, not from numerical strength or material resources. It also addresses the behavior of believers during times of conflict and the importance of unity and obedience to leadership.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Anfal (Verses 1-40)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/008.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/8" target="_blank" class="access-link">Quran.com - Surah Al-Anfal</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-4</td>
+                                <td>Distribution of Spoils</td>
+                                <td>Spoils belong to Allah and His Messenger, distribution principles</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 5-8</td>
+                                <td>Divine Decree for Battle</td>
+                                <td>Battle ordained though disliked by some believers</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 9-14</td>
+                                <td>Divine Assistance at Badr</td>
+                                <td>Angels sent to help believers, punishment for disbelievers</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 15-19</td>
+                                <td>Battle Etiquette</td>
+                                <td>Do not turn your backs, test of faith through battle</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 20-23</td>
+                                <td>Obedience to Allah</td>
+                                <td>Obey Allah and His Messenger, heed the call</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 24-28</td>
+                                <td>Response to Allah's Call</td>
+                                <td>Respond to Allah and Messenger when called to what gives life</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 29-31</td>
+                                <td>Allah's Protection</td>
+                                <td>If you fear Allah, He will grant you criterion and forgive sins</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 32-35</td>
+                                <td>Disbelievers' Challenge</td>
+                                <td>They challenge punishment, mock prayer at Kaaba</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 36-37</td>
+                                <td>Wealth of Disbelievers</td>
+                                <td>Their spending to hinder Allah's way will become fuel for Hell</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 38-40</td>
+                                <td>Final Warning</td>
+                                <td>Tell disbelievers if they cease, past forgiven; if not, fight them</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms that victory comes only from Allah, belief in angels assisting believers, acceptance of divine decree even when difficult, and faith that Allah tests believers through various means including battle.</li>
+                        <li><strong>Worship:</strong> Emphasizes obedience to Allah and His Messenger in all matters including warfare, importance of prayer and supplication, seeking Allah's help in difficulties, and remembering Allah in times of ease and hardship.</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches proper distribution of resources, courage in battle, obedience to leadership, unity among believers, justice even with enemies, and honesty in all dealings including war booty.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=8" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_08.html"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 9</span>
+                <a href="juz_10.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+
+        <!-- Indonesian Content (Hidden by Default) -->
+        <div id="indonesian-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <h1 class="surah-title">Juz 9 - Analisis Tematik</h1>
+            <div class="surah-source"><strong>Sumber:</strong> Tafsir Ibn Kathir, Kementerian Agama RI, IslamicStudies.info</div>
+
+            <!-- Surah Al-A'raf (Verses 88-206) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-A'raf (Tempat Tertinggi) - Ayat 88-206 (Bagian Juz 9)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-A'raf (Bagian Juz 9)</h3>
+                    <p>Surah Al-A'raf adalah surah Makkiyah yang membentang di Juz 8 dan Juz 9. Bagian ini (ayat 88-206) mengakhiri surah di Juz 9. Surah ini mengambil nama "Al-A'raf" (tempat tertinggi), merujuk pada tempat antara Surga dan Neraka. Bagian ini melanjutkan kisah nabi-nabi sebelumnya, menekankan konsekuensi menolak bimbingan ilahi dan kemenangan akhir kebenaran atas kebatilan.</p>
+                    <p>Surah ini membahas tema kebangkitan, pertanggungjawaban, dan pentingnya mengikuti bimbingan ilahi. Ini memperingatkan terhadap kesombongan dan keangkuhan sambil mendorong kesabaran dan kepercayaan pada hikmah Allah. Bagian di Juz 9 berisi kisah Nabi Syu'aib dan peringatan akhir kepada umat manusia.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-A'raf (Ayat 88-206)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/007.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/7" target="_blank" class="access-link">Quran.com - Surah Al-A'raf</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 88-89</td>
+                                <td>Ancaman Kaum Syu'aib</td>
+                                <td>Ancaman mengusir Syu'aib dan orang beriman kecuali kembali ke cara mereka</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 90-93</td>
+                                <td>Penolakan dan Hukuman</td>
+                                <td>Penolakan terhadap Syu'aib menyebabkan kehancuran kaumnya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 94-102</td>
+                                <td>Pola Kenabian</td>
+                                <td>Setiap umat diutus seorang rasul, kebanyakan menolak dan dihancurkan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 103-108</td>
+                                <td>Musa Diutus ke Fir'aun</td>
+                                <td>Musa dan Harun diutus dengan tanda-tanda jelas ke Fir'aun</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 109-126</td>
+                                <td>Kontes Sihir</td>
+                                <td>Penyihir Fir'aun vs mukjizat Musa, penyihir beriman</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 127-129</td>
+                                <td>Penindasan Fir'aun</td>
+                                <td>Fir'aun meningkatkan penindasan, orang beriman tetap sabar</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 130-136</td>
+                                <td>Wabah dan Pembebasan</td>
+                                <td>Berbagai wabah dikirim, Fir'aun melanggar janji</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 137-141</td>
+                                <td>Warisan Bani Israil</td>
+                                <td>Bani Israil mewarisi tanah, kemudian menyembah anak sapi</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 142-147</td>
+                                <td>Pengangkatan Musa</td>
+                                <td>Musa ditetapkan selama 40 malam, loh diberikan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 148-156</td>
+                                <td>Anak Sapi Emas</td>
+                                <td>Ujian Harun dengan penyembah anak sapi, kembalinya Musa</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 157-158</td>
+                                <td>Nabi Muhammad Dikabarkan</td>
+                                <td>Deskripsi Nabi yang ummi dalam kitab sebelumnya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 159-171</td>
+                                <td>Respons Beragam terhadap Kebenaran</td>
+                                <td>Kelompok berbeda di antara Umat Musa</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 172-174</td>
+                                <td>Perjanjian Ketuhanan</td>
+                                <td>Perjanjian primordial di mana semua jiwa mengakui Allah sebagai Tuhan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 175-179</td>
+                                <td>Contoh Orang yang Menolak</td>
+                                <td>Kisah orang yang menerima pengetahuan tetapi mengikuti hawa nafsu</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 180-188</td>
+                                <td>Nama-nama Indah Allah</td>
+                                <td>Panggil Allah dengan nama-nama indah-Nya, hindari nama-nama memecah belah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 189-206</td>
+                                <td>Nasihat Penutup</td>
+                                <td>Penciptaan manusia, kesabaran, dan doa penutup</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan perjanjian primordial (mithaq) di mana semua jiwa mengakui Allah sebagai Tuhan, kepercayaan pada semua nabi termasuk Syu'aib, Musa, dan Muhammad, penerimaan kebangkitan dan pertanggungjawaban, dan penolakan terhadap kesombongan dan keangkuhan.</li>
+                        <li><strong>Ibadah:</strong> Menekankan memanggil Allah dengan nama-nama indah-Nya, kesabaran dalam ibadah selama penganiayaan, mengingat Allah dalam semua keadaan, dan mencari perlindungan pada Allah dari setan.</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan kerendahan hati di hadapan Allah, kesabaran dalam kesulitan, kejujuran dalam transaksi, penolakan terhadap penindasan dan korupsi, dan pentingnya memenuhi perjanjian dan janji.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=7" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Anfal (Verses 1-40) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Anfal (Rampasan Perang) - Ayat 1-40 (Bagian Juz 9)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Anfal (Bagian Juz 9)</h3>
+                    <p>Surah Al-Anfal adalah surah Madaniyah yang dimulai di Juz 9 dan berlanjut ke Juz 10. Surah ini terutama membahas Perang Badar (2 H/624 M) dan pelajaran yang diambil darinya. Bagian ini (ayat 1-40) mencakup awal surah, membahas masalah rampasan perang, etika pertempuran, bantuan ilahi, dan konsekuensi kekafiran.</p>
+                    <p>Surah ini menekankan bahwa kemenangan datang hanya dari Allah, bukan dari kekuatan numerik atau sumber daya material. Ini juga membahas perilaku orang beriman selama konflik dan pentingnya persatuan dan ketaatan kepada kepemimpinan.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Anfal (Ayat 1-40)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/008.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/8" target="_blank" class="access-link">Quran.com - Surah Al-Anfal</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-4</td>
+                                <td>Distribusi Rampasan</td>
+                                <td>Rampasan milik Allah dan Rasul-Nya, prinsip distribusi</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 5-8</td>
+                                <td>Ketetapan Ilahi untuk Perang</td>
+                                <td>Perang ditetapkan meski tidak disukai sebagian orang beriman</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 9-14</td>
+                                <td>Bantuan Ilahi di Badar</td>
+                                <td>Malaikat dikirim membantu orang beriman, hukuman untuk orang kafir</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 15-19</td>
+                                <td>Etika Pertempuran</td>
+                                <td>Jangan membelakangi musuh, ujian iman melalui pertempuran</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 20-23</td>
+                                <td>Ketaatan kepada Allah</td>
+                                <td>Taatilah Allah dan Rasul-Nya, dengarkan panggilan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 24-28</td>
+                                <td>Respons terhadap Panggilan Allah</td>
+                                <td>Tanggapi Allah dan Rasul saat dipanggil kepada yang memberi kehidupan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 29-31</td>
+                                <td>Perlindungan Allah</td>
+                                <td>Jika kamu bertakwa kepada Allah, Dia akan memberimu furqan dan mengampuni dosa</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 32-35</td>
+                                <td>Tantangan Orang Kafir</td>
+                                <td>Mereka menantang hukuman, mengejek shalat di Ka'bah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 36-37</td>
+                                <td>Kekayaan Orang Kafir</td>
+                                <td>Pengeluaran mereka untuk menghalangi jalan Allah akan menjadi bahan bakar Neraka</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 38-40</td>
+                                <td>Peringatan Akhir</td>
+                                <td>Katakan pada orang kafir jika mereka berhenti, masa lalu diampuni; jika tidak, perangi mereka</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan bahwa kemenangan datang hanya dari Allah, kepercayaan pada malaikat membantu orang beriman, penerimaan ketetapan ilahi bahkan ketika sulit, dan iman bahwa Allah menguji orang beriman melalui berbagai cara termasuk pertempuran.</li>
+                        <li><strong>Ibadah:</strong> Menekankan ketaatan kepada Allah dan Rasul-Nya dalam semua hal termasuk peperangan, pentingnya shalat dan doa, mencari pertolongan Allah dalam kesulitan, dan mengingat Allah di saat mudah dan sulit.</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan distribusi sumber daya yang tepat, keberanian dalam pertempuran, ketaatan kepada kepemimpinan, persatuan di antara orang beriman, keadilan bahkan dengan musuh, dan kejujuran dalam semua transaksi termasuk rampasan perang.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=8" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_08.html"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 9</span>
+                <a href="juz_10.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle
+            const currentLanguage = localStorage.getItem('language') || 'english';
+            if (currentLanguage === 'indonesian') {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
