@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 13 - Surah Thematic Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --table-header-bg: #3498db;
+            --table-header-color: white;
+            --table-row-even: #f9f9f9;
+            --table-row-odd: #ffffff;
+            --link-color: #2980b9;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --table-header-bg: #2c3e50;
+            --table-header-color: #ecf0f1;
+            --table-row-even: #2d3748;
+            --table-row-odd: #1a202c;
+            --link-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid var(--link-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid var(--link-color);
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-table th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table td {
+            padding: 15px;
+            border: 1px solid var(--verse-border);
+            background-color: var(--table-row-odd);
+            color: var(--text-color);
+        }
+        .theme-table tr:nth-child(even) td {
+            background-color: var(--table-row-even);
+        }
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .audio-player h3 {
+            margin-top: 0;
+            color: var(--section-title-color);
+        }
+        .message-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .message-box h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .message-box ul {
+            padding-left: 20px;
+        }
+        .message-box li {
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .access-link {
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border: 1px solid var(--link-color);
+            background: var(--verse-bg);
+        }
+        .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--verse-bg);
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .pagination a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--link-color);
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .surah-divider {
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            margin: 50px 0;
+            border-radius: 2px;
+        }
+        .overview-box {
+            background: var(--structure-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .overview-box p {
+            color: var(--text-color);
+        }
+        .dark-mode .overview-box {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- English Content (Default) -->
+        <div id="english-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="surah-title">Juz 13 - Thematic Analysis</h1>
+            <div class="surah-source"><strong>Sources:</strong> Tafsir Ibn Kathir, Indonesian Ministry of Religious Affairs, IslamicStudies.info</div>
+
+            <!-- Surah Yusuf (Verses 1-111) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Yusuf (Joseph) - Verses 1-111 (Juz 13 Portion)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Yusuf (Juz 13 Portion)</h3>
+                    <p>Surah Yusuf, a Makkan surah, spans from verse 1 to 111 in Juz 13. This is the only complete surah in this Juz. Surah Yusuf is unique as it narrates the complete story of Prophet Yusuf (Joseph) in a single, continuous narrative. It is considered one of the most beautiful stories in the Quran, rich with lessons about patience, faith, divine wisdom, forgiveness, and the ultimate triumph of righteousness over jealousy and deception.</p>
+                    <p>The surah begins with the story of Yusuf's dream, followed by his brothers' jealousy, his being thrown into the well, his slavery in Egypt, the incident with Zulaikha, his imprisonment, interpretation of dreams, his rise to power in Egypt, and finally his reunion with his family. Throughout the narrative, the theme of Allah's divine plan and protection for those who are patient and righteous is emphasized.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Yusuf (Verses 1-111)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/012.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/12" target="_blank" class="access-link">Quran.com - Surah Yusuf</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-3</td>
+                                <td>Revelation of the Quran in Arabic</td>
+                                <td>The Quran is revealed in clear Arabic language for understanding</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 4-6</td>
+                                <td>Yusuf's Dream</td>
+                                <td>Yusuf sees eleven stars, sun and moon prostrating to him</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 7-18</td>
+                                <td>Brothers' Jealousy and Plot</td>
+                                <td>Yusuf's brothers plot against him out of jealousy, throw him in well</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 19-22</td>
+                                <td>Rescue and Adoption</td>
+                                <td>Travelers find Yusuf, sell him in Egypt to Aziz (Potiphar)</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 23-29</td>
+                                <td>Test with Zulaikha</td>
+                                <td>Zulaikha tries to seduce Yusuf, he resists and is imprisoned</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 30-34</td>
+                                <td>Women's Plot and Yusuf's Prayer</td>
+                                <td>Women of city gossip about Zulaikha, Yusuf prays for prison over temptation</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 35-42</td>
+                                <td>Prison and Dream Interpretation</td>
+                                <td>Yusuf interprets dreams of two prisoners while in prison</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 43-49</td>
+                                <td>King's Dream and Yusuf's Release</td>
+                                <td>King's dream of seven fat cows eaten by seven lean ones, Yusuf interprets</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 50-53</td>
+                                <td>Yusuf's Innocence Proved</td>
+                                <td>Investigation proves Yusuf's innocence, Zulaikha admits truth</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 54-57</td>
+                                <td>Yusuf Appointed Treasurer</td>
+                                <td>King appoints Yusuf as treasurer of Egypt due to his honesty and wisdom</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 58-68</td>
+                                <td>Brothers Come to Egypt</td>
+                                <td>Yusuf's brothers come to Egypt during famine, don't recognize him</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 69-76</td>
+                                <td>Benjamin Stays in Egypt</td>
+                                <td>Yusuf arranges for Benjamin to stay, tests brothers' honesty</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 77-82</td>
+                                <td>Brothers Return to Yaqub</td>
+                                <td>Brothers return to father with news about Benjamin's "theft"</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 83-87</td>
+                                <td>Yaqub's Patience and Faith</td>
+                                <td>Yaqub remains patient, tells sons to go back and inquire about Yusuf and Benjamin</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 88-93</td>
+                                <td>Brothers Return to Egypt</td>
+                                <td>Brothers return to Egypt, Yusuf reveals his identity to them</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 94-101</td>
+                                <td>Family Reunion and Forgiveness</td>
+                                <td>Yusuf's family comes to Egypt, reunion, forgiveness for brothers</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 102-111</td>
+                                <td>Conclusion and Lessons</td>
+                                <td>Allah's signs in creation and stories, lessons for people of understanding</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms Allah's control over all affairs and His divine plan, belief in dreams as a form of revelation, trust in Allah's wisdom in difficult situations, faith that Allah protects the righteous, and conviction that truth ultimately prevails over falsehood.</li>
+                        <li><strong>Worship:</strong> Emphasizes turning to Allah in times of difficulty (as Yusuf did in prison), seeking Allah's protection from temptation, praying for patience and steadfastness, expressing gratitude for blessings, and recognizing Allah's signs in one's life.</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches patience in adversity (exemplified by Yusuf and Yaqub), resisting temptation and maintaining chastity, forgiveness toward those who wrong us (Yusuf forgiving his brothers), honesty and integrity in all dealings, family loyalty and responsibility, and trustworthiness in positions of authority.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=12" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Ar-Ra'd (Verses 1-43) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ar-Ra'd (The Thunder) - Verses 1-43 (Juz 13 Portion)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Ar-Ra'd (Juz 13 Portion)</h3>
+                    <p>Surah Ar-Ra'd, a Madinan surah, begins in Juz 13 with verses 1 to 43. The surah takes its name from the mention of thunder in verse 13, which glorifies Allah with His praise. This surah emphasizes the power and majesty of Allah as manifested in the natural world, while also addressing themes of revelation, resurrection, and the consequences of belief and disbelief.</p>
+                    <p>The surah contrasts the fate of believers and disbelievers, emphasizing that true success comes only through faith and righteous deeds. It presents arguments for the truth of Muhammad's prophethood and the Quran, using examples from nature as signs for those who reflect. The portion in Juz 13 covers the first 43 verses, establishing the foundational themes of the surah.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Ar-Ra'd (Verses 1-43)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/013.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/13" target="_blank" class="access-link">Quran.com - Surah Ar-Ra'd</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-4</td>
+                                <td>Signs in Creation</td>
+                                <td>Allah is He who raised heavens without pillars, sun and moon subjected to His command</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 5-6</td>
+                                <td>Disbelievers' Demands</td>
+                                <td>They say: Why not a sign sent down to him from his Lord?</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 7-11</td>
+                                <td>Allah's Knowledge and Power</td>
+                                <td>Allah knows what every female carries and what wombs lose or exceed</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 12-13</td>
+                                <td>Thunder and Lightning</td>
+                                <td>He shows you lightning causing fear and hope, and thunder glorifying His praise</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 14-18</td>
+                                <td>True and False Worship</td>
+                                <td>To Him is the true supplication; those they call upon besides Him cannot respond</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 19-24</td>
+                                <td>People of Understanding vs Ignorant</td>
+                                <td>Those who fulfill covenant with Allah and do not break the pledge</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 25-28</td>
+                                <td>Consequences of Breaking Covenant</td>
+                                <td>Those who break covenant with Allah after its confirmation</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 29-31</td>
+                                <td>Reward for Believers</td>
+                                <td>Those who believe and do righteous deeds - for them is happiness and good return</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 32-34</td>
+                                <td>Previous Messengers Mocked</td>
+                                <td>Messengers before you were mocked, but I gave respite to disbelievers</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 35-39</td>
+                                <td>Description of Paradise</td>
+                                <td>Paradise promised to righteous: rivers flowing beneath, eternal fruits and shade</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 40-43</td>
+                                <td>Final Warning</td>
+                                <td>Whether We show you part of what We promise them or take you in death</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms Allah's absolute power over creation, belief in the signs of Allah in nature, faith in resurrection and accountability, acceptance of divine revelation through prophets, and conviction that Allah's promise is true for both reward and punishment.</li>
+                        <li><strong>Worship:</strong> Emphasizes worshiping Allah alone who responds to supplications, reflecting on Allah's signs in creation, seeking protection from Allah in fear and hope, fulfilling covenants with Allah, and turning to Allah in all circumstances.</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches gratitude for Allah's blessings in nature, patience when mocked for faith, keeping promises and covenants, humility before Allah's greatness manifested in creation, courage in upholding truth, and consistency between belief and action.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=13" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_12.html"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 13</span>
+                <a href="juz_14.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+
+        <!-- Indonesian Content (Hidden by Default) -->
+        <div id="indonesian-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <h1 class="surah-title">Juz 13 - Analisis Tematik</h1>
+            <div class="surah-source"><strong>Sumber:</strong> Tafsir Ibn Kathir, Kementerian Agama RI, IslamicStudies.info</div>
+
+            <!-- Surah Yusuf (Verses 1-111) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Yusuf (Yusuf) - Ayat 1-111 (Bagian Juz 13)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Yusuf (Bagian Juz 13)</h3>
+                    <p>Surah Yusuf, sebuah surah Makkiyah, membentang dari ayat 1 hingga 111 di Juz 13. Ini adalah satu-satunya surah lengkap dalam Juz ini. Surah Yusuf unik karena menceritakan kisah lengkap Nabi Yusuf dalam satu narasi berkelanjutan. Ini dianggap sebagai salah satu kisah terindah dalam Al-Quran, kaya dengan pelajaran tentang kesabaran, iman, hikmah ilahi, pengampunan, dan kemenangan akhir kebenaran atas kecemburuan dan penipuan.</p>
+                    <p>Surah ini dimulai dengan kisah mimpi Yusuf, diikuti oleh kecemburuan saudara-saudaranya, dia dilemparkan ke dalam sumur, perbudakannya di Mesir, insiden dengan Zulaikha, pemenjaraannya, penafsiran mimpi, kebangkitannya ke kekuasaan di Mesir, dan akhirnya reuninya dengan keluarganya. Sepanjang narasi, tema rencana ilahi Allah dan perlindungan bagi mereka yang sabar dan benar ditekankan.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Yusuf (Ayat 1-111)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/012.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/12" target="_blank" class="access-link">Quran.com - Surah Yusuf</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-3</td>
+                                <td>Wahyu Al-Quran dalam Bahasa Arab</td>
+                                <td>Al-Quran diwahyukan dalam bahasa Arab yang jelas untuk dipahami</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 4-6</td>
+                                <td>Mimpi Yusuf</td>
+                                <td>Yusuf melihat sebelas bintang, matahari dan bulan bersujud kepadanya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 7-18</td>
+                                <td>Kecemburuan dan Rencana Saudara-saudara</td>
+                                <td>Saudara-saudara Yusuf berkomplot melawannya karena cemburu, melemparkannya ke sumur</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 19-22</td>
+                                <td>Penyelamatan dan Adopsi</td>
+                                <td>Para musafir menemukan Yusuf, menjualnya di Mesir kepada Aziz (Potifar)</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 23-29</td>
+                                <td>Ujian dengan Zulaikha</td>
+                                <td>Zulaikha mencoba menggoda Yusuf, dia menolak dan dipenjara</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 30-34</td>
+                                <td>Rencana Wanita dan Doa Yusuf</td>
+                                <td>Wanita-wanita kota bergosip tentang Zulaikha, Yusuf berdoa untuk penjara daripada godaan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 35-42</td>
+                                <td>Penjara dan Penafsiran Mimpi</td>
+                                <td>Yusuf menafsirkan mimpi dua tahanan saat di penjara</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 43-49</td>
+                                <td>Mimpi Raja dan Pembebasan Yusuf</td>
+                                <td>Mimpi raja tentang tujuh sapi gemuk dimakan tujuh kurus, Yusuf menafsirkan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 50-53</td>
+                                <td>Kesucian Yusuf Terbukti</td>
+                                <td>Penyelidikan membuktikan kesucian Yusuf, Zulaikha mengakui kebenaran</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 54-57</td>
+                                <td>Yusuf Ditunjuk sebagai Bendahara</td>
+                                <td>Raja menunjuk Yusuf sebagai bendahara Mesir karena kejujuran dan kebijaksanaannya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 58-68</td>
+                                <td>Saudara-saudara Datang ke Mesir</td>
+                                <td>Saudara-saudara Yusuf datang ke Mesir selama kelaparan, tidak mengenalinya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 69-76</td>
+                                <td>Bunyamin Tinggal di Mesir</td>
+                                <td>Yusuf mengatur agar Bunyamin tinggal, menguji kejujuran saudara-saudaranya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 77-82</td>
+                                <td>Saudara-saudara Kembali ke Yaqub</td>
+                                <td>Saudara-saudara kembali ke ayah dengan berita tentang "pencurian" Bunyamin</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 83-87</td>
+                                <td>Kesabaran dan Iman Yaqub</td>
+                                <td>Yaqub tetap sabar, menyuruh anak-anaknya kembali dan menanyakan tentang Yusuf dan Bunyamin</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 88-93</td>
+                                <td>Saudara-saudara Kembali ke Mesir</td>
+                                <td>Saudara-saudara kembali ke Mesir, Yusuf mengungkapkan identitasnya kepada mereka</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 94-101</td>
+                                <td>Reuni Keluarga dan Pengampunan</td>
+                                <td>Keluarga Yusuf datang ke Mesir, reuni, pengampunan untuk saudara-saudara</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 102-111</td>
+                                <td>Kesimpulan dan Pelajaran</td>
+                                <td>Tanda-tanda Allah dalam penciptaan dan kisah-kisah, pelajaran bagi orang yang berpikir</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan kontrol Allah atas semua urusan dan rencana ilahi-Nya, kepercayaan pada mimpi sebagai bentuk wahyu, kepercayaan pada hikmah Allah dalam situasi sulit, iman bahwa Allah melindungi orang-orang benar, dan keyakinan bahwa kebenaran pada akhirnya menang atas kepalsuan.</li>
+                        <li><strong>Ibadah:</strong> Menekankan berpaling kepada Allah di saat-saat sulit (seperti yang dilakukan Yusuf di penjara), mencari perlindungan Allah dari godaan, berdoa untuk kesabaran dan keteguhan, mengungkapkan syukur atas berkah, dan mengenali tanda-tanda Allah dalam kehidupan seseorang.</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan kesabaran dalam kesulitan (dicontohkan oleh Yusuf dan Yaqub), menolak godaan dan menjaga kesucian, pengampunan kepada mereka yang bersalah kepada kita (Yusuf mengampuni saudara-saudaranya), kejujuran dan integritas dalam semua urusan, loyalitas dan tanggung jawab keluarga, dan dapat dipercaya dalam posisi otoritas.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=12" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Ar-Ra'd (Verses 1-43) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ar-Ra'd (Guruh) - Ayat 1-43 (Bagian Juz 13)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Ar-Ra'd (Bagian Juz 13)</h3>
+                    <p>Surah Ar-Ra'd, sebuah surah Madaniyah, dimulai di Juz 13 dengan ayat 1 sampai 43. Surah ini mengambil namanya dari penyebutan guruh dalam ayat 13, yang bertasbih memuji Allah. Surah ini menekankan kekuatan dan keagungan Allah sebagaimana diwujudkan dalam dunia alam, sementara juga membahas tema wahyu, kebangkitan, dan konsekuensi kepercayaan dan ketidakpercayaan.</p>
+                    <p>Surah ini membandingkan nasib orang beriman dan orang kafir, menekankan bahwa kesuksesan sejati hanya datang melalui iman dan perbuatan benar. Ini menyajikan argumen untuk kebenaran kenabian Muhammad dan Al-Quran, menggunakan contoh dari alam sebagai tanda bagi mereka yang merenungkan. Bagian dalam Juz 13 mencakup 43 ayat pertama, menetapkan tema dasar surah.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Ar-Ra'd (Ayat 1-43)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/013.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/13" target="_blank" class="access-link">Quran.com - Surah Ar-Ra'd</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-4</td>
+                                <td>Tanda-tanda dalam Penciptaan</td>
+                                <td>Allah lah yang meninggikan langit tanpa tiang, matahari dan bulan tunduk pada perintah-Nya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 5-6</td>
+                                <td>Tuntutan Orang-orang Kafir</td>
+                                <td>Mereka berkata: Mengapa tidak tanda diturunkan kepadanya dari Tuhannya?</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 7-11</td>
+                                <td>Pengetahuan dan Kekuatan Allah</td>
+                                <td>Allah mengetahui apa yang dikandung setiap perempuan dan apa yang dikurangi atau dilebihkan rahim</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 12-13</td>
+                                <td>Guruh dan Kilat</td>
+                                <td>Dia memperlihatkan kilat kepadamu untuk menimbulkan ketakutan dan harapan, dan guruh bertasbih dengan memuji-Nya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 14-18</td>
+                                <td>Ibadah yang Benar dan Palsu</td>
+                                <td>Hanya kepada-Nya doa yang benar; yang mereka seru selain Dia tidak dapat menjawab</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 19-24</td>
+                                <td>Orang-orang Berakal vs Bodoh</td>
+                                <td>Orang-orang yang memenuhi janji dengan Allah dan tidak melanggar perjanjian</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 25-28</td>
+                                <td>Konsekuensi Melanggar Perjanjian</td>
+                                <td>Orang-orang yang melanggar perjanjian dengan Allah setelah peneguhannya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 29-31</td>
+                                <td>Pahala untuk Orang Beriman</td>
+                                <td>Orang-orang yang beriman dan mengerjakan kebajikan - bagi mereka kebahagiaan dan tempat kembali yang baik</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 32-34</td>
+                                <td>Rasul-rasul Sebelumnya Diperolok</td>
+                                <td>Rasul-rasul sebelum kamu telah diperolok, tetapi Aku memberi tangguh kepada orang-orang kafir</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 35-39</td>
+                                <td>Gambaran Surga</td>
+                                <td>Surga yang dijanjikan kepada orang-orang benar: sungai-sungai mengalir di bawahnya, buah-buahan dan naungan yang kekal</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 40-43</td>
+                                <td>Peringatan Terakhir</td>
+                                <td>Sama saja bagi Kami apakah Kami memperlihatkan kepadamu sebagian dari apa yang Kami janjikan kepada mereka atau Kami mewafatkanmu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan kekuatan mutlak Allah atas penciptaan, kepercayaan pada tanda-tanda Allah dalam alam, iman pada kebangkitan dan pertanggungjawaban, penerimaan wahyu ilahi melalui nabi-nabi, dan keyakinan bahwa janji Allah benar untuk pahala dan hukuman.</li>
+                        <li><strong>Ibadah:</strong> Menekankan menyembah Allah saja yang mengabulkan doa, merenungkan tanda-tanda Allah dalam penciptaan, mencari perlindungan dari Allah dalam ketakutan dan harapan, memenuhi perjanjian dengan Allah, dan berpaling kepada Allah dalam semua keadaan.</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan syukur atas berkah Allah dalam alam, kesabaran ketika diejek karena iman, menepati janji dan perjanjian, kerendahan hati di hadapan keagungan Allah yang terwujud dalam penciptaan, keberanian dalam menegakkan kebenaran, dan konsistensi antara keyakinan dan tindakan.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=13" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_12.html"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 13</span>
+                <a href="juz_14.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle
+            const currentLanguage = localStorage.getItem('language') || 'english';
+            if (currentLanguage === 'indonesian') {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
