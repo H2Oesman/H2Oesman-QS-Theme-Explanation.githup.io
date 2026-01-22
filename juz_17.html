@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 17 - Surah Thematic Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --table-header-bg: #3498db;
+            --table-header-color: white;
+            --table-row-even: #f9f9f9;
+            --table-row-odd: #ffffff;
+            --link-color: #2980b9;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --table-header-bg: #2c3e50;
+            --table-header-color: #ecf0f1;
+            --table-row-even: #2d3748;
+            --table-row-odd: #1a202c;
+            --link-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid var(--link-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid var(--link-color);
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-table th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table td {
+            padding: 15px;
+            border: 1px solid var(--verse-border);
+            background-color: var(--table-row-odd);
+        }
+        .theme-table tr:nth-child(even) td {
+            background-color: var(--table-row-even);
+        }
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .audio-player h3 {
+            margin-top: 0;
+            color: var(--section-title-color);
+        }
+        .message-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .message-box h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .message-box ul {
+            padding-left: 20px;
+        }
+        .message-box li {
+            margin-bottom: 10px;
+        }
+        .access-link {
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border: 1px solid var(--link-color);
+            background: var(--verse-bg);
+        }
+        .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--verse-bg);
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .pagination a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--link-color);
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .surah-divider {
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            margin: 50px 0;
+            border-radius: 2px;
+        }
+        .overview-box {
+            background: var(--structure-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .dark-mode .overview-box {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <h1 class="surah-title">Juz 17 - Analisis Tematik</h1>
+            <div class="surah-source"><strong>Sumber:</strong> Tafsir Ibn Kathir, Kementerian Agama RI, IslamicStudies.info</div>
+
+            <!-- Surah Al-Anbiya -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Anbiya (Para Nabi) - Ayat 1-112</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Anbiya</h3>
+                    <p>Surah Al-Anbiya adalah surah ke-21 dalam Al-Qur'an, terdiri dari 112 ayat. Seluruh surah ini terdapat dalam Juz 17. Ini adalah surah Makkiyah yang mengetengahkan kisah berbagai nabi untuk menegaskan ajaran tauhid dan memberikan peringatan kepada orang-orang musyrik Mekah. Surah ini dimulai dengan peringatan bahwa penghitungan manusia telah dekat sementara mereka lalai.</p>
+                    <p>Surah ini menampilkan kisah Nabi Ibrahim, Lut, Nuh, Dawud, Sulaiman, Ayub, Ismail, Idris, Dzulkifli, Yunus, Zakariya, dan Isa. Tujuannya adalah menegaskan bahwa semua nabi membawa pesan yang sama: menyembah Allah semata. Surah ini juga membantah tuduhan bahwa Muhammad membuat-buat Al-Qur'an.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Anbiya</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/021.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/21" target="_blank" class="access-link">Quran.com - Surah Al-Anbiya</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-29</td>
+                                <td>Hari Kiamat & Keingkaran Musyrikin</td>
+                                <td>Peringatan tentang dekatnya hari hisab, bantahan terhadap syirik dan pengingkaran kebangkitan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 30-50</td>
+                                <td>Kekuasaan Allah & Risalah Kenabian</td>
+                                <td>Tanda-tanda kekuasaan Allah di alam, penciptaan langit-bumi, kebenaran Al-Qur'an sebagai peringatan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 51-112</td>
+                                <td>Kisah Para Nabi & Penegasan Tauhid</td>
+                                <td>Kisah Nabi Ibrahim, Nuh, Dawud, Sulaiman, Ayub dll. untuk menegaskan keesaan Allah dan keberlangsungan risalah</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan kepastian hari kiamat, keesaan Allah dalam penciptaan dan pengaturan alam, kebenaran semua nabi, dan Al-Qur'an sebagai wahyu Allah</li>
+                        <li><strong>Ibadah:</strong> Menekankan doa dengan rasa takut dan harap, beribadah hanya kepada Allah, dan bersyukur atas nikmat-Nya</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan kesabaran dalam menghadapi cobaan seperti para nabi, berbakti kepada orang tua, dan berdakwah dengan hikmah</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Hajj -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Hajj (Haji) - Ayat 1-78</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Bagian Awal Surah Al-Hajj</h3>
+                    <p>Surah Al-Hajj adalah surah ke-22 dalam Al-Qur'an, terdiri dari 78 ayat. Ayat 1-78 terdapat dalam Juz 17 (sisa ayat 79-78 ada di Juz berikutnya). Ini adalah surah Madaniyah yang unik karena mengandung ayat-ayat Makkiyah dan Madaniyah. Surah ini membahas tentang ibadah haji, kekuasaan Allah menghidupkan yang mati, dan izin berperang untuk membela diri.</p>
+                    <p>Surah ini dimulai dengan gambaran mengerikan tentang hari kiamat, kemudian mengajak manusia merenungi penciptaan mereka sendiri dan tanda-tanda kekuasaan Allah di bumi. Ibadah haji disyariatkan sebagai bentuk ketundukan kepada Allah dan penyatuan umat.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Hajj (Ayat 1-78)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/022.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/22" target="_blank" class="access-link">Quran.com - Surah Al-Hajj</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat (Juz 17)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-24</td>
+                                <td>Hari Kiamat & Balasan</td>
+                                <td>Gambaran dahsyat hari kiamat, peringatan bagi manusia, balasan bagi orang beriman dan kafir</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 25-41</td>
+                                <td>Ibadah Haji & Izin Berperang</td>
+                                <td>Kewajiban haji ke Baitullah, keagungannya, serta izin berperang bagi orang yang dizalimi</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 42-78</td>
+                                <td>Pembelaan Allah & Penegasan Tauhid</td>
+                                <td>Allah membela para nabi sebelumnya, bantahan terhadap syirik, seruan untuk beribadah hanya kepada Allah</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan dahsyatnya hari kiamat, kekuasaan Allah menghidupkan tulang belulang yang hancur, kebenaran risalah nabi, dan kesia-siaan menyembah selain Allah</li>
+                        <li><strong>Ibadah:</strong> Menjelaskan hukum dan hikmah ibadah haji, menegakkan shalat, menunaikan zakat, dan berjihad di jalan Allah</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan tolong-menolong dalam kebaikan dan ketakwaan, tidak mempersekutukan Allah, dan bersikap lembut kepada sesama manusia</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=22" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_16.html"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 17</span>
+                <a href="juz_18.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="surah-title">Juz 17 - Thematic Analysis</h1>
+            <div class="surah-source"><strong>Sources:</strong> Tafsir Ibn Kathir, Indonesian Ministry of Religious Affairs, IslamicStudies.info</div>
+
+            <!-- Surah Al-Anbiya -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Anbiya (The Prophets) - Verses 1-112</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Anbiya</h3>
+                    <p>Surah Al-Anbiya is the 21st chapter of the Quran, consisting of 112 verses. The entire surah is contained in Juz 17. It is a Meccan surah that presents stories of various prophets to affirm the teachings of monotheism and to warn the polytheists of Mecca. The surah begins with the warning that the reckoning of mankind is near while they are heedless.</p>
+                    <p>This surah features stories of Prophet Ibrahim, Lut, Nuh, Dawud, Sulaiman, Ayub, Ismail, Idris, Dhul-Kifl, Yunus, Zakariya, and Isa. Its purpose is to affirm that all prophets brought the same message: worship Allah alone. The surah also refutes the accusation that Muhammad fabricated the Quran.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Anbiya</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/021.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/21" target="_blank" class="access-link">Quran.com - Surah Al-Anbiya</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-29</td>
+                                <td>Day of Judgment & Denial of Polytheists</td>
+                                <td>Warning of the nearness of the day of reckoning, refutation of shirk and denial of resurrection</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 30-50</td>
+                                <td>Allah's Power & Prophetic Mission</td>
+                                <td>Signs of Allah's power in the universe, creation of heavens and earth, the truth of the Quran as a reminder</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 51-112</td>
+                                <td>Stories of Prophets & Affirmation of Tawhid</td>
+                                <td>Stories of Prophets Ibrahim, Nuh, Dawud, Sulaiman, Ayub etc. to affirm Allah's oneness and continuity of the message</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms the certainty of the Day of Judgment, Allah's oneness in creation and management of the universe, the truth of all prophets, and the Quran as revelation from Allah</li>
+                        <li><strong>Worship:</strong> Emphasizes prayer with fear and hope, worshiping Allah alone, and being grateful for His blessings</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches patience in facing trials like the prophets, kindness to parents, and preaching with wisdom</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=21" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Hajj -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Hajj (The Pilgrimage) - Verses 1-78</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Early Part of Surah Al-Hajj</h3>
+                    <p>Surah Al-Hajj is the 22nd chapter of the Quran, consisting of 78 verses. Verses 1-78 are in Juz 17 (the remaining verses 79-78 are in the next Juz). It is a Medinan surah unique for containing both Meccan and Medinan verses. This surah discusses the Hajj pilgrimage, Allah's power to resurrect the dead, and permission to fight in self-defense.</p>
+                    <p>The surah begins with a terrifying description of the Day of Judgment, then invites humans to reflect on their own creation and the signs of Allah's power on earth. The Hajj pilgrimage is prescribed as a form of submission to Allah and unity of the ummah.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Hajj (Verses 1-78)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/022.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/22" target="_blank" class="access-link">Quran.com - Surah Al-Hajj</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses (Juz 17)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-24</td>
+                                <td>Day of Judgment & Recompense</td>
+                                <td>Awesome description of the Day of Judgment, warning for mankind, recompense for believers and disbelievers</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 25-41</td>
+                                <td>Hajj Pilgrimage & Permission to Fight</td>
+                                <td>Obligation of Hajj to the Sacred House, its sanctity, and permission to fight for those who are wronged</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 42-78</td>
+                                <td>Allah's Support & Affirmation of Tawhid</td>
+                                <td>Allah's support for previous prophets, refutation of shirk, call to worship Allah alone</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms the terror of the Day of Judgment, Allah's power to resurrect crumbled bones, the truth of the prophetic message, and the futility of worshiping other than Allah</li>
+                        <li><strong>Worship:</strong> Explains the rulings and wisdom of Hajj pilgrimage, establishing prayer, paying zakah, and striving in the cause of Allah</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches cooperation in righteousness and piety, avoiding shirk, and being gentle with fellow humans</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=22" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_16.html"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 17</span>
+                <a href="juz_18.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle - Set Indonesian as default
+            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (currentLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            } else {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
