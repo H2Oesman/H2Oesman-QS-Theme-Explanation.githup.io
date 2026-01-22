@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 21 - Surah Thematic Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --table-header-bg: #3498db;
+            --table-header-color: white;
+            --table-row-even: #f9f9f9;
+            --table-row-odd: #ffffff;
+            --link-color: #2980b9;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --table-header-bg: #2c3e50;
+            --table-header-color: #ecf0f1;
+            --table-row-even: #2d3748;
+            --table-row-odd: #1a202c;
+            --link-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid var(--link-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid var(--link-color);
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-table th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table td {
+            padding: 15px;
+            border: 1px solid var(--verse-border);
+            background-color: var(--table-row-odd);
+        }
+        .theme-table tr:nth-child(even) td {
+            background-color: var(--table-row-even);
+        }
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .audio-player h3 {
+            margin-top: 0;
+            color: var(--section-title-color);
+        }
+        .message-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .message-box h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .message-box ul {
+            padding-left: 20px;
+        }
+        .message-box li {
+            margin-bottom: 10px;
+        }
+        .access-link {
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border: 1px solid var(--link-color);
+            background: var(--verse-bg);
+        }
+        .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--verse-bg);
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .pagination a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--link-color);
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .surah-divider {
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            margin: 50px 0;
+            border-radius: 2px;
+        }
+        .overview-box {
+            background: var(--structure-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .dark-mode .overview-box {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <h1 class="surah-title">Juz 21 - Analisis Tematik</h1>
+            <div class="surah-source"><strong>Sumber:</strong> Tafsir Ibn Kathir, Kementerian Agama RI, IslamicStudies.info</div>
+
+            <!-- Surah Al-Ankabut (bagian akhir) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ankabut (Laba-laba) - Ayat 46-69</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Bagian Akhir Surah Al-Ankabut</h3>
+                    <p>Surah Al-Ankabut adalah surah ke-29 dalam Al-Qur'an, terdiri dari 69 ayat. Ayat 46-69 terdapat dalam Juz 21 (ayat 1-45 ada di Juz 20). Ini adalah surah Makkiyah yang membahas tentang dialog dengan Ahli Kitab, perintah berdebat dengan cara terbaik, dan penegasan tentang keimanan yang sejati.</p>
+                    <p>Bagian Juz 21 ini mengajarkan bagaimana berinteraksi dengan Ahli Kitab secara baik, menjelaskan tentang hijrah sebagai konsekuensi keimanan, dan memberikan gambaran tentang perjuangan para nabi terdahulu. Surah ini ditutup dengan penegasan tentang kebenaran Al-Qur'an dan janji pertolongan Allah bagi orang-orang beriman.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Ankabut (Ayat 46-69)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/029.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/29" target="_blank" class="access-link">Quran.com - Surah Al-Ankabut</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat (Juz 21)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 46-55</td>
+                                <td>Dialog dengan Ahli Kitab</td>
+                                <td>Perintah untuk berdebat dengan Ahli Kitab dengan cara terbaik, kecuali dengan orang zalim, dan penegasan tentang kesamaan agama langit</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 56-60</td>
+                                <td>Hijrah dan Tawakal</td>
+                                <td>Perintah untuk berhijrah di jalan Allah dan janji rezeki yang luas, serta anjuran bertawakal kepada Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 61-63</td>
+                                <td>Bukti-bukti Kekuasaan Allah</td>
+                                <td>Penegasan tentang Allah sebagai pencipta langit dan bumi, pengatur siang dan malam, serta pemberi rezeki</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 64-66</td>
+                                <td>Perbandingan Dunia dan Akhirat</td>
+                                <td>Dunia hanyalah kesenangan sementara, sedangkan akhirat adalah kehidupan yang sebenarnya dan kekal</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 67-69</td>
+                                <td>Penutup & Janji Pertolongan</td>
+                                <td>Allah melindungi kota Mekah, orang-orang yang berjihad akan ditunjukkan jalan, dan orang beriman akan mendapat pahala</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan keesaan Allah sebagai pencipta dan pengatur alam, kebenaran hari akhir, dan pentingnya hijrah di jalan Allah</li>
+                        <li><strong>Ibadah:</strong> Mengajarkan untuk bertawakal kepada Allah, berjihad dengan harta dan jiwa, dan bersyukur atas perlindungan-Nya</li>
+                        <li><strong>Akhlak:</strong> Menunjukkan cara berdialog yang baik dengan Ahli Kitab, sikap rendah hati dalam berdebat, dan kesabaran dalam menghadapi tantangan</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=29" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Ar-Rum -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ar-Rum (Bangsa Romawi) - Ayat 1-60</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Ar-Rum</h3>
+                    <p>Surah Ar-Rum adalah surah ke-30 dalam Al-Qur'an, terdiri dari 60 ayat. Seluruh surah ini terdapat dalam Juz 21. Ini adalah surah Makkiyah yang menceritakan tentang kekalahan dan kemenangan bangsa Romawi (Bizantium) sebagai tanda kekuasaan Allah. Surah ini juga membahas tentang tanda-tanda kekuasaan Allah di alam semesta dan kebenaran hari kebangkitan.</p>
+                    <p>Surah ini dimulai dengan kabar gembira tentang kemenangan bangsa Romawi yang beragama Ahli Kitab atas Persia yang musyrik, sebagai bukti bahwa Allah menolong orang yang beriman. Surah ini mengajak manusia untuk merenungkan ciptaan Allah dan bersiap untuk kehidupan akhirat.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Ar-Rum</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/030.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/30" target="_blank" class="access-link">Quran.com - Surah Ar-Rum</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-7</td>
+                                <td>Kemenangan Bangsa Romawi</td>
+                                <td>Ramalan tentang kekalahan dan kemenangan bangsa Romawi sebagai bukti kebenaran Al-Qur'an</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 8-19</td>
+                                <td>Tanda-tanda Kekuasaan Allah</td>
+                                <td>Tanda-tanda penciptaan langit, bumi, gunung, sungai, dan perbedaan bahasa sebagai bukti keesaan Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 20-27</td>
+                                <td>Fenomena Alam & Penciptaan</td>
+                                <td>Proses penciptaan manusia, pasangan hidup, tidur, dan perubahan siang-malam sebagai bukti kekuasaan Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 28-32</td>
+                                <td>Seruan kepada Tauhid</td>
+                                <td>Perumpamaan tentang orang yang mempersekutukan Allah dan ajakan untuk kembali kepada fitrah tauhid</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 33-40</td>
+                                <td>Sikap Manusia terhadap Nikmat</td>
+                                <td>Manusia berdoa saat susah tapi kufur saat senang, serta perintah untuk menafkahkan harta di jalan Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 41-45</td>
+                                <td>Kerusakan di Darat dan Laut</td>
+                                <td>Kerusakan di muka bumi akibat perbuatan manusia, dan peringatan tentang hari pembalasan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 46-53</td>
+                                <td>Kekuasaan Allah atas Angin & Hujan</td>
+                                <td>Allah mengirim angin pembawa kabar gembira dan hujan yang menghidupkan bumi yang mati</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 54-60</td>
+                                <td>Fase Kehidupan & Penutup</td>
+                                <td>Allah menciptakan manusia dari lemah menjadi kuat lalu kembali lemah, dan penegasan tentang kebenaran hari kiamat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan tanda-tanda kekuasaan Allah di alam semesta, kebenaran hari kebangkitan, dan kelemahan berhala-berhala</li>
+                        <li><strong>Ibadah:</strong> Mengajarkan untuk bersyukur atas nikmat Allah, berdoa dalam segala kondisi, dan menafkahkan harta di jalan Allah</li>
+                        <li><strong>Akhlak:</strong> Menunjukkan pentingnya merenungkan ciptaan Allah, bersabar dalam menghadapi cobaan, dan tidak putus asa dari rahmat Allah</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=30" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Luqman -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Luqman - Ayat 1-34</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Luqman</h3>
+                    <p>Surah Luqman adalah surah ke-31 dalam Al-Qur'an, terdiri dari 34 ayat. Seluruh surah ini terdapat dalam Juz 21. Ini adalah surah Makkiyah yang terkenal dengan nasihat-nasihat Luqman yang bijak kepada anaknya. Surah ini menekankan pentingnya pendidikan anak, akhlak mulia, dan larangan syirik.</p>
+                    <p>Surah ini dinamai Luqman, seorang ahli hikmah yang bukan nabi tetapi diberi kebijaksanaan oleh Allah. Nasihat-nasihatnya mencakup larangan menyekutukan Allah, berbakti kepada orang tua, mendirikan shalat, amar ma'ruf nahi munkar, dan bersikap rendah hati.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Luqman</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/031.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/31" target="_blank" class="access-link">Quran.com - Surah Luqman</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-11</td>
+                                <td>Al-Qur'an sebagai Petunjuk</td>
+                                <td>Al-Qur'an sebagai petunjuk dan rahmat bagi orang beriman, serta celaan terhadap orang yang mengada-adakan kebohongan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 12-19</td>
+                                <td>Nasihat Luqman kepada Anaknya</td>
+                                <td>Larangan syirik, perintah berbakti kepada orang tua, mendirikan shalat, amar ma'ruf nahi munkar, dan bersikap rendah hati</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 20-23</td>
+                                <td>Nikmat Allah & Ancaman Syirik</td>
+                                <td>Allah menundukkan alam semesta untuk manusia, tetapi banyak yang ingkar; syirik adalah kezaliman besar</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 24-26</td>
+                                <td>Kekuasaan Allah atas Langit & Bumi</td>
+                                <td>Allah pemilik langit dan bumi, mengetahui yang gaib, dan hari kiamat pasti datang</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 27-34</td>
+                                <td>Ilmu Allah & Pengetahuan Manusia</td>
+                                <td>Ilmu Allah tak terbatas, pohon pena menjadi lautan tinta pun tak cukup; peringatan tentang hari kiamat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan larangan syirik sebagai kezaliman besar, kekuasaan Allah atas alam semesta, dan kepastian hari kiamat</li>
+                        <li><strong>Ibadah:</strong> Mengajarkan untuk mendirikan shalat, bersyukur kepada Allah, dan berdoa dengan penuh keyakinan</li>
+                        <li><strong>Akhlak:</strong> Menunjukkan pentingnya berbakti kepada orang tua, rendah hati, sederhana dalam berjalan, dan lemah lembut dalam berbicara</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=31" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah As-Sajdah -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah As-Sajdah (Sujud) - Ayat 1-30</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah As-Sajdah</h3>
+                    <p>Surah As-Sajdah adalah surah ke-32 dalam Al-Qur'an, terdiri dari 30 ayat. Seluruh surah ini terdapat dalam Juz 21. Ini adalah surah Makkiyah yang dinamai dari ayat yang memerintahkan sujud ketika mendengar ayat-ayat Allah. Surah ini membahas tentang penciptaan manusia, kebenaran Al-Qur'an, dan hari kebangkitan.</p>
+                    <p>Surah ini menekankan keagungan Allah sebagai pencipta langit dan bumi, proses penciptaan manusia dari tanah, dan kebenaran hari pembalasan. Surah ini juga mengandung ayat sajdah yang disunnahkan untuk sujud ketika membacanya.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah As-Sajdah</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/032.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/32" target="_blank" class="access-link">Quran.com - Surah As-Sajdah</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-9</td>
+                                <td>Penciptaan Langit, Bumi & Manusia</td>
+                                <td>Allah menciptakan langit dan bumi dalam enam masa, menciptakan manusia dari tanah, dan meniupkan ruh</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 10-14</td>
+                                <td>Pengingkaran terhadap Kebangkitan</td>
+                                <td>Orang kafir menganggap kebangkitan mustahil, tetapi Allah menghidupkan tulang belulang yang hancur</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 15-22</td>
+                                <td>Ciri-ciri Orang Beriman</td>
+                                <td>Orang beriman sujud ketika mendengar ayat Allah, bangun malam untuk shalat, dan percaya pada pertemuan dengan Tuhan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 23-25</td>
+                                <td>Pemberian Kitab kepada Musa</td>
+                                <td>Musa diberi kitab Taurat sebagai petunjuk, dan peringatan tentang perselisihan setelah datangnya petunjuk</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 26-30</td>
+                                <td>Pelajaran dari Kaum Terdahulu & Penutup</td>
+                                <td>Kehancuran kaum terdahulu sebagai pelajaran, Al-Qur'an sebagai pembeda antara haq dan batil, dan perintah bersabar</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan kekuasaan Allah dalam penciptaan, kebenaran hari kebangkitan, dan keagungan Al-Qur'an sebagai wahyu</li>
+                        <li><strong>Ibadah:</strong> Mengajarkan sujud tilawah ketika mendengar ayat sajdah, shalat malam, dan berdoa dengan penuh harap</li>
+                        <li><strong>Akhlak:</strong> Menunjukkan sikap rendah hati ketika mendengar ayat Allah, sabar menghadapi ejekan, dan menghindari kesombongan</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=32" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Ahzab (bagian awal) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ahzab (Golongan-golongan) - Ayat 1-30</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Bagian Awal Surah Al-Ahzab</h3>
+                    <p>Surah Al-Ahzab adalah surah ke-33 dalam Al-Qur'an, terdiri dari 73 ayat. Ayat 1-30 terdapat dalam Juz 21 (sisa ayat 31-73 ada di Juz 22). Ini adalah surah Madaniyah yang membahas tentang Perang Khandaq (Ahzab) dan hubungan keluarga Nabi Muhammad SAW. Surah ini juga mengatur hubungan suami-istri dan kedudukan istri-istri Nabi.</p>
+                    <p>Bagian Juz 21 membahas tentang larangan mengikuti orang kafir dan munafik, perintah bertakwa kepada Allah, serta peristiwa Perang Khandaq dimana kaum Muslim menghadapi koalisi besar musuh. Surah ini juga menetapkan aturan tentang hubungan Nabi dengan istri-istrinya dan larangan menikahi mantan istri Nabi.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Ahzab (Ayat 1-30)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/033.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/33" target="_blank" class="access-link">Quran.com - Surah Al-Ahzab</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat (Juz 21)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-8</td>
+                                <td>Larangan Mengikuti Orang Kafir</td>
+                                <td>Perintah untuk bertakwa kepada Allah, mengikuti wahyu, dan tidak mengikuti orang kafir dan munafik</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 9-20</td>
+                                <td>Perang Khandaq (Ahzab)</td>
+                                <td>Gambaran tentang Perang Khandaq, ujian keimanan, dan sifat orang munafik yang mencari-cari alasan untuk lari</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 21-24</td>
+                                <td>Teladan Rasulullah</td>
+                                <td>Rasulullah sebagai teladan terbaik, balasan bagi orang jujur dan pendusta, serta pengampunan Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 25-27</td>
+                                <td>Kemenangan & Pembagian Harta Rampasan</td>
+                                <td>Allah mengusir musuh dengan angin dan pasukan yang tidak terlihat, serta pembagian harta rampasan perang</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 28-30</td>
+                                <td>Hubungan dengan Istri-istri Nabi</td>
+                                <td>Pilihan bagi istri-istri Nabi antara kehidupan dunia atau Allah dan Rasul-Nya, serta ganjaran bagi yang memilih akhirat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan pentingnya bertakwa kepada Allah, mengikuti wahyu, dan tidak terpengaruh oleh orang kafir dan munafik</li>
+                        <li><strong>Ibadah:</strong> Mengajarkan untuk bersabar dalam peperangan, mengingat Allah dalam setiap kondisi, dan bertawakal kepada-Nya</li>
+                        <li><strong>Akhlak:</strong> Menunjukkan keteladanan Rasulullah, kejujuran dalam perkataan, dan kesetiaan dalam hubungan suami-istri</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=33" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_20.html"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 21</span>
+                <a href="juz_22.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="surah-title">Juz 21 - Thematic Analysis</h1>
+            <div class="surah-source"><strong>Sources:</strong> Tafsir Ibn Kathir, Indonesian Ministry of Religious Affairs, IslamicStudies.info</div>
+
+            <!-- Surah Al-Ankabut (final part) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ankabut (The Spider) - Verses 46-69</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Final Part of Surah Al-Ankabut</h3>
+                    <p>Surah Al-Ankabut is the 29th chapter of the Quran, consisting of 69 verses. Verses 46-69 are in Juz 21 (verses 1-45 are in Juz 20). This is a Meccan surah that discusses dialogue with People of the Book, command to debate in the best way, and affirmation of true faith.</p>
+                    <p>This part in Juz 21 teaches how to interact with People of the Book in a good manner, explains hijrah as a consequence of faith, and provides descriptions of the struggles of previous prophets. The surah concludes with affirmation of the truth of the Quran and Allah's promise of help for believers.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Ankabut (Verses 46-69)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/029.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/29" target="_blank" class="access-link">Quran.com - Surah Al-Ankabut</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses (Juz 21)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 46-55</td>
+                                <td>Dialogue with People of the Book</td>
+                                <td>Command to debate with People of the Book in the best way, except with wrongdoers, and affirmation of common heavenly religion</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 56-60</td>
+                                <td>Hijrah and Reliance on Allah</td>
+                                <td>Command to migrate in Allah's path and promise of abundant provision, and encouragement to rely on Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 61-63</td>
+                                <td>Evidence of Allah's Power</td>
+                                <td>Affirmation of Allah as creator of heavens and earth, controller of day and night, and provider of sustenance</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 64-66</td>
+                                <td>Comparison of World and Hereafter</td>
+                                <td>World is only temporary enjoyment, while hereafter is the true and eternal life</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 67-69</td>
+                                <td>Conclusion & Promise of Help</td>
+                                <td>Allah protects Makkah, those who strive will be shown the way, and believers will receive reward</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms Allah's oneness as creator and controller of universe, truth of hereafter, and importance of hijrah in Allah's path</li>
+                        <li><strong>Worship:</strong> Teaches to rely on Allah, strive with wealth and soul, and be grateful for His protection</li>
+                        <li><strong>Akhlak (Morality):</strong> Shows good manner in dialogue with People of the Book, humble attitude in debate, and patience in facing challenges</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=29" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Ar-Rum -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ar-Rum (The Romans) - Verses 1-60</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Ar-Rum</h3>
+                    <p>Surah Ar-Rum is the 30th chapter of the Quran, consisting of 60 verses. The entire surah is contained in Juz 21. This is a Meccan surah that narrates the defeat and victory of the Romans (Byzantines) as a sign of Allah's power. This surah also discusses signs of Allah's power in the universe and the truth of the Day of Resurrection.</p>
+                    <p>This surah begins with glad tidings about the victory of the Romans who were People of the Book over the polytheist Persians, as proof that Allah helps believers. This surah invites people to reflect on Allah's creation and prepare for the afterlife.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Ar-Rum</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/030.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/30" target="_blank" class="access-link">Quran.com - Surah Ar-Rum</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-7</td>
+                                <td>Victory of the Romans</td>
+                                <td>Prediction about defeat and victory of Romans as proof of the Quran's truth</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 8-19</td>
+                                <td>Signs of Allah's Power</td>
+                                <td>Signs of creation of heavens, earth, mountains, rivers, and diversity of languages as evidence of Allah's oneness</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 20-27</td>
+                                <td>Natural Phenomena & Creation</td>
+                                <td>Process of human creation, spouses, sleep, and day-night changes as proof of Allah's power</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 28-32</td>
+                                <td>Call to Tawhid</td>
+                                <td>Parable about those who associate partners with Allah and invitation to return to natural monotheism</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 33-40</td>
+                                <td>Human Attitude towards Blessings</td>
+                                <td>Humans pray in hardship but disbelieve in ease, and command to spend wealth in Allah's path</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 41-45</td>
+                                <td>Corruption on Land and Sea</td>
+                                <td>Corruption on earth due to human deeds, and warning about Day of Recompense</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 46-53</td>
+                                <td>Allah's Power over Wind & Rain</td>
+                                <td>Allah sends winds as glad tidings and rain that revives dead earth</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 54-60</td>
+                                <td>Stages of Life & Conclusion</td>
+                                <td>Allah creates humans weak then strong then weak again, and affirmation of truth of Day of Judgment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms signs of Allah's power in the universe, truth of Day of Resurrection, and weakness of idols</li>
+                        <li><strong>Worship:</strong> Teaches to be grateful for Allah's blessings, pray in all conditions, and spend wealth in Allah's path</li>
+                        <li><strong>Akhlak (Morality):</strong> Shows importance of reflecting on Allah's creation, patience in facing trials, and not despairing of Allah's mercy</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=30" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Luqman -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Luqman - Verses 1-34</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Luqman</h3>
+                    <p>Surah Luqman is the 31st chapter of the Quran, consisting of 34 verses. The entire surah is contained in Juz 21. This is a Meccan surah famous for the wise advice of Luqman to his son. This surah emphasizes the importance of child education, noble character, and prohibition of shirk.</p>
+                    <p>This surah is named after Luqman, a wise man who was not a prophet but was given wisdom by Allah. His advice includes prohibition of associating partners with Allah, being dutiful to parents, establishing prayer, enjoining good and forbidding evil, and being humble.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Luqman</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/031.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/31" target="_blank" class="access-link">Quran.com - Surah Luqman</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-11</td>
+                                <td>Quran as Guidance</td>
+                                <td>Quran as guidance and mercy for believers, and condemnation of those who fabricate lies</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 12-19</td>
+                                <td>Luqman's Advice to His Son</td>
+                                <td>Prohibition of shirk, command to be dutiful to parents, establish prayer, enjoin good and forbid evil, and be humble</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 20-23</td>
+                                <td>Allah's Blessings & Warning of Shirk</td>
+                                <td>Allah subjugates the universe for humans, but many disbelieve; shirk is great injustice</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 24-26</td>
+                                <td>Allah's Power over Heavens & Earth</td>
+                                <td>Allah owns heavens and earth, knows the unseen, and Day of Judgment will certainly come</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 27-34</td>
+                                <td>Allah's Knowledge & Human Knowledge</td>
+                                <td>Allah's knowledge is limitless, even if all trees were pens and oceans were ink, it would not suffice; warning about Day of Judgment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms prohibition of shirk as great injustice, Allah's power over the universe, and certainty of Day of Judgment</li>
+                        <li><strong>Worship:</strong> Teaches to establish prayer, be grateful to Allah, and pray with full conviction</li>
+                        <li><strong>Akhlak (Morality):</strong> Shows importance of being dutiful to parents, humility, modesty in walking, and gentleness in speech</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=31" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah As-Sajdah -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah As-Sajdah (The Prostration) - Verses 1-30</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah As-Sajdah</h3>
+                    <p>Surah As-Sajdah is the 32nd chapter of the Quran, consisting of 30 verses. The entire surah is contained in Juz 21. This is a Meccan surah named after the verse that commands prostration when hearing Allah's verses. This surah discusses human creation, truth of the Quran, and Day of Resurrection.</p>
+                    <p>This surah emphasizes Allah's greatness as creator of heavens and earth, process of human creation from clay, and truth of the Day of Recompense. This surah also contains a verse of prostration where it is recommended to prostrate when reciting it.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah As-Sajdah</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/032.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/32" target="_blank" class="access-link">Quran.com - Surah As-Sajdah</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-9</td>
+                                <td>Creation of Heavens, Earth & Humans</td>
+                                <td>Allah created heavens and earth in six periods, created humans from clay, and breathed soul</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 10-14</td>
+                                <td>Denial of Resurrection</td>
+                                <td>Disbelievers consider resurrection impossible, but Allah revives decayed bones</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 15-22</td>
+                                <td>Characteristics of Believers</td>
+                                <td>Believers prostrate when hearing Allah's verses, wake at night for prayer, and believe in meeting their Lord</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 23-25</td>
+                                <td>Giving Scripture to Musa</td>
+                                <td>Musa was given Torah as guidance, and warning about disputes after guidance comes</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 26-30</td>
+                                <td>Lessons from Previous Nations & Conclusion</td>
+                                <td>Destruction of previous nations as lessons, Quran as criterion between truth and falsehood, and command to be patient</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms Allah's power in creation, truth of Day of Resurrection, and greatness of Quran as revelation</li>
+                        <li><strong>Worship:</strong> Teaches prostration of recitation when hearing verse of prostration, night prayer, and praying with full hope</li>
+                        <li><strong>Akhlak (Morality):</strong> Shows humble attitude when hearing Allah's verses, patience in facing mockery, and avoiding arrogance</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=32" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Ahzab (early part) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ahzab (The Confederates) - Verses 1-30</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Early Part of Surah Al-Ahzab</h3>
+                    <p>Surah Al-Ahzab is the 33rd chapter of the Quran, consisting of 73 verses. Verses 1-30 are in Juz 21 (remaining verses 31-73 are in Juz 22). This is a Medinan surah that discusses the Battle of the Trench (Ahzab) and the family relationships of Prophet Muhammad SAW. This surah also regulates husband-wife relationships and the status of the Prophet's wives.</p>
+                    <p>The part in Juz 21 discusses prohibition of following disbelievers and hypocrites, command to fear Allah, and the event of Battle of the Trench where Muslims faced a large coalition of enemies. This surah also establishes rules about the Prophet's relationship with his wives and prohibition of marrying the Prophet's former wives.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Ahzab (Verses 1-30)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/033.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/33" target="_blank" class="access-link">Quran.com - Surah Al-Ahzab</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses (Juz 21)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-8</td>
+                                <td>Prohibition of Following Disbelievers</td>
+                                <td>Command to fear Allah, follow revelation, and not follow disbelievers and hypocrites</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 9-20</td>
+                                <td>Battle of the Trench (Ahzab)</td>
+                                <td>Description of Battle of the Trench, test of faith, and characteristics of hypocrites seeking excuses to flee</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 21-24</td>
+                                <td>Example of the Messenger</td>
+                                <td>Messenger as best example, reward for truthful and liars, and Allah's forgiveness</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 25-27</td>
+                                <td>Victory & Distribution of Spoils</td>
+                                <td>Allah repelled enemies with wind and unseen troops, and distribution of war spoils</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 28-30</td>
+                                <td>Relationship with Prophet's Wives</td>
+                                <td>Choice for Prophet's wives between worldly life or Allah and His Messenger, and reward for those who choose hereafter</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms importance of fearing Allah, following revelation, and not being influenced by disbelievers and hypocrites</li>
+                        <li><strong>Worship:</strong> Teaches patience in warfare, remembering Allah in all conditions, and reliance on Him</li>
+                        <li><strong>Akhlak (Morality):</strong> Shows example of the Messenger, truthfulness in speech, and loyalty in husband-wife relationships</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=33" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_20.html"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 21</span>
+                <a href="juz_22.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Juz 21 Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle - Set Indonesian as default
+            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (currentLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            } else {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
