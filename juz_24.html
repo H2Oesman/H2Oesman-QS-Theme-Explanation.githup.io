@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 24 - Surah Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --surah-separator: #e74c3c;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --surah-separator: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: center;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid #3498db;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid var(--tafsir-border);
+            transition: all 0.3s ease;
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid #3498db;
+        }
+        .top-home-link:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .structure-item {
+            background: var(--structure-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .structure-item h4 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .benefits-list {
+            background: var(--benefits-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .benefits-list ul {
+            padding-left: 20px;
+        }
+        .theme-overview {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .dark-mode .theme-overview {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        .info-box {
+            background-color: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid var(--verse-border);
+        }
+        .praise-section {
+            background-color: var(--praise-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #c0392b;
+        }
+        .guidance-section {
+            background-color: var(--guidance-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #27ae60;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+        .surah-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0 20px;
+            padding: 20px 0;
+            border-top: 1px solid var(--verse-border);
+            border-bottom: 1px solid var(--verse-border);
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: var(--verse-bg);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        .nav-link i {
+            margin: 0 5px;
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--structure-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .theme-table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        .theme-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--verse-border);
+            color: var(--text-color);
+        }
+        .theme-table tr:last-child td {
+            border-bottom: none;
+        }
+        .surah-separator {
+            height: 5px;
+            background: linear-gradient(90deg, var(--surah-separator), #3498db);
+            margin: 50px 0;
+            border-radius: 5px;
+            position: relative;
+        }
+        .surah-separator::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--surah-separator);
+            background: var(--container-bg);
+            padding: 0 20px;
+        }
+        .juz-overview {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #1976d2;
+        }
+        .dark-mode .juz-overview {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d3748 100%);
+        }
+        .surah-info {
+            background: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #9b59b6;
+        }
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .structure-grid {
+                grid-template-columns: 1fr;
+            }
+            .surah-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-link {
+                justify-content: center;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <h1 class="surah-title">Juz 24 - Faman Azlam</h1>
+            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, dan Kementerian Agama RI</div>
+
+            <div class="juz-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Gambaran Umum Juz 24</h3>
+                <p>Juz 24 (Faman Azlam) adalah bagian dari Al-Qur'an yang mencakup tiga surah: bagian akhir Surah Az-Zumar (ayat 32-75), seluruh Surah Ghafir (40), dan bagian awal Surah Fussilat (ayat 1-46). Juz ini dinamai "Faman Azlam" yang diambil dari Surah Az-Zumar ayat 32, yang berarti "Maka siapakah yang lebih zalim". Menurut <a href="https://www.islamicstudies.info" target="_blank">IslamicStudies.info</a>, tema utama juz ini adalah peringatan tentang keadilan Allah, konsekuensi dari perbuatan zalim, dan seruan kepada tauhid.</p>
+                <p>Secara kronologis, surah-surah dalam juz ini termasuk dalam periode Mekah pertengahan hingga akhir. Tafsir Ibn Kathir menjelaskan bahwa juz ini mengandung banyak peringatan tentang hari akhir, balasan bagi orang-orang zalim, serta kabar gembira bagi orang-orang beriman. Kementerian Agama RI menekankan bahwa juz ini banyak berbicara tentang konsep keadilan ilahi dan tanggung jawab manusia atas perbuatannya.</p>
+            </div>
+
+            <!-- Surah Az-Zumar (39) - Ayat 32-75 -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-quran section-title-icon"></i> Surah Az-Zumar (39) - Ayat 32-75</h2>
+                
+                <div class="surah-info">
+                    <p><strong>Lokasi:</strong> Juz 24 (Ayat 32-75) | <strong>Total Ayat:</strong> 75 | <strong>Tempat Turun:</strong> Mekah</p>
+                    <p><strong>Nama Surah:</strong> Az-Zumar (Rombongan-rombongan) merujuk pada pengelompokan manusia di hari kiamat menjadi rombongan orang beriman dan rombongan orang kafir.</p>
+                </div>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle section-title-icon"></i> Gambaran Umum Surah Az-Zumar</h3>
+                    <p>Surah Az-Zumar adalah surah ke-39 dalam Al-Qur'an yang terdiri dari 75 ayat. Termasuk dalam golongan surah Makkiyah (diturunkan di Mekah). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=39" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Saba' dan sebelum Surah Ghafir. Nama Az-Zumar diambil dari ayat 71 dan 73 yang menggambarkan bagaimana manusia akan dibagi menjadi rombongan-rombongan (zumar) pada hari kiamat.</p>
+                    <p>Tafsir Ibn Kathir menjelaskan bahwa Surah Az-Zumar menekankan pentingnya ikhlas dalam beribadah dan bahaya syirik. Kementerian Agama RI menambahkan bahwa surah ini banyak berbicara tentang konsep tauhid, keadilan Allah, dan balasan di akhirat bagi orang-orang beriman dan kafir.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+                    <p>Untuk membaca teks lengkap Surah Az-Zumar beserta terjemahannya, kunjungi: 
+                    <a href="https://quran.com/39" target="_blank">Quran.com - Surah Az-Zumar</a></p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Dengarkan Surah Az-Zumar</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/039.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                </div>
+
+                <!-- Pembagian Tema per Bagian Ayat (Az-Zumar 32-75) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat (Az-Zumar 32-75)</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ayat 32-35</strong></td>
+                                <td>Kezaliman Menolak Kebenaran</td>
+                                <td>Kecaman terhadap orang yang mendustakan kebenaran setelah jelas; balasan bagi orang zalim</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 36-40</strong></td>
+                                <td>Cukuplah Allah sebagai Pelindung</td>
+                                <td>Penegasan bahwa Allah cukup sebagai pelindung; peringatan tentang siksa dunia dan akhirat</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 41-52</strong></td>
+                                <td>Kekuasaan Allah atas Segala Urusan</td>
+                                <td>Allah memberikan rezeki kepada siapa yang Dia kehendaki; kisah orang yang diberi kelapangan lalu kufur nikmat</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 53-59</strong></td>
+                                <td>Taubat dan Rahmat Allah</td>
+                                <td>Janji Allah untuk menerima taubat hamba-Nya; penyesalan orang kafir di akhirat</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 60-75</strong></td>
+                                <td>Hari Kiamat dan Pengelompokan Manusia</td>
+                                <td>Penggambaran hari kiamat; pemisahan manusia menjadi rombongan beriman dan kafir; balasan masing-masing</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pesan Akidah, Ibadah, & Akhlak (Az-Zumar) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak (Az-Zumar 32-75)</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Bagian Akhir Surah Az-Zumar</h3>
+                        <ul>
+                            <li><strong>Akidah</strong> : Keyakinan bahwa Allah Maha Menerima taubat (39:53), keimanan pada pengelompokan manusia di akhirat (39:71-73), keyakinan bahwa hanya Allah yang berhak disembah (39:64), pengakuan bahwa Allah Maha Melihat segala perbuatan (39:70).</li>
+                            <li><strong>Ibadah</strong> : Beribadah hanya kepada Allah dengan ikhlas (39:11-14), bertaubat kepada Allah (39:53-54), bersyukur atas nikmat Allah (39:66), bertawakal kepada Allah (39:38).</li>
+                            <li><strong>Akhlak</strong> : Menjauhi kezaliman (39:32), bersabar menghadapi ujian (39:10), berkata jujur (39:33), tidak putus asa dari rahmat Allah (39:53), rendah hati di hadapan Allah (39:75).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-separator"></div>
+
+            <!-- Surah Ghafir (40) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-quran section-title-icon"></i> Surah Ghafir (40) - Ayat 1-85</h2>
+                
+                <div class="surah-info">
+                    <p><strong>Lokasi:</strong> Juz 24 (Seluruh Surah) | <strong>Total Ayat:</strong> 85 | <strong>Tempat Turun:</strong> Mekah</p>
+                    <p><strong>Nama Surah:</strong> Ghafir (Yang Mengampuni) merujuk pada sifat Allah yang Maha Pengampun, juga dikenal sebagai Surah Al-Mu'min (Orang Beriman).</p>
+                </div>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle section-title-icon"></i> Gambaran Umum Surah Ghafir</h3>
+                    <p>Surah Ghafir adalah surah ke-40 dalam Al-Qur'an yang terdiri dari 85 ayat. Termasuk dalam golongan surah Makkiyah (diturunkan di Mekah). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=40" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Az-Zumar dan sebelum Surah Fussilat. Nama Ghafir diambil dari ayat 3 yang menyebutkan sifat Allah sebagai "Yang Maha Pengampun". Surah ini juga dikenal sebagai Al-Mu'min karena menceritakan kisah seorang mukmin dari keluarga Fir'aun.</p>
+                    <p>Tafsir Ibn Kathir menjelaskan bahwa Surah Ghafir menekankan kekuasaan Allah dalam memberikan ampunan dan azab. Kementerian Agama RI menambahkan bahwa surah ini banyak berisi peringatan tentang akibat menentang kebenaran dan kisah-kisah umat terdahulu sebagai pelajaran.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+                    <p>Untuk membaca teks lengkap Surah Ghafir beserta terjemahannya, kunjungi: 
+                    <a href="https://quran.com/40" target="_blank">Quran.com - Surah Ghafir</a></p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Dengarkan Surah Ghafir</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/040.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                </div>
+
+                <!-- Pembagian Tema per Bagian Ayat (Ghafir) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat (Ghafir 1-85)</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ayat 1-20</strong></td>
+                                <td>Sifat-sifat Allah dan Peringatan</td>
+                                <td>Allah Maha Pengampun dan Maha Penerima taubat; malaikat memikul 'Arsy; peringatan bagi orang yang sombong</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 21-40</strong></td>
+                                <td>Kisah Umat Terdahulu</td>
+                                <td>Kisah kaum 'Ad dan Tsamud; seruan kepada tauhid; peringatan tentang azab akhirat</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 41-55</strong></td>
+                                <td>Kisah Mukmin dari Keluarga Fir'aun</td>
+                                <td>Kisah seorang beriman yang menyembunyikan imannya di keluarga Fir'aun; nasihatnya kepada kaumnya</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 56-76</strong></td>
+                                <td>Debat dengan Fir'aun dan Balasannya</td>
+                                <td>Dialog antara Musa dan Fir'aun; mukjizat Musa; kekafiran Fir'aun dan balasannya</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 77-85</strong></td>
+                                <td>Kesudahan Orang Kafir</td>
+                                <td>Kesombongan Fir'aun saat tenggelam; pengakuan ketika azab datang; penyesalan yang tidak berguna</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pesan Akidah, Ibadah, & Akhlak (Ghafir) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak (Ghafir)</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Surah Ghafir</h3>
+                        <ul>
+                            <li><strong>Akidah</strong> : Keyakinan bahwa Allah Maha Pengampun (40:3), keimanan pada malaikat pemikul 'Arsy (40:7), keyakinan bahwa hanya Allah tempat memohon pertolongan (40:44), pengakuan bahwa Allah Maha Mengetahui yang gaib (40:19).</li>
+                            <li><strong>Ibadah</strong> : Memohon ampun kepada Allah (40:55), berdoa dengan penuh harap dan takut (40:60), bertasbih memuji Allah (40:65), bersabar dalam menghadapi tantangan (40:77-78).</li>
+                            <li><strong>Akhlak</strong> : Tidak sombong (40:60), memberi nasihat dengan cara baik (40:41-44), menjaga rahasia iman ketika diperlukan (40:28), tidak mengikuti hawa nafsu (40:35), bersikap lemah lembut dalam berdakwah (40:44).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Ayat Kunci untuk Tadabbur (Ghafir) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Ayat Kunci untuk Tadabbur (Ghafir)</h2>
+                    <div class="verse">
+                        <div class="arabic">وَٱلَّذِينَ ءَامَنُوا۟ قَالُوا۟ يَـٰوَيْلَنَا مَنۢ بَعَثَنَا مِن مَّرْقَدِنَا ۜ ۗ هَـٰذَا مَا وَعَدَ ٱلرَّحْمَـٰنُ وَصَدَقَ ٱلْمُرْسَلُونَ</div>
+                        <div class="transliteration">Wallażīna āmanụ qālụ yā wailanā mam ba'aṡanā mim marqadinā, hāżā mā wa'adar-raḥmānu wa ṣadaqal-mursalụn.</div>
+                        <p><strong>"Dan orang-orang yang beriman berkata, 'Alangkah celakanya kami! Siapakah yang membangkitkan kami dari tempat tidur kami (kubur)?' Inilah yang dijanjikan (Allah) Yang Maha Pengasih dan benarlah para rasul."</strong> (Ghafir 40:47)</p>
+                        
+                        <div class="tafsir-box">
+                            <strong>Kenapa ayat ini penting:</strong>
+                            <p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=40&verse=47" target="_blank">IslamicStudies.info</a>, ayat ini menggambarkan realitas hari kebangkitan ketika manusia dibangkitkan dari kubur. Tafsir Ibn Kathir menjelaskan bahwa pengakuan orang beriman ini menunjukkan bahwa mereka mengakui kebenaran janji Allah dan kebenaran para rasul. Kementerian Agama RI menambahkan bahwa ayat ini mengajarkan tentang pentingnya mengimani hari kebangkitan sebagai bagian dari akidah Islam.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-separator"></div>
+
+            <!-- Surah Fussilat (41) - Ayat 1-46 -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-quran section-title-icon"></i> Surah Fussilat (41) - Ayat 1-46</h2>
+                
+                <div class="surah-info">
+                    <p><strong>Lokasi:</strong> Juz 24 (Ayat 1-46) | <strong>Total Ayat:</strong> 54 | <strong>Tempat Turun:</strong> Mekah</p>
+                    <p><strong>Nama Surah:</strong> Fussilat (Yang Dijelaskan) merujuk pada penjelasan ayat-ayat Al-Qur'an, juga dikenal sebagai Surah Ha Mim As-Sajdah.</p>
+                </div>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle section-title-icon"></i> Gambaran Umum Surah Fussilat</h3>
+                    <p>Surah Fussilat adalah surah ke-41 dalam Al-Qur'an yang terdiri dari 54 ayat. Termasuk dalam golongan surah Makkiyah (diturunkan di Mekah). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=41" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Ghafir dan sebelum Surah Asy-Syura. Nama Fussilat diambil dari ayat 3 yang menyebutkan bahwa Al-Qur'an adalah kitab yang "dijelaskan ayat-ayatnya". Surah ini juga dikenal sebagai Ha Mim As-Sajdah karena dimulai dengan huruf Ha Mim dan mengandung ayat sajdah.</p>
+                    <p>Tafsir Ibn Kathir menjelaskan bahwa Surah Fussilat menekankan kejelasan Al-Qur'an sebagai petunjuk dan peringatan. Kementerian Agama RI menambahkan bahwa surah ini banyak berbicara tentang tanda-tanda kekuasaan Allah di alam semesta dan tanggapan manusia terhadapnya.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+                    <p>Untuk membaca teks lengkap Surah Fussilat beserta terjemahannya, kunjungi: 
+                    <a href="https://quran.com/41" target="_blank">Quran.com - Surah Fussilat</a></p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Dengarkan Surah Fussilat</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/041.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                </div>
+
+                <!-- Pembagian Tema per Bagian Ayat (Fussilat 1-46) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat (Fussilat 1-46)</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ayat 1-12</strong></td>
+                                <td>Penciptaan Alam Semesta</td>
+                                <td>Proses penciptaan langit dan bumi dalam enam masa; penciptaan gunung, rezeki, dan malaikat</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 13-18</strong></td>
+                                <td>Kisah Kaum 'Ad dan Tsamud</td>
+                                <td>Kisah kaum 'Ad yang sombong dan dibinasakan; pelajaran dari kaum Tsamud</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 19-25</strong></td>
+                                <td>Hari Kiamat dan Pertanggungjawaban</td>
+                                <td>Penggambaran hari ketika musuh-musuh Allah dikumpulkan; peran pendengaran, penglihatan, dan kulit sebagai saksi</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 26-32</strong></td>
+                                <td>Sikap Orang Kafir terhadap Al-Qur'an</td>
+                                <td>Orang kafir menghalangi dari mendengar Al-Qur'an; balasan bagi mereka; janji malaikat kepada orang beriman</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 33-40</strong></td>
+                                <td>Seruan kepada Kebaikan</td>
+                                <td>Kewajiban menyeru kepada Allah; bukti-bukti kekuasaan Allah di alam; kehancuran orang yang sombong</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 41-46</strong></td>
+                                <td>Kedudukan Al-Qur'an</td>
+                                <td>Al-Qur'an sebagai petunjuk dan penyembuh; tanggung jawab rasul hanya menyampaikan</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pesan Akidah, Ibadah, & Akhlak (Fussilat 1-46) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak (Fussilat 1-46)</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Bagian Awal Surah Fussilat</h3>
+                        <ul>
+                            <li><strong>Akidah</strong> : Keyakinan bahwa Allah menciptakan langit dan bumi dalam enam masa (41:9-12), keimanan pada hari kebangkitan (41:19-21), keyakinan bahwa Al-Qur'an adalah petunjuk dan penyembuh (41:44), pengakuan bahwa Allah mengetahui segala yang gaib dan nyata (41:40).</li>
+                            <li><strong>Ibadah</strong> : Bersujud ketika mendengar ayat sajdah (41:37), berdoa kepada Allah dengan ikhlas (41:33), membaca Al-Qur'an dengan tartil (41:44), bertasbih memuji Allah (41:30).</li>
+                            <li><strong>Akhlak</strong> : Menyeru kepada kebaikan (41:33), bersabar menghadapi ejekan (41:34-35), tidak sombong (41:15), mendengarkan nasihat (41:4), berkata yang baik (41:34).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Ayat Kunci untuk Tadabbur (Fussilat) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Ayat Kunci untuk Tadabbur (Fussilat)</h2>
+                    <div class="verse">
+                        <div class="arabic">وَمَنْ أَحْسَنُ قَوْلًا مِّمَّن دَعَآ إِلَى ٱللَّهِ وَعَمِلَ صَـٰلِحًا وَقَالَ إِنَّنِى مِنَ ٱلْمُسْلِمِينَ</div>
+                        <div class="transliteration">Wa man aḥsanu qaulam mim man da'ā ilallāhi wa 'amila ṣāliḥaw wa qāla innanī minal-muslimīn.</div>
+                        <p><strong>"Siapakah yang lebih baik perkataannya daripada orang yang menyeru kepada Allah, mengerjakan kebajikan, dan berkata, 'Sungguh, aku termasuk orang-orang muslim (berserah diri)'?"</strong> (Fussilat 41:33)</p>
+                        
+                        <div class="tafsir-box">
+                            <strong>Kenapa ayat ini penting:</strong>
+                            <p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=41&verse=33" target="_blank">IslamicStudies.info</a>, ayat ini menunjukkan keutamaan dakwah kepada Allah yang disertai dengan amal shaleh dan pengakuan sebagai muslim. Tafsir Ibn Kathir menjelaskan bahwa ini adalah pujian Allah bagi orang yang mengajak kepada kebaikan dengan perkataan dan perbuatan. Kementerian Agama RI menambahkan bahwa ayat ini menjadi dasar pentingnya dakwah bil-hal (dengan perbuatan) disamping dakwah bil-lisan (dengan perkataan).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-navigation">
+                <a href="23_juz.html" class="nav-link"><i class="fas fa-arrow-left"></i> Juz Sebelumnya: Juz 23</a>
+                <a href="25_juz.html" class="nav-link">Juz Berikutnya: Juz 25 <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="surah-title">Juz 24 - Faman Azlam</h1>
+            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, and Indonesian Ministry of Religious Affairs</div>
+
+            <div class="juz-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Overview of Juz 24</h3>
+                <p>Juz 24 (Faman Azlam) is a part of the Qur'an that includes three surahs: the latter part of Surah Az-Zumar (verses 32-75), the entire Surah Ghafir (40), and the beginning part of Surah Fussilat (verses 1-46). This juz is named "Faman Azlam" taken from Surah Az-Zumar verse 32, meaning "Then who is more unjust". According to <a href="https://www.islamicstudies.info" target="_blank">IslamicStudies.info</a>, the main theme of this juz is warnings about Allah's justice, consequences of unjust deeds, and the call to tawhid.</p>
+                <p>Chronologically, the surahs in this juz belong to the middle to late Meccan period. Tafsir Ibn Kathir explains that this juz contains many warnings about the Day of Judgment, recompense for wrongdoers, and glad tidings for believers. The Indonesian Ministry of Religious Affairs emphasizes that this juz extensively discusses the concept of divine justice and human responsibility for their actions.</p>
+            </div>
+
+            <!-- Surah Az-Zumar (39) - Verses 32-75 -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-quran section-title-icon"></i> Surah Az-Zumar (39) - Verses 32-75</h2>
+                
+                <div class="surah-info">
+                    <p><strong>Location:</strong> Juz 24 (Verses 32-75) | <strong>Total Verses:</strong> 75 | <strong>Revelation Place:</strong> Mecca</p>
+                    <p><strong>Surah Name:</strong> Az-Zumar (The Troops) refers to the grouping of people on the Day of Judgment into troops of believers and troops of disbelievers.</p>
+                </div>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle section-title-icon"></i> Overview of Surah Az-Zumar</h3>
+                    <p>Surah Az-Zumar is the 39th chapter of the Qur'an consisting of 75 verses. Classified as a Meccan surah (revealed in Mecca). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=39" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Saba and before Surah Ghafir. The name Az-Zumar is taken from verses 71 and 73 which describe how people will be divided into troops (zumar) on the Day of Judgment.</p>
+                    <p>Tafsir Ibn Kathir explains that Surah Az-Zumar emphasizes the importance of sincerity in worship and the danger of shirk. The Indonesian Ministry of Religious Affairs adds that this surah extensively discusses the concept of tawhid, Allah's justice, and Hereafter recompense for believers and disbelievers.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
+                    <p>To read the complete text of Surah Az-Zumar along with its translation, visit: 
+                    <a href="https://quran.com/39" target="_blank">Quran.com - Surah Az-Zumar</a></p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to Surah Az-Zumar</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/039.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+                <!-- Theme Division by Verses (Az-Zumar 32-75) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses (Az-Zumar 32-75)</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Verses 32-35</strong></td>
+                                <td>Injustice in Rejecting Truth</td>
+                                <td>Condemnation of those who deny truth after it's clear; recompense for wrongdoers</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 36-40</strong></td>
+                                <td>Allah is Sufficient as Protector</td>
+                                <td>Affirmation that Allah is enough as protector; warning about worldly and Hereafter punishment</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 41-52</strong></td>
+                                <td>Allah's Power over All Affairs</td>
+                                <td>Allah gives provision to whom He wills; story of those given abundance then become ungrateful</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 53-59</strong></td>
+                                <td>Repentance and Allah's Mercy</td>
+                                <td>Allah's promise to accept repentance of His servants; regret of disbelievers in Hereafter</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 60-75</strong></td>
+                                <td>Day of Judgment and Human Grouping</td>
+                                <td>Description of Day of Judgment; separation of people into troops of believers and disbelievers; respective recompense</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Message of Aqidah, Worship, & Akhlaq (Az-Zumar) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq (Az-Zumar 32-75)</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Latter Part of Surah Az-Zumar</h3>
+                        <ul>
+                            <li><strong>Aqidah (Creed)</strong> : Belief that Allah is Acceptor of repentance (39:53), faith in human grouping in Hereafter (39:71-73), belief that only Allah deserves worship (39:64), acknowledgment that Allah sees all deeds (39:70).</li>
+                            <li><strong>Worship</strong> : Worship Allah alone with sincerity (39:11-14), repent to Allah (39:53-54), be grateful for Allah's favors (39:66), rely on Allah (39:38).</li>
+                            <li><strong>Akhlaq (Character)</strong> : Avoid injustice (39:32), be patient in trials (39:10), speak truthfully (39:33), do not despair of Allah's mercy (39:53), be humble before Allah (39:75).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-separator"></div>
+
+            <!-- Surah Ghafir (40) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-quran section-title-icon"></i> Surah Ghafir (40) - Verses 1-85</h2>
+                
+                <div class="surah-info">
+                    <p><strong>Location:</strong> Juz 24 (Entire Surah) | <strong>Total Verses:</strong> 85 | <strong>Revelation Place:</strong> Mecca</p>
+                    <p><strong>Surah Name:</strong> Ghafir (The Forgiver) refers to Allah's attribute as The All-Forgiving, also known as Surah Al-Mu'min (The Believer).</p>
+                </div>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle section-title-icon"></i> Overview of Surah Ghafir</h3>
+                    <p>Surah Ghafir is the 40th chapter of the Qur'an consisting of 85 verses. Classified as a Meccan surah (revealed in Mecca). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=40" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Az-Zumar and before Surah Fussilat. The name Ghafir is taken from verse 3 which mentions Allah's attribute as "The Forgiver of sin". This surah is also known as Al-Mu'min because it narrates the story of a believer from Pharaoh's family.</p>
+                    <p>Tafsir Ibn Kathir explains that Surah Ghafir emphasizes Allah's power in granting forgiveness and punishment. The Indonesian Ministry of Religious Affairs adds that this surah contains many warnings about consequences of opposing truth and stories of previous nations as lessons.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
+                    <p>To read the complete text of Surah Ghafir along with its translation, visit: 
+                    <a href="https://quran.com/40" target="_blank">Quran.com - Surah Ghafir</a></p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to Surah Ghafir</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/040.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+                <!-- Theme Division by Verses (Ghafir) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses (Ghafir 1-85)</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Verses 1-20</strong></td>
+                                <td>Allah's Attributes and Warnings</td>
+                                <td>Allah is Forgiving and Acceptor of repentance; angels carrying the Throne; warning for arrogant people</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 21-40</strong></td>
+                                <td>Stories of Previous Nations</td>
+                                <td>Story of 'Ad and Thamud people; call to tawhid; warning about Hereafter punishment</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 41-55</strong></td>
+                                <td>Story of Believer from Pharaoh's Family</td>
+                                <td>Story of a believer who hid his faith in Pharaoh's family; his advice to his people</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 56-76</strong></td>
+                                <td>Debate with Pharaoh and Its Consequence</td>
+                                <td>Dialogue between Moses and Pharaoh; Moses' miracles; Pharaoh's disbelief and its consequence</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 77-85</strong></td>
+                                <td>End of Disbelievers</td>
+                                <td>Pharaoh's arrogance while drowning; acknowledgment when punishment comes; useless regret</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Message of Aqidah, Worship, & Akhlaq (Ghafir) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq (Ghafir)</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Surah Ghafir Teachings</h3>
+                        <ul>
+                            <li><strong>Aqidah (Creed)</strong> : Belief that Allah is All-Forgiving (40:3), faith in angels carrying the Throne (40:7), belief that only Allah is the source of help (40:44), acknowledgment that Allah knows the unseen (40:19).</li>
+                            <li><strong>Worship</strong> : Seek forgiveness from Allah (40:55), pray with hope and fear (40:60), glorify and praise Allah (40:65), be patient in facing challenges (40:77-78).</li>
+                            <li><strong>Akhlaq (Character)</strong> : Do not be arrogant (40:60), give advice in a good manner (40:41-44), keep faith secret when necessary (40:28), do not follow desires (40:35), be gentle in preaching (40:44).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Key Verse for Contemplation (Ghafir) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Key Verse for Contemplation (Ghafir)</h2>
+                    <div class="verse">
+                        <div class="arabic">وَٱلَّذِينَ ءَامَنُوا۟ قَالُوا۟ يَـٰوَيْلَنَا مَنۢ بَعَثَنَا مِن مَّرْقَدِنَا ۜ ۗ هَـٰذَا مَا وَعَدَ ٱلرَّحْمَـٰنُ وَصَدَقَ ٱلْمُرْسَلُونَ</div>
+                        <div class="transliteration">Wallażīna āmanụ qālụ yā wailanā mam ba'aṡanā mim marqadinā, hāżā mā wa'adar-raḥmānu wa ṣadaqal-mursalụn.</div>
+                        <p><strong>"And those who had believed will say, 'How wretched is that which we have been neglectful of it.' [They will be told], 'This is what the Most Merciful had promised, and the messengers told the truth.'"</strong> (Ghafir 40:47)</p>
+                        
+                        <div class="tafsir-box">
+                            <strong>Why this verse is important:</strong>
+                            <p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=40&verse=47" target="_blank">IslamicStudies.info</a>, this verse depicts the reality of the Day of Resurrection when people are resurrected from graves. Tafsir Ibn Kathir explains that this acknowledgment by believers shows that they acknowledge the truth of Allah's promise and the truth of the messengers. The Indonesian Ministry of Religious Affairs adds that this verse teaches about the importance of believing in the Day of Resurrection as part of Islamic creed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-separator"></div>
+
+            <!-- Surah Fussilat (41) - Verses 1-46 -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-quran section-title-icon"></i> Surah Fussilat (41) - Verses 1-46</h2>
+                
+                <div class="surah-info">
+                    <p><strong>Location:</strong> Juz 24 (Verses 1-46) | <strong>Total Verses:</strong> 54 | <strong>Revelation Place:</strong> Mecca</p>
+                    <p><strong>Surah Name:</strong> Fussilat (Explained in Detail) refers to the explanation of Qur'anic verses, also known as Surah Ha Mim As-Sajdah.</p>
+                </div>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle section-title-icon"></i> Overview of Surah Fussilat</h3>
+                    <p>Surah Fussilat is the 41st chapter of the Qur'an consisting of 54 verses. Classified as a Meccan surah (revealed in Mecca). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=41" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Ghafir and before Surah Ash-Shura. The name Fussilat is taken from verse 3 which states that the Qur'an is a book whose verses are "explained in detail". This surah is also known as Ha Mim As-Sajdah because it begins with the letters Ha Mim and contains a verse of prostration.</p>
+                    <p>Tafsir Ibn Kathir explains that Surah Fussilat emphasizes the clarity of the Qur'an as guidance and warning. The Indonesian Ministry of Religious Affairs adds that this surah extensively discusses signs of Allah's power in the universe and human responses to them.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
+                    <p>To read the complete text of Surah Fussilat along with its translation, visit: 
+                    <a href="https://quran.com/41" target="_blank">Quran.com - Surah Fussilat</a></p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to Surah Fussilat</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/041.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+                <!-- Theme Division by Verses (Fussilat 1-46) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses (Fussilat 1-46)</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Verses 1-12</strong></td>
+                                <td>Creation of the Universe</td>
+                                <td>Process of creating heavens and earth in six periods; creation of mountains, provisions, and angels</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 13-18</strong></td>
+                                <td>Story of 'Ad and Thamud People</td>
+                                <td>Story of arrogant 'Ad people destroyed; lessons from Thamud people</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 19-25</strong></td>
+                                <td>Day of Judgment and Accountability</td>
+                                <td>Description of the day when Allah's enemies are gathered; role of hearing, sight, and skin as witnesses</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 26-32</strong></td>
+                                <td>Disbelievers' Attitude towards Qur'an</td>
+                                <td>Disbelievers prevent from hearing Qur'an; their recompense; angels' promise to believers</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 33-40</strong></td>
+                                <td>Call to Goodness</td>
+                                <td>Obligation to invite to Allah; evidences of Allah's power in nature; destruction of arrogant people</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 41-46</strong></td>
+                                <td>Status of the Qur'an</td>
+                                <td>Qur'an as guidance and healing; messenger's responsibility is only to convey</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Message of Aqidah, Worship, & Akhlaq (Fussilat 1-46) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq (Fussilat 1-46)</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Beginning Part of Surah Fussilat</h3>
+                        <ul>
+                            <li><strong>Aqidah (Creed)</strong> : Belief that Allah created heavens and earth in six periods (41:9-12), faith in Day of Resurrection (41:19-21), belief that Qur'an is guidance and healing (41:44), acknowledgment that Allah knows all unseen and seen (41:40).</li>
+                            <li><strong>Worship</strong> : Prostrate when hearing verse of prostration (41:37), pray to Allah sincerely (41:33), recite Qur'an with tartil (41:44), glorify and praise Allah (41:30).</li>
+                            <li><strong>Akhlaq (Character)</strong> : Invite to goodness (41:33), be patient facing mockery (41:34-35), do not be arrogant (41:15), listen to advice (41:4), speak good words (41:34).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Key Verse for Contemplation (Fussilat) -->
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Key Verse for Contemplation (Fussilat)</h2>
+                    <div class="verse">
+                        <div class="arabic">وَمَنْ أَحْسَنُ قَوْلًا مِّمَّن دَعَآ إِلَى ٱللَّهِ وَعَمِلَ صَـٰلِحًا وَقَالَ إِنَّنِى مِنَ ٱلْمُسْلِمِينَ</div>
+                        <div class="transliteration">Wa man aḥsanu qaulam mim man da'ā ilallāhi wa 'amila ṣāliḥaw wa qāla innanī minal-muslimīn.</div>
+                        <p><strong>"And who is better in speech than one who invites to Allah and does righteousness and says, 'Indeed, I am of the Muslims.'"</strong> (Fussilat 41:33)</p>
+                        
+                        <div class="tafsir-box">
+                            <strong>Why this verse is important:</strong>
+                            <p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=41&verse=33" target="_blank">IslamicStudies.info</a>, this verse shows the virtue of inviting to Allah accompanied by righteous deeds and declaration as a muslim. Tafsir Ibn Kathir explains that this is Allah's praise for those who invite to goodness with words and deeds. The Indonesian Ministry of Religious Affairs adds that this verse becomes the basis for the importance of da'wah bil-hal (with actions) alongside da'wah bil-lisan (with words).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-navigation">
+                <a href="23_juz.html" class="nav-link"><i class="fas fa-arrow-left"></i> Previous Juz: Juz 23</a>
+                <a href="25_juz.html" class="nav-link">Next Juz: Juz 25 <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© (2026 AD) 1447 AH - Juz 24 Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle
+            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (currentLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
