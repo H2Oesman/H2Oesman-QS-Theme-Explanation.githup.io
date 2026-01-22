@@ -1,0 +1,2437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 30 - Surah Thematic Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --table-header-bg: #3498db;
+            --table-header-color: white;
+            --table-row-even: #f9f9f9;
+            --table-row-odd: #ffffff;
+            --link-color: #2980b9;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --table-header-bg: #2c3e50;
+            --table-header-color: #ecf0f1;
+            --table-row-even: #2d3748;
+            --table-row-odd: #1a202c;
+            --link-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid var(--link-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid var(--link-color);
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-table th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table td {
+            padding: 15px;
+            border: 1px solid var(--verse-border);
+            background-color: var(--table-row-odd);
+        }
+        .theme-table tr:nth-child(even) td {
+            background-color: var(--table-row-even);
+        }
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .audio-player h3 {
+            margin-top: 0;
+            color: var(--section-title-color);
+        }
+        .message-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .message-box h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .message-box ul {
+            padding-left: 20px;
+        }
+        .message-box li {
+            margin-bottom: 10px;
+        }
+        .access-link {
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border: 1px solid var(--link-color);
+            background: var(--verse-bg);
+        }
+        .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--verse-bg);
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .pagination a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--link-color);
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .surah-divider {
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            margin: 50px 0;
+            border-radius: 2px;
+        }
+        .overview-box {
+            background: var(--structure-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .dark-mode .overview-box {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <h1 class="surah-title">Juz 30 - Amma Yatasa'aloon (Analisis Tematik)</h1>
+            <div class="surah-source"><strong>Sumber:</strong> Tafsir Ibn Kathir, Kementerian Agama RI, IslamicStudies.info</div>
+
+            <!-- Surah Al-Qari'ah -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Qari'ah (Hari Kiamat) - Ayat 1-11</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Qari'ah</h3>
+                    <p>Surah Al-Qari'ah adalah surah ke-101 dalam Al-Qur'an, terdiri dari 11 ayat. Ini adalah surah Makkiyah yang menggambarkan dahsyatnya hari kiamat dengan nama "Al-Qari'ah" yang berarti "Hari yang mengguncangkan". Surah ini membahas tentang peristiwa kiamat dan pembagian manusia menjadi dua golongan: ahli surga dan ahli neraka berdasarkan timbangan amal mereka.</p>
+                    <p>Surah ini memberikan gambaran mengerikan tentang hari ketika manusia seperti anai-anai yang bertebaran dan gunung-gunung seperti bulu yang dihambur-hamburkan. Tujuannya adalah mengingatkan manusia tentang kepastian hari pembalasan dan pentingnya mempersiapkan diri dengan amal shaleh.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Qari'ah</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/101.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/101" target="_blank" class="access-link">Quran.com - Surah Al-Qari'ah</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-5</td>
+                                <td>Gambaran Dahsyat Hari Kiamat</td>
+                                <td>Penggambaran mengerikan tentang hari kiamat yang membuat manusia seperti anai-anai dan gunung seperti bulu yang dihamburkan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 6-9</td>
+                                <td>Timbangan Amal</td>
+                                <td>Penjelasan tentang timbangan amal yang menentukan nasib seseorang, berat timbangan kebaikan membawa kebahagiaan, ringan membawa kehancuran</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 10-11</td>
+                                <td>Penjelasan Neraka Hawiyah</td>
+                                <td>Keterangan tentang neraka Hawiyah bagi orang yang timbangan amalnya ringan dan penyebabnya</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan kepastian hari kiamat, adanya hisab (perhitungan amal), timbangan amal, surga dan neraka sebagai balasan akhir</li>
+                        <li><strong>Ibadah:</strong> Mengingatkan untuk memperbanyak amal shaleh yang akan memberatkan timbangan kebaikan di akhirat</li>
+                        <li><strong>Akhlak:</strong> Mendorong sikap takwa dan kesadaran akan pertanggungjawaban semua perbuatan di akhirat</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=101" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah At-Takathur -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah At-Takathur (Bermegah-megahan) - Ayat 1-8</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah At-Takathur</h3>
+                    <p>Surah At-Takathur adalah surah ke-102 dalam Al-Qur'an, terdiri dari 8 ayat. Ini adalah surah Makkiyah yang mencela sifat manusia yang saling bermegah-megahan dalam hal duniawi seperti harta, keturunan, dan kedudukan. Surah ini mengingatkan manusia bahwa mereka akan dimintai pertanggungjawaban atas semua nikmat yang mereka peroleh di dunia.</p>
+                    <p>Nama "At-Takathur" berarti "bermegah-megahan" yang menggambarkan kecenderungan manusia untuk berbangga-bangga dengan hal duniawi. Surah ini mengingatkan bahwa semua kesibukan duniawi akan berakhir dengan kematian dan hisab di akhirat.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah At-Takathur</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/102.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/102" target="_blank" class="access-link">Quran.com - Surah At-Takathur</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-2</td>
+                                <td>Kecaman atas Bermegah-megahan</td>
+                                <td>Mencela sifat manusia yang saling berbangga dengan harta dan keturunan hingga lupa tujuan hidup sebenarnya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 3-4</td>
+                                <td>Peringatan tentang Akibat</td>
+                                <td>Peringatan bahwa mereka akan mengetahui akibat buruk dari kesibukan duniawi mereka di akhirat</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 5-8</td>
+                                <td>Kepastian melihat Neraka</td>
+                                <td>Penegasan bahwa mereka pasti akan melihat neraka Jahim dengan mata kepala sendiri dan akan ditanya tentang nikmat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan adanya hisab (pertanggungjawaban) atas semua nikmat, kepastian melihat neraka, dan kebodohan manusia yang terpedaya dunia</li>
+                        <li><strong>Ibadah:</strong> Mengajak untuk menggunakan nikmat sesuai tujuan penciptaannya dan bersyukur kepada Allah</li>
+                        <li><strong>Akhlak:</strong> Mencela sifat takabur, berbangga-bangga, dan materialisme; menganjurkan zuhud (tidak terikat dunia)</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=102" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Asr -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Asr (Masa) - Ayat 1-3</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Asr</h3>
+                    <p>Surah Al-Asr adalah surah ke-103 dalam Al-Qur'an, terdiri dari 3 ayat. Ini adalah surah Makkiyah yang singkat namun padat makna, dianggap sebagai intisari seluruh ajaran Islam. Imam Syafi'i berkata: "Seandainya Allah hanya menurunkan surah Al-Asr saja sebagai hujjah bagi makhluk-Nya, niscaya itu sudah cukup."</p>
+                    <p>Surah ini menjelaskan bahwa seluruh manusia berada dalam kerugian kecuali mereka yang memenuhi empat syarat: beriman, beramal shaleh, saling menasihati dalam kebenaran, dan saling menasihati dalam kesabaran.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Asr</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/103.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/103" target="_blank" class="access-link">Quran.com - Surah Al-Asr</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1</td>
+                                <td>Sumpah Allah dengan Waktu</td>
+                                <td>Allah bersumpah dengan masa (waktu) sebagai penegasan pentingnya memanfaatkan waktu</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 2</td>
+                                <td>Kerugian Universal Manusia</td>
+                                <td>Pernyataan bahwa seluruh manusia benar-benar berada dalam kerugian</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 3</td>
+                                <td>Pengecualian dari Kerugian</td>
+                                <td>Pengecualian bagi orang yang beriman, beramal shaleh, saling menasihati dalam kebenaran dan kesabaran</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan pentingnya waktu dalam kehidupan manusia dan nilai keimanan sebagai penyelamat dari kerugian</li>
+                        <li><strong>Ibadah:</strong> Menggabungkan antara iman dan amal shaleh sebagai satu kesatuan yang tidak terpisahkan</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan pentingnya dakwah (saling menasihati dalam kebenaran) dan kesabaran dalam menghadapi ujian</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=103" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Humazah -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Humazah (Pengumpat) - Ayat 1-9</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Humazah</h3>
+                    <p>Surah Al-Humazah adalah surah ke-104 dalam Al-Qur'an, terdiri dari 9 ayat. Ini adalah surah Makkiyah yang mencela orang-orang yang suka mencela, mengumpat, dan menghina orang lain, serta orang yang kikir dan sombong dengan hartanya. Surah ini mengancam mereka dengan neraka Hutamah yang menghancurkan.</p>
+                    <p>Surah ini turun berkaitan dengan beberapa orang Quraisy yang suka menghina Nabi Muhammad dan orang-orang miskin dari sahabatnya. Nama "Al-Humazah" berarti "pengumpat" yang menggambarkan sifat buruk mencela orang lain baik dengan kata-kata maupun isyarat.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Humazah</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/104.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/104" target="_blank" class="access-link">Quran.com - Surah Al-Humazah</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-2</td>
+                                <td>Kecaman atas Sifat Tercela</td>
+                                <td>Kecaman terhadap orang yang suka mengumpat dan mencela serta yang suka mengumpulkan harta dan menghitung-hitungnya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 3-4</td>
+                                <td>Ancaman Neraka Hutamah</td>
+                                <td>Ancaman bahwa mereka akan dicampakkan ke neraka Hutamah yang menghancurkan segala sesuatu</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 5-9</td>
+                                <td>Penjelasan Neraka Hutamah</td>
+                                <td>Gambaran neraka Hutamah yang api membara, menjilat jantung, dan mengelilingi mereka seperti tiang panjang</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan adanya balasan di akhirat bagi perbuatan buruk, ancaman neraka bagi pengumpat dan penimbun harta</li>
+                        <li><strong>Ibadah:</strong> Mengingatkan agar harta digunakan di jalan Allah, bukan untuk kesombongan dan menghina orang lain</li>
+                        <li><strong>Akhlak:</strong> Mencela keras sifat suka mengumpat, mencela, kikir, sombong, dan materialisme</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=104" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Fil -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fil (Gajah) - Ayat 1-5</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Fil</h3>
+                    <p>Surah Al-Fil adalah surah ke-105 dalam Al-Qur'an, terdiri dari 5 ayat. Ini adalah surah Makkiyah yang mengisahkan peristiwa penyerangan pasukan bergajah pimpinan Abrahah terhadap Ka'bah di Mekah dan bagaimana Allah menghancurkan mereka dengan burung-burung Ababil. Peristiwa ini terjadi pada tahun kelahiran Nabi Muhammad (tahun Gajah).</p>
+                    <p>Surah ini menunjukkan kekuasaan Allah dalam melindungi rumah-Nya (Ka'bah) meskipun musuh memiliki pasukan yang kuat dengan gajah-gajah perang. Kisah ini menjadi bukti bahwa Allah adalah pelindung sejati dan tidak ada yang dapat mengalahkan kehendak-Nya.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Fil</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/105.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/105" target="_blank" class="access-link">Quran.com - Surah Al-Fil</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1</td>
+                                <td>Pertanyaan Retoris tentang Pengetahuan</td>
+                                <td>Pertanyaan retoris apakah manusia tidak mengetahui bagaimana Tuhan menghancurkan pasukan gajah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 2-4</td>
+                                <td>Cara Penghancuran Pasukan Gajah</td>
+                                <td>Penjelasan bagaimana Allah mengirim burung-burung Ababil yang melempari mereka dengan batu dari tanah liat yang terbakar</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 5</td>
+                                <td>Hasil Penghancuran</td>
+                                <td>Gambaran akhir pasukan gajah yang menjadi seperti daun-daun yang dimakan ulat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan kekuasaan Allah yang mutlak, perlindungan Allah terhadap rumah-Nya (Ka'bah), dan ketidakberdayaan makhluk di hadapan kehendak Allah</li>
+                        <li><strong>Ibadah:</strong> Mengingatkan tentang keagungan Ka'bah sebagai rumah Allah yang harus dijaga kesuciannya</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan bahwa kesombongan dan keangkuhan akan berakhir dengan kehancuran, serta pentingnya tawakal kepada Allah</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=105" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Quraish -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Quraish - Ayat 1-4</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Quraish</h3>
+                    <p>Surah Quraish adalah surah ke-106 dalam Al-Qur'an, terdiri dari 4 ayat. Ini adalah surah Makkiyah yang ditujukan khusus kepada suku Quraish sebagai penguasa dan penjaga Ka'bah. Surah ini mengingatkan mereka tentang nikmat Allah yang diberikan melalui dua perjalanan dagang mereka (musim panas ke Syam dan musim dingin ke Yaman).</p>
+                    <p>Surah ini terkait erat dengan surah sebelumnya (Al-Fil) karena menjelaskan alasan mengapa Allah melindungi Ka'bah dari pasukan gajah: agar suku Quraish dapat terus melakukan ibadah dan perdagangan dengan aman. Ini adalah seruan untuk bersyukur dan menyembah Tuhan Pemilik rumah ini (Ka'bah).</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Quraish</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/106.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/106" target="_blank" class="access-link">Quran.com - Surah Quraish</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-2</td>
+                                <td>Nikmat Keamanan bagi Quraish</td>
+                                <td>Penyatuan dan keamanan suku Quraish dalam perjalanan dagang musim dingin dan musim panas</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 3</td>
+                                <td>Seruan untuk Beribadah</td>
+                                <td>Perintah untuk menyembah Tuhan Pemilik rumah ini (Ka'bah) yang telah memberikan keamanan dan rezeki</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 4</td>
+                                <td>Nikmat Tambahan dari Allah</td>
+                                <td>Allah yang telah memberi makan ketika lapar dan mengamankan dari ketakutan</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan bahwa Allah adalah pemberi rezeki, pengaman dari bahaya, dan Pemilik Ka'bah yang sebenarnya</li>
+                        <li><strong>Ibadah:</strong> Seruan khusus kepada suku Quraish untuk menyembah Tuhan Pemilik Ka'bah sebagai bentuk syukur atas nikmat</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan pentingnya bersyukur atas nikmat keamanan dan rezeki, serta tanggung jawab sebagai penjaga tempat suci</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=106" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Ma'un -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ma'un (Barang-barang Berguna) - Ayat 1-7</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Ma'un</h3>
+                    <p>Surah Al-Ma'un adalah surah ke-107 dalam Al-Qur'an, terdiri dari 7 ayat. Ini adalah surah Makkiyah yang menggambarkan sifat-sifat pendusta agama. Surah ini menjelaskan bahwa agama bukan hanya ritual ibadah semata, tetapi juga mencakup tanggung jawab sosial terhadap sesama, khususnya anak yatim dan orang miskin.</p>
+                    <p>Nama "Al-Ma'un" berarti "barang-barang berguna" yang merujuk pada bantuan dan pertolongan kepada sesama. Surah ini mengecam orang yang rajin shalat tetapi lalai dari hak-hak sosial dan berlaku kasar terhadap anak yatim serta tidak memberi makan orang miskin.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Ma'un</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/107.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/107" target="_blank" class="access-link">Quran.com - Surah Al-Ma'un</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-3</td>
+                                <td>Ciri-ciri Pendusta Agama</td>
+                                <td>Gambaran orang yang mendustakan agama: menghardik anak yatim, tidak memberi makan orang miskin</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 4-5</td>
+                                <td>Kecaman atas Shalat yang Lalai</td>
+                                <td>Kecaman terhadap orang yang shalat tetapi lalai dan riya' (ingin dilihat orang)</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 6-7</td>
+                                <td>Penolakan Bantuan Kecil</td>
+                                <td>Kecaman terhadap orang yang enggan memberikan bantuan kecil (Al-Ma'un) kepada sesama</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan bahwa iman harus diwujudkan dalam perbuatan nyata, bukan hanya ritual; mendustakan hak sosial sama dengan mendustakan agama</li>
+                        <li><strong>Ibadah:</strong> Menekankan pentingnya kekhusyukan dalam shalat dan menghindari riya' (ingin dilihat orang)</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan kepedulian sosial: menyayangi anak yatim, memberi makan orang miskin, dan ringan tangan membantu sesama</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=107" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Kautsar -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Kautsar (Nikmat yang Banyak) - Ayat 1-3</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Kautsar</h3>
+                    <p>Surah Al-Kautsar adalah surah ke-108 dalam Al-Qur'an, terdiri dari 3 ayat. Ini adalah surah Makkiyah terpendek yang memberikan kabar gembira kepada Nabi Muhammad tentang sungai di surga yang disebut Al-Kautsar (nikmat yang banyak). Surah ini turun sebagai jawaban atas ejekan orang musyrik yang menyebut Nabi tidak memiliki keturunan laki-laki.</p>
+                    <p>Al-Kautsar merupakan salah satu nama sungai di surga yang diberikan khusus kepada Nabi Muhammad. Surah ini mengandung tiga pesan utama: pemberian nikmat yang banyak, perintah shalat dan berkurban, serta penegasan bahwa musuh Nabi lah yang terputus (bukan keturunannya).</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Kautsar</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/108.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/108" target="_blank" class="access-link">Quran.com - Surah Al-Kautsar</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1</td>
+                                <td>Pemberian Al-Kautsar</td>
+                                <td>Pemberian nikmat yang banyak (Al-Kautsar) dari Allah kepada Nabi Muhammad sebagai penghibur atas ejekan musuh</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 2</td>
+                                <td>Perintah Shalat dan Berkurban</td>
+                                <td>Perintah untuk mendirikan shalat dan berkurban sebagai bentuk syukur atas nikmat</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 3</td>
+                                <td>Musuh yang Terputus</td>
+                                <td>Penegasan bahwa musuh Nabi Muhammad lah yang terputus (abtar), bukan keturunannya</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan janji Allah tentang surga dan nikmat-nikmatnya, serta kebenaran kenabian Muhammad</li>
+                        <li><strong>Ibadah:</strong> Perintah untuk melaksanakan shalat dan berkurban sebagai bentuk syukur dan pendekatan kepada Allah</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan kesabaran menghadapi ejekan, optimisme dengan janji Allah, dan fokus pada ibadah sebagai jawaban atas cemoohan</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=108" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Kafirun -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Kafirun (Orang-orang Kafir) - Ayat 1-6</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Kafirun</h3>
+                    <p>Surah Al-Kafirun adalah surah ke-109 dalam Al-Qur'an, terdiri dari 6 ayat. Ini adalah surah Makkiyah yang berisi deklarasi pemisahan keyakinan antara Muslim dan orang kafir. Surah ini menegaskan prinsip "lakum dinukum waliya din" (bagimu agamamu, bagiku agamaku) sebagai bentuk toleransi yang jelas tanpa kompromi dalam akidah.</p>
+                    <p>Surah ini turun sebagai jawaban atas tawaran kompromi dari orang musyrik Quraish yang menginginkan Nabi Muhammad menyembah tuhan mereka selama setahun, dan mereka akan menyembah Allah selama setahun. Surah ini menolak segala bentuk sinkretisme (pencampuran) dalam akidah.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Kafirun</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/109.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/109" target="_blank" class="access-link">Quran.com - Surah Al-Kafirun</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-2</td>
+                                <td>Pernyataan Penolakan Penyembahan Berhala</td>
+                                <td>Pernyataan tegas Nabi bahwa beliau tidak akan menyembah apa yang disembah orang kafir</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 3-4</td>
+                                <td>Pernyataan Balik dari Orang Kafir</td>
+                                <td>Pengakuan bahwa orang kafir juga tidak akan menyembah Allah yang disembah Nabi</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 5-6</td>
+                                <td>Kesimpulan dan Deklarasi Pemisahan</td>
+                                <td>Kesimpulan bahwa masing-masing memiliki agama dan cara ibadahnya sendiri; tidak ada kompromi dalam akidah</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan prinsip tauhid yang murni tanpa kompromi, penolakan terhadap segala bentuk syirik dan sinkretisme dalam akidah</li>
+                        <li><strong>Ibadah:</strong> Menekankan bahwa ibadah hanya untuk Allah semata, tidak boleh dicampur dengan penyembahan kepada selain-Nya</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan toleransi dalam perbedaan keyakinan tanpa mengorbankan prinsip, serta ketegasan dalam mempertahankan akidah</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=109" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah An-Nasr -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah An-Nasr (Pertolongan) - Ayat 1-3</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah An-Nasr</h3>
+                    <p>Surah An-Nasr adalah surah ke-110 dalam Al-Qur'an, terdiri dari 3 ayat. Ini adalah surah Madaniyah yang turun setelah fathu Makkah (pembebasan Mekah) dan merupakan salah satu surah terakhir yang turun. Surah ini mengabarkan tentang kemenangan Islam dan masuknya manusia ke dalam agama Allah berbondong-bondong.</p>
+                    <p>Nama "An-Nasr" berarti "pertolongan" yang merujuk pada pertolongan Allah kepada Nabi Muhammad dan kaum Muslimin. Surah ini juga mengandung isyarat bahwa masa kenabian akan segera berakhir, sehingga Nabi diperintahkan untuk memperbanyak tasbih, memuji Allah, dan memohon ampunan.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah An-Nasr</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/110.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/110" target="_blank" class="access-link">Quran.com - Surah An-Nasr</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1</td>
+                                <td>Kabar Pertolongan Allah</td>
+                                <td>Pengabaran tentang datangnya pertolongan Allah dan kemenangan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 2</td>
+                                <td>Masuknya Manusia ke Islam</td>
+                                <td>Penggambaran manusia masuk ke dalam agama Allah berbondong-bondong</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 3</td>
+                                <td>Perintah Bertasbih dan Istighfar</td>
+                                <td>Perintah untuk bertasbih dengan memuji Tuhan dan memohon ampunan kepada-Nya</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan bahwa kemenangan datang dari pertolongan Allah, bukan kekuatan manusia; semua kejayaan adalah karunia Allah</li>
+                        <li><strong>Ibadah:</strong> Mengajarkan untuk memperbanyak tasbih, tahmid, dan istighfar terutama di saat mendapatkan kemenangan dan kejayaan</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan sikap tawadhu (rendah hati) dan tidak sombong saat meraih kemenangan, serta selalu mengembalikan segala kesuksesan kepada Allah</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=110" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Masad -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Masad (Sabut) - Ayat 1-5</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Masad</h3>
+                    <p>Surah Al-Masad adalah surah ke-111 dalam Al-Qur'an, terdiri dari 5 ayat. Ini adalah surah Makkiyah yang mencela Abu Lahab (paman Nabi) dan istrinya, Ummu Jamil, karena permusuhan mereka yang keras terhadap Islam. Nama "Al-Masad" berarti "sabut" yang mengacu pada tali dari sabut kurma yang akan membelit leher Abu Lahab di neraka.</p>
+                    <p>Surah ini merupakan satu-satunya surah yang menyebut nama seseorang secara langsung untuk kecaman. Abu Lahab adalah salah satu penentang Islam paling keras dari kalangan keluarga Nabi sendiri. Surah ini mengabarkan tentang azab yang akan menimpa mereka di dunia dan akhirat.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Masad</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/111.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/111" target="_blank" class="access-link">Quran.com - Surah Al-Masad</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1</td>
+                                <td>Kutukan atas Abu Lahab</td>
+                                <td>Kutukan atas Abu Lahab dan pengumuman tentang kebinasaannya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 2-3</td>
+                                <td>Penyebab Kebinasaan</td>
+                                <td>Kekayaan dan anak-anaknya tidak akan menyelamatkannya dari azab Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 4-5</td>
+                                <td>Azab untuk Istrinya</td>
+                                <td>Istrinya akan menyusulnya ke neraka dengan membawa kayu bakar untuk menyiksa suaminya</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan bahwa kekayaan, kedudukan, dan keturunan tidak dapat menyelamatkan dari azab Allah jika memusuhi agama-Nya</li>
+                        <li><strong>Ibadah:</strong> Mengingatkan bahwa ibadah dan ketaatan lebih berharga daripada harta dan keturunan di sisi Allah</li>
+                        <li><strong>Akhlak:</strong> Mencela keras permusuhan terhadap kebenaran, kesombongan, dan membantu penyebaran kebatilan; mengajarkan konsekuensi dari perbuatan jahat</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=111" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Ikhlas -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ikhlas (Memurnikan Keesaan Allah) - Ayat 1-4</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Ikhlas</h3>
+                    <p>Surah Al-Ikhlas adalah surah ke-112 dalam Al-Qur'an, terdiri dari 4 ayat. Ini adalah surah Makkiyah yang mengandung intisari tauhid (keesaan Allah). Nabi Muhammad bersabda bahwa surah Al-Ikhlas sebanding dengan sepertiga Al-Qur'an karena kandungan tauhidnya yang murni. Surah ini menjawab pertanyaan orang musyrik tentang sifat Tuhan.</p>
+                    <p>Surah ini menegaskan keesaan Allah (Ahad), kemandirian-Nya (As-Samad), tidak beranak dan tidak diperanakkan, serta tidak ada sesuatu pun yang setara dengan-Nya. Surah Al-Ikhlas adalah deklarasi pemurnian tauhid dari segala bentuk kemusyrikan.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Ikhlas</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/112.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/112" target="_blank" class="access-link">Quran.com - Surah Al-Ikhlas</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1</td>
+                                <td>Deklarasi Keesaan Allah</td>
+                                <td>Pernyataan bahwa Allah adalah Esa (Ahad), tidak ada sekutu bagi-Nya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 2</td>
+                                <td>Sifat As-Samad</td>
+                                <td>Allah adalah tempat bergantung segala sesuatu (As-Samad), tidak membutuhkan sesuatu pun</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 3-4</td>
+                                <td>Penafian Anak dan Sekutu</td>
+                                <td>Allah tidak beranak dan tidak diperanakkan, dan tidak ada sesuatu pun yang setara dengan-Nya</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan tauhid yang murni: keesaan Allah, kemandirian-Nya, penafian anak dan sekutu, serta ketiadaan tandingan bagi-Nya</li>
+                        <li><strong>Ibadah:</strong> Mengajarkan bahwa ibadah hanya untuk Allah yang Maha Esa, tidak untuk selain-Nya</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan ketergantungan hanya kepada Allah, tidak kepada makhluk; serta membersihkan keyakinan dari segala bentuk syirik</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=112" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Falaq -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Falaq (Waktu Subuh) - Ayat 1-5</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Falaq</h3>
+                    <p>Surah Al-Falaq adalah surah ke-113 dalam Al-Qur'an, terdiri dari 5 ayat. Ini adalah surah Makkiyah yang bersama dengan surah An-Nas dikenal sebagai "Al-Mu'awwidzatain" (dua surah perlindungan). Surah ini mengajarkan permohonan perlindungan kepada Allah dari kejahatan makhluk-Nya, terutama dari kejahatan malam, tukang sihir, dan orang yang dengki.</p>
+                    <p>Nama "Al-Falaq" berarti "waktu subuh" yang merupakan waktu terbitnya fajar. Surah ini diajarkan oleh Jibril kepada Nabi Muhammad untuk melindungi diri dari sihir yang dilakukan oleh orang Yahudi. Surah ini menunjukkan bahwa perlindungan sejati hanya dari Allah.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Falaq</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/113.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/113" target="_blank" class="access-link">Quran.com - Surah Al-Falaq</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1</td>
+                                <td>Permohonan Perlindungan Umum</td>
+                                <td>Permohonan perlindungan kepada Tuhan yang menguasai waktu subuh (pemilik segala cahaya)</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 2</td>
+                                <td>Perlindungan dari Kejahatan Ciptaan</td>
+                                <td>Permohonan perlindungan dari kejahatan segala sesuatu yang Allah ciptakan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 3-5</td>
+                                <td>Perlindungan dari Kejahatan Khusus</td>
+                                <td>Perlindungan dari kejahatan malam, tukang sihir, dan orang yang dengki</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan bahwa hanya Allah yang dapat memberikan perlindungan sejati dari segala kejahatan; pengakuan ketergantungan mutlak kepada Allah</li>
+                        <li><strong>Ibadah:</strong> Mengajarkan doa perlindungan (ta'awwudz) sebagai bentuk ibadah dan ketergantungan kepada Allah</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan untuk selalu waspada terhadap berbagai bentuk kejahatan, serta mengandalkan Allah bukan jimat atau perdukunan</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=113" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah An-Nas -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah An-Nas (Manusia) - Ayat 1-6</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah An-Nas</h3>
+                    <p>Surah An-Nas adalah surah ke-114 dan terakhir dalam Al-Qur'an, terdiri dari 6 ayat. Ini adalah surah Makkiyah yang bersama dengan surah Al-Falaq membentuk "Al-Mu'awwidzatain" (dua surah perlindungan). Surah ini mengajarkan permohonan perlindungan kepada Allah dari kejahatan bisikan setan yang bersembunyi di dalam hati manusia.</p>
+                    <p>Surah An-Nas adalah penutup Al-Qur'an yang indah, mengingatkan manusia akan kelemahan mereka terhadap bisikan setan dan pentingnya perlindungan Allah. Surah ini mencakup tiga sifat Allah: Rabb (Pemelihara), Malik (Raja), dan Ilah (Sesembahan) manusia, kemudian permohonan perlindungan dari godaan setan.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah An-Nas</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/114.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/114" target="_blank" class="access-link">Quran.com - Surah An-Nas</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-3</td>
+                                <td>Sifat-sifat Allah</td>
+                                <td>Allah sebagai Rabb (Pemelihara), Malik (Raja), dan Ilah (Sesembahan) bagi seluruh manusia</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 4</td>
+                                <td>Sumber Kejahatan</td>
+                                <td>Kejahatan berasal dari bisikan setan yang bersembunyi di dalam hati manusia</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 5-6</td>
+                                <td>Target Bisikan Setan</td>
+                                <td>Setan membisikkan kejahatan ke dalam hati manusia, baik dari jenis jin maupun manusia</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Menegaskan tiga sifat Allah: Pemelihara, Raja, dan Sesembahan manusia; serta pengakuan adanya godaan setan yang nyata</li>
+                        <li><strong>Ibadah:</strong> Mengajarkan doa perlindungan dari godaan setan sebagai bentuk pengakuan ketergantungan kepada Allah</li>
+                        <li><strong>Akhlak:</strong> Mengajarkan kewaspadaan terhadap bisikan hati yang buruk, intropeksi diri, dan selalu memohon pertolongan Allah dari godaan setan</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=114" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_29.html"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 30 - Amma Yatasa'aloon</span>
+                <span style="color: #7f8c8d; font-style: italic;">(Juz Terakhir)</span>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="surah-title">Juz 30 - Amma Yatasa'aloon (Thematic Analysis)</h1>
+            <div class="surah-source"><strong>Sources:</strong> Tafsir Ibn Kathir, Indonesian Ministry of Religious Affairs, IslamicStudies.info</div>
+
+            <!-- Surah Al-Qari'ah -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Qari'ah (The Striking Calamity) - Verses 1-11</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Qari'ah</h3>
+                    <p>Surah Al-Qari'ah is the 101st chapter of the Quran, consisting of 11 verses. It is a Meccan surah that describes the terrors of the Day of Judgment with the name "Al-Qari'ah" meaning "The Striking Calamity". This surah discusses the events of the Day of Judgment and the division of people into two groups: the people of Paradise and the people of Hell based on the weighing of their deeds.</p>
+                    <p>This surah provides a frightening description of the day when people will be like scattered moths and mountains like tufts of wool. Its purpose is to remind people of the certainty of the Day of Reckoning and the importance of preparing with righteous deeds.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Qari'ah</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/101.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/101" target="_blank" class="access-link">Quran.com - Surah Al-Qari'ah</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-5</td>
+                                <td>Description of the Terrifying Day of Judgment</td>
+                                <td>Frightening depiction of the Day of Judgment that makes people like scattered moths and mountains like tufts of wool</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 6-9</td>
+                                <td>The Scale of Deeds</td>
+                                <td>Explanation of the scale of deeds that determines a person's fate; heavy scale of good brings happiness, light brings destruction</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 10-11</td>
+                                <td>Explanation of Hellfire (Hawiyah)</td>
+                                <td>Description of Hawiyah Hell for those whose scale of deeds is light and its causes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms the certainty of the Day of Judgment, the existence of reckoning (accounting of deeds), the scale of deeds, and Paradise and Hell as final recompense</li>
+                        <li><strong>Worship:</strong> Reminds to increase righteous deeds that will weigh heavily on the scale of goodness in the Hereafter</li>
+                        <li><strong>Akhlak (Morality):</strong> Encourages piety and awareness of accountability for all actions in the Hereafter</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=101" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah At-Takathur -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah At-Takathur (Rivalry in Worldly Increase) - Verses 1-8</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah At-Takathur</h3>
+                    <p>Surah At-Takathur is the 102nd chapter of the Quran, consisting of 8 verses. It is a Meccan surah that condemns the human tendency to compete with one another in worldly matters such as wealth, offspring, and status. This surah reminds people that they will be held accountable for all blessings they obtained in this world.</p>
+                    <p>The name "At-Takathur" means "rivalry in worldly increase" which describes human tendency to boast about worldly matters. This surah reminds that all worldly pursuits will end with death and reckoning in the Hereafter.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah At-Takathur</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/102.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/102" target="_blank" class="access-link">Quran.com - Surah At-Takathur</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-2</td>
+                                <td>Condemnation of Worldly Competition</td>
+                                <td>Condemns human tendency to boast about wealth and offspring until they forget the true purpose of life</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 3-4</td>
+                                <td>Warning of Consequences</td>
+                                <td>Warning that they will know the bad consequences of their worldly pursuits in the Hereafter</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 5-8</td>
+                                <td>Certainty of Seeing Hellfire</td>
+                                <td>Affirmation that they will certainly see Hellfire (Jahim) with their own eyes and will be questioned about blessings</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms the existence of accountability for all blessings, certainty of seeing Hellfire, and human ignorance deceived by the world</li>
+                        <li><strong>Worship:</strong> Calls to use blessings according to their purpose of creation and be grateful to Allah</li>
+                        <li><strong>Akhlak (Morality):</strong> Condemns arrogance, boasting, and materialism; recommends zuhd (detachment from the world)</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=102" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Asr -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Asr (The Declining Day) - Verses 1-3</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Asr</h3>
+                    <p>Surah Al-Asr is the 103rd chapter of the Quran, consisting of 3 verses. It is a short but profound Meccan surah, considered the essence of Islamic teachings. Imam Al-Shafi'i said: "If Allah had only revealed Surah Al-Asr as proof for His creation, it would have been sufficient."</p>
+                    <p>This surah explains that all mankind is in loss except those who fulfill four conditions: believe, do righteous deeds, enjoin one another to truth, and enjoin one another to patience.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Asr</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/103.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/103" target="_blank" class="access-link">Quran.com - Surah Al-Asr</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verse 1</td>
+                                <td>Allah's Oath by Time</td>
+                                <td>Allah swears by time as emphasis on the importance of utilizing time</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 2</td>
+                                <td>Universal Human Loss</td>
+                                <td>Declaration that all mankind is truly in loss</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 3</td>
+                                <td>Exception from Loss</td>
+                                <td>Exception for those who believe, do righteous deeds, enjoin one another to truth and patience</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms the importance of time in human life and the value of faith as salvation from loss</li>
+                        <li><strong>Worship:</strong> Combines faith and righteous deeds as an inseparable unity</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches the importance of da'wah (enjoining one another to truth) and patience in facing trials</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=103" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Humazah -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Humazah (The Slanderer) - Verses 1-9</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Humazah</h3>
+                    <p>Surah Al-Humazah is the 104th chapter of the Quran, consisting of 9 verses. It is a Meccan surah that condemns those who slander, backbite, and insult others, as well as those who are stingy and arrogant with their wealth. This surah threatens them with the crushing Hellfire (Hutamah).</p>
+                    <p>This surah was revealed concerning some Quraish people who used to insult Prophet Muhammad and his poor companions. The name "Al-Humazah" means "the slanderer" which describes the bad habit of insulting others either with words or gestures.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Humazah</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/104.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/104" target="_blank" class="access-link">Quran.com - Surah Al-Humazah</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-2</td>
+                                <td>Condemnation of Blameworthy Traits</td>
+                                <td>Condemnation of those who slander and backbite, and those who hoard wealth and count it</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 3-4</td>
+                                <td>Threat of Hellfire (Hutamah)</td>
+                                <td>Threat that they will be thrown into the crushing Hellfire (Hutamah) that destroys everything</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 5-9</td>
+                                <td>Description of Hellfire (Hutamah)</td>
+                                <td>Description of Hutamah Hellfire with blazing fire, licking the heart, surrounding them like long pillars</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms recompense in the Hereafter for bad deeds, threat of Hell for slanderers and hoarders of wealth</li>
+                        <li><strong>Worship:</strong> Reminds that wealth should be used in Allah's way, not for arrogance and insulting others</li>
+                        <li><strong>Akhlak (Morality):</strong> Strongly condemns slandering, backbiting, stinginess, arrogance, and materialism</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=104" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Fil -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fil (The Elephant) - Verses 1-5</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Fil</h3>
+                    <p>Surah Al-Fil is the 105th chapter of the Quran, consisting of 5 verses. It is a Meccan surah that narrates the event of the elephant army's attack led by Abrahah against the Ka'bah in Mecca and how Allah destroyed them with birds (Ababil). This event occurred in the year of Prophet Muhammad's birth (Year of the Elephant).</p>
+                    <p>This surah shows Allah's power in protecting His House (Ka'bah) even though the enemy had a strong army with war elephants. This story proves that Allah is the true protector and nothing can defeat His will.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Fil</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/105.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/105" target="_blank" class="access-link">Quran.com - Surah Al-Fil</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verse 1</td>
+                                <td>Rhetorical Question about Knowledge</td>
+                                <td>Rhetorical question whether people do not know how their Lord dealt with the army of elephants</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 2-4</td>
+                                <td>Method of Destroying the Elephant Army</td>
+                                <td>Explanation of how Allah sent birds (Ababil) striking them with stones of baked clay</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 5</td>
+                                <td>Result of Destruction</td>
+                                <td>Final description of the elephant army becoming like eaten straw</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms Allah's absolute power, Allah's protection of His House (Ka'bah), and the helplessness of creation before Allah's will</li>
+                        <li><strong>Worship:</strong> Reminds about the greatness of Ka'bah as Allah's House that must be preserved in purity</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches that arrogance and pride end in destruction, and the importance of reliance on Allah</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=105" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Quraish -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Quraish - Verses 1-4</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Quraish</h3>
+                    <p>Surah Quraish is the 106th chapter of the Quran, consisting of 4 verses. It is a Meccan surah specifically addressed to the Quraish tribe as the rulers and guardians of the Ka'bah. This surah reminds them of Allah's blessings given through their two trading journeys (summer to Syria and winter to Yemen).</p>
+                    <p>This surah is closely related to the previous surah (Al-Fil) as it explains why Allah protected the Ka'bah from the elephant army: so that the Quraish tribe could continue worship and trade safely. This is a call to be grateful and worship the Lord of this House (Ka'bah).</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Quraish</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/106.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/106" target="_blank" class="access-link">Quran.com - Surah Quraish</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-2</td>
+                                <td>Blessing of Security for Quraish</td>
+                                <td>Unity and security of Quraish tribe in their winter and summer trading journeys</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 3</td>
+                                <td>Call to Worship</td>
+                                <td>Command to worship the Lord of this House (Ka'bah) who has given security and provision</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 4</td>
+                                <td>Additional Blessings from Allah</td>
+                                <td>Allah who has fed them against hunger and secured them from fear</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms that Allah is the provider of sustenance, protector from danger, and the true Owner of the Ka'bah</li>
+                        <li><strong>Worship:</strong> Specific call to Quraish tribe to worship the Lord of the Ka'bah as gratitude for blessings</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches the importance of gratitude for blessings of security and provision, and responsibility as guardians of sacred places</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=106" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Ma'un -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ma'un (Small Kindnesses) - Verses 1-7</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Ma'un</h3>
+                    <p>Surah Al-Ma'un is the 107th chapter of the Quran, consisting of 7 verses. It is a Meccan surah that describes the characteristics of those who deny the religion. This surah explains that religion is not only about ritual worship but also includes social responsibility towards others, especially orphans and the poor.</p>
+                    <p>The name "Al-Ma'un" means "small kindnesses" which refers to assistance and help to others. This surah condemns those who pray regularly but neglect social rights and are harsh towards orphans and do not feed the poor.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Ma'un</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/107.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/107" target="_blank" class="access-link">Quran.com - Surah Al-Ma'un</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-3</td>
+                                <td>Characteristics of Those Who Deny Religion</td>
+                                <td>Description of those who deny religion: harsh to orphans, do not feed the poor</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 4-5</td>
+                                <td>Condemnation of Neglectful Prayer</td>
+                                <td>Condemnation of those who pray but are neglectful and show off (want to be seen by people)</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 6-7</td>
+                                <td>Refusal of Small Assistance</td>
+                                <td>Condemnation of those unwilling to give small assistance (Al-Ma'un) to others</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms that faith must be manifested in real actions, not only rituals; denying social rights is like denying religion</li>
+                        <li><strong>Worship:</strong> Emphasizes the importance of concentration in prayer and avoiding showing off (riya')</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches social concern: being kind to orphans, feeding the poor, and being helpful to others</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=107" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Kawthar -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Kawthar (Abundance) - Verses 1-3</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Kawthar</h3>
+                    <p>Surah Al-Kawthar is the 108th chapter of the Quran, consisting of 3 verses. It is the shortest Meccan surah that gives glad tidings to Prophet Muhammad about the river in Paradise called Al-Kawthar (Abundance). This surah was revealed as a response to the mockery of polytheists who said the Prophet had no male descendants.</p>
+                    <p>Al-Kawthar is one of the rivers in Paradise given specifically to Prophet Muhammad. This surah contains three main messages: giving abundant blessings, command to pray and sacrifice, and affirmation that it is the Prophet's enemies who are cut off (not his descendants).</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Kawthar</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/108.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/108" target="_blank" class="access-link">Quran.com - Surah Al-Kawthar</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verse 1</td>
+                                <td>Giving of Al-Kawthar</td>
+                                <td>Giving abundant blessings (Al-Kawthar) from Allah to Prophet Muhammad as comfort for enemy mockery</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 2</td>
+                                <td>Command to Pray and Sacrifice</td>
+                                <td>Command to establish prayer and sacrifice as gratitude for blessings</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 3</td>
+                                <td>Enemy Cut Off</td>
+                                <td>Affirmation that it is Prophet Muhammad's enemies who are cut off (abtar), not his descendants</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms Allah's promise about Paradise and its blessings, and the truth of Muhammad's prophethood</li>
+                        <li><strong>Worship:</strong> Command to perform prayer and sacrifice as forms of gratitude and drawing closer to Allah</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches patience in facing mockery, optimism with Allah's promise, and focus on worship as response to ridicule</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=108" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Kafirun -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Kafirun (The Disbelievers) - Verses 1-6</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Kafirun</h3>
+                    <p>Surah Al-Kafirun is the 109th chapter of the Quran, consisting of 6 verses. It is a Meccan surah containing declaration of separation of belief between Muslims and disbelievers. This surah affirms the principle "lakum dinukum waliya din" (to you your religion, to me my religion) as clear tolerance without compromise in creed.</p>
+                    <p>This surah was revealed as a response to compromise offers from polytheist Quraish who wanted Prophet Muhammad to worship their gods for one year, and they would worship Allah for one year. This surah rejects all forms of syncretism (mixing) in creed.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Kafirun</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/109.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/109" target="_blank" class="access-link">Quran.com - Surah Al-Kafirun</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-2</td>
+                                <td>Declaration of Rejection of Idol Worship</td>
+                                <td>Clear statement of Prophet that he will not worship what disbelievers worship</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 3-4</td>
+                                <td>Counter Statement from Disbelievers</td>
+                                <td>Acknowledgement that disbelievers also will not worship Allah whom the Prophet worships</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 5-6</td>
+                                <td>Conclusion and Declaration of Separation</td>
+                                <td>Conclusion that each has their own religion and way of worship; no compromise in creed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms pure monotheism principle without compromise, rejection of all forms of shirk and syncretism in creed</li>
+                        <li><strong>Worship:</strong> Emphasizes that worship is only for Allah alone, cannot be mixed with worship to other than Him</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches tolerance in differences of belief without sacrificing principles, and firmness in maintaining creed</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=109" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah An-Nasr -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah An-Nasr (The Help) - Verses 1-3</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah An-Nasr</h3>
+                    <p>Surah An-Nasr is the 110th chapter of the Quran, consisting of 3 verses. It is a Medinan surah revealed after the conquest of Mecca and is one of the last surahs revealed. This surah announces the victory of Islam and people entering Allah's religion in crowds.</p>
+                    <p>The name "An-Nasr" means "help" which refers to Allah's help to Prophet Muhammad and the Muslims. This surah also contains indication that the prophethood period would soon end, so the Prophet was commanded to increase glorification, praise of Allah, and seek forgiveness.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah An-Nasr</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/110.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/110" target="_blank" class="access-link">Quran.com - Surah An-Nasr</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verse 1</td>
+                                <td>News of Allah's Help</td>
+                                <td>Announcement of coming of Allah's help and victory</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 2</td>
+                                <td>People Entering Islam</td>
+                                <td>Description of people entering Allah's religion in crowds</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 3</td>
+                                <td>Command to Glorify and Seek Forgiveness</td>
+                                <td>Command to glorify with praise of your Lord and seek His forgiveness</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms that victory comes from Allah's help, not human strength; all glory is Allah's bounty</li>
+                        <li><strong>Worship:</strong> Teaches to increase glorification (tasbih), praise (tahmid), and seeking forgiveness (istighfar) especially when achieving victory and glory</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches humility and not being arrogant when achieving victory, and always attributing all success to Allah</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=110" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Masad -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Masad (The Palm Fiber) - Verses 1-5</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Masad</h3>
+                    <p>Surah Al-Masad is the 111th chapter of the Quran, consisting of 5 verses. It is a Meccan surah that condemns Abu Lahab (the Prophet's uncle) and his wife, Umm Jamil, for their fierce hostility against Islam. The name "Al-Masad" means "palm fiber" referring to rope from palm fiber that will wrap around Abu Lahab's neck in Hell.</p>
+                    <p>This surah is the only surah that mentions a person's name directly for condemnation. Abu Lahab was one of the fiercest opponents of Islam from the Prophet's own family. This surah announces punishment that will befall them in this world and the Hereafter.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Masad</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/111.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/111" target="_blank" class="access-link">Quran.com - Surah Al-Masad</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verse 1</td>
+                                <td>Curse on Abu Lahab</td>
+                                <td>Curse on Abu Lahab and announcement of his destruction</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 2-3</td>
+                                <td>Causes of Destruction</td>
+                                <td>His wealth and children will not save him from Allah's punishment</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 4-5</td>
+                                <td>Punishment for His Wife</td>
+                                <td>His wife will follow him to Hell carrying firewood to torment her husband</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms that wealth, status, and offspring cannot save from Allah's punishment if hostile to His religion</li>
+                        <li><strong>Worship:</strong> Reminds that worship and obedience are more valuable than wealth and offspring in Allah's sight</li>
+                        <li><strong>Akhlak (Morality):</strong> Strongly condemns hostility against truth, arrogance, and helping spread falsehood; teaches consequences of evil deeds</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=111" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Ikhlas -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ikhlas (Sincerity) - Verses 1-4</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Ikhlas</h3>
+                    <p>Surah Al-Ikhlas is the 112th chapter of the Quran, consisting of 4 verses. It is a Meccan surah containing the essence of tawhid (Oneness of Allah). Prophet Muhammad said that Surah Al-Ikhlas is equivalent to one-third of the Quran because of its pure tawhid content. This surah answers polytheists' questions about God's attributes.</p>
+                    <p>This surah affirms Allah's oneness (Ahad), His self-sufficiency (As-Samad), He neither begets nor is born, and there is nothing comparable to Him. Surah Al-Ikhlas is a declaration of purification of tawhid from all forms of shirk.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Ikhlas</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/112.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/112" target="_blank" class="access-link">Quran.com - Surah Al-Ikhlas</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verse 1</td>
+                                <td>Declaration of Allah's Oneness</td>
+                                <td>Statement that Allah is One (Ahad), there is no partner for Him</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 2</td>
+                                <td>Attribute As-Samad</td>
+                                <td>Allah is the Eternal Refuge (As-Samad), not in need of anything</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 3-4</td>
+                                <td>Negation of Offspring and Partners</td>
+                                <td>Allah neither begets nor is born, and there is nothing comparable to Him</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms pure tawhid: Allah's oneness, His self-sufficiency, negation of offspring and partners, and absence of equal to Him</li>
+                        <li><strong>Worship:</strong> Teaches that worship is only for the One Allah, not for other than Him</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches dependence only on Allah, not on creation; and purifying belief from all forms of shirk</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=112" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Falaq -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Falaq (The Daybreak) - Verses 1-5</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Falaq</h3>
+                    <p>Surah Al-Falaq is the 113th chapter of the Quran, consisting of 5 verses. It is a Meccan surah that together with Surah An-Nas is known as "Al-Mu'awwidzatain" (the two surahs of refuge). This surah teaches seeking protection with Allah from the evil of His creation, especially from the evil of night, sorcerers, and envious people.</p>
+                    <p>The name "Al-Falaq" means "daybreak" which is the time of dawn. This surah was taught by Jibril to Prophet Muhammad for protection from magic performed by Jews. This surah shows that true protection is only from Allah.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Falaq</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/113.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/113" target="_blank" class="access-link">Quran.com - Surah Al-Falaq</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verse 1</td>
+                                <td>General Request for Protection</td>
+                                <td>Seeking protection with the Lord of daybreak (Owner of all light)</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 2</td>
+                                <td>Protection from Evil of Creation</td>
+                                <td>Seeking protection from the evil of everything Allah has created</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 3-5</td>
+                                <td>Protection from Specific Evils</td>
+                                <td>Protection from the evil of night, sorcerers, and envious people</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms that only Allah can give true protection from all evil; acknowledgement of absolute dependence on Allah</li>
+                        <li><strong>Worship:</strong> Teaches supplication for protection (ta'awwudh) as a form of worship and dependence on Allah</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches to always be cautious of various forms of evil, and rely on Allah not on amulets or sorcery</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=113" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah An-Nas -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah An-Nas (Mankind) - Verses 1-6</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah An-Nas</h3>
+                    <p>Surah An-Nas is the 114th and last chapter of the Quran, consisting of 6 verses. It is a Meccan surah that together with Surah Al-Falaq forms "Al-Mu'awwidzatain" (the two surahs of refuge). This surah teaches seeking protection with Allah from the evil of whisperings of Satan that hide in human hearts.</p>
+                    <p>Surah An-Nas is a beautiful conclusion to the Quran, reminding humans of their weakness against Satan's whisperings and the importance of Allah's protection. This surah covers three attributes of Allah: Rabb (Lord), Malik (King), and Ilah (God) of mankind, then seeking protection from Satan's temptations.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah An-Nas</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/114.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://quran.com/114" target="_blank" class="access-link">Quran.com - Surah An-Nas</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 1-3</td>
+                                <td>Attributes of Allah</td>
+                                <td>Allah as Rabb (Lord), Malik (King), and Ilah (God) of all mankind</td>
+                            </tr>
+                            <tr>
+                                <td>Verse 4</td>
+                                <td>Source of Evil</td>
+                                <td>Evil comes from whisperings of Satan that hide in human hearts</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 5-6</td>
+                                <td>Target of Satan's Whisperings</td>
+                                <td>Satan whispers evil into hearts of humans, from among jinn and mankind</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Affirms three attributes of Allah: Lord, King, and God of mankind; and acknowledgement of real Satanic temptations</li>
+                        <li><strong>Worship:</strong> Teaches supplication for protection from Satan's temptations as acknowledgement of dependence on Allah</li>
+                        <li><strong>Akhlak (Morality):</strong> Teaches caution against evil whisperings of the heart, self-introspection, and always seeking Allah's help from Satan's temptations</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=114" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_29.html"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 30 - Amma Yatasa'aloon</span>
+                <span style="color: #7f8c8d; font-style: italic;">(Final Juz)</span>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle - Set Indonesian as default
+            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (currentLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            } else {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
