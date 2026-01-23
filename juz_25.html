@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 25 - Surah Thematic Analysis</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --surah-divider: #2c3e50;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --surah-divider: #3498db;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: center;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .juz-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid #3498db;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid var(--tafsir-border);
+            transition: all 0.3s ease;
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid #3498db;
+        }
+        .top-home-link:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+        }
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .structure-item {
+            background: var(--structure-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        .structure-item h4 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .benefits-list {
+            background: var(--benefits-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .benefits-list ul {
+            padding-left: 20px;
+        }
+        .theme-overview {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .dark-mode .theme-overview {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        .info-box {
+            background-color: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            border: 1px solid var(--verse-border);
+        }
+        .praise-section {
+            background-color: var(--praise-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #c0392b;
+        }
+        .guidance-section {
+            background-color: var(--guidance-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #27ae60;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+        .juz-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0 20px;
+            padding: 20px 0;
+            border-top: 1px solid var(--verse-border);
+            border-bottom: 1px solid var(--verse-border);
+        }
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: var(--verse-bg);
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 5px;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+        .nav-link i {
+            margin: 0 5px;
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--structure-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .theme-table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        .theme-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--verse-border);
+            color: var(--text-color);
+        }
+        .theme-table tr:last-child td {
+            border-bottom: none;
+        }
+        .surah-divider {
+            margin: 50px 0;
+            border-top: 3px solid var(--surah-divider);
+            position: relative;
+        }
+        .surah-divider-title {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--container-bg);
+            padding: 0 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--section-title-color);
+        }
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .juz-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .structure-grid {
+                grid-template-columns: 1fr;
+            }
+            .juz-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-link {
+                justify-content: center;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .surah-divider-title {
+                font-size: 16px;
+                padding: 0 10px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <h1 class="juz-title">Juz 25 - Tafsir Tematik</h1>
+            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, dan Kementerian Agama RI</div>
+
+            <div class="theme-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Gambaran Umum Juz 25</h3>
+                <p>Juz 25 dimulai dari Surah Ash-Shura (42) ayat 1 hingga Surah Al-Jathiya (45) ayat 37. Juz ini mengandung empat surah lengkap yang semuanya termasuk dalam golongan surah Makkiyah (diturunkan di Mekah). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank">IslamicStudies.info</a>, surah-surah dalam juz ini memiliki tema utama tentang tauhid, hari kebangkitan, dan balasan atas amal perbuatan manusia. Tafsir Ibn Kathir menjelaskan bahwa surah-surah ini turun pada periode akhir kenabian di Mekah ketika tekanan terhadap kaum muslimin semakin meningkat. Kementerian Agama RI menekankan bahwa juz ini banyak mengandung pelajaran tentang keadilan, kebijaksanaan, dan hikmah dalam menghadapi berbagai ujian hidup.</p>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+                <p>Untuk membaca teks lengkap surah-surah dalam Juz 25 beserta terjemahannya, kunjungi: 
+                <a href="https://quran.com/42" target="_blank">Quran.com - Surah Ash-Shura</a> | 
+                <a href="https://quran.com/43" target="_blank">Surah Az-Zukhruf</a> | 
+                <a href="https://quran.com/44" target="_blank">Surah Ad-Dukhan</a> | 
+                <a href="https://quran.com/45" target="_blank">Surah Al-Jathiya</a></p>
+            </div>
+
+            <div class="bonus">
+                <div class="section-title">Sumber Tafsir Terpercaya</div>
+                <p>Pembahasan dalam halaman ini mengikuti kerangka tematik yang dikenal dalam ilmu tafsir, dengan merujuk pada sumber-sumber terpercaya termasuk <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, dan terjemahan resmi Kementerian Agama Republik Indonesia.</p>
+            </div>
+
+            <!-- Surah Ash-Shura -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-quran section-title-icon"></i> Surah Ash-Shura (42:1-53)</h2>
+                
+                <div class="arabic">حم عسق كَذَٰلِكَ يُوحِىٓ إِلَيْكَ وَإِلَى ٱلَّذِينَ مِن قَبْلِكَ ٱللَّهُ ٱلْعَزِيزُ ٱلْحَكِيمُ</div>
+                <div class="transliteration">Ḥā Mīm 'Ayn Sīn Qāf, każālika yụḥī ilaika wa ilallażīna ming qablikallāhul-'azīzul-ḥakīm.</div>
+                <p style="text-align: center; font-style: italic;">"Ha Mim 'Ain Sin Qaf. Demikianlah Allah Yang Mahaperkasa, Mahabijaksana, mewahyukan kepadamu dan kepada orang-orang sebelum engkau." (Ash-Shura 42:1-3)</p>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-book-open section-title-icon"></i> Gambaran Umum Surah Ash-Shura</h3>
+                    <p>Surah Ash-Shura (سورة الشورى) adalah surah ke-42 dalam Al-Qur'an dan terdiri dari 53 ayat. Termasuk dalam golongan surah Makkiyah, surah ini dinamai Ash-Shura (Musyawarah) karena terdapat ayat yang menjelaskan pentingnya bermusyawarah dalam urusan bersama (42:38). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Fussilat dan sebelum Surah Az-Zukhruf. Tafsir Ibn Kathir menjelaskan bahwa surah ini banyak membahas tentang keesaan Allah, kebenaran wahyu, dan hari pembalasan. Kementerian Agama RI menekankan bahwa surah ini mengajarkan pentingnya musyawarah dalam menyelesaikan masalah bersama.</p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Dengarkan Surah Ash-Shura</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/042.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ayat 1-12</strong></td>
+                                <td>Keesaan Allah dan Wahyu</td>
+                                <td>Allah sebagai sumber wahyu; keesaan-Nya; penciptaan langit dan bumi</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 13-18</strong></td>
+                                <td>Kesatuan Agama Para Nabi</td>
+                                <td>Agama semua nabi sama: menyembah Allah; perbedaan syariat; hari kebangkitan</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 19-29</strong></td>
+                                <td>Karunia dan Rahmat Allah</td>
+                                <td>Allah Mahakaya; rahmat-Nya meliputi segala sesuatu; balasan bagi hamba-Nya</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 30-43</strong></td>
+                                <td>Ujian dan Musibah</td>
+                                <td>Musibah akibat perbuatan manusia; sabar dan memaafkan; balasan di akhirat</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 44-53</strong></td>
+                                <td>Kekuasaan Allah dan Penutup</td>
+                                <td>Allah berkuasa menunjuki siapa yang Dia kehendaki; penegasan tentang wahyu</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Surah Ash-Shura</h3>
+                        <ul>
+                            <li><strong>Akidah</strong> : Keyakinan bahwa Allah Mahaperkasa, Mahabijaksana (42:3), keimanan pada wahyu yang diturunkan kepada para nabi (42:13), keyakinan pada hari kebangkitan dan pembalasan (42:7, 45), pengakuan bahwa hanya Allah yang berhak disembah (42:21).</li>
+                            <li><strong>Ibadah</strong> : Mendirikan shalat (42:38), menafkahkan harta di jalan Allah (42:38), berserah diri kepada Allah (42:13), memohon ampunan kepada Allah (42:5).</li>
+                            <li><strong>Akhlak</strong> : Bermusyawarah dalam urusan bersama (42:38), memaafkan kesalahan orang lain (42:40), sabar menghadapi ujian (42:43), menjauhi dosa besar dan perbuatan keji (42:37).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-divider">
+                <div class="surah-divider-title">Surah Az-Zukhruf</div>
+            </div>
+
+            <!-- Surah Az-Zukhruf -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-quran section-title-icon"></i> Surah Az-Zukhruf (43:1-89)</h2>
+                
+                <div class="arabic">حم وَٱلْكِتَٰبِ ٱلْمُبِينِ إِنَّا جَعَلْنَٰهُ قُرْءَٰنًا عَرَبِيًّا لَّعَلَّكُمْ تَعْقِلُونَ</div>
+                <div class="transliteration">Ḥā Mīm, wal-kitābil-mubīn, innā ja'alnāhu qur`ānan 'arabiyyal la'allakum ta'qilụn.</div>
+                <p style="text-align: center; font-style: italic;">"Ha Mim. Demi Kitab (Al-Qur'an) yang jelas. Sesungguhnya Kami menjadikan Al-Qur'an dalam bahasa Arab agar kamu mengerti." (Az-Zukhruf 43:1-3)</p>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-book-open section-title-icon"></i> Gambaran Umum Surah Az-Zukhruf</h3>
+                    <p>Surah Az-Zukhruf (سورة الزخرف) adalah surah ke-43 dalam Al-Qur'an dan terdiri dari 89 ayat. Termasuk dalam golongan surah Makkiyah, surah ini dinamai Az-Zukhruf (Perhiasan) karena terdapat ayat yang menyebutkan perhiasan emas dan perak yang disediakan di surga (43:71). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=43" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Ash-Shura dan sebelum Surah Ad-Dukhan. Tafsir Ibn Kathir menjelaskan bahwa surah ini banyak membahas tentang keesaan Allah, kebatilan syirik, dan keadaan orang-orang kafir di akhirat. Kementerian Agama RI menekankan bahwa surah ini mengajarkan tentang keagungan Al-Qur'an sebagai kitab petunjuk.</p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Dengarkan Surah Az-Zukhruf</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/043.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ayat 1-25</strong></td>
+                                <td>Kemuliaan Al-Qur'an dan Penolakan Kaum Musyrik</td>
+                                <td>Al-Qur'an sebagai kitab yang jelas; penolakan kaum musyrik terhadap kenabian; kisah Nabi Ibrahim</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 26-35</strong></td>
+                                <td>Kesombongan dan Kekafiran</td>
+                                <td>Kesombongan Fir'aun dan pengikutnya; perhiasan dunia sebagai ujian; azab bagi orang kafir</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 36-50</strong></td>
+                                <td>Godaan Setan dan Kisah Nabi Musa</td>
+                                <td>Setan sebagai teman bagi orang yang berpaling dari Allah; mukjizat Nabi Musa; penolakan Fir'aun</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 51-65</strong></td>
+                                <td>Perdebatan dan Bukti Keesaan</td>
+                                <td>Perdebatan antara kebenaran dan kebatilan; Isa sebagai hamba Allah; larangan menyekutukan Allah</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 66-89</strong></td>
+                                <td>Hari Kiamat dan Penutup</td>
+                                <td>Kedatangan hari kiamat secara tiba-tiba; keadaan penghuni surga dan neraka; penegasan tentang keesaan Allah</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Surah Az-Zukhruf</h3>
+                        <ul>
+                            <li><strong>Akidah</strong> : Keyakinan bahwa Al-Qur'an adalah kitab yang jelas (43:2), keimanan pada keesaan Allah (43:45), penolakan terhadap syirik (43:15), keyakinan pada hari kebangkitan (43:66-67).</li>
+                            <li><strong>Ibadah</strong> : Menyembah Allah semata (43:64), berdoa kepada Allah dengan penuh harap (43:86), membaca dan mempelajari Al-Qur'an (43:3).</li>
+                            <li><strong>Akhlak</strong> : Menjauhi kesombongan (43:32), tidak mengejek orang beriman (43:18), bersabar menghadapi ejekan (43:89), berkata baik (43:88-89).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-divider">
+                <div class="surah-divider-title">Surah Ad-Dukhan</div>
+            </div>
+
+            <!-- Surah Ad-Dukhan -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-quran section-title-icon"></i> Surah Ad-Dukhan (44:1-59)</h2>
+                
+                <div class="arabic">حم وَٱلْكِتَٰبِ ٱلْمُبِينِ إِنَّآ أَنزَلْنَٰهُ فِى لَيْلَةٍ مُّبَٰرَكَةٍ ۚ إِنَّا كُنَّا مُنذِرِينَ</div>
+                <div class="transliteration">Ḥā Mīm, wal-kitābil-mubīn, innā anzalnāhu fī lailatim mubārakah, innā kunnā munżirīn.</div>
+                                <p style="text-align: center; font-style: italic;">"Ha Mim. Demi Kitab (Al-Qur'an) yang jelas. Sesungguhnya Kami menurunkannya pada malam yang penuh berkah. Sesungguhnya Kamilah yang memberi peringatan." (Ad-Dukhan 44:1-3)</p>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-book-open section-title-icon"></i> Gambaran Umum Surah Ad-Dukhan</h3>
+                    <p>Surah Ad-Dukhan (سورة الدخان) adalah surah ke-44 dalam Al-Qur'an dan terdiri dari 59 ayat. Termasuk dalam golongan surah Makkiyah, surah ini dinamai Ad-Dukhan (Kabut) karena terdapat ayat yang menyebutkan tentang kabut sebagai azab bagi orang-orang kafir (44:10). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=44" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Az-Zukhruf dan sebelum Surah Al-Jathiya. Tafsir Ibn Kathir menjelaskan bahwa surah ini banyak membahas tentang turunnya Al-Qur'an pada malam Lailatul Qadar, azab bagi orang-orang kafir, dan nikmat surga bagi orang beriman. Kementerian Agama RI menekankan bahwa surah ini mengingatkan tentang pentingnya mengambil pelajaran dari kisah umat-umat terdahulu.</p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Dengarkan Surah Ad-Dukhan</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/044.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ayat 1-8</strong></td>
+                                <td>Turunnya Al-Qur'an</td>
+                                <td>Al-Qur'an diturunkan pada malam yang penuh berkah; keesaan Allah; kehidupan dan kematian</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 9-16</strong></td>
+                                <td>Azab bagi Orang Kafir</td>
+                                <td>Orang kafir dalam keraguan; azab kabut yang menyakitkan; peringatan sebelum azab</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 17-33</strong></td>
+                                <td>Kisah Fir'aun dan Bani Israil</td>
+                                <td>Ujian terhadap Fir'aun; mukjizat Nabi Musa; penyelamatan Bani Israil; azab bagi Fir'aun</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 34-50</strong></td>
+                                <td>Perbandingan Akhirat</td>
+                                <td>Orang kafir mengingkari kebangkitan; perbandingan siksa neraka dan nikmat surga</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 51-59</strong></td>
+                                <td>Nikmat Surga dan Penutup</td>
+                                <td>Keamanan dan kenikmatan di surga; buah-buahan yang disukai; bidadari yang bermata jeli</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Surah Ad-Dukhan</h3>
+                        <ul>
+                            <li><strong>Akidah</strong> : Keyakinan bahwa Al-Qur'an diturunkan pada malam yang penuh berkah (44:3), keimanan pada kekuasaan Allah dalam menghidupkan dan mematikan (44:8), keyakinan pada hari kebangkitan (44:40), penolakan terhadap kekafiran (44:9).</li>
+                            <li><strong>Ibadah</strong> : Berdoa kepada Allah dengan penuh harap (44:12), mengingat Allah dalam segala keadaan (44:8), mensyukuri nikmat keselamatan (44:30).</li>
+                            <li><strong>Akhlak</strong> : Tidak sombong seperti Fir'aun (44:31), bersabar menghadapi ejekan (44:14), mengambil pelajaran dari kisah umat terdahulu (44:25-29).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-divider">
+                <div class="surah-divider-title">Surah Al-Jathiya</div>
+            </div>
+
+            <!-- Surah Al-Jathiya -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-quran section-title-icon"></i> Surah Al-Jathiya (45:1-37)</h2>
+                
+                <div class="arabic">حم تَنزِيلُ ٱلْكِتَٰبِ مِنَ ٱللَّهِ ٱلْعَزِيزِ ٱلْحَكِيمِ إِنَّ فِى ٱلسَّمَٰوَٰتِ وَٱلْأَرْضِ لَءَايَٰتٍ لِّلْمُؤْمِنِينَ</div>
+                <div class="transliteration">Ḥā Mīm, tanzīlul-kitābi minallāhil-'azīzil-ḥakīm, inna fis-samāwāti wal-arḍi la`āyātil lil-mu`minīn.</div>
+                <p style="text-align: center; font-style: italic;">"Ha Mim. Diturunkan Kitab (Al-Qur'an) dari Allah Yang Mahaperkasa, Mahabijaksana. Sesungguhnya pada langit dan bumi benar-benar terdapat tanda-tanda (kebesaran Allah) bagi orang-orang yang beriman." (Al-Jathiya 45:1-3)</p>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-book-open section-title-icon"></i> Gambaran Umum Surah Al-Jathiya</h3>
+                    <p>Surah Al-Jathiya (سورة الجاثية) adalah surah ke-45 dalam Al-Qur'an dan terdiri dari 37 ayat. Termasuk dalam golongan surah Makkiyah, surah ini dinamai Al-Jathiya (Yang Berlutut) karena terdapat ayat yang menggambarkan keadaan manusia pada hari kiamat dimana semua orang berlutut (45:28). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=45" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Ad-Dukhan dan sebelum Surah Al-Ahqaf. Tafsir Ibn Kathir menjelaskan bahwa surah ini banyak membahas tentang tanda-tanda kekuasaan Allah di alam semesta, kebenaran Al-Qur'an, dan keadaan manusia pada hari kiamat. Kementerian Agama RI menekankan bahwa surah ini mengajak manusia untuk memikirkan ciptaan Allah sebagai bukti keesaan-Nya.</p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Dengarkan Surah Al-Jathiya</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/045.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ayat 1-6</strong></td>
+                                <td>Tanda-tanda Kekuasaan Allah</td>
+                                <td>Al-Qur'an sebagai kitab dari Allah; tanda-tanda kekuasaan Allah di langit dan bumi</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 7-11</strong></td>
+                                <td>Kebohongan dan Azab</td>
+                                <td>Celaka bagi setiap pendusta besar; pengingkaran terhadap ayat-ayat Allah; azab yang pedih</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 12-15</strong></td>
+                                <td>Nikmat Allah dan Balasan</td>
+                                <td>Allah yang menundukkan laut; perintah untuk bersyukur; balasan sesuai amal perbuatan</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 16-22</strong></td>
+                                <td>Bani Israil dan Hukum Allah</td>
+                                <td>Karunia kepada Bani Israil; penyimpangan mereka; hukum Allah yang adil</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ayat 23-37</strong></td>
+                                <td>Hari Kiamat dan Penutup</td>
+                                <td>Orang yang mengikuti hawa nafsu; hari kebangkitan; semua umat berlutut; penegasan kekuasaan Allah</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Surah Al-Jathiya</h3>
+                        <ul>
+                            <li><strong>Akidah</strong> : Keyakinan bahwa Al-Qur'an diturunkan dari Allah (45:2), keimanan pada tanda-tanda kekuasaan Allah di alam semesta (45:3-5), keyakinan pada hari kebangkitan (45:26), penolakan terhadap pendustaan (45:7).</li>
+                            <li><strong>Ibadah</strong> : Bersyukur atas nikmat Allah (45:12), berdoa kepada Allah dengan penuh harap (45:14), mengikuti petunjuk Allah (45:18).</li>
+                            <li><strong>Akhlak</strong> : Tidak mengikuti hawa nafsu (45:23), berlaku adil (45:22), tidak sombong (45:31), mengambil pelajaran dari kisah umat terdahulu (45:16-17).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="juz-navigation">
+                <a href="024_juz.html" class="nav-link"><i class="fas fa-arrow-left"></i> Juz Sebelumnya: 24</a>
+                <a href="026_juz.html" class="nav-link">Juz Berikutnya: 26 <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="juz-title">Juz 25 - Thematic Tafsir</h1>
+            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, and Indonesian Ministry of Religious Affairs</div>
+
+            <div class="theme-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Overview of Juz 25</h3>
+                <p>Juz 25 starts from Surah Ash-Shura (42) verse 1 to Surah Al-Jathiya (45) verse 37. This juz contains four complete surahs, all of which are classified as Meccan surahs (revealed in Mecca). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank">IslamicStudies.info</a>, the surahs in this juz have main themes about tawhid, the Day of Resurrection, and recompense for human deeds. Tafsir Ibn Kathir explains that these surahs were revealed during the late period of prophethood in Mecca when pressure on Muslims was increasing. The Indonesian Ministry of Religious Affairs emphasizes that this juz contains many lessons about justice, wisdom, and wisdom in facing various life tests.</p>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
+                <p>To read the complete text of surahs in Juz 25 along with their translation, visit: 
+                <a href="https://quran.com/42" target="_blank">Quran.com - Surah Ash-Shura</a> | 
+                <a href="https://quran.com/43" target="_blank">Surah Az-Zukhruf</a> | 
+                <a href="https://quran.com/44" target="_blank">Surah Ad-Dukhan</a> | 
+                <a href="https://quran.com/45" target="_blank">Surah Al-Jathiya</a></p>
+            </div>
+
+            <div class="bonus">
+                <div class="section-title">Reliable Tafsir Sources</div>
+                <p>The discussion on this page follows the thematic framework well-known in the science of tafsir, referencing reliable sources including <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, and the official translation by the Indonesian Ministry of Religious Affairs.</p>
+            </div>
+
+            <!-- Surah Ash-Shura -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-quran section-title-icon"></i> Surah Ash-Shura (42:1-53)</h2>
+                
+                <div class="arabic">حم عسق كَذَٰلِكَ يُوحِىٓ إِلَيْكَ وَإِلَى ٱلَّذِينَ مِن قَبْلِكَ ٱللَّهُ ٱلْعَزِيزُ ٱلْحَكِيمُ</div>
+                <div class="transliteration">Ḥā Mīm 'Ayn Sīn Qāf, każālika yụḥī ilaika wa ilallażīna ming qablikallāhul-'azīzul-ḥakīm.</div>
+                <p style="text-align: center; font-style: italic;">"Ha Mim 'Ain Sin Qaf. Thus has Allah, the Exalted in Might, the Wise, revealed to you and to those before you." (Ash-Shura 42:1-3)</p>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-book-open section-title-icon"></i> Overview of Surah Ash-Shura</h3>
+                    <p>Surah Ash-Shura (سورة الشورى) is the 42nd chapter of the Qur'an and consists of 53 verses. Classified as a Meccan surah, this surah is named Ash-Shura (Consultation) because there is a verse that explains the importance of consultation in mutual matters (42:38). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Fussilat and before Surah Az-Zukhruf. Tafsir Ibn Kathir explains that this surah extensively discusses the oneness of Allah, the truth of revelation, and the Day of Recompense. The Indonesian Ministry of Religious Affairs emphasizes that this surah teaches the importance of consultation in solving common problems.</p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to Surah Ash-Shura</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/042.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Verses 1-12</strong></td>
+                                <td>Oneness of Allah and Revelation</td>
+                                <td>Allah as source of revelation; His oneness; creation of heavens and earth</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 13-18</strong></td>
+                                <td>Unity of Prophets' Religion</td>
+                                <td>All prophets' religion is same: worship Allah; differences in legislation; Day of Resurrection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 19-29</strong></td>
+                                <td>Allah's Bounty and Mercy</td>
+                                <td>Allah is Self-Sufficient; His mercy encompasses everything; recompense for His servants</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 30-43</strong></td>
+                                <td>Tests and Calamities</td>
+                                <td>Calamities due to human deeds; patience and forgiveness; recompense in Hereafter</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 44-53</strong></td>
+                                <td>Allah's Power and Conclusion</td>
+                                <td>Allah has power to guide whom He wills; affirmation about revelation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Surah Ash-Shura Teachings</h3>
+                        <ul>
+                            <li><strong>Aqidah (Creed)</strong> : Belief that Allah is Exalted in Might, Wise (42:3), faith in revelation sent to prophets (42:13), belief in Day of Resurrection and recompense (42:7, 45), acknowledgment that only Allah deserves worship (42:21).</li>
+                            <li><strong>Worship</strong> : Establish prayer (42:38), spend in Allah's way (42:38), submit to Allah (42:13), seek forgiveness from Allah (42:5).</li>
+                            <li><strong>Akhlaq (Character)</strong> : Consult in mutual matters (42:38), forgive others' mistakes (42:40), be patient in facing tests (42:43), avoid major sins and immoral deeds (42:37).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-divider">
+                <div class="surah-divider-title">Surah Az-Zukhruf</div>
+            </div>
+
+            <!-- Surah Az-Zukhruf -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-quran section-title-icon"></i> Surah Az-Zukhruf (43:1-89)</h2>
+                
+                <div class="arabic">حم وَٱلْكِتَٰبِ ٱلْمُبِينِ إِنَّآ أَنزَلْنَٰهُ فِى لَيْلَةٍ مُّبَٰرَكَةٍ ۚ إِنَّا كُنَّا مُنذِرِينَ</div>
+                <div class="transliteration">Ḥā Mīm, wal-kitābil-mubīn, innā anzalnāhu fī lailatim mubārakah, innā kunnā munżirīn.</div>
+                <p style="text-align: center; font-style: italic;">"Ha Mim. By the clear Book. Indeed, We sent it down during a blessed night. Indeed, We were to warn [mankind]." (Ad-Dukhan 44:1-3)</p>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-book-open section-title-icon"></i> Overview of Surah Az-Zukhruf</h3>
+                    <p>Surah Az-Zukhruf (سورة الزخرف) is the 43rd chapter of the Qur'an and consists of 89 verses. Classified as a Meccan surah, this surah is named Az-Zukhruf (Ornaments) because there is a verse that mentions gold and silver ornaments prepared in Paradise (43:71). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=43" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Ash-Shura and before Surah Ad-Dukhan. Tafsir Ibn Kathir explains that this surah extensively discusses the oneness of Allah, the falsehood of shirk, and the condition of disbelievers in the Hereafter. The Indonesian Ministry of Religious Affairs emphasizes that this surah teaches about the greatness of the Qur'an as a book of guidance.</p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to Surah Az-Zukhruf</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/043.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Verses 1-25</strong></td>
+                                <td>Nobility of Qur'an and Rejection by Polytheists</td>
+                                <td>Qur'an as clear book; polytheists' rejection of prophethood; story of Prophet Ibrahim</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 26-35</strong></td>
+                                <td>Arrogance and Disbelief</td>
+                                <td>Arrogance of Pharaoh and his people; worldly ornaments as test; punishment for disbelievers</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 36-50</strong></td>
+                                <td>Satan's Temptations and Story of Prophet Musa</td>
+                                <td>Satan as companion for those who turn away from Allah; miracles of Prophet Musa; Pharaoh's rejection</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 51-65</strong></td>
+                                <td>Debate and Evidence of Oneness</td>
+                                <td>Debate between truth and falsehood; Isa as servant of Allah; prohibition of shirk</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 66-89</strong></td>
+                                <td>Day of Judgment and Conclusion</td>
+                                <td>Coming of Hour suddenly; condition of Paradise and Hell inhabitants; affirmation of Allah's oneness</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Surah Az-Zukhruf Teachings</h3>
+                        <ul>
+                            <li><strong>Aqidah (Creed)</strong> : Belief that Qur'an is clear book (43:2), faith in oneness of Allah (43:45), rejection of shirk (43:15), belief in Day of Resurrection (43:66-67).</li>
+                            <li><strong>Worship</strong> : Worship Allah alone (43:64), pray to Allah with hope (43:86), read and study Qur'an (43:3).</li>
+                            <li><strong>Akhlaq (Character)</strong> : Avoid arrogance (43:32), do not mock believers (43:18), be patient facing mockery (43:89), speak good words (43:88-89).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-divider">
+                <div class="surah-divider-title">Surah Ad-Dukhan</div>
+            </div>
+
+            <!-- Surah Ad-Dukhan -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-quran section-title-icon"></i> Surah Ad-Dukhan (44:1-59)</h2>
+                
+                <div class="arabic">حم وَٱلْكِتَٰبِ ٱلْمُبِينِ إِنَّآ أَنزَلْنَٰهُ فِى لَيْلَةٍ مُّبَٰرَكَةٍ ۚ إِنَّا كُنَّا مُنذِرِينَ</div>
+                <div class="transliteration">Ḥā Mīm, wal-kitābil-mubīn, innā anzalnāhu fī lailatim mubārakah, innā kunnā munżirīn.</div>
+                <p style="text-align: center; font-style: italic;">"Ha Mim. By the clear Book. Indeed, We sent it down during a blessed night. Indeed, We were to warn [mankind]." (Ad-Dukhan 44:1-3)</p>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-book-open section-title-icon"></i> Overview of Surah Ad-Dukhan</h3>
+                    <p>Surah Ad-Dukhan (سورة الدخان) is the 44th chapter of the Qur'an and consists of 59 verses. Classified as a Meccan surah, this surah is named Ad-Dukhan (Smoke) because there is a verse that mentions smoke as punishment for disbelievers (44:10). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=44" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Az-Zukhruf and before Surah Al-Jathiya. Tafsir Ibn Kathir explains that this surah extensively discusses the revelation of Qur'an on Laylat al-Qadr, punishment for disbelievers, and Paradise favors for believers. The Indonesian Ministry of Religious Affairs emphasizes that this surah reminds about the importance of learning lessons from previous nations' stories.</p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to Surah Ad-Dukhan</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/044.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Verses 1-8</strong></td>
+                                <td>Revelation of Qur'an</td>
+                                <td>Qur'an revealed during blessed night; oneness of Allah; life and death</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 9-16</strong></td>
+                                <td>Punishment for Disbelievers</td>
+                                <td>Disbelievers in doubt; painful smoke punishment; warning before punishment</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 17-33</strong></td>
+                                <td>Story of Pharaoh and Children of Israel</td>
+                                <td>Test against Pharaoh; miracles of Prophet Musa; salvation of Children of Israel; punishment for Pharaoh</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 34-50</strong></td>
+                                <td>Hereafter Comparison</td>
+                                <td>Disbelievers deny resurrection; comparison of Hell punishment and Paradise favors</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 51-59</strong></td>
+                                <td>Paradise Favors and Conclusion</td>
+                                <td>Security and enjoyment in Paradise; desired fruits; fair mates with beautiful eyes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Surah Ad-Dukhan Teachings</h3>
+                        <ul>
+                            <li><strong>Aqidah (Creed)</strong> : Belief that Qur'an was revealed during blessed night (44:3), faith in Allah's power to give life and death (44:8), belief in Day of Resurrection (44:40), rejection of disbelief (44:9).</li>
+                            <li><strong>Worship</strong> : Pray to Allah with hope (44:12), remember Allah in all circumstances (44:8), be grateful for salvation (44:30).</li>
+                            <li><strong>Akhlaq (Character)</strong> : Do not be arrogant like Pharaoh (44:31), be patient facing mockery (44:14), learn lessons from previous nations' stories (44:25-29).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-divider">
+                <div class="surah-divider-title">Surah Al-Jathiya</div>
+            </div>
+
+            <!-- Surah Al-Jathiya -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-quran section-title-icon"></i> Surah Al-Jathiya (45:1-37)</h2>
+                
+                <div class="arabic">حم تَنزِيلُ ٱلْكِتَٰبِ مِنَ ٱللَّهِ ٱلْعَزِيزِ ٱلْحَكِيمِ إِنَّ فِى ٱلسَّمَٰوَٰتِ وَٱلْأَرْضِ لَءَايَٰتٍ لِّلْمُؤْمِنِينَ</div>
+                <div class="transliteration">Ḥā Mīm, tanzīlul-kitābi minallāhil-'azīzil-ḥakīm, inna fis-samāwāti wal-arḍi la`āyātil lil-mu`minīn.</div>
+                <p style="text-align: center; font-style: italic;">"Ha Mim. The revelation of the Book is from Allah, the Exalted in Might, the Wise. Indeed, within the heavens and earth are signs for the believers." (Al-Jathiya 45:1-3)</p>
+
+                <div class="theme-overview">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-book-open section-title-icon"></i> Overview of Surah Al-Jathiya</h3>
+                    <p>Surah Al-Jathiya (سورة الجاثية) is the 45th chapter of the Qur'an and consists of 37 verses. Classified as a Meccan surah, this surah is named Al-Jathiya (The Kneeling) because there is a verse that describes the condition of people on the Day of Judgment where all people will kneel (45:28). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=45" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Ad-Dukhan and before Surah Al-Ahqaf. Tafsir Ibn Kathir explains that this surah extensively discusses signs of Allah's power in the universe, the truth of the Qur'an, and the condition of people on the Day of Judgment. The Indonesian Ministry of Religious Affairs emphasizes that this surah invites people to ponder Allah's creation as evidence of His oneness.</p>
+                </div>
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to Surah Al-Jathiya</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/045.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h2>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Verses 1-6</strong></td>
+                                <td>Signs of Allah's Power</td>
+                                <td>Qur'an as book from Allah; signs of Allah's power in heavens and earth</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 7-11</strong></td>
+                                <td>Falsehood and Punishment</td>
+                                <td>Woe to every great liar; denial of Allah's verses; painful punishment</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 12-15</strong></td>
+                                <td>Allah's Favors and Recompense</td>
+                                <td>Allah who subjected the sea; command to be grateful; recompense according to deeds</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 16-22</strong></td>
+                                <td>Children of Israel and Allah's Law</td>
+                                <td>Favor to Children of Israel; their deviation; Allah's just law</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Verses 23-37</strong></td>
+                                <td>Day of Judgment and Conclusion</td>
+                                <td>Those who follow desires; Day of Resurrection; all nations kneeling; affirmation of Allah's power</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq</h2>
+                    <div class="benefits-list">
+                        <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Surah Al-Jathiya Teachings</h3>
+                        <ul>
+                            <li><strong>Aqidah (Creed)</strong> : Belief that Qur'an is revealed from Allah (45:2), faith in signs of Allah's power in the universe (45:3-5), belief in Day of Resurrection (45:26), rejection of falsehood (45:7).</li>
+                            <li><strong>Worship</strong> : Be grateful for Allah's favors (45:12), pray to Allah with hope (45:14), follow Allah's guidance (45:18).</li>
+                            <li><strong>Akhlaq (Character)</strong> : Do not follow desires (45:23), act justly (45:22), do not be arrogant (45:31), learn lessons from previous nations' stories (45:16-17).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="juz-navigation">
+                <a href="024_juz.html" class="nav-link"><i class="fas fa-arrow-left"></i> Previous Juz: 24</a>
+                <a href="026_juz.html" class="nav-link">Next Juz: 26 <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© (2026 AD) 1447 AH - Juz 25 Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Initialize from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationElements = document.querySelectorAll('.transliteration');
+
+            // Language toggle
+            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (currentLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // Transliteration toggle
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // Dark mode toggle
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
