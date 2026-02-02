@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabel Juz Al-Quran - Versi Indonesia & Inggris</title>
+    <title>Tabel Juz Al-Quran</title>
     <style>
         * {
             margin: 0;
@@ -13,11 +13,25 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background-color: #f5f9fc;
             color: #333;
             line-height: 1.6;
             padding: 20px;
             min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode {
+            background-color: #1a1a2e;
+            color: #e6e6e6;
+        }
+        
+        .dark-mode .container {
+            background-color: #16213e;
+        }
+        
+        .dark-mode .language-header {
+            background: linear-gradient(to right, #2c3e50, #34495e);
         }
         
         .container {
@@ -27,6 +41,44 @@
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        /* Toggle Buttons Container */
+        .toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .toggle-button {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .language-toggle {
+            background: #3498db;
+            color: white;
+        }
+        
+        .dark-mode-toggle {
+            background: #9b59b6;
+            color: white;
+        }
+        
+        .transliteration-toggle {
+            background: #2ecc71;
+            color: white;
         }
         
         .navigation {
@@ -81,11 +133,19 @@
             border-bottom: 2px solid #eaeaea;
         }
         
+        .dark-mode header {
+            border-bottom: 2px solid #4a5568;
+        }
+        
         h1 {
             color: #1a5276;
             font-size: 2.5rem;
             margin-bottom: 10px;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .dark-mode h1 {
+            color: #3498db;
         }
         
         .subtitle {
@@ -94,62 +154,20 @@
             margin-bottom: 20px;
         }
         
+        .dark-mode .subtitle {
+            color: #a0aec0;
+        }
+        
         .bismillah {
-            font-family: 'Amiri', serif;
+            font-family: 'Amiri', 'Scheherazade New', serif;
             font-size: 28px;
             color: #2c3e50;
             margin: 20px 0;
             direction: rtl;
         }
         
-        .language-toggle {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .toggle-btn {
-            padding: 10px 25px;
-            border: none;
-            border-radius: 25px;
-            background: #3498db;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-        
-        .toggle-btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-        }
-        
-        .toggle-btn.active {
-            background: #1a5276;
-            box-shadow: 0 4px 10px rgba(26, 82, 118, 0.3);
-        }
-        
-        .tables-container {
-            display: flex;
-            gap: 30px;
-            margin: 30px 0;
-        }
-        
-        .table-section {
-            flex: 1;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .table-section.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .dark-mode .bismillah {
+            color: #4cc9f0;
         }
         
         .language-header {
@@ -173,6 +191,10 @@
             overflow: hidden;
             border-radius: 0 0 10px 10px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark-mode table {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         th {
@@ -202,6 +224,10 @@
             font-size: 1rem;
         }
         
+        .dark-mode td {
+            border-bottom: 1px solid #4a5568;
+        }
+        
         tr {
             transition: all 0.3s ease;
         }
@@ -210,10 +236,19 @@
             background-color: #f8f9fa;
         }
         
+        .dark-mode tr:nth-child(even) {
+            background-color: #2d3748;
+        }
+        
         tr:hover {
             background-color: #e8f4fc;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark-mode tr:hover {
+            background-color: #1e3a5f;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         
         tr:hover td {
@@ -230,10 +265,19 @@
             position: relative;
         }
         
+        .dark-mode a {
+            color: #4cc9f0;
+        }
+        
         a:hover {
             color: #1a5276;
             background-color: #e8f4fc;
             transform: translateX(5px);
+        }
+        
+        .dark-mode a:hover {
+            color: #3498db;
+            background-color: #1e3a5f;
         }
         
         a:after {
@@ -255,6 +299,11 @@
             direction: rtl;
             text-align: right;
             font-weight: 500;
+            color: #333;
+        }
+        
+        .dark-mode .arabic-text {
+            color: #e6e6e6;
         }
         
         .transliteration {
@@ -262,9 +311,17 @@
             color: #555;
         }
         
+        .dark-mode .transliteration {
+            color: #a0aec0;
+        }
+        
         .meaning {
             color: #666;
             font-size: 0.95rem;
+        }
+        
+        .dark-mode .meaning {
+            color: #a0aec0;
         }
         
         .juz-number {
@@ -274,29 +331,8 @@
             text-align: center;
         }
         
-        .side-by-side-container {
-            display: flex;
-            gap: 30px;
-            margin: 30px 0;
-        }
-        
-        .side-by-side-section {
-            flex: 1;
-        }
-        
-        .side-by-side-header {
-            background: linear-gradient(to right, #e74c3c, #c0392b);
-            color: white;
-            padding: 15px;
-            border-radius: 10px 10px 0 0;
-            margin-bottom: 0;
-            text-align: center;
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-        
-        .side-by-side-header.english {
-            background: linear-gradient(to right, #3498db, #2980b9);
+        .dark-mode .juz-number {
+            color: #4cc9f0;
         }
         
         .instructions {
@@ -304,6 +340,11 @@
             padding: 25px;
             border-radius: 10px;
             margin: 30px 0;
+            border-left: 5px solid #3498db;
+        }
+        
+        .dark-mode .instructions {
+            background-color: #1e3a5f;
             border-left: 5px solid #3498db;
         }
         
@@ -315,70 +356,25 @@
             gap: 10px;
         }
         
+        .dark-mode .instructions h3 {
+            color: #3498db;
+        }
+        
         .instructions p {
             color: #555;
             margin-bottom: 15px;
         }
         
-        .language-instruction {
+        .dark-mode .instructions p {
+            color: #a0aec0;
+        }
+        
+        .footer-nav {
             display: flex;
-            gap: 30px;
-            margin-top: 20px;
-        }
-        
-        .instruction-box {
-            flex: 1;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        
-        .instruction-box h4 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eee;
-        }
-        
-        .instruction-box.indonesian h4 {
-            color: #e74c3c;
-        }
-        
-        .instruction-box.english h4 {
-            color: #3498db;
-        }
-        
-        .last-viewed {
-            background-color: #fff8e1;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 5px solid #ff9800;
-            display: none;
-        }
-        
-        .last-viewed.show {
-            display: block;
-            animation: slideIn 0.5s ease;
-        }
-        
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .last-viewed h4 {
-            color: #ff9800;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .last-viewed a {
-            display: inline-block;
-            margin-left: 5px;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
         }
         
         footer {
@@ -390,33 +386,87 @@
             font-size: 0.9rem;
         }
         
+        .dark-mode footer {
+            border-top: 1px solid #4a5568;
+            color: #a0aec0;
+        }
+        
         .footer-highlight {
             color: #3498db;
             font-weight: bold;
         }
         
-        .footer-nav {
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: none;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .back-to-top:hover {
+            background-color: #2980b9;
+            transform: scale(1.1);
+        }
+        
+        /* Juz 30 highlighting */
+        .juz-30 {
+            background-color: #fff9e6 !important;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .dark-mode .juz-30 {
+            background-color: #332616 !important;
+            border-left: 4px solid #f39c12;
+        }
+        
+        .juz-30:hover {
+            background-color: #fff0cc !important;
+        }
+        
+        .dark-mode .juz-30:hover {
+            background-color: #44381e !important;
+        }
+        
+        .juz-30-special {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+            50% { box-shadow: 0 8px 20px rgba(243, 156, 18, 0.3); }
+            100% { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        }
+        
+        /* Hidden class for language switching */
+        .hidden {
+            display: none;
         }
         
         /* Responsive styles */
-        @media (max-width: 1200px) {
-            .tables-container, .side-by-side-container, .language-instruction {
-                flex-direction: column;
-            }
-            
-            .table-section, .side-by-side-section, .instruction-box {
-                width: 100%;
-            }
-        }
-        
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
+            }
+            
+            .toggle-container {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-bottom: 15px;
             }
             
             h1 {
@@ -437,15 +487,6 @@
                 overflow-x: auto;
             }
             
-            .language-toggle {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .toggle-btn {
-                width: 200px;
-            }
-            
             .navigation, .footer-nav {
                 flex-direction: column;
                 align-items: center;
@@ -455,6 +496,14 @@
                 width: 100%;
                 justify-content: center;
                 text-align: center;
+            }
+            
+            .back-to-top {
+                bottom: 10px;
+                right: 10px;
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
             }
         }
         
@@ -491,205 +540,46 @@
         tr {
             animation: rowFadeIn 0.5s ease forwards;
         }
-        
-        /* Juz 30 highlighting */
-        .juz-30 {
-            background-color: #fff9e6 !important;
-            border-left: 4px solid #f39c12;
-        }
-        
-        .juz-30:hover {
-            background-color: #fff0cc !important;
-        }
-        
-        /* Recently viewed highlighting */
-        .recently-viewed {
-            background-color: #e8f4fc !important;
-            border-left: 4px solid #3498db;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { background-color: #e8f4fc; }
-            50% { background-color: #d4eaf7; }
-            100% { background-color: #e8f4fc; }
-        }
-        
-        /* Side-by-side comparison styling */
-        .comparison-row {
-            display: flex;
-            background: white;
-            margin-bottom: 2px;
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .comparison-row:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        
-        .comparison-cell {
-            flex: 1;
-            padding: 15px;
-            border-right: 1px solid #eee;
-        }
-        
-        .comparison-cell:last-child {
-            border-right: none;
-        }
-        
-        .comparison-header {
-            background: linear-gradient(to right, #2c3e50, #34495e);
-            color: white;
-            font-weight: bold;
-            padding: 15px;
-            border-radius: 5px 5px 0 0;
-            text-align: center;
-        }
-        
-        .comparison-juz {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #1a5276;
-            margin-bottom: 5px;
-        }
-        
-        /* Tabs for view selection */
-        .view-tabs {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .view-tab {
-            padding: 12px 25px;
-            background: #ecf0f1;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .view-tab:hover {
-            background: #bdc3c7;
-        }
-        
-        .view-tab.active {
-            background: #e74c3c;
-            color: white;
-            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
-        }
-        
-        .view-tab.english-active {
-            background: #3498db;
-        }
-        
-        .view-section {
-            display: none;
-        }
-        
-        .view-section.active {
-            display: block;
-        }
-        
-        /* Print styles */
-        @media print {
-            body {
-                background: white;
-            }
-            
-            .container {
-                box-shadow: none;
-                padding: 0;
-            }
-            
-            a {
-                color: black;
-                text-decoration: none;
-            }
-            
-            .instructions, .view-tabs, .language-toggle, footer, .navigation, .footer-nav, .last-viewed {
-                display: none;
-            }
-            
-            .table-section, .view-section {
-                display: block !important;
-                page-break-inside: avoid;
-            }
-            
-            .side-by-side-container {
-                page-break-before: always;
-            }
-        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Scheherazade+New&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Toggle Buttons Container -->
+    <div class="toggle-container">
+        <button class="toggle-button language-toggle" id="languageToggle">Switch to English</button>
+        <button class="toggle-button transliteration-toggle" id="transliterationToggle">Hide Transliteration</button>
+        <button class="toggle-button dark-mode-toggle" id="darkModeToggle">Dark Mode</button>
+    </div>
+    
     <div class="container">
-        <!-- Top Navigation -->
-        <div class="navigation">
-            <a href="index.html" class="nav-link back-to-main">
-                <i class="fas fa-home"></i> Kembali ke Menu Utama
-                <i class="fas fa-home"></i> Back to Main
-            </a>
-            <a href="juz_summary.html" class="nav-link back-to-summary">
-                <i class="fas fa-list"></i> Kembali ke Ringkasan Juz
-                <i class="fas fa-list"></i> Back to Juz Summary
-            </a>
-        </div>
-        
-        <header>
-            <h1><i class="fas fa-book-quran"></i> Tabel Juz Al-Quran</h1>
-            <div class="bismillah">﷽</div>
-        </header>
-        
-        <!-- Last Viewed Juz Notification -->
-        <div class="last-viewed" id="last-viewed-notification">
-            <h4><i class="fas fa-history"></i> Terakhir Dilihat / Last Viewed</h4>
-            <p>Anda sebelumnya melihat: <a href="#" id="last-juz-link">Juz 1</a> (<span id="last-juz-name">Alif Lam Mim</span>)</p>
-            <p>You previously viewed: <a href="#" id="last-juz-link-en">Juz 1</a> (<span id="last-juz-name-en">Alif Lam Meem</span>)</p>
-        </div>
-        
-        <div class="instructions">
-            <h3><i class="fas fa-info-circle"></i> Petunjuk Penggunaan / How to Use</h3>
-            <p><strong>Klik pada baris Juz mana saja</strong> untuk membuka penjelasan detail Juz tersebut.</p>
-            <p><strong>Click on any cell</strong> to open detailed explanations for that Juz.</p>
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <!-- Top Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link back-to-main">
+                    <i class="fas fa-home"></i> Kembali ke Menu Utama
+                </a>
+                <a href="juz_summary.html" class="nav-link back-to-summary">
+                    <i class="fas fa-list"></i> Ringkasan Juz Lengkap
+                </a>
+            </div>
             
-        </div>
-        
-        <div class="view-tabs">
-            <button class="view-tab active" data-view="indonesian">
-                <i class="fas fa-flag"></i> Bahasa Indonesia
-            </button>
-            <button class="view-tab" data-view="side-by-side">
-                <i class="fas fa-columns"></i> Sisi Berdampingan / Side-by-Side
-            </button>
-            <button class="view-tab" data-view="english">
-                <i class="fas fa-language"></i> English Version
-            </button>
-        </div>
-        
-        <!-- Indonesian Only View (DEFAULT) -->
-        <div class="view-section active" id="indonesian-view">
+            <header>
+                <h1><i class="fas fa-book-quran"></i> Tabel Juz Al-Quran</h1>
+                <p class="subtitle">Semua 30 Juz dengan nama-nama tradisional (Mushaf 604 halaman)</p>
+                <div class="bismillah">﷽</div>
+            </header>
+            
             <div class="language-header">
-                <i class="fas fa-flag"></i> Versi Bahasa Indonesia - Semua 30 Juz
+                <i class="fas fa-flag"></i> Versi Bahasa Indonesia
             </div>
             <table id="indonesian-table">
                 <thead>
                     <tr>
                         <th width="10%">Juz</th>
                         <th width="30%">Nama Arab</th>
-                        <th width="25%">Transliterasi</th>
+                        <th width="25%" class="transliteration-col">Transliterasi</th>
                         <th width="35%">Arti / Keterangan</th>
                     </tr>
                 </thead>
@@ -697,50 +587,61 @@
                     <!-- Indonesian rows will be inserted here by JavaScript -->
                 </tbody>
             </table>
-        </div>
-        
-        <!-- Side-by-Side View -->
-        <div class="view-section" id="side-by-side-view">
-            <div class="side-by-side-container">
-                <!-- Indonesian Column -->
-                <div class="side-by-side-section">
-                    <div class="side-by-side-header">
-                        <i class="fas fa-flag"></i> Versi Indonesia
-                    </div>
-                    <div class="comparison-header">
-                        Juz | Nama Arab | Transliterasi | Arti
-                    </div>
-                    <div id="indonesian-comparison">
-                        <!-- Indonesian comparison rows will be inserted here by JavaScript -->
-                    </div>
-                </div>
-                
-                <!-- English Column -->
-                <div class="side-by-side-section">
-                    <div class="side-by-side-header english">
-                        <i class="fas fa-language"></i> English Version
-                    </div>
-                    <div class="comparison-header">
-                        Juz | Arabic Name | Transliteration | Meaning
-                    </div>
-                    <div id="english-comparison">
-                        <!-- English comparison rows will be inserted here by JavaScript -->
-                    </div>
-                </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> Petunjuk Penggunaan</h3>
+                <p><strong>Klik pada baris Juz mana saja</strong> untuk membuka penjelasan detail Juz tersebut.</p>
+                <p><strong>Juz 30 (Juz Amma)</strong> ditandai dengan warna kuning. Bagian ini berisi surah-surah pendek yang sering dihafal pertama kali dan banyak dibaca dalam shalat.</p>
+                <p><strong>Tombol di kanan atas:</strong> Ganti bahasa, tampilkan/sembunyikan transliterasi, dan mode gelap.</p>
+                <p><em>Preferensi bahasa, mode gelap, dan transliterasi akan disimpan.</em></p>
             </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="footer-nav">
+                <a href="index.html" class="nav-link back-to-main">
+                    <i class="fas fa-home"></i> Kembali ke Menu Utama
+                </a>
+                <a href="juz_summary.html" class="nav-link back-to-summary">
+                    <i class="fas fa-list"></i> Ringkasan Juz Lengkap
+                </a>
+                <a href="#top" class="nav-link">
+                    <i class="fas fa-arrow-up"></i> Kembali ke Atas
+                </a>
+            </div>
+            
+            <footer>
+                <p><i class="fas fa-info-circle"></i> <span class="footer-highlight">30 Juz Al-Quran</span> dalam bahasa Indonesia</p>
+                <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+            </footer>
         </div>
         
-        <!-- English Only View -->
-        <div class="view-section" id="english-view">
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <!-- Top Navigation -->
+            <div class="navigation">
+                <a href="index.html" class="nav-link back-to-main">
+                    <i class="fas fa-home"></i> Back to Main Menu
+                </a>
+                <a href="juz_summary.html" class="nav-link back-to-summary">
+                    <i class="fas fa-list"></i> Complete Juz Summary
+                </a>
+            </div>
+            
+            <header>
+                <h1><i class="fas fa-book-quran"></i> Al-Quran Juz Table</h1>
+                <p class="subtitle">All 30 Juz with traditional names (604-page Mushaf)</p>
+                <div class="bismillah">﷽</div>
+            </header>
+            
             <div class="language-header english">
-                <i class="fas fa-language"></i> English Version - All 30 Juz
+                <i class="fas fa-language"></i> English Version
             </div>
             <table id="english-table">
                 <thead>
                     <tr>
                         <th width="10%">Juz</th>
                         <th width="30%">Arabic Name</th>
-                        <th width="25%">Transliteration</th>
+                        <th width="25%" class="transliteration-col">Transliteration</th>
                         <th width="35%">Meaning / Description</th>
                     </tr>
                 </thead>
@@ -748,46 +649,38 @@
                     <!-- English rows will be inserted here by JavaScript -->
                 </tbody>
             </table>
-        </div>
-        
-        <div class="instructions">
-            <h3><i class="fas fa-lightbulb"></i> Catatan Penting / Important Note</h3>
-            <div class="language-instruction">
-                <div class="instruction-box indonesian">
-                    <h4><i class="fas fa-flag"></i> Bahasa Indonesia</h4>
-                    <p><strong>Juz 30 (Juz Amma)</strong> ditandai dengan warna kuning. Bagian ini berisi surah-surah pendek yang sering dihafal pertama kali dan banyak dibaca dalam shalat.</p>
-                    <p>Klik pada sel mana saja untuk mengakses penjelasan detail dengan pembagian ayat-per-ayat.</p>
-                    <p><strong>Shortcut Keyboard:</strong> Ctrl+1 (Indonesia), Ctrl+2 (Sisi Berdampingan), Ctrl+3 (Inggris), Ctrl+P (Cetak)</p>
-                    <p><em>Preferensi bahasa dan Juz terakhir yang diklik akan disimpan.</em></p>
-                </div>
-                
-                <div class="instruction-box english">
-                    <h4><i class="fas fa-language"></i> English</h4>
-                    <p><strong>Juz 30 (Juz Amma)</strong> is highlighted in yellow. This section contains shorter surahs often memorized first and frequently recited in prayers.</p>
-                    <p>Click on any cell to access detailed explanations with verse-by-verse breakdowns.</p>
-                    <p><strong>Keyboard Shortcuts:</strong> Ctrl+1 (Indonesian), Ctrl+2 (Side-by-Side), Ctrl+3 (English), Ctrl+P (Print)</p>
-                    <p><em>Language preference and last clicked Juz will be remembered.</em></p>
-                </div>
+            
+            <div class="instructions">
+                <h3><i class="fas fa-info-circle"></i> How to Use</h3>
+                <p><strong>Click on any Juz row</strong> to open detailed explanations for that Juz.</p>
+                <p><strong>Juz 30 (Juz Amma)</strong> is highlighted in yellow. This section contains shorter surahs often memorized first and frequently recited in prayers.</p>
+                <p><strong>Top right buttons:</strong> Switch language, show/hide transliteration, and dark mode.</p>
+                <p><em>Language preference, dark mode, and transliteration settings will be saved.</em></p>
             </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="footer-nav">
+                <a href="index.html" class="nav-link back-to-main">
+                    <i class="fas fa-home"></i> Back to Main Menu
+                </a>
+                <a href="juz_summary.html" class="nav-link back-to-summary">
+                    <i class="fas fa-list"></i> Complete Juz Summary
+                </a>
+                <a href="#top" class="nav-link">
+                    <i class="fas fa-arrow-up"></i> Back to Top
+                </a>
+            </div>
+            
+            <footer>
+                <p><i class="fas fa-info-circle"></i> <span class="footer-highlight">30 Juz Al-Quran</span> in English</p>
+                <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+            </footer>
         </div>
-        
-        <!-- Bottom Navigation -->
-        <div class="footer-nav">
-            <a href="index.html" class="nav-link back-to-main">
-                <i class="fas fa-home"></i> Kembali ke Menu Utama
-                <i class="fas fa-home"></i> Back to Main
-            </a>
-            <a href="juz_summary.html" class="nav-link back-to-summary">
-                <i class="fas fa-list"></i> Kembali ke Ringkasan Juz
-                <i class="fas fa-list"></i> Back to Juz Summary
-            </a>
-        </div>
-        
-        <footer>
-            <p><i class="fas fa-info-circle"></i> <span class="footer-highlight">30 Juz Al-Quran</span> dalam bahasa Indonesia dan Inggris dengan tautan yang dapat diklik</p>
-            <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
-        </footer>
     </div>
+
+    <a href="#top" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
 
     <script>
         // Quran Juz Data
@@ -822,8 +715,7 @@
                 { number: 27, arabic: "قَالَ فَمَا خَطْبُكُمْ", transliteration: "Qāla Famā Khaṭbukum", meaning: "Dia Berkata: Maka Apakah Urusanmu", url: "juz_27.html" },
                 { number: 28, arabic: "قَدْ سَمِعَ اللَّهُ", transliteration: "Qad Samiʿallāh", meaning: "Sungguh Allah Telah Mendengar", url: "juz_28.html" },
                 { number: 29, arabic: "تَبَارَكَ الَّذِي", transliteration: "Tabārakalladhī", meaning: "Maha Berkah Dia", url: "juz_29.html" },
-                { number: 30, arabic: "عَمَّ يَتَسَاءَلُونَ", transliteration: "ʿAmma Yatasaʾalūn", meaning: "Tentang Apakah Mereka Saling Bertanya", url: "juz_30.html" },
-                { number: "30 (surat 101-114)", arabic: "عَمَّ يَتَسَاءَلُونَ", transliteration: "ʿAmma Yatasaʾalūn", meaning: "Tentang Apakah Mereka Saling Bertanya (Surah 101-114)", url: "juz_30_101-114.html" }
+                { number: 30, arabic: "عَمَّ يَتَسَاءَلُونَ", transliteration: "ʿAmma Yatasaʾalūn", meaning: "Tentang Apakah Mereka Saling Bertanya", url: "juz_30.html" }
             ],
             english: [
                 { number: 1, arabic: "آلِف لام ميم", transliteration: "Alif Lām Mīm", meaning: "Alif Lam Meem (The Opening)", url: "juz_01.html" },
@@ -855,462 +747,176 @@
                 { number: 27, arabic: "قَالَ فَمَا خَطْبُكُمْ", transliteration: "Qāla Famā Khaṭbukum", meaning: "He Said: Then What Is Your Case", url: "juz_27.html" },
                 { number: 28, arabic: "قَدْ سَمِعَ اللَّهُ", transliteration: "Qad Samiʿallāh", meaning: "Certainly Allah Has Heard", url: "juz_28.html" },
                 { number: 29, arabic: "تَبَارَكَ الَّذِي", transliteration: "Tabārakalladhī", meaning: "Blessed Is He", url: "juz_29.html" },
-                { number: 30, arabic: "عَمَّ يَتَسَاءَلُونَ", transliteration: "ʿAmma Yatasaʾalūn", meaning: "About What Are They Asking", url: "juz_30.html" },
-                { number: "30 (surah 101-114)", arabic: "عَمَّ يَتَسَاءَلُونَ", transliteration: "ʿAmma Yatasaʾalūn", meaning: "About What Are They Asking (Surah 101-114)", url: "juz_30_101-114.html" }
+                { number: 30, arabic: "عَمَّ يَتَسَاءَلُونَ", transliteration: "ʿAmma Yatasaʾalūn", meaning: "About What Are They Asking", url: "juz_30.html" }
             ]
         };
 
         // Function to create a table row
-        function createTableRow(juz, language) {
+        function createTableRow(juz, language, showTransliteration = true) {
             const row = document.createElement('tr');
-            if (juz.number === 30 || juz.number === "30 (surat 101-114)" || juz.number === "30 (surah 101-114)") {
+            if (juz.number === 30) {
                 row.classList.add('juz-30');
-            }
-            
-            // Check if this is the last viewed juz
-            const lastJuzNumber = localStorage.getItem('lastJuzNumber');
-            const lastJuzLanguage = localStorage.getItem('lastJuzLanguage');
-            
-            if (lastJuzNumber && lastJuzLanguage === language && 
-                (juz.number == lastJuzNumber || 
-                 (juz.number.toString().includes(lastJuzNumber) && lastJuzNumber.includes("30")))) {
-                row.classList.add('recently-viewed');
-                row.id = `recent-juz-${language}-${juz.number}`;
             }
             
             // Add animation delay based on row index
             const index = juz.number - 1;
             row.style.animationDelay = `${index * 0.05}s`;
             
+            const transliterationCell = showTransliteration ? 
+                `<td><a href="${juz.url}" class="transliteration" data-juz-number="${juz.number}" data-language="${language}">${juz.transliteration}</a></td>` :
+                `<td style="display: none;"></td>`;
+            
             row.innerHTML = `
                 <td><a href="${juz.url}" class="juz-number" data-juz-number="${juz.number}" data-language="${language}">${juz.number}</a></td>
                 <td><a href="${juz.url}" class="arabic-text" data-juz-number="${juz.number}" data-language="${language}">${juz.arabic}</a></td>
-                <td><a href="${juz.url}" class="transliteration" data-juz-number="${juz.number}" data-language="${language}">${juz.transliteration}</a></td>
+                ${transliterationCell}
                 <td><a href="${juz.url}" class="meaning" data-juz-number="${juz.number}" data-language="${language}">${juz.meaning}</a></td>
             `;
             
             return row;
         }
 
-        // Function to create comparison row
-        function createComparisonRow(juz, language) {
-            const row = document.createElement('div');
-            row.classList.add('comparison-row');
-            if (juz.number === 30 || juz.number === "30 (surat 101-114)" || juz.number === "30 (surah 101-114)") {
-                row.classList.add('juz-30');
-            }
+        // Function to render all tables
+        function renderTables(showTransliteration = true) {
+            // Clear existing content
+            const indonesianTableBody = document.querySelector('#indonesian-table tbody');
+            const englishTableBody = document.querySelector('#english-table tbody');
             
-            // Check if this is the last viewed juz
-            const lastJuzNumber = localStorage.getItem('lastJuzNumber');
-            const lastJuzLanguage = localStorage.getItem('lastJuzLanguage');
+            if (indonesianTableBody) indonesianTableBody.innerHTML = '';
+            if (englishTableBody) englishTableBody.innerHTML = '';
             
-            if (lastJuzNumber && lastJuzLanguage === language && 
-                (juz.number == lastJuzNumber || 
-                 (juz.number.toString().includes(lastJuzNumber) && lastJuzNumber.includes("30")))) {
-                row.classList.add('recently-viewed');
-                row.id = `recent-juz-comparison-${language}-${juz.number}`;
-            }
-            
-            // Add animation delay based on row index
-            const index = juz.number - 1;
-            row.style.animationDelay = `${index * 0.05}s`;
-            
-            row.innerHTML = `
-                <div class="comparison-cell">
-                    <div class="comparison-juz"><a href="${juz.url}" data-juz-number="${juz.number}" data-language="${language}">${juz.number}</a></div>
-                </div>
-                <div class="comparison-cell">
-                    <a href="${juz.url}" class="arabic-text" data-juz-number="${juz.number}" data-language="${language}">${juz.arabic}</a>
-                </div>
-                <div class="comparison-cell">
-                    <a href="${juz.url}" class="transliteration" data-juz-number="${juz.number}" data-language="${language}">${juz.transliteration}</a>
-                </div>
-                <div class="comparison-cell">
-                    <a href="${juz.url}" class="meaning" data-juz-number="${juz.number}" data-language="${language}">${juz.meaning}</a>
-                </div>
-            `;
-            
-            return row;
-        }
-
-        // Function to update last viewed notification
-        function updateLastViewedNotification() {
-            const lastJuzNumber = localStorage.getItem('lastJuzNumber');
-            const lastJuzLanguage = localStorage.getItem('lastJuzLanguage');
-            const lastJuzName = localStorage.getItem('lastJuzName');
-            const lastJuzNameEn = localStorage.getItem('lastJuzNameEn');
-            const lastJuzUrl = localStorage.getItem('lastJuzUrl');
-            
-            const notification = document.getElementById('last-viewed-notification');
-            
-            if (lastJuzNumber && lastJuzUrl) {
-                // Update Indonesian notification
-                document.getElementById('last-juz-link').href = lastJuzUrl;
-                document.getElementById('last-juz-link').textContent = `Juz ${lastJuzNumber}`;
-                document.getElementById('last-juz-name').textContent = lastJuzName || 'Tidak diketahui';
-                
-                // Update English notification
-                document.getElementById('last-juz-link-en').href = lastJuzUrl;
-                document.getElementById('last-juz-link-en').textContent = `Juz ${lastJuzNumber}`;
-                document.getElementById('last-juz-name-en').textContent = lastJuzNameEn || 'Unknown';
-                
-                // Show notification
-                notification.classList.add('show');
-                
-                // Auto-hide after 10 seconds
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 10000);
-            } else {
-                notification.classList.remove('show');
-            }
-        }
-
-        // Function to save last clicked juz
-        function saveLastJuz(juzNumber, language, juzName, juzNameEn, url) {
-            localStorage.setItem('lastJuzNumber', juzNumber);
-            localStorage.setItem('lastJuzLanguage', language);
-            localStorage.setItem('lastJuzName', juzName);
-            localStorage.setItem('lastJuzNameEn', juzNameEn);
-            localStorage.setItem('lastJuzUrl', url);
-            
-            // Also update the last view preference
-            localStorage.setItem('preferredView', language === 'english' ? 'english' : 'indonesian');
-            
-            // Update notification
-            updateLastViewedNotification();
-            
-            // Highlight the recently viewed row
-            highlightRecentlyViewed(juzNumber, language);
-        }
-
-        // Function to highlight recently viewed row
-        function highlightRecentlyViewed(juzNumber, language) {
-            // Remove existing highlights
-            document.querySelectorAll('.recently-viewed').forEach(el => {
-                el.classList.remove('recently-viewed');
+            // Render Indonesian table
+            juzData.indonesian.forEach(juz => {
+                if (indonesianTableBody) {
+                    indonesianTableBody.appendChild(createTableRow(juz, 'indonesian', showTransliteration));
+                }
             });
             
-            // Add highlight to the new row
-            const rows = document.querySelectorAll(`[data-juz-number="${juzNumber}"][data-language="${language}"]`);
-            rows.forEach(link => {
-                const row = link.closest('tr') || link.closest('.comparison-row');
-                if (row) {
-                    row.classList.add('recently-viewed');
-                    
-                    // Scroll to the row if it's in the current view
-                    if (row.offsetParent !== null) {
-                        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
+            // Render English table
+            juzData.english.forEach(juz => {
+                if (englishTableBody) {
+                    englishTableBody.appendChild(createTableRow(juz, 'english', showTransliteration));
                 }
+            });
+            
+            // Update column visibility
+            const transliterationCols = document.querySelectorAll('.transliteration-col');
+            transliterationCols.forEach(col => {
+                col.style.display = showTransliteration ? 'table-cell' : 'none';
             });
         }
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
-            // Populate Indonesian table
-            const indonesianTableBody = document.querySelector('#indonesian-table tbody');
-            juzData.indonesian.forEach(juz => {
-                indonesianTableBody.appendChild(createTableRow(juz, 'indonesian'));
-            });
+            // Load saved preferences
+            const savedLanguage = localStorage.getItem('language') || 'indonesian';
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            const savedTransliteration = localStorage.getItem('showTransliteration') !== 'false'; // Default to true
             
-            // Populate English table
-            const englishTableBody = document.querySelector('#english-table tbody');
-            juzData.english.forEach(juz => {
-                englishTableBody.appendChild(createTableRow(juz, 'english'));
-            });
+            // Set initial state
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
             
-            // Populate side-by-side comparison
-            const indonesianComparison = document.getElementById('indonesian-comparison');
-            const englishComparison = document.getElementById('english-comparison');
-            
-            juzData.indonesian.forEach(juz => {
-                indonesianComparison.appendChild(createComparisonRow(juz, 'indonesian'));
-            });
-            
-            juzData.english.forEach(juz => {
-                englishComparison.appendChild(createComparisonRow(juz, 'english'));
-            });
-            
-            // View tab functionality
-            const viewTabs = document.querySelectorAll('.view-tab');
-            const viewSections = document.querySelectorAll('.view-section');
-            
-            viewTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const view = this.getAttribute('data-view');
-                    
-                    // Update active tab
-                    viewTabs.forEach(t => {
-                        t.classList.remove('active', 'english-active');
-                        if (view === 'english') {
-                            t.classList.remove('active');
-                        }
-                    });
-                    
-                    this.classList.add('active');
-                    if (view === 'english') {
-                        this.classList.add('english-active');
-                    }
-                    
-                    // Show corresponding section
-                    viewSections.forEach(section => {
-                        section.classList.remove('active');
-                    });
-                    
-                    document.getElementById(`${view}-view`).classList.add('active');
-                    
-                    // Save preference to localStorage
-                    localStorage.setItem('preferredView', view);
-                    
-                    // Re-highlight the last viewed juz in the new view
-                    const lastJuzNumber = localStorage.getItem('lastJuzNumber');
-                    const lastJuzLanguage = localStorage.getItem('lastJuzLanguage');
-                    if (lastJuzNumber && lastJuzLanguage) {
-                        setTimeout(() => {
-                            highlightRecentlyViewed(lastJuzNumber, lastJuzLanguage);
-                        }, 100);
-                    }
-                });
-            });
-            
-            // Load saved view preference (default to Indonesian)
-            const savedView = localStorage.getItem('preferredView') || 'indonesian';
-            const savedTab = document.querySelector(`[data-view="${savedView}"]`);
-            if (savedTab) {
-                savedTab.click();
+            // Set language based on saved preference
+            if (savedLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            } else {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
             }
             
-            // Add click tracking and save last juz
-            const links = document.querySelectorAll('a[data-juz-number]');
+            // Set dark mode based on saved preference
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
             
-            links.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    const juzNumber = this.getAttribute('data-juz-number');
-                    const language = this.getAttribute('data-language');
-                    
-                    // Find juz data
-                    let juzDataItem = null;
-                    let juzName = '';
-                    let juzNameEn = '';
-                    
-                    if (language === 'indonesian') {
-                        juzDataItem = juzData.indonesian.find(j => j.number == juzNumber || j.number.toString() === juzNumber);
-                        juzName = juzDataItem ? juzDataItem.transliteration : '';
-                        // Find English equivalent
-                        const englishJuz = juzData.english.find(j => j.number == juzNumber || j.number.toString() === juzNumber);
-                        juzNameEn = englishJuz ? englishJuz.transliteration : '';
-                    } else {
-                        juzDataItem = juzData.english.find(j => j.number == juzNumber || j.number.toString() === juzNumber);
-                        juzNameEn = juzDataItem ? juzDataItem.transliteration : '';
-                        // Find Indonesian equivalent
-                        const indonesianJuz = juzData.indonesian.find(j => j.number == juzNumber || j.number.toString() === juzNumber);
-                        juzName = indonesianJuz ? indonesianJuz.transliteration : '';
-                    }
-                    
-                    if (juzDataItem) {
-                        saveLastJuz(juzNumber, language, juzName, juzNameEn, juzDataItem.url);
-                    }
-                });
-            });
+            // Set transliteration based on saved preference
+            if (!savedTransliteration) {
+                transliterationToggle.textContent = 'Show Transliteration';
+            } else {
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
             
-            // Show last viewed notification on page load
-            updateLastViewedNotification();
+            // Render tables with transliteration setting
+            renderTables(savedTransliteration);
             
-            // Add keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                // Ctrl+1 for Indonesian view (DEFAULT)
-                if (e.ctrlKey && e.key === '1') {
-                    e.preventDefault();
-                    document.querySelector('[data-view="indonesian"]').click();
-                }
-                // Ctrl+2 for side-by-side view
-                else if (e.ctrlKey && e.key === '2') {
-                    e.preventDefault();
-                    document.querySelector('[data-view="side-by-side"]').click();
-                }
-                // Ctrl+3 for English view
-                else if (e.ctrlKey && e.key === '3') {
-                    e.preventDefault();
-                    document.querySelector('[data-view="english"]').click();
-                }
-                // Ctrl+P for print
-                else if (e.ctrlKey && e.key === 'p') {
-                    e.preventDefault();
-                    window.print();
-                }
-                // Ctrl+L to clear localStorage (for testing)
-                else if (e.ctrlKey && e.key === 'l' && e.shiftKey) {
-                    e.preventDefault();
-                    localStorage.clear();
-                    alert('LocalStorage cleared! Page will reload.');
-                    location.reload();
-                }
-            });
-            
-            // Add print button with bilingual text
-            const printButton = document.createElement('button');
-            printButton.innerHTML = '<i class="fas fa-print"></i> Cetak / Print';
-            printButton.style.cssText = `
-                position: fixed;
-                bottom: 70px;
-                right: 20px;
-                background: #3498db;
-                color: white;
-                border: none;
-                padding: 12px 20px;
-                border-radius: 25px;
-                cursor: pointer;
-                font-size: 14px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-                z-index: 100;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                transition: all 0.3s ease;
-            `;
-            
-            printButton.addEventListener('mouseenter', () => {
-                printButton.style.transform = 'translateY(-3px)';
-                printButton.style.boxShadow = '0 6px 15px rgba(0,0,0,0.3)';
-            });
-            
-            printButton.addEventListener('mouseleave', () => {
-                printButton.style.transform = 'translateY(0)';
-                printButton.style.boxShadow = '0 4px 10px rgba(0,0,0,0.2)';
-            });
-            
-            printButton.addEventListener('click', () => {
-                window.print();
-            });
-            
-            document.body.appendChild(printButton);
-            
-            // Add search functionality with bilingual placeholder
-            const searchBox = document.createElement('input');
-            searchBox.type = 'text';
-            searchBox.placeholder = 'Cari Juz... / Search Juz...';
-            searchBox.title = 'Ketik untuk mencari Juz tertentu / Type to search for specific Juz';
-            searchBox.style.cssText = `
-                position: fixed;
-                bottom: 70px;
-                left: 20px;
-                padding: 12px 20px;
-                border: 2px solid #3498db;
-                border-radius: 25px;
-                font-size: 14px;
-                width: 250px;
-                z-index: 100;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            `;
-            
-            searchBox.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                const allRows = document.querySelectorAll('tr, .comparison-row');
-                let foundCount = 0;
-                
-                allRows.forEach(row => {
-                    const text = row.textContent.toLowerCase();
-                    if (text.includes(searchTerm) || searchTerm === '') {
-                        row.style.display = '';
-                        foundCount++;
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-                
-                // Update search box placeholder with result count
-                if (searchTerm && foundCount > 0) {
-                    searchBox.style.borderColor = '#27ae60';
-                    searchBox.title = `Ditemukan ${foundCount} hasil / Found ${foundCount} results`;
-                } else if (searchTerm && foundCount === 0) {
-                    searchBox.style.borderColor = '#e74c3c';
-                    searchBox.title = 'Tidak ditemukan / Not found';
+            // Language toggle event
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
                 } else {
-                    searchBox.style.borderColor = '#3498db';
-                    searchBox.title = 'Cari Juz... / Search Juz...';
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
                 }
             });
             
-            document.body.appendChild(searchBox);
+            // Dark mode toggle event
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
             
-            // Add language toggle for instructions
-            const instructionTitles = document.querySelectorAll('.instructions h3');
-            instructionTitles.forEach(title => {
-                title.addEventListener('click', function() {
-                    const instructions = this.parentElement;
-                    instructions.classList.toggle('expanded');
+            // Transliteration toggle event
+            transliterationToggle.addEventListener('click', function() {
+                const showTransliteration = this.textContent.includes('Hide');
+                this.textContent = showTransliteration ? 'Show Transliteration' : 'Hide Transliteration';
+                localStorage.setItem('showTransliteration', !showTransliteration);
+                renderTables(!showTransliteration);
+            });
+            
+            // Back to top functionality
+            const backToTop = document.getElementById('backToTop');
+            
+            window.addEventListener('scroll', function() {
+                backToTop.style.display = window.scrollY > 300 ? 'flex' : 'none';
+            });
+            
+            backToTop.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Highlight Juz 30 on load
+            setTimeout(() => {
+                const juz30Rows = document.querySelectorAll('.juz-30');
+                juz30Rows.forEach(row => {
+                    row.classList.add('juz-30-special');
+                    setTimeout(() => {
+                        row.classList.remove('juz-30-special');
+                    }, 3000);
                 });
-            });
+            }, 500);
             
-            // Initialize tooltips for links
-            links.forEach(link => {
-                const juzNum = link.textContent.match(/\d+/);
-                if (juzNum) {
-                    link.title = `Klik untuk detail Juz ${juzNum[0]} / Click for Juz ${juzNum[0]} details`;
+            // Add click event listeners to all Juz links
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('a[data-juz-number]')) {
+                    const link = e.target.closest('a[data-juz-number]');
+                    const juzNumber = link.getAttribute('data-juz-number');
+                    const language = link.getAttribute('data-language');
+                    
+                    // Save last viewed Juz for potential future use
+                    localStorage.setItem('lastViewedJuz', juzNumber);
+                    localStorage.setItem('lastViewedLanguage', language);
                 }
             });
-            
-            // Add smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId !== '#') {
-                        const targetElement = document.querySelector(targetId);
-                        if (targetElement) {
-                            targetElement.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                        }
-                    }
-                });
-            });
-            
-            // Add clear history button for testing
-            const clearButton = document.createElement('button');
-            clearButton.innerHTML = '<i class="fas fa-trash"></i> Clear History';
-            clearButton.title = 'Clear browsing history (for testing)';
-            clearButton.style.cssText = `
-                position: fixed;
-                bottom: 120px;
-                right: 20px;
-                background: #e74c3c;
-                color: white;
-                border: none;
-                padding: 8px 15px;
-                border-radius: 25px;
-                cursor: pointer;
-                font-size: 12px;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-                z-index: 100;
-                display: flex;
-                align-items: center;
-                gap: 5px;
-                transition: all 0.3s ease;
-                opacity: 0.7;
-            `;
-            
-            clearButton.addEventListener('mouseenter', () => {
-                clearButton.style.opacity = '1';
-                clearButton.style.transform = 'translateY(-2px)';
-            });
-            
-            clearButton.addEventListener('mouseleave', () => {
-                clearButton.style.opacity = '0.7';
-                clearButton.style.transform = 'translateY(0)';
-            });
-            
-            clearButton.addEventListener('click', () => {
-                if (confirm('Clear all browsing history and preferences?')) {
-                    localStorage.clear();
-                    alert('History cleared! Page will reload.');
-                    location.reload();
-                }
-            });
-            
-            document.body.appendChild(clearButton);
         });
     </script>
 </body>
