@@ -76,14 +76,6 @@
             font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
             line-height: 2;
         }
-        .transliteration {
-            font-style: italic;
-            color: #7f8c8d;
-            font-size: 18px;
-            text-align: center;
-            margin: -15px 0 20px;
-            display: none;
-        }
         .surah-title {
             font-size: 36px;
             color: var(--text-color);
@@ -160,22 +152,9 @@
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .transliteration-toggle {
-            position: fixed;
-            top: 60px;
-            right: 20px;
-            background: #2ecc71;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
         .dark-mode-toggle {
             position: fixed;
-            top: 100px;
+            top: 60px;
             right: 20px;
             background: #9b59b6;
             color: white;
@@ -345,7 +324,7 @@
             .surah-title {
                 font-size: 28px;
             }
-            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            .language-toggle, .dark-mode-toggle {
                 position: static;
                 margin: 10px 0;
                 display: inline-block;
@@ -373,7 +352,6 @@
 <body>
     <div class="container">
         <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
-        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
         <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
 
         <!-- Indonesian Content (Default) -->
@@ -392,21 +370,19 @@
                     <li>Surah Al-Isra (Perjalanan Malam) - Ayat 1-111</li>
                     <li>Surah Al-Kahf (Gua) - Ayat 1-74</li>
                 </ul>
-                <p style="text-align: center; margin-top: 15px;">
+                
+                <!-- Fixed: Akses Teks Lengkap dalam Bahasa Indonesia -->
+                <div class="message-box" style="margin-top: 20px;">
+                    <h3><i class="fas fa-external-link-alt"></i> Akses Teks Lengkap Juz 15</h3>
+                    <p style="margin-bottom: 10px;">Baca teks lengkap dan terjemahan:</p>
                     <a href="https://quran.com/17:1-111?translations=33" target="_blank" class="access-link">
-                        <i class="fas fa-external-link-alt"></i> Akses Teks Lengkap Juz 15
-
-
-
-                <div class="message-box">
-               		 <h3><i class="fas fa-external-link-alt"></i> Access Complete Text</h3>
-                    		<a href="https://quran.com/17:1-111?translations=33" target="_blank" class="access-link">
-                        	   <i class="fas fa-book"></i> Quran.com - Surah Al-Isra 
-                                </a>
-                                <a href="https://quran.com/18:1-78?translations=33" target="_blank" class="access-link">
-                                   <i class="fas fa-book"></i> Quran.com - Surah Al-Kahf
-                                </a>
-               </div>
+                        <i class="fas fa-book"></i> Quran.com - Surah Al-Isra (1-111)
+                    </a>
+                    <a href="https://quran.com/18:1-74?translations=33" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Quran.com - Surah Al-Kahf (1-74)
+                    </a>
+                </div>
+            </div>
 
             <!-- Surah Al-Isra -->
             <div class="section">
@@ -574,19 +550,16 @@
                 </ul>
             </div>
 
-
-
+            <!-- Fixed: Access Complete Text in English, corrected Juz number and links -->
             <div class="message-box">
-                <h3><i class="fas fa-external-link-alt"></i> Access Complete Text</h3>
-                <p>To read the complete text of Juz 10 along with its translation, visit:</p>
-                <p>
-                    <a href="https://recitequran.com/17:1" target="_blank" class="access-link">
-                        <i class="fas fa-book"></i> reciteQuran.com - Surah Al-Isra 
-                    </a>
-                    <a href="https://recitequran.com/18:1" target="_blank" class="access-link">
-                        <i class="fas fa-book"></i> reciteQuran.com - Surah Al-Kahf
-                    </a>
-                </p>
+                <h3><i class="fas fa-external-link-alt"></i> Access Complete Text of Juz 15</h3>
+                <p style="margin-bottom: 10px;">Read the full text and translation:</p>
+                <a href="https://quran.com/17:1-111?translations=131" target="_blank" class="access-link">
+                    <i class="fas fa-book"></i> Quran.com - Surah Al-Isra (1-111)
+                </a>
+                <a href="https://quran.com/18:1-74?translations=131" target="_blank" class="access-link">
+                    <i class="fas fa-book"></i> Quran.com - Surah Al-Kahf (1-74)
+                </a>
             </div>
 
             <!-- Surah Al-Isra -->
@@ -748,9 +721,7 @@
             const englishContent = document.getElementById('english-content');
             const indonesianContent = document.getElementById('indonesian-content');
             const languageToggle = document.getElementById('languageToggle');
-            const transliterationToggle = document.getElementById('transliterationToggle');
             const darkModeToggle = document.getElementById('darkModeToggle');
-            const transliterationElements = document.querySelectorAll('.transliteration');
 
             // Language toggle - Set Indonesian as default
             const currentLanguage = localStorage.getItem('language') || 'indonesian';
@@ -775,25 +746,6 @@
                     indonesianContent.classList.remove('hidden');
                     languageToggle.textContent = 'Switch to English';
                     localStorage.setItem('language', 'indonesian');
-                }
-            });
-
-            // Transliteration toggle
-            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
-            if (transliterationVisible) {
-                transliterationElements.forEach(el => el.style.display = 'block');
-                transliterationToggle.textContent = 'Hide Transliteration';
-            }
-
-            transliterationToggle.addEventListener('click', function() {
-                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
-                    transliterationElements.forEach(el => el.style.display = 'block');
-                    transliterationToggle.textContent = 'Hide Transliteration';
-                    localStorage.setItem('transliteration', 'true');
-                } else {
-                    transliterationElements.forEach(el => el.style.display = 'none');
-                    transliterationToggle.textContent = 'Show Transliteration';
-                    localStorage.setItem('transliteration', 'false');
                 }
             });
 
