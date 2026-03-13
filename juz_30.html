@@ -3135,26 +3135,39 @@
     </footer>
 
     <script>
+		
+        // Initialize from localStorage
         document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
             const languageToggle = document.getElementById('languageToggle');
             const transliterationToggle = document.getElementById('transliterationToggle');
             const darkModeToggle = document.getElementById('darkModeToggle');
-            const indonesianContent = document.getElementById('indonesian-content');
-            const englishContent = document.getElementById('english-content');
             const transliterationElements = document.querySelectorAll('.transliteration');
 
-            // Language toggle
+            // Language toggle - Set Indonesian as default
+            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (currentLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            } else {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
+            }
+
             languageToggle.addEventListener('click', function() {
-                if (indonesianContent.classList.contains('hidden')) {
-                    // Currently English, switch to Indonesian
-                    indonesianContent.classList.remove('hidden');
-                    englishContent.classList.add('hidden');
-                    languageToggle.textContent = 'Switch to English';
-                } else {
-                    // Currently Indonesian, switch to English
-                    indonesianContent.classList.add('hidden');
+                if (englishContent.classList.contains('hidden')) {
                     englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
                     languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
                 }
             });
 
@@ -3166,20 +3179,14 @@
             }
 
             transliterationToggle.addEventListener('click', function() {
-                if (transliterationElements.length > 0) {
-                    const firstEl = transliterationElements[0];
-                    if (firstEl.style.display === 'none' || firstEl.style.display === '') {
-                        transliterationElements.forEach(el => el.style.display = 'block');
-                        transliterationToggle.textContent = 'Hide Transliteration';
-                        localStorage.setItem('transliteration', 'true');
-                    } else {
-                        transliterationElements.forEach(el => el.style.display = 'none');
-                        transliterationToggle.textContent = 'Show Transliteration';
-                        localStorage.setItem('transliteration', 'false');
-                    }
+                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
                 } else {
-                    // No transliteration elements found – toggle message (optional)
-                    alert('No transliteration content available.');
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
                 }
             });
 
@@ -3201,6 +3208,8 @@
                 }
             });
         });
+
     </script>
 </body>
 </html>
+
