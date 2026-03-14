@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juz 1 - Surah Thematic Analysis</title>
+    <title>Juz 1 - Thematic Analysis (no back-to-top links)</title>
     <style>
+        /* ===== STYLES FROM JUZ_30 ===== */
         :root {
             --bg-color: #f5f9fc;
             --text-color: #333;
@@ -57,6 +58,7 @@
             color: var(--text-color);
             background-color: var(--bg-color);
             transition: all 0.3s ease;
+            position: relative;
         }
         .container {
             max-width: 1200px;
@@ -131,6 +133,7 @@
         .verse-title-icon {
             margin-right: 8px;
         }
+        /* .back-to-top class kept but not used anywhere in the page */
         .back-to-top {
             display: block;
             text-align: center;
@@ -147,6 +150,7 @@
             background-color: var(--link-color);
             color: white;
         }
+        /* fixed toggles (right side) */
         .language-toggle {
             position: fixed;
             top: 20px;
@@ -185,6 +189,36 @@
             z-index: 100;
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        /* navigation arrow buttons (fixed) */
+        .nav-button {
+            position: fixed;
+            background: var(--link-color);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 90;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: background 0.3s, transform 0.2s;
+            border: none;
+        }
+        .nav-button:hover {
+            background: #1f5a8a;
+            transform: scale(1.05);
+        }
+        .nav-button.top-left {
+            top: 20px;
+            left: 20px;
+        }
+        .nav-button.bottom-right {
+            bottom: 20px;
+            right: 20px;
         }
         .hidden {
             display: none;
@@ -326,7 +360,7 @@
             border-left: 5px solid #2c3e50;
         }
         .juz-overview {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fc 100%);
+            background: linear-gradient(135deg, #e8f4fc 0%, #f0f7ff 100%);
             padding: 25px;
             border-radius: 10px;
             margin: 25px 0;
@@ -338,231 +372,67 @@
         .dark-mode .overview-box {
             background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
         }
+        /* ---- Ensure English version has no italic text (except transliteration) ---- */
+        #english-content, #english-content * {
+            font-style: normal !important;
+        }
+        #english-content .transliteration {
+            font-style: italic !important;
+        }
+
         @media (max-width: 768px) {
-            .arabic {
-                font-size: 32px;
-            }
-            .surah-title {
-                font-size: 28px;
-            }
+            .arabic { font-size: 32px; }
+            .surah-title { font-size: 28px; }
             .language-toggle, .transliteration-toggle, .dark-mode-toggle {
                 position: static;
                 margin: 10px 0;
                 display: inline-block;
             }
-            .top-home-link {
-                margin-bottom: 15px;
+            .nav-button.top-left {
+                top: 10px;
+                left: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
             }
-            .theme-table {
-                display: block;
-                overflow-x: auto;
+            .nav-button.bottom-right {
+                bottom: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
             }
-            .pagination {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            .container {
-                padding: 15px;
-            }
+            .top-home-link { margin-bottom: 15px; }
+            .theme-table { display: block; overflow-x: auto; }
+            .pagination { flex-direction: column; gap: 15px; text-align: center; }
+            .container { padding: 15px; }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- navigation arrows -->
+    <div id="go-to-bottom" class="nav-button top-left" title="Go to bottom"><i class="fas fa-arrow-down"></i></div>
+    <div id="go-to-top" class="nav-button bottom-right" title="Go to top"><i class="fas fa-arrow-up"></i></div>
+
     <div class="container">
-        <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
+        <!-- fixed toggles (right side) -->
+        <div class="language-toggle" id="languageToggle">Switch to English</div>
         <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
         <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
 
-        <!-- English Content (Default) -->
-        <div id="english-content">
-            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-            <h1 class="surah-title">Juz 1 - Thematic Analysis</h1>
-            <div class="surah-source"><strong>Sources:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank">IslamicStudies.info</a></div>
-
-            <!-- Juz 1 Overview -->
-            <div class="juz-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Juz 1</h3>
-                <p><strong>Juz 1</strong> covers pages 1-21 of the Quran and contains the complete Surah Al-Fatihah (The Opening) and the first 141 verses of Surah Al-Baqarah (The Cow). This Juz is often referred to as "Alif Lam Meem" based on the al-Huruf al-Muqatta'at that begin Surah Al-Baqarah.</p>
-                <p><strong>Page Range:</strong> 1-21 | <strong>Surahs:</strong> 2 | <strong>Hizb:</strong> 1</p>
-                <p style="margin-top: 10px;">
-                    <a href="https://quran.com/juz/1?translations=131" target="_blank" class="access-link">
-                        <i class="fas fa-book-open"></i> Access Complete Text of Juz 1 on Quran.com
-                    </a>
-                </p>
-            </div>
-
-            <!-- Surah Al-Fatihah -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fatihah (The Opening)</h2>
-                
-                <div class="overview-box">
-                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Fatihah</h3>
-                    <p>Surah Al-Fatihah is the first chapter of the Quran, consisting of 7 verses. It is also known as Umm al-Kitab (Mother of the Book) and Al-Sab' al-Mathani (The Seven Oft-Repeated Verses). This surah holds a special position in Islamic prayer as it is recited in every unit (rak'ah) of the Muslim prayer.</p>
-                    <p>It establishes the fundamental relationship between the Creator and the created, emphasizing monotheism, divine mercy, guidance, and the Day of Judgment.</p>
-                </div>
-
-                <div class="audio-player">
-                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Fatihah</h3>
-                    <audio controls style="width: 100%;">
-                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
-                        <i class="fas fa-external-link-alt"></i> Complete Text: 
-                        <a href="https://recitequran.com/1" target="_blank" class="access-link">reciteQuran.com - Surah Al-Fatihah</a>
-                    </p>
-                </div>
-
-                <div class="section">
-                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
-                    <table class="theme-table">
-                        <thead>
-                            <tr>
-                                <th>Verse Range</th>
-                                <th>Main Theme</th>
-                                <th>Core Message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Verse 1</td>
-                                <td>Praise and Recognition</td>
-                                <td>All praise is due to Allah, the Lord of all worlds</td>
-                            </tr>
-                            <tr>
-                                <td>Verses 2-3</td>
-                                <td>Divine Attributes</td>
-                                <td>Allah is the Most Gracious, Most Merciful, Master of the Day of Judgment</td>
-                            </tr>
-                            <tr>
-                                <td>Verses 4</td>
-                                <td>Worship and Dependence</td>
-                                <td>You alone we worship, and You alone we ask for help</td>
-                            </tr>
-                            <tr>
-                                <td>Verses 5-7</td>
-                                <td>Supplication and Guidance</td>
-                                <td>Guide us to the straight path, not the path of those who earned anger or went astray</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="message-box">
-                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
-                    <ul>
-                        <li><strong>Aqidah (Creed):</strong> Affirms Allah's oneness, lordship over all worlds, mercy, and sovereignty on the Day of Judgment</li>
-                        <li><strong>Worship:</strong> Establishes the foundation of prayer and complete dependence on Allah alone</li>
-                        <li><strong>Akhlak (Morality):</strong> Teaches gratitude, humility, and seeking guidance while avoiding the ways of those who earned anger or went astray</li>
-                    </ul>
-                </div>
-
-                <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank" class="access-link">
-                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
-                    </a>
-                </p>
-            </div>
-
-            <div class="surah-divider"></div>
-
-            <!-- Surah Al-Baqarah (Verses 1-141) -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Baqarah (The Cow) - Verses 1-141</h2>
-                
-                <div class="overview-box">
-                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Baqarah (Part 1)</h3>
-                    <p>This portion of Surah Al-Baqarah (verses 1-141) forms the beginning of the longest chapter in the Quran. It establishes foundational Islamic beliefs, addresses various human conditions, and provides guidance for the Muslim community.</p>
-                    <p>The surah begins by categorizing people into three groups: believers, disbelievers, and hypocrites, then progresses to discuss the creation of Adam, stories of previous nations, and practical legislation for the Muslim community.</p>
-                </div>
-
-                <div class="audio-player">
-                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Baqarah (Verses 1-141)</h3>
-                    <audio controls style="width: 100%;">
-                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
-                        <i class="fas fa-external-link-alt"></i> Complete Text: 
-                        <a href="https://recitequran.com/2:1" target="_blank" class="access-link">reciteQuran.com - Surah Al-Baqarah (1-141)</a>
-                    </p>
-                </div>
-
-                <div class="section">
-                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
-                    <table class="theme-table">
-                        <thead>
-                            <tr>
-                                <th>Verse Range</th>
-                                <th>Main Theme</th>
-                                <th>Core Message</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Verses 1-20</td>
-                                <td>Classification of Humanity</td>
-                                <td>Three categories: Believers, Disbelievers, and Hypocrites</td>
-                            </tr>
-                            <tr>
-                                <td>Verses 21-39</td>
-                                <td>Monotheism and Human Purpose</td>
-                                <td>Worship Allah alone, story of Adam's creation and expulsion</td>
-                            </tr>
-                            <tr>
-                                <td>Verses 40-86</td>
-                                <td>Children of Israel</td>
-                                <td>Their covenants, blessings, and violations</td>
-                            </tr>
-                            <tr>
-                                <td>Verses 87-141</td>
-                                <td>Prophethood and Qibla</td>
-                                <td>Continuity of prophethood, change of prayer direction</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="message-box">
-                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
-                    <ul>
-                        <li><strong>Aqidah (Creed):</strong> Affirms belief in the unseen, angels, revealed books, messengers, and the Last Day</li>
-                        <li><strong>Worship:</strong> Establishes the concept of pure monotheistic worship, prayer, and changing of Qibla</li>
-                        <li><strong>Akhlak (Morality):</strong> Warns against hypocrisy, emphasizes sincerity, patience, and fulfilling covenants</li>
-                    </ul>
-                </div>
-
-                <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=2" target="_blank" class="access-link">
-                        <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
-                    </a>
-                </p>
-            </div>
-
-            <div class="pagination">
-                <a href="javascript:void(0)"><i class="fas fa-arrow-left"></i> Previous Juz</a>
-                <span style="color: var(--text-color); font-weight: bold;">Juz 1</span>
-                <a href="juz_02.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
-            </div>
-
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
-        </div>
-
-        <!-- Indonesian Content (Hidden by Default) -->
-        <div id="indonesian-content" class="hidden">
+        <!-- ================= INDONESIAN CONTENT (DEFAULT) ================= -->
+        <div id="indonesian-content">
             <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
             <h1 class="surah-title">Juz 1 - Analisis Tematik</h1>
-            <div class="surah-source"><strong>Sumber:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank">IslamicStudies.info</a></div>
+            <div class="surah-source"><strong>Sumber:</strong> <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a></div>
 
-            <!-- Juz 1 Overview -->
+            <!-- Gambaran Umum Juz 1 -->
             <div class="juz-overview">
                 <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Juz 1</h3>
-                <p><strong>Juz 1</strong> mencakup halaman 1-21 dari Al-Quran dan berisi Surah Al-Fatihah (Pembukaan) secara lengkap dan ayat 1-141 dari Surah Al-Baqarah (Sapi Betina). Juz ini sering disebut "Alif Lam Meem" berdasarkan al-Huruf al-Muqatta'at yang membuka Surah Al-Baqarah.</p>
-                <p><strong>Rentang Halaman:</strong> 1-21 | <strong>Surah:</strong> 2 | <strong>Hizb:</strong> 1</p>
+                <p><strong>Juz 1</strong> mencakup halaman 1-21 Al-Qur'an. Berisi <strong>Surah Al-Fatihah (1–7)</strong> dan awal <strong>Surah Al-Baqarah (1–141)</strong>. Juz ini sering disebut "Alif Lam Meem" berdasarkan huruf muqatta'ah yang membuka Surah Al-Baqarah.</p>
+                <p><strong>Halaman:</strong> 1-21 | <strong>Hizb:</strong> 1</p>
                 <p style="margin-top: 10px;">
                     <a href="https://quran.com/juz/1?translations=33" target="_blank" class="access-link">
                         <i class="fas fa-book-open"></i> Akses Teks Lengkap Juz 1 di Quran.com
@@ -572,14 +442,11 @@
 
             <!-- Surah Al-Fatihah -->
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fatihah (Pembukaan)</h2>
-                
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fatihah (Pembukaan) - Ayat 1-7</h2>
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Fatihah</h3>
-                    <p>Surah Al-Fatihah adalah surah pertama dalam Al-Qur'an, terdiri dari 7 ayat. Dikenal juga sebagai Umm al-Kitab (Induk Al-Kitab) dan Al-Sab' al-Mathani (Tujuh Ayat yang Diulang-ulang). Surah ini memiliki posisi khusus dalam shalat karena dibaca pada setiap rakaat.</p>
-                    <p>Surah ini menetapkan hubungan fundamental antara Pencipta dan ciptaan, menekankan tauhid, rahmat ilahi, petunjuk, dan Hari Pembalasan.</p>
+                    <p>Surah Al-Fatihah adalah surah pertama Al-Qur'an, terdiri dari 7 ayat. Dikenal juga sebagai <strong>Umm al-Kitab</strong> (Induk Al-Kitab) dan <strong>Al-Sab' al-Mathani</strong> (Tujuh Ayat yang Diulang). Surah ini dibaca dalam setiap rakaat shalat. Menegaskan tauhid, hubungan hamba dengan Pencipta, dan permohonan petunjuk ke jalan yang lurus.</p>
                 </div>
-
                 <div class="audio-player">
                     <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Fatihah</h3>
                     <audio controls style="width: 100%;">
@@ -587,134 +454,76 @@
                         Browser Anda tidak mendukung elemen audio.
                     </audio>
                     <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
-                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap:
                         <a href="https://quran.com/1:1-7?translations=33" target="_blank" class="access-link">Quran.com - Surah Al-Fatihah</a>
                     </p>
                 </div>
-
                 <div class="section">
                     <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
                     <table class="theme-table">
-                        <thead>
-                            <tr>
-                                <th>Rentang Ayat</th>
-                                <th>Tema Utama</th>
-                                <th>Inti Pesan</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
                         <tbody>
-                            <tr>
-                                <td>Ayat 1</td>
-                                <td>Pujian dan Pengakuan</td>
-                                <td>Segala puji bagi Allah, Tuhan semesta alam</td>
-                            </tr>
-                            <tr>
-                                <td>Ayat 2-3</td>
-                                <td>Sifat-sifat Ilahi</td>
-                                <td>Allah Maha Pengasih, Maha Penyayang, Penguasa Hari Pembalasan</td>
-                            </tr>
-                            <tr>
-                                <td>Ayat 4</td>
-                                <td>Ibadah dan Ketergantungan</td>
-                                <td>Hanya kepada-Mu kami menyembah dan hanya kepada-Mu kami memohon pertolongan</td>
-                            </tr>
-                            <tr>
-                                <td>Ayat 5-7</td>
-                                <td>Doa dan Petunjuk</td>
-                                <td>Bimbinglah kami ke jalan yang lurus, bukan jalan orang yang dimurkai atau sesat</td>
-                            </tr>
+                            <tr><td>Ayat 1</td><td>Pujian dan Pengakuan</td><td>Segala puji bagi Allah, Tuhan semesta alam</td></tr>
+                            <tr><td>Ayat 2-3</td><td>Sifat-sifat Ilahi</td><td>Maha Pengasih, Maha Penyayang, Penguasa Hari Pembalasan</td></tr>
+                            <tr><td>Ayat 4</td><td>Ibadah dan Ketergantungan</td><td>Hanya kepada-Mu kami menyembah dan memohon pertolongan</td></tr>
+                            <tr><td>Ayat 5-7</td><td>Doa dan Petunjuk</td><td>Tunjukilah kami jalan yang lurus, bukan jalan orang yang dimurkai atau sesat</td></tr>
                         </tbody>
                     </table>
                 </div>
-
                 <div class="message-box">
                     <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
                     <ul>
-                        <li><strong>Akidah:</strong> Menetapkan keesaan Allah, kekuasaan-Nya atas semua alam, rahmat, dan kedaulatan-Nya pada Hari Kiamat</li>
-                        <li><strong>Ibadah:</strong> Menetapkan fondasi shalat dan ketergantungan sepenuhnya hanya kepada Allah</li>
-                        <li><strong>Akhlak:</strong> Mengajarkan syukur, kerendahan hati, dan mencari petunjuk sambil menghindari jalan orang yang dimurkai atau sesat</li>
+                        <li><strong>Akidah:</strong> Keesaan Allah, kekuasaan mutlak-Nya, keniscayaan hari akhir.</li>
+                        <li><strong>Ibadah:</strong> Shalat hanya untuk Allah, memohon pertolongan hanya kepada-Nya.</li>
+                        <li><strong>Akhlak:</strong> Syukur, rendah hati, menjauhi kesesatan dan kemurkaan.</li>
                     </ul>
                 </div>
-
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank" class="access-link">
-                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
-                    </a>
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank" class="access-link"><i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info</a>
                 </p>
             </div>
-
             <div class="surah-divider"></div>
 
-            <!-- Surah Al-Baqarah (Verses 1-141) -->
+            <!-- Surah Al-Baqarah (1-141) -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Baqarah (Sapi Betina) - Ayat 1-141</h2>
-                
                 <div class="overview-box">
-                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Baqarah (Bagian 1)</h3>
-                    <p>Bagian Surah Al-Baqarah (ayat 1-141) ini membentuk awal surah terpanjang dalam Al-Qur'an. Surah ini menetapkan keyakinan Islam dasar, membahas berbagai kondisi manusia, dan memberikan petunjuk bagi komunitas Muslim.</p>
-                    <p>Surah ini dimulai dengan mengkategorikan manusia menjadi tiga kelompok: beriman, kafir, dan munafik, kemudian membahas penciptaan Adam, kisah umat-umat sebelumnya, dan legislasi praktis untuk komunitas Muslim.</p>
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Baqarah (Bagian Awal)</h3>
+                    <p>Bagian pertama surah terpanjang ini (ayat 1–141) mengklasifikasikan manusia menjadi mukmin, kafir, dan munafik. Menceritakan penciptaan Adam, kisah Bani Israel, serta menetapkan kiblat (Ka'bah) dan fondasi syariat.</p>
                 </div>
-
                 <div class="audio-player">
-                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Baqarah (Ayat 1-141)</h3>
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Baqarah (1-141)</h3>
                     <audio controls style="width: 100%;">
                         <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3" type="audio/mpeg">
                         Browser Anda tidak mendukung elemen audio.
                     </audio>
                     <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
-                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap:
                         <a href="https://quran.com/2:1-141?translations=33" target="_blank" class="access-link">Quran.com - Surah Al-Baqarah (1-141)</a>
                     </p>
                 </div>
-
                 <div class="section">
                     <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
                     <table class="theme-table">
-                        <thead>
-                            <tr>
-                                <th>Rentang Ayat</th>
-                                <th>Tema Utama</th>
-                                <th>Inti Pesan</th>
-                            </tr>
-                        </thead>
+                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
                         <tbody>
-                            <tr>
-                                <td>Ayat 1-20</td>
-                                <td>Klasifikasi Manusia</td>
-                                <td>Tiga kategori: Mukmin, Kafir, dan Munafik</td>
-                            </tr>
-                            <tr>
-                                <td>Ayat 21-39</td>
-                                <td>Tauhid dan Tujuan Manusia</td>
-                                <td>Sembahlah Allah semata, kisah penciptaan dan pengusiran Adam</td>
-                            </tr>
-                            <tr>
-                                <td>Ayat 40-86</td>
-                                <td>Bani Israel</td>
-                                <td>Perjanjian, nikmat, dan pelanggaran mereka</td>
-                            </tr>
-                            <tr>
-                                <td>Ayat 87-141</td>
-                                <td>Kenabian dan Kiblat</td>
-                                <td>Kesinambungan kenabian, perubahan arah shalat</td>
-                            </tr>
+                            <tr><td>Ayat 1-20</td><td>Klasifikasi Manusia</td><td>Mukmin, kafir, munafik – ciri dan balasan masing-masing</td></tr>
+                            <tr><td>Ayat 21-39</td><td>Tauhid dan Tujuan Hidup</td><td>Seruan menyembah Allah, kisah Adam dan tipu daya setan</td></tr>
+                            <tr><td>Ayat 40-86</td><td>Bani Israel</td><td>Perjanjian, nikmat, dan pelanggaran mereka</td></tr>
+                            <tr><td>Ayat 87-141</td><td>Kenabian & Perubahan Kiblat</td><td>Kesinambungan risalah, perintah menghadap Masjidil Haram</td></tr>
                         </tbody>
                     </table>
                 </div>
-
                 <div class="message-box">
                     <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
                     <ul>
-                        <li><strong>Akidah:</strong> Menetapkan keimanan kepada yang gaib, malaikat, kitab-kitab yang diturunkan, rasul-rasul, dan Hari Akhir</li>
-                        <li><strong>Ibadah:</strong> Menetapkan konsep ibadah tauhid murni, shalat, dan perubahan kiblat</li>
-                        <li><strong>Akhlak:</strong> Memperingatkan tentang kemunafikan, menekankan keikhlasan, kesabaran, dan memenuhi perjanjian</li>
+                        <li><strong>Akidah:</strong> Iman kepada yang gaib, kitab, rasul, dan hari akhir.</li>
+                        <li><strong>Ibadah:</strong> Tauhid dalam ibadah, shalat, dan kepatuhan pada perintah Allah.</li>
+                        <li><strong>Akhlak:</strong> Kejujuran, menepati janji, tidak munafik, dan sabar.</li>
                     </ul>
                 </div>
-
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=2" target="_blank" class="access-link">
-                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
-                    </a>
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=2" target="_blank" class="access-link"><i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info</a>
                 </p>
             </div>
 
@@ -723,91 +532,207 @@
                 <span style="color: var(--text-color); font-weight: bold;">Juz 1</span>
                 <a href="juz_02.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
             </div>
-
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+            <!-- Kembali ke Atas link removed -->
         </div>
+
+        <!-- ================= ENGLISH CONTENT (HIDDEN) ================= -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <h1 class="surah-title">Juz 1 - Thematic Analysis</h1>
+            <div class="surah-source"><strong>Sources:</strong> <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a></div>
+
+            <!-- Overview English -->
+            <div class="juz-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Juz 1</h3>
+                <p><strong>Juz 1</strong> covers pages 1-21. It contains <strong>Surah Al-Fatihah (1–7)</strong> and the first part of <strong>Surah Al-Baqarah (1–141)</strong>. This juz is also known as "Alif Lam Meem" after the muqatta'at letters opening Al-Baqarah.</p>
+                <p><strong>Pages:</strong> 1-21 | <strong>Hizb:</strong> 1</p>
+                <p style="margin-top: 10px;">
+                    <a href="https://quran.com/juz/1?translations=131" target="_blank" class="access-link">
+                        <i class="fas fa-book-open"></i> Access Complete Text of Juz 1 on Quran.com
+                    </a>
+                </p>
+            </div>
+
+            <!-- Surah Al-Fatihah English -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fatihah (The Opening) - Verses 1-7</h2>
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Fatihah</h3>
+                    <p>The first chapter of the Quran, 7 verses. Known as <strong>Umm al-Kitab</strong> (Mother of the Book) and <strong>Al-Sab' al-Mathani</strong> (The Seven Oft-Repeated Verses). It establishes the core relationship between the Creator and the servant, emphasizing monotheism, divine mercy, and guidance.</p>
+                </div>
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Fatihah</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text:
+                        <a href="https://recitequran.com/1" target="_blank" class="access-link">reciteQuran.com - Surah Al-Fatihah</a>
+                    </p>
+                </div>
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                        <tbody>
+                            <tr><td>Verse 1</td><td>Praise & Recognition</td><td>All praise is due to Allah, Lord of the worlds</td></tr>
+                            <tr><td>Verses 2-3</td><td>Divine Attributes</td><td>Most Gracious, Most Merciful, Master of the Day of Judgment</td></tr>
+                            <tr><td>Verse 4</td><td>Worship & Dependence</td><td>You alone we worship, and You alone we ask for help</td></tr>
+                            <tr><td>Verses 5-7</td><td>Supplication & Guidance</td><td>Guide us to the straight path, not of those who earned anger or went astray</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah:</strong> Allah's oneness, lordship, mercy, and sovereignty on Judgment Day.</li>
+                        <li><strong>Worship:</strong> Prayer and absolute reliance on Allah alone.</li>
+                        <li><strong>Akhlak:</strong> Gratitude, humility, and seeking guidance while avoiding deviance.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info</a>
+                </p>
+            </div>
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Baqarah English -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Baqarah (The Cow) - Verses 1-141</h2>
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Baqarah (Part 1)</h3>
+                    <p>This opening portion of the longest surah classifies people into believers, disbelievers, and hypocrites. It recounts the creation of Adam, the stories of the Children of Israel, and establishes the direction of prayer (Qibla) towards the Ka'bah.</p>
+                </div>
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Baqarah (1-141)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text:
+                        <a href="https://recitequran.com/2" target="_blank" class="access-link">reciteQuran.com - Surah Al-Baqarah</a>
+                    </p>
+                </div>
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                    <table class="theme-table">
+                        <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                        <tbody>
+                            <tr><td>Verses 1-20</td><td>Classification of Humanity</td><td>Believers, disbelievers, hypocrites – their traits and fate</td></tr>
+                            <tr><td>Verses 21-39</td><td>Monotheism & Human Purpose</td><td>Worship Allah alone; story of Adam and Iblis</td></tr>
+                            <tr><td>Verses 40-86</td><td>Children of Israel</td><td>Covenants, blessings, and their violations</td></tr>
+                            <tr><td>Verses 87-141</td><td>Prophethood & Qibla</td><td>Continuity of revelation, change of prayer direction</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah:</strong> Belief in the unseen, angels, scriptures, messengers, and the Last Day.</li>
+                        <li><strong>Worship:</strong> Pure monotheism, prayer, and obedience to divine commands.</li>
+                        <li><strong>Akhlak:</strong> Honesty, fulfilling covenants, avoiding hypocrisy, and patience.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=2" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info</a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="javascript:void(0)"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 1</span>
+                <a href="juz_02.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            </div>
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <!-- Back To Top link removed -->
+        </div>
+
+        <footer>
+            <p>&copy; (2026 AD) 1447 AH - Juz 1 Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
-    </footer>
-
     <script>
-        // Initialize from localStorage
-        document.addEventListener('DOMContentLoaded', function() {
+        (function() {
+            // ----- navigation arrows -----
+            document.getElementById('go-to-top').addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            document.getElementById('go-to-bottom').addEventListener('click', function() {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            });
+
+            // ----- language toggle -----
             const englishContent = document.getElementById('english-content');
             const indonesianContent = document.getElementById('indonesian-content');
-            const languageToggle = document.getElementById('languageToggle');
-            const transliterationToggle = document.getElementById('transliterationToggle');
-            const darkModeToggle = document.getElementById('darkModeToggle');
+            const langToggle = document.getElementById('languageToggle');
+            const transToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const transEls = document.querySelectorAll('.transliteration');
 
-            // Language toggle - Indonesian as default
-            const currentLanguage = localStorage.getItem('language') || 'indonesian';
-            if (currentLanguage === 'english') {
+            const savedLang = localStorage.getItem('language') || 'indonesian';
+            if (savedLang === 'english') {
                 englishContent.classList.remove('hidden');
                 indonesianContent.classList.add('hidden');
-                languageToggle.textContent = 'Switch to Indonesian';
+                langToggle.textContent = 'Switch to Indonesian';
             } else {
                 englishContent.classList.add('hidden');
                 indonesianContent.classList.remove('hidden');
-                languageToggle.textContent = 'Switch to English';
+                langToggle.textContent = 'Switch to English';
             }
 
-            languageToggle.addEventListener('click', function() {
+            langToggle.addEventListener('click', function() {
                 if (englishContent.classList.contains('hidden')) {
                     englishContent.classList.remove('hidden');
                     indonesianContent.classList.add('hidden');
-                    languageToggle.textContent = 'Switch to Indonesian';
+                    langToggle.textContent = 'Switch to Indonesian';
                     localStorage.setItem('language', 'english');
                 } else {
                     englishContent.classList.add('hidden');
                     indonesianContent.classList.remove('hidden');
-                    languageToggle.textContent = 'Switch to English';
+                    langToggle.textContent = 'Switch to English';
                     localStorage.setItem('language', 'indonesian');
                 }
             });
 
-            // Transliteration toggle
-            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
-            if (transliterationVisible) {
-                document.querySelectorAll('.transliteration').forEach(el => el.style.display = 'block');
-                transliterationToggle.textContent = 'Hide Transliteration';
+            // ----- transliteration -----
+            const transVisible = localStorage.getItem('transliteration') === 'true';
+            if (transVisible) {
+                transEls.forEach(el => el.style.display = 'block');
+                transToggle.textContent = 'Hide Transliteration';
             }
-
-            transliterationToggle.addEventListener('click', function() {
-                const transliterationElements = document.querySelectorAll('.transliteration');
-                if (transliterationElements[0] && (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '')) {
-                    transliterationElements.forEach(el => el.style.display = 'block');
-                    transliterationToggle.textContent = 'Hide Transliteration';
+            transToggle.addEventListener('click', function() {
+                if (transEls.length > 0 && (transEls[0].style.display === 'none' || transEls[0].style.display === '')) {
+                    transEls.forEach(el => el.style.display = 'block');
+                    transToggle.textContent = 'Hide Transliteration';
                     localStorage.setItem('transliteration', 'true');
                 } else {
-                    transliterationElements.forEach(el => el.style.display = 'none');
-                    transliterationToggle.textContent = 'Show Transliteration';
+                    transEls.forEach(el => el.style.display = 'none');
+                    transToggle.textContent = 'Show Transliteration';
                     localStorage.setItem('transliteration', 'false');
                 }
             });
 
-            // Dark mode toggle
-            const darkMode = localStorage.getItem('darkMode') === 'true';
-            if (darkMode) {
+            // ----- dark mode -----
+            const dark = localStorage.getItem('darkMode') === 'true';
+            if (dark) {
                 document.body.classList.add('dark-mode');
-                darkModeToggle.textContent = 'Light Mode';
+                darkToggle.textContent = 'Light Mode';
             }
-
-            darkModeToggle.addEventListener('click', function() {
+            darkToggle.addEventListener('click', function() {
                 document.body.classList.toggle('dark-mode');
                 if (document.body.classList.contains('dark-mode')) {
-                    darkModeToggle.textContent = 'Light Mode';
+                    darkToggle.textContent = 'Light Mode';
                     localStorage.setItem('darkMode', 'true');
                 } else {
-                    darkModeToggle.textContent = 'Dark Mode';
+                    darkToggle.textContent = 'Dark Mode';
                     localStorage.setItem('darkMode', 'false');
                 }
             });
-        });
+        })();
     </script>
 </body>
 </html>
-
-
