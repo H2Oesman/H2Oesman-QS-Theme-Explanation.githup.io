@@ -21,6 +21,7 @@
             --praise-bg: #fff0f0;
             --guidance-bg: #f0fff0;
             --surah-divider: #2c3e50;
+            --link-color: #2980b9;  /* added for nav buttons */
         }
 
         .dark-mode {
@@ -39,6 +40,7 @@
             --praise-bg: #3a1f1f;
             --guidance-bg: #1f3a1f;
             --surah-divider: #3498db;
+            --link-color: #4cc9f0;
         }
 
         body {
@@ -49,6 +51,7 @@
             color: var(--text-color);
             background-color: var(--bg-color);
             transition: all 0.3s ease;
+            position: relative;
         }
         .container {
             max-width: 1000px;
@@ -123,6 +126,7 @@
         .verse-title-icon {
             margin-right: 8px;
         }
+        /* back-to-top class kept but not used; we remove the links later */
         .back-to-top {
             display: block;
             text-align: center;
@@ -177,6 +181,36 @@
             z-index: 100;
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        /* navigation arrow buttons (fixed) */
+        .nav-button {
+            position: fixed;
+            background: var(--link-color);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 90;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: background 0.3s, transform 0.2s;
+            border: none;
+        }
+        .nav-button:hover {
+            background: #1f5a8a;
+            transform: scale(1.05);
+        }
+        .nav-button.top-left {
+            top: 20px;
+            left: 20px;
+        }
+        .nav-button.bottom-right {
+            bottom: 20px;
+            right: 20px;
         }
         .bonus {
             background-color: var(--bonus-bg);
@@ -376,6 +410,20 @@
                 margin: 10px 0;
                 display: inline-block;
             }
+            .nav-button.top-left {
+                top: 10px;
+                left: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            .nav-button.bottom-right {
+                bottom: 10px;
+                right: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
             .top-home-link {
                 margin-bottom: 15px;
             }
@@ -403,6 +451,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- navigation arrows -->
+    <div id="go-to-bottom" class="nav-button top-left" title="Go to bottom"><i class="fas fa-arrow-down"></i></div>
+    <div id="go-to-top" class="nav-button bottom-right" title="Go to top"><i class="fas fa-arrow-up"></i></div>
+
     <div class="container">
         <div class="language-toggle" id="languageToggle">Switch to English</div>
         <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
@@ -537,7 +589,7 @@
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+            <!-- Kembali ke Atas link removed -->
         </div>
 
         <!-- English Content (Hidden by Default) -->
@@ -669,7 +721,7 @@
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+            <!-- Back To Top link removed -->
         </div>
     </div>
 
@@ -680,6 +732,14 @@
     <script>
         // Initialize from localStorage
         document.addEventListener('DOMContentLoaded', function() {
+            // ----- navigation arrows -----
+            document.getElementById('go-to-top').addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            document.getElementById('go-to-bottom').addEventListener('click', function() {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            });
+
             const englishContent = document.getElementById('english-content');
             const indonesianContent = document.getElementById('indonesian-content');
             const languageToggle = document.getElementById('languageToggle');
@@ -749,4 +809,3 @@
     </script>
 </body>
 </html>
-
