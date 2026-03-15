@@ -322,12 +322,49 @@
         .dark-mode .juz-overview {
             background: linear-gradient(135deg, #1e3a5f 0%, #2d3748 100%);
         }
+
+        /* ===== NEW DIRECTIONAL PAD (small centered four arrows) ===== */
+        .directional-pad {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 70px;
+            background-color: var(--link-color);
+            border-radius: 50%;
+            display: grid;
+            grid-template-rows: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2px;
+            padding: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+        .directional-pad > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            background-color: rgba(255,255,255,0.1);
+            transition: background-color 0.2s;
+        }
+        .directional-pad > div:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+        /* positions: up at row1 col2, left at row2 col1, right at row2 col3, down at row3 col2 */
+        .pad-up { grid-row: 1; grid-column: 2; }
+        .pad-left { grid-row: 2; grid-column: 1; }
+        .pad-right { grid-row: 2; grid-column: 3; }
+        .pad-down { grid-row: 3; grid-column: 2; }
+
         @media (max-width: 768px) {
-            .arabic {
-                font-size: 32px;
-            }
-            .surah-title {
-                font-size: 28px;
+            .directional-pad {
+                display: none; /* hide on mobile to avoid clutter */
             }
             .language-toggle, .transliteration-toggle, .dark-mode-toggle {
                 position: static;
@@ -355,18 +392,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation arrows: up at right top, down at right bottom -->
-    <div id="arrow-up" style="position: fixed; top: 20px; right: 20px; z-index: 1000; background-color: var(--link-color); color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-    <div id="arrow-down" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; background-color: var(--link-color); color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});">
-        <i class="fas fa-arrow-down"></i>
-    </div>
-
     <div class="container">
         <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
         <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
         <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- New directional pad: small centered four arrows -->
+        <div class="directional-pad">
+            <div class="pad-up" onclick="window.scrollBy(0, -window.innerHeight)"><i class="fas fa-arrow-up"></i></div>
+            <div class="pad-left" onclick="window.scrollBy(-window.innerWidth, 0)"><i class="fas fa-arrow-left"></i></div>
+            <div class="pad-right" onclick="window.scrollBy(window.innerWidth, 0)"><i class="fas fa-arrow-right"></i></div>
+            <div class="pad-down" onclick="window.scrollBy(0, window.innerHeight)"><i class="fas fa-arrow-down"></i></div>
+        </div>
 
         <!-- Indonesian Content (Default) -->
         <div id="indonesian-content">
@@ -378,7 +415,7 @@
             <div class="juz-overview">
                 <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Juz 27</h3>
                 <p>Juz 27 mencakup halaman 522 hingga 541 dalam Mushaf Al-Quran standar. Juz ini terdiri dari bagian akhir Surah Adh-Dhariyat (ayat 31-60), seluruh Surah At-Tur (ayat 1-49), seluruh Surah An-Najm (ayat 1-62), seluruh Surah Al-Qamar (ayat 1-55), seluruh Surah Ar-Rahman (ayat 1-78), seluruh Surah Al-Waqi'ah (ayat 1-96), dan seluruh Surah Al-Hadid (ayat 1-29).</p>
-                <p>Juz ini dikenal dengan nama "Qāla famā khaṭbukum" yang diambil dari awal ayat 31 Surah Adh-Dhariyat. Tema utama yang menonjol adalah pembuktian tauhid, kenabian, hari kebangkitan, dan balasan.</p>
+                <p>Juz ini dikenal dengan nama "Qāla famā khaṭbukum" yang diambil dari awal ayat 31 Surah Adh-Dhariyat. Tema utama yang menonjol dalam juz ini adalah pembuktian tauhid, kenabian, hari kebangkitan, dan balasan.</p>
                 <p><strong>Hizb:</strong> Hizb 53-54</p>
                 <p><strong>Surah dalam Juz ini:</strong></p>
                 <ul>
@@ -428,13 +465,33 @@
                     <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat (Juz 27)</h3>
                     <table class="theme-table">
                         <thead>
-                            <tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr><td>Ayat 31-37</td><td>Kisah Nabi Luth dan Azab Kaumnya</td><td>Malaikat mengabarkan azab untuk kaum Luth; tanda-tanda azab yang masih ada sebagai pelajaran</td></tr>
-                            <tr><td>Ayat 38-46</td><td>Kisah Nabi Musa, Fir'aun, dan Kaum 'Ad & Tsamud</td><td>Bukti kekuasaan Allah melalui Musa; kehancuran Fir'aun, kaum 'Ad, dan Tsamud karena kekafiran</td></tr>
-                            <tr><td>Ayat 47-51</td><td>Bukti Kekuasaan Allah di Langit dan Bumi</td><td>Langit dibangun dengan kekuatan; bumi dihamparkan; penciptaan berpasangan; seruan untuk kembali kepada Allah</td></tr>
-                            <tr><td>Ayat 52-60</td><td>Peringatan dan Penutup</td><td>Setiap rasul dituduh penyihir atau gila; peringatan untuk orang-orang yang mendustakan; Allah yang memberi rezeki; ancaman azab neraka</td></tr>
+                            <tr>
+                                <td>Ayat 31-37</td>
+                                <td>Kisah Nabi Luth dan Azab Kaumnya</td>
+                                <td>Malaikat mengabarkan azab untuk kaum Luth; tanda-tanda azab yang masih ada sebagai pelajaran</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 38-46</td>
+                                <td>Kisah Nabi Musa, Fir'aun, dan Kaum 'Ad & Tsamud</td>
+                                <td>Bukti kekuasaan Allah melalui Musa; kehancuran Fir'aun, kaum 'Ad, dan Tsamud karena kekafiran</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 47-51</td>
+                                <td>Bukti Kekuasaan Allah di Langit dan Bumi</td>
+                                <td>Langit dibangun dengan kekuatan; bumi dihamparkan; penciptaan berpasangan; seruan untuk kembali kepada Allah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 52-60</td>
+                                <td>Peringatan dan Penutup</td>
+                                <td>Setiap rasul dituduh penyihir atau gila; peringatan untuk orang-orang yang mendustakan; Allah yang memberi rezeki; ancaman azab neraka</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -481,12 +538,34 @@
                 <div class="section">
                     <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
                     <table class="theme-table">
-                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td>Ayat 1-28</td><td>Kepastian Hari Kiamat dan Balasan</td><td>Sumpah Allah dengan ciptaan-Nya; gambaran hari kiamat; nikmat surga bagi orang bertakwa; azab neraka bagi pendusta</td></tr>
-                            <tr><td>Ayat 29-34</td><td>Bantahan terhadap Tuduhan kepada Rasul</td><td>Perintah untuk tetap memberi peringatan; bantahan bahwa Nabi bukan penyihir atau penyair; tantangan untuk membuat ayat seperti Al-Qur'an</td></tr>
-                            <tr><td>Ayat 35-44</td><td>Bukti-bukti Keesaan dan Kekuasaan Allah</td><td>Serangkaian pertanyaan retorika untuk membuktikan keberadaan Pencipta; ketidakmampuan mereka menolak azab</td></tr>
-                            <tr><td>Ayat 45-49</td><td>Perintah Sabar dan Ibadah Malam</td><td>Perintah untuk membiarkan mereka sampai datangnya hari mereka; perintah untuk bertasbih dan memuji Tuhan di waktu malam dan saat bintang tenggelam</td></tr>
+                            <tr>
+                                <td>Ayat 1-28</td>
+                                <td>Kepastian Hari Kiamat dan Balasan</td>
+                                <td>Sumpah Allah dengan ciptaan-Nya; gambaran hari kiamat; nikmat surga bagi orang bertakwa; azab neraka bagi pendusta</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 29-34</td>
+                                <td>Bantahan terhadap Tuduhan kepada Rasul</td>
+                                <td>Perintah untuk tetap memberi peringatan; bantahan bahwa Nabi bukan penyihir atau penyair; tantangan untuk membuat ayat seperti Al-Qur'an</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 35-44</td>
+                                <td>Bukti-bukti Keesaan dan Kekuasaan Allah</td>
+                                <td>Serangkaian pertanyaan retorika untuk membuktikan keberadaan Pencipta; ketidakmampuan mereka menolak azab</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 45-49</td>
+                                <td>Perintah Sabar dan Ibadah Malam</td>
+                                <td>Perintah untuk membiarkan mereka sampai datangnya hari mereka; perintah untuk bertasbih dan memuji Tuhan di waktu malam dan saat bintang tenggelam</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -533,12 +612,34 @@
                 <div class="section">
                     <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
                     <table class="theme-table">
-                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td>Ayat 1-18</td><td>Pembelaan atas Kenabian Muhammad SAW</td><td>Saksi bahwa Nabi tidak sesat; wahyu yang diterima langsung dari Allah; penglihatan Nabi (Isra' Mi'raj) yang tidak salah</td></tr>
-                            <tr><td>Ayat 19-30</td><td>Penolakan Terhadap Berhala dan Kesalahan Akidah</td><td>Mencela patung Lata, Uzza, dan Manat; menegaskan bahwa mereka hanya nama tanpa kuasa; kecaman terhadap orang yang mengikuti dugaan</td></tr>
-                            <tr><td>Ayat 31-55</td><td>Kekuasaan Allah, Hari Akhir, dan Peringatan</td><td>Allah mengetahui orang yang bertakwa; kuasa Allah menghidupkan dan mematikan; peringatan azab umat terdahulu; ancaman bagi pendusta</td></tr>
-                            <tr><td>Ayat 56-62</td><td>Penutup dan Perintah Sujud</td><td>Nabi Muhammad adalah pemberi peringatan seperti nabi-nabi sebelumnya; perintah untuk sujud dan menyembah Allah</td></tr>
+                            <tr>
+                                <td>Ayat 1-18</td>
+                                <td>Pembelaan atas Kenabian Muhammad SAW</td>
+                                <td>Saksi bahwa Nabi tidak sesat; wahyu yang diterima langsung dari Allah; penglihatan Nabi (Isra' Mi'raj) yang tidak salah</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 19-30</td>
+                                <td>Penolakan Terhadap Berhala dan Kesalahan Akidah</td>
+                                <td>Mencela patung Lata, Uzza, dan Manat; menegaskan bahwa mereka hanya nama tanpa kuasa; kecaman terhadap orang yang mengikuti dugaan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 31-55</td>
+                                <td>Kekuasaan Allah, Hari Akhir, dan Peringatan</td>
+                                <td>Allah mengetahui orang yang bertakwa; kuasa Allah menghidupkan dan mematikan; peringatan azab umat terdahulu; ancaman bagi pendusta</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 56-62</td>
+                                <td>Penutup dan Perintah Sujud</td>
+                                <td>Nabi Muhammad adalah pemberi peringatan seperti nabi-nabi sebelumnya; perintah untuk sujud dan menyembah Allah</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -585,11 +686,29 @@
                 <div class="section">
                     <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
                     <table class="theme-table">
-                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td>Ayat 1-8</td><td>Mukjizat dan Kedahsyatan Hari Kiamat</td><td>Terbelahnya bulan sebagai tanda; pengingkaran orang kafir; gambaran manusia keluar dari kubur seperti belalang</td></tr>
-                            <tr><td>Ayat 9-42</td><td>Kisah Kaum-kaum Terdahulu dan Azabnya</td><td>Kisah kaum Nuh, 'Ad, Tsamud, Luth, dan Fir'aun; pola yang sama: pendustaan, peringatan, lalu azab yang menghancurkan</td></tr>
-                            <tr><td>Ayat 43-55</td><td>Peringatan untuk Quraisy dan Janji bagi Orang Bertakwa</td><td>Peringatan bahwa orang kafir Mekah tidak lebih kuat daripada kaum-kaum terdahulu; janji surga yang penuh ketenteraman bagi orang bertakwa</td></tr>
+                            <tr>
+                                <td>Ayat 1-8</td>
+                                <td>Mukjizat dan Kedahsyatan Hari Kiamat</td>
+                                <td>Terbelahnya bulan sebagai tanda; pengingkaran orang kafir; gambaran manusia keluar dari kubur seperti belalang</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 9-42</td>
+                                <td>Kisah Kaum-kaum Terdahulu dan Azabnya</td>
+                                <td>Kisah kaum Nuh, 'Ad, Tsamud, Luth, dan Fir'aun; pola yang sama: pendustaan, peringatan, lalu azab yang menghancurkan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 43-55</td>
+                                <td>Peringatan untuk Quraisy dan Janji bagi Orang Bertakwa</td>
+                                <td>Peringatan bahwa orang kafir Mekah tidak lebih kuat daripada kaum-kaum terdahulu; janji surga yang penuh ketenteraman bagi orang bertakwa</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -636,12 +755,34 @@
                 <div class="section">
                     <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
                     <table class="theme-table">
-                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td>Ayat 1-13</td><td>Nikmat Penciptaan dan Pengajaran</td><td>Allah mengajarkan Al-Qur'an; menciptakan manusia dan mengajarinya bicara; menciptakan langit, matahari, bulan, tumbuhan</td></tr>
-                            <tr><td>Ayat 14-25</td><td>Penciptaan Manusia, Jin, dan Alam Semesta</td><td>Manusia dari tanah liat; jin dari api; penciptaan dua lautan; kekuasaan Allah atas segala yang ada</td></tr>
-                            <tr><td>Ayat 26-45</td><td>Kefanaan Makhluk dan Ancaman bagi Pelanggar</td><td>Semua yang di bumi akan binasa; hanya Wajah Allah yang kekal; hisab bagi manusia dan jin; azab bagi orang yang melampaui batas</td></tr>
-                            <tr><td>Ayat 46-78</td><td>Gambaran Nikmat Surga</td><td>Dua surga bagi orang bertakwa; keindahan, istana, bidadari, permadani; segala kenikmatan yang tidak pernah dilihat, didengar, dan terbayangkan</td></tr>
+                            <tr>
+                                <td>Ayat 1-13</td>
+                                <td>Nikmat Penciptaan dan Pengajaran</td>
+                                <td>Allah mengajarkan Al-Qur'an; menciptakan manusia dan mengajarinya bicara; menciptakan langit, matahari, bulan, tumbuhan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 14-25</td>
+                                <td>Penciptaan Manusia, Jin, dan Alam Semesta</td>
+                                <td>Manusia dari tanah liat; jin dari api; penciptaan dua lautan; kekuasaan Allah atas segala yang ada</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 26-45</td>
+                                <td>Kefanaan Makhluk dan Ancaman bagi Pelanggar</td>
+                                <td>Semua yang di bumi akan binasa; hanya Wajah Allah yang kekal; hisab bagi manusia dan jin; azab bagi orang yang melampaui batas</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 46-78</td>
+                                <td>Gambaran Nikmat Surga</td>
+                                <td>Dua surga bagi orang bertakwa; keindahan, istana, bidadari, permadani; segala kenikmatan yang tidak pernah dilihat, didengar, dan terbayangkan</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -688,12 +829,34 @@
                 <div class="section">
                     <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
                     <table class="theme-table">
-                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td>Ayat 1-56</td><td>Gambaran Hari Kiamat dan Tiga Golongan Manusia</td><td>Keadaan bumi dan gunung saat kiamat; tiga golongan manusia beserta balasan masing-masing; nikmat surga bagi As-Sabiqun dan Ashhabul-Yamin; azab neraka bagi Ashhabusy-Syimal</td></tr>
-                            <tr><td>Ayat 57-74</td><td>Bukti Kekuasaan Allah dalam Penciptaan</td><td>Penciptaan manusia dari air mani; penciptaan tumbuhan dan api; kesucian dan kebesaran nama Tuhanmu</td></tr>
-                            <tr><td>Ayat 75-82</td><td>Sumpah atas Kemuliaan Al-Qur'an</td><td>Sumpah dengan tempat beredarnya bintang; Al-Qur'an adalah bacaan yang mulia; celaan bagi yang mendustakannya</td></tr>
-                            <tr><td>Ayat 83-96</td><td>Gambaran Sakaratul Maut dan Kepastian Kebangkitan</td><td>Proses sakaratul maut; penegasan bahwa Allah kuasa menghidupkan tulang belulang yang hancur; penegasan kembali balasan bagi dua golongan (kanan dan kiri)</td></tr>
+                            <tr>
+                                <td>Ayat 1-56</td>
+                                <td>Gambaran Hari Kiamat dan Tiga Golongan Manusia</td>
+                                <td>Keadaan bumi dan gunung saat kiamat; tiga golongan manusia beserta balasan masing-masing; nikmat surga bagi As-Sabiqun dan Ashhabul-Yamin; azab neraka bagi Ashhabusy-Syimal</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 57-74</td>
+                                <td>Bukti Kekuasaan Allah dalam Penciptaan</td>
+                                <td>Penciptaan manusia dari air mani; penciptaan tumbuhan dan api; kesucian dan kebesaran nama Tuhanmu</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 75-82</td>
+                                <td>Sumpah atas Kemuliaan Al-Qur'an</td>
+                                <td>Sumpah dengan tempat beredarnya bintang; Al-Qur'an adalah bacaan yang mulia; celaan bagi yang mendustakannya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 83-96</td>
+                                <td>Gambaran Sakaratul Maut dan Kepastian Kebangkitan</td>
+                                <td>Proses sakaratul maut; penegasan bahwa Allah kuasa menghidupkan tulang belulang yang hancur; penegasan kembali balasan bagi dua golongan (kanan dan kiri)</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -740,13 +903,39 @@
                 <div class="section">
                     <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
                     <table class="theme-table">
-                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <tr><td>Ayat 1-6</td><td>Keesaan dan Kekuasaan Mutlak Allah</td><td>Segala sesuatu bertasbih kepada-Nya; Dialah Yang Awal, Yang Akhir, Yang Zhahir, Yang Bathin; mengatur semua urusan</td></tr>
-                            <tr><td>Ayat 7-11</td><td>Seruan Beriman dan Berinfak</td><td>Perintah beriman kepada Allah dan Rasul-Nya; perintah berinfak; balasan berlipat ganda bagi yang berinfak; keadaan orang munafik</td></tr>
-                            <tr><td>Ayat 12-18</td><td>Cahaya di Hari Kiamat dan Kehidupan Dunia</td><td>Gambaran cahaya orang beriman dan munafik di hari kiamat; peringatan bahwa kehidupan dunia hanyalah permainan; seruan untuk bertaubat</td></tr>
-                            <tr><td>Ayat 19-24</td><td>Pahala bagi Orang Beriman dan Bersabar</td><td>Orang beriman dan membenarkan rasul adalah shiddiqin dan syuhada'; anjuran tidak sedih terhadap apa yang luput dan tidak sombong</td></tr>
-                            <tr><td>Ayat 25-29</td><td>Pengutusan Rasul dan Anjuran Zuhud</td><td>Allah mengutus rasul dengan bukti dan kitab; menurunkan besi; seruan kepada Ahli Kitab untuk beriman; anjuran hidup zuhud (rahbaniyyah)</td></tr>
+                            <tr>
+                                <td>Ayat 1-6</td>
+                                <td>Keesaan dan Kekuasaan Mutlak Allah</td>
+                                <td>Segala sesuatu bertasbih kepada-Nya; Dialah Yang Awal, Yang Akhir, Yang Zhahir, Yang Bathin; mengatur semua urusan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 7-11</td>
+                                <td>Seruan Beriman dan Berinfak</td>
+                                <td>Perintah beriman kepada Allah dan Rasul-Nya; perintah berinfak; balasan berlipat ganda bagi yang berinfak; keadaan orang munafik</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 12-18</td>
+                                <td>Cahaya di Hari Kiamat dan Kehidupan Dunia</td>
+                                <td>Gambaran cahaya orang beriman dan munafik di hari kiamat; peringatan bahwa kehidupan dunia hanyalah permainan; seruan untuk bertaubat</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 19-24</td>
+                                <td>Pahala bagi Orang Beriman dan Bersabar</td>
+                                <td>Orang beriman dan membenarkan rasul adalah shiddiqin dan syuhada'; anjuran tidak sedih terhadap apa yang luput dan tidak sombong</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 25-29</td>
+                                <td>Pengutusan Rasul dan Anjuran Zuhud</td>
+                                <td>Allah mengutus rasul dengan bukti dan kitab; menurunkan besi; seruan kepada Ahli Kitab untuk beriman; anjuran hidup zuhud (rahbaniyyah)</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -774,7 +963,7 @@
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
-            <!-- back-to-top link removed as per instruction -->
+            <!-- no back-to-top link -->
         </div>
 
         <!-- English Content (Hidden by Default) -->
@@ -825,10 +1014,13 @@
                         <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/051.mp3" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
-                    <p><a href="https://recitequran.com/51:31" target="_blank" class="access-link">reciteQuran.com - Surah Adh-Dhariyat (31-60)</a></p>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://recitequran.com/51:31" target="_blank" class="access-link">reciteQuran.com - Surah Adh-Dhariyat (31-60)</a>
+                    </p>
                 </div>
                 <div class="section">
-                    <h3 class="theme-title"><i class="fas fa-table"></i> Theme Division by Verses</h3>
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
                     <table class="theme-table">
                         <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
                         <tbody>
@@ -842,9 +1034,9 @@
                 <div class="message-box">
                     <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
                     <ul>
-                        <li><strong>Aqidah:</strong> Belief in Allah's punishment for deniers, faith that Allah created heavens and earth with His power, conviction that only Allah is the Provider.</li>
+                        <li><strong>Aqidah (Creed):</strong> Belief in Allah's punishment for deniers, faith that Allah created heavens and earth with His power, conviction that only Allah is the Provider.</li>
                         <li><strong>Worship:</strong> Run (strive) towards Allah, fear Him, worship only Allah.</li>
-                        <li><strong>Akhlak:</strong> Learn from previous nations' stories, do not be arrogant like Pharaoh, do not deny the truth.</li>
+                        <li><strong>Akhlak (Morality):</strong> Learn from previous nations' stories, do not be arrogant like Pharaoh, do not deny the truth.</li>
                     </ul>
                 </div>
                 <p style="text-align: center;"><a href="https://www.islamicstudies.info/tafheem.php?sura=51&verse=31&to=60" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info</a></p>
@@ -1073,7 +1265,7 @@
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
-            <!-- back-to-top link removed -->
+            <!-- no back-to-top link -->
         </div>
     </div>
 
