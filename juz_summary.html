@@ -384,6 +384,39 @@
     .juz-card:hover .click-hint {
       opacity: 1;
     }
+
+    /* New scroll arrows (left side) – added */
+    .scroll-arrow {
+      position: fixed;
+      left: 15px;
+      width: 44px;
+      height: 44px;
+      background-color: #3498db;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 1000;
+      transition: background-color 0.2s, transform 0.1s;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .scroll-arrow:hover {
+      background-color: #1f618d;
+      transform: scale(1.05);
+    }
+    .scroll-arrow:active {
+      transform: scale(0.95);
+    }
+    .scroll-arrow.up {
+      top: 15px;
+    }
+    .scroll-arrow.down {
+      bottom: 15px;
+    }
     
     @media (max-width: 768px) {
       body {
@@ -435,12 +468,24 @@
         top: 5px;
         right: 5px;
       }
+      
+      /* smaller arrows on mobile */
+      .scroll-arrow {
+        width: 38px;
+        height: 38px;
+        font-size: 18px;
+        left: 8px;
+      }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Scheherazade+New&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+  <!-- Scroll arrows (left side) - new, replace old arrows -->
+  <div class="scroll-arrow up" onclick="scrollUpScreen()"><i class="fas fa-arrow-up"></i></div>
+  <div class="scroll-arrow down" onclick="scrollDownScreen()"><i class="fas fa-arrow-down"></i></div>
+
   <!-- Toggle Buttons Container -->
   <div class="toggle-container">
     <button class="toggle-button language-toggle" id="languageToggle">Switch to English</button>
@@ -523,14 +568,6 @@
       <p style="font-size: 12px; margin-top: 10px;">Based on the standard 30 Juz division of the Quran with traditional names</p>
       <p style="font-size: 11px; margin-top: 5px; color: #3498db;"><i class="fas fa-mouse-pointer"></i> Click on Juz box to view complete details</p>
     </div>
-  </div>
-
-  <!-- Arrow Down (left top) and Arrow Up (right bottom) with explicit colors -->
-  <div id="arrow-down" style="position: fixed; top: 20px; left: 20px; z-index: 1000; background-color: #3498db; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});">
-      <i class="fas fa-arrow-down"></i>
-  </div>
-  <div id="arrow-up" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; background-color: #3498db; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
-      <i class="fas fa-arrow-up"></i>
   </div>
 
   <script>
@@ -1515,6 +1552,14 @@
       });
       
       return card;
+    }
+
+    // New scroll functions for screen‑height scrolling
+    function scrollUpScreen() {
+      window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+    }
+    function scrollDownScreen() {
+      window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
     }
 
     document.addEventListener('DOMContentLoaded', function() {
