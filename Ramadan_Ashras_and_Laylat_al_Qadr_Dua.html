@@ -466,9 +466,9 @@
                 </div>
             </div>
 
-            <!-- ===== EID AL-FITR SECTION (INDONESIAN) with class iedfitri-section ===== -->
+            <!-- ===== EID AL-FITR SECTION (INDONESIAN) with updated YouTube link ===== -->
             <div class="surah-divider"></div>
-            <div class="section iedfitri-section">
+            <div class="section iedfitri-section" id="iedfitri-section-id">
                 <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Panduan Lengkap Ied Fitri (Eid al-Fitr)</h2>
 
                 <!-- I. Morning Preparation -->
@@ -546,11 +546,11 @@
                     </ul>
                 </div>
 
-                <!-- Moved video link + subtitle tip to the end -->
+                <!-- Moved video link + subtitle tip to the end - UPDATED YOUTUBE LINK -->
                 <div style="text-align: center; margin-top: 30px;">
                     <div class="surah-source" style="margin-bottom:5px;">
                         <i class="fas fa-video"></i> 
-                        <a href="https://www.islamicity.org/series/takbeerat-and-eid-al-fitr-prayer-in-masjid-al-haram-makkah-1st-shawwal-1445-2024/" target="_blank" class="external-link">Watch Takbeer & Eid Prayer from Masjid al-Haram (IslamiCity)</a>
+                        <a href="https://youtu.be/HZZfxcz_dkI" target="_blank" class="external-link">Watch Takbeer & Eid Prayer from Masjid al-Haram (YouTube)</a>
                     </div>
                     <div class="subtitle-tip">
                         <i class="fas fa-closed-captioning"></i> Klik tombol CC, lalu buka Setelan (roda gigi) > Subtitel/CC > Terjemahkan Otomatis, dan pilih bahasa Anda.
@@ -622,9 +622,9 @@
                 </div>
             </div>
 
-            <!-- EID AL-FITR SECTION (ENGLISH) with class iedfitri-section -->
+            <!-- EID AL-FITR SECTION (ENGLISH) with updated YouTube link -->
             <div class="surah-divider"></div>
-            <div class="section iedfitri-section">
+            <div class="section iedfitri-section" id="iedfitri-section-id">
                 <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Complete Guide to Eid al-Fitr</h2>
 
                 <!-- I. Morning Preparation -->
@@ -699,11 +699,11 @@
                     </ul>
                 </div>
 
-                <!-- Moved video link + subtitle tip to the end -->
+                <!-- Moved video link + subtitle tip to the end - UPDATED YOUTUBE LINK -->
                 <div style="text-align: center; margin-top: 30px;">
                     <div class="surah-source" style="margin-bottom:5px;">
                         <i class="fas fa-video"></i> 
-                        <a href="https://www.islamicity.org/series/takbeerat-and-eid-al-fitr-prayer-in-masjid-al-haram-makkah-1st-shawwal-1445-2024/" target="_blank" class="external-link">Watch Takbeer & Eid Prayer from Masjid al-Haram (IslamiCity)</a>
+                        <a href="https://youtu.be/HZZfxcz_dkI" target="_blank" class="external-link">Watch Takbeer & Eid Prayer from Masjid al-Haram (YouTube)</a>
                     </div>
                     <div class="subtitle-tip">
                         <i class="fas fa-closed-captioning"></i> Click the CC button, then go to Settings (cog icon) > Subtitles/CC > Auto-translate and select your language.
@@ -805,24 +805,37 @@
                 window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
             });
 
-            // ---------- Handle ?Ashras, ?Laylat, ?Iedfitri ----------
+            // ---------- Handle ?Ashras, ?Laylat, ?Iedfitri (case-insensitive) with fallback ID ----------
             function handleQueryParamScroll() {
                 const params = new URLSearchParams(window.location.search);
                 const keys = [...params.keys()].map(k => k.toLowerCase());
                 
-                let targetClass = null;
-                if (keys.includes('ashras')) targetClass = 'ashras-section';
-                else if (keys.includes('laylat')) targetClass = 'laylat-section';
-                else if (keys.includes('iedfitri')) targetClass = 'iedfitri-section';
+                let targetSelector = null;
+                if (keys.includes('ashras')) targetSelector = '.ashras-section';
+                else if (keys.includes('laylat')) targetSelector = '.laylat-section';
+                else if (keys.includes('iedfitri')) {
+                    // Try class first, then fallback ID
+                    targetSelector = '.iedfitri-section, #iedfitri-section-id';
+                }
                 
-                if (!targetClass) return;
+                if (!targetSelector) return;
 
                 const visibleLang = englishContent.classList.contains('hidden') ? indonesianContent : englishContent;
-                const targetElement = visibleLang.querySelector('.' + targetClass);
+                // try to find element using the selector within visible container
+                let targetElement = visibleLang.querySelector(targetSelector);
+                
+                // if not found (fallback), try document wide (the ID is unique)
+                if (!targetElement && targetSelector.includes('#')) {
+                    targetElement = document.getElementById('iedfitri-section-id');
+                }
+
                 if (targetElement) {
+                    // slight delay to ensure layout stability
                     setTimeout(() => {
                         targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 100);
+                    }, 150);
+                } else {
+                    console.warn('Target section not found for selector:', targetSelector);
                 }
             }
 
