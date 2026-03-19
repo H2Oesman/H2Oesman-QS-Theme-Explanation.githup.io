@@ -277,6 +277,38 @@
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+        /* screen‑height navigation arrows – exactly as in index.html */
+        .scroll-arrow {
+            position: fixed;
+            left: 15px;
+            width: 44px;
+            height: 44px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: background-color 0.2s, transform 0.1s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .scroll-arrow:hover {
+            background-color: #1f618d;
+            transform: scale(1.05);
+        }
+        .scroll-arrow:active {
+            transform: scale(0.95);
+        }
+        .scroll-arrow.up {
+            top: 15px;
+        }
+        .scroll-arrow.down {
+            bottom: 15px;
+        }
         .bonus {
             background-color: var(--bonus-bg);
             padding: 15px;
@@ -479,24 +511,6 @@
             border-left: 5px solid #1abc9c;
         }
 
-        /* navigation arrows */
-        .nav-arrow-up, .nav-arrow-down {
-            position: fixed;
-            left: 10px;
-            background: rgba(0,0,0,0.5);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1000;
-            font-size: 20px;
-            user-select: none;
-            transition: background 0.2s;
-        }
-        .nav-arrow-up { top: 10px; }
-        .nav-arrow-down { bottom: 10px; }
-        .nav-arrow-up:hover, .nav-arrow-down:hover { background: rgba(0,0,0,0.8); }
-
         @media (max-width: 768px) {
             .arabic {
                 font-size: 32px;
@@ -519,15 +533,22 @@
                 flex-direction: column;
                 gap: 10px;
             }
+            /* smaller arrows on mobile */
+            .scroll-arrow {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+                left: 8px;
+            }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- scroll arrows -->
-    <div class="nav-arrow-up" id="scrollUp">▲</div>
-    <div class="nav-arrow-down" id="scrollDown">▼</div>
+    <!-- navigation arrows – left side, screen height scrolling -->
+    <div class="scroll-arrow up" id="scrollUp" onclick="scrollUpScreen()"><i class="fas fa-arrow-up"></i></div>
+    <div class="scroll-arrow down" id="scrollDown" onclick="scrollDownScreen()"><i class="fas fa-arrow-down"></i></div>
 
     <div class="container">
         <div class="language-toggle" id="languageToggle">Switch to English</div>
@@ -862,6 +883,7 @@
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+            <!-- Back to Top link removed as per request -->
         </div>
 
         <!-- English Content (Hidden by Default) -->
@@ -1192,6 +1214,7 @@
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+            <!-- Back to Top link removed -->
         </div>
     </div>
 
@@ -1200,6 +1223,20 @@
     </footer>
 
     <script>
+        // Screen‑height scrolling functions (same as index.html)
+        function scrollUpScreen() {
+            window.scrollBy({
+                top: -window.innerHeight,
+                behavior: 'smooth'
+            });
+        }
+        function scrollDownScreen() {
+            window.scrollBy({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             // Safely get elements
             const englishContent = document.getElementById('english-content');
@@ -1208,8 +1245,6 @@
             const transliterationToggle = document.getElementById('transliterationToggle');
             const darkModeToggle = document.getElementById('darkModeToggle');
             const transliterationElements = document.querySelectorAll('.transliteration');
-            const scrollUp = document.getElementById('scrollUp');
-            const scrollDown = document.getElementById('scrollDown');
 
             if (!englishContent || !indonesianContent || !languageToggle || !transliterationToggle || !darkModeToggle) {
                 console.error('One or more required elements missing. Toggles may not work.');
@@ -1287,13 +1322,9 @@
                 localStorage.setItem('darkMode', isDark);
             });
 
-            // --- Screen scroll arrows ---
-            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy(0, -window.innerHeight));
-            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy(0, window.innerHeight));
-
-            // --- Remove unwanted arrow icons (excluding the navigation arrows) ---
-            document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
-                if (!icon.closest('.nav-arrow-up') && !icon.closest('.nav-arrow-down')) {
+            // --- Remove left/right arrow icons from pagination and any other unwanted arrows (except navigation arrows) ---
+            document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right').forEach(icon => {
+                if (!icon.closest('.scroll-arrow')) {
                     icon.remove();
                 }
             });
