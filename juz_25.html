@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juz 25 - Surah Thematic Analysis</title>
+    <title>Juz 25 - Surah Thematic Analysis </title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -131,25 +131,8 @@
         .verse-title-icon {
             margin-right: 8px;
         }
-        .back-to-top {
-            display: block;
-            text-align: center;
-            margin: 30px 0;
-            color: var(--link-color);
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 20px;
-            border: 1px solid var(--link-color);
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-        .back-to-top:hover {
-            background-color: var(--link-color);
-            color: white;
-        }
-        .language-toggle {
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
-            top: 20px;
             right: 20px;
             background: #3498db;
             color: white;
@@ -160,35 +143,10 @@
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .transliteration-toggle {
-            position: fixed;
-            top: 60px;
-            right: 20px;
-            background: #2ecc71;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .dark-mode-toggle {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: #9b59b6;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .hidden {
-            display: none;
-        }
+        .language-toggle { top: 20px; }
+        .transliteration-toggle { top: 60px; background: #2ecc71; }
+        .dark-mode-toggle { top: 100px; background: #9b59b6; }
+        .hidden { display: none; }
         .surah-source {
             text-align: center;
             margin-top: -15px;
@@ -196,10 +154,7 @@
             color: #7f8c8d;
             font-size: 16px;
         }
-        .main-menu {
-            text-align: center;
-            margin: 15px 0;
-        }
+        .main-menu { text-align: center; margin: 15px 0; }
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -208,8 +163,8 @@
             font-weight: bold;
             padding: 8px 16px;
             border-radius: 4px;
-            transition: background-color 0.3s;
             border: 1px solid var(--link-color);
+            transition: background-color 0.3s;
         }
         .top-home-link:hover {
             background-color: var(--link-color);
@@ -253,10 +208,7 @@
             border-radius: 8px;
             border: 1px solid var(--verse-border);
         }
-        .audio-player h3 {
-            margin-top: 0;
-            color: var(--section-title-color);
-        }
+        .audio-player h3 { margin-top: 0; color: var(--section-title-color); }
         .message-box {
             background: var(--structure-bg);
             padding: 20px;
@@ -264,16 +216,9 @@
             margin: 20px 0;
             border-left: 4px solid #3498db;
         }
-        .message-box h3 {
-            margin-top: 0;
-            color: #2980b9;
-        }
-        .message-box ul {
-            padding-left: 20px;
-        }
-        .message-box li {
-            margin-bottom: 10px;
-        }
+        .message-box h3 { margin-top: 0; color: #2980b9; }
+        .message-box ul { padding-left: 20px; }
+        .message-box li { margin-bottom: 10px; }
         .access-link {
             display: inline-block;
             margin: 10px 0;
@@ -325,14 +270,9 @@
             margin: 25px 0;
             border-left: 5px solid #2c3e50;
         }
-        .overview-box h3 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
         .dark-mode .overview-box {
             background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
         }
-        /* Juz overview specific style (mimics juz_16) */
         .juz-overview {
             background: linear-gradient(135deg, #e8f4fc 0%, #f0f7ff 100%);
             padding: 25px;
@@ -343,39 +283,53 @@
         .dark-mode .juz-overview {
             background: linear-gradient(135deg, #1e3a5f 0%, #2d3748 100%);
         }
+
+        /* simple screen scroll arrows */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background-color: var(--link-color);
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-size: 22px;
+            transition: background-color 0.2s;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        .scroll-arrow:hover { background-color: #1f618d; }
+        #scroll-up { top: 100px; }
+        #scroll-down { bottom: 30px; }
+
         @media (max-width: 768px) {
-            .arabic {
-                font-size: 32px;
-            }
-            .surah-title {
-                font-size: 28px;
-            }
+            .arabic { font-size: 32px; }
+            .surah-title { font-size: 28px; }
             .language-toggle, .transliteration-toggle, .dark-mode-toggle {
                 position: static;
                 margin: 10px 0;
                 display: inline-block;
             }
-            .top-home-link {
-                margin-bottom: 15px;
-            }
-            .theme-table {
-                display: block;
-                overflow-x: auto;
-            }
-            .pagination {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            .container {
-                padding: 15px;
-            }
+            .theme-table { display: block; overflow-x: auto; }
+            .pagination { flex-direction: column; gap: 15px; text-align: center; }
+            .container { padding: 15px; }
+            #scroll-up { top: 80px; left: 10px; width: 40px; height: 40px; }
+            #scroll-down { bottom: 20px; left: 10px; width: 40px; height: 40px; }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- two simple screen scroll arrows -->
+    <div id="scroll-up" class="scroll-arrow" onclick="window.scrollBy(0, -window.innerHeight)"><i class="fas fa-arrow-up"></i></div>
+    <div id="scroll-down" class="scroll-arrow" onclick="window.scrollBy(0, window.innerHeight)"><i class="fas fa-arrow-down"></i></div>
+
     <div class="container">
         <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
         <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
@@ -384,34 +338,29 @@
         <!-- Indonesian Content (Default) -->
         <div id="indonesian-content">
             <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-            <h1 class="surah-title">Juz 25 - Analisis Tematik</h1>
-            <div class="surah-source"><strong>Sumber:</strong> IslamicStudies.info</div>
+            <h1 class="surah-title">Juz 25 - Analisis Tematik </h1>
+            <div class="surah-source"><strong>Sumber:</strong> IslamicStudies.info (Tafhim al-Qur'an) dengan tambahan wawasan</div>
 
-            <!-- Juz 25 Overview - using juz-overview class like juz_16 -->
+            <!-- Juz 25 Overview (enriched) -->
             <div class="juz-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Juz 25</h3>
-                <p>Juz 25 mencakup halaman 482 hingga 501 dalam Mushaf Al-Quran standar. Juz ini terdiri dari bagian akhir Surah Fussilat (ayat 47-54), seluruh Surah Ash-Shura (ayat 32-53), seluruh Surah Az-Zukhruf (ayat 1-89), seluruh Surah Ad-Dukhan (ayat 1-59), dan seluruh Surah Al-Jathiya (ayat 1-37).</p>
-                <p>Juz ini dikenal dengan nama "Ilaahi yaruddu" yang diambil dari awal ayat 47 Surah Fussilat. Tema utama yang menonjol dalam juz ini adalah tauhid, hari kebangkitan, dan balasan atas amal perbuatan manusia.</p>
-                <p><strong>Hizb:</strong> Hizb 49-50</p>
+                <h3><i class="fas fa-info-circle"></i> Gambaran Umum Juz 25</h3>
+                <p>Juz 25 (halaman 482–501) terdiri dari bagian akhir Surah Fussilat (47-54), seluruh Surah Ash-Shura (1-53), Az-Zukhruf (1-89), Ad-Dukhan (1-59), dan Al-Jathiya (1-37). Juz ini dikenal sebagai "Ilaahi yaruddu". Tema utama: tauhid, hari kebangkitan, balasan, serta kisah para nabi sebagai pelajaran.</p>
+                <p><strong>Hizb:</strong> 49-50</p>
+                <p><strong>Konteks Lebih Luas (Tafhim):</strong> Surah-surah dalam juz ini kebanyakan Makkiyah, menekankan keesaan Allah, kenabian, dan kepastian hari kiamat. Ash-Shura menonjolkan prinsip musyawarah dalam kehidupan kaum beriman. Az-Zukhruf menggambarkan bagaimana kemewahan dunia dapat menjadi ujian. Ad-Dukhan memperingatkan azab bagi pendusta dan kenikmatan abadi bagi orang bertakwa. Al-Jathiya menutup dengan pemandangan hari kiamat ketika semua umat berlutut.</p>
                 <p><strong>Surah dalam Juz ini:</strong></p>
                 <ul>
-                    <li>Surah Fussilat (Yang Dijelaskan) - Ayat 47-54</li>
-                    <li>Surah Ash-Shura (Musyawarah) - Ayat 32-53</li>
-                    <li>Surah Az-Zukhruf (Perhiasan) - Ayat 1-89</li>
-                    <li>Surah Ad-Dukhan (Kabut) - Ayat 1-59</li>
-                    <li>Surah Al-Jathiya (Yang Berlutut) - Ayat 1-37</li>
+                    <li><a href="https://quran.com/41:47?translations=33" target="_blank">Surah Fussilat (Yang Dijelaskan) - Ayat 47-54</a></li>
+                    <li><a href="https://quran.com/42:1?translations=33" target="_blank">Surah Ash-Shura (Musyawarah) - Ayat 1-53</a></li>
+                    <li><a href="https://quran.com/43:1?translations=33" target="_blank">Surah Az-Zukhruf (Perhiasan) - Ayat 1-89</a></li>
+                    <li><a href="https://quran.com/44:1?translations=33" target="_blank">Surah Ad-Dukhan (Kabut) - Ayat 1-59</a></li>
+                    <li><a href="https://quran.com/45:1?translations=33" target="_blank">Surah Al-Jathiya (Yang Berlutut) - Ayat 1-37</a></li>
                 </ul>
             </div>
 
-            <!-- Akses Teks Lengkap - single Juz link like juz_16 -->
+            <!-- Akses Teks Lengkap Juz 25 -->
             <div class="message-box">
                 <h3><i class="fas fa-external-link-alt"></i> Akses Teks Lengkap Juz 25</h3>
-                <p>Untuk membaca teks lengkap Juz 25 beserta terjemahannya, kunjungi:</p>
-                <p>
-                    <a href="https://quran.com/juz/25?translations=33" target="_blank" class="access-link">
-                        <i class="fas fa-book"></i> Quran.com - Juz 25
-                    </a>
-                </p>
+                <p><a href="https://quran.com/juz/25?translations=33" target="_blank" class="access-link"><i class="fas fa-book"></i> Quran.com - Juz 25 (terjemahan Indonesia)</a></p>
             </div>
 
             <!-- Surah Fussilat (bagian akhir) -->
@@ -420,8 +369,7 @@
                 
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Bagian Akhir Surah Fussilat</h3>
-                    <p>Surah Fussilat adalah surah ke-41, terdiri dari 54 ayat. Ayat 47-54 terdapat dalam Juz 25 (ayat 1-46 ada di Juz 24). Ini adalah surah Makkiyah yang menegaskan ilmu Allah yang meliputi segala sesuatu, termasuk pengetahuan tentang hari kiamat, dan kelemahan berhala-berhala.</p>
-                    <p>Bagian Juz 25 ini menekankan bahwa hanya Allah yang mengetahui waktu hari kiamat, dan bahwa Al-Qur'an adalah kebenaran dari Tuhan yang cukup sebagai bukti.</p>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Bagian ini menegaskan bahwa ilmu tentang hari kiamat hanya ada pada Allah. Ketika saatnya tiba, semua sekutu yang mereka sembah akan lenyap. Manusia cenderung putus asa saat ditimpa keburukan dan lupa diri saat diberi nikmat. Ayat 53-54 menantang manusia untuk memperhatikan tanda-tanda Allah di alam semesta dan dalam diri mereka, dan menegaskan bahwa Al-Qur'an adalah kebenaran yang cukup sebagai bukti.</p>
                 </div>
 
                 <div class="audio-player">
@@ -484,14 +432,13 @@
 
             <div class="surah-divider"></div>
 
-            <!-- Surah Ash-Shura (bagian akhir) -->
+            <!-- Surah Ash-Shura (seluruhnya) -->
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ash-Shura (Musyawarah) - Ayat 32-53</h2>
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ash-Shura (Musyawarah) - Ayat 1-53</h2>
                 
                 <div class="overview-box">
-                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Bagian Akhir Surah Ash-Shura</h3>
-                    <p>Surah Ash-Shura adalah surah ke-42, terdiri dari 53 ayat. Surah ini dinamai Ash-Shura (Musyawarah) karena ayat 38 menekankan pentingnya musyawarah.</p>
-                    <p>Bagian ini menekankan tanda-tanda kekuasaan Allah di alam semesta, sifat-sifat orang beriman, dan kebenaran wahyu.</p>
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Ash-Shura</h3>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Surah ini dinamai dari ayat 38 yang menganjurkan musyawarah di antara orang beriman. Setelah menyebutkan wahyu yang diberikan kepada para nabi terdahulu, Allah menegaskan bahwa syariat yang diajarkan kepada Muhammad adalah sama: hendaklah manusia menegakkan agama dan tidak bercerai-berai. Ayat 32-53 (dalam Juz 25) menampilkan tanda-tanda kekuasaan Allah di lautan, sifat-sifat orang beriman (menjauhi dosa besar, memaafkan, bermusyawarah, bersabar), serta penegasan bahwa Allah memberi anak perempuan atau laki-laki sesuai kehendak-Nya. Wahyu yang diturunkan kepada Muhammad adalah kebenaran yang menunjukkan jalan yang lurus.</p>
                 </div>
 
                 <div class="audio-player">
@@ -502,7 +449,7 @@
                     </audio>
                     <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
                         <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
-                        <a href="https://quran.com/42:1-53?translations=33" target="_blank" class="access-link">Quran.com - Surah Ash-Shura (32-53)</a>
+                        <a href="https://quran.com/42:1-53?translations=33" target="_blank" class="access-link">Quran.com - Surah Ash-Shura (1-53)</a>
                     </p>
                 </div>
 
@@ -551,7 +498,7 @@
                 </div>
 
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank" class="access-link">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=42&verse=1&to=53" target="_blank" class="access-link">
                         <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
                     </a>
                 </p>
@@ -565,8 +512,7 @@
                 
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Az-Zukhruf</h3>
-                    <p>Surah Az-Zukhruf adalah surah ke-43, terdiri dari 89 ayat. Seluruh surah ini terdapat dalam Juz 25. Surah ini dinamai Az-Zukhruf (Perhiasan) karena menyebut perhiasan emas dan perak di surga (ayat 71). Surah ini menekankan keesaan Allah, kebatilan syirik, dan keadaan orang-orang kafir di akhirat.</p>
-                    <p>Surah ini juga memuat kisah Nabi Ibrahim, Nabi Musa, dan Nabi Isa sebagai hamba Allah, serta peringatan tentang kesombongan Fir'aun.</p>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Surah ini menegaskan bahwa Al-Qur'an adalah kitab yang jelas (mubin) dalam bahasa Arab, namun orang-orang musyrik tetap mengingkarinya. Diceritakan bagaimana Ibrahim berlepas diri dari penyembahan berhala kaumnya. Kemudian disebutkan kesombongan Fir'aun dan kaumnya yang tertipu oleh kemewahan dunia, hingga akhirnya mereka binasa. Ayat 36-44 mengingatkan bahwa setan akan menjadi teman akrab bagi orang yang berpaling dari Allah. Isa 'alaihis salam dijelaskan sebagai hamba Allah yang dimuliakan, bukan tuhan. Surah ditutup dengan perbandingan antara kesenangan dunia yang fana dan kenikmatan abadi di surga.</p>
                 </div>
 
                 <div class="audio-player">
@@ -631,7 +577,7 @@
                 </div>
 
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=43" target="_blank" class="access-link">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=43&verse=1&to=89" target="_blank" class="access-link">
                         <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
                     </a>
                 </p>
@@ -645,8 +591,7 @@
                 
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Ad-Dukhan</h3>
-                    <p>Surah Ad-Dukhan adalah surah ke-44, terdiri dari 59 ayat. Seluruh surah ini terdapat dalam Juz 25. Surah ini dinamai Ad-Dukhan (Kabut) karena menyebut kabut sebagai azab bagi orang-orang kafir (ayat 10). Surah ini menekankan turunnya Al-Qur'an pada malam Lailatul Qadar, azab bagi orang-orang kafir, dan nikmat surga bagi orang beriman.</p>
-                    <p>Surah ini juga mengisahkan tentang Fir'aun dan Bani Israil sebagai pelajaran bagi umat manusia.</p>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Surah ini dibuka dengan sumpah atas kitab yang jelas bahwa Al-Qur'an diturunkan pada malam yang penuh berkah (Lailatul Qadar). Pada malam itu segala urusan yang penuh hikmah ditetapkan. Ayat 10-16 memperingatkan tentang "kabut" yang akan menimpa kaum musyrik sebagai azab, namun mereka tetap ingkar. Kisah Fir'aun dan Bani Israil dihadirkan sebagai pelajaran: Fir'aun dan pengikutnya ditenggelamkan, sementara Bani Israil diselamatkan. Ayat 34-57 menggambarkan dengan jelas perbandingan antara siksa neraka dan kenikmatan surga. Surah ditutup dengan penegasan bahwa Al-Qur'an diturunkan dalam bahasa mereka agar mereka mengerti, dan seruan untuk menunggu (azab) karena mereka juga menunggu (kematian Nabi).</p>
                 </div>
 
                 <div class="audio-player">
@@ -711,7 +656,7 @@
                 </div>
 
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=44" target="_blank" class="access-link">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=44&verse=1&to=59" target="_blank" class="access-link">
                         <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
                     </a>
                 </p>
@@ -725,8 +670,7 @@
                 
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Jathiya</h3>
-                    <p>Surah Al-Jathiya adalah surah ke-45, terdiri dari 37 ayat. Seluruh surah ini terdapat dalam Juz 25. Surah ini dinamai Al-Jathiya (Yang Berlutut) karena menggambarkan keadaan manusia pada hari kiamat ketika semua orang berlutut (ayat 28). Surah ini menekankan tanda-tanda kekuasaan Allah di alam semesta, kebenaran Al-Qur'an, dan keadaan manusia pada hari kiamat.</p>
-                    <p>Surah ini mengajak manusia untuk memikirkan ciptaan Allah sebagai bukti keesaan-Nya.</p>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Surah ini mengajak manusia merenungkan tanda-tanda Allah di langit dan bumi serta dalam penciptaan diri mereka sendiri. Ayat 7-11 mengecam para pendusta yang mendustakan ayat-ayat Allah. Nikmat Allah seperti lautan yang ditundukkan disebutkan agar manusia bersyukur. Diceritakan pula karunia Allah kepada Bani Israil dan peringatan terhadap penyimpangan mereka. Puncak surah adalah gambaran hari kiamat ketika setiap umat berlutut (al-jathiya) dan kitab catatan amal diperlihatkan. Pada hari itu orang-orang kafir menyesal, dan Allah memutuskan dengan adil. Surah ditutup dengan pujian kepada Allah, Pemilik langit dan bumi, Yang Maha Perkasa lagi Maha Bijaksana.</p>
                 </div>
 
                 <div class="audio-player">
@@ -791,7 +735,7 @@
                 </div>
 
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=45" target="_blank" class="access-link">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=45&verse=1&to=37" target="_blank" class="access-link">
                         <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
                     </a>
                 </p>
@@ -804,40 +748,32 @@
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
         </div>
 
         <!-- English Content (Hidden by Default) -->
         <div id="english-content" class="hidden">
             <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
             <h1 class="surah-title">Juz 25 - Thematic Analysis</h1>
-            <div class="surah-source"><strong>Sources:</strong> IslamicStudies.info</div>
+            <div class="surah-source"><strong>Source:</strong> IslamicStudies.info (Tafhim al-Qur'an) with additional insights</div>
 
-            <!-- Juz 25 Overview - English -->
             <div class="juz-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Juz 25</h3>
-                <p>Juz 25 covers pages 482 to 501 in the standard Quran Mushaf. This Juz consists of the final part of Surah Fussilat (verses 47-54), the entire Surah Ash-Shura (verses 32-53), the entire Surah Az-Zukhruf (verses 1-89), the entire Surah Ad-Dukhan (verses 1-59), and the entire Surah Al-Jathiya (verses 1-37).</p>
-                <p>This Juz is known as "Ilaahi yaruddu" taken from the beginning of verse 47 of Surah Fussilat. The prominent themes in this Juz are tawhid, the Day of Resurrection, and recompense for human deeds.</p>
-                <p><strong>Hizb:</strong> Hizb 49-50</p>
+                <h3><i class="fas fa-info-circle"></i> Overview of Juz 25</h3>
+                <p>Juz 25 (pages 482–501) consists of the final part of Surah Fussilat (47-54) and the complete Surahs Ash-Shura (1-53), Az-Zukhruf (1-89), Ad-Dukhan (1-59), and Al-Jathiya (1-37). This Juz is known as "Ilaahi yaruddu". Main themes: Tawhid, the Day of Resurrection, recompense, and stories of the prophets as lessons.</p>
+                <p><strong>Hizb:</strong> 49-50</p>
+                <p><strong>Broader Context (Tafhim):</strong> Most surahs in this Juz are Meccan, emphasizing the oneness of Allah, prophethood, and the certainty of the Hereafter. Ash-Shura highlights the principle of mutual consultation among believers. Az-Zukhruf illustrates how worldly luxury can be a test. Ad-Dukhan warns of punishment for deniers and the eternal bliss of the righteous. Al-Jathiya closes with the scene of the Day when every nation will kneel.</p>
                 <p><strong>Surahs in this Juz:</strong></p>
                 <ul>
-                    <li>Surah Fussilat (Explained in Detail) - Verses 47-54</li>
-                    <li>Surah Ash-Shura (Consultation) - Verses 32-53</li>
-                    <li>Surah Az-Zukhruf (Ornaments) - Verses 1-89</li>
-                    <li>Surah Ad-Dukhan (Smoke) - Verses 1-59</li>
-                    <li>Surah Al-Jathiya (The Kneeling) - Verses 1-37</li>
+                    <li><a href="https://recitequran.com/41:47" target="_blank">Surah Fussilat (Explained in Detail) - Verses 47-54</a></li>
+                    <li><a href="https://recitequran.com/42:1" target="_blank">Surah Ash-Shura (Consultation) - Verses 1-53</a></li>
+                    <li><a href="https://recitequran.com/43:1" target="_blank">Surah Az-Zukhruf (Ornaments) - Verses 1-89</a></li>
+                    <li><a href="https://recitequran.com/44:1" target="_blank">Surah Ad-Dukhan (Smoke) - Verses 1-59</a></li>
+                    <li><a href="https://recitequran.com/45:1" target="_blank">Surah Al-Jathiya (The Kneeling) - Verses 1-37</a></li>
                 </ul>
             </div>
 
-            <!-- Access Complete Text - single Juz link (English) -->
             <div class="message-box">
                 <h3><i class="fas fa-external-link-alt"></i> Access Complete Text of Juz 25</h3>
-                <p>To read the complete text of Juz 25 along with its translation, visit:</p>
-                <p>
-                    <a href="https://quran.com/juz/25?translations=131" target="_blank" class="access-link">
-                        <i class="fas fa-book"></i> Quran.com - Juz 25
-                    </a>
-                </p>
+                <p><a href="https://quran.com/juz/25?translations=131" target="_blank" class="access-link"><i class="fas fa-book"></i> Quran.com - Juz 25 (English trans.)</a></p>
             </div>
 
             <!-- Surah Fussilat (final part) -->
@@ -846,8 +782,7 @@
                 
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of the Final Part of Surah Fussilat</h3>
-                    <p>Surah Fussilat is the 41st chapter, consisting of 54 verses. Verses 47-54 are in Juz 25 (verses 1-46 are in Juz 24). This Meccan surah affirms Allah's knowledge encompassing everything, including knowledge of the Hour, and the weakness of idols.</p>
-                    <p>This part in Juz 25 emphasizes that only Allah knows the time of the Hour, and that the Quran is truth from the Lord, sufficient as proof.</p>
+                    <p><em>From Tafhim al-Qur'an:</em> This part affirms that knowledge of the Hour rests solely with Allah. When it arrives, all the partners they invoked will vanish. Man tends to despair when afflicted and become ungrateful when blessed. Verses 53-54 challenge mankind to observe the signs of Allah in the universe and within themselves, and affirm that the Qur'an is sufficient as proof of truth.</p>
                 </div>
 
                 <div class="audio-player">
@@ -910,13 +845,13 @@
 
             <div class="surah-divider"></div>
 
-            <!-- Surah Ash-Shura -->
+            <!-- Surah Ash-Shura (entire) -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ash-Shura (Consultation) - Verses 1-53</h2>
                 
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Ash-Shura</h3>
-                    <p>Surah Ash-Shura is the 42nd chapter, consisting of 53 verses. Verses 1-53 are in Juz 25. It is named Ash-Shura because verse 38 emphasizes the importance of consultation. This part emphasizes signs of Allah's power in the universe, qualities of believers, and the truth of revelation.</p>
+                    <p><em>From Tafhim al-Qur'an:</em> This surah is named after verse 38 which encourages mutual consultation among believers. After mentioning the revelation given to previous prophets, Allah states that the Shariah taught to Muhammad is the same: establish religion and do not be divided. Verses 32-53 (in Juz 25) display Allah's signs at sea, the qualities of believers (avoiding major sins, forgiving, consulting, being patient), and the affirmation that Allah grants female or male children as He wills. The revelation to Muhammad is the truth that guides to the straight path.</p>
                 </div>
 
                 <div class="audio-player">
@@ -927,7 +862,7 @@
                     </audio>
                     <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
                         <i class="fas fa-external-link-alt"></i> Complete Text: 
-                        <a href="https://recitequran.com/42" target="_blank" class="access-link">reciteQuran.com - Surah Ash-Shura (32-53)</a>
+                        <a href="https://recitequran.com/42:1" target="_blank" class="access-link">reciteQuran.com - Surah Ash-Shura (1-53)</a>
                     </p>
                 </div>
 
@@ -976,7 +911,7 @@
                 </div>
 
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=42" target="_blank" class="access-link">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=42&verse=1&to=53" target="_blank" class="access-link">
                         <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
                     </a>
                 </p>
@@ -990,7 +925,7 @@
                 
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Az-Zukhruf</h3>
-                    <p>Surah Az-Zukhruf is the 43rd chapter, consisting of 89 verses. The entire surah is in Juz 25. It is named Az-Zukhruf because it mentions gold and silver ornaments in Paradise (verse 71). It emphasizes the oneness of Allah, the falsehood of shirk, and the condition of disbelievers in the Hereafter.</p>
+                    <p><em>From Tafhim al-Qur'an:</em> This surah affirms that the Qur'an is a clear Book in Arabic, yet the polytheists deny it. It tells how Ibrahim disassociated himself from his people's idolatry. Then it mentions the arrogance of Pharaoh and his people, who were deluded by worldly luxuries, until they were destroyed. Verses 36-44 warn that Satan becomes an intimate companion for those who turn away from Allah. Jesus is described as a honored servant of Allah, not a god. The surah concludes with a contrast between the fleeting pleasures of this world and the eternal bliss of Paradise.</p>
                 </div>
 
                 <div class="audio-player">
@@ -1055,7 +990,7 @@
                 </div>
 
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=43" target="_blank" class="access-link">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=43&verse=1&to=89" target="_blank" class="access-link">
                         <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
                     </a>
                 </p>
@@ -1069,7 +1004,7 @@
                 
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Ad-Dukhan</h3>
-                    <p>Surah Ad-Dukhan is the 44th chapter, consisting of 59 verses. The entire surah is in Juz 25. It is named Ad-Dukhan because it mentions smoke as punishment for disbelievers (verse 10). It emphasizes the revelation of the Qur'an on Laylat al-Qadr, punishment for disbelievers, and Paradise favors for believers.</p>
+                    <p><em>From Tafhim al-Qur'an:</em> The surah opens with an oath by the clear Book that the Qur'an was sent down on a blessed night (Laylat al-Qadr). On that night every wise matter is decreed. Verses 10-16 warn of a "smoke" that will afflict the polytheists as punishment, yet they persist in denial. The story of Pharaoh and the Children of Israel is presented as a lesson: Pharaoh and his followers were drowned, while the Children of Israel were saved. Verses 34-57 vividly contrast the torment of Hell with the delights of Paradise. The surah closes by affirming that the Qur'an was revealed in their language so they might understand, and a command to wait (for punishment) as they too are waiting (for the Prophet's death).</p>
                 </div>
 
                 <div class="audio-player">
@@ -1134,7 +1069,7 @@
                 </div>
 
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=44" target="_blank" class="access-link">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=44&verse=1&to=59" target="_blank" class="access-link">
                         <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
                     </a>
                 </p>
@@ -1148,7 +1083,7 @@
                 
                 <div class="overview-box">
                     <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Jathiya</h3>
-                    <p>Surah Al-Jathiya is the 45th chapter, consisting of 37 verses. The entire surah is in Juz 25. It is named Al-Jathiya because it describes the condition of people on the Day of Judgment when all will kneel (verse 28). It emphasizes signs of Allah's power in the universe, the truth of the Qur'an, and the condition of people on the Day of Judgment.</p>
+                    <p><em>From Tafhim al-Qur'an:</em> This surah invites man to reflect on the signs of Allah in the heavens and the earth and in their own creation. Verses 7-11 condemn those who deny Allah's signs. Allah's blessings, such as the subjugation of the sea, are mentioned so that man may be grateful. The favors given to the Children of Israel and the warning against their deviation are recounted. The climax is the scene of the Day when every nation will kneel (al-jathiya) and the record of deeds will be presented. On that Day the disbelievers will regret, and Allah will judge with justice. The surah concludes with praise to Allah, the Owner of the heavens and the earth, the Almighty, the All-Wise.</p>
                 </div>
 
                 <div class="audio-player">
@@ -1213,7 +1148,7 @@
                 </div>
 
                 <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=45" target="_blank" class="access-link">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=45&verse=1&to=37" target="_blank" class="access-link">
                         <i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info
                     </a>
                 </p>
@@ -1226,7 +1161,6 @@
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
         </div>
     </div>
 
@@ -1235,75 +1169,70 @@
     </footer>
 
     <script>
-        // Initialize from localStorage
         document.addEventListener('DOMContentLoaded', function() {
-            const englishContent = document.getElementById('english-content');
-            const indonesianContent = document.getElementById('indonesian-content');
-            const languageToggle = document.getElementById('languageToggle');
-            const transliterationToggle = document.getElementById('transliterationToggle');
-            const darkModeToggle = document.getElementById('darkModeToggle');
+            const eng = document.getElementById('english-content');
+            const ind = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const transToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitEls = document.querySelectorAll('.transliteration');
 
-            // Language toggle - Set Indonesian as default
-            const currentLanguage = localStorage.getItem('language') || 'indonesian';
-            if (currentLanguage === 'english') {
-                englishContent.classList.remove('hidden');
-                indonesianContent.classList.add('hidden');
-                languageToggle.textContent = 'Switch to Indonesian';
+            // language
+            const curLang = localStorage.getItem('language') || 'indonesian';
+            if (curLang === 'english') {
+                eng.classList.remove('hidden');
+                ind.classList.add('hidden');
+                langToggle.textContent = 'Switch to Indonesian';
             } else {
-                englishContent.classList.add('hidden');
-                indonesianContent.classList.remove('hidden');
-                languageToggle.textContent = 'Switch to English';
+                eng.classList.add('hidden');
+                ind.classList.remove('hidden');
+                langToggle.textContent = 'Switch to English';
             }
-
-            languageToggle.addEventListener('click', function() {
-                if (englishContent.classList.contains('hidden')) {
-                    englishContent.classList.remove('hidden');
-                    indonesianContent.classList.add('hidden');
-                    languageToggle.textContent = 'Switch to Indonesian';
+            langToggle.addEventListener('click', function() {
+                if (eng.classList.contains('hidden')) {
+                    eng.classList.remove('hidden');
+                    ind.classList.add('hidden');
+                    langToggle.textContent = 'Switch to Indonesian';
                     localStorage.setItem('language', 'english');
                 } else {
-                    englishContent.classList.add('hidden');
-                    indonesianContent.classList.remove('hidden');
-                    languageToggle.textContent = 'Switch to English';
+                    eng.classList.add('hidden');
+                    ind.classList.remove('hidden');
+                    langToggle.textContent = 'Switch to English';
                     localStorage.setItem('language', 'indonesian');
                 }
             });
 
-            // Transliteration toggle - robust version
-            const transliterationElements = document.querySelectorAll('.transliteration');
-            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
-            if (transliterationVisible) {
-                transliterationElements.forEach(el => el.style.display = 'block');
-                transliterationToggle.textContent = 'Hide Transliteration';
+            // transliteration
+            const transVis = localStorage.getItem('transliteration') === 'true';
+            if (transVis) {
+                translitEls.forEach(el => el.style.display = 'block');
+                transToggle.textContent = 'Hide Transliteration';
             }
-
-            transliterationToggle.addEventListener('click', function() {
-                const elements = document.querySelectorAll('.transliteration');
-                if (elements[0] && (elements[0].style.display === 'none' || elements[0].style.display === '')) {
-                    elements.forEach(el => el.style.display = 'block');
-                    transliterationToggle.textContent = 'Hide Transliteration';
+            transToggle.addEventListener('click', function() {
+                if (translitEls.length && (translitEls[0].style.display === 'none' || translitEls[0].style.display === '')) {
+                    translitEls.forEach(el => el.style.display = 'block');
+                    transToggle.textContent = 'Hide Transliteration';
                     localStorage.setItem('transliteration', 'true');
                 } else {
-                    elements.forEach(el => el.style.display = 'none');
-                    transliterationToggle.textContent = 'Show Transliteration';
+                    translitEls.forEach(el => el.style.display = 'none');
+                    transToggle.textContent = 'Show Transliteration';
                     localStorage.setItem('transliteration', 'false');
                 }
             });
 
-            // Dark mode toggle
-            const darkMode = localStorage.getItem('darkMode') === 'true';
-            if (darkMode) {
+            // dark mode
+            const dark = localStorage.getItem('darkMode') === 'true';
+            if (dark) {
                 document.body.classList.add('dark-mode');
-                darkModeToggle.textContent = 'Light Mode';
+                darkToggle.textContent = 'Light Mode';
             }
-
-            darkModeToggle.addEventListener('click', function() {
+            darkToggle.addEventListener('click', function() {
                 document.body.classList.toggle('dark-mode');
                 if (document.body.classList.contains('dark-mode')) {
-                    darkModeToggle.textContent = 'Light Mode';
+                    darkToggle.textContent = 'Light Mode';
                     localStorage.setItem('darkMode', 'true');
                 } else {
-                    darkModeToggle.textContent = 'Dark Mode';
+                    darkToggle.textContent = 'Dark Mode';
                     localStorage.setItem('darkMode', 'false');
                 }
             });
@@ -1311,3 +1240,4 @@
     </script>
 </body>
 </html>
+
