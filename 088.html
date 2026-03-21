@@ -125,22 +125,6 @@
         .verse-title-icon {
             margin-right: 8px;
         }
-        .back-to-top {
-            display: block;
-            text-align: center;
-            margin: 30px 0;
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 20px;
-            border: 1px solid #3498db;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-        .back-to-top:hover {
-            background-color: #3498db;
-            color: white;
-        }
         .language-toggle {
             position: fixed;
             top: 20px;
@@ -180,6 +164,38 @@
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+        /* screen‑height navigation arrows – exactly as in index.html */
+        .scroll-arrow {
+            position: fixed;
+            left: 15px;
+            width: 44px;
+            height: 44px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: background-color 0.2s, transform 0.1s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .scroll-arrow:hover {
+            background-color: #1f618d;
+            transform: scale(1.05);
+        }
+        .scroll-arrow:active {
+            transform: scale(0.95);
+        }
+        .scroll-arrow.up {
+            top: 15px;
+        }
+        .scroll-arrow.down {
+            bottom: 15px;
+        }
         .bonus {
             background-color: var(--bonus-bg);
             padding: 15px;
@@ -187,11 +203,6 @@
             margin: 20px 0;
             border-left: 5px solid #3498db;
             transition: all 0.3s ease;
-        }
-        .dalil-item {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px dashed #ddd;
         }
         .tafsir-box {
             background-color: var(--tafsir-bg);
@@ -238,16 +249,9 @@
             font-size: 14px;
             border-top: 1px solid #eee;
         }
-
-        .new-badge {
-            background-color: #e74c3c;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 8px;
-            vertical-align: middle;
+        .dark-mode footer {
+            color: #a0aec0;
+            border-top: 1px solid #4a5568;
         }
 
         .structure-grid {
@@ -297,22 +301,6 @@
             border: 1px solid var(--verse-border);
         }
 
-        .dominion-section {
-            background-color: var(--dominion-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #3498db;
-        }
-
-        .creation-section {
-            background-color: var(--creation-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #9b59b6;
-        }
-
         .warning-section {
             background-color: var(--warning-bg);
             padding: 20px;
@@ -329,11 +317,6 @@
             border-left: 5px solid #27ae60;
         }
 
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 30px auto;
-        }
         .timeline-item {
             padding: 10px 20px;
             margin: 10px 0;
@@ -365,6 +348,25 @@
             background: linear-gradient(135deg, #1e3a5f 0%, #2d3748 100%);
         }
 
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 30px 0;
+        }
+        .pagination a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: #3498db;
+            color: white;
+        }
+
         @media (max-width: 768px) {
             .arabic {
                 font-size: 32px;
@@ -383,14 +385,26 @@
             .structure-grid {
                 grid-template-columns: 1fr;
             }
+            .pagination {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .scroll-arrow {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+                left: 8px;
+            }
         }
     </style>
-    <!-- Adding Uthmanic Script HAFS font for proper Arabic display -->
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Adding Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- navigation arrows – left side, screen height scrolling -->
+    <div class="scroll-arrow up" id="scrollUp"><i class="fas fa-arrow-up"></i></div>
+    <div class="scroll-arrow down" id="scrollDown"><i class="fas fa-arrow-down"></i></div>
+
     <div class="container">
         <div class="language-toggle" id="languageToggle">Switch to English</div>
         <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
@@ -416,12 +430,12 @@
             <div class="info-box">
                 <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
                 <p>Untuk membaca teks lengkap Surah Al-Ghashiyah beserta terjemahannya, kunjungi: 
-                <a href="https://quran.com/88?translations=33" target="_blank">Quran.com - Surah Al-Ghashiyah</a></p>
+                <a href="https://quran.com/88?translations=33" target="_blank">Quran.com - Surah Al-Ghashiyah (dengan terjemahan)</a></p>
             </div>
 
             <div class="bonus">
-                <div class="section-title">Sumber Tafsir</div>
-                <p>Pembahasan dalam halaman ini sepenuhnya berdasarkan analisis tematik dari <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info - Tafhim al-Qur'an (Sayyid Abul A'la Maududi)</a>.</p>
+                <div class="section-title">Sumber Tafsir Terpercaya</div>
+                <p>Pembahasan dalam halaman ini didasarkan pada analisis tematik dari <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a>.</p>
             </div>
 
             <div class="audio-player">
@@ -456,8 +470,8 @@
             </div>
 
             <div class="special-benefits">
-                <h3><i class="fas fa-award"></i> Pokok Ajaran Surah Al-Ghashiyah</h3>
-                <p>Berdasarkan tafsir dari <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>, surah ini mengandung pelajaran:</p>
+                <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Ghashiyah</h3>
+                <p>Surah Al-Ghashiyah memiliki beberapa keutamaan istimewa dalam kehidupan seorang muslim:</p>
                 <ul>
                     <li><strong>Pengingat tentang Akhirat:</strong> Mengingatkan tentang realitas hari kiamat dan pembalasan amal</li>
                     <li><strong>Motivasi untuk Beramal Shalih:</strong> Gambaran surga dan neraka memotivasi untuk meningkatkan ibadah</li>
@@ -476,7 +490,7 @@
                     
                     <div class="verse">
                         <strong>Ayat Kunci:</strong> 
-                        <a href="https://quran.com/88:1?translations=33" target="_blank">Al-Ghashiyah 88:1</a>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=1&to=1" target="_blank">Al-Ghashiyah 88:1</a>
                         <div class="arabic">هَلْ أَتَاكَ حَدِيثُ الْغَاشِيَةِ</div>
                         <div class="transliteration">Hal atāka ḥadīthu l-ghāshiyah</div>
                         <p>"Sudahkah sampai kepadamu berita (tentang) hari Kiamat?"</p>
@@ -492,12 +506,12 @@
                     
                     <div class="verse">
                         <strong>Ayat Kunci:</strong> 
-                        <a href="https://quran.com/88:2?translations=33" target="_blank">Al-Ghashiyah 88:2-7</a>
-                        <div class="arabic">وُجُوهٌ يَوْمَئِذٍ خَاشِعَةٌ عَامِلَةٌ نَّاصِبَةٌ تَصْلَىٰ نَارًا حَامِيَةً تُسْقَىٰ مِنْ عَيْنٍ آنِيَةٍ لَّيْسَ لَهُمْ طَعَامٌ إِلَّا مِن ضَرِيعٍ لَّا يُسْمِنُ وَلَا يُغْنِي مِن جُوعٍ</div>
-                        <div class="transliteration">Wujūhun yauma`idhin khāshi'ah. 'Āmilatun nāṣibah. Taṣlā nāran ḥāmiyah. Tusqā min 'aynin āniyah. Laysa lahum ṭa'āmun illā min ḍarī'. Lā yusminu wa lā yughnī min jū'.</div>
-                        <p>"Pada hari itu ada wajah-wajah yang tertunduk terhina, (2) bekerja keras lagi kepayahan, (3) memasuki api yang sangat panas (neraka), (4) diberi minum dari sumber mata air yang sangat panas, (5) mereka tidak memperoleh makanan selain dari pohon yang berduri, (6) yang tidak menggemukkan dan tidak menghilangkan lapar."</p>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=2&to=7" target="_blank">Al-Ghashiyah 88:2-7</a>
+                        <div class="arabic">وُجُوهٌ يَوْمَئِذٍ خَاشِعَةٌ</div>
+                        <div class="transliteration">Wujūhun yauma`idhin khāshi'ah</div>
+                        <p>"Pada hari itu ada wajah-wajah yang tertunduk terhina,"</p>
                         <div class="tafsir-box">
-                            <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> Kata "khāshi'ah" memiliki dua makna: tertunduk karena hina dan takut, serta kering tanpa kehidupan. Wajah orang kafir akan kehilangan cahaya kehidupan dan dipenuhi rasa malu, takut, dan penyesalan. Mereka juga akan merasakan keletihan akibat siksa yang tiada henti, serta makanan yang tidak berguna dan air yang mendidih. Ini kontras dengan wajah orang beriman yang berseri-seri. Gambaran ini menunjukkan konsekuensi langsung dari pilihan hidup seseorang di dunia.
+                            <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> Kata "khāshi'ah" memiliki dua makna: tertunduk karena hina dan takut, serta kering tanpa kehidupan. Wajah orang kafir akan kehilangan cahaya kehidupan dan dipenuhi rasa malu, takut, dan penyesalan. Ini kontras dengan wajah orang beriman yang berseri-seri. Gambaran ini menunjukkan konsekuensi langsung dari pilihan hidup seseorang di dunia.
                         </div>
                     </div>
                 </div>
@@ -508,12 +522,12 @@
                     
                     <div class="verse">
                         <strong>Ayat Kunci:</strong> 
-                        <a href="https://quran.com/88:8-16?translations=33" target="_blank">Al-Ghashiyah 88:8-16</a>
-                        <div class="arabic">وُجُوهٌ يَوْمَئِذٍ نَّاعِمَةٌ لِّسَعْيِهَا رَاضِيَةٌ فِي جَنَّةٍ عَالِيَةٍ لَّا تَسْمَعُ فِيهَا لَاغِيَةً فِيهَا عَيْنٌ جَارِيَةٌ فِيهَا سُرُرٌ مَّرْفُوعَةٌ وَأَكْوَابٌ مَّوْضُوعَةٌ وَنَمَارِقُ مَصْفُوفَةٌ وَزَرَابِيُّ مَبْثُوثَةٌ</div>
-                        <div class="transliteration">Wujūhun yauma`idhin nā'imah. Lisa'yihā rāḍiyah. Fī jannatin 'āliyah. Lā tasma'u fīhā lāghiyah. Fīhā 'aynun jāriyah. Fīhā sururun marfū'ah. Wa akwābun mawḍū'ah. Wa namāriqu maṣfūfah. Wa zarābiyyu mabthūthah.</div>
-                        <p>"Pada hari itu ada wajah-wajah yang berseri-seri, (8) merasa puas karena usahanya, (9) dalam surga yang tinggi, (10) tidak kamu dengar di dalamnya perkataan yang tidak berguna, (11) di dalamnya ada mata air yang mengalir, (12) di dalamnya ada takhta-takhta yang ditinggikan, (13) dan gelas-gelas yang tersedia, (14) dan bantal-bantal sandaran yang tersusun, (15) dan permadani-permadani yang terhampar."</p>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=8&to=16" target="_blank">Al-Ghashiyah 88:8-16</a>
+                        <div class="arabic">وُجُوهٌ يَوْمَئِذٍ نَّاعِمَةٌ</div>
+                        <div class="transliteration">Wujūhun yauma`idhin nā'imah</div>
+                        <p>"Pada hari itu ada wajah-wajah yang berseri-seri,"</p>
                         <div class="tafsir-box">
-                            <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> Kata "nā'imah" berarti berseri-seri, gembira, puas, dan penuh kenikmatan. Wajah orang beriman akan memancarkan cahaya kebahagiaan karena diterimanya amal mereka dan selamat dari siksa. Gambaran surga yang tinggi, bebas dari kata sia-sia, mata air mengalir, serta fasilitas mewah seperti takhta, gelas, bantal, dan permadani menunjukkan kepuasan dan kedamaian abadi. Ini adalah hasil langsung dari keimanan dan ketakwaan mereka di dunia.
+                            <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> Kata "nā'imah" berarti berseri-seri, gembira, puas, dan penuh kenikmatan. Wajah orang beriman akan memancarkan cahaya kebahagiaan karena diterimanya amal mereka dan selamat dari siksa. Ini adalah hasil langsung dari keimanan dan ketakwaan mereka di dunia. Gambaran ini memberikan motivasi kuat untuk konsisten dalam beribadah.
                         </div>
                     </div>
                 </div>
@@ -524,7 +538,7 @@
                     
                     <div class="verse">
                         <strong>Ayat Kunci:</strong> 
-                        <a href="https://quran.com/88:4?translations=33" target="_blank">Al-Ghashiyah 88:4</a>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=4&to=4" target="_blank">Al-Ghashiyah 88:4</a>
                         <div class="arabic">تَصْلَىٰ نَارًا حَامِيَةً</div>
                         <div class="transliteration">Taṣlā nāran ḥāmiyah</div>
                         <p>"Memasuki api yang sangat panas (neraka),"</p>
@@ -540,7 +554,7 @@
                     
                     <div class="verse">
                         <strong>Ayat Kunci:</strong> 
-                        <a href="https://quran.com/88:12?translations=33" target="_blank">Al-Ghashiyah 88:12</a>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=12&to=12" target="_blank">Al-Ghashiyah 88:12</a>
                         <div class="arabic">فِيهَا عَيْنٌ جَارِيَةٌ</div>
                         <div class="transliteration">Fīhā 'aynun jāriyah</div>
                         <p>"Di dalamnya ada mata air yang mengalir."</p>
@@ -556,12 +570,12 @@
                 
                 <div class="verse">
                     <strong>Ayat Penting:</strong> 
-                    <a href="https://quran.com/88:17-20?translations=33" target="_blank">Al-Ghashiyah 88:17-20</a>
-                    <div class="arabic">أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ وَإِلَى السَّمَاءِ كَيْفَ رُفِعَتْ وَإِلَى الْجِبَالِ كَيْفَ نُصِبَتْ وَإِلَى الْأَرْضِ كَيْفَ سُطِحَتْ</div>
-                    <div class="transliteration">A-falā yanẓurūna ilā l-ibili kayfa khuliqat. Wa ilā s-samā'i kayfa rufi'at. Wa ilā l-jibāli kayfa nuṣibat. Wa ilā l-arḍi kayfa suṭiḥat.</div>
-                    <p>"Maka tidakkah mereka memperhatikan unta, bagaimana dia diciptakan? (17) Dan langit, bagaimana ditinggikan? (18) Dan gunung-gunung, bagaimana ditegakkan? (19) Dan bumi, bagaimana dihamparkan? (20)"</p>
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=17&to=20" target="_blank">Al-Ghashiyah 88:17-20</a>
+                    <div class="arabic">أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ</div>
+                    <div class="transliteration">A-falā yanẓurūna ilā l-ibili kayfa khuliqat</div>
+                    <p>"Maka tidakkah mereka memperhatikan unta, bagaimana dia diciptakan?"</p>
                     <div class="tafsir-box">
-                        <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> Pertanyaan retoris ini mengajak manusia merenungkan penciptaan unta yang memiliki keistimewaan khusus. Unta dapat bertahan hidup di gurun yang panas, menyimpan air dalam tubuhnya, memiliki bulu mata panjang untuk melindungi dari pasir, dan kaki yang cocok untuk berjalan di padang pasir. Ini semua menunjukkan kebijaksanaan dan kekuasaan Allah. Jika Allah mampu menciptakan makhluk seistimewa unta, serta meninggikan langit tanpa tiang, menegakkan gunung sebagai pasak, dan menghamparkan bumi untuk tempat tinggal, tentu Dia mampu membangkitkan manusia setelah mati.
+                        <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> Pertanyaan retoris ini mengajak manusia merenungkan penciptaan unta yang memiliki keistimewaan khusus. Unta dapat bertahan hidup di gurun yang panas, menyimpan air dalam tubuhnya, memiliki bulu mata panjang untuk melindungi dari pasir, dan kaki yang cocok untuk berjalan di padang pasir. Ini semua menunjukkan kebijaksanaan dan kekuasaan Allah. Jika Allah mampu menciptakan makhluk seistimewa unta, tentu Dia mampu membangkitkan manusia setelah mati.
                     </div>
                 </div>
 
@@ -635,8 +649,11 @@
                 </div>
             </div>
 
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+            <div class="pagination">
+                <a href="087.html"><i class="fas fa-arrow-left"></i> Sebelumnya: Al-A'la</a>
+                <a href="index.html">Kembali ke Menu Utama</a>
+                <a href="089.html">Selanjutnya: Al-Fajr <i class="fas fa-arrow-right"></i></a>
+            </div>
         </div>
 
         <!-- English Content (Hidden by Default) -->
@@ -663,8 +680,8 @@
             </div>
 
             <div class="bonus">
-                <div class="section-title">Tafsir Source</div>
-                <p>The discussion in this page is entirely based on thematic analysis from <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info - Tafhim al-Qur'an (Sayyid Abul A'la Maududi)</a>.</p>
+                <div class="section-title">Reliable Tafsir Sources</div>
+                <p>The discussion in this page is based on thematic analysis from <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a>.</p>
             </div>
 
             <div class="audio-player">
@@ -699,8 +716,8 @@
             </div>
 
             <div class="special-benefits">
-                <h3><i class="fas fa-award"></i> Core Teachings of Surah Al-Ghashiyah</h3>
-                <p>Based on tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>, this surah contains the following lessons:</p>
+                <h3><i class="fas fa-award"></i> Special Virtues of Surah Al-Ghashiyah</h3>
+                <p>Surah Al-Ghashiyah has several special virtues in a Muslim's life:</p>
                 <ul>
                     <li><strong>Reminder of Hereafter:</strong> Reminds about the reality of Day of Judgment and recompense of deeds</li>
                     <li><strong>Motivation for Righteous Deeds:</strong> Description of Paradise and Hell motivates to increase worship</li>
@@ -719,7 +736,7 @@
                     
                     <div class="verse">
                         <strong>Key Verse:</strong> 
-                        <a href="https://recitequran.com/88:1" target="_blank">Al-Ghashiyah 88:1</a>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=1&to=1" target="_blank">Al-Ghashiyah 88:1</a>
                         <div class="arabic">هَلْ أَتَاكَ حَدِيثُ الْغَاشِيَةِ</div>
                         <div class="transliteration">Hal atāka ḥadīthu l-ghāshiyah</div>
                         <p>"Has there reached you the report of the Overwhelming [event]?"</p>
@@ -735,12 +752,12 @@
                     
                     <div class="verse">
                         <strong>Key Verse:</strong> 
-                        <a href="https://recitequran.com/88:2" target="_blank">Al-Ghashiyah 88:2-7</a>
-                        <div class="arabic">وُجُوهٌ يَوْمَئِذٍ خَاشِعَةٌ عَامِلَةٌ نَّاصِبَةٌ تَصْلَىٰ نَارًا حَامِيَةً تُسْقَىٰ مِنْ عَيْنٍ آنِيَةٍ لَّيْسَ لَهُمْ طَعَامٌ إِلَّا مِن ضَرِيعٍ لَّا يُسْمِنُ وَلَا يُغْنِي مِن جُوعٍ</div>
-                        <div class="transliteration">Wujūhun yauma`idhin khāshi'ah. 'Āmilatun nāṣibah. Taṣlā nāran ḥāmiyah. Tusqā min 'aynin āniyah. Laysa lahum ṭa'āmun illā min ḍarī'. Lā yusminu wa lā yughnī min jū'.</div>
-                        <p>"[Some] faces, that Day, will be humbled, (2) Working [hard] and exhausted. (3) They will [enter to] burn in an intensely hot fire. (4) They will be given drink from a boiling spring. (5) For them there will be no food except from a bitter, thorny plant, (6) Which neither nourishes nor avails against hunger."</p>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=2&to=7" target="_blank">Al-Ghashiyah 88:2-7</a>
+                        <div class="arabic">وُجُوهٌ يَوْمَئِذٍ خَاشِعَةٌ</div>
+                        <div class="transliteration">Wujūhun yauma`idhin khāshi'ah</div>
+                        <p>"[Some] faces, that Day, will be humbled,"</p>
                         <div class="tafsir-box">
-                            <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> The word "khāshi'ah" has two meanings: bowed down due to humiliation and fear, and dry without life. The faces of disbelievers will lose the light of life and be filled with shame, fear, and regret. They will also experience weariness from unending punishment, and useless food and boiling water. This contrasts with the bright faces of believers. This description shows the direct consequence of one's life choices in this world.
+                            <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> The word "khāshi'ah" has two meanings: bowed down due to humiliation and fear, and dry without life. The faces of disbelievers will lose the light of life and be filled with shame, fear, and regret. This contrasts with the bright faces of believers. This description shows the direct consequence of one's life choices in this world.
                         </div>
                     </div>
                 </div>
@@ -751,12 +768,12 @@
                     
                     <div class="verse">
                         <strong>Key Verse:</strong> 
-                        <a href="https://recitequran.com/88:8" target="_blank">Al-Ghashiyah 88:8-16</a>
-                        <div class="arabic">وُجُوهٌ يَوْمَئِذٍ نَّاعِمَةٌ لِّسَعْيِهَا رَاضِيَةٌ فِي جَنَّةٍ عَالِيَةٍ لَّا تَسْمَعُ فِيهَا لَاغِيَةً فِيهَا عَيْنٌ جَارِيَةٌ فِيهَا سُرُرٌ مَّرْفُوعَةٌ وَأَكْوَابٌ مَّوْضُوعَةٌ وَنَمَارِقُ مَصْفُوفَةٌ وَزَرَابِيُّ مَبْثُوثَةٌ</div>
-                        <div class="transliteration">Wujūhun yauma`idhin nā'imah. Lisa'yihā rāḍiyah. Fī jannatin 'āliyah. Lā tasma'u fīhā lāghiyah. Fīhā 'aynun jāriyah. Fīhā sururun marfū'ah. Wa akwābun mawḍū'ah. Wa namāriqu maṣfūfah. Wa zarābiyyu mabthūthah.</div>
-                        <p>"[Other] faces, that Day, will be joyful, (8) With their effort [they are] satisfied, (9) In an elevated garden, (10) Wherein they will hear no unsuitable speech, (11) Within it is a flowing spring, (12) Within it are couches raised high, (13) And cups put in place, (14) And cushions lined up, (15) And carpets spread around."</p>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=8&to=16" target="_blank">Al-Ghashiyah 88:8-16</a>
+                        <div class="arabic">وُجُوهٌ يَوْمَئِذٍ نَّاعِمَةٌ</div>
+                        <div class="transliteration">Wujūhun yauma`idhin nā'imah</div>
+                        <p>"[Other] faces, that Day, will be joyful,"</p>
                         <div class="tafsir-box">
-                            <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> The word "nā'imah" means joyful, happy, content, and full of bliss. The faces of believers will radiate the light of happiness because their deeds are accepted and they are saved from punishment. The description of a lofty garden, free from idle talk, flowing springs, and luxurious furnishings like raised couches, placed cups, lined cushions, and spread carpets indicates eternal satisfaction and peace. This is the direct result of their faith and piety in this world.
+                            <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> The word "nā'imah" means joyful, happy, content, and full of bliss. The faces of believers will radiate the light of happiness because their deeds are accepted and they are saved from punishment. This is the direct result of their faith and piety in this world. This description provides strong motivation to be consistent in worship.
                         </div>
                     </div>
                 </div>
@@ -767,7 +784,7 @@
                     
                     <div class="verse">
                         <strong>Key Verse:</strong> 
-                        <a href="https://recitequran.com/88:4" target="_blank">Al-Ghashiyah 88:4</a>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=4&to=4" target="_blank">Al-Ghashiyah 88:4</a>
                         <div class="arabic">تَصْلَىٰ نَارًا حَامِيَةً</div>
                         <div class="transliteration">Taṣlā nāran ḥāmiyah</div>
                         <p>"[They will be] entering a scorching fire"</p>
@@ -783,7 +800,7 @@
                     
                     <div class="verse">
                         <strong>Key Verse:</strong> 
-                        <a href="https://recitequran.com/88:12" target="_blank">Al-Ghashiyah 88:12</a>
+                        <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=12&to=12" target="_blank">Al-Ghashiyah 88:12</a>
                         <div class="arabic">فِيهَا عَيْنٌ جَارِيَةٌ</div>
                         <div class="transliteration">Fīhā 'aynun jāriyah</div>
                         <p>"Within it is a flowing spring."</p>
@@ -799,12 +816,12 @@
                 
                 <div class="verse">
                     <strong>Important Verse:</strong> 
-                    <a href="https://recitequran.com/88:17" target="_blank">Al-Ghashiyah 88:17-20</a>
-                    <div class="arabic">أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ وَإِلَى السَّمَاءِ كَيْفَ رُفِعَتْ وَإِلَى الْجِبَالِ كَيْفَ نُصِبَتْ وَإِلَى الْأَرْضِ كَيْفَ سُطِحَتْ</div>
-                    <div class="transliteration">A-falā yanẓurūna ilā l-ibili kayfa khuliqat. Wa ilā s-samā'i kayfa rufi'at. Wa ilā l-jibāli kayfa nuṣibat. Wa ilā l-arḍi kayfa suṭiḥat.</div>
-                    <p>"Then do they not look at the camels - how they are created? (17) And at the sky - how it is raised? (18) And at the mountains - how they are erected? (19) And at the earth - how it is spread out? (20)"</p>
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=88&verse=17&to=20" target="_blank">Al-Ghashiyah 88:17-20</a>
+                    <div class="arabic">أَفَلَا يَنظُرُونَ إِلَى الْإِبِلِ كَيْفَ خُلِقَتْ</div>
+                    <div class="transliteration">A-falā yanẓurūna ilā l-ibili kayfa khuliqat</div>
+                    <p>"Then do they not look at the camels - how they are created?"</p>
                     <div class="tafsir-box">
-                        <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> This rhetorical question invites humans to contemplate the creation of camels which have special characteristics. Camels can survive in hot deserts, store water in their bodies, have long eyelashes to protect from sand, and feet suitable for walking in desert terrain. All these show Allah's wisdom and power. If Allah is able to create such a special creature as the camel, as well as raise the sky without pillars, erect mountains as pegs, and spread the earth for dwelling, surely He is able to resurrect humans after death.
+                        <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a>:</strong> This rhetorical question invites humans to contemplate the creation of camels which have special characteristics. Camels can survive in hot deserts, store water in their bodies, have long eyelashes to protect from sand, and feet suitable for walking in desert terrain. All these show Allah's wisdom and power. If Allah is able to create such a special creature as the camel, surely He is able to resurrect humans after death.
                     </div>
                 </div>
 
@@ -878,18 +895,21 @@
                 </div>
             </div>
 
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+            <div class="pagination">
+                <a href="087.html"><i class="fas fa-arrow-left"></i> Previous: Al-A'la</a>
+                <a href="index.html">Back to Main Menu</a>
+                <a href="089.html">Next: Al-Fajr <i class="fas fa-arrow-right"></i></a>
+            </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; (2025 AD) 1447 AH - Surah Al-Ghashiyah Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
+        <p>© (2026 AD) 1447 AH - Surah Al-Ghashiyah Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php?sura=88" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
     </footer>
 
     <script>
-        // Initialize from localStorage
         document.addEventListener('DOMContentLoaded', function() {
+            // Safely get elements
             const englishContent = document.getElementById('english-content');
             const indonesianContent = document.getElementById('indonesian-content');
             const languageToggle = document.getElementById('languageToggle');
@@ -897,13 +917,28 @@
             const darkModeToggle = document.getElementById('darkModeToggle');
             const transliterationElements = document.querySelectorAll('.transliteration');
 
-            // Language toggle
-            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (!englishContent || !indonesianContent || !languageToggle || !transliterationToggle || !darkModeToggle) {
+                console.error('One or more required elements missing. Toggles may not work.');
+                return;
+            }
+
+            // --- Language handling with URL override ---
+            const urlParams = new URLSearchParams(window.location.search);
+            let langParam = null;
+            if (urlParams.has('English')) langParam = 'english';
+            else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+
+            let currentLanguage = langParam || localStorage.getItem('language') || 'indonesian';
             if (currentLanguage === 'english') {
                 englishContent.classList.remove('hidden');
                 indonesianContent.classList.add('hidden');
                 languageToggle.textContent = 'Switch to Indonesian';
+            } else {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
             }
+            if (langParam) localStorage.setItem('language', langParam);
 
             languageToggle.addEventListener('click', function() {
                 if (englishContent.classList.contains('hidden')) {
@@ -919,40 +954,55 @@
                 }
             });
 
-            // Transliteration toggle
+            // --- Transliteration toggle ---
             const transliterationVisible = localStorage.getItem('transliteration') === 'true';
             if (transliterationVisible) {
                 transliterationElements.forEach(el => el.style.display = 'block');
                 transliterationToggle.textContent = 'Hide Transliteration';
+            } else {
+                transliterationElements.forEach(el => el.style.display = 'none');
+                transliterationToggle.textContent = 'Show Transliteration';
             }
 
             transliterationToggle.addEventListener('click', function() {
-                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
-                    transliterationElements.forEach(el => el.style.display = 'block');
-                    transliterationToggle.textContent = 'Hide Transliteration';
-                    localStorage.setItem('transliteration', 'true');
-                } else {
+                const isVisible = transliterationElements[0]?.style.display === 'block';
+                if (isVisible) {
                     transliterationElements.forEach(el => el.style.display = 'none');
                     transliterationToggle.textContent = 'Show Transliteration';
                     localStorage.setItem('transliteration', 'false');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
                 }
             });
 
-            // Dark mode toggle
+            // --- Dark mode ---
             const darkMode = localStorage.getItem('darkMode') === 'true';
             if (darkMode) {
                 document.body.classList.add('dark-mode');
                 darkModeToggle.textContent = 'Light Mode';
+            } else {
+                darkModeToggle.textContent = 'Dark Mode';
             }
 
             darkModeToggle.addEventListener('click', function() {
                 document.body.classList.toggle('dark-mode');
-                if (document.body.classList.contains('dark-mode')) {
-                    darkModeToggle.textContent = 'Light Mode';
-                    localStorage.setItem('darkMode', 'true');
-                } else {
-                    darkModeToggle.textContent = 'Dark Mode';
-                    localStorage.setItem('darkMode', 'false');
+                const isDark = document.body.classList.contains('dark-mode');
+                darkModeToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+                localStorage.setItem('darkMode', isDark);
+            });
+
+            // --- Screen scroll arrows ---
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+
+            // --- Remove unwanted arrow icons (excluding the navigation arrows) ---
+            document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up, i.fa-arrow-down').forEach(icon => {
+                if (!icon.closest('.scroll-arrow')) {
+                    icon.remove();
                 }
             });
         });
