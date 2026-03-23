@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -122,22 +121,6 @@
         .verse-title-icon {
             margin-right: 8px;
         }
-        .back-to-top {
-            display: block;
-            text-align: center;
-            margin: 30px 0;
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 20px;
-            border: 1px solid #3498db;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-        .back-to-top:hover {
-            background-color: #3498db;
-            color: white;
-        }
         .language-toggle {
             position: fixed;
             top: 20px;
@@ -176,6 +159,38 @@
             z-index: 100;
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        /* screen‑height navigation arrows – exactly as in 001.html */
+        .scroll-arrow {
+            position: fixed;
+            left: 15px;
+            width: 44px;
+            height: 44px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: background-color 0.2s, transform 0.1s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .scroll-arrow:hover {
+            background-color: #1f618d;
+            transform: scale(1.05);
+        }
+        .scroll-arrow:active {
+            transform: scale(0.95);
+        }
+        .scroll-arrow.up {
+            top: 15px;
+        }
+        .scroll-arrow.down {
+            bottom: 15px;
         }
         .bonus {
             background-color: var(--bonus-bg);
@@ -298,32 +313,23 @@
             margin-bottom: 10px;
             color: var(--arabic-color);
         }
-        .surah-navigation {
+        .pagination {
             display: flex;
             justify-content: space-between;
-            margin: 40px 0 20px;
-            padding: 20px 0;
-            border-top: 1px solid var(--verse-border);
-            border-bottom: 1px solid var(--verse-border);
+            margin: 30px 0;
         }
-        .nav-link {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 20px;
-            background: var(--verse-bg);
-            color: var(--text-color);
+        .pagination a {
+            color: #3498db;
             text-decoration: none;
-            border-radius: 5px;
-            border: 1px solid var(--verse-border);
-            transition: all 0.3s ease;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            transition: all 0.3s;
         }
-        .nav-link:hover {
-            background: #3498db;
+        .pagination a:hover {
+            background-color: #3498db;
             color: white;
-            border-color: #3498db;
-        }
-        .nav-link i {
-            margin: 0 5px;
         }
         .theme-table {
             width: 100%;
@@ -365,12 +371,15 @@
             .structure-grid {
                 grid-template-columns: 1fr;
             }
-            .surah-navigation {
+            .pagination {
                 flex-direction: column;
-                gap: 15px;
+                gap: 10px;
             }
-            .nav-link {
-                justify-content: center;
+            .scroll-arrow {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+                left: 8px;
             }
             .theme-table {
                 display: block;
@@ -382,6 +391,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- navigation arrows – left side, screen height scrolling -->
+    <div class="scroll-arrow up" id="scrollUp"><i class="fas fa-arrow-up"></i></div>
+    <div class="scroll-arrow down" id="scrollDown"><i class="fas fa-arrow-down"></i></div>
+
     <div class="container">
         <div class="language-toggle" id="languageToggle">Switch to English</div>
         <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
@@ -391,7 +404,7 @@
         <div id="indonesian-content">
             <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
             <h1 class="surah-title">Surah Maryam - Tafsir Tematik</h1>
-            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19" target="_blank">IslamicStudies.info - Surah Maryam</a>, Tafsir Ibn Kathir, dan Kementerian Agama RI</div>
+            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=1&to=98" target="_blank">IslamicStudies.info - Surah Maryam</a></div>
 
             <div class="arabic">كهيعص</div>
             <div class="transliteration">Kāf Hā Yā 'Aīn Ṣād.</div>
@@ -399,19 +412,19 @@
 
             <div class="theme-overview">
                 <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Gambaran Umum Surah Maryam</h3>
-                <p>Surah Maryam (سورة مريم) adalah surah ke-19 dalam Al-Qur'an dan terdiri dari 98 ayat. Termasuk dalam golongan surah Makkiyah (diturunkan di Mekah), surah ini dinamai Maryam (Maria) karena menceritakan kisah kelahiran Nabi Isa dari ibunya Maryam tanpa seorang ayah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=19" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Fāṭir dan sebelum Surah Ṭāhā. Tafsir Ibn Kathir menjelaskan bahwa Surah Maryam mengandung kisah-kisah tentang anugerah Allah kepada hamba-hamba-Nya yang taat, khususnya yang berkaitan dengan karunia keturunan. Kementerian Agama RI menekankan bahwa surah ini menonjolkan tema rahmat Allah, mukjizat kelahiran Nabi Isa, dan penolakan terhadap anggapan bahwa Allah memiliki anak.</p>
-                <p>Menurut Tafsir Ibn Kathir, surah ini turun sebagai hiburan bagi Nabi Muhammad dan umat Islam yang saat itu mengalami tekanan dari kaum musyrikin Mekah. Surah Maryam juga berisi bantahan terhadap keyakinan Nashrani tentang status Isa sebagai anak Tuhan.</p>
+                <p>Surah Maryam (سورة مريم) adalah surah ke-19 dalam Al-Qur'an dan terdiri dari 98 ayat. Termasuk dalam golongan surah Makkiyah (diturunkan di Mekah), surah ini dinamai Maryam (Maria) karena menceritakan kisah kelahiran Nabi Isa dari ibunya Maryam tanpa seorang ayah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=1&to=98" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Fāṭir dan sebelum Surah Ṭāhā. Surah Maryam menonjolkan tema rahmat Allah, mukjizat kelahiran Nabi Isa, dan penolakan terhadap anggapan bahwa Allah memiliki anak. Surah ini juga berisi kisah-kisah tentang anugerah Allah kepada hamba-hamba-Nya yang taat, khususnya yang berkaitan dengan karunia keturunan.</p>
+                <p>Surah Maryam turun sebagai hiburan bagi Nabi Muhammad dan umat Islam yang saat itu mengalami tekanan dari kaum musyrikin Mekah. Surah ini juga berisi bantahan terhadap keyakinan yang keliru tentang status Isa sebagai anak Tuhan.</p>
             </div>
 
             <div class="info-box">
                 <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
                 <p>Untuk membaca teks lengkap Surah Maryam beserta terjemahannya, kunjungi: 
-                <a href="https://quran.com/19:1-98?translations=33" target="_blank">Quran.com - Surah Maryam</a></p>
+                <a href="https://quran.com/19:1-98?translations=33" target="_blank">Quran.com - Surah Maryam (dengan terjemahan)</a></p>
             </div>
 
             <div class="bonus">
                 <div class="section-title">Sumber Tafsir Terpercaya</div>
-                <p>Pembahasan dalam halaman ini mengikuti kerangka tematik yang dikenal dalam ilmu tafsir, dengan merujuk pada sumber-sumber terpercaya termasuk <a href="https://www.islamicstudies.info/tafheem.php?sura=19" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, dan terjemahan resmi Kementerian Agama Republik Indonesia.</p>
+                <p>Pembahasan dalam halaman ini didasarkan pada analisis tematik dari <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=1&to=98" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a>.</p>
             </div>
 
             <div class="audio-player">
@@ -427,68 +440,20 @@
                 <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat</h2>
                 <table class="theme-table">
                     <thead>
-                        <tr>
-                            <th>Rentang Ayat</th>
-                            <th>Tema Utama</th>
-                            <th>Inti Pesan</th>
-                        </tr>
+                        <tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>Ayat 1-11</strong></td>
-                            <td>Kisah Nabi Zakaria dan Kelahiran Yahya</td>
-                            <td>Doa Nabi Zakaria memohon keturunan di usia tua; mukjizat kelahiran Yahya; kekuasaan Allah</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 12-15</strong></td>
-                            <td>Kisah Nabi Yahya</td>
-                            <td>Sifat-sifat Nabi Yahya; ketaatan sejak kecil; hikmah dan kesalehan</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 16-33</strong></td>
-                            <td>Kisah Maryam dan Kelahiran Nabi Isa</td>
-                            <td>Kemuliaan Maryam; mukjizat kelahiran Isa tanpa ayah; pembelaan Maryam atas tuduhan</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 34-40</strong></td>
-                            <td>Penjelasan tentang Hakikat Nabi Isa</td>
-                            <td>Bantahan terhadap anggapan Isa sebagai anak Tuhan; penegasan kenabian Isa</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 41-50</strong></td>
-                            <td>Kisah Nabi Ibrahim dengan Ayahnya</td>
-                            <td>Dakwah Ibrahim kepada ayahnya; keteguhan dalam tauhid; doa Ibrahim untuk ayahnya</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 51-53</strong></td>
-                            <td>Kisah Nabi Musa</td>
-                            <td>Pemilihan Musa sebagai nabi; pemberian Harun sebagai pembantu; kemuliaan keluarga nabi</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 54-55</strong></td>
-                            <td>Kisah Nabi Ismail</td>
-                            <td>Sifat-sifat Ismail; ketaatan dan kesabaran; penunaian janji</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 56-57</strong></td>
-                            <td>Kisah Nabi Idris</td>
-                            <td>Kedudukan tinggi Idris; kesalehan dan keteguhan; rahmat Allah kepada nabi-Nya</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 58-63</strong></td>
-                            <td>Kisah Nabi-Nabi Lainnya</td>
-                            <td>Para nabi keturunan Adam, Nuh, Ibrahim, dan Israel; anugerah Allah kepada mereka</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 64-75</strong></td>
-                            <td>Bantahan terhadap Orang Musyrik dan Penegasan Tauhid</td>
-                            <td>Peringatan tentang hari kebangkitan; nasib orang kafir; kekuasaan Allah</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ayat 76-98</strong></td>
-                            <td>Penutup: Peringatan dan Janji Allah</td>
-                            <td>Balasan bagi orang bertakwa; bantahan terhadap anggapan Allah punya anak; kesempurnaan Al-Qur'an</td>
-                        </tr>
+                        <tr><td><strong>Ayat 1-11</strong></td><td>Kisah Nabi Zakaria dan Kelahiran Yahya</td><td>Doa Nabi Zakaria memohon keturunan di usia tua; mukjizat kelahiran Yahya; kekuasaan Allah</td></tr>
+                        <tr><td><strong>Ayat 12-15</strong></td><td>Kisah Nabi Yahya</td><td>Sifat-sifat Nabi Yahya; ketaatan sejak kecil; hikmah dan kesalehan</td></tr>
+                        <tr><td><strong>Ayat 16-33</strong></td><td>Kisah Maryam dan Kelahiran Nabi Isa</td><td>Kemuliaan Maryam; mukjizat kelahiran Isa tanpa ayah; pembelaan Maryam atas tuduhan</td></tr>
+                        <tr><td><strong>Ayat 34-40</strong></td><td>Penjelasan tentang Hakikat Nabi Isa</td><td>Bantahan terhadap anggapan Isa sebagai anak Tuhan; penegasan kenabian Isa</td></tr>
+                        <tr><td><strong>Ayat 41-50</strong></td><td>Kisah Nabi Ibrahim dengan Ayahnya</td><td>Dakwah Ibrahim kepada ayahnya; keteguhan dalam tauhid; doa Ibrahim untuk ayahnya</td></tr>
+                        <tr><td><strong>Ayat 51-53</strong></td><td>Kisah Nabi Musa</td><td>Pemilihan Musa sebagai nabi; pemberian Harun sebagai pembantu; kemuliaan keluarga nabi</td></tr>
+                        <tr><td><strong>Ayat 54-55</strong></td><td>Kisah Nabi Ismail</td><td>Sifat-sifat Ismail; ketaatan dan kesabaran; penunaian janji</td></tr>
+                        <tr><td><strong>Ayat 56-57</strong></td><td>Kisah Nabi Idris</td><td>Kedudukan tinggi Idris; kesalehan dan keteguhan; rahmat Allah kepada nabi-Nya</td></tr>
+                        <tr><td><strong>Ayat 58-63</strong></td><td>Kisah Nabi-Nabi Lainnya</td><td>Para nabi keturunan Adam, Nuh, Ibrahim, dan Israel; anugerah Allah kepada mereka</td></tr>
+                        <tr><td><strong>Ayat 64-75</strong></td><td>Bantahan terhadap Orang Musyrik dan Penegasan Tauhid</td><td>Peringatan tentang hari kebangkitan; nasib orang kafir; kekuasaan Allah</td></tr>
+                        <tr><td><strong>Ayat 76-98</strong></td><td>Penutup: Peringatan dan Janji Allah</td><td>Balasan bagi orang bertakwa; bantahan terhadap anggapan Allah punya anak; kesempurnaan Al-Qur'an</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -503,7 +468,7 @@
                     
                     <div class="tafsir-box">
                         <strong>Kenapa ayat ini penting:</strong>
-                        <p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16" target="_blank">IslamicStudies.info</a>, ayat ini menceritakan mukjizat kelahiran Isa tanpa ayah, yang menunjukkan kekuasaan mutlak Allah. Tafsir Ibn Kathir menjelaskan bahwa Maryam adalah wanita suci yang dipilih Allah untuk melahirkan seorang nabi tanpa disentuh laki-laki. Kementerian Agama RI menambahkan bahwa kisah ini membantah anggapan Nashrani bahwa Isa adalah anak Tuhan, karena kelahirannya adalah mukjizat dari Allah semata, bukan karena Allah memiliki anak.</p>
+                        <p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16&to=19" target="_blank">IslamicStudies.info</a>, ayat ini menceritakan mukjizat kelahiran Isa tanpa ayah, yang menunjukkan kekuasaan mutlak Allah. Maryam adalah wanita suci yang dipilih Allah untuk melahirkan seorang nabi tanpa disentuh laki-laki. Kisah ini membantah anggapan bahwa Isa adalah anak Tuhan, karena kelahirannya adalah mukjizat dari Allah semata, bukan karena Allah memiliki anak.</p>
                     </div>
                 </div>
             </div>
@@ -528,12 +493,12 @@
                     <div class="theme-title"><i class="fas fa-1 verse-title-icon"></i> 1. Mukjizat Kelahiran Nabi Isa dari Maryam</div>
                     <p>Kisah Maryam yang melahirkan Isa tanpa seorang ayah, sebagai tanda kekuasaan Allah dan bantahan terhadap anggapan bahwa Allah memiliki anak.</p>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16" target="_blank">Maryam 19:16-21</a>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16&to=21" target="_blank">Maryam 19:16-21</a>
                         <div class="arabic">قَالَتْ أَنَّىٰ يَكُونُ لِى غُلَٰمٌ وَلَمْ يَمْسَسْنِى بَشَرٌ وَلَمْ أَكُ بَغِيًّا قَالَ كَذَٰلِكِ قَالَ رَبُّكِ هُوَ عَلَىَّ هَيِّنٌ وَلِنَجْعَلَهُۥٓ ءَايَةً لِّلنَّاسِ وَرَحْمَةً مِّنَّا وَكَانَ أَمْرًا مَّقْضِيًّا</div>
                         <div class="transliteration">Qālat annā yakụnu lī gulāmuw wa lam yamsasnī basyaruw wa lam aku bagiyyā, qāla każāliki qāla rabbuki huwa 'alayya hayyinuw wa li naj'alahū āyatal lin-nāsi wa raḥmatam minnā, wa kāna amram maqḍiyyā.</div>
                         <p>"Dia (Maryam) berkata, 'Bagaimana mungkin aku mempunyai anak laki-laki, padahal tidak pernah ada orang (laki-laki) yang menyentuhku dan aku bukan seorang pezina!' Dia (Jibril) berkata, 'Demikianlah, Tuhanmu berfirman, 'Hal itu mudah bagi-Ku, dan agar Kami menjadikannya suatu tanda bagi manusia dan sebagai rahmat dari Kami; dan hal itu adalah suatu urusan yang sudah diputuskan.''"</p>
                         <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16" target="_blank">IslamicStudies.info</a>, kisah ini menunjukkan bahwa Allah berkuasa menciptakan apa saja yang dikehendaki-Nya. Tafsir Ibn Kathir menjelaskan bahwa kelahiran Isa tanpa ayah adalah mukjizat yang membedakannya dari manusia biasa, namun tidak menjadikannya anak Tuhan. Kementerian Agama RI menekankan bahwa ayat ini menolak doktrin trinitas dan menegaskan bahwa Isa adalah hamba Allah yang diciptakan dengan kalimat "Kun".
+                            <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16&to=21" target="_blank">IslamicStudies.info</a>, kisah ini menunjukkan bahwa Allah berkuasa menciptakan apa saja yang dikehendaki-Nya. Kelahiran Isa tanpa ayah adalah mukjizat yang membedakannya dari manusia biasa, namun tidak menjadikannya anak Tuhan. Ayat ini menolak doktrin trinitas dan menegaskan bahwa Isa adalah hamba Allah yang diciptakan dengan kalimat "Kun".
                         </div>
                     </div>
                 </div>
@@ -542,12 +507,12 @@
                     <div class="theme-title"><i class="fas fa-2 verse-title-icon"></i> 2. Doa Nabi Zakaria dan Kelahiran Yahya</div>
                     <p>Kisah Nabi Zakaria yang berdoa memohon keturunan di usia tua, lalu dikabulkan Allah dengan kelahiran Yahya.</p>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=2" target="_blank">Maryam 19:2-7</a>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=2&to=7" target="_blank">Maryam 19:2-7</a>
                         <div class="arabic">ذِكْرُ رَحْمَتِ رَبِّكَ عَبْدَهُۥ زَكَرِيَّآ إِذْ نَادَىٰ رَبَّهُۥ نِدَآءً خَفِيًّا قَالَ رَبِّ إِنِّى وَهَنَ ٱلْعَظْمُ مِنِّى وَٱشْتَعَلَ ٱلرَّأْسُ شَيْبًا وَلَمْ أَكُنۢ بِدُعَآئِكَ رَبِّ شَقِيًّا</div>
                         <div class="transliteration">Żikru raḥmati rabbika 'abdahụ zakariyyā, iż nādā rabbahụ nidā`an khafiyyā, qāla rabbi innī wahanal-'aẓmu minnī wasyta'alar-ra`su syaibā, wa lam akum bidu'ā`ika rabbi syaqiyyā.</div>
                         <p>"(Ini adalah) penjelasan tentang rahmat Tuhanmu kepada hamba-Nya, Zakaria, ketika dia berdoa kepada Tuhannya dengan suara yang lembut. Dia (Zakaria) berkata, 'Ya Tuhanku, sungguh tulangku telah lemah dan kepalaku telah dipenuhi uban, dan aku belum pernah kecewa dalam berdoa kepada-Mu, ya Tuhanku.'"</p>
                         <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=2" target="_blank">IslamicStudies.info</a> menjelaskan bahwa doa Zakaria menjadi contoh doa yang dikabulkan karena keikhlasan dan ketawakalannya. Tafsir Ibn Kathir menyebutkan bahwa Allah mengabulkan doa Zakaria meski ia dan istrinya sudah tua, menunjukkan bahwa keturunan adalah karunia Allah semata. Kementerian Agama RI menambahkan bahwa kisah ini memberikan harapan kepada setiap muslim bahwa Allah mampu memberikan apa yang di luar kemampuan manusia.
+                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=2&to=7" target="_blank">IslamicStudies.info</a> menjelaskan bahwa doa Zakaria menjadi contoh doa yang dikabulkan karena keikhlasan dan ketawakalannya. Allah mengabulkan doa Zakaria meski ia dan istrinya sudah tua, menunjukkan bahwa keturunan adalah karunia Allah semata. Kisah ini memberikan harapan kepada setiap muslim bahwa Allah mampu memberikan apa yang di luar kemampuan manusia.
                         </div>
                     </div>
                 </div>
@@ -556,12 +521,12 @@
                     <div class="theme-title"><i class="fas fa-3 verse-title-icon"></i> 3. Penegasan Tauhid dan Bantahan terhadap Syirik</div>
                     <p>Penjelasan tentang keesaan Allah dan bantahan terhadap keyakinan bahwa Allah memiliki anak.</p>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=35" target="_blank">Maryam 19:35-36</a>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=35&to=36" target="_blank">Maryam 19:35-36</a>
                         <div class="arabic">مَا كَانَ لِلَّهِ أَن يَتَّخِذَ مِن وَلَدٍ سُبْحَٰنَهُۥٓ إِذَا قَضَىٰٓ أَمْرًا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ وَإِنَّ ٱللَّهَ رَبِّى وَرَبُّكُمْ فَٱعْبُدُوهُ هَٰذَا صِرَٰطٌ مُّسْتَقِيمٌ</div>
                         <div class="transliteration">Mā kāna lillāhi ay yattakhiża miw waladin sub-ḥānah, iżā qaḍā amran fa innamā yaqụlu lahụ kun fa yakụn, wa innallāha rabbī wa rabbukum fa'budụh, hāżā ṣirāṭum mustaqīm.</div>
                         <p>"Tidak patut bagi Allah mempunyai anak, Mahasuci Dia. Apabila Dia telah menetapkan sesuatu, maka Dia hanya berkata kepadanya, 'Jadilah!' maka jadilah sesuatu itu. Dan sesungguhnya Allah adalah Tuhanku dan Tuhanmu, maka sembahlah Dia. Ini adalah jalan yang lurus."</p>
                         <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=35" target="_blank">IslamicStudies.info</a>, ayat ini merupakan bantahan tegas terhadap keyakinan Kristen tentang Isa sebagai anak Tuhan. Tafsir Ibn Kathir menjelaskan bahwa Allah Mahasuci dari memiliki anak karena hal itu bertentangan dengan kesempurnaan-Nya. Kementerian Agama RI menekankan bahwa ayat ini menegaskan tauhid murni dan mengajak manusia kembali kepada penyembahan hanya kepada Allah semata.
+                            <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=35&to=36" target="_blank">IslamicStudies.info</a>, ayat ini merupakan bantahan tegas terhadap keyakinan keliru tentang Isa sebagai anak Tuhan. Allah Mahasuci dari memiliki anak karena hal itu bertentangan dengan kesempurnaan-Nya. Ayat ini menegaskan tauhid murni dan mengajak manusia kembali kepada penyembahan hanya kepada Allah semata.
                         </div>
                     </div>
                 </div>
@@ -570,12 +535,12 @@
                     <div class="theme-title"><i class="fas fa-4 verse-title-icon"></i> 4. Kisah Para Nabi dan Pelajaran Akhlak</div>
                     <p>Kisah-kisah para nabi dalam surah Maryam yang mengandung pelajaran akhlak mulia.</p>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=41" target="_blank">Maryam 19:41-50</a>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=41&to=50" target="_blank">Maryam 19:41-50</a>
                         <div class="arabic">وَٱذْكُرْ فِى ٱلْكِتَٰبِ إِبْرَٰهِيمَ إِنَّهُۥ كَانَ صِدِّيقًا نَّبِيًّا إِذْ قَالَ لِأَبِيهِ يَٰٓأَبَتِ لِمَ تَعْبُدُ مَا لَا يَسْمَعُ وَلَا يُبْصِرُ وَلَا يُغْنِى عَنكَ شَيْـًٔا يَٰٓأَبَتِ إِنِّى قَدْ جَآءَنِى مِنَ ٱلْعِلْمِ مَا لَمْ يَأْتِكَ فَٱتَّبِعْنِىٓ أَهْدِكَ صِرَٰطًا سَوِيًّا</div>
                         <div class="transliteration">Ważkur fil-kitābi ibrāhīm, innahụ kāna ṣiddīqan nabiyyā, iż qāla li`abīhi yā abati lima ta'budu mā lā yasma'u wa lā yubṣiru wa lā yugnī 'angka syai`ā, yā abati innī qad jā`anī minal-'ilmi mā lam ya`tika fattabi'nī ahdika ṣirāṭan sawiyyā.</div>
                         <p>"Dan ceritakanlah (Muhammad) kisah Ibrahim di dalam Kitab (Al-Qur'an). Sesungguhnya dia adalah seorang yang sangat membenarkan, seorang nabi. (Ingatlah) ketika dia berkata kepada ayahnya, 'Wahai ayahku! Mengapa engkau menyembah sesuatu yang tidak mendengar, tidak melihat, dan tidak dapat menolongmu sedikit pun? Wahai ayahku! Sungguh, telah datang kepadaku sebagian ilmu yang tidak diberikan kepadamu, maka ikutilah aku, niscaya aku akan menunjukkan kepadamu jalan yang lurus.'"</p>
                         <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=41" target="_blank">IslamicStudies.info</a> menjelaskan bahwa kisah Ibrahim dengan ayahnya mengajarkan cara berdakwah dengan lemah lembut meski kepada orang yang berbeda keyakinan. Tafsir Ibn Kathir menyebutkan bahwa Ibrahim tetap berbakti kepada ayahnya sambil mengajaknya kepada tauhid. Kementerian Agama RI menambahkan bahwa kisah ini menjadi contoh bagaimana menjaga hubungan keluarga sambil tetap teguh pada prinsip tauhid.
+                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=41&to=50" target="_blank">IslamicStudies.info</a> menjelaskan bahwa kisah Ibrahim dengan ayahnya mengajarkan cara berdakwah dengan lemah lembut meski kepada orang yang berbeda keyakinan. Ibrahim tetap berbakti kepada ayahnya sambil mengajaknya kepada tauhid. Kisah ini menjadi contoh bagaimana menjaga hubungan keluarga sambil tetap teguh pada prinsip tauhid.
                         </div>
                     </div>
                 </div>
@@ -584,12 +549,12 @@
                     <div class="theme-title"><i class="fas fa-5 verse-title-icon"></i> 5. Rahmat Allah dan Balasan bagi Orang Bertakwa</div>
                     <p>Penegasan tentang rahmat Allah yang luas dan janji surga bagi orang-orang yang bertakwa.</p>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=96" target="_blank">Maryam 19:96-98</a>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=96&to=98" target="_blank">Maryam 19:96-98</a>
                         <div class="arabic">إِنَّ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّٰلِحَٰتِ سَيَجْعَلُ لَهُمُ ٱلرَّحْمَٰنُ وُدًّا فَإِنَّمَا يَسَّرْنَٰهُ بِلِسَانِكَ لِتُبَشِّرَ بِهِ ٱلْمُتَّقِينَ وَتُنذِرَ بِهِۦ قَوْمًا لُّدًّا وَكَمْ أَهْلَكْنَا قَبْلَهُم مِّن قَرْنٍ هَلْ تُحِسُّ مِنْهُم مِّنْ أَحَدٍ أَوْ تَسْمَعُ لَهُمْ رِكْزًا</div>
                         <div class="transliteration">Innallażīna āmanụ wa 'amiluṣ-ṣāliḥāti sayaj'alu lahumur-raḥmānu wuddā, fa innamā yassarnāhu bilisānika litubasysyira bihil-muttaqīna wa tunżira bihī qaumal luddā, wa kam ahlaknā qablahum min qarnin hal tuḥissu min-hum min aḥadin au tasma'u lahum rikzā.</div>
                         <p>"Sesungguhnya orang-orang yang beriman dan mengerjakan kebajikan, kelak (Allah) Yang Maha Pengasih akan menanamkan rasa kasih sayang (dalam hati mereka). Maka sesungguhnya telah Kami mudahkan (Al-Qur'an) itu dengan bahasamu (Muhammad) agar dengan itu engkau dapat memberi kabar gembira kepada orang-orang yang bertakwa, dan agar engkau dapat memperingatkan kaum yang membangkang. Dan betapa banyak umat sebelum mereka yang telah Kami binasakan. Adakah engkau merasakan ada seorang pun dari mereka atau mendengar suara mereka yang samar-samar?"</p>
                         <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=96" target="_blank">IslamicStudies.info</a> menjelaskan bahwa ayat-ayat penutup surah ini menegaskan janji Allah kepada orang beriman. Tafsir Ibn Kathir menyebutkan bahwa Allah akan menanamkan rasa cinta kepada orang bertakwa di hati manusia. Kementerian Agama RI menekankan bahwa kemudahan memahami Al-Qur'an adalah rahmat Allah agar manusia mendapat petunjuk dan peringatan.
+                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=96&to=98" target="_blank">IslamicStudies.info</a> menjelaskan bahwa ayat-ayat penutup surah ini menegaskan janji Allah kepada orang beriman. Allah akan menanamkan rasa cinta kepada orang bertakwa di hati manusia. Kemudahan memahami Al-Qur'an adalah rahmat Allah agar manusia mendapat petunjuk dan peringatan.
                         </div>
                     </div>
                 </div>
@@ -626,20 +591,19 @@
                 </div>
             </div>
 
-            <div class="surah-navigation">
-                <a href="018.html" class="nav-link"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: Al-Kahf</a>
-                <a href="020.html" class="nav-link">Surah Berikutnya: Taha <i class="fas fa-arrow-right"></i></a>
+            <div class="pagination">
+                <a href="018.html"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: Al-Kahf</a>
+                <a href="020.html">Surah Berikutnya: Taha <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
         </div>
 
         <!-- English Content (Hidden by Default) -->
         <div id="english-content" class="hidden">
             <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
             <h1 class="surah-title">Surah Maryam - Thematic Tafsir</h1>
-            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19" target="_blank">IslamicStudies.info - Surah Maryam</a>, Tafsir Ibn Kathir, and Indonesian Ministry of Religious Affairs</div>
+            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=1&to=98" target="_blank">IslamicStudies.info - Surah Maryam</a></div>
 
             <div class="arabic">كهيعص</div>
             <div class="transliteration">Kāf Hā Yā 'Aīn Ṣād.</div>
@@ -647,19 +611,19 @@
 
             <div class="theme-overview">
                 <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Overview of Surah Maryam</h3>
-                <p>Surah Maryam (سورة مريم) is the 19th chapter of the Qur'an and consists of 98 verses. Classified as a Meccan surah (revealed in Mecca), this surah is named Maryam (Mary) because it narrates the story of the birth of Prophet Isa from his mother Maryam without a father. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=19" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Fāṭir and before Surah Ṭāhā. Tafsir Ibn Kathir explains that Surah Maryam contains stories about Allah's blessings to His obedient servants, particularly related to the gift of offspring. The Indonesian Ministry of Religious Affairs emphasizes that this surah highlights the themes of Allah's mercy, the miracle of Prophet Isa's birth, and the rejection of the notion that Allah has a son.</p>
-                <p>According to Tafsir Ibn Kathir, this surah was revealed as comfort for Prophet Muhammad and Muslims who were experiencing pressure from Meccan polytheists. Surah Maryam also contains refutations of Christian beliefs about Isa's status as the son of God.</p>
+                <p>Surah Maryam (سورة مريم) is the 19th chapter of the Qur'an and consists of 98 verses. Classified as a Meccan surah (revealed in Mecca), this surah is named Maryam (Mary) because it narrates the story of the birth of Prophet Isa from his mother Maryam without a father. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=1&to=98" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Fāṭir and before Surah Ṭāhā. Surah Maryam highlights the themes of Allah's mercy, the miracle of Prophet Isa's birth, and the rejection of the notion that Allah has a son. This surah also contains stories about Allah's blessings to His obedient servants, particularly related to the gift of offspring.</p>
+                <p>Surah Maryam was revealed as comfort for Prophet Muhammad and Muslims who were experiencing pressure from Meccan polytheists. This surah also contains refutations of incorrect beliefs about Isa's status as the son of God.</p>
             </div>
 
             <div class="info-box">
                 <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
                 <p>To read the complete text of Surah Maryam along with its translation, visit: 
-                <a href="https://quran.com/19:1-98?translations=131" target="_blank">Quran.com - Surah Maryam</a></p>
+                <a href="https://recitequran.com/19:1-98" target="_blank">reciteQuran.com - Surah Maryam</a></p>
             </div>
 
             <div class="bonus">
                 <div class="section-title">Reliable Tafsir Sources</div>
-                <p>The discussion on this page follows the thematic framework well-known in the science of tafsir, referencing reliable sources including <a href="https://www.islamicstudies.info/tafheem.php?sura=19" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, and the official translation by the Indonesian Ministry of Religious Affairs.</p>
+                <p>The discussion on this page is based on thematic analysis from <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=1&to=98" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a>.</p>
             </div>
 
             <div class="audio-player">
@@ -670,93 +634,42 @@
                 </audio>
             </div>
 
-            <!-- Theme Division by Verses -->
+            <!-- Theme Division by Verses (same structure, English) -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h2>
                 <table class="theme-table">
-                    <thead>
-                        <tr>
-                            <th>Verse Range</th>
-                            <th>Main Theme</th>
-                            <th>Core Message</th>
-                        </tr>
-                    </thead>
+                    <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
                     <tbody>
-                        <tr>
-                            <td><strong>Verses 1-11</strong></td>
-                            <td>Story of Prophet Zakariya and Birth of Yahya</td>
-                            <td>Zakariya's prayer for offspring in old age; miracle of Yahya's birth; Allah's power</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 12-15</strong></td>
-                            <td>Story of Prophet Yahya</td>
-                            <td>Attributes of Yahya; obedience from childhood; wisdom and righteousness</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 16-33</strong></td>
-                            <td>Story of Maryam and Birth of Prophet Isa</td>
-                            <td>Maryam's virtue; miracle of Isa's birth without father; Maryam's defense against accusations</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 34-40</strong></td>
-                            <td>Clarification about the Reality of Prophet Isa</td>
-                            <td>Refutation of Isa as son of God; affirmation of Isa's prophethood</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 41-50</strong></td>
-                            <td>Story of Prophet Ibrahim with His Father</td>
-                            <td>Ibrahim's da'wah to his father; steadfastness in tawhid; Ibrahim's prayer for his father</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 51-53</strong></td>
-                            <td>Story of Prophet Musa</td>
-                            <td>Selection of Musa as prophet; granting Harun as assistant; nobility of prophet's family</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 54-55</strong></td>
-                            <td>Story of Prophet Ismail</td>
-                            <td>Attributes of Ismail; obedience and patience; fulfillment of promises</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 56-57</strong></td>
-                            <td>Story of Prophet Idris</td>
-                            <td>Idris' high status; righteousness and steadfastness; Allah's mercy to His prophets</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 58-63</strong></td>
-                            <td>Stories of Other Prophets</td>
-                            <td>Prophets from descendants of Adam, Nuh, Ibrahim, and Israel; Allah's blessings to them</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 64-75</strong></td>
-                            <td>Refutation of Polytheists and Affirmation of Tawhid</td>
-                            <td>Warning about Day of Resurrection; fate of disbelievers; Allah's power</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Verses 76-98</strong></td>
-                            <td>Conclusion: Warning and Allah's Promise</td>
-                            <td>Reward for the righteous; refutation of Allah having a son; perfection of the Qur'an</td>
-                        </tr>
+                        <tr><td><strong>Verses 1-11</strong></td><td>Story of Prophet Zakariya and Birth of Yahya</td><td>Zakariya's prayer for offspring in old age; miracle of Yahya's birth; Allah's power</td></tr>
+                        <tr><td><strong>Verses 12-15</strong></td><td>Story of Prophet Yahya</td><td>Attributes of Yahya; obedience from childhood; wisdom and righteousness</td></tr>
+                        <tr><td><strong>Verses 16-33</strong></td><td>Story of Maryam and Birth of Prophet Isa</td><td>Maryam's virtue; miracle of Isa's birth without father; Maryam's defense against accusations</td></tr>
+                        <tr><td><strong>Verses 34-40</strong></td><td>Clarification about the Reality of Prophet Isa</td><td>Refutation of Isa as son of God; affirmation of Isa's prophethood</td></tr>
+                        <tr><td><strong>Verses 41-50</strong></td><td>Story of Prophet Ibrahim with His Father</td><td>Ibrahim's da'wah to his father; steadfastness in tawhid; Ibrahim's prayer for his father</td></tr>
+                        <tr><td><strong>Verses 51-53</strong></td><td>Story of Prophet Musa</td><td>Selection of Musa as prophet; granting Harun as assistant; nobility of prophet's family</td></tr>
+                        <tr><td><strong>Verses 54-55</strong></td><td>Story of Prophet Ismail</td><td>Attributes of Ismail; obedience and patience; fulfillment of promises</td></tr>
+                        <tr><td><strong>Verses 56-57</strong></td><td>Story of Prophet Idris</td><td>Idris' high status; righteousness and steadfastness; Allah's mercy to His prophets</td></tr>
+                        <tr><td><strong>Verses 58-63</strong></td><td>Stories of Other Prophets</td><td>Prophets from descendants of Adam, Nuh, Ibrahim, and Israel; Allah's blessings to them</td></tr>
+                        <tr><td><strong>Verses 64-75</strong></td><td>Refutation of Polytheists and Affirmation of Tawhid</td><td>Warning about Day of Resurrection; fate of disbelievers; Allah's power</td></tr>
+                        <tr><td><strong>Verses 76-98</strong></td><td>Conclusion: Warning and Allah's Promise</td><td>Reward for the righteous; refutation of Allah having a son; perfection of the Qur'an</td></tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- Key Verse for Contemplation -->
+            <!-- Key Verse for Contemplation (English) -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Key Verse for Contemplation</h2>
                 <div class="verse">
                     <div class="arabic">وَٱذْكُرْ فِى ٱلْكِتَٰبِ مَرْيَمَ إِذِ ٱنتَبَذَتْ مِنْ أَهْلِهَا مَكَانًا شَرْقِيًّا فَٱتَّخَذَتْ مِن دُونِهِمْ حِجَابًا فَأَرْسَلْنَآ إِلَيْهَا رُوحَنَا فَتَمَثَّلَ لَهَا بَشَرًا سَوِيًّا قَالَتْ إِنِّىٓ أَعُوذُ بِٱلرَّحْمَٰنِ مِنكَ إِن كُنتَ تَقِيًّا قَالَ إِنَّمَآ أَنَا۠ رَسُولُ رَبِّكِ لِأَهَبَ لَكِ غُلَٰمًا زَكِيًّا</div>
                     <div class="transliteration">Ważkur fil-kitābi maryama iniṡtabażat min ahlihā makānang syarqiyyā, fattakhażat min dụnihim ḥijābā, fa arsalnā ilaihā rụḥanā fa tamassa lahā basyarang sawiyyā, qālat innī a'ụżu bir-raḥmāni minka ing kunta taqiyyā, qāla innamā ana rasụlu rabbiki li ahaba laki gulāmaz zakiyyā.</div>
                     <p><strong>"And mention, [O Muhammad], in the Book [the story of] Mary, when she withdrew from her family to a place toward the east. And she took, in seclusion from them, a screen. Then We sent to her Our Angel, and he represented himself to her as a well-proportioned man. She said, 'Indeed, I seek refuge in the Most Merciful from you, [so leave me], if you should be fearing of Allah.' He said, 'I am only the messenger of your Lord to give you [news of] a pure boy.'"</strong> (Maryam 19:16-19)</p>
-                    
                     <div class="tafsir-box">
                         <strong>Why this verse is important:</strong>
-                        <p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16" target="_blank">IslamicStudies.info</a>, this verse narrates the miracle of Isa's birth without a father, demonstrating Allah's absolute power. Tafsir Ibn Kathir explains that Maryam was a pure woman chosen by Allah to give birth to a prophet without being touched by a man. The Indonesian Ministry of Religious Affairs adds that this story refutes the Christian claim that Isa is the son of God, because his birth was a miracle from Allah alone, not because Allah has a child.</p>
+                        <p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16&to=19" target="_blank">IslamicStudies.info</a>, this verse narrates the miracle of Isa's birth without a father, demonstrating Allah's absolute power. Maryam was a pure woman chosen by Allah to give birth to a prophet without being touched by a man. This story refutes the claim that Isa is the son of God, because his birth was a miracle from Allah alone.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Message of Aqidah, Worship, & Akhlaq -->
+            <!-- Message of Aqidah, Worship, & Akhlaq (English) -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq</h2>
                 <div class="benefits-list">
@@ -769,128 +682,45 @@
                 </div>
             </div>
 
+            <!-- Main Themes (condensed English version) matching Indonesian content but references to IslamicStudies.info only -->
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Main Themes of Surah Maryam</h2>
-                
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-1 verse-title-icon"></i> 1. Miracle of Prophet Isa's Birth from Maryam</div>
-                    <p>Story of Maryam giving birth to Isa without a father, as a sign of Allah's power and refutation of the notion that Allah has a son.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16" target="_blank">Maryam 19:16-21</a>
-                        <div class="arabic">قَالَتْ أَنَّىٰ يَكُونُ لِى غُلَٰمٌ وَلَمْ يَمْسَسْنِى بَشَرٌ وَلَمْ أَكُ بَغِيًّا قَالَ كَذَٰلِكِ قَالَ رَبُّكِ هُوَ عَلَىَّ هَيِّنٌ وَلِنَجْعَلَهُۥٓ ءَايَةً لِّلنَّاسِ وَرَحْمَةً مِّنَّا وَكَانَ أَمْرًا مَّقْضِيًّا</div>
-                        <div class="transliteration">Qālat annā yakụnu lī gulāmuw wa lam yamsasnī basyaruw wa lam aku bagiyyā, qāla każāliki qāla rabbuki huwa 'alayya hayyinuw wa li naj'alahū āyatal lin-nāsi wa raḥmatam minnā, wa kāna amram maqḍiyyā.</div>
-                        <p>"She said, 'How can I have a boy while no man has touched me and I have not been unchaste?' He said, 'Thus [it will be]; your Lord says, 'It is easy for Me, and We will make him a sign to the people and a mercy from Us. And it is a matter [already] decreed.''"</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16" target="_blank">IslamicStudies.info</a>, this story shows that Allah has power over all things. Tafsir Ibn Kathir explains that Isa's birth without a father is a miracle that distinguishes him from ordinary humans, but does not make him the son of God. The Indonesian Ministry of Religious Affairs emphasizes that this verse rejects the doctrine of trinity and affirms that Isa is a servant of Allah created with the word "Be".
-                        </div>
-                    </div>
-                </div>
-
-                <div class="praise-section">
-                    <div class="theme-title"><i class="fas fa-2 verse-title-icon"></i> 2. Prophet Zakariya's Prayer and Birth of Yahya</div>
-                    <p>Story of Prophet Zakariya praying for offspring in old age, then answered by Allah with the birth of Yahya.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=2" target="_blank">Maryam 19:2-7</a>
-                        <div class="arabic">ذِكْرُ رَحْمَتِ رَبِّكَ عَبْدَهُۥ زَكَرِيَّآ إِذْ نَادَىٰ رَبَّهُۥ نِدَآءً خَفِيًّا قَالَ رَبِّ إِنِّى وَهَنَ ٱلْعَظْمُ مِنِّى وَٱشْتَعَلَ ٱلرَّأْسُ شَيْبًا وَلَمْ أَكُنۢ بِدُعَآئِكَ رَبِّ شَقِيًّا</div>
-                        <div class="transliteration">Żikru raḥmati rabbika 'abdahụ zakariyyā, iż nādā rabbahụ nidā`an khafiyyā, qāla rabbi innī wahanal-'aẓmu minnī wasyta'alar-ra`su syaibā, wa lam akum bidu'ā`ika rabbi syaqiyyā.</div>
-                        <p>"[This is] a mention of the mercy of your Lord to His servant Zakariya. When he called to his Lord a private supplication. He said, 'My Lord, indeed my bones have weakened, and my head has filled with white, and never have I been in my supplication to You, my Lord, unhappy.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=2" target="_blank">IslamicStudies.info</a> explains that Zakariya's prayer becomes an example of a prayer answered due to sincerity and trust. Tafsir Ibn Kathir mentions that Allah answered Zakariya's prayer even though he and his wife were old, showing that offspring is solely Allah's gift. The Indonesian Ministry of Religious Affairs adds that this story gives hope to every Muslim that Allah can give what is beyond human capability.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-3 verse-title-icon"></i> 3. Affirmation of Tawhid and Refutation of Shirk</div>
-                    <p>Explanation of Allah's oneness and refutation of the belief that Allah has a son.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=35" target="_blank">Maryam 19:35-36</a>
-                        <div class="arabic">مَا كَانَ لِلَّهِ أَن يَتَّخِذَ مِن وَلَدٍ سُبْحَٰنَهُۥٓ إِذَا قَضَىٰٓ أَمْرًا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ وَإِنَّ ٱللَّهَ رَبِّى وَرَبُّكُمْ فَٱعْبُدُوهُ هَٰذَا صِرَٰطٌ مُّسْتَقِيمٌ</div>
-                        <div class="transliteration">Mā kāna lillāhi ay yattakhiża miw waladin sub-ḥānah, iżā qaḍā amran fa innamā yaqụlu lahụ kun fa yakụn, wa innallāha rabbī wa rabbukum fa'budụh, hāżā ṣirāṭum mustaqīm.</div>
-                        <p>"It is not [befitting] for Allah to take a son; exalted is He! When He decrees an affair, He only says to it, 'Be,' and it is. And indeed, Allah is my Lord and your Lord, so worship Him. That is the straight path."</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=35" target="_blank">IslamicStudies.info</a>, this verse is a firm refutation of Christian belief about Isa as the son of God. Tafsir Ibn Kathir explains that Allah is exalted from having a son because it contradicts His perfection. The Indonesian Ministry of Religious Affairs emphasizes that this verse affirms pure tawhid and calls people back to worshiping Allah alone.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="guidance-section">
-                    <div class="theme-title"><i class="fas fa-4 verse-title-icon"></i> 4. Stories of Prophets and Moral Lessons</div>
-                    <p>Stories of prophets in Surah Maryam containing lessons of noble character.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=41" target="_blank">Maryam 19:41-50</a>
-                        <div class="arabic">وَٱذْكُرْ فِى ٱلْكِتَٰبِ إِبْرَٰهِيمَ إِنَّهُۥ كَانَ صِدِّيقًا نَّبِيًّا إِذْ قَالَ لِأَبِيهِ يَٰٓأَبَتِ لِمَ تَعْبُدُ مَا لَا يَسْمَعُ وَلَا يُبْصِرُ وَلَا يُغْنِى عَنكَ شَيْـًٔا يَٰٓأَبَتِ إِنِّى قَدْ جَآءَنِى مِنَ ٱلْعِلْمِ مَا لَمْ يَأْتِكَ فَٱتَّبِعْنِىٓ أَهْدِكَ صِرَٰطًا سَوِيًّا</div>
-                        <div class="transliteration">Ważkur fil-kitābi ibrāhīm, innahụ kāna ṣiddīqan nabiyyā, iż qāla li`abīhi yā abati lima ta'budu mā lā yasma'u wa lā yubṣiru wa lā yugnī 'angka syai`ā, yā abati innī qad jā`anī minal-'ilmi mā lam ya`tika fattabi'nī ahdika ṣirāṭan sawiyyā.</div>
-                        <p>"And mention in the Book [the story of] Abraham. Indeed, he was a man of truth and a prophet. [Mention] when he said to his father, 'O my father, why do you worship that which does not hear and does not see and will not benefit you at all? O my father, indeed there has come to me of knowledge that which has not come to you, so follow me; I will guide you to an even path.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=41" target="_blank">IslamicStudies.info</a> explains that the story of Ibrahim with his father teaches how to do da'wah gently even to people of different beliefs. Tafsir Ibn Kathir mentions that Ibrahim remained dutiful to his father while inviting him to tawhid. The Indonesian Ministry of Religious Affairs adds that this story serves as an example of how to maintain family relationships while remaining firm on the principle of tawhid.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-5 verse-title-icon"></i> 5. Allah's Mercy and Reward for the Righteous</div>
-                    <p>Affirmation of Allah's vast mercy and promise of Paradise for the righteous.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=96" target="_blank">Maryam 19:96-98</a>
-                        <div class="arabic">إِنَّ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّٰلِحَٰتِ سَيَجْعَلُ لَهُمُ ٱلرَّحْمَٰنُ وُدًّا فَإِنَّمَا يَسَّرْنَٰهُ بِلِسَانِكَ لِتُبَشِّرَ بِهِ ٱلْمُتَّقِينَ وَتُنذِرَ بِهِۦ قَوْمًا لُّدًّا وَكَمْ أَهْلَكْنَا قَبْلَهُم مِّن قَرْنٍ هَلْ تُحِسُّ مِنْهُم مِّنْ أَحَدٍ أَوْ تَسْمَعُ لَهُمْ رِكْزًا</div>
-                        <div class="transliteration">Innallażīna āmanụ wa 'amiluṣ-ṣāliḥāti sayaj'alu lahumur-raḥmānu wuddā, fa innamā yassarnāhu bilisānika litubasysyira bihil-muttaqīna wa tunżira bihī qaumal luddā, wa kam ahlaknā qablahum min qarnin hal tuḥissu min-hum min aḥadin au tasma'u lahum rikzā.</div>
-                        <p>"Indeed, those who have believed and done righteous deeds - the Most Merciful will appoint for them affection. So, [O Muhammad], We have only made Qur'an easy in the Arabic language that you may give good tidings thereby to the righteous and warn thereby a hostile people. And how many have We destroyed before them of generations? Do you perceive of them anyone or hear from them a sound?"</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=96" target="_blank">IslamicStudies.info</a> explains that the concluding verses of this surah affirm Allah's promise to believers. Tafsir Ibn Kathir mentions that Allah will plant love for the righteous in people's hearts. The Indonesian Ministry of Religious Affairs emphasizes that the ease of understanding the Qur'an is Allah's mercy so that people may receive guidance and warning.
-                        </div>
-                    </div>
-                </div>
+                <div class="theme-point"><div class="theme-title"><i class="fas fa-1 verse-title-icon"></i> 1. Miracle of Prophet Isa's Birth</div><p>Story of Maryam giving birth to Isa without a father, as a sign of Allah's power.</p><div class="verse"><strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16&to=21" target="_blank">Maryam 19:16-21</a><div class="tafsir-box"><strong>Discussion:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=16&to=21" target="_blank">IslamicStudies.info</a>, this story shows Allah's absolute power. Isa's birth is a miracle, not an indication of divine sonship.</div></div></div>
+                <div class="praise-section"><div class="theme-title"><i class="fas fa-2 verse-title-icon"></i> 2. Prophet Zakariya's Prayer and Birth of Yahya</div><p>Story of Prophet Zakariya praying for offspring in old age.</p><div class="verse"><strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=2&to=7" target="_blank">Maryam 19:2-7</a><div class="tafsir-box"><strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=2&to=7" target="_blank">IslamicStudies.info</a> explains that Zakariya's prayer exemplifies sincere supplication answered by Allah.</div></div></div>
+                <div class="theme-point"><div class="theme-title"><i class="fas fa-3 verse-title-icon"></i> 3. Affirmation of Tawhid and Refutation of Shirk</div><p>Emphatic denial that Allah has a son.</p><div class="verse"><strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=35&to=36" target="_blank">Maryam 19:35-36</a><div class="tafsir-box"><strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=35&to=36" target="_blank">IslamicStudies.info</a> stresses this as a firm refutation of misconceptions about God having a child.</div></div></div>
+                <div class="guidance-section"><div class="theme-title"><i class="fas fa-4 verse-title-icon"></i> 4. Stories of Prophets and Moral Lessons</div><p>Prophet Ibrahim's gentle da'wah to his father.</p><div class="verse"><strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=41&to=50" target="_blank">Maryam 19:41-50</a><div class="tafsir-box"><strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=41&to=50" target="_blank">IslamicStudies.info</a> highlights Ibrahim's respect and perseverance in conveying truth.</div></div></div>
+                <div class="theme-point"><div class="theme-title"><i class="fas fa-5 verse-title-icon"></i> 5. Allah's Mercy and Reward for the Righteous</div><p>Promise of love and Paradise for believers.</p><div class="verse"><strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=96&to=98" target="_blank">Maryam 19:96-98</a><div class="tafsir-box"><strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=19&verse=96&to=98" target="_blank">IslamicStudies.info</a> explains that Allah will create affection for the righteous and the Qur'an was made easy as mercy.</div></div></div>
             </div>
 
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Spiritual Lessons from Surah Maryam</h2>
-                <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Important Lessons for Life</h3>
-                    <ul>
-                        <li><strong>Allah's Power is Unlimited:</strong> Isa's birth without a father shows that Allah has power over all things.</li>
-                        <li><strong>Prayers Answered with Sincerity:</strong> Prophet Zakariya's answered prayer teaches the importance of praying earnestly and with trust.</li>
-                        <li><strong>Purity and Dignity of Women:</strong> Maryam becomes a model of a pure woman who maintains her honor.</li>
-                        <li><strong>Dutifulness to Parents:</strong> Prophet Isa being dutiful to his mother serves as an example of parent-child relationships.</li>
-                        <li><strong>Da'wah with Gentleness:</strong> Prophet Ibrahim's way of inviting his father teaches the ethics of da'wah.</li>
-                        <li><strong>Firm Rejection of Shirk:</strong> This surah rejects all forms of associating partners with Allah.</li>
-                        <li><strong>Hope in Old Age:</strong> Zakariya's story gives hope that Allah's mercy can come at any time.</li>
-                        <li><strong>Allah's Justice in the Hereafter:</strong> Promise of Paradise for the righteous and threat of Hell for disbelievers.</li>
-                    </ul>
-                </div>
+                <div class="benefits-list"><ul><li><strong>Allah's Power is Unlimited:</strong> Isa's birth without a father shows Allah's power.</li><li><strong>Prayers Answered with Sincerity:</strong> Zakariya's answered prayer teaches importance of earnest supplication.</li><li><strong>Purity and Dignity of Women:</strong> Maryam is a model of purity.</li><li><strong>Dutifulness to Parents:</strong> Isa being dutiful to his mother serves as example.</li><li><strong>Da'wah with Gentleness:</strong> Ibrahim's way of inviting his father teaches ethics of da'wah.</li><li><strong>Firm Rejection of Shirk:</strong> This surah rejects all forms of associating partners with Allah.</li><li><strong>Hope in Old Age:</strong> Zakariya's story gives hope that Allah's mercy can come at any time.</li><li><strong>Allah's Justice in the Hereafter:</strong> Promise of Paradise for the righteous and threat of Hell for disbelievers.</li></ul></div>
             </div>
 
             <div class="section">
                 <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Relationship with Other Surahs</h2>
                 <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> With Surah Al-Kahf (18)</h4>
-                        <p>Surah Al-Kahf concludes with warning about those who are greatest losers in deeds (18:103-110), while Surah Maryam opens with the story of Allah's mercy to Zakariya (19:1-11). If Surah Al-Kahf contains stories of faith tests of men, Surah Maryam highlights stories of holy women (Maryam) and prophet's family. Both complement each other in presenting examples of faith from various aspects of life.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> With Surah Taha (20)</h4>
-                        <p>Surah Maryam concludes with affirmation of the Qur'an's ease (19:97) and warning about previous nations (19:98), while Surah Taha opens with stating that the Qur'an was not revealed to distress the Prophet (20:1-3). If Surah Maryam focuses on stories of prophet's family and rejection of shirk, Surah Taha extensively discusses the story of Musa and commands of worship. Both give emphasis on the ease of Islam as mercy for humanity.</p>
-                    </div>
+                    <div class="structure-item"><h4>With Surah Al-Kahf (18)</h4><p>Surah Al-Kahf concludes with warning about those who are greatest losers in deeds, while Surah Maryam opens with the story of Allah's mercy to Zakariya.</p></div>
+                    <div class="structure-item"><h4>With Surah Taha (20)</h4><p>Surah Maryam concludes with affirmation of the Qur'an's ease, while Surah Taha opens with stating that the Qur'an was not revealed to distress the Prophet.</p></div>
                 </div>
             </div>
 
-            <div class="surah-navigation">
-                <a href="018.html" class="nav-link"><i class="fas fa-arrow-left"></i> Previous Surah: Al-Kahf</a>
-                <a href="020.html" class="nav-link">Next Surah: Taha <i class="fas fa-arrow-right"></i></a>
+            <div class="pagination">
+                <a href="018.html"><i class="fas fa-arrow-left"></i> Previous Surah: Al-Kahf</a>
+                <a href="020.html">Next Surah: Taha <i class="fas fa-arrow-right"></i></a>
             </div>
 
             <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
         </div>
     </div>
 
     <footer>
-        <p>© (2026 AD) 1447 AH - Surah Maryam Thematic Analysis | Based on IslamicStudies.info and Indonesian Ministry of Religious Affairs | Curated by Hermansjah</p>
+        <p>© (2026 AD) 1447 AH - Surah Maryam Thematic Analysis | Based on IslamicStudies.info | Curated by Hermansjah</p>
     </footer>
 
     <script>
-        // Initialize from localStorage
         document.addEventListener('DOMContentLoaded', function() {
+            // Safely get elements
             const englishContent = document.getElementById('english-content');
             const indonesianContent = document.getElementById('indonesian-content');
             const languageToggle = document.getElementById('languageToggle');
@@ -898,13 +728,28 @@
             const darkModeToggle = document.getElementById('darkModeToggle');
             const transliterationElements = document.querySelectorAll('.transliteration');
 
-            // Language toggle
-            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (!englishContent || !indonesianContent || !languageToggle || !transliterationToggle || !darkModeToggle) {
+                console.error('One or more required elements missing. Toggles may not work.');
+                return;
+            }
+
+            // --- Language handling with URL override ---
+            const urlParams = new URLSearchParams(window.location.search);
+            let langParam = null;
+            if (urlParams.has('English')) langParam = 'english';
+            else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+
+            let currentLanguage = langParam || localStorage.getItem('language') || 'indonesian';
             if (currentLanguage === 'english') {
                 englishContent.classList.remove('hidden');
                 indonesianContent.classList.add('hidden');
                 languageToggle.textContent = 'Switch to Indonesian';
+            } else {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
             }
+            if (langParam) localStorage.setItem('language', langParam);
 
             languageToggle.addEventListener('click', function() {
                 if (englishContent.classList.contains('hidden')) {
@@ -920,42 +765,50 @@
                 }
             });
 
-            // Transliteration toggle
+            // --- Transliteration toggle ---
             const transliterationVisible = localStorage.getItem('transliteration') === 'true';
             if (transliterationVisible) {
                 transliterationElements.forEach(el => el.style.display = 'block');
                 transliterationToggle.textContent = 'Hide Transliteration';
+            } else {
+                transliterationElements.forEach(el => el.style.display = 'none');
+                transliterationToggle.textContent = 'Show Transliteration';
             }
 
             transliterationToggle.addEventListener('click', function() {
-                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
-                    transliterationElements.forEach(el => el.style.display = 'block');
-                    transliterationToggle.textContent = 'Hide Transliteration';
-                    localStorage.setItem('transliteration', 'true');
-                } else {
+                const isVisible = transliterationElements[0]?.style.display === 'block';
+                if (isVisible) {
                     transliterationElements.forEach(el => el.style.display = 'none');
                     transliterationToggle.textContent = 'Show Transliteration';
                     localStorage.setItem('transliteration', 'false');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
                 }
             });
 
-            // Dark mode toggle
+            // --- Dark mode ---
             const darkMode = localStorage.getItem('darkMode') === 'true';
             if (darkMode) {
                 document.body.classList.add('dark-mode');
                 darkModeToggle.textContent = 'Light Mode';
+            } else {
+                darkModeToggle.textContent = 'Dark Mode';
             }
 
             darkModeToggle.addEventListener('click', function() {
                 document.body.classList.toggle('dark-mode');
-                if (document.body.classList.contains('dark-mode')) {
-                    darkModeToggle.textContent = 'Light Mode';
-                    localStorage.setItem('darkMode', 'true');
-                } else {
-                    darkModeToggle.textContent = 'Dark Mode';
-                    localStorage.setItem('darkMode', 'false');
-                }
+                const isDark = document.body.classList.contains('dark-mode');
+                darkModeToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+                localStorage.setItem('darkMode', isDark);
             });
+
+            // --- Screen scroll arrows ---
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy(0, -window.innerHeight));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy(0, window.innerHeight));
         });
     </script>
 </body>
