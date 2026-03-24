@@ -495,7 +495,7 @@
     <div class="scroll-arrow down" id="scrollDown"><i class="fas fa-arrow-down"></i></div>
 
     <div class="container">
-        <div class="language-toggle" id="languageToggle">🇮🇩 Switch to English</div>
+        <div class="language-toggle" id="languageToggle">Switch Language</div>
         <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
         <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
 
@@ -745,29 +745,45 @@
             if (urlParams.has('English')) langParam = 'english';
             else if (urlParams.has('Indonesian')) langParam = 'indonesian';
             let currentLanguage = langParam || localStorage.getItem('language') || 'indonesian';
+            
+            function updateToggleButton() {
+                if (currentLanguage === 'english') {
+                    // English active → clicking will switch to Indonesian → show "Switch to Indonesian" + Indonesian flag
+                    languageToggle.innerHTML = '🇮🇩 Switch to Indonesian';
+                } else {
+                    // Indonesian active → clicking will switch to English → show "Switch to English" + Union Jack
+                    languageToggle.innerHTML = '🇬🇧 Switch to English';
+                }
+            }
+
             if (currentLanguage === 'english') {
                 englishContent.classList.remove('hidden');
                 indonesianContent.classList.add('hidden');
-                languageToggle.innerHTML = '🇬🇧 Switch to Indonesian';
             } else {
                 englishContent.classList.add('hidden');
                 indonesianContent.classList.remove('hidden');
-                languageToggle.innerHTML = '🇮🇩 Switch to English';
+                currentLanguage = 'indonesian';
             }
-            if (langParam) localStorage.setItem('language', langParam);
+            updateToggleButton();
+            if (langParam) localStorage.setItem('language', currentLanguage);
+            
             languageToggle.addEventListener('click', function() {
                 if (englishContent.classList.contains('hidden')) {
+                    // switch to english
                     englishContent.classList.remove('hidden');
                     indonesianContent.classList.add('hidden');
-                    languageToggle.innerHTML = '🇬🇧 Switch to Indonesian';
-                    localStorage.setItem('language', 'english');
+                    currentLanguage = 'english';
+                    languageToggle.innerHTML = '🇮🇩 Switch to Indonesian';
                 } else {
+                    // switch to indonesian
                     englishContent.classList.add('hidden');
                     indonesianContent.classList.remove('hidden');
-                    languageToggle.innerHTML = '🇮🇩 Switch to English';
-                    localStorage.setItem('language', 'indonesian');
+                    currentLanguage = 'indonesian';
+                    languageToggle.innerHTML = '🇬🇧 Switch to English';
                 }
+                localStorage.setItem('language', currentLanguage);
             });
+            
             const transliterationVisible = localStorage.getItem('transliteration') === 'true';
             if (transliterationVisible) {
                 transliterationElements.forEach(el => el.style.display = 'block');
