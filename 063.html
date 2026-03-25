@@ -33,7 +33,7 @@
             --text-color: #e6e6e6;
             --container-bg: #16213e;
             --arabic-color: #4cc9f0;
-            --section-title-color: #3498db;
+            --section-title-color: #5dade2;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
@@ -50,7 +50,9 @@
             --wealth-bg: #1f3a2a;
             --faith-bg: #1e3a5f;
         }
-
+        .dark-mode a {
+            color: #6ab0ff;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.8;
@@ -133,25 +135,8 @@
         .verse-title-icon {
             margin-right: 8px;
         }
-        .back-to-top {
-            display: block;
-            text-align: center;
-            margin: 30px 0;
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 20px;
-            border: 1px solid #3498db;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-        .back-to-top:hover {
-            background-color: #3498db;
-            color: white;
-        }
-        .language-toggle {
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
-            top: 20px;
             right: 20px;
             background: #3498db;
             color: white;
@@ -162,32 +147,31 @@
             font-weight: bold;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .transliteration-toggle {
+        .language-toggle { top: 20px; }
+        .transliteration-toggle { top: 70px; background: #2ecc71; }
+        .dark-mode-toggle { top: 120px; background: #9b59b6; }
+        .scroll-arrow {
             position: fixed;
-            top: 60px;
-            right: 20px;
-            background: #2ecc71;
+            left: 15px;
+            width: 44px;
+            height: 44px;
+            background-color: #3498db;
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
             cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: background-color 0.2s, transform 0.1s;
+            border: 1px solid rgba(255,255,255,0.3);
         }
-        .dark-mode-toggle {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: #9b59b6;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+        .scroll-arrow:hover { background-color: #1f618d; transform: scale(1.05); }
+        .scroll-arrow:active { transform: scale(0.95); }
+        .scroll-arrow.up { top: 15px; }
+        .scroll-arrow.down { bottom: 15px; }
         .bonus {
             background-color: var(--bonus-bg);
             padding: 15px;
@@ -195,11 +179,6 @@
             margin: 20px 0;
             border-left: 5px solid #3498db;
             transition: all 0.3s ease;
-        }
-        .dalil-item {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px dashed #ddd;
         }
         .tafsir-box {
             background-color: var(--tafsir-bg);
@@ -209,19 +188,13 @@
             border: 1px solid var(--tafsir-border);
             transition: all 0.3s ease;
         }
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
         .surah-source {
             text-align: center;
             margin-top: -15px;
             margin-bottom: 20px;
             color: #7f8c8d;
             font-size: 16px;
-        }
-        .main-menu {
-            text-align: center;
-            margin: 15px 0;
         }
         .top-home-link {
             display: inline-block;
@@ -246,18 +219,6 @@
             font-size: 14px;
             border-top: 1px solid #eee;
         }
-
-        .new-badge {
-            background-color: #e74c3c;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 8px;
-            vertical-align: middle;
-        }
-
         .structure-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -274,17 +235,12 @@
             margin-top: 0;
             color: #2980b9;
         }
-
         .benefits-list {
             background: var(--benefits-bg);
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
         }
-        .benefits-list ul {
-            padding-left: 20px;
-        }
-
         .theme-overview {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             padding: 25px;
@@ -295,7 +251,6 @@
         .dark-mode .theme-overview {
             background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
         }
-
         .info-box {
             background-color: var(--bonus-bg);
             padding: 20px;
@@ -304,52 +259,16 @@
             text-align: center;
             border: 1px solid var(--verse-border);
         }
-
-        .hypocrisy-section {
-            background-color: var(--hypocrisy-bg);
+        .hypocrisy-section, .warning-section, .wealth-section, .faith-section, .warning2-section {
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
             border-left: 5px solid #e67e22;
         }
-
-        .warning-section {
-            background-color: var(--warning-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #e74c3c;
-        }
-
-        .wealth-section {
-            background-color: var(--wealth-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #27ae60;
-        }
-
-        .faith-section {
-            background-color: var(--faith-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #3498db;
-        }
-
-        .warning2-section {
-            background-color: var(--warning2-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #c0392b;
-        }
-
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 30px auto;
-        }
+        .hypocrisy-section { background-color: var(--hypocrisy-bg); border-left-color: #e67e22; }
+        .wealth-section { background-color: var(--wealth-bg); border-left-color: #27ae60; }
+        .warning2-section { background-color: var(--warning2-bg); border-left-color: #c0392b; }
+        .faith-section { background-color: var(--faith-bg); border-left-color: #3498db; }
         .timeline-item {
             padding: 10px 20px;
             margin: 10px 0;
@@ -357,552 +276,330 @@
             border-radius: 5px;
             border-left: 4px solid #3498db;
         }
-
         .audio-player {
             width: 100%;
             max-width: 400px;
             margin: 20px auto;
             text-align: center;
         }
-        .audio-title {
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 40px 0 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .pagination a {
+            color: #3498db;
+            text-decoration: none;
             font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--arabic-color);
+            padding: 8px 16px;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
-
-        .special-benefits {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4fc 100%);
-            padding: 25px;
-            border-radius: 10px;
-            margin: 25px 0;
-            border: 2px solid #3498db;
+        .pagination a:hover {
+            background-color: #3498db;
+            color: white;
         }
-        .dark-mode .special-benefits {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2d3748 100%);
-        }
-
         @media (max-width: 768px) {
-            .arabic {
-                font-size: 32px;
-            }
-            .surah-title {
-                font-size: 28px;
-            }
+            .arabic { font-size: 32px; }
             .language-toggle, .transliteration-toggle, .dark-mode-toggle {
                 position: static;
-                margin: 10px 0;
+                margin: 6px 0;
                 display: inline-block;
             }
-            .top-home-link {
-                margin-bottom: 15px;
-            }
-            .structure-grid {
-                grid-template-columns: 1fr;
-            }
+            .scroll-arrow { width: 38px; height: 38px; font-size: 18px; left: 8px; }
         }
     </style>
-    <!-- Adding Uthmanic Script HAFS font for proper Arabic display -->
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Adding Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <div class="scroll-arrow up" id="scrollUp"><i class="fas fa-arrow-up"></i></div>
+    <div class="scroll-arrow down" id="scrollDown"><i class="fas fa-arrow-down"></i></div>
+
     <div class="container">
         <div class="language-toggle" id="languageToggle">Switch to English</div>
         <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
         <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
 
-        <!-- Indonesian Content (Default) -->
+        <!-- INDONESIAN CONTENT -->
         <div id="indonesian-content">
             <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-
             <h1 class="surah-title">Surah Al-Munafiqun (Orang-Orang Munafik) - Tafsir Tematik</h1>
-            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info - Surah Al-Munafiqun</a>, Tafsir Ibn Kathir, dan Kementerian Agama RI</div>
+            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=1&to=11" target="_blank">IslamicStudies.info - Surah Al-Munafiqun</a></div>
 
-            <div class="arabic">إِذَا جَاءَكَ الْمُنَافِقُونَ قَالُوا نَشْهَدُ إِنَّكَ لَرَسُولُ اللَّهِ ۗ وَاللَّهُ يَعْلَمُ إِنَّكَ لَرَسُولُهُ وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ</div>
+            <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>إِذَا جَاءَكَ الْمُنَافِقُونَ قَالُوا نَشْهَدُ إِنَّكَ لَرَسُولُ اللَّهِ ۗ وَاللَّهُ يَعْلَمُ إِنَّكَ لَرَسُولُهُ وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ</div>
             <div class="transliteration">Idhā jā'aka l-munāfiqūna qālū nashhadu innaka la-rasūlu llāh, wallāhu ya'lamu innaka la-rasūluh, wallāhu yashhadu inna l-munāfiqīna la-kādhibūn</div>
             <p style="text-align: center; font-style: italic;">"Apabila orang-orang munafik datang kepadamu (Muhammad), mereka berkata, 'Kami mengakui bahwa engkau adalah Rasul Allah.' Dan Allah mengetahui bahwa engkau benar-benar Rasul-Nya; dan Allah menyaksikan bahwa orang-orang munafik itu benar-benar pendusta." (Al-Munafiqun 63:1)</p>
 
             <div class="theme-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Gambaran Umum Surah Al-Munafiqun</h3>
-                <p>Surah Al-Munafiqun (سورة المنافقون) adalah surah ke-63 dalam Al-Qur'an yang terdiri dari 11 ayat. Surah ini termasuk dalam kategori Madaniyah (diturunkan di Madinah) dan secara tematis membahas tentang <strong>sifat-sifat orang munafik</strong>, <strong>bahaya kemunafikan</strong>, <strong>peringatan tentang kesombongan duniawi</strong>, dan <strong>pentingnya mengutamakan akhirat</strong>. Surah ini dinamai "Al-Munafiqun" karena membongkar hakikat dan sifat-sifat orang munafik secara mendetail.</p>
-                <p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>, Surah Al-Munafiqun diturunkan dalam konteks masyarakat Madinah yang diwarnai oleh munculnya golongan munafikin yang secara lahir mengaku Islam tetapi secara batin menolaknya. Surah ini memberikan panduan untuk mengenali karakter munafik dan mengingatkan tentang bahayanya bagi komunitas Muslim.</p>
+                <h3 style="margin-top: 0;"><i class="fas fa-star section-title-icon"></i> Gambaran Umum Surah Al-Munafiqun</h3>
+                <p>Surah Al-Munafiqun (سورة المنافقون) surah ke-63 terdiri dari 11 ayat, diturunkan di Madinah (Madaniyah). Surah ini membongkar tabir kemunafikan, ciri-ciri orang munafik, peringatan terhadap tipu daya harta dan anak, serta ajakan untuk bersegera beramal sebelum kematian. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">Tafhimul Qur'an</a>, latar belakangnya terkait dengan ekspedisi Bani Mustaliq dan tokoh munafik Abdullah bin Ubayy yang berusaha memecah belah umat Islam.</p>
             </div>
 
             <div class="info-box">
                 <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-                <p>Untuk membaca teks lengkap Surah Al-Munafiqun beserta terjemahannya, kunjungi: 
-                <a href="https://quran.com/63:1-11?translations=33" target="_blank">Quran.com - Surah Al-Munafiqun</a></p>
+                <p>Baca teks lengkap Surah Al-Munafiqun: <a href="https://quran.com/63:1-11?translations=33" target="_blank">Quran.com - Al-Munafiqun (dengan terjemahan)</a></p>
             </div>
 
             <div class="bonus">
                 <div class="section-title">Sumber Tafsir Terpercaya</div>
-                <p>Pembahasan dalam halaman ini didasarkan pada analisis tematik dari sumber-sumber terpercaya termasuk <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, dan terjemahan resmi Kementerian Agama Republik Indonesia.</p>
+                <p>Pembahasan ini merujuk pada analisis tematik <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a>.</p>
             </div>
 
             <div class="audio-player">
                 <div class="audio-title">Dengarkan Surah Al-Munafiqun</div>
-                <audio controls style="width: 100%;">
-                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/063.mp3" type="audio/mpeg">
-                    Browser Anda tidak mendukung elemen audio.
-                </audio>
+                <audio controls style="width:100%"><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/063.mp3" type="audio/mpeg">Browser tidak mendukung audio.</audio>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Struktur dan Kandungan Surah</h2>
-                
+                <h2 class="section-title"><i class="fas fa-book-open"></i> Struktur Kandungan</h2>
                 <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-user-secret verse-title-icon"></i> Ayat 1-4: Ciri-Ciri Orang Munafik</h4>
-                        <p>Pengungkapan sifat dasar orang munafik: berdusta dalam pengakuan iman, bersumpah palsu, dan memiliki hati yang sakit.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-hand-point-up verse-title-icon"></i> Ayat 5-6: Larangan Mendoakan Mereka</h4>
-                        <p>Perintah untuk tidak mendoakan orang munafik meskipun mereka kerabat dekat, karena mereka telah melampaui batas.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-money-bill-wave verse-title-icon"></i> Ayat 7-8: Kesombongan karena Kekayaan</h4>
-                        <p>Gambaran kesombongan orang munafik yang merasa bangga dengan harta dan anak-anak mereka.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-hourglass-end verse-title-icon"></i> Ayat 9-11: Peringatan tentang Kematian</h4>
-                        <p>Perintah untuk bersedekah sebelum datangnya kematian yang tiba-tiba dan penyesalan yang tidak berguna.</p>
-                    </div>
+                    <div class="structure-item"><h4><i class="fas fa-user-secret"></i> Ayat 1-4</h4><p>Ciri utama munafik: dusta dalam pengakuan iman, sumpah palsu, hati sakit, dan penampilan menipu.</p></div>
+                    <div class="structure-item"><h4><i class="fas fa-hand-paper"></i> Ayat 5-6</h4><p>Larangan memohon ampun untuk mereka karena Allah tidak akan mengampuni orang fasik yang terus menerus dalam kemunafikan.</p></div>
+                    <div class="structure-item"><h4><i class="fas fa-coins"></i> Ayat 7-8</h4><p>Sombong dengan harta, mengatakan jangan berinfak kepada pengikut Rasul, ancaman bahwa kemuliaan milik Allah.</p></div>
+                    <div class="structure-item"><h4><i class="fas fa-hourglass-end"></i> Ayat 9-11</h4><p>Jangan lalai karena harta-anak, infakkan rezeki sebelum kematian datang dan penyesalan tiada guna.</p></div>
                 </div>
-            </div>
-
-            <div class="special-benefits">
-                <h3><i class="fas fa-award"></i> Relevansi Surah Al-Munafiqun untuk Umat Modern</h3>
-                <p>Surah Al-Munafiqun memberikan pelajaran penting untuk menghadapi tantangan spiritual di era modern:</p>
-                <ul>
-                    <li><strong>Deteksi Dini Kemunafikan:</strong> Memberikan kriteria untuk mengenali gejala kemunafikan dalam diri sendiri dan orang lain</li>
-                    <li><strong>Perlindungan Komunitas:</strong> Mengajarkan cara melindungi komunitas Muslim dari infiltrasi orang munafik</li>
-                    <li><strong>Koreksi Prioritas Hidup:</strong> Mengingatkan untuk tidak terlena oleh kesombongan duniawi</li>
-                    <li><strong>Persiapan Menghadapi Kematian:</strong> Menekankan pentingnya beramal sebelum datangnya kematian yang tiba-tiba</li>
-                </ul>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Tema Utama Surah Al-Munafiqun</h2>
-                
+                <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Al-Munafiqun</h2>
+
+                <!-- Theme 1 -->
                 <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-user-secret verse-title-icon"></i> 1. Pengakuan Palsu Orang Munafik</div>
-                    <p>Surah ini membongkar pengakuan iman palsu orang munafik yang secara lisan mengakui kerasulan Muhammad ﷺ tetapi hati mereka mengingkari.</p>
-                    
+                    <div class="theme-title"><i class="fas fa-comment-dots"></i> 1. Pengakuan Palsu & Sumpah Sebagai Tameng</div>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> 
-                        <a href="https://quranwbw.com/63:1" target="_blank">Al-Munafiqun 63:1</a>
-                        <div class="arabic">إِذَا جَاءَكَ الْمُنَافِقُونَ قَالُوا نَشْهَدُ إِنَّكَ لَرَسُولُ اللَّهِ ۗ وَاللَّهُ يَعْلَمُ إِنَّكَ لَرَسُولُهُ وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ</div>
-                        <div class="transliteration">Idhā jā'aka l-munāfiqūna qālū nashhadu innaka la-rasūlu llāh, wallāhu ya'lamu innaka la-rasūluh, wallāhu yashhadu inna l-munāfiqīna la-kādhibūn</div>
-                        <p>"Apabila orang-orang munafik datang kepadamu (Muhammad), mereka berkata, 'Kami mengakui bahwa engkau adalah Rasul Allah.' Dan Allah mengetahui bahwa engkau benar-benar Rasul-Nya; dan Allah menyaksikan bahwa orang-orang munafik itu benar-benar pendusta."</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>:</strong> Ayat pembuka ini langsung mengungkap inti masalah kemunafikan: perbedaan antara pengakuan lisan dan keyakinan hati. Orang munafik secara formal mengakui kerasulan Muhammad ﷺ, tetapi pengakuan ini hanya di mulut, bukan dari hati. Allah menjadi saksi atas kedustaan mereka karena Dia mengetahui apa yang tersembunyi dalam hati. Ini menunjukkan bahwa kemunafikan lebih berbahaya daripada kekafiran terang-terangan karena tersembunyi dan menipu.
-                        </div>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=1&to=2" target="_blank">Al-Munafiqun 63:1-2</a>
+                        <div class="arabic">إِذَا جَاءَكَ الْمُنَافِقُونَ قَالُوا نَشْهَدُ إِنَّكَ لَرَسُولُ اللَّهِ ... اتَّخَذُوا أَيْمَانَهُمْ جُنَّةً فَصَدُّوا عَن سَبِيلِ اللَّهِ</div>
+                        <div class="transliteration">Idhā jā'aka l-munāfiqūna qālū nashhadu innaka la-rasūlu llāh ... ittakhadhū aymānahum junnatan fa-ṣaddū 'an sabīli llāh</div>
+                        <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Mereka bersumpah di hadapan Nabi dengan lisan membenarkan kenabian, namun Allah menjadi saksi atas kedustaan hati mereka. Sumpah dijadikan perisai untuk menutupi niat jahat dan menghalangi dari jalan Allah. Inilah inti kemunafikan: kontradiksi antara ucapan dan keyakinan.</div>
                     </div>
                 </div>
 
+                <!-- Theme 2: penampilan fisik & ketakutan -->
                 <div class="hypocrisy-section">
-                    <div class="theme-title"><i class="fas fa-theater-masks verse-title-icon"></i> 2. Sifat Dasar Orang Munafik</div>
-                    <p>Surah Al-Munafiqun menggambarkan karakteristik utama orang munafik yang membedakan mereka dari muslim sejati.</p>
-                    
+                    <div class="theme-title"><i class="fas fa-theater-masks"></i> 2. Penampilan Menipu & Hati Kosong</div>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> 
-                        <a href="https://quranwbw.com/63:4" target="_blank">Al-Munafiqun 63:4</a>
-                        <div class="arabic">وَإِذَا رَأَيْتَهُمْ تُعْجِبُكَ أَجْسَامُهُمْ ۖ وَإِن يَقُولُوا تَسْمَعْ لِقَوْلِهِمْ ۖ كَأَنَّهُمْ خُشُبٌ مُّسَنَّدَةٌ ۖ يَحْسَبُونَ كُلَّ صَيْحَةٍ عَلَيْهِمْ ۚ هُمُ الْعَدُوُّ فَاحْذَرْهُمْ ۚ قَاتَلَهُمُ اللَّهُ ۖ أَنَّىٰ يُؤْفَكُونَ</div>
-                        <div class="transliteration">Wa idhā ra'aytahum tu'jibuka aj-sāmuhum, wa in yaqūlū tasma' li-qawlihim, ka-annahum khushubun musannadah, yaḥsabūna kulla ṣayḥatin 'alayhim, humu l-'aduwwu faḥdharhum, qātalahumu llāh, annā yu'fakūn</div>
-                        <p>"Dan apabila kamu melihat mereka, tubuh mereka mengagumkanmu. Dan jika mereka berkata, kamu mendengarkan perkataan mereka. Mereka seakan-akan kayu yang tersandar. Mereka mengira bahwa setiap teriakan ditujukan kepada mereka. Mereka itulah musuh (yang sebenarnya), maka waspadalah terhadap mereka. Semoga Allah membinasakan mereka. Bagaimanakah mereka dapat dipalingkan (dari kebenaran)?"</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>:</strong> Ayat ini memberikan gambaran hidup tentang orang munafik: tampilan fisik mereka mungkin mengesankan, perkataan mereka terdengar baik, tetapi hakikatnya mereka seperti "kayu tersandar" - kosong, tidak memiliki substansi, dan tidak berguna. Mereka selalu merasa takut (paranoid) karena kesadaran akan kedustaan mereka sendiri. Penyebutan mereka sebagai "musuh yang sebenarnya" menunjukkan bahwa musuh dalam selimut lebih berbahaya daripada musuh terang-terangan.
-                        </div>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=4&to=4" target="_blank">Al-Munafiqun 63:4</a>
+                        <div class="arabic">وَإِذَا رَأَيْتَهُمْ تُعْجِبُكَ أَجْسَامُهُمْ ۖ وَإِن يَقُولُوا تَسْمَعْ لِقَوْلِهِمْ ۖ كَأَنَّهُمْ خُشُبٌ مُّسَنَّدَةٌ</div>
+                        <div class="transliteration">Wa idhā ra'aytahum tu'jibuka aj-sāmuhum, wa in yaqūlū tasma' li-qawlihim, ka-annahum khushubun musannadah</div>
+                        <div class="tafsir-box"><strong>Tafsir Tafhim:</strong> Fisik mereka mengagumkan, perkataan mereka enak didengar, namun hakikatnya seperti kayu tersandar – kosong tanpa keimanan. Mereka selalu diliputi kecurigaan dan ketakutan karena ketidakjujuran mereka. Allah menegaskan: “Mereka itulah musuh yang sebenarnya, maka waspadalah!”</div>
                     </div>
                 </div>
 
+                <!-- Theme 3: Doa tidak berguna -->
                 <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-hand-paper verse-title-icon"></i> 3. Larangan Mendoakan Orang Munafik</div>
-                    <p>Surah ini memberikan petunjuk jelas untuk tidak mendoakan orang munafik meskipun mereka kerabat dekat.</p>
-                    
+                    <div class="theme-title"><i class="fas fa-ban"></i> 3. Permohonan Ampun Tidak Berguna</div>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> 
-                        <a href="https://quranwbw.com/63:6" target="_blank">Al-Munafiqun 63:6</a>
-                        <div class="arabic">سَوَاءٌ عَلَيْهِمْ أَسْتَغْفَرْتَ لَهُمْ أَمْ لَمْ تَسْتَغْفِرْ لَهُمْ لَن يَغْفِرَ اللَّهُ لَهُمْ ۚ إِنَّ اللَّهَ لَا يَهْدِي الْقَوْمَ الْفَاسِقِينَ</div>
-                        <div class="transliteration">Sawā'un 'alayhim astaghfarta lahum am lam tastaghfir lahum, lan yaghfira llāhu lahum, inna llāha lā yahdi l-qawma l-fāsiqīn</div>
-                        <p>"Sama saja bagi mereka, engkau (Muhammad) memohonkan ampunan untuk mereka atau tidak engkau mohonkan ampunan untuk mereka, Allah tidak akan mengampuni mereka. Sesungguhnya Allah tidak memberi petunjuk kepada orang-orang yang fasik."</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir Ibn Kathir:</strong> Ayat ini menegaskan bahwa orang munafik telah mencapai tingkat kedurhakaan yang sangat dalam sehingga doa ampunan untuk mereka tidak berguna. Kata "fasik" di sini merujuk pada mereka yang secara terang-terangan melanggar perintah Allah setelah mengetahui kebenaran. Ketetapan ini khusus untuk orang munafik yang mati dalam kemunafikannya, bukan untuk semua orang berdosa secara umum.
-                        </div>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=6&to=6" target="_blank">Al-Munafiqun 63:6</a>
+                        <div class="arabic">سَوَاءٌ عَلَيْهِمْ أَسْتَغْفَرْتَ لَهُمْ أَمْ لَمْ تَسْتَغْفِرْ لَهُمْ لَن يَغْفِرَ اللَّهُ لَهُمْ</div>
+                        <div class="transliteration">Sawā'un 'alayhim astaghfarta lahum am lam tastaghfir lahum, lan yaghfira llāhu lahum</div>
+                        <div class="tafsir-box">Allah memberitahu Nabi bahwa memohon ampun atau tidak bagi mereka sama saja; Allah tidak akan mengampuni karena mereka telah memilih kekufuran batin dengan sadar. Ini adalah ketetapan bagi orang yang mati dalam kemunafikan.</div>
                     </div>
                 </div>
 
+                <!-- Theme 4: harta & anak -->
                 <div class="wealth-section">
-                    <div class="theme-title"><i class="fas fa-money-bill-wave verse-title-icon"></i> 4. Kesombongan karena Harta dan Keturunan</div>
-                    <p>Surah Al-Munafiqun mengungkap bagaimana orang munafik menyombongkan diri dengan harta dan anak-anak mereka.</p>
-                    
+                    <div class="theme-title"><i class="fas fa-money-bill-wave"></i> 4. Larangan Lalai karena Harta dan Anak</div>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> 
-                        <a href="https://quranwbw.com/63:9" target="_blank">Al-Munafiqun 63:9</a>
-                        <div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تُلْهِكُمْ أَمْوَالُكُمْ وَلَا أَوْلَادُكُمْ عَن ذِكْرِ اللَّهِ ۚ وَمَن يَفْعَلْ ذَٰلِكَ فَأُولَٰئِكَ هُمُ الْخَاسِرُونَ</div>
-                        <div class="transliteration">Yā ayyuha lladhīna āmanū lā tulhikum amwālukum wa lā awlādukum 'an dhikri llāh, wa man yaf'al dhālika fa-ulā'ika humu l-khāsirūn</div>
-                        <p>"Wahai orang-orang yang beriman! Janganlah harta bendamu dan anak-anakmu melalaikan kamu dari mengingat Allah. Dan barangsiapa berbuat demikian, maka mereka itulah orang-orang yang rugi."</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir Kemenag RI:</strong> Ayat ini mengingatkan semua orang beriman, bukan hanya orang munafik, untuk tidak terlena oleh harta dan anak-anak. Kata "tulhikum" (melalaikan) menunjukkan proses bertahap di mana seseorang secara perlahan-lahan meninggalkan kewajiban agama karena terlalu sibuk dengan urusan duniawi. Ini adalah peringatan universal yang relevan sepanjang zaman, terutama di masyarakat materialistik modern.
-                        </div>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=9&to=9" target="_blank">Al-Munafiqun 63:9</a>
+                        <div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تُلْهِكُمْ أَمْوَالُكُمْ وَلَا أَوْلَادُكُمْ عَن ذِكْرِ اللَّهِ</div>
+                        <div class="transliteration">Yā ayyuha lladhīna āmanū lā tulhikum amwālukum wa lā awlādukum 'an dhikri llāh</div>
+                        <div class="tafsir-box">Ayat ini bersifat universal: jangan sampai harta dan anak melalaikan dari mengingat Allah. Orang munafik justru menjadikan harta sebagai kebanggaan palsu. Orang beriman diminta menjaga keseimbangan dan tidak terperangkap dalam materialisme.</div>
                     </div>
                 </div>
 
+                <!-- Theme 5: Kematian dan penyesalan -->
                 <div class="warning2-section">
-                    <div class="theme-title"><i class="fas fa-skull-crossbones verse-title-icon"></i> 5. Peringatan tentang Kematian yang Tiba-tiba</div>
-                    <p>Surah ini menutup dengan peringatan serius tentang kematian yang bisa datang secara tiba-tiba.</p>
-                    
+                    <div class="theme-title"><i class="fas fa-skull-crossbones"></i> 5. Kematian Mendadak & Penyesalan Abadi</div>
                     <div class="verse">
-                        <strong>Ayat Kunci:</strong> 
-                        <a href="https://quranwbw.com/63:10" target="_blank">Al-Munafiqun 63:10</a>
+                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=10&to=11" target="_blank">Al-Munafiqun 63:10-11</a>
                         <div class="arabic">وَأَنفِقُوا مِن مَّا رَزَقْنَاكُم مِّن قَبْلِ أَن يَأْتِيَ أَحَدَكُمُ الْمَوْتُ فَيَقُولَ رَبِّ لَوْلَا أَخَّرْتَنِي إِلَىٰ أَجَلٍ قَرِيبٍ فَأَصَّدَّقَ وَأَكُن مِّنَ الصَّالِحِينَ</div>
                         <div class="transliteration">Wa anfiqū mimmā razaqnākum min qabli an ya'tiya aḥadakumu l-mawtu fa-yaqūla rabbi lawlā akhkhartanī ilā ajalin qarībin fa-aṣṣaddaqa wa akun mina ṣ-ṣāliḥīn</div>
-                        <p>"Dan infakkanlah sebagian dari rezeki yang telah Kami berikan kepadamu sebelum kematian datang kepada salah seorang di antara kamu; lalu dia berkata (menyesali), 'Ya Tuhanku, sekiranya Engkau berkenan menunda (kematian)ku sedikit waktu lagi, maka aku dapat bersedekah dan aku akan termasuk orang-orang yang saleh.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>:</strong> Ayat ini memberikan gambaran dramatis tentang penyesalan di saat kematian. Penyesalan orang yang menunda-nunda amal saleh selama hidupnya digambarkan dengan sangat hidup. Permohonan untuk "ditunda sedikit waktu lagi" menunjukkan betapa berharganya kesempatan beramal ketika sudah menghadapi kematian. Ini adalah peringatan untuk tidak menunda-nunda kebaikan karena kematian bisa datang kapan saja tanpa pemberitahuan.
-                        </div>
+                        <div class="tafsir-box">Gambaran menyesakkan: seseorang memohon penundaan hanya untuk bersedekah dan menjadi saleh, tetapi ajal tak bisa ditunda. Surah ini mengingatkan bahwa kematian datang tiba-tiba, maka jangan tunda amal saleh.</div>
                     </div>
                 </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-feather-alt section-title-icon"></i> Tanda-Tanda Kemunafikan Menurut Surah Al-Munafiqun</h2>
-                
-                <div class="verse">
-                    <strong>Ayat Penting:</strong> 
-                    <a href="https://quranwbw.com/63:2" target="_blank">Al-Munafiqun 63:2</a>
-                    <div class="arabic">اتَّخَذُوا أَيْمَانَهُمْ جُنَّةً فَصَدُّوا عَن سَبِيلِ اللَّهِ ۚ إِنَّهُمْ سَاءَ مَا كَانُوا يَعْمَلُونَ</div>
-                    <div class="transliteration">Attakhadhū aymānahum junnatan fa-ṣaddū 'an sabīli llāh, innahum sā'a mā kānū ya'malūn</div>
-                    <p>"Mereka menjadikan sumpah-sumpah mereka sebagai perisai, lalu mereka menghalang-halangi (orang) dari jalan Allah. Sungguh, betapa buruknya apa yang mereka kerjakan."</p>
-                    <div class="tafsir-box">
-                        <strong>Tafsir <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>:</strong> Ayat ini mengungkap dua tanda utama kemunafikan: (1) menggunakan sumpah sebagai tameng untuk menutupi niat jahat, dan (2) aktif menghalangi orang dari jalan Allah. Orang munafik tidak hanya pasif dalam kemunafikannya, tetapi aktif bekerja melawan kepentingan Islam. Kata "junnah" (perisai) menunjukkan bahwa mereka menggunakan sumpah-sumpah palsu sebagai perlindungan untuk menutupi rencana jahat mereka.
-                    </div>
-                </div>
-
+                <h2 class="section-title"><i class="fas fa-list-ul"></i> Tanda-Tanda Kemunafikan Menurut Surah Ini</h2>
                 <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-comment-slash verse-title-icon"></i> Perkataan vs Keyakinan (Ayat 1)</h4>
-                        <p>Ketidaksesuaian antara pengakuan lisan dan keyakinan hati - mengaku beriman secara lisan tetapi mengingkari dalam hati.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> Sumpah sebagai Tameng (Ayat 2)</h4>
-                        <p>Sering bersumpah untuk membenarkan diri dan menutupi niat jahat, menggunakan sumpah sebagai alat manipulasi.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-road-block verse-title-icon"></i> Menghalangi Jalan Allah (Ayat 2)</h4>
-                        <p>Aktif bekerja menghalangi orang lain dari jalan Allah, baik secara terang-terangan maupun tersembunyi.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-theater-masks verse-title-icon"></i> Penampilan Menipu (Ayat 4)</h4>
-                        <p>Memiliki penampilan fisik dan perkataan yang baik untuk menutupi hakikat buruk yang tersembunyi.</p>
-                    </div>
+                    <div class="structure-item"><h4>📢 Ucapan & Hati Berbeda</h4><p>Mengaku beriman tetapi hati mendustakan (ayat 1).</p></div>
+                    <div class="structure-item"><h4>🛡️ Sumpah Palsu</h4><p>Menjadikan sumpah sebagai tameng kedustaan (ayat 2).</p></div>
+                    <div class="structure-item"><h4>🚫 Menghalangi Jalan Allah</h4><p>Menghalangi infak dan meremehkan perjuangan (ayat 7).</p></div>
+                    <div class="structure-item"><h4>😨 Paranoid & Takut</h4><p>Mengira setiap teriakan ditujukan kepada mereka (ayat 4).</p></div>
                 </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Pelajaran Spiritual dari Surah Al-Munafiqun</h2>
-                
+                <h2 class="section-title"><i class="fas fa-hands-praying"></i> Pelajaran Spiritual & Relevansi</h2>
                 <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Pelajaran Penting untuk Kehidupan</h3>
                     <ul>
-                        <li><strong>Kejujuran dalam Iman:</strong> Pentingnya keselarasan antara pengakuan lisan, keyakinan hati, dan perbuatan anggota badan</li>
-                        <li><strong>Waspada terhadap Kemunafikan:</strong> Baik dalam diri sendiri maupun dalam komunitas</li>
-                        <li><strong>Prioritaskan Akhirat:</strong> Tidak terlena oleh kesombongan duniawi seperti harta dan anak-anak</li>
-                        <li><strong>Segera Beramal:</strong> Tidak menunda-nunda kebaikan karena kematian bisa datang tiba-tiba</li>
-                        <li><strong>Bersikap Bijak terhadap Orang Munafik:</strong> Tidak mudah tertipu oleh penampilan dan perkataan mereka</li>
+                        <li><strong>Kejujuran iman:</strong> Selaraskan hati, lisan, dan perbuatan.</li>
+                        <li><strong>Waspada terhadap nifak:</strong> Evaluasi diri dari sifat sombong dan riya.</li>
+                        <li><strong>Prioritas akhirat:</strong> Harta dan anak adalah ujian, bukan tujuan.</li>
+                        <li><strong>Bersegera beramal:</strong> Kematian bisa datang kapan saja tanpa ampunan.</li>
+                        <li><strong>Solidaritas umat:</strong> Jangan terpecah karena hasutan orang munafik.</li>
                     </ul>
                 </div>
-
-                <div class="faith-section">
-                    <div class="theme-title"><i class="fas fa-hand-holding-heart verse-title-icon"></i> Relevansi untuk Spiritualitas Modern</div>
-                    <p>Berdasarkan analisis dari <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>, Surah Al-Munafiqun memberikan pelajaran penting untuk kehidupan spiritual di era modern:</p>
-                    <ol>
-                        <li><strong>Integritas Diri:</strong> Mengajak untuk introspeksi keselarasan antara kata dan perbuatan</li>
-                        <li><strong>Deteksi Manipulasi:</strong> Mengajarkan cara mengenali orang yang menggunakan agama untuk kepentingan pribadi</li>
-                        <li><strong>Keseimbangan Dunia-Akhirat:</strong> Mengingatkan agar kesibukan duniawi tidak melalaikan tujuan akhirat</li>
-                        <li><strong>Keberanian Moral:</strong> Memberikan ketegasan dalam menghadapi kemunafikan tanpa ragu-ragu</li>
-                        <li><strong>Kesadaran akan Kematian:</strong> Mengembangkan kesadaran akan kefanaan hidup untuk memotivasi amal saleh</li>
-                    </ol>
-                </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Hubungan dengan Surah Lain</h2>
-                
+                <h2 class="section-title"><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h2>
                 <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> Dengan Surah Sebelumnya (Al-Jumu'ah)</h4>
-                        <p>Surah Al-Jumu'ah berakhir dengan perintah untuk meninggalkan jual beli ketika azan Jumat, sedangkan Al-Munafiqun menunjukkan orang munafik yang lebih mementingkan urusan duniawi.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> Dengan Surah Sesudahnya (At-Taghabun)</h4>
-                        <p>Surah Al-Munafiqun mengecam orang munafik, sedangkan At-Taghabun berbicara tentang hari ketika semua rahasia terungkap (termasuk kemunafikan).</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-book verse-title-icon"></i> Dengan Surah At-Taubah (9:67-68)</h4>
-                        <p>Kedua surah sama-sama membahas karakteristik orang munafik dengan detail yang saling melengkapi.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> Dengan Surah Al-Baqarah (2:8-20)</h4>
-                        <p>Surah Al-Baqarah memberikan gambaran awal tentang orang munafik, sedangkan Al-Munafiqun mengembangkan tema tersebut lebih mendalam.</p>
-                    </div>
+                    <div class="structure-item"><h4>↗️ Al-Jumu’ah (62)</h4><p>Al-Jumu’ah mengajak meninggalkan jual beli untuk shalat; Al-Munafiqun mengkritik orang yang memprioritaskan dunia.</p></div>
+                    <div class="structure-item"><h4>↘️ At-Taghabun (64)</h4><p>At-Taghabun menjelaskan hari dikumpulkannya rahasia-rahasia, termasuk kemunafikan yang terungkap.</p></div>
+                    <div class="structure-item"><h4>📖 At-Taubah (9:67-68)</h4><p>Keduanya memerinci sifat-sifat munafik: laki-laki dan perempuan saling membisikkan kemungkaran.</p></div>
                 </div>
             </div>
 
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+            <!-- Pagination: Previous, Main, Next -->
+            <div class="pagination">
+                <a href="062.html"><i class="fas fa-arrow-left"></i> Surah Sebelumnya (Al-Jumu'ah)</a>
+                <a href="index.html"><i class="fas fa-home"></i> Menu Utama</a>
+                <a href="064.html">Surah Berikutnya (At-Taghabun) <i class="fas fa-arrow-right"></i></a>
+            </div>
         </div>
 
-        <!-- English Content (Hidden by Default) -->
+        <!-- ENGLISH CONTENT -->
         <div id="english-content" class="hidden">
             <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-
             <h1 class="surah-title">Surah Al-Munafiqun (The Hypocrites) - Thematic Tafsir</h1>
-            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info - Surah Al-Munafiqun</a>, Tafsir Ibn Kathir, and Indonesian Ministry of Religious Affairs</div>
+            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=1&to=11" target="_blank">IslamicStudies.info - Surah Al-Munafiqun</a></div>
 
-            <div class="arabic">إِذَا جَاءَكَ الْمُنَافِقُونَ قَالُوا نَشْهَدُ إِنَّكَ لَرَسُولُ اللَّهِ ۗ وَاللَّهُ يَعْلَمُ إِنَّكَ لَرَسُولُهُ وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ</div>
+            <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>إِذَا جَاءَكَ الْمُنَافِقُونَ قَالُوا نَشْهَدُ إِنَّكَ لَرَسُولُ اللَّهِ ۗ وَاللَّهُ يَعْلَمُ إِنَّكَ لَرَسُولُهُ وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ</div>
             <div class="transliteration">Idhā jā'aka l-munāfiqūna qālū nashhadu innaka la-rasūlu llāh, wallāhu ya'lamu innaka la-rasūluh, wallāhu yashhadu inna l-munāfiqīna la-kādhibūn</div>
             <p style="text-align: center; font-style: italic;">"When the hypocrites come to you, [O Muhammad], they say, 'We testify that you are the Messenger of Allah.' And Allah knows that you are His Messenger, and Allah testifies that the hypocrites are liars." (Al-Munafiqun 63:1)</p>
 
             <div class="theme-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Overview of Surah Al-Munafiqun</h3>
-                <p>Surah Al-Munafiqun (سورة المنافقون) is the 63rd chapter of the Qur'an consisting of 11 verses. It is categorized as Madani (revealed in Medina) and thematically deals with <strong>characteristics of hypocrites</strong>, <strong>dangers of hypocrisy</strong>, <strong>warning about worldly pride</strong>, and <strong>importance of prioritizing the hereafter</strong>. This surah is named "Al-Munafiqun" because it exposes the reality and characteristics of hypocrites in detail.</p>
-                <p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>, Surah Al-Munafiqun was revealed in the context of Medina society characterized by the emergence of hypocrites who outwardly professed Islam but inwardly rejected it. This surah provides guidance to recognize hypocritical character and warns about its danger to the Muslim community.</p>
+                <h3 style="margin-top: 0;"><i class="fas fa-star"></i> Overview of Surah Al-Munafiqun</h3>
+                <p>Revealed in Medina, Surah Al-Munafiqun (11 verses) exposes the traits of hypocrites, their false oaths, the danger of being deluded by wealth and children, and the urgency to spend in charity before death. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">Tafhim al-Qur'an</a>, the background includes the expedition of Banu Mustaliq and the conspiracy of ‘Abdullah ibn Ubayy.</p>
             </div>
 
             <div class="info-box">
-                <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
-                <p>To read the complete text of Surah Al-Munafiqun along with its translation, visit: 
-                <a href="https://quran.com/63:1-11?translations=131" target="_blank">Quran.com - Surah Al-Munafiqun</a></p>
+                <h3><i class="fas fa-info-circle"></i> Full Text Access</h3>
+                <p>Read complete Surah Al-Munafiqun: <a href="https://recitequran.com/63:1" target="_blank">reciteQuran.com - Al-Munafiqun</a></p>
             </div>
 
             <div class="bonus">
-                <div class="section-title">Reliable Tafsir Sources</div>
-                <p>The discussion in this page is based on thematic analysis from reliable sources including <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>, Tafsir Ibn Kathir, and the official translation by the Indonesian Ministry of Religious Affairs.</p>
+                <div class="section-title">Reliable Tafsir Source</div>
+                <p>Based on <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a> thematic analysis.</p>
             </div>
 
             <div class="audio-player">
                 <div class="audio-title">Listen to Surah Al-Munafiqun</div>
-                <audio controls style="width: 100%;">
-                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/063.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
+                <audio controls style="width:100%"><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/063.mp3" type="audio/mpeg">Browser does not support audio.</audio>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Structure and Content of the Surah</h2>
-                
+                <h2 class="section-title"><i class="fas fa-book-open"></i> Structure & Content</h2>
                 <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-user-secret verse-title-icon"></i> Verses 1-4: Characteristics of Hypocrites</h4>
-                        <p>Revelation of basic hypocrite traits: lying in profession of faith, false oaths, and having diseased hearts.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-hand-point-up verse-title-icon"></i> Verses 5-6: Prohibition of Praying for Them</h4>
-                        <p>Command not to pray for hypocrites even if they are close relatives, for they have transgressed beyond limits.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-money-bill-wave verse-title-icon"></i> Verses 7-8: Arrogance due to Wealth</h4>
-                        <p>Description of hypocrites' arrogance in taking pride in their wealth and children.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-hourglass-end verse-title-icon"></i> Verses 9-11: Warning about Death</h4>
-                        <p>Command to give charity before sudden death comes and useless regret.</p>
-                    </div>
+                    <div class="structure-item"><h4>Verses 1-4</h4><p>Core hypocrisy: verbal testimony while hearts deny, oaths as shields, impressive looks but empty souls.</p></div>
+                    <div class="structure-item"><h4>Verses 5-6</h4><p>Seeking forgiveness for hypocrites is futile; Allah will not forgive them.</p></div>
+                    <div class="structure-item"><h4>Verses 7-8</h4><p>Arrogance of wealth, preventing charity, Allah’s might over all.</p></div>
+                    <div class="structure-item"><h4>Verses 9-11</h4><p>Do not let wealth and children distract from remembrance; spend before death brings vain regret.</p></div>
                 </div>
             </div>
 
-            <div class="special-benefits">
-                <h3><i class="fas fa-award"></i> Relevance of Surah Al-Munafiqun for Modern Ummah</h3>
-                <p>Surah Al-Munafiqun provides important lessons for facing spiritual challenges in the modern era:</p>
-                <ul>
-                    <li><strong>Early Detection of Hypocrisy:</strong> Provides criteria to recognize symptoms of hypocrisy in oneself and others</li>
-                    <li><strong>Community Protection:</strong> Teaches how to protect Muslim community from hypocrite infiltration</li>
-                    <li><strong>Correction of Life Priorities:</strong> Reminds not to be deluded by worldly arrogance</li>
-                    <li><strong>Preparation for Death:</strong> Emphasizes importance of doing good deeds before sudden death comes</li>
-                </ul>
-            </div>
-
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Main Themes of Surah Al-Munafiqun</h2>
-                
+                <h2 class="section-title"><i class="fas fa-palette"></i> Main Themes</h2>
+
                 <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-user-secret verse-title-icon"></i> 1. False Profession of Hypocrites</div>
-                    <p>This surah exposes the false profession of faith by hypocrites who verbally acknowledge Muhammad's ﷺ messengership but their hearts deny it.</p>
-                    
+                    <div class="theme-title">1. False Testimony & Oaths as Shields</div>
                     <div class="verse">
-                        <strong>Key Verse:</strong> 
-                        <a href="https://quranwbw.com/63:1" target="_blank">Al-Munafiqun 63:1</a>
-                        <div class="arabic">إِذَا جَاءَكَ الْمُنَافِقُونَ قَالُوا نَشْهَدُ إِنَّكَ لَرَسُولُ اللَّهِ ۗ وَاللَّهُ يَعْلَمُ إِنَّكَ لَرَسُولُهُ وَاللَّهُ يَشْهَدُ إِنَّ الْمُنَافِقِينَ لَكَاذِبُونَ</div>
-                        <div class="transliteration">Idhā jā'aka l-munāfiqūna qālū nashhadu innaka la-rasūlu llāh, wallāhu ya'lamu innaka la-rasūluh, wallāhu yashhadu inna l-munāfiqīna la-kādhibūn</div>
-                        <p>"When the hypocrites come to you, [O Muhammad], they say, 'We testify that you are the Messenger of Allah.' And Allah knows that you are His Messenger, and Allah testifies that the hypocrites are liars."</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>:</strong> This opening verse directly reveals the core problem of hypocrisy: discrepancy between verbal profession and heart conviction. Hypocrites formally acknowledge Muhammad's ﷺ messengership, but this acknowledgment is only on the tongue, not from the heart. Allah bears witness to their falsehood because He knows what is hidden in hearts. This shows that hypocrisy is more dangerous than open disbelief because it is hidden and deceptive.
-                        </div>
+                        <strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=1&to=2" target="_blank">63:1-2</a>
+                        <div class="arabic">إِذَا جَاءَكَ الْمُنَافِقُونَ قَالُوا نَشْهَدُ إِنَّكَ لَرَسُولُ اللَّهِ ... اتَّخَذُوا أَيْمَانَهُمْ جُنَّةً</div>
+                        <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Hypocrites verbally acknowledge the Prophet but Allah testifies they are liars. They use oaths as a shield to deceive and block people from Allah’s path.</div>
                     </div>
                 </div>
 
                 <div class="hypocrisy-section">
-                    <div class="theme-title"><i class="fas fa-theater-masks verse-title-icon"></i> 2. Fundamental Nature of Hypocrites</div>
-                    <p>Surah Al-Munafiqun describes the main characteristics of hypocrites that distinguish them from true Muslims.</p>
-                    
+                    <div class="theme-title">2. Deceptive Appearance & Empty Hearts</div>
                     <div class="verse">
-                        <strong>Key Verse:</strong> 
-                        <a href="https://quranwbw.com/63:4" target="_blank">Al-Munafiqun 63:4</a>
-                        <div class="arabic">وَإِذَا رَأَيْتَهُمْ تُعْجِبُكَ أَجْسَامُهُمْ ۖ وَإِن يَقُولُوا تَسْمَعْ لِقَوْلِهِمْ ۖ كَأَنَّهُمْ خُشُبٌ مُّسَنَّدَةٌ ۖ يَحْسَبُونَ كُلَّ صَيْحَةٍ عَلَيْهِمْ ۚ هُمُ الْعَدُوُّ فَاحْذَرْهُمْ ۚ قَاتَلَهُمُ اللَّهُ ۖ أَنَّىٰ يُؤْفَكُونَ</div>
-                        <div class="transliteration">Wa idhā ra'aytahum tu'jibuka aj-sāmuhum, wa in yaqūlū tasma' li-qawlihim, ka-annahum khushubun musannadah, yaḥsabūna kulla ṣayḥatin 'alayhim, humu l-'aduwwu faḥdharhum, qātalahumu llāh, annā yu'fakūn</div>
-                        <p>"And when you see them, their forms please you, and if they speak, you listen to their speech. [They are] as if they were pieces of wood propped up - they think that every shout is against them. They are the enemy, so beware of them. May Allah destroy them; how are they deluded?"</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>:</strong> This verse provides vivid description of hypocrites: their physical appearance may be impressive, their speech sounds good, but in reality they are like "propped up wood" - empty, lacking substance, and useless. They are always afraid (paranoid) because of awareness of their own falsehood. Calling them "the real enemy" shows that enemy within is more dangerous than open enemy.
-                        </div>
+                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=4&to=4" target="_blank">63:4</a>
+                        <div class="arabic">وَإِذَا رَأَيْتَهُمْ تُعْجِبُكَ أَجْسَامُهُمْ ۖ كَأَنَّهُمْ خُشُبٌ مُّسَنَّدَةٌ</div>
+                        <div class="tafsir-box">Their appearance impresses you, their speech is eloquent, yet they are like propped-up timber – lifeless inside. They are the real enemy; beware of them.</div>
                     </div>
                 </div>
 
                 <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-hand-paper verse-title-icon"></i> 3. Prohibition of Praying for Hypocrites</div>
-                    <p>This surah gives clear guidance not to pray for hypocrites even if they are close relatives.</p>
-                    
+                    <div class="theme-title">3. No Forgiveness for Persistent Hypocrisy</div>
                     <div class="verse">
-                        <strong>Key Verse:</strong> 
-                        <a href="https://quranwbw.com/63:6" target="_blank">Al-Munafiqun 63:6</a>
-                        <div class="arabic">سَوَاءٌ عَلَيْهِمْ أَسْتَغْفَرْتَ لَهُمْ أَمْ لَمْ تَسْتَغْفِرْ لَهُمْ لَن يَغْفِرَ اللَّهُ لَهُمْ ۚ إِنَّ اللَّهَ لَا يَهْدِي الْقَوْمَ الْفَاسِقِينَ</div>
-                        <div class="transliteration">Sawā'un 'alayhim astaghfarta lahum am lam tastaghfir lahum, lan yaghfira llāhu lahum, inna llāha lā yahdi l-qawma l-fāsiqīn</div>
-                        <p>"It is all the same for them whether you ask forgiveness for them or do not ask forgiveness for them; never will Allah forgive them. Indeed, Allah does not guide the defiantly disobedient people."</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir Ibn Kathir:</strong> This verse affirms that hypocrites have reached such deep level of disobedience that prayers for their forgiveness are useless. The word "fasik" here refers to those who openly violate Allah's commands after knowing the truth. This ruling is specific to hypocrites who die in their hypocrisy, not for all sinners in general.
-                        </div>
+                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=6&to=6" target="_blank">63:6</a>
+                        <div class="arabic">سَوَاءٌ عَلَيْهِمْ أَسْتَغْفَرْتَ لَهُمْ أَمْ لَمْ تَسْتَغْفِرْ لَهُمْ لَن يَغْفِرَ اللَّهُ لَهُمْ</div>
+                        <div class="tafsir-box">Whether you ask forgiveness for them or not, Allah will never forgive them. They chose hypocrisy knowingly and died upon it.</div>
                     </div>
                 </div>
 
                 <div class="wealth-section">
-                    <div class="theme-title"><i class="fas fa-money-bill-wave verse-title-icon"></i> 4. Arrogance due to Wealth and Offspring</div>
-                    <p>Surah Al-Munafiqun reveals how hypocrites boast about their wealth and children.</p>
-                    
+                    <div class="theme-title">4. Wealth & Children as a Distraction</div>
                     <div class="verse">
-                        <strong>Key Verse:</strong> 
-                        <a href="https://quranwbw.com/63:9" target="_blank">Al-Munafiqun 63:9</a>
-                        <div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا لَا تُلْهِكُمْ أَمْوَالُكُمْ وَلَا أَوْلَادُكُمْ عَن ذِكْرِ اللَّهِ ۚ وَمَن يَفْعَلْ ذَٰلِكَ فَأُولَٰئِكَ هُمُ الْخَاسِرُونَ</div>
-                        <div class="transliteration">Yā ayyuha lladhīna āmanū lā tulhikum amwālukum wa lā awlādukum 'an dhikri llāh, wa man yaf'al dhālika fa-ulā'ika humu l-khāsirūn</div>
-                        <p>"O you who have believed, let not your wealth and your children divert you from remembrance of Allah. And whoever does that - then those are the losers."</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir from Indonesian Ministry of Religious Affairs:</strong> This verse reminds all believers, not just hypocrites, not to be distracted by wealth and children. The word "tulhikum" (divert) indicates gradual process where someone slowly leaves religious obligations because too busy with worldly affairs. This is a universal warning relevant throughout ages, especially in modern materialistic societies.
-                        </div>
+                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=9&to=9" target="_blank">63:9</a>
+                        <div class="arabic">لَا تُلْهِكُمْ أَمْوَالُكُمْ وَلَا أَوْلَادُكُمْ عَن ذِكْرِ اللَّهِ</div>
+                        <div class="tafsir-box">Believers are commanded not to let wealth and children divert them from Allah’s remembrance. Hypocrites boast of possessions, but true loss is neglecting the Hereafter.</div>
                     </div>
                 </div>
 
                 <div class="warning2-section">
-                    <div class="theme-title"><i class="fas fa-skull-crossbones verse-title-icon"></i> 5. Warning about Sudden Death</div>
-                    <p>This surah concludes with serious warning about death that can come suddenly.</p>
-                    
+                    <div class="theme-title">5. Sudden Death & Regret</div>
                     <div class="verse">
-                        <strong>Key Verse:</strong> 
-                        <a href="https://quranwbw.com/63:10" target="_blank">Al-Munafiqun 63:10</a>
-                        <div class="arabic">وَأَنفِقُوا مِن مَّا رَزَقْنَاكُم مِّن قَبْلِ أَن يَأْتِيَ أَحَدَكُمُ الْمَوْتُ فَيَقُولَ رَبِّ لَوْلَا أَخَّرْتَنِي إِلَىٰ أَجَلٍ قَرِيبٍ فَأَصَّدَّقَ وَأَكُن مِّنَ الصَّالِحِينَ</div>
-                        <div class="transliteration">Wa anfiqū mimmā razaqnākum min qabli an ya'tiya aḥadakumu l-mawtu fa-yaqūla rabbi lawlā akhkhartanī ilā ajalin qarībin fa-aṣṣaddaqa wa akun mina ṣ-ṣāliḥīn</div>
-                        <p>"And spend [in the way of Allah] from what We have provided you before death comes to one of you and he says, 'My Lord, if only You would delay me for a brief term so I would give charity and be among the righteous.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>:</strong> This verse provides dramatic picture of regret at death moment. The regret of those who postponed good deeds during their life is vividly described. The request to "delay me for a brief term" shows how valuable the opportunity to do good becomes when facing death. This is a warning not to procrastinate goodness because death can come anytime without notice.
-                        </div>
+                        <strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=63&verse=10&to=11" target="_blank">63:10-11</a>
+                        <div class="arabic">وَأَنفِقُوا مِن مَّا رَزَقْنَاكُم مِّن قَبْلِ أَن يَأْتِيَ أَحَدَكُمُ الْمَوْتُ</div>
+                        <div class="tafsir-box">Spend from what Allah provided before death arrives, when one will cry, “My Lord, if only You delayed me a little, I would give charity and be among the righteous.” But Allah never delays a soul when its term ends.</div>
                     </div>
                 </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-feather-alt section-title-icon"></i> Signs of Hypocrisy According to Surah Al-Munafiqun</h2>
-                
-                <div class="verse">
-                    <strong>Important Verse:</strong> 
-                    <a href="https://quranwbw.com/63:2" target="_blank">Al-Munafiqun 63:2</a>
-                    <div class="arabic">اتَّخَذُوا أَيْمَانَهُمْ جُنَّةً فَصَدُّوا عَن سَبِيلِ اللَّهِ ۚ إِنَّهُمْ سَاءَ مَا كَانُوا يَعْمَلُونَ</div>
-                    <div class="transliteration">Attakhadhū aymānahum junnatan fa-ṣaddū 'an sabīli llāh, innahum sā'a mā kānū ya'malūn</div>
-                    <p>"They have taken their oaths as a cover, so they averted [people] from the way of Allah. Indeed, it was evil that they were doing."</p>
-                    <div class="tafsir-box">
-                        <strong>Tafsir from <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>:</strong> This verse reveals two main signs of hypocrisy: (1) using oaths as shield to cover evil intentions, and (2) actively preventing people from Allah's way. Hypocrites are not passive in their hypocrisy but actively work against Islam's interests. The word "junnah" (shield) indicates they use false oaths as protection to cover their evil plans.
-                    </div>
-                </div>
-
+                <h2 class="section-title"><i class="fas fa-list-ul"></i> Signs of Hypocrisy</h2>
                 <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-comment-slash verse-title-icon"></i> Speech vs Belief (Verse 1)</h4>
-                        <p>Discrepancy between verbal profession and heart conviction - professing faith verbally but denying in heart.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> Oaths as Shield (Verse 2)</h4>
-                        <p>Frequent swearing to justify themselves and cover evil intentions, using oaths as manipulation tool.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-road-block verse-title-icon"></i> Hindering Allah's Way (Verse 2)</h4>
-                        <p>Actively working to prevent others from Allah's way, whether openly or secretly.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-theater-masks verse-title-icon"></i> Deceptive Appearance (Verse 4)</h4>
-                        <p>Having good physical appearance and speech to cover hidden bad reality.</p>
-                    </div>
+                    <div class="structure-item"><h4>🗣️ Tongue vs. Heart</h4><p>Profess faith but inwardly reject (63:1).</p></div>
+                    <div class="structure-item"><h4>🛡️ Frequent Oaths</h4><p>Use oaths as a shield for lies (63:2).</p></div>
+                    <div class="structure-item"><h4>🚫 Blocking Allah’s Way</h4><p>Prevent charity and mock believers (63:7).</p></div>
+                    <div class="structure-item"><h4>😨 Constant Fear</h4><p>Think every shout is against them (63:4).</p></div>
                 </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Spiritual Lessons from Surah Al-Munafiqun</h2>
-                
+                <h2 class="section-title"><i class="fas fa-hands-praying"></i> Spiritual Lessons & Modern Relevance</h2>
                 <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Important Lessons for Life</h3>
                     <ul>
-                        <li><strong>Honesty in Faith:</strong> Importance of harmony between verbal profession, heart conviction, and bodily deeds</li>
-                        <li><strong>Vigilance Against Hypocrisy:</strong> Both in oneself and in community</li>
-                        <li><strong>Prioritize Hereafter:</strong> Not being deluded by worldly arrogance like wealth and children</li>
-                        <li><strong>Immediate Good Deeds:</strong> Not procrastinating goodness because death can come suddenly</li>
-                        <li><strong>Wisdom Toward Hypocrites:</strong> Not easily deceived by their appearance and speech</li>
+                        <li><strong>Integrity:</strong> Align speech, belief, and action.</li>
+                        <li><strong>Self-purification:</strong> Constantly check for hidden hypocrisy.</li>
+                        <li><strong>Balance:</strong> Wealth and children are tests, not ultimate goals.</li>
+                        <li><strong>Urgency of good deeds:</strong> Death is sudden; charity and righteousness cannot be postponed.</li>
+                        <li><strong>Community vigilance:</strong> Protect the ummah from divisive hypocrites.</li>
                     </ul>
                 </div>
-
-                <div class="faith-section">
-                    <div class="theme-title"><i class="fas fa-hand-holding-heart verse-title-icon"></i> Relevance for Modern Spirituality</div>
-                    <p>Based on analysis from <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a>, Surah Al-Munafiqun provides important lessons for spiritual life in modern era:</p>
-                    <ol>
-                        <li><strong>Self-Integrity:</strong> Invites introspection of harmony between words and deeds</li>
-                        <li><strong>Detection of Manipulation:</strong> Teaches how to recognize people using religion for personal interests</li>
-                        <li><strong>World-Hereafter Balance:</strong> Reminds that worldly busyness should not distract from hereafter goals</li>
-                        <li><strong>Moral Courage:</strong> Provides firmness in facing hypocrisy without hesitation</li>
-                        <li><strong>Awareness of Death:</strong> Develops awareness of life's temporality to motivate good deeds</li>
-                    </ol>
-                </div>
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Relationship with Other Surahs</h2>
-                
+                <h2 class="section-title"><i class="fas fa-link"></i> Connection with Other Surahs</h2>
                 <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> With Previous Surah (Al-Jumu'ah)</h4>
-                        <p>Surah Al-Jumu'ah ends with command to leave trading when Friday prayer call is made, while Al-Munafiqun shows hypocrites prioritizing worldly affairs.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> With Next Surah (At-Taghabun)</h4>
-                        <p>Surah Al-Munafiqun condemns hypocrites, while At-Taghabun speaks about day when all secrets are revealed (including hypocrisy).</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-book verse-title-icon"></i> With Surah At-Taubah (9:67-68)</h4>
-                        <p>Both surahs discuss characteristics of hypocrites with complementary details.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-shield-alt verse-title-icon"></i> With Surah Al-Baqarah (2:8-20)</h4>
-                        <p>Surah Al-Baqarah provides initial picture of hypocrites, while Al-Munafiqun develops this theme more deeply.</p>
-                    </div>
+                    <div class="structure-item"><h4>⬅️ Al-Jumu’ah (62)</h4><p>Al-Jumu’ah urges leaving trade for prayer; Al-Munafiqun warns against worldly distraction.</p></div>
+                    <div class="structure-item"><h4>➡️ At-Taghabun (64)</h4><p>At-Taghabun reveals the Day when all secrets (including hypocrisy) are exposed.</p></div>
                 </div>
             </div>
 
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
-            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+            <div class="pagination">
+                <a href="062.html"><i class="fas fa-arrow-left"></i> Previous Surah (Al-Jumu'ah)</a>
+                <a href="index.html"><i class="fas fa-home"></i> Main Menu</a>
+                <a href="064.html">Next Surah (At-Taghabun) <i class="fas fa-arrow-right"></i></a>
+            </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; (2025 AD) 1447 AH - Surah Al-Munafiqun Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
+        <p>© (2026 AD) 1447 AH - Surah Al-Munafiqun Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php?sura=63" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
     </footer>
 
     <script>
-        // Initialize from localStorage
         document.addEventListener('DOMContentLoaded', function() {
             const englishContent = document.getElementById('english-content');
             const indonesianContent = document.getElementById('indonesian-content');
@@ -911,63 +608,93 @@
             const darkModeToggle = document.getElementById('darkModeToggle');
             const transliterationElements = document.querySelectorAll('.transliteration');
 
-            // Language toggle
-            const currentLanguage = localStorage.getItem('language') || 'indonesian';
-            if (currentLanguage === 'english') {
-                englishContent.classList.remove('hidden');
-                indonesianContent.classList.add('hidden');
-                languageToggle.textContent = 'Switch to Indonesian';
+            if (!englishContent || !indonesianContent || !languageToggle || !transliterationToggle || !darkModeToggle) {
+                console.error('Missing elements.');
+                return;
             }
 
-            languageToggle.addEventListener('click', function() {
-                if (englishContent.classList.contains('hidden')) {
+            // Language + flag icons
+            const urlParams = new URLSearchParams(window.location.search);
+            let langParam = null;
+            if (urlParams.has('English')) langParam = 'english';
+            else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+            let currentLanguage = langParam || localStorage.getItem('language') || 'indonesian';
+
+            function updateLanguageUI() {
+                if (currentLanguage === 'english') {
                     englishContent.classList.remove('hidden');
                     indonesianContent.classList.add('hidden');
-                    languageToggle.textContent = 'Switch to Indonesian';
-                    localStorage.setItem('language', 'english');
+                    languageToggle.innerHTML = '🇮🇩 Switch to Indonesian';
                 } else {
                     englishContent.classList.add('hidden');
                     indonesianContent.classList.remove('hidden');
-                    languageToggle.textContent = 'Switch to English';
-                    localStorage.setItem('language', 'indonesian');
+                    languageToggle.innerHTML = '🇬🇧 Switch to English';
                 }
+            }
+            updateLanguageUI();
+            if (langParam) localStorage.setItem('language', langParam);
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    currentLanguage = 'english';
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.innerHTML = '🇮🇩 Switch to Indonesian';
+                } else {
+                    currentLanguage = 'indonesian';
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.innerHTML = '🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', currentLanguage);
             });
 
-            // Transliteration toggle
+            // Transliteration
             const transliterationVisible = localStorage.getItem('transliteration') === 'true';
             if (transliterationVisible) {
                 transliterationElements.forEach(el => el.style.display = 'block');
                 transliterationToggle.textContent = 'Hide Transliteration';
+            } else {
+                transliterationElements.forEach(el => el.style.display = 'none');
+                transliterationToggle.textContent = 'Show Transliteration';
             }
-
             transliterationToggle.addEventListener('click', function() {
-                if (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '') {
-                    transliterationElements.forEach(el => el.style.display = 'block');
-                    transliterationToggle.textContent = 'Hide Transliteration';
-                    localStorage.setItem('transliteration', 'true');
-                } else {
+                const isVisible = transliterationElements[0]?.style.display === 'block';
+                if (isVisible) {
                     transliterationElements.forEach(el => el.style.display = 'none');
                     transliterationToggle.textContent = 'Show Transliteration';
                     localStorage.setItem('transliteration', 'false');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
                 }
             });
 
-            // Dark mode toggle
+            // Dark mode
             const darkMode = localStorage.getItem('darkMode') === 'true';
             if (darkMode) {
                 document.body.classList.add('dark-mode');
                 darkModeToggle.textContent = 'Light Mode';
+            } else {
+                darkModeToggle.textContent = 'Dark Mode';
             }
-
             darkModeToggle.addEventListener('click', function() {
                 document.body.classList.toggle('dark-mode');
-                if (document.body.classList.contains('dark-mode')) {
-                    darkModeToggle.textContent = 'Light Mode';
-                    localStorage.setItem('darkMode', 'true');
-                } else {
-                    darkModeToggle.textContent = 'Dark Mode';
-                    localStorage.setItem('darkMode', 'false');
-                }
+                const isDark = document.body.classList.contains('dark-mode');
+                darkModeToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+                localStorage.setItem('darkMode', isDark);
+            });
+
+            // Screen scroll arrows
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+
+            // Remove any leftover arrow icons except pagination arrows
+            document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
+                if (!icon.closest('.scroll-arrow') && !icon.closest('.pagination')) icon.remove();
             });
         });
     </script>
