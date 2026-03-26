@@ -83,6 +83,9 @@
             margin: -15px 0 20px;
             display: none;
         }
+        .dark-mode .transliteration {
+            color: #b0c4de;
+        }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -208,8 +211,8 @@
         .dark-mode .divine-record-section { background-color: #1a2a1a; }
         .dark-mode .quran-reminder-section { background-color: #1a2f33; }
 
-        /* navigation arrows */
-        .nav-arrow {
+        /* screen scroll arrows */
+        .scroll-arrow {
             position: fixed;
             left: 20px;
             background: var(--container-bg);
@@ -227,9 +230,9 @@
             color: var(--text-color);
             font-size: 22px;
         }
-        .nav-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
-        .nav-arrow-up { top: 90px; }
-        .nav-arrow-down { bottom: 90px; }
+        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
         
         /* bottom pagination */
         .surah-pagination {
@@ -278,7 +281,7 @@
         .dark-mode-toggle { top: 140px; background: #8e44ad; }
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
-            .nav-arrow { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
             .arabic { font-size: 30px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
@@ -407,83 +410,115 @@
 
 <footer>© 1447 AH / 2025 AD - Tafsir berbasis IslamicStudies.info | Guidance for Reflection</footer>
 
-<div id="scrollUp" class="nav-arrow nav-arrow-up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="nav-arrow nav-arrow-down"><i class="fas fa-chevron-down"></i></div>
+<!-- scroll arrows left side -->
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <script>
-    (function() {
-        const englishDiv = document.getElementById('english-content');
-        const indonesianDiv = document.getElementById('indonesian-content');
-        const langToggle = document.getElementById('languageToggle');
-        const translitToggle = document.getElementById('transliterationToggle');
-        const darkToggle = document.getElementById('darkModeToggle');
-        const translitElements = document.querySelectorAll('.transliteration');
-        if (!langToggle || !translitToggle || !darkToggle) console.warn('Missing toggles');
+document.addEventListener('DOMContentLoaded', function() {
+    // Safely get elements
+    const englishContent = document.getElementById('english-content');
+    const indonesianContent = document.getElementById('indonesian-content');
+    const languageToggle = document.getElementById('languageToggle');
+    const transliterationToggle = document.getElementById('transliterationToggle');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const transliterationElements = document.querySelectorAll('.transliteration');
 
-        // language override via URL
-        const urlParams = new URLSearchParams(window.location.search);
-        let forcedLang = null;
-        if (urlParams.has('English')) forcedLang = 'english';
-        else if (urlParams.has('Indonesian')) forcedLang = 'indonesian';
-        let currentLang = forcedLang || localStorage.getItem('language') || 'indonesian';
-        
-        function setLanguage(lang) {
-            if (lang === 'english') {
-                englishDiv?.classList.remove('hidden');
-                indonesianDiv?.classList.add('hidden');
-                langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
-            } else {
-                englishDiv?.classList.add('hidden');
-                indonesianDiv?.classList.remove('hidden');
-                langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
-            }
-            localStorage.setItem('language', lang);
+    // Create toggles if missing (they are added via JS to ensure consistency)
+    if (!languageToggle) {
+        const btn = document.createElement('div');
+        btn.id = 'languageToggle';
+        btn.className = 'language-toggle';
+        document.body.appendChild(btn);
+    }
+    if (!transliterationToggle) {
+        const btn = document.createElement('div');
+        btn.id = 'transliterationToggle';
+        btn.className = 'transliteration-toggle';
+        document.body.appendChild(btn);
+    }
+    if (!darkModeToggle) {
+        const btn = document.createElement('div');
+        btn.id = 'darkModeToggle';
+        btn.className = 'dark-mode-toggle';
+        document.body.appendChild(btn);
+    }
+    
+    const finalLangToggle = document.getElementById('languageToggle');
+    const finalTransToggle = document.getElementById('transliterationToggle');
+    const finalDarkToggle = document.getElementById('darkModeToggle');
+    
+    if (!englishContent || !indonesianContent || !finalLangToggle || !finalTransToggle || !finalDarkToggle) {
+        console.error('One or more required elements missing.');
+        return;
+    }
+
+    // --- Language handling with URL override and flags---
+    const urlParams = new URLSearchParams(window.location.search);
+    let langParam = null;
+    if (urlParams.has('English')) langParam = 'english';
+    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+
+    let currentLanguage = langParam || localStorage.getItem('language') || 'indonesian';
+    function setLanguageUI(lang) {
+        if (lang === 'english') {
+            englishContent.classList.remove('hidden');
+            indonesianContent.classList.add('hidden');
+            finalLangToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+        } else {
+            englishContent.classList.add('hidden');
+            indonesianContent.classList.remove('hidden');
+            finalLangToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
         }
-        setLanguage(currentLang);
-        langToggle?.addEventListener('click', () => {
-            const newLang = englishDiv?.classList.contains('hidden') ? 'english' : 'indonesian';
-            setLanguage(newLang);
-        });
+        localStorage.setItem('language', lang);
+    }
+    setLanguageUI(currentLanguage);
+    
+    finalLangToggle.addEventListener('click', () => {
+        const newLang = englishContent.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguageUI(newLang);
+    });
 
-        // transliteration
-        const transVisible = localStorage.getItem('transliteration') === 'true';
-        function setTransliteration(show) {
-            translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-            translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-            localStorage.setItem('transliteration', show);
+    // --- Transliteration toggle ---
+    const translitVisible = localStorage.getItem('transliteration') === 'true';
+    function setTransliteration(show) {
+        transliterationElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        finalTransToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        localStorage.setItem('transliteration', show);
+    }
+    setTransliteration(translitVisible);
+    finalTransToggle.addEventListener('click', () => {
+        const currently = transliterationElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
+
+    // --- Dark mode ---
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    if (isDark) document.body.classList.add('dark-mode');
+    function setDarkModeUI() {
+        const darkActive = document.body.classList.contains('dark-mode');
+        finalDarkToggle.innerHTML = darkActive ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
+        localStorage.setItem('darkMode', darkActive);
+    }
+    setDarkModeUI();
+    finalDarkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        setDarkModeUI();
+    });
+
+    // --- Scroll arrows (screen height) ---
+    const scrollUp = document.getElementById('scrollUp');
+    const scrollDown = document.getElementById('scrollDown');
+    if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+
+    // --- Remove any stray arrow icons except pagination and scroll arrows ---
+    document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
+        if (!icon.closest('.pagination-item') && !icon.closest('#scrollUp') && !icon.closest('#scrollDown')) {
+            icon.remove();
         }
-        setTransliteration(transVisible);
-        translitToggle?.addEventListener('click', () => {
-            const currently = translitElements[0]?.style.display === 'block';
-            setTransliteration(!currently);
-        });
-
-        // dark mode
-        const isDark = localStorage.getItem('darkMode') === 'true';
-        if (isDark) document.body.classList.add('dark-mode');
-        darkToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
-        darkToggle?.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const darkActive = document.body.classList.contains('dark-mode');
-            darkToggle.innerHTML = darkActive ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
-            localStorage.setItem('darkMode', darkActive);
-        });
-
-        // scroll arrows
-        const upArrow = document.getElementById('scrollUp');
-        const downArrow = document.getElementById('scrollDown');
-        if (upArrow) upArrow.addEventListener('click', () => window.scrollBy(0, -window.innerHeight));
-        if (downArrow) downArrow.addEventListener('click', () => window.scrollBy(0, window.innerHeight));
-        
-        // remove extra left/right arrows except pagination and necessary navigation
-        document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
-            if (!icon.closest('.pagination-item') && !icon.closest('#scrollUp') && !icon.closest('#scrollDown')) {
-                if (icon.closest('.structure-item') || icon.closest('.section-title') || icon.closest('.theme-title')) {
-                    icon.remove();
-                }
-            }
-        });
-    })();
+    });
+});
 </script>
 </body>
 </html>
