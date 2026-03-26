@@ -2,48 +2,86 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>QS-Theme-Explanation Indonesian and English</title>
-  <!-- Font Awesome for arrow icons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* === DARK MODE VARIABLES (same as surah pages) === */
+    :root {
+      --bg-color: #f5f9fc;
+      --text-color: #1e2a3e;
+      --container-bg: white;
+      --link-color: #1e5f8e;
+      --link-hover: #0d3d5a;
+      --box-bg: #fff;
+      --box-bg-alt: #f8f9fa;
+      --box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      --border-color: #e0e0e0;
+      --header-bg: white;
+      --instruction-bg: #f5f9fc;
+      --meta-color: #666;
+      --reference-bg: transparent;
+    }
+
+    .dark-mode {
+      --bg-color: #121826;
+      --text-color: #eef2ff;
+      --container-bg: #1e293b;
+      --link-color: #7bc9ff;
+      --link-hover: #c3e2ff;
+      --box-bg: #1e293b;
+      --box-bg-alt: #2d3748;
+      --box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      --border-color: #4a5568;
+      --header-bg: #1e293b;
+      --instruction-bg: #121826;
+      --meta-color: #b0c4de;
+      --reference-bg: #1e293b;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
     body {
-      background-color: #f5f9fc;
+      background-color: var(--bg-color);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #333;
+      color: var(--text-color);
       padding: 12px;
       font-size: 15px;
       line-height: 1.5;
+      transition: background-color 0.3s, color 0.3s;
     }
+
     .header {
       font-size: 16px;
       text-align: center;
       margin-bottom: 15px;
       padding: 12px;
-      background-color: white;
+      background-color: var(--header-bg);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: var(--box-shadow);
+      transition: background-color 0.3s;
     }
-    .header div {
-      margin: 4px 0;
-    }
+
     .bismillah {
       margin-bottom: 8px;
     }
+
     .search-container {
       text-align: center;
       margin-bottom: 15px;
       position: sticky;
       top: 0;
-      background-color: #f5f9fc;
+      background-color: var(--bg-color);
       padding: 12px 0 8px 0;
       z-index: 10;
+      transition: background-color 0.3s;
     }
+
     .search-box {
       display: flex;
       justify-content: center;
@@ -51,34 +89,40 @@
       gap: 10px;
       flex-wrap: wrap;
     }
+
     input[type="text"] {
       width: 90%;
       max-width: 500px;
       padding: 10px 12px;
       font-size: 15px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 6px;
-      background-color: #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      background-color: var(--box-bg);
+      color: var(--text-color);
+      transition: background-color 0.3s, border-color 0.3s;
     }
+
     .search-info {
       font-size: 13px;
-      color: #666;
+      color: var(--meta-color);
       margin-top: 5px;
     }
+
     .instruction {
       text-align: center;
       font-size: 14px;
       margin: 8px 0 0 0;
       font-style: italic;
-      color: #555;
+      color: var(--meta-color);
       padding: 8px 0;
-      background-color: #f5f9fc;
+      background-color: var(--instruction-bg);
       border-radius: 6px;
       position: sticky;
       top: 70px;
       z-index: 9;
+      transition: background-color 0.3s;
     }
+
     .names-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -86,11 +130,12 @@
       margin: 0 auto;
       max-width: 1200px;
     }
+
     .name-box {
-      background-color: #fff;
+      background-color: var(--box-bg);
       padding: 10px 6px;
       border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      box-shadow: var(--box-shadow);
       transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
       text-align: center;
       min-height: 90px;
@@ -100,15 +145,25 @@
       cursor: pointer;
       position: relative;
       overflow: hidden;
+      border: 1px solid var(--border-color);
     }
+
     .name-box.playing-audio {
       background-color: #e8f6f3;
       box-shadow: 0 4px 12px rgba(46, 204, 113, 0.2);
     }
+    .dark-mode .name-box.playing-audio {
+      background-color: #1a4a3a;
+    }
+
     .name-box.loading-audio {
       background-color: #fff9e6;
       box-shadow: 0 4px 12px rgba(241, 196, 15, 0.2);
     }
+    .dark-mode .name-box.loading-audio {
+      background-color: #4a3a1a;
+    }
+
     .name-box.recently-viewed {
       background-color: #e8f6f3 !important;
       box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4) !important;
@@ -116,6 +171,11 @@
       animation: pulse-highlight 2s ease-in-out infinite;
       position: relative;
     }
+    .dark-mode .name-box.recently-viewed {
+      background-color: #1a4a3a !important;
+      border-color: #2ecc71 !important;
+    }
+
     .name-box.recently-viewed::before {
       content: "Last Viewed";
       position: absolute;
@@ -129,26 +189,44 @@
       font-weight: bold;
       z-index: 1;
     }
-    .name-box:nth-child(even) {
-      background-color: #f8f9fa;
+    .dark-mode .name-box.recently-viewed::before {
+      background-color: #2ecc71;
+      color: #1a1a2e;
     }
+
+    .name-box:nth-child(even) {
+      background-color: var(--box-bg-alt);
+    }
+
     .name-box:nth-child(even).playing-audio {
       background-color: #d5f4f0;
     }
+    .dark-mode .name-box:nth-child(even).playing-audio {
+      background-color: #1a4a3a;
+    }
+
     .name-box:nth-child(even).loading-audio {
       background-color: #fff4cc;
     }
+    .dark-mode .name-box:nth-child(even).loading-audio {
+      background-color: #4a3a1a;
+    }
+
     .name-box:nth-child(even).recently-viewed {
       background-color: #d5f4f0 !important;
-      border: 2px solid #2ecc71 !important;
     }
+    .dark-mode .name-box:nth-child(even).recently-viewed {
+      background-color: #1a4a3a !important;
+    }
+
     .name-box:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0,0,0,0.12);
     }
+
     .name-box a {
       text-decoration: none;
-      color: #1a5276;
+      color: var(--link-color);
       display: block;
       font-size: 13px;
       line-height: 1.3;
@@ -156,8 +234,9 @@
       pointer-events: none;
     }
     .name-box a:hover {
-      color: #2980b9;
+      color: var(--link-hover);
     }
+
     .arabic {
       font-family: 'Amiri', 'Scheherazade New', serif;
       font-size: 18px;
@@ -165,25 +244,30 @@
       margin-bottom: 4px;
       display: block;
     }
+
     .transliteration {
       font-size: 13px;
-      color: #2c3e50;
+      color: var(--text-color);
       margin-bottom: 4px;
       display: block;
+      opacity: 0.9;
     }
+
     .translation {
       font-size: 12px;
-      color: #34495e;
+      color: var(--text-color);
       margin-bottom: 4px;
       display: block;
       font-weight: 500;
     }
+
     .meta-info {
       font-size: 11px;
-      color: #666;
+      color: var(--meta-color);
       display: block;
       margin-top: 3px;
     }
+
     .audio-indicator {
       position: absolute;
       top: 4px;
@@ -198,15 +282,18 @@
       align-items: center;
       justify-content: center;
     }
+
     .audio-indicator.playing {
       opacity: 1;
       animation: pulse 1.5s infinite;
     }
+
     .audio-indicator.loading {
       opacity: 1;
       background-color: #f39c12;
       animation: spin 1s infinite linear;
     }
+
     .audio-indicator.loading::after {
       content: "";
       width: 8px;
@@ -215,32 +302,29 @@
       border-top-color: white;
       border-radius: 50%;
     }
+
     @keyframes pulse {
       0% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.2); opacity: 0.7; }
       100% { transform: scale(1); opacity: 1; }
     }
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
     @keyframes pulse-highlight {
       0% { transform: scale(1); box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4); }
       50% { transform: scale(1.02); box-shadow: 0 6px 16px rgba(46, 204, 113, 0.6); }
       100% { transform: scale(1); box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4); }
     }
-    .audio-hint {
-      color: #2ecc71;
-      font-size: 11px;
-      font-weight: bold;
-      margin-top: 3px;
-      display: block;
-    }
+
     .audio-controls {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: white;
+      background: var(--box-bg);
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
       padding: 10px;
@@ -250,15 +334,19 @@
       gap: 10px;
       min-width: 200px;
       display: none;
+      border: 1px solid var(--border-color);
     }
+
     .audio-controls.show {
       display: flex;
       animation: slideUp 0.3s ease;
     }
+
     @keyframes slideUp {
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
+
     .audio-controls button {
       background: #3498db;
       border: none;
@@ -272,29 +360,38 @@
       justify-content: center;
       font-size: 14px;
     }
+
     .audio-controls button:hover {
       background: #2980b9;
     }
+
     .audio-info {
       font-size: 12px;
-      color: #2c3e50;
+      color: var(--text-color);
       flex-grow: 1;
       text-align: center;
     }
+
     .audio-info .surah-name {
       font-weight: bold;
-      color: #1a5276;
+      color: var(--link-color);
     }
+
     .audio-info .reciter {
       font-size: 11px;
-      color: #7f8c8d;
+      color: var(--meta-color);
       margin-top: 2px;
     }
+
     .reference {
       text-align: center;
       margin-top: 25px;
       font-size: 13px;
+      background-color: var(--reference-bg);
+      padding: 10px;
+      border-radius: 8px;
     }
+
     .intro-link {
       display: flex;
       justify-content: space-between;
@@ -302,20 +399,24 @@
       margin: 12px 0;
       padding: 0 10px;
     }
+
     .intro-link a {
-      color: #2980b9;
+      color: var(--link-color);
       text-decoration: none;
       font-size: 14px;
       padding: 8px 15px;
-      background-color: #e8f4fc;
+      background-color: var(--box-bg);
       border-radius: 20px;
       display: inline-block;
       transition: background-color 0.2s;
       position: relative;
+      border: 1px solid var(--border-color);
     }
+
     .intro-link a:hover {
-      background-color: #d4e9ff;
+      background-color: var(--box-bg-alt);
     }
+
     .intro-link a .new-badge {
       position: absolute;
       top: -8px;
@@ -328,22 +429,29 @@
       border-radius: 10px;
       animation: pulse 1.5s infinite;
     }
-    .language-toggle {
+
+    /* Language and dark mode toggles - fixed upper right corner */
+    .language-toggle, .dark-mode-toggle {
       position: fixed;
-      top: 12px;
-      right: 12px;
-      background: #3498db;
+      right: 20px;
+      background: #2c7da0;
       color: white;
-      padding: 8px 14px;
-      border-radius: 20px;
+      padding: 8px 16px;
+      border-radius: 40px;
       cursor: pointer;
-      z-index: 100;
+      z-index: 1001;
       font-weight: bold;
-      font-size: 13px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      backdrop-filter: blur(2px);
       border: none;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
-    /* New scroll arrows – small, left side */
+    .language-toggle { top: 20px; background: #2c7da0; }
+    .dark-mode-toggle { top: 80px; background: #8e44ad; }
+
     .scroll-arrow {
       position: fixed;
       left: 15px;
@@ -375,164 +483,56 @@
     .scroll-arrow.down {
       bottom: 15px;
     }
+
     .hidden {
       display: none;
     }
+
     .no-results {
       grid-column: 1 / -1;
       text-align: center;
       padding: 20px;
       font-style: italic;
-      color: #666;
+      color: var(--meta-color);
     }
+
     footer {
       text-align: center;
       margin-top: 20px;
+      color: var(--meta-color);
     }
+
     @media screen and (max-width: 768px) {
-      body {
-        padding: 10px;
-        font-size: 14px;
-      }
-      .name-box {
-        padding: 8px 4px;
-        min-height: 90px;
-      }
-      .name-box a {
-        font-size: 12px;
-      }
-      .arabic {
-        font-size: 16px;
-      }
-      .transliteration {
-        font-size: 12px;
-      }
-      .translation {
-        font-size: 11px;
-      }
-      .meta-info {
-        font-size: 10px;
-      }
-      .language-toggle {
-        padding: 6px 12px;
-        font-size: 12px;
-      }
-      .header {
-        font-size: 15px;
-        padding: 10px;
-      }
-      .instruction {
-        font-size: 13px;
-        top: 65px;
-      }
-      .audio-controls {
-        bottom: 10px;
-        right: 10px;
-        left: 10px;
-        min-width: auto;
-      }
-      .audio-hint {
-        font-size: 10px;
-      }
-      .name-box.recently-viewed::before {
-        font-size: 8px;
-        padding: 1px 4px;
-      }
-      .intro-link a .new-badge {
-        font-size: 8px;
-        padding: 1px 4px;
-        top: -6px;
-        right: -6px;
-      }
-      /* smaller arrows on mobile */
-      .scroll-arrow {
-        width: 38px;
-        height: 38px;
-        font-size: 18px;
-        left: 8px;
-      }
+      body { padding: 10px; font-size: 14px; }
+      .name-box { padding: 8px 4px; min-height: 90px; }
+      .name-box a { font-size: 12px; }
+      .arabic { font-size: 16px; }
+      .transliteration { font-size: 12px; }
+      .translation { font-size: 11px; }
+      .meta-info { font-size: 10px; }
+      .language-toggle, .dark-mode-toggle { padding: 6px 12px; font-size: 12px; }
+      .language-toggle { top: 12px; right: 12px; }
+      .dark-mode-toggle { top: 60px; right: 12px; }
+      .instruction { top: 65px; }
+      .scroll-arrow { width: 38px; height: 38px; font-size: 18px; left: 8px; }
     }
     @media screen and (max-width: 480px) {
-      .name-box a {
-        font-size: 11px;
-        line-height: 1.2;
-      }
-      .arabic {
-        font-size: 14px;
-      }
-      .transliteration {
-        font-size: 11px;
-      }
-      .translation {
-        font-size: 10px;
-      }
-      .meta-info {
-        font-size: 9px;
-      }
-      .names-container {
-        gap: 8px;
-      }
-      .name-box {
-        min-height: 85px;
-        padding: 6px 3px;
-      }
-      .instruction {
-        font-size: 12px;
-        top: 60px;
-      }
-      .audio-hint {
-        font-size: 9px;
-      }
-      .name-box.recently-viewed::before {
-        font-size: 7px;
-        top: 2px;
-        left: 2px;
-      }
-      .intro-link a .new-badge {
-        font-size: 7px;
-        padding: 1px 3px;
-        top: -5px;
-        right: -5px;
-      }
-    }
-    @media screen and (max-width: 360px) {
-      .name-box a {
-        font-size: 10px;
-      }
-      .arabic {
-        font-size: 13px;
-      }
-      .transliteration {
-        font-size: 10px;
-      }
-      .translation {
-        font-size: 9px;
-      }
-      .meta-info {
-        font-size: 8px;
-      }
-      .name-box {
-        min-height: 80px;
-      }
-      .instruction {
-        font-size: 11px;
-        top: 55px;
-      }
-      .audio-hint {
-        font-size: 8px;
-      }
-      .intro-link a .new-badge {
-        font-size: 6px;
-        padding: 1px 2px;
-        top: -4px;
-        right: -4px;
-      }
+      .name-box a { font-size: 11px; }
+      .arabic { font-size: 14px; }
+      .transliteration { font-size: 11px; }
+      .translation { font-size: 10px; }
+      .meta-info { font-size: 9px; }
+      .name-box { min-height: 85px; padding: 6px 3px; }
+      .instruction { top: 60px; font-size: 12px; }
+      .name-box.recently-viewed::before { font-size: 7px; top: 2px; left: 2px; }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Scheherazade+New&display=swap" rel="stylesheet">
 </head>
 <body>
-  <button class="language-toggle" id="languageToggle">Switch to Indonesian</button>
+  <button class="language-toggle" id="languageToggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</button>
+  <button class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</button>
+
   <div class="audio-controls" id="audioControls">
     <button id="playPauseBtn">▶</button>
     <div class="audio-info">
@@ -542,9 +542,8 @@
     <button id="stopBtn">⏹</button>
   </div>
 
-  <!-- New scroll arrows (left side) -->
-  <div class="scroll-arrow up" id="scrollUp" onclick="scrollUpScreen()"><i class="fas fa-arrow-up"></i></div>
-  <div class="scroll-arrow down" id="scrollDown" onclick="scrollDownScreen()"><i class="fas fa-arrow-down"></i></div>
+  <div class="scroll-arrow up" id="scrollUp"><i class="fas fa-arrow-up"></i></div>
+  <div class="scroll-arrow down" id="scrollDown"><i class="fas fa-arrow-down"></i></div>
 
   <!-- ENGLISH CONTENT -->
   <div id="english-content" class="hidden">
@@ -561,13 +560,10 @@
     </div>
     <div class="intro-link">
       <a href="juz_summary.html">Juz Summary<span class="new-badge">NEW</span></a>
-      <!-- === NEW RAMADHAN ASHRAS LINK (ENGLISH) === -->
       <a href="Ramadan_Ashras_and_Laylat_al_Qadr_Dua.html">Ramadan Ashras, Laylat al Qadr & Ied Fitr <span class="new-badge">NEW</span></a>
       <a href="introduction.html">Introduction</a>
     </div>
-    <div class="names-container" id="englishNamesContainer">
-      <!-- Names will be populated by JavaScript -->
-    </div>
+    <div class="names-container" id="englishNamesContainer"></div>
     <div class="reference">
       <a href="ref.html">Reference</a>
     </div>
@@ -588,28 +584,22 @@
     </div>
     <div class="intro-link">
       <a href="juz_summary.html">Ringkasan Juz<span class="new-badge">BARU</span></a>
-      <!-- === NEW RAMADHAN ASHRAS LINK (INDONESIAN) === -->
       <a href="Ramadan_Ashras_and_Laylat_al_Qadr_Dua.html">Ramadan Ashras, Laylat al Qadr & Idul Fitri<span class="new-badge">BARU</span></a>
       <a href="introduction.html">Intro</a>
     </div>
-    <div class="names-container" id="indonesianNamesContainer">
-      <!-- Names will be populated by JavaScript -->
-    </div>
+    <div class="names-container" id="indonesianNamesContainer"></div>
     <div class="reference">
       <a href="ref.html">Referensi</a>
     </div>
   </div>
 
-    <footer>
-        <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info | Curated by Hermansjah</p>
-        <p style="font-size: 11px; color: #95a5a6; margin-top: 5px;">Audio by Mishaari Raashid Al-3afaasee from quranicaudio.com</p>
-    </footer>
+  <footer>
+    <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Based on IslamicStudies.info | Curated by Hermansjah</p>
+    <p style="font-size: 11px; color: var(--meta-color); margin-top: 5px;">Audio by Mishaari Raashid Al-3afaasee from quranicaudio.com</p>
+  </footer>
 
   <script>
-    let audioPlayer = new Audio();
-    let currentPlayingBox = null;
-    let currentSurahNumber = null;
-
+    // ==================== COMPLETE SURAH DATA (1–114) ====================
     const namesData = [
       { number: 1, arabic: "ٱلْفَاتِحَة", transliteration: "Al-Fātiḥah", english: "The Opening", indonesian: "Pembukaan", juz: 1, page: 1 },
       { number: 2, arabic: "ٱلْبَقَرَة", transliteration: "Al-Baqarah", english: "The Cow", indonesian: "Sapi Betina", juz: [1,2,3], page: 2 },
@@ -727,418 +717,158 @@
       { number: 114, arabic: "ٱلنَّاس", transliteration: "An-Nās", english: "Mankind", indonesian: "Manusia", juz: 30, page: 604 }
     ];
 
-    function getAudioUrl(surahNumber) {
-      const paddedNumber = surahNumber.toString().padStart(3, '0');
-      return `https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${paddedNumber}.mp3`;
+    // Helper functions (audio, navigation, search, etc.) – same as before
+    function formatJuz(juz) { return Array.isArray(juz) ? (juz.length === 2 ? `${juz[0]}-${juz[1]}` : juz.join(', ')) : `${juz}`; }
+    let audioPlayer = new Audio(); let currentPlayingBox = null; let currentSurahNumber = null;
+    function getAudioUrl(n) { return `https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${n.toString().padStart(3,'0')}.mp3`; }
+    function stopAudio() {
+      audioPlayer.pause(); audioPlayer.currentTime = 0;
+      document.querySelectorAll('.name-box.playing-audio, .name-box.loading-audio').forEach(b => {
+        b.classList.remove('playing-audio','loading-audio');
+        const ind = b.querySelector('.audio-indicator'); if(ind) ind.classList.remove('playing','loading');
+      });
+      currentPlayingBox = null; currentSurahNumber = null;
+      document.getElementById('audioControls').classList.remove('show');
     }
-
-    function playSurahAudio(surahNumber, surahName, boxElement) {
-      stopAudio();
-      currentPlayingBox = boxElement;
-      currentSurahNumber = surahNumber;
-      boxElement.classList.add('loading-audio');
-      const indicator = boxElement.querySelector('.audio-indicator');
-      if (indicator) indicator.classList.add('loading');
+    function playSurahAudio(surahNumber, surahName, box) {
+      stopAudio(); currentPlayingBox = box; currentSurahNumber = surahNumber;
+      box.classList.add('loading-audio'); const ind = box.querySelector('.audio-indicator'); if(ind) ind.classList.add('loading');
       document.getElementById('currentSurahName').textContent = `${surahNumber}. ${surahName}`;
       document.getElementById('audioControls').classList.add('show');
       document.getElementById('playPauseBtn').textContent = '⏸';
-      const audioUrl = getAudioUrl(surahNumber);
-      audioPlayer.src = audioUrl;
-      audioPlayer.play().catch(error => {
-        console.error('Error playing audio:', error);
-        boxElement.classList.remove('loading-audio');
-        if (indicator) indicator.classList.remove('loading');
-        alert('Unable to play audio. Please check your internet connection or try another surah.');
-      });
+      audioPlayer.src = getAudioUrl(surahNumber);
+      audioPlayer.play().catch(e => { console.error(e); box.classList.remove('loading-audio'); if(ind) ind.classList.remove('loading'); alert('Audio error'); });
     }
-
-    function stopAudio() {
-      audioPlayer.pause();
-      audioPlayer.currentTime = 0;
-      document.querySelectorAll('.name-box.playing-audio, .name-box.loading-audio').forEach(box => {
-        box.classList.remove('playing-audio', 'loading-audio');
-        const indicator = box.querySelector('.audio-indicator');
-        if (indicator) indicator.classList.remove('playing', 'loading');
-      });
-      currentPlayingBox = null;
-      currentSurahNumber = null;
-    }
-
-    function togglePlayPause() {
-      if (audioPlayer.paused) {
-        audioPlayer.play();
-        document.getElementById('playPauseBtn').textContent = '⏸';
-      } else {
-        audioPlayer.pause();
-        document.getElementById('playPauseBtn').textContent = '▶';
-      }
-    }
-
-    function navigateToTafsir(surahNumber) {
-      // Store the last viewed surah before navigating
-      localStorage.setItem('lastViewedSurah', surahNumber.toString());
-      localStorage.setItem('lastViewedSurahTime', Date.now().toString());
-      stopAudio();
-      const paddedNumber = surahNumber.toString().padStart(3, '0');
-      window.location.href = `${paddedNumber}.html`;
-    }
-
-    function handleBoxClick(boxElement, surahNumber, surahName, isDoubleClick = false) {
-      if (isDoubleClick) {
-        playSurahAudio(surahNumber, surahName, boxElement);
-      } else {
-        navigateToTafsir(surahNumber);
-      }
-    }
-
-    function highlightAndScrollToLastSurah() {
-      const lastSurahNumber = localStorage.getItem('lastViewedSurah');
-      const lastSurahTime = localStorage.getItem('lastViewedSurahTime');
-      
-      if (!lastSurahNumber) return;
-      
-      // Clear the last viewed surah after 30 minutes (1800000 ms) instead of 5 minutes
-      if (lastSurahTime && (Date.now() - parseInt(lastSurahTime) > 1800000)) {
-        localStorage.removeItem('lastViewedSurah');
-        localStorage.removeItem('lastViewedSurahTime');
-        return;
-      }
-      
-      const surahNumber = parseInt(lastSurahNumber);
-      
-      // Find the active content (English or Indonesian)
-      const englishContent = document.getElementById('english-content');
-      const indonesianContent = document.getElementById('indonesian-content');
-      let activeContainer = null;
-      
-      if (!englishContent.classList.contains('hidden')) {
-        activeContainer = document.getElementById('englishNamesContainer');
-      } else if (!indonesianContent.classList.contains('hidden')) {
-        activeContainer = document.getElementById('indonesianNamesContainer');
-      }
-      
-      if (!activeContainer) return;
-      
-      const targetBox = activeContainer.querySelector(`.name-box[data-number="${surahNumber}"]`);
-      
-      if (targetBox) {
-        // Remove any existing highlights first
-        document.querySelectorAll('.name-box.recently-viewed').forEach(box => {
-          box.classList.remove('recently-viewed');
-        });
-        
-        // Highlight the box
-        targetBox.classList.add('recently-viewed');
-        
-        // Remove highlight after 10 seconds
-        setTimeout(() => {
-          targetBox.classList.remove('recently-viewed');
-        }, 10000);
-        
-        // Scroll to the box with proper offset calculation
-        setTimeout(() => {
-          const headerHeight = document.querySelector('.search-container').offsetHeight + 
-                              document.querySelector('.instruction').offsetHeight + 20;
-          const boxRect = targetBox.getBoundingClientRect();
-          const absoluteTop = window.pageYOffset + boxRect.top;
-          const scrollPosition = absoluteTop - headerHeight;
-          
-          window.scrollTo({
-            top: scrollPosition,
-            behavior: 'smooth'
-          });
-          
-          // Add a subtle focus effect
-          targetBox.style.transform = 'scale(1.03)';
-          setTimeout(() => {
-            targetBox.style.transform = '';
-          }, 500);
-        }, 300); // Small delay to ensure DOM is ready
-      }
-    }
-
-    audioPlayer.addEventListener('play', function() {
-      if (currentPlayingBox) {
-        currentPlayingBox.classList.remove('loading-audio');
-        currentPlayingBox.classList.add('playing-audio');
-        const indicator = currentPlayingBox.querySelector('.audio-indicator');
-        if (indicator) {
-          indicator.classList.remove('loading');
-          indicator.classList.add('playing');
-        }
-      }
-    });
-
-    audioPlayer.addEventListener('pause', function() {
-      if (currentPlayingBox) {
-        const indicator = currentPlayingBox.querySelector('.audio-indicator');
-        if (indicator) indicator.classList.remove('playing');
-      }
-    });
-
-    audioPlayer.addEventListener('ended', function() {
-      stopAudio();
-      document.getElementById('audioControls').classList.remove('show');
-    });
-
-    function getPreferredLanguage() {
-      return localStorage.getItem('language') || 'indonesian';
-    }
-
-    function setInitialLanguage() {
-      const language = getPreferredLanguage();
-      const englishContent = document.getElementById('english-content');
-      const indonesianContent = document.getElementById('indonesian-content');
-      const toggleButton = document.getElementById('languageToggle');
-      if (language === 'english') {
-        englishContent.classList.remove('hidden');
-        indonesianContent.classList.add('hidden');
-        toggleButton.textContent = 'Switch to Indonesian';
-      } else {
-        englishContent.classList.add('hidden');
-        indonesianContent.classList.remove('hidden');
-        toggleButton.textContent = 'Switch to English';
-      }
-    }
-
-    function formatJuz(juzData) {
-      if (Array.isArray(juzData)) {
-        return juzData.length === 2 ? `${juzData[0]}-${juzData[1]}` : juzData.join(', ');
-      }
-      return `${juzData}`;
-    }
+    function togglePlayPause() { if(audioPlayer.paused){ audioPlayer.play(); document.getElementById('playPauseBtn').textContent='⏸'; } else { audioPlayer.pause(); document.getElementById('playPauseBtn').textContent='▶'; } }
+    function navigateToTafsir(num) { localStorage.setItem('lastViewedSurah',num); localStorage.setItem('lastViewedSurahTime',Date.now()); stopAudio(); window.location.href = `${num.toString().padStart(3,'0')}.html`; }
+    function handleBoxClick(box,num,name,isDouble){ if(isDouble) playSurahAudio(num,name,box); else navigateToTafsir(num); }
 
     function populateNames() {
-      const englishContainer = document.getElementById('englishNamesContainer');
-      const indonesianContainer = document.getElementById('indonesianNamesContainer');
-      englishContainer.innerHTML = '';
-      indonesianContainer.innerHTML = '';
-      namesData.forEach(name => {
-        const juzText = formatJuz(name.juz);
+      const engContainer = document.getElementById('englishNamesContainer');
+      const indoContainer = document.getElementById('indonesianNamesContainer');
+      engContainer.innerHTML = ''; indoContainer.innerHTML = '';
+      namesData.forEach(s => {
+        const juzText = formatJuz(s.juz);
         // English box
-        const englishBox = document.createElement('div');
-        englishBox.className = 'name-box';
-        englishBox.setAttribute('data-number', name.number);
-        englishBox.setAttribute('data-arabic', name.arabic);
-        englishBox.setAttribute('data-transliteration', name.transliteration.toLowerCase());
-        englishBox.setAttribute('data-english', name.english.toLowerCase());
-        englishBox.setAttribute('data-juz', Array.isArray(name.juz) ? name.juz.join(',') : name.juz.toString());
-        englishBox.setAttribute('data-page', name.page.toString());
-        englishBox.innerHTML = `
-          <div style="width: 100%;">
-            <span class="arabic">${name.arabic}</span>
-            <span class="transliteration">${name.number}. ${name.transliteration}</span>
-            <span class="translation">${name.english}</span>
-            <span class="meta-info">Juz ${juzText} • Page ${name.page}</span>
-            <div class="audio-indicator"></div>
-          </div>`;
-        let clickCount = 0;
-        let clickTimer;
-        englishBox.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          clickCount++;
-          if (clickCount === 1) {
-            clickTimer = setTimeout(() => {
-              handleBoxClick(this, name.number, name.transliteration, false);
-              clickCount = 0;
-            }, 250);
-          } else {
-            clearTimeout(clickTimer);
-            handleBoxClick(this, name.number, name.transliteration, true);
-            clickCount = 0;
-          }
-        });
-        englishContainer.appendChild(englishBox);
+        const engBox = document.createElement('div'); engBox.className = 'name-box';
+        engBox.setAttribute('data-number',s.number); engBox.setAttribute('data-arabic',s.arabic);
+        engBox.setAttribute('data-transliteration',s.transliteration.toLowerCase());
+        engBox.setAttribute('data-english',s.english.toLowerCase());
+        engBox.setAttribute('data-juz', Array.isArray(s.juz)?s.juz.join(','):s.juz.toString());
+        engBox.setAttribute('data-page',s.page);
+        engBox.innerHTML = `<div><span class="arabic">${s.arabic}</span><span class="transliteration">${s.number}. ${s.transliteration}</span><span class="translation">${s.english}</span><span class="meta-info">Juz ${juzText} • Page ${s.page}</span><div class="audio-indicator"></div></div>`;
+        let clickTimer, clickCount=0;
+        engBox.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); clickCount++; if(clickCount===1) clickTimer=setTimeout(()=>{ handleBoxClick(engBox,s.number,s.transliteration,false); clickCount=0; },250); else { clearTimeout(clickTimer); handleBoxClick(engBox,s.number,s.transliteration,true); clickCount=0; } });
+        engContainer.appendChild(engBox);
         // Indonesian box
-        const indonesianBox = document.createElement('div');
-        indonesianBox.className = 'name-box';
-        indonesianBox.setAttribute('data-number', name.number);
-        indonesianBox.setAttribute('data-arabic', name.arabic);
-        indonesianBox.setAttribute('data-transliteration', name.transliteration.toLowerCase());
-        indonesianBox.setAttribute('data-indonesian', name.indonesian.toLowerCase());
-        indonesianBox.setAttribute('data-juz', Array.isArray(name.juz) ? name.juz.join(',') : name.juz.toString());
-        indonesianBox.setAttribute('data-page', name.page.toString());
-        indonesianBox.innerHTML = `
-          <div style="width: 100%;">
-            <span class="arabic">${name.arabic}</span>
-            <span class="transliteration">${name.number}. ${name.transliteration}</span>
-            <span class="translation">${name.indonesian}</span>
-            <span class="meta-info">Juz ${juzText} • Halaman ${name.page}</span>
-            <div class="audio-indicator"></div>
-          </div>`;
-        let clickCountIndo = 0;
-        let clickTimerIndo;
-        indonesianBox.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          clickCountIndo++;
-          if (clickCountIndo === 1) {
-            clickTimerIndo = setTimeout(() => {
-              handleBoxClick(this, name.number, name.transliteration, false);
-              clickCountIndo = 0;
-            }, 250);
-          } else {
-            clearTimeout(clickTimerIndo);
-            handleBoxClick(this, name.number, name.transliteration, true);
-            clickCountIndo = 0;
-          }
-        });
-        indonesianContainer.appendChild(indonesianBox);
+        const indoBox = document.createElement('div'); indoBox.className = 'name-box';
+        indoBox.setAttribute('data-number',s.number); indoBox.setAttribute('data-arabic',s.arabic);
+        indoBox.setAttribute('data-transliteration',s.transliteration.toLowerCase());
+        indoBox.setAttribute('data-indonesian',s.indonesian.toLowerCase());
+        indoBox.setAttribute('data-juz', Array.isArray(s.juz)?s.juz.join(','):s.juz.toString());
+        indoBox.setAttribute('data-page',s.page);
+        indoBox.innerHTML = `<div><span class="arabic">${s.arabic}</span><span class="transliteration">${s.number}. ${s.transliteration}</span><span class="translation">${s.indonesian}</span><span class="meta-info">Juz ${juzText} • Halaman ${s.page}</span><div class="audio-indicator"></div></div>`;
+        let clickTimerIndo, clickCountIndo=0;
+        indoBox.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); clickCountIndo++; if(clickCountIndo===1) clickTimerIndo=setTimeout(()=>{ handleBoxClick(indoBox,s.number,s.transliteration,false); clickCountIndo=0; },250); else { clearTimeout(clickTimerIndo); handleBoxClick(indoBox,s.number,s.transliteration,true); clickCountIndo=0; } });
+        indoContainer.appendChild(indoBox);
       });
     }
-
     function searchNames() {
       const input = document.getElementById("searchInput").value.trim().toLowerCase();
       const boxes = document.querySelectorAll("#english-content .name-box");
-      let hasResults = false;
-      if (input === '') {
-        boxes.forEach(box => {
-          box.style.display = "flex";
-        });
-        document.getElementById('englishNamesContainer').querySelector('.no-results')?.remove();
-        return;
-      }
-      for (let box of boxes) {
-        const number = box.getAttribute('data-number');
-        const arabic = box.getAttribute('data-arabic');
-        const transliteration = box.getAttribute('data-transliteration');
-        const english = box.getAttribute('data-english');
-        const juz = box.getAttribute('data-juz');
-        const page = box.getAttribute('data-page');
-        const isMatch = 
-          number === input || 
-          number.padStart(3, '0') === input.padStart(3, '0') ||
-          arabic.includes(input) ||
-          transliteration.includes(input) ||
-          english.includes(input) ||
-          juz.includes(input) ||
-          page === input;
-        if (isMatch) {
-          box.style.display = "flex";
-          hasResults = true;
-        } else {
-          box.style.display = "none";
-        }
-      }
-      const container = document.getElementById('englishNamesContainer');
-      const existingMessage = container.querySelector('.no-results');
-      if (!hasResults) {
-        if (!existingMessage) {
-          const noResults = document.createElement('div');
-          noResults.className = 'no-results';
-          noResults.textContent = 'No matching names found. Try searching by number (1-114), Arabic, transliteration, English meaning, juz, or page.';
-          container.appendChild(noResults);
-        }
-      } else if (existingMessage) {
-        existingMessage.remove();
-      }
+      let has = false;
+      boxes.forEach(b => {
+        const n=b.getAttribute('data-number'), a=b.getAttribute('data-arabic'), t=b.getAttribute('data-transliteration'), e=b.getAttribute('data-english'), j=b.getAttribute('data-juz'), p=b.getAttribute('data-page');
+        const match = n===input || n.padStart(3,'0')===input.padStart(3,'0') || a.includes(input) || t.includes(input) || e.includes(input) || j.includes(input) || p===input;
+        if(match){ b.style.display="flex"; has=true; } else b.style.display="none";
+      });
+      const c=document.getElementById('englishNamesContainer'); const ex=c.querySelector('.no-results');
+      if(!has && input!==''){ if(!ex) c.appendChild(Object.assign(document.createElement('div'),{className:'no-results',textContent:'No matching names found.'})); }
+      else if(ex) ex.remove();
     }
-
     function searchNamesIndo() {
       const input = document.getElementById("searchInputIndo").value.trim().toLowerCase();
       const boxes = document.querySelectorAll("#indonesian-content .name-box");
-      let hasResults = false;
-      if (input === '') {
-        boxes.forEach(box => {
-          box.style.display = "flex";
-        });
-        document.getElementById('indonesianNamesContainer').querySelector('.no-results')?.remove();
-        return;
-      }
-      for (let box of boxes) {
-        const number = box.getAttribute('data-number');
-        const arabic = box.getAttribute('data-arabic');
-        const transliteration = box.getAttribute('data-transliteration');
-        const indonesian = box.getAttribute('data-indonesian');
-        const juz = box.getAttribute('data-juz');
-        const page = box.getAttribute('data-page');
-        const isMatch = 
-          number === input || 
-          number.padStart(3, '0') === input.padStart(3, '0') ||
-          arabic.includes(input) ||
-          transliteration.includes(input) ||
-          indonesian.includes(input) ||
-          juz.includes(input) ||
-          page === input;
-        if (isMatch) {
-          box.style.display = "flex";
-          hasResults = true;
-        } else {
-          box.style.display = "none";
-        }
-      }
-      const container = document.getElementById('indonesianNamesContainer');
-      const existingMessage = container.querySelector('.no-results');
-      if (!hasResults) {
-        if (!existingMessage) {
-          const noResults = document.createElement('div');
-          noResults.className = 'no-results';
-          noResults.textContent = 'Tidak ada nama yang cocok. Coba cari berdasarkan nomor (1-114), Arab, transliterasi, arti Indonesia, juz, atau halaman.';
-          container.appendChild(noResults);
-        }
-      } else if (existingMessage) {
-        existingMessage.remove();
-      }
+      let has = false;
+      boxes.forEach(b => {
+        const n=b.getAttribute('data-number'), a=b.getAttribute('data-arabic'), t=b.getAttribute('data-transliteration'), i=b.getAttribute('data-indonesian'), j=b.getAttribute('data-juz'), p=b.getAttribute('data-page');
+        const match = n===input || n.padStart(3,'0')===input.padStart(3,'0') || a.includes(input) || t.includes(input) || i.includes(input) || j.includes(input) || p===input;
+        if(match){ b.style.display="flex"; has=true; } else b.style.display="none";
+      });
+      const c=document.getElementById('indonesianNamesContainer'); const ex=c.querySelector('.no-results');
+      if(!has && input!==''){ if(!ex) c.appendChild(Object.assign(document.createElement('div'),{className:'no-results',textContent:'Tidak ada nama yang cocok.'})); }
+      else if(ex) ex.remove();
     }
-
-    function toggleLanguage() {
-      const englishContent = document.getElementById('english-content');
-      const indonesianContent = document.getElementById('indonesian-content');
-      const toggleButton = document.getElementById('languageToggle');
-      stopAudio();
-      document.getElementById('audioControls').classList.remove('show');
-      if (englishContent.classList.contains('hidden')) {
-        englishContent.classList.remove('hidden');
-        indonesianContent.classList.add('hidden');
-        toggleButton.textContent = 'Switch to Indonesian';
-        localStorage.setItem('language', 'english');
-        // Highlight and scroll to last surah in the new language
-        setTimeout(highlightAndScrollToLastSurah, 100);
+    function setInitialLanguage() {
+      const lang = localStorage.getItem('language') || 'indonesian';
+      const engDiv = document.getElementById('english-content'), indoDiv = document.getElementById('indonesian-content');
+      const toggle = document.getElementById('languageToggle');
+      if(lang === 'english') {
+        engDiv.classList.remove('hidden'); indoDiv.classList.add('hidden');
+        toggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
       } else {
-        englishContent.classList.add('hidden');
-        indonesianContent.classList.remove('hidden');
-        toggleButton.textContent = 'Switch to English';
-        localStorage.setItem('language', 'indonesian');
-        // Highlight and scroll to last surah in the new language
-        setTimeout(highlightAndScrollToLastSurah, 100);
+        engDiv.classList.add('hidden'); indoDiv.classList.remove('hidden');
+        toggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
       }
     }
-
-    // New scroll functions for screen‑height scrolling
-    function scrollUpScreen() {
-      window.scrollBy({
-        top: -window.innerHeight,
-        behavior: 'smooth'
-      });
-    }
-
-    function scrollDownScreen() {
-      window.scrollBy({
-        top: window.innerHeight,
-        behavior: 'smooth'
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      // ---- Check for ?English query parameter to force English ----
-      const urlParams = new URLSearchParams(window.location.search);
-      const keys = [...urlParams.keys()].map(k => k.toLowerCase());
-      if (keys.includes('english')) {
-        // Override stored preference and save English to localStorage
-        localStorage.setItem('language', 'english');
+    function toggleLanguage() {
+      const engDiv = document.getElementById('english-content'), indoDiv = document.getElementById('indonesian-content');
+      const toggle = document.getElementById('languageToggle');
+      stopAudio(); document.getElementById('audioControls').classList.remove('show');
+      if(engDiv.classList.contains('hidden')) {
+        engDiv.classList.remove('hidden'); indoDiv.classList.add('hidden');
+        toggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+        localStorage.setItem('language','english');
+      } else {
+        engDiv.classList.add('hidden'); indoDiv.classList.remove('hidden');
+        toggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+        localStorage.setItem('language','indonesian');
       }
-
-      setInitialLanguage();
-      populateNames();
-      document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
-      document.getElementById('playPauseBtn').addEventListener('click', togglePlayPause);
-      document.getElementById('stopBtn').addEventListener('click', stopAudio);
-      
-      // Highlight and scroll to last viewed surah after page loads
-      setTimeout(highlightAndScrollToLastSurah, 300);
+      setTimeout(highlightLastSurah,100);
+    }
+    function setDarkModeUI() {
+      const darkActive = document.body.classList.contains('dark-mode');
+      const darkToggle = document.getElementById('darkModeToggle');
+      darkToggle.innerHTML = darkActive ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
+      localStorage.setItem('darkMode', darkActive);
+    }
+    function highlightLastSurah() {
+      const last = localStorage.getItem('lastViewedSurah'); const lastTime = localStorage.getItem('lastViewedSurahTime');
+      if(!last) return; if(lastTime && (Date.now()-parseInt(lastTime)>1800000)){ localStorage.removeItem('lastViewedSurah'); localStorage.removeItem('lastViewedSurahTime'); return; }
+      const container = document.getElementById('english-content').classList.contains('hidden') ? document.getElementById('indonesianNamesContainer') : document.getElementById('englishNamesContainer');
+      const target = container.querySelector(`.name-box[data-number="${last}"]`);
+      if(target){
+        document.querySelectorAll('.name-box.recently-viewed').forEach(b=>b.classList.remove('recently-viewed'));
+        target.classList.add('recently-viewed');
+        setTimeout(()=>target.classList.remove('recently-viewed'),10000);
+        setTimeout(()=>{
+          const headerOffset = document.querySelector('.search-container').offsetHeight + document.querySelector('.instruction').offsetHeight + 20;
+          const top = window.pageYOffset + target.getBoundingClientRect().top - headerOffset;
+          window.scrollTo({top, behavior:'smooth'});
+          target.style.transform='scale(1.03)';
+          setTimeout(()=>target.style.transform='',500);
+        },300);
+      }
+    }
+    audioPlayer.addEventListener('play',()=>{ if(currentPlayingBox){ currentPlayingBox.classList.remove('loading-audio'); currentPlayingBox.classList.add('playing-audio'); const i=currentPlayingBox.querySelector('.audio-indicator'); if(i){ i.classList.remove('loading'); i.classList.add('playing'); } } });
+    audioPlayer.addEventListener('pause',()=>{ if(currentPlayingBox){ const i=currentPlayingBox.querySelector('.audio-indicator'); if(i) i.classList.remove('playing'); } });
+    audioPlayer.addEventListener('ended',stopAudio);
+    function scrollUpScreen(){ window.scrollBy({top:-window.innerHeight, behavior:'smooth'}); }
+    function scrollDownScreen(){ window.scrollBy({top:window.innerHeight, behavior:'smooth'}); }
+    document.addEventListener('DOMContentLoaded',()=>{
+      if(new URLSearchParams(window.location.search).has('English')) localStorage.setItem('language','english');
+      else if(new URLSearchParams(window.location.search).has('Indonesian')) localStorage.setItem('language','indonesian');
+      setInitialLanguage(); populateNames();
+      document.getElementById('languageToggle').addEventListener('click',toggleLanguage);
+      document.getElementById('playPauseBtn').addEventListener('click',togglePlayPause);
+      document.getElementById('stopBtn').addEventListener('click',stopAudio);
+      document.getElementById('scrollUp').addEventListener('click',scrollUpScreen);
+      document.getElementById('scrollDown').addEventListener('click',scrollDownScreen);
+      if(localStorage.getItem('darkMode')==='true') document.body.classList.add('dark-mode');
+      setDarkModeUI();
+      document.getElementById('darkModeToggle').addEventListener('click',()=>{ document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
+      setTimeout(highlightLastSurah,500);
     });
   </script>
 </body>
 </html>
-
