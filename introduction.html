@@ -1128,9 +1128,14 @@
                 setTransliteration(!currently);
             });
 
-            // Dark mode
-            const isDark = localStorage.getItem('darkMode') === 'true';
-            if (isDark) document.body.classList.add('dark-mode');
+            // Dark mode – default to dark
+            let darkModePref = localStorage.getItem('darkMode');
+            if (darkModePref === null) {
+                localStorage.setItem('darkMode', 'true');
+                document.body.classList.add('dark-mode');
+            } else if (darkModePref === 'true') {
+                document.body.classList.add('dark-mode');
+            }
             function setDarkModeUI() {
                 const darkActive = document.body.classList.contains('dark-mode');
                 darkModeToggle.innerHTML = darkActive ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
