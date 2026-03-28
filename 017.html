@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surah Al-Isra - Tafsir Tematik</title>
+    <title>Surah Al-Isra - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
-            --text-color: #333;
+            --text-color: #1e2a3e;
             --container-bg: white;
             --arabic-color: #1a5276;
-            --section-title-color: #2980b9;
+            --section-title-color: #1e5f8e;
             --verse-bg: #f8f9fa;
             --verse-border: #e0e0e0;
             --bonus-bg: #e8f4fc;
@@ -18,27 +18,25 @@
             --tafsir-border: #ffe082;
             --structure-bg: #f0f7ff;
             --benefits-bg: #f1f8e9;
-            --praise-bg: #fff0f0;
-            --guidance-bg: #f0fff0;
+            --link-color: #1e5f8e;
+            --link-hover: #0d3d5a;
         }
-
         .dark-mode {
-            --bg-color: #1a1a2e;
-            --text-color: #e6e6e6;
-            --container-bg: #16213e;
-            --arabic-color: #4cc9f0;
-            --section-title-color: #3498db;
+            --bg-color: #121826;
+            --text-color: #eef2ff;
+            --container-bg: #1e293b;
+            --arabic-color: #7bc9ff;
+            --section-title-color: #5dade2;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
             --tafsir-bg: #2d3748;
-            --tafsir-border: #4a5568;
+            --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
-            --benefits-bg: #1b3c1b;
-            --praise-bg: #3a1f1f;
-            --guidance-bg: #1f3a1f;
+            --benefits-bg: #1f3a2f;
+            --link-color: #7bc9ff;
+            --link-hover: #c3e2ff;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.8;
@@ -53,17 +51,19 @@
             margin: 0 auto;
             background: var(--container-bg);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
         }
+        a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
         .arabic {
             font-size: 42px;
-            text-align: center;
+            text-align: right;
             direction: rtl;
             margin: 20px 0;
             color: var(--arabic-color);
-            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
             line-height: 2;
         }
         .transliteration {
@@ -74,839 +74,467 @@
             margin: -15px 0 20px;
             display: none;
         }
+        .dark-mode .transliteration { color: #b0c4de; }
         .surah-title {
             font-size: 36px;
-            color: var(--text-color);
-            border-bottom: 3px solid #2c3e50;
-            padding-bottom: 10px;
             text-align: center;
             margin-bottom: 25px;
-            background: linear-gradient(90deg, #3498db, #2c3e50);
+            background: linear-gradient(135deg, #2c7da0, #1e5f8e);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .section {
-            margin: 30px 0;
-            padding: 0 10px;
-        }
+        .section { margin: 30px 0; }
         .section-title {
             font-size: 24px;
             color: var(--section-title-color);
-            margin-bottom: 15px;
-            border-left: 5px solid #3498db;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
             padding-left: 15px;
             display: flex;
             align-items: center;
-        }
-        .section-title-icon {
-            margin-right: 10px;
-            font-size: 20px;
+            gap: 10px;
         }
         .verse, .theme-point {
             background-color: var(--verse-bg);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 20px;
             margin: 25px 0;
             border: 1px solid var(--verse-border);
-            transition: all 0.3s ease;
         }
         .verse-title, .theme-title {
             font-weight: bold;
-            color: #16a085;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
+            color: #1e7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
         }
-        .verse-title-icon {
-            margin-right: 8px;
-        }
-        .language-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #3498db;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .transliteration-toggle {
-            position: fixed;
-            top: 60px;
-            right: 20px;
-            background: #2ecc71;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .dark-mode-toggle {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: #9b59b6;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .scroll-arrow {
-            position: fixed;
-            left: 15px;
-            width: 44px;
-            height: 44px;
-            background-color: #3498db;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 1000;
-            transition: background-color 0.2s, transform 0.1s;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        .scroll-arrow:hover {
-            background-color: #1f618d;
-            transform: scale(1.05);
-        }
-        .scroll-arrow:active {
-            transform: scale(0.95);
-        }
-        .scroll-arrow.up {
-            top: 15px;
-        }
-        .scroll-arrow.down {
-            bottom: 15px;
-        }
-        .bonus {
-            background-color: var(--bonus-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #3498db;
-            transition: all 0.3s ease;
-        }
+        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
-            border-radius: 5px;
-            margin-top: 10px;
+            border-radius: 16px;
+            margin-top: 15px;
             border: 1px solid var(--tafsir-border);
-            transition: all 0.3s ease;
         }
-        .hidden {
-            display: none;
-        }
-        .surah-source {
-            text-align: center;
-            margin-top: -15px;
-            margin-bottom: 20px;
-            color: #7f8c8d;
-            font-size: 16px;
-        }
-        .main-menu {
-            text-align: center;
-            margin: 15px 0;
-        }
+        .hidden { display: none; }
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
             padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            border: 1px solid #3498db;
+            border-radius: 40px;
+            border: 1px solid var(--link-color);
+            font-weight: 500;
         }
-        .top-home-link:hover {
-            background-color: #3498db;
-            color: white;
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 14px;
-            border-top: 1px solid #eee;
-        }
-        .dark-mode footer {
-            color: #a0aec0;
-            border-top: 1px solid #4a5568;
-        }
+        .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
         .structure-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
         .structure-item {
             background: var(--structure-bg);
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
-        }
-        .structure-item h4 {
-            margin-top: 0;
-            color: #2980b9;
+            padding: 18px;
+            border-radius: 20px;
+            border-left: 4px solid #2c7da0;
         }
         .benefits-list {
             background: var(--benefits-bg);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 20px;
             margin: 20px 0;
         }
-        .benefits-list ul {
-            padding-left: 20px;
-        }
-        .theme-overview {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        .theme-overview, .info-box, .bonus {
+            background: var(--bonus-bg);
             padding: 25px;
-            border-radius: 10px;
+            border-radius: 24px;
             margin: 25px 0;
-            border-left: 5px solid #2c3e50;
         }
-        .dark-mode .theme-overview {
-            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-        }
-        .info-box {
-            background-color: var(--bonus-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            text-align: center;
-            border: 1px solid var(--verse-border);
-        }
-        .praise-section {
-            background-color: var(--praise-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #c0392b;
-        }
-        .guidance-section {
-            background-color: var(--guidance-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #27ae60;
-        }
+        .info-box { text-align: center; }
         .audio-player {
-            width: 100%;
             max-width: 400px;
             margin: 20px auto;
             text-align: center;
         }
-        .audio-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--arabic-color);
+        .theme-card {
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 6px solid;
+            background-color: var(--verse-bg);
         }
-        .surah-navigation {
+        .theme-card:nth-child(odd) { border-left-color: #3498db; }
+        .theme-card:nth-child(even) { border-left-color: #2ecc71; }
+        .dark-mode .theme-card { background-color: var(--structure-bg); }
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--container-bg);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
             display: flex;
-            justify-content: space-between;
-            margin: 40px 0 20px;
-            padding: 20px 0;
-            border-top: 1px solid var(--verse-border);
-            border-bottom: 1px solid var(--verse-border);
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            color: var(--text-color);
+            font-size: 22px;
         }
-        .nav-link {
+        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        .surah-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .pagination-item {
+            background: var(--verse-bg);
+            padding: 10px 24px;
+            border-radius: 60px;
             display: inline-flex;
             align-items: center;
-            padding: 10px 20px;
-            background: var(--verse-bg);
-            color: var(--text-color);
-            text-decoration: none;
-            border-radius: 5px;
+            gap: 8px;
+            font-weight: bold;
             border: 1px solid var(--verse-border);
-            transition: all 0.3s ease;
+            transition: 0.2s;
         }
-        .nav-link:hover {
-            background: #3498db;
+        .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
             color: white;
-            border-color: #3498db;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
         }
-        .theme-table {
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        @media (max-width: 640px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
+            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
+            .arabic { font-size: 30px; }
+        }
+        footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
+        .fa, .fas, .far { margin-right: 4px; }
+        table.theme-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
             background: var(--structure-bg);
-            border-radius: 8px;
+            border-radius: 20px;
             overflow: hidden;
         }
-        .theme-table th {
-            background: #3498db;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-        .theme-table td {
+        table.theme-table th, table.theme-table td {
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
-            color: var(--text-color);
+            text-align: left;
         }
-        .theme-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        @media (max-width: 768px) {
-            .arabic {
-                font-size: 32px;
-            }
-            .surah-title {
-                font-size: 28px;
-            }
-            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
-                position: static;
-                margin: 10px 0;
-                display: inline-block;
-            }
-            .top-home-link {
-                margin-bottom: 15px;
-            }
-            .structure-grid {
-                grid-template-columns: 1fr;
-            }
-            .surah-navigation {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .nav-link {
-                justify-content: center;
-            }
-            .theme-table {
-                display: block;
-                overflow-x: auto;
-            }
-            .scroll-arrow {
-                width: 38px;
-                height: 38px;
-                font-size: 18px;
-                left: 8px;
-            }
-        }
+        table.theme-table th { background: var(--link-color); color: white; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- navigation arrows – left side, screen height scrolling -->
-    <div class="scroll-arrow up" id="scrollUp"><i class="fas fa-arrow-up"></i></div>
-    <div class="scroll-arrow down" id="scrollDown"><i class="fas fa-arrow-down"></i></div>
 
-    <div class="container">
-        <div class="language-toggle" id="languageToggle">Switch to English</div>
-        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
-        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+<div class="container">
+    <!-- INDONESIAN CONTENT -->
+    <div id="indonesian-content">
+        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+        <h1 class="surah-title">Surah Al-Isra - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1&to=111" target="_blank">IslamicStudies.info - Surah Al-Isra (1-111)</a></div>
+        <div class="arabic">سُبْحَانَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِۦ لَيْلًا مِّنَ ٱلْمَسْجِدِ ٱلْحَرَامِ إِلَى ٱلْمَسْجِدِ ٱلْأَقْصَا ٱلَّذِى بَٰرَكْنَا حَوْلَهُۥ لِنُرِيَهُۥ مِنْ ءَايَٰتِنَآ ۚ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلْبَصِيرُ</div>
+        <div class="transliteration">Sub-ḥānallażī asrā bi'abdihī lailam minal-masjidil-ḥarāmi ilal-masjidil-aqṣallażī bāraknā ḥaulahụ linuriyahụ min āyātinā, innahụ huwas-samī'ul-baṣīr.</div>
+        <p style="text-align: center; font-style: italic;">"Mahasuci Allah, yang telah memperjalankan hamba-Nya (Muhammad) pada malam hari dari Masjidil Haram ke Masjidil Aqsha yang telah Kami berkahi sekelilingnya agar Kami perlihatkan kepadanya sebagian tanda-tanda (kebesaran) Kami. Sesungguhnya Dia Maha Mendengar, Maha Melihat." (Al-Isra 17:1)</p>
 
-        <!-- Indonesian Content (Default) -->
-        <div id="indonesian-content">
-            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-            <h1 class="surah-title">Surah Al-Isra - Tafsir Tematik</h1>
-            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17?verse=1&to=111" target="_blank">IslamicStudies.info - Surah Al-Isra</a></div>
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Isra</h3>
+            <p>Surah Al-Isra (17), 111 ayat, Makkiyah. Dinamai “Al-Isra” (perjalanan malam) karena ayat pertama menceritakan Isra’ Mi’raj. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1&to=111" target="_blank">IslamicStudies.info</a>, surah ini diturunkan menjelang hijrah, berisi pelajaran akidah, perintah berbakti kepada orang tua, etika sosial, serta peringatan kepada Bani Israil.</p>
+        </div>
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+            <p><a href="https://quran.com/17:1-111?translations=33" target="_blank">Quran.com - Surah Al-Isra (Terjemahan Indonesia)</a></p>
+        </div>
+        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Isra</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/017.mp3" type="audio/mpeg"></audio></div>
 
-            <div class="arabic">سُبْحَانَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِۦ لَيْلًا مِّنَ ٱلْمَسْجِدِ ٱلْحَرَامِ إِلَى ٱلْمَسْجِدِ ٱلْأَقْصَا ٱلَّذِى بَٰرَكْنَا حَوْلَهُۥ لِنُرِيَهُۥ مِنْ ءَايَٰتِنَآ ۚ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلْبَصِيرُ</div>
-            <div class="transliteration">Sub-ḥānallażī asrā bi'abdihī lailam minal-masjidil-ḥarāmi ilal-masjidil-aqṣallażī bāraknā ḥaulahụ linuriyahụ min āyātinā, innahụ huwas-samī'ul-baṣīr.</div>
-            <p style="text-align: center; font-style: italic;">"Mahasuci Allah, yang telah memperjalankan hamba-Nya (Muhammad) pada malam hari dari Masjidil Haram ke Masjidil Aqsha yang telah Kami berkahi sekelilingnya agar Kami perlihatkan kepadanya sebagian tanda-tanda (kebesaran) Kami. Sesungguhnya Dia Maha Mendengar, Maha Melihat." (Al-Isra 17:1)</p>
-
-            <div class="theme-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Gambaran Umum Surah Al-Isra</h3>
-                <p>Surah Al-Isra (سورة الإسراء) adalah surah ke-17 dalam Al-Qur'an dan terdiri dari 111 ayat. Termasuk dalam golongan surah Makkiyah (diturunkan di Mekah), surah ini dinamai Al-Isra (Perjalanan Malam) karena menceritakan peristiwa Isra' Mi'raj Nabi Muhammad dari Masjidil Haram ke Masjidil Aqsha. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=17?verse=1&to=111" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Al-Qashash dan sebelum Surah Yunus, dalam periode akhir kenabian di Mekah sebelum hijrah ke Madinah.</p>
-                <p>Surah Al-Isra mengandung banyak pelajaran penting tentang akidah, ibadah, dan akhlak, serta peringatan tentang akibat buruk dari perbuatan dosa. Surah ini sering disebut sebagai "Surah Bani Israil" karena banyak membahas kisah Bani Israil dan pelajaran yang dapat diambil darinya.</p>
-            </div>
-
-            <div class="info-box">
-                <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-                <p>Untuk membaca teks lengkap Surah Al-Isra beserta terjemahannya, kunjungi: 
-                <a href="https://quran.com/17:1-111?translations=33" target="_blank">Quran.com - Surah Al-Isra</a></p>
-            </div>
-
-            <div class="bonus">
-                <div class="section-title">Sumber Tafsir Terpercaya</div>
-                <p>Pembahasan dalam halaman ini mengikuti kerangka tematik berdasarkan <a href="https://www.islamicstudies.info/tafheem.php?sura=17?verse=1&to=111" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a>.</p>
-            </div>
-
-            <div class="audio-player">
-                <div class="audio-title">Dengarkan Surah Al-Isra</div>
-                <audio controls style="width: 100%;">
-                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/017.mp3" type="audio/mpeg">
-                    Browser Anda tidak mendukung elemen audio.
-                </audio>
-            </div>
-
-            <!-- Pembagian Tema per Bagian Ayat -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat</h2>
-                <table class="theme-table">
-                    <thead>
-                        <tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th>   </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Ayat 1-8</strong></td><td>Peristiwa Isra' Mi'raj & Pelajaran Bani Israil</td><td>Kisah perjalanan malam Nabi Muhammad; peringatan tentang Bani Israil; kehancuran akibat maksiat</td></tr>
-                        <tr><td><strong>Ayat 9-22</strong></td><td>Kemuliaan Al-Qur'an & Konsekuensi Pilihan Hidup</td><td>Al-Qur'an sebagai petunjuk; balasan bagi orang beriman dan kafir; larangan menyekutukan Allah</td></tr>
-                        <tr><td><strong>Ayat 23-40</strong></td><td>Perintah-perintah Ilahi & Akhlak Mulia</td><td>Berbakti kepada orang tua; etika dalam bermuamalah; larangan pemborosan dan kesombongan</td></tr>
-                        <tr><td><strong>Ayat 41-60</strong></td><td>Bukti-bukti Kekuasaan Allah & Penolakan Kaum Musyrik</td><td>Tanda-tanda kebesaran Allah di alam; penolakan kaum musyrik terhadap kenabian; kebangkitan setelah mati</td></tr>
-                        <tr><td><strong>Ayat 61-72</strong></td><td>Kisah Adam & Iblis serta Hakikat Manusia</td><td>Penolakan Iblis untuk sujud kepada Adam; godaan setan; kemuliaan manusia atas makhluk lain</td></tr>
-                        <tr><td><strong>Ayat 73-84</strong></td><td>Ujian Nabi & Kebenaran Al-Qur'an</td><td>Ujian yang dihadapi Nabi; tantangan untuk mendatangkan mukjizat; kebenaran ayat-ayat Al-Qur'an</td></tr>
-                        <tr><td><strong>Ayat 85-100</strong></td><td>Hakikat Ruh & Kekuasaan Allah</td><td>Penjelasan tentang ruh; kekuasaan Allah yang mutlak; peringatan tentang azab akhirat</td></tr>
-                        <tr><td><strong>Ayat 101-111</strong></td><td>Kisah Para Nabi & Penutupan Surah</td><td>Mukjizat Nabi Musa; penolakan Fir'aun; penegasan tentang keesaan Allah dan kesempurnaan wahyu</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Ayat Kunci untuk Tadabbur -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Ayat Kunci untuk Tadabbur</h2>
-                <div class="verse">
-                    <div class="arabic">وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوٓا۟ إِلَّآ إِيَّاهُ وَبِٱلْوَٰلِدَيْنِ إِحْسَٰنًا ۚ إِمَّا يَبْلُغَنَّ عِندَكَ ٱلْكِبَرَ أَحَدُهُمَآ أَوْ كِلَاهُمَا فَلَا تَقُل لَّهُمَآ أُفٍّ وَلَا تَنْهَرْهُمَا وَقُل لَّهُمَا قَوْلًا كَرِيمًا</div>
-                    <div class="transliteration">Wa qaḍā rabbuka allā ta'budū illā iyyāhu wa bil-wālidaini iḥsānā, immā yabluganna 'indakal-kibara aḥaduhumā au kilāhumā falā taqul lahumā uffiw wa lā tan-har-humā wa qul lahumā qaulang karīmā.</div>
-                    <p><strong>"Dan Tuhanmu telah memerintahkan agar kamu jangan menyembah selain Dia dan hendaklah berbuat baik kepada ibu bapak. Jika salah seorang di antara keduanya atau kedua-duanya sampai berusia lanjut dalam pemeliharaanmu, maka sekali-kali janganlah engkau mengatakan kepada keduanya perkataan 'ah' dan janganlah engkau membentak keduanya, dan ucapkanlah kepada keduanya perkataan yang mulia."</strong> (Al-Isra 17:23)</p>
-                    
-                    <div class="tafsir-box">
-                        <strong>Kenapa ayat ini penting:</strong>
-                        <p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=23&to=23" target="_blank">IslamicStudies.info</a>, ayat ini menghubungkan langsung antara hak Allah (tauhid) dengan hak manusia (berbakti kepada orang tua). Perintah berbuat baik kepada orang tua ditempatkan setelah perintah menyembah Allah semata, menunjukkan betapa pentingnya berbakti kepada orang tua dalam Islam. Larangan mengucapkan "ah" menunjukkan bahwa Islam melarang segala bentuk sikap tidak hormat kepada orang tua, bahkan dalam hal sekecil apa pun.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pesan Akidah, Ibadah, & Akhlak -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak</h2>
-                <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Surah Al-Isra</h3>
-                    <ul>
-                        <li><strong>Akidah</strong> : Keyakinan bahwa Allah Maha Mendengar dan Maha Melihat (17:1), keimanan pada peristiwa Isra' Mi'raj (17:1), pengakuan bahwa hanya Allah yang patut disembah (17:23), keyakinan pada hari kebangkitan dan pertanggungjawaban (17:13-14, 49-51).</li>
-                        <li><strong>Ibadah</strong> : Mendirikan shalat (17:78-79), membaca Al-Qur'an dengan tartil (17:106), berdoa kepada Allah dengan rendah hati (17:110), bersyukur atas nikmat Allah (17:3).</li>
-                        <li><strong>Akhlak</strong> : Berbakti kepada orang tua (17:23-24), bersikap rendah hati (17:37), menepati janji (17:34), tidak boros (17:26-27), menjaga lisan (17:53), berbuat adil (17:35).</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Tema Utama Surah Al-Isra</h2>
-                
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-1 verse-title-icon"></i> 1. Peristiwa Isra' Mi'raj dan Maknanya</div>
-                    <p>Surah ini dibuka dengan kisah perjalanan spiritual Nabi Muhammad dari Masjidil Haram ke Masjidil Aqsha, yang mengandung banyak pelajaran tentang kekuasaan Allah.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1" target="_blank">Al-Isra 17:1</a>
-                        <div class="arabic">سُبْحَانَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِۦ لَيْلًا مِّنَ ٱلْمَسْجِدِ ٱلْحَرَامِ إِلَى ٱلْمَسْجِدِ ٱلْأَقْصَا ٱلَّذِى بَٰرَكْنَا حَوْلَهُۥ لِنُرِيَهُۥ مِنْ ءَايَٰتِنَآ ۚ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلْبَصِيرُ</div>
-                        <div class="transliteration">Sub-ḥānallażī asrā bi'abdihī lailam minal-masjidil-ḥarāmi ilal-masjidil-aqṣallażī bāraknā ḥaulahụ linuriyahụ min āyātinā, innahụ huwas-samī'ul-baṣīr.</div>
-                        <p>"Mahasuci Allah, yang telah memperjalankan hamba-Nya (Muhammad) pada malam hari dari Masjidil Haram ke Masjidil Aqsha yang telah Kami berkahi sekelilingnya agar Kami perlihatkan kepadanya sebagian tanda-tanda (kebesaran) Kami. Sesungguhnya Dia Maha Mendengar, Maha Melihat."</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1" target="_blank">IslamicStudies.info</a>, ayat ini menunjukkan kekuasaan mutlak Allah yang mampu melakukan hal-hal di luar hukum alam. Isra' Mi'raj adalah mukjizat terbesar yang diberikan kepada Nabi Muhammad setelah Al-Qur'an. Peristiwa ini mengandung pelajaran tentang pentingnya Masjidil Aqsha dalam Islam dan hubungan spiritual antara tiga agama samawi.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="praise-section">
-                    <div class="theme-title"><i class="fas fa-2 verse-title-icon"></i> 2. Berbakti kepada Orang Tua</div>
-                    <p>Surah ini memberikan penekanan khusus pada kewajiban berbakti kepada orang tua, dengan aturan-aturan yang sangat detail.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=23&to=24" target="_blank">Al-Isra 17:23-24</a>
-                        <div class="arabic">وَٱخْفِضْ لَهُمَا جَنَاحَ ٱلذُّلِّ مِنَ ٱلرَّحْمَةِ وَقُل رَّبِّ ٱرْحَمْهُمَا كَمَا رَبَّيَانِى صَغِيرًا</div>
-                        <div class="transliteration">Wakhfiḍ lahumā janāḥaż-żulli minar-raḥmati wa qur rabbir-ḥam-humā kamā rabbayānī ṣaghīrā.</div>
-                        <p>"Dan rendahkanlah dirimu terhadap keduanya dengan penuh kasih sayang dan ucapkanlah, 'Wahai Tuhanku! Sayangilah keduanya sebagaimana mereka berdua telah mendidik aku pada waktu kecil.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=23&to=24" target="_blank">IslamicStudies.info</a> menjelaskan bahwa ayat-ayat ini menggambarkan tingkat penghormatan tertinggi yang harus diberikan kepada orang tua. Perintah "rendahkanlah dirimu" menggunakan metafora sayap burung yang direndahkan, menunjukkan kerendahan hati yang sempurna. Doa untuk orang tua yang diajarkan dalam ayat ini menjadi contoh bagaimana seorang anak harus selalu mendoakan kebaikan bagi orang tuanya.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-3 verse-title-icon"></i> 3. Larangan Pemborosan dan Kesombongan</div>
-                    <p>Surah ini memberikan bimbingan tentang penggunaan harta yang bijak dan larangan terhadap sikap sombong.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=26&to=27" target="_blank">Al-Isra 17:26-27</a>
-                        <div class="arabic">وَءَاتِ ذَا ٱلْقُرْبَىٰ حَقَّهُۥ وَٱلْمِسْكِينَ وَٱبْنَ ٱلسَّبِيلِ وَلَا تُبَذِّرْ تَبْذِيرًا إِنَّ ٱلْمُبَذِّرِينَ كَانُوٓا۟ إِخْوَٰنَ ٱلشَّيَٰطِينِ ۖ وَكَانَ ٱلشَّيْطَٰنُ لِرَبِّهِۦ كَفُورًا</div>
-                        <div class="transliteration">Wa āti żal-qurbā ḥaqqahụ wal-miskīna wabnas-sabīli wa lā tubażżir tabżīrā, innal-mubażżirīna kānū ikh-wānasy-syayāṭīn, wa kānasy-syaiṭānu lirabbihī kafūrā.</div>
-                        <p>"Dan berikanlah haknya kepada kerabat dekat, juga kepada orang miskin dan orang yang dalam perjalanan; dan janganlah kamu menghambur-hamburkan (hartamu) secara boros. Sesungguhnya orang-orang yang pemboros itu adalah saudara setan dan setan itu sangat ingkar kepada Tuhannya."</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=26&to=27" target="_blank">IslamicStudies.info</a>, ayat ini mengajarkan keseimbangan antara memberi kepada yang berhak dan menghindari pemborosan. Pemborosan adalah menggunakan harta pada hal-hal yang tidak bermanfaat atau haram, bukan sekadar menghabiskan harta. Penyebutan "saudara setan" menunjukkan betapa buruknya sifat boros dalam pandangan Islam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="guidance-section">
-                    <div class="theme-title"><i class="fas fa-4 verse-title-icon"></i> 4. Etika dalam Bermuamalah</div>
-                    <p>Surah ini memberikan panduan lengkap tentang etika dalam berbagai aspek kehidupan sosial dan ekonomi.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=34&to=35" target="_blank">Al-Isra 17:34-35</a>
-                        <div class="arabic">وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًا وَأَوْفُوا۟ ٱلْكَيْلَ إِذَا كِلْتُمْ وَزِنُوا۟ بِٱلْقِسْطَاسِ ٱلْمُسْتَقِيمِ ۚ ذَٰلِكَ خَيْرٌ وَأَحْسَنُ تَأْوِيلًا</div>
-                        <div class="transliteration">Wa aufụ bil-'ahd, innal-'ahda kāna mas`ụlā, wa auful-kaila iżā kiltum wa zinụ bil-qistāsil-mustaqīm, żālika khairuw wa aḥsanu ta`wīlā.</div>
-                        <p>"Dan penuhilah janji, sesungguhnya janji itu pasti dimintai pertanggungjawabannya. Dan sempurnakanlah takaran apabila kamu menakar, dan timbanglah dengan neraca yang benar. Itulah yang lebih utama (bagimu) dan lebih baik akibatnya."</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=34&to=35" target="_blank">IslamicStudies.info</a> menjelaskan bahwa ayat-ayat ini menjadi dasar sistem ekonomi Islam yang adil. Janji dalam ayat ini mencakup semua jenis perjanjian, baik dengan Allah maupun dengan manusia. Kejujuran dalam takaran dan timbangan merupakan fondasi kepercayaan dalam perdagangan dan muamalah.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-5 verse-title-icon"></i> 5. Hakikat Ruh dan Batas Pengetahuan Manusia</div>
-                    <p>Surah ini menjawab pertanyaan tentang hakikat ruh dengan penjelasan bahwa ilmu tentang ruh adalah wewenang Allah semata.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=85&to=85" target="_blank">Al-Isra 17:85</a>
-                        <div class="arabic">وَيَسْـَٔلُونَكَ عَنِ ٱلرُّوحِ ۖ قُلِ ٱلرُّوحُ مِنْ أَمْرِ رَبِّى وَمَآ أُوتِيتُم مِّنَ ٱلْعِلْمِ إِلَّا قَلِيلًا</div>
-                        <div class="transliteration">Wa yas`alūnaka 'anir-rụḥ, qulir-rụḥu min amri rabbī wa mā ụtītum minal-'ilmi illā qalīlā.</div>
-                        <p>"Dan mereka bertanya kepadamu (Muhammad) tentang ruh. Katakanlah, 'Ruh itu termasuk urusan Tuhanku, sedangkan kamu diberi pengetahuan hanya sedikit.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=85&to=85" target="_blank">IslamicStudies.info</a> menjelaskan bahwa ayat ini mengajarkan manusia untuk mengakui keterbatasan pengetahuannya. Ketika orang-orang Yahudi bertanya tentang hakikat ruh kepada Nabi Muhammad, Allah memerintahkan untuk menjawab seperti dalam ayat ini. Ayat ini menjadi dasar dalam Islam untuk fokus pada hal-hal yang bermanfaat bagi kehidupan, bukan pada hal-hal metafisik yang hanya Allah yang mengetahuinya.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Pelajaran Spiritual dari Surah Al-Isra</h2>
-                <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Pelajaran Penting untuk Kehidupan</h3>
-                    <ul>
-                        <li><strong>Menghormati Orang Tua:</strong> Berbakti kepada orang tua adalah kewajiban yang ditempatkan setelah tauhid.</li>
-                        <li><strong>Menjaga Amanah dan Janji:</strong> Setiap janji akan dimintai pertanggungjawaban di akhirat.</li>
-                        <li><strong>Hidup Sederhana dan Tidak Boros:</strong> Pemborosan adalah sifat setan yang harus dihindari.</li>
-                        <li><strong>Bersikap Rendah Hati:</strong> Kesombongan adalah akar dari banyak kejahatan.</li>
-                        <li><strong>Mengakui Keterbatasan Pengetahuan:</strong> Manusia hanya diberi pengetahuan sedikit oleh Allah.</li>
-                        <li><strong>Menjaga Etika Bermuamalah:</strong> Kejujuran dalam perdagangan dan hubungan sosial.</li>
-                        <li><strong>Meyakini Kekuasaan Allah:</strong> Isra' Mi'raj mengajarkan bahwa Allah Mahakuasa atas segala hukum alam.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Hubungan dengan Surah Lain</h2>
-                <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> Dengan Surah An-Nahl (16)</h4>
-                        <p>Surah An-Nahl diakhiri dengan perintah berdakwah dengan hikmah (16:125), sedangkan Surah Al-Isra dibuka dengan peristiwa Isra' Mi'raj Nabi Muhammad. Jika Surah An-Nahl banyak berbicara tentang nikmat-nikmat fisik dan bukti-bukti kekuasaan Allah di alam, Surah Al-Isra lebih fokus pada petunjuk spiritual dan akhlak mulia. Keduanya saling melengkapi dalam membentuk pribadi muslim yang seimbang antara dimensi material dan spiritual.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> Dengan Surah Al-Kahf (18)</h4>
-                        <p>Surah Al-Isra menutup dengan penegasan tentang keesaan Allah dan kesempurnaan wahyu (17:111), sedangkan Surah Al-Kahf dibuka dengan pujian kepada Allah yang menurunkan Kitab tanpa kebengkokan (18:1). Jika Surah Al-Isra banyak membahas etika sosial dan keluarga, Surah Al-Kahf fokus pada ujian iman melalui berbagai kisah. Keduanya memberikan pedoman hidup yang komprehensif bagi seorang muslim.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="surah-navigation">
-                <a href="016.html" class="nav-link">Surah Sebelumnya: An-Nahl</a>
-                <a href="018.html" class="nav-link">Surah Berikutnya: Al-Kahf</a>
-            </div>
-
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+        <!-- Tabel pembagian tema -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-8</strong></td><td>Isra’ Mi’raj & pelajaran Bani Israil</td><td>Perjalanan malam Nabi, kehancuran Bani Israil karena maksiat</td></tr>
+                    <tr><td><strong>9-22</strong></td><td>Kemuliaan Al-Qur’an & konsekuensi pilihan</td><td>Al-Qur’an petunjuk, balasan mukmin dan kafir, larangan syirik</td></tr>
+                    <tr><td><strong>23-40</strong></td><td>Perintah ilahi & akhlak mulia</td><td>Berbakti kepada orang tua, larangan boros dan sombong</td></tr>
+                    <tr><td><strong>41-60</strong></td><td>Bukti kekuasaan Allah & penolakan musyrik</td><td>Tanda-tanda kebesaran, kebangkitan setelah mati</td></tr>
+                    <tr><td><strong>61-72</strong></td><td>Kisah Adam & Iblis serta hakikat manusia</td><td>Iblis sombong, godaan setan, kemuliaan manusia</td></tr>
+                    <tr><td><strong>73-84</strong></td><td>Ujian Nabi & kebenaran Al-Qur’an</td><td>Godaan untuk mengubah wahyu, keteguhan Nabi</td></tr>
+                    <tr><td><strong>85-100</strong></td><td>Hakikat ruh & kekuasaan Allah</td><td>Ruh adalah urusan Allah, ilmu manusia terbatas</td></tr>
+                    <tr><td><strong>101-111</strong></td><td>Kisah para nabi & penutup</td><td>Mukjizat Musa, keesaan Allah, kesempurnaan wahyu</td></tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- English Content (Hidden by Default) -->
-        <div id="english-content" class="hidden">
-            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-            <h1 class="surah-title">Surah Al-Isra - Thematic Tafsir</h1>
-            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17?verse=1&to=111" target="_blank">IslamicStudies.info - Surah Al-Isra</a></div>
+        <!-- TEMA UTAMA (deep from IslamicStudies.info) -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Al-Isra</h2>
 
-            <div class="arabic">سُبْحَانَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِۦ لَيْلًا مِّنَ ٱلْمَسْجِدِ ٱلْحَرَامِ إِلَى ٱلْمَسْجِدِ ٱلْأَقْصَا ٱلَّذِى بَٰرَكْنَا حَوْلَهُۥ لِنُرِيَهُۥ مِنْ ءَايَٰتِنَآ ۚ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلْبَصِيرُ</div>
-            <div class="transliteration">Sub-ḥānallażī asrā bi'abdihī lailam minal-masjidil-ḥarāmi ilal-masjidil-aqṣallażī bāraknā ḥaulahụ linuriyahụ min āyātinā, innahụ huwas-samī'ul-baṣīr.</div>
-            <p style="text-align: center; font-style: italic;">"Exalted is He who took His Servant by night from al-Masjid al-Haram to al-Masjid al-Aqsa, whose surroundings We have blessed, to show him of Our signs. Indeed, He is the Hearing, the Seeing." (Al-Isra 17:1)</p>
-
-            <div class="theme-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Overview of Surah Al-Isra</h3>
-                <p>Surah Al-Isra (سورة الإسراء) is the 17th chapter of the Qur'an and consists of 111 verses. Classified as a Meccan surah (revealed in Mecca), this surah is named Al-Isra (The Night Journey) because it narrates the event of Isra' Mi'raj of Prophet Muhammad from Masjid al-Haram to Masjid al-Aqsa. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=17?verse=1&to=111" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah Al-Qasas and before Surah Yunus, during the late period of prophethood in Mecca before migration to Medina.</p>
-                <p>Surah Al-Isra contains many important lessons about creed, worship, and morality, as well as warnings about the bad consequences of sinful deeds. This surah is often called "Surah Bani Israel" because it extensively discusses the story of the Children of Israel and lessons that can be learned from it.</p>
-            </div>
-
-            <div class="info-box">
-                <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
-                <p>To read the complete text of Surah Al-Isra along with its translation, visit: 
-                <a href="https://recitequran.com/17:1" target="_blank">reciteQuran.com - Surah Al-Isra</a></p>
-            </div>
-
-            <div class="bonus">
-                <div class="section-title">Reliable Tafsir Source</div>
-                <p>The discussion on this page follows the thematic framework based on <a href="https://www.islamicstudies.info/tafheem.php?sura=17?verse=1&to=111" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a>.</p>
-            </div>
-
-            <div class="audio-player">
-                <div class="audio-title">Listen to Surah Al-Isra</div>
-                <audio controls style="width: 100%;">
-                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/017.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-            </div>
-
-            <!-- Theme Division by Verses -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h2>
-                <table class="theme-table">
-                    <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th> </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Verses 1-8</strong></td><td>Event of Isra' Mi'raj & Lessons from Children of Israel</td><td>Story of Prophet's night journey; warnings about Children of Israel; destruction due to disobedience</td></tr>
-                        <tr><td><strong>Verses 9-22</strong></td><td>Nobility of the Qur'an & Consequences of Life Choices</td><td>Qur'an as guidance; recompense for believers and disbelievers; prohibition of shirk</td></tr>
-                        <tr><td><strong>Verses 23-40</strong></td><td>Divine Commands & Noble Morals</td><td>Kindness to parents; ethics in transactions; prohibition of wastefulness and arrogance</td></tr>
-                        <tr><td><strong>Verses 41-60</strong></td><td>Evidence of Allah's Power & Rejection by Polytheists</td><td>Signs of Allah's greatness in nature; polytheists' rejection of prophethood; resurrection after death</td></tr>
-                        <tr><td><strong>Verses 61-72</strong></td><td>Story of Adam & Iblis and the Essence of Humanity</td><td>Iblis' refusal to prostrate to Adam; Satan's temptations; human superiority over other creatures</td></tr>
-                        <tr><td><strong>Verses 73-84</strong></td><td>Prophet's Tests & Truth of the Qur'an</td><td>Tests faced by Prophet; challenge to bring miracles; truth of Qur'anic verses</td></tr>
-                        <tr><td><strong>Verses 85-100</strong></td><td>Nature of Soul & Allah's Absolute Power</td><td>Explanation about soul; Allah's absolute power; warning about Hereafter punishment</td></tr>
-                        <tr><td><strong>Verses 101-111</strong></td><td>Stories of Prophets & Conclusion of Surah</td><td>Miracles of Prophet Musa; Pharaoh's rejection; affirmation of Allah's oneness and perfection of revelation</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Key Verse for Contemplation -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Key Verse for Contemplation</h2>
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-1"></i> 1. Peristiwa Isra’ Mi’raj (17:1)</div>
                 <div class="verse">
+                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1&to=1" target="_blank">Al-Isra 17:1</a>
+                    <div class="arabic">سُبْحَانَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِۦ لَيْلًا مِّنَ ٱلْمَسْجِدِ ٱلْحَرَامِ إِلَى ٱلْمَسْجِدِ ٱلْأَقْصَا</div>
+                    <div class="transliteration">Sub-ḥānallażī asrā bi'abdihī lailam minal-masjidil-ḥarāmi ilal-masjidil-aqṣā</div>
+                    <div class="tafsir-box">Allah membawa hamba-Nya dalam perjalanan malam dari Masjidil Haram ke Masjidil Aqsha. IslamicStudies.info: Isra’ adalah mukjizat akbar yang menegaskan kebenaran Nabi, memperlihatkan tanda-tanda kebesaran Allah, dan menghubungkan tiga pusat spiritual (Mekah, Palestina, langit).</div>
+                </div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-2"></i> 2. Berbakti kepada Orang Tua (17:23-24)</div>
+                <div class="verse">
+                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=23&to=24" target="_blank">Al-Isra 17:23-24</a>
                     <div class="arabic">وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوٓا۟ إِلَّآ إِيَّاهُ وَبِٱلْوَٰلِدَيْنِ إِحْسَٰنًا ۚ إِمَّا يَبْلُغَنَّ عِندَكَ ٱلْكِبَرَ أَحَدُهُمَآ أَوْ كِلَاهُمَا فَلَا تَقُل لَّهُمَآ أُفٍّ وَلَا تَنْهَرْهُمَا وَقُل لَّهُمَا قَوْلًا كَرِيمًا</div>
                     <div class="transliteration">Wa qaḍā rabbuka allā ta'budū illā iyyāhu wa bil-wālidaini iḥsānā, immā yabluganna 'indakal-kibara aḥaduhumā au kilāhumā falā taqul lahumā uffiw wa lā tan-har-humā wa qul lahumā qaulang karīmā.</div>
-                    <p><strong>"And your Lord has decreed that you not worship except Him, and to parents, good treatment. Whether one or both of them reach old age [while] with you, say not to them [so much as], 'uff,' and do not repel them but speak to them a noble word."</strong> (Al-Isra 17:23)</p>
-                    
-                    <div class="tafsir-box">
-                        <strong>Why this verse is important:</strong>
-                        <p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=23&to=23" target="_blank">IslamicStudies.info</a>, this verse directly connects between Allah's right (tawhid) and human rights (kindness to parents). The command to be kind to parents is placed after the command to worship Allah alone, showing how important kindness to parents is in Islam. The prohibition of saying "uff" shows that Islam forbids all forms of disrespect to parents, even in the smallest matters.</p>
-                    </div>
+                    <div class="tafsir-box">Allah memerintahkan tauhid dan berbuat baik kepada orang tua. Larangan mengatakan “ah” dan membentak, serta perintah berkata mulia. IslamicStudies.info: ini menunjukkan bahwa bakti kepada orang tua menempati peringkat tertinggi setelah tauhid.</div>
                 </div>
             </div>
 
-            <!-- Message of Aqidah, Worship, & Akhlaq -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq</h2>
-                <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Surah Al-Isra Teachings</h3>
-                    <ul>
-                        <li><strong>Aqidah (Creed)</strong> : Belief that Allah is Hearing and Seeing (17:1), faith in Isra' Mi'raj event (17:1), acknowledgment that only Allah deserves worship (17:23), belief in Day of Resurrection and accountability (17:13-14, 49-51).</li>
-                        <li><strong>Worship</strong> : Establish prayer (17:78-79), recite Qur'an with tartil (17:106), pray to Allah humbly (17:110), be grateful for Allah's favors (17:3).</li>
-                        <li><strong>Akhlaq (Character)</strong> : Be kind to parents (17:23-24), be humble (17:37), fulfill promises (17:34), avoid wastefulness (17:26-27), guard speech (17:53), act justly (17:35).</li>
-                    </ul>
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-3"></i> 3. Larangan Pemborosan & Kesombongan (17:26-27, 17:37)</div>
+                <div class="verse">
+                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=26&to=27" target="_blank">Al-Isra 17:26-27</a>
+                    <div class="arabic">وَلَا تُبَذِّرْ تَبْذِيرًا إِنَّ ٱلْمُبَذِّرِينَ كَانُوٓا۟ إِخْوَٰنَ ٱلشَّيَٰطِينِ</div>
+                    <div class="transliteration">Wa lā tubażżir tabżīrā, innal-mubażżirīna kānū ikh-wānasy-syayāṭīn</div>
+                    <div class="tafsir-box">Larangan menghambur-hamburkan harta. Pemboros adalah saudara setan. Juga ayat 37: “Jangan berjalan di bumi dengan sombong.” IslamicStudies.info: Islam mengajarkan keseimbangan dalam infak dan kerendahan hati.</div>
                 </div>
             </div>
 
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Main Themes of Surah Al-Isra</h2>
-                
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-1 verse-title-icon"></i> 1. Event of Isra' Mi'raj and Its Meanings</div>
-                    <p>This surah opens with the story of Prophet Muhammad's spiritual journey from Masjid al-Haram to Masjid al-Aqsa, containing many lessons about Allah's power.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1" target="_blank">Al-Isra 17:1</a>
-                        <div class="arabic">سُبْحَانَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِۦ لَيْلًا مِّنَ ٱلْمَسْجِدِ ٱلْحَرَامِ إِلَى ٱلْمَسْجِدِ ٱلْأَقْصَا ٱلَّذِى بَٰرَكْنَا حَوْلَهُۥ لِنُرِيَهُۥ مِنْ ءَايَٰتِنَآ ۚ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلْبَصِيرُ</div>
-                        <div class="transliteration">Sub-ḥānallażī asrā bi'abdihī lailam minal-masjidil-ḥarāmi ilal-masjidil-aqṣallażī bāraknā ḥaulahụ linuriyahụ min āyātinā, innahụ huwas-samī'ul-baṣīr.</div>
-                        <p>"Exalted is He who took His Servant by night from al-Masjid al-Haram to al-Masjid al-Aqsa, whose surroundings We have blessed, to show him of Our signs. Indeed, He is the Hearing, the Seeing."</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1" target="_blank">IslamicStudies.info</a>, this verse shows Allah's absolute power to do things beyond natural laws. Isra' Mi'raj is the greatest miracle given to Prophet Muhammad after the Qur'an. This event contains lessons about the importance of Masjid al-Aqsa in Islam and the spiritual connection between the three Abrahamic religions.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="praise-section">
-                    <div class="theme-title"><i class="fas fa-2 verse-title-icon"></i> 2. Kindness to Parents</div>
-                    <p>This surah gives special emphasis on the obligation to be kind to parents, with very detailed rules.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=23&to=24" target="_blank">Al-Isra 17:23-24</a>
-                        <div class="arabic">وَٱخْفِضْ لَهُمَا جَنَاحَ ٱلذُّلِّ مِنَ ٱلرَّحْمَةِ وَقُل رَّبِّ ٱرْحَمْهُمَا كَمَا رَبَّيَانِى صَغِيرًا</div>
-                        <div class="transliteration">Wakhfiḍ lahumā janāḥaż-żulli minar-raḥmati wa qur rabbir-ḥam-humā kamā rabbayānī ṣaghīrā.</div>
-                        <p>"And lower to them the wing of humility out of mercy and say, 'My Lord, have mercy upon them as they brought me up [when I was] small.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=23&to=24" target="_blank">IslamicStudies.info</a> explains that these verses depict the highest level of respect that must be given to parents. The command "lower to them the wing" uses the metaphor of a bird lowering its wing, showing perfect humility. The prayer for parents taught in this verse becomes an example of how a child should always pray for goodness for his parents.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-3 verse-title-icon"></i> 3. Prohibition of Wastefulness and Arrogance</div>
-                    <p>This surah provides guidance on wise use of wealth and prohibition against arrogant attitudes.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=26&to=27" target="_blank">Al-Isra 17:26-27</a>
-                        <div class="arabic">وَءَاتِ ذَا ٱلْقُرْبَىٰ حَقَّهُۥ وَٱلْمِسْكِينَ وَٱبْنَ ٱلسَّبِيلِ وَلَا تُبَذِّرْ تَبْذِيرًا إِنَّ ٱلْمُبَذِّرِينَ كَانُوٓا۟ إِخْوَٰنَ ٱلشَّيَٰطِينِ ۖ وَكَانَ ٱلشَّيْطَٰنُ لِرَبِّهِۦ كَفُورًا</div>
-                        <div class="transliteration">Wa āti żal-qurbā ḥaqqahụ wal-miskīna wabnas-sabīli wa lā tubażżir tabżīrā, innal-mubażżirīna kānū ikh-wānasy-syayāṭīn, wa kānasy-syaiṭānu lirabbihī kafūrā.</div>
-                        <p>"And give the relative his right, and [also] the poor and the traveler, and do not spend wastefully. Indeed, the wasteful are brothers of the devils, and ever has Satan been to his Lord ungrateful."</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=26&to=27" target="_blank">IslamicStudies.info</a>, this verse teaches balance between giving to those entitled and avoiding wastefulness. Wastefulness is using wealth for useless or forbidden things, not merely spending wealth. Mentioning "brothers of devils" shows how bad the trait of wastefulness is in Islam's view.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="guidance-section">
-                    <div class="theme-title"><i class="fas fa-4 verse-title-icon"></i> 4. Ethics in Social Interaction</div>
-                    <p>This surah provides comprehensive guidance on ethics in various aspects of social and economic life.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=34&to=35" target="_blank">Al-Isra 17:34-35</a>
-                        <div class="arabic">وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًا وَأَوْفُوا۟ ٱلْكَيْلَ إِذَا كِلْتُمْ وَزِنُوا۟ بِٱلْقِسْطَاسِ ٱلْمُسْتَقِيمِ ۚ ذَٰلِكَ خَيْرٌ وَأَحْسَنُ تَأْوِيلًا</div>
-                        <div class="transliteration">Wa aufụ bil-'ahd, innal-'ahda kāna mas`ụlā, wa auful-kaila iżā kiltum wa zinụ bil-qistāsil-mustaqīm, żālika khairuw wa aḥsanu ta`wīlā.</div>
-                        <p>"And fulfill [every] commitment. Indeed, the commitment is that [about which one will be] questioned. And give full measure when you measure, and weigh with an even balance. That is the best [way] and best in result."</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=34&to=35" target="_blank">IslamicStudies.info</a> explains that these verses become the basis of a just Islamic economic system. Commitment in this verse includes all types of agreements, both with Allah and with humans. Honesty in measurement and weighing is the foundation of trust in trade and transactions.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-5 verse-title-icon"></i> 5. Nature of the Soul and Limits of Human Knowledge</div>
-                    <p>This surah answers questions about the nature of the soul with explanation that knowledge about the soul is Allah's exclusive authority.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=85&to=85" target="_blank">Al-Isra 17:85</a>
-                        <div class="arabic">وَيَسْـَٔلُونَكَ عَنِ ٱلرُّوحِ ۖ قُلِ ٱلرُّوحُ مِنْ أَمْرِ رَبِّى وَمَآ أُوتِيتُم مِّنَ ٱلْعِلْمِ إِلَّا قَلِيلًا</div>
-                        <div class="transliteration">Wa yas`alūnaka 'anir-rụḥ, qulir-rụḥu min amri rabbī wa mā ụtītum minal-'ilmi illā qalīlā.</div>
-                        <p>"And they ask you, [O Muhammad], about the soul. Say, 'The soul is of the affair of my Lord. And mankind have not been given of knowledge except a little.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=85&to=85" target="_blank">IslamicStudies.info</a> explains that this verse teaches humans to acknowledge the limitations of their knowledge. When the Jews asked Prophet Muhammad about the nature of the soul, Allah commanded to answer as in this verse. This verse becomes the basis in Islam to focus on matters beneficial for life, not on metaphysical matters that only Allah knows about.
-                        </div>
-                    </div>
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-4"></i> 4. Etika Bermuamalah: Penuhilah Janji & Timbangan Adil (17:34-35)</div>
+                <div class="verse">
+                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=34&to=35" target="_blank">Al-Isra 17:34-35</a>
+                    <div class="arabic">وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًا</div>
+                    <div class="transliteration">Wa aufụ bil-'ahd, innal-'ahda kāna mas`ụlā</div>
+                    <div class="tafsir-box">Penuhi janji, karena janji akan dimintai pertanggungjawaban. Sempurnakan takaran dan timbangan dengan adil. IslamicStudies.info: ini fondasi kejujuran dalam ekonomi dan sosial.</div>
                 </div>
             </div>
 
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Spiritual Lessons from Surah Al-Isra</h2>
-                <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Important Lessons for Life</h3>
-                    <ul>
-                        <li><strong>Respect Parents:</strong> Kindness to parents is an obligation placed after tawhid.</li>
-                        <li><strong>Keep Trusts and Promises:</strong> Every promise will be accountable in the Hereafter.</li>
-                        <li><strong>Live Simply and Avoid Waste:</strong> Wastefulness is a satanic trait that must be avoided.</li>
-                        <li><strong>Be Humble:</strong> Arrogance is the root of many evils.</li>
-                        <li><strong>Acknowledge Knowledge Limitations:</strong> Humans are given only little knowledge by Allah.</li>
-                        <li><strong>Maintain Ethics in Transactions:</strong> Honesty in trade and social relations.</li>
-                        <li><strong>Believe in Allah's Power:</strong> Isra' Mi'raj teaches that Allah is All-Powerful over all natural laws.</li>
-                    </ul>
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-5"></i> 5. Hakikat Ruh & Keterbatasan Ilmu Manusia (17:85)</div>
+                <div class="verse">
+                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=85&to=85" target="_blank">Al-Isra 17:85</a>
+                    <div class="arabic">وَيَسْـَٔلُونَكَ عَنِ ٱلرُّوحِ ۖ قُلِ ٱلرُّوحُ مِنْ أَمْرِ رَبِّى وَمَآ أُوتِيتُم مِّنَ ٱلْعِلْمِ إِلَّا قَلِيلًا</div>
+                    <div class="transliteration">Wa yas`alūnaka 'anir-rụḥ, qulir-rụḥu min amri rabbī wa mā ụtītum minal-'ilmi illā qalīlā</div>
+                    <div class="tafsir-box">Orang Yahudi bertanya tentang ruh. Allah memerintahkan menjawab: ruh termasuk urusan Tuhan, dan manusia tidak diberi pengetahuan kecuali sedikit. IslamicStudies.info: ini mengajarkan sikap tawadhu’ ilmiah dan fokus pada yang bermanfaat.</div>
                 </div>
             </div>
+        </div>
 
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Relationship with Other Surahs</h2>
-                <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> With Surah An-Nahl (16)</h4>
-                        <p>Surah An-Nahl concludes with command to invite with wisdom (16:125), while Surah Al-Isra opens with the event of Isra' Mi'raj of Prophet Muhammad. If Surah An-Nahl extensively discusses physical favors and evidence of Allah's power in nature, Surah Al-Isra focuses more on spiritual guidance and noble character. Both complement each other in forming a balanced Muslim personality between material and spiritual dimensions.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> With Surah Al-Kahf (18)</h4>
-                        <p>Surah Al-Isra concludes with affirmation of Allah's oneness and perfection of revelation (17:111), while Surah Al-Kahf opens with praise to Allah who revealed the Book without distortion (18:1). If Surah Al-Isra extensively discusses social and family ethics, Surah Al-Kahf focuses on tests of faith through various stories. Both provide comprehensive life guidance for a Muslim.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="surah-navigation">
-                <a href="016.html" class="nav-link">Previous Surah: An-Nahl</a>
-                <a href="018.html" class="nav-link">Next Surah: Al-Kahf</a>
-            </div>
-
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+        <div class="benefits-list">
+            <h3><i class="fas fa-award"></i> Pesan Akidah, Ibadah, Akhlak</h3>
+            <ul>
+                <li><strong>Akidah:</strong> Keimanan pada Isra’ Mi’raj, keesaan Allah (17:23), kebangkitan (17:49-51).</li>
+                <li><strong>Ibadah:</strong> Mendirikan shalat (17:78), membaca Al-Qur’an dengan tartil (17:106), berdoa dengan rendah hati (17:110).</li>
+                <li><strong>Akhlak:</strong> Berbakti kepada orang tua, tidak boros, tidak sombong, menepati janji, adil dalam timbangan.</li>
+            </ul>
+        </div>
+        <div class="info-box" style="background:var(--benefits-bg);">
+            <div class="theme-title">Relevansi Kontemporer</div>
+            <p>Penghormatan kepada orang tua di tengah budaya individualis, kejujuran ekonomi, serta kesadaran akan batas ilmu pengetahuan menjadi pesan abadi surah ini.</p>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; (2026 AD) 1447 AH - Surah Al-Isra Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php?sura=17?verse=1&to=111" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
-    </footer>
+    <!-- ENGLISH CONTENT -->
+    <div id="english-content" class="hidden">
+        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+        <h1 class="surah-title">Surah Al-Isra - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1&to=111" target="_blank">IslamicStudies.info - Surah Al-Isra (1-111)</a></div>
+        <div class="arabic">سُبْحَانَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِۦ لَيْلًا مِّنَ ٱلْمَسْجِدِ ٱلْحَرَامِ إِلَى ٱلْمَسْجِدِ ٱلْأَقْصَا ٱلَّذِى بَٰرَكْنَا حَوْلَهُۥ لِنُرِيَهُۥ مِنْ ءَايَٰتِنَآ ۚ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلْبَصِيرُ</div>
+        <div class="transliteration">Sub-ḥānallażī asrā bi'abdihī lailam minal-masjidil-ḥarāmi ilal-masjidil-aqṣallażī bāraknā ḥaulahụ linuriyahụ min āyātinā, innahụ huwas-samī'ul-baṣīr.</div>
+        <p style="text-align: center;">"Exalted is He who took His Servant by night from al-Masjid al-Haram to al-Masjid al-Aqsa, whose surroundings We have blessed, to show him of Our signs. Indeed, He is the Hearing, the Seeing." (Al-Isra 17:1)</p>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Safely get elements
-            const englishContent = document.getElementById('english-content');
-            const indonesianContent = document.getElementById('indonesian-content');
-            const languageToggle = document.getElementById('languageToggle');
-            const transliterationToggle = document.getElementById('transliterationToggle');
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const transliterationElements = document.querySelectorAll('.transliteration');
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Overview of Surah Al-Isra</h3>
+            <p>Surah Al-Isra (17), 111 verses, Meccan. Named after the Night Journey. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1&to=111" target="_blank">IslamicStudies.info</a>, it emphasizes monotheism, kindness to parents, social ethics, and lessons from the Children of Israel.</p>
+        </div>
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> Full Text Access</h3>
+            <p><a href="https://recitequran.com/17:1" target="_blank">ReciteQuran.com - Surah Al-Isra</a></p>
+        </div>
+        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Isra</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/017.mp3"></audio></div>
 
-            if (!englishContent || !indonesianContent || !languageToggle || !transliterationToggle || !darkModeToggle) {
-                console.error('One or more required elements missing. Toggles may not work.');
-                return;
-            }
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme</th><th>Core Message</th></tr></thead>
+            <tbody>
+                <tr><td><strong>1-8</strong></td><td>Isra’ Mi’raj & lessons from Israelites</td><td>Night journey, destruction of Israelites due to sin</td></tr>
+                <tr><td><strong>9-22</strong></td><td>Nobility of Qur’an & consequences of choice</td><td>Qur’an as guidance, reward for believers, prohibition of shirk</td></tr>
+                <tr><td><strong>23-40</strong></td><td>Divine commands & noble morals</td><td>Kindness to parents, avoidance of waste and arrogance</td></tr>
+                <tr><td><strong>41-60</strong></td><td>Evidence of Allah’s power & polytheist rejection</td><td>Signs in creation, resurrection after death</td></tr>
+                <tr><td><strong>61-72</strong></td><td>Story of Adam & Iblis, human dignity</td><td>Iblis’s arrogance, Satan’s temptation, human honor</td></tr>
+                <tr><td><strong>73-84</strong></td><td>Prophet’s tests & truth of Qur’an</td><td>Attempts to distort revelation, steadfastness</td></tr>
+                <tr><td><strong>85-100</strong></td><td>Nature of soul & Allah’s absolute power</td><td>Soul is from Allah’s command, human knowledge limited</td></tr>
+                <tr><td><strong>101-111</strong></td><td>Stories of prophets & conclusion</td><td>Miracles of Musa, oneness of Allah, perfection of revelation</td></tr>
+            </tbody></table>
+        </div>
 
-            // --- Language handling with URL override ---
-            const urlParams = new URLSearchParams(window.location.search);
-            let langParam = null;
-            if (urlParams.has('English')) langParam = 'english';
-            else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Isra</h2>
 
-            let currentLanguage = langParam || localStorage.getItem('language') || 'indonesian';
-            if (currentLanguage === 'english') {
-                englishContent.classList.remove('hidden');
-                indonesianContent.classList.add('hidden');
-                languageToggle.textContent = 'Switch to Indonesian';
-            } else {
-                englishContent.classList.add('hidden');
-                indonesianContent.classList.remove('hidden');
-                languageToggle.textContent = 'Switch to English';
-            }
-            if (langParam) localStorage.setItem('language', langParam);
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-1"></i> 1. The Night Journey (17:1)</div>
+                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=1&to=1" target="_blank">17:1</a>
+                    <div class="arabic">سُبْحَانَ ٱلَّذِىٓ أَسْرَىٰ بِعَبْدِهِۦ لَيْلًا مِّنَ ٱلْمَسْجِدِ ٱلْحَرَامِ إِلَى ٱلْمَسْجِدِ ٱلْأَقْصَا</div>
+                    <div class="transliteration">Sub-ḥānallażī asrā bi'abdihī lailam minal-masjidil-ḥarāmi ilal-masjidil-aqṣā</div>
+                    <div class="tafsir-box">Allah transported His servant from the Sacred Mosque to the Farthest Mosque. IslamicStudies.info: a supreme miracle affirming prophethood, showing divine signs, and linking the three holy sites.</div>
+                </div>
+            </div>
 
-            languageToggle.addEventListener('click', function() {
-                if (englishContent.classList.contains('hidden')) {
-                    englishContent.classList.remove('hidden');
-                    indonesianContent.classList.add('hidden');
-                    languageToggle.textContent = 'Switch to Indonesian';
-                    localStorage.setItem('language', 'english');
-                } else {
-                    englishContent.classList.add('hidden');
-                    indonesianContent.classList.remove('hidden');
-                    languageToggle.textContent = 'Switch to English';
-                    localStorage.setItem('language', 'indonesian');
-                }
-            });
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-2"></i> 2. Kindness to Parents (17:23-24)</div>
+                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=23&to=24" target="_blank">17:23-24</a>
+                    <div class="arabic">وَقَضَىٰ رَبُّكَ أَلَّا تَعْبُدُوٓا۟ إِلَّآ إِيَّاهُ وَبِٱلْوَٰلِدَيْنِ إِحْسَٰنًا</div>
+                    <div class="transliteration">Wa qaḍā rabbuka allā ta'budū illā iyyāhu wa bil-wālidaini iḥsānā</div>
+                    <div class="tafsir-box">Allah decrees worship of Him alone and kindness to parents. Even saying “uff” is forbidden. IslamicStudies.info: honoring parents ranks next to tawhid.</div>
+                </div>
+            </div>
 
-            // --- Transliteration toggle ---
-            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
-            if (transliterationVisible) {
-                transliterationElements.forEach(el => el.style.display = 'block');
-                transliterationToggle.textContent = 'Hide Transliteration';
-            } else {
-                transliterationElements.forEach(el => el.style.display = 'none');
-                transliterationToggle.textContent = 'Show Transliteration';
-            }
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-3"></i> 3. Prohibition of Wastefulness & Arrogance (17:26-27, 37)</div>
+                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=26&to=27" target="_blank">17:26-27</a>
+                    <div class="arabic">وَلَا تُبَذِّرْ تَبْذِيرًا إِنَّ ٱلْمُبَذِّرِينَ كَانُوٓا۟ إِخْوَٰنَ ٱلشَّيَٰطِينِ</div>
+                    <div class="transliteration">Wa lā tubażżir tabżīrā, innal-mubażżirīna kānū ikh-wānasy-syayāṭīn</div>
+                    <div class="tafsir-box">Wasteful spenders are brothers of devils. Also verse 37 forbids walking arrogantly. IslamicStudies.info: Islam promotes balanced spending and humility.</div>
+                </div>
+            </div>
 
-            transliterationToggle.addEventListener('click', function() {
-                const isVisible = transliterationElements[0]?.style.display === 'block';
-                if (isVisible) {
-                    transliterationElements.forEach(el => el.style.display = 'none');
-                    transliterationToggle.textContent = 'Show Transliteration';
-                    localStorage.setItem('transliteration', 'false');
-                } else {
-                    transliterationElements.forEach(el => el.style.display = 'block');
-                    transliterationToggle.textContent = 'Hide Transliteration';
-                    localStorage.setItem('transliteration', 'true');
-                }
-            });
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-4"></i> 4. Honoring Commitments & Just Dealings (17:34-35)</div>
+                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=34&to=35" target="_blank">17:34-35</a>
+                    <div class="arabic">وَأَوْفُوا۟ بِٱلْعَهْدِ ۖ إِنَّ ٱلْعَهْدَ كَانَ مَسْـُٔولًا</div>
+                    <div class="transliteration">Wa aufụ bil-'ahd, innal-'ahda kāna mas`ụlā</div>
+                    <div class="tafsir-box">Fulfill every promise, for promises will be questioned. Give full measure and weigh with justice. IslamicStudies.info: foundation of honesty in economics.</div>
+                </div>
+            </div>
 
-            // --- Dark mode ---
-            const darkMode = localStorage.getItem('darkMode') === 'true';
-            if (darkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeToggle.textContent = 'Light Mode';
-            } else {
-                darkModeToggle.textContent = 'Dark Mode';
-            }
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-5"></i> 5. The Soul & Limitations of Human Knowledge (17:85)</div>
+                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=17&verse=85&to=85" target="_blank">17:85</a>
+                    <div class="arabic">وَيَسْـَٔلُونَكَ عَنِ ٱلرُّوحِ ۖ قُلِ ٱلرُّوحُ مِنْ أَمْرِ رَبِّى وَمَآ أُوتِيتُم مِّنَ ٱلْعِلْمِ إِلَّا قَلِيلًا</div>
+                    <div class="transliteration">Wa yas`alūnaka 'anir-rụḥ, qulir-rụḥu min amri rabbī wa mā ụtītum minal-'ilmi illā qalīlā</div>
+                    <div class="tafsir-box">They ask you about the soul. Say: the soul is from the affair of my Lord, and you have been given but little knowledge. IslamicStudies.info: teaches humility in knowledge and focusing on beneficial matters.</div>
+                </div>
+            </div>
+        </div>
+        <div class="benefits-list"><h3>Spiritual Takeaways</h3><ul><li>Belief in miracles and divine power</li><li>Honoring parents as a primary duty</li><li>Avoiding waste and arrogance</li><li>Integrity in promises and transactions</li><li>Acknowledging human intellectual limits</li></ul></div>
+    </div>
 
-            darkModeToggle.addEventListener('click', function() {
-                document.body.classList.toggle('dark-mode');
-                const isDark = document.body.classList.contains('dark-mode');
-                darkModeToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-                localStorage.setItem('darkMode', isDark);
-            });
+    <!-- Unified Pagination -->
+    <div class="surah-pagination">
+        <a href="016.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: An-Nahl</a>
+        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
+        <a href="018.html" class="pagination-item">Next Surah: Al-Kahf <i class="fas fa-arrow-right"></i></a>
+    </div>
+</div>
 
-            // --- Screen scroll arrows ---
-            const scrollUp = document.getElementById('scrollUp');
-            const scrollDown = document.getElementById('scrollDown');
-            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy(0, -window.innerHeight));
-            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy(0, window.innerHeight));
+<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
 
-            // --- Remove unwanted arrow icons (excluding the navigation arrows) ---
-            document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
-                if (!icon.closest('.scroll-arrow') && !icon.closest('.nav-arrow-up') && !icon.closest('.nav-arrow-down')) {
-                    icon.remove();
-                }
-            });
-        });
-    </script>
+<!-- fixed scroll arrows -->
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const englishContent = document.getElementById('english-content');
+    const indonesianContent = document.getElementById('indonesian-content');
+    let languageToggle = document.getElementById('languageToggle');
+    let transliterationToggle = document.getElementById('transliterationToggle');
+    let darkModeToggle = document.getElementById('darkModeToggle');
+
+    if (!languageToggle) { let btn = document.createElement('div'); btn.id = 'languageToggle'; btn.className = 'language-toggle'; document.body.appendChild(btn); languageToggle = btn; }
+    if (!transliterationToggle) { let btn = document.createElement('div'); btn.id = 'transliterationToggle'; btn.className = 'transliteration-toggle'; document.body.appendChild(btn); transliterationToggle = btn; }
+    if (!darkModeToggle) { let btn = document.createElement('div'); btn.id = 'darkModeToggle'; btn.className = 'dark-mode-toggle'; document.body.appendChild(btn); darkModeToggle = btn; }
+
+    const translitElements = document.querySelectorAll('.transliteration');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let langParam = null;
+    if (urlParams.has('English')) langParam = 'english';
+    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+
+    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+    function updateLanguageUI(lang) {
+        if (lang === 'english') {
+            englishContent.classList.remove('hidden');
+            indonesianContent.classList.add('hidden');
+            languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+        } else {
+            englishContent.classList.add('hidden');
+            indonesianContent.classList.remove('hidden');
+            languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+        }
+        localStorage.setItem('language', lang);
+    }
+    updateLanguageUI(currentLang);
+    languageToggle.addEventListener('click', () => {
+        const newLang = englishContent.classList.contains('hidden') ? 'english' : 'indonesian';
+        updateLanguageUI(newLang);
+    });
+
+    let translitVisible = localStorage.getItem('transliteration') === 'true';
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        transliterationToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        localStorage.setItem('transliteration', show);
+    }
+    setTransliteration(translitVisible);
+    transliterationToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
+
+    let darkActive = localStorage.getItem('darkMode') === 'true';
+    if (urlParams.has('Dark')) darkActive = true;
+    if (urlParams.has('Light')) darkActive = false;
+    if (darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI() {
+        const isDark = document.body.classList.contains('dark-mode');
+        darkModeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
+        localStorage.setItem('darkMode', isDark);
+    }
+    setDarkModeUI();
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        setDarkModeUI();
+    });
+
+    const scrollUp = document.getElementById('scrollUp');
+    const scrollDown = document.getElementById('scrollDown');
+    if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+
+    document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
+        if (!icon.closest('.pagination-item') && !icon.closest('#scrollUp') && !icon.closest('#scrollDown')) {
+            icon.remove();
+        }
+    });
+});
+</script>
 </body>
 </html>
-
