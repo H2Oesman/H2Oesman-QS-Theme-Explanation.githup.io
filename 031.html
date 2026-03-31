@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surah Luqman - Verse Theme Elaboration</title>
+    <title>Surah Luqman - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
-            --text-color: #333;
+            --text-color: #1e2a3e;
             --container-bg: white;
             --arabic-color: #1a5276;
-            --section-title-color: #2980b9;
+            --section-title-color: #1e5f8e;
             --verse-bg: #f8f9fa;
             --verse-border: #e0e0e0;
             --bonus-bg: #e8f4fc;
@@ -18,27 +18,27 @@
             --tafsir-border: #ffe082;
             --structure-bg: #f0f7ff;
             --benefits-bg: #f1f8e9;
-            --praise-bg: #fff0f0;
-            --guidance-bg: #f0fff0;
+            --link-color: #1e5f8e;
+            --link-hover: #0d3d5a;
+            --theme-card-bg: #ffffffdd;
         }
-
         .dark-mode {
-            --bg-color: #1a1a2e;
-            --text-color: #e6e6e6;
-            --container-bg: #16213e;
-            --arabic-color: #4cc9f0;
-            --section-title-color: #3498db;
+            --bg-color: #121826;
+            --text-color: #eef2ff;
+            --container-bg: #1e293b;
+            --arabic-color: #7bc9ff;
+            --section-title-color: #5dade2;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
             --tafsir-bg: #2d3748;
-            --tafsir-border: #4a5568;
+            --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
-            --benefits-bg: #1b3c1b;
-            --praise-bg: #3a1f1f;
-            --guidance-bg: #1f3a1f;
+            --benefits-bg: #1f3a2f;
+            --link-color: #8bcbff;
+            --link-hover: #c3e2ff;
+            --theme-card-bg: #1e293bdd;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.8;
@@ -53,17 +53,26 @@
             margin: 0 auto;
             background: var(--container-bg);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
         }
         .arabic {
             font-size: 42px;
-            text-align: center;
+            text-align: right;
             direction: rtl;
             margin: 20px 0;
             color: var(--arabic-color);
-            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
             line-height: 2;
         }
         .transliteration {
@@ -74,824 +83,519 @@
             margin: -15px 0 20px;
             display: none;
         }
+        .dark-mode .transliteration { color: #b0c4de; }
         .surah-title {
             font-size: 36px;
-            color: var(--text-color);
-            border-bottom: 3px solid #2c3e50;
-            padding-bottom: 10px;
             text-align: center;
             margin-bottom: 25px;
-            background: linear-gradient(90deg, #3498db, #2c3e50);
+            background: linear-gradient(135deg, #2c7da0, #1e5f8e);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        .section {
-            margin: 30px 0;
-            padding: 0 10px;
-        }
+        .section { margin: 30px 0; }
         .section-title {
             font-size: 24px;
             color: var(--section-title-color);
-            margin-bottom: 15px;
-            border-left: 5px solid #3498db;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
             padding-left: 15px;
             display: flex;
             align-items: center;
-        }
-        .section-title-icon {
-            margin-right: 10px;
-            font-size: 20px;
+            gap: 10px;
         }
         .verse, .theme-point {
             background-color: var(--verse-bg);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 20px;
             margin: 25px 0;
             border: 1px solid var(--verse-border);
-            transition: all 0.3s ease;
         }
         .verse-title, .theme-title {
             font-weight: bold;
-            color: #16a085;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
+            color: #1e7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
         }
-        .verse-title-icon {
-            margin-right: 8px;
-        }
-        .language-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #3498db;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .transliteration-toggle {
-            position: fixed;
-            top: 60px;
-            right: 20px;
-            background: #2ecc71;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .dark-mode-toggle {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: #9b59b6;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .scroll-arrow {
-            position: fixed;
-            left: 15px;
-            width: 44px;
-            height: 44px;
-            background-color: #3498db;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 1000;
-            transition: background-color 0.2s, transform 0.1s;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        .scroll-arrow:hover {
-            background-color: #1f618d;
-            transform: scale(1.05);
-        }
-        .scroll-arrow:active {
-            transform: scale(0.95);
-        }
-        .scroll-arrow.up {
-            top: 15px;
-        }
-        .scroll-arrow.down {
-            bottom: 15px;
-        }
-        .bonus {
-            background-color: var(--bonus-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #3498db;
-            transition: all 0.3s ease;
-        }
+        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
-            border-radius: 5px;
-            margin-top: 10px;
+            border-radius: 16px;
+            margin-top: 15px;
             border: 1px solid var(--tafsir-border);
-            transition: all 0.3s ease;
         }
-        .hidden {
-            display: none;
-        }
-        .surah-source {
-            text-align: center;
-            margin-top: -15px;
-            margin-bottom: 20px;
-            color: #7f8c8d;
-            font-size: 16px;
-        }
-        .main-menu {
-            text-align: center;
-            margin: 15px 0;
-        }
+        .hidden { display: none; }
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
             padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            border: 1px solid #3498db;
+            border-radius: 40px;
+            border: 1px solid var(--link-color);
+            font-weight: 500;
         }
-        .top-home-link:hover {
-            background-color: #3498db;
-            color: white;
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 14px;
-            border-top: 1px solid #eee;
-        }
+        .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
         .structure-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
         .structure-item {
             background: var(--structure-bg);
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #3498db;
+            padding: 18px;
+            border-radius: 20px;
+            border-left: 4px solid #2c7da0;
         }
-        .structure-item h4 {
-            margin-top: 0;
-            color: #2980b9;
-        }
-        .benefits-list {
-            background: var(--benefits-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .benefits-list ul {
-            padding-left: 20px;
-        }
-        .theme-overview {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        .benefits-list, .special-benefits, .theme-overview, .info-box {
+            background: var(--bonus-bg);
             padding: 25px;
-            border-radius: 10px;
+            border-radius: 24px;
             margin: 25px 0;
-            border-left: 5px solid #2c3e50;
         }
-        .dark-mode .theme-overview {
-            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-        }
-        .info-box {
-            background-color: var(--bonus-bg);
+        .theme-card {
+            background: var(--theme-card-bg);
             padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            text-align: center;
-            border: 1px solid var(--verse-border);
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 6px solid #2c7da0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
-        .praise-section {
-            background-color: var(--praise-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #c0392b;
-        }
-        .guidance-section {
-            background-color: var(--guidance-bg);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            border-left: 5px solid #27ae60;
-        }
-        .audio-player {
-            width: 100%;
-            max-width: 400px;
-            margin: 20px auto;
-            text-align: center;
-        }
-        .audio-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: var(--arabic-color);
-        }
-        .surah-navigation {
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--container-bg);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
             display: flex;
-            justify-content: space-between;
-            margin: 40px 0 20px;
-            padding: 20px 0;
-            border-top: 1px solid var(--verse-border);
-            border-bottom: 1px solid var(--verse-border);
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            color: var(--text-color);
+            font-size: 22px;
         }
-        .nav-link {
+        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        .surah-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--verse-border);
+            flex-wrap: wrap;
+        }
+        .pagination-item {
+            background: var(--verse-bg);
+            padding: 10px 24px;
+            border-radius: 60px;
             display: inline-flex;
             align-items: center;
-            padding: 10px 20px;
-            background: var(--verse-bg);
-            color: var(--text-color);
-            text-decoration: none;
-            border-radius: 5px;
+            gap: 8px;
+            font-weight: bold;
             border: 1px solid var(--verse-border);
-            transition: all 0.3s ease;
+            transition: 0.2s;
         }
-        .nav-link:hover {
-            background: #3498db;
+        .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
             color: white;
-            border-color: #3498db;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
         }
-        .nav-link i {
-            margin: 0 5px;
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        @media (max-width: 640px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
+            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
+            .arabic { font-size: 30px; }
         }
+        footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
         .theme-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
             background: var(--structure-bg);
-            border-radius: 8px;
+            border-radius: 16px;
             overflow: hidden;
         }
-        .theme-table th {
-            background: #3498db;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-        .theme-table td {
+        .theme-table th, .theme-table td {
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
-            color: var(--text-color);
+            text-align: left;
         }
-        .theme-table tr:last-child td {
-            border-bottom: none;
-        }
-        @media (max-width: 768px) {
-            .arabic {
-                font-size: 32px;
-            }
-            .surah-title {
-                font-size: 28px;
-            }
-            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
-                position: static;
-                margin: 10px 0;
-                display: inline-block;
-            }
-            .top-home-link {
-                margin-bottom: 15px;
-            }
-            .structure-grid {
-                grid-template-columns: 1fr;
-            }
-            .surah-navigation {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .nav-link {
-                justify-content: center;
-            }
-            .theme-table {
-                display: block;
-                overflow-x: auto;
-            }
-            .scroll-arrow {
-                width: 38px;
-                height: 38px;
-                font-size: 18px;
-                left: 8px;
-            }
-        }
+        .theme-table th { background: #2c7da0; color: white; }
+        i { margin-right: 4px; }
+        .audio-player { max-width: 400px; margin: 20px auto; text-align: center; }
+        .audio-title { font-weight: bold; margin-bottom: 10px; color: var(--arabic-color); }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="scroll-arrow up" id="scrollUp"><i class="fas fa-arrow-up"></i></div>
-    <div class="scroll-arrow down" id="scrollDown"><i class="fas fa-arrow-down"></i></div>
 
-    <div class="container">
-        <div class="language-toggle" id="languageToggle">Switch to English</div>
-        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
-        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
 
-        <!-- Indonesian Content (Default) -->
-        <div id="indonesian-content">
-            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-            <h1 class="surah-title">Surah Luqman - Tafsir Tematik</h1>
-            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34" target="_blank">IslamicStudies.info - Surah Luqman</a></div>
+<div class="container" id="mainContainer">
+    <!-- INDONESIAN CONTENT -->
+    <div id="indonesian-content">
+        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+        <h1 class="surah-title">Surah Luqman - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34&opt=1" target="_blank">IslamicStudies.info - Surah Luqman (1-34)</a></div>
+        <div class="arabic">الم</div>
+        <div class="transliteration">Alif Lām Mīm</div>
+        <p style="text-align: center; font-style: italic;">"Alif Lam Mim." (Luqman 31:1)</p>
 
-            <div class="arabic">الم</div>
-            <div class="transliteration">Alif Lām Mīm.</div>
-            <p style="text-align: center; font-style: italic;">"Alif Lam Mim." (Luqman 31:1)</p>
-
-            <div class="theme-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Gambaran Umum Surah Luqman</h3>
-                <p>Surah Luqman (سورة لقمان) adalah surah ke-31 dalam Al-Qur'an dan terdiri dari 34 ayat. Surah ini termasuk golongan Makkiyah (diturunkan di Mekah) menurut mayoritas ulama. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah As-Saffat dan sebelum Surah Saba'. Surah Luqman dinamai dari kisah Luqman yang disebutkan dalam ayat 12-19 sebagai sosok bijak yang memberikan nasihat kepada anaknya. Surah ini berisi pelajaran tentang hikmah, pendidikan anak, tauhid, akhlak, dan hikmah penciptaan alam semesta.</p>
-                <p>Surah ini dimulai dengan penegasan bahwa Al-Qur'an adalah petunjuk dan rahmat bagi orang-orang yang berbuat baik (31:1-3) dan diakhiri dengan penegasan tentang ilmu Allah yang meliputi segala sesuatu (31:34). Surah Luqman mendapatkan namanya dari kisah Luqman yang bijaksana yang memberikan nasihat berharga kepada anaknya tentang tauhid, akhlak, dan kehidupan.</p>
-            </div>
-
-            <div class="info-box">
-                <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-                <p>Untuk membaca teks lengkap Surah Luqman beserta terjemahannya, kunjungi: 
-                <a href="https://quran.com/31:1-34?translations=33" target="_blank">Quran.com - Surah Luqman</a></p>
-            </div>
-
-            <div class="bonus">
-                <div class="section-title">Sumber Tafsir Terpercaya</div>
-                <p>Pembahasan dalam halaman ini mengikuti kerangka tematik yang dikenal dalam ilmu tafsir, dengan merujuk pada sumber terpercaya <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34" target="_blank">IslamicStudies.info</a>.</p>
-            </div>
-
-            <div class="audio-player">
-                <div class="audio-title">Dengarkan Surah Luqman</div>
-                <audio controls style="width: 100%;">
-                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/031.mp3" type="audio/mpeg">
-                    Browser Anda tidak mendukung elemen audio.
-                </audio>
-            </div>
-
-            <!-- Pembagian Tema per Bagian Ayat -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat</h2>
-                <table class="theme-table">
-                    <thead>
-                        <tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td><strong>Ayat 1-11</strong></td><td>Karakteristik Orang Bertakwa</td><td>Ciri-ciri orang bertakwa; kesia-siaan kehidupan tanpa petunjuk; hikmah penciptaan langit dan bumi</td></tr>
-                        <tr><td><strong>Ayat 12-19</strong></td><td>Nasihat Luqman kepada Anaknya</td><td>Hikmah yang diberikan kepada Luqman; nasihat tentang tauhid, berbakti kepada orang tua, dan akhlak mulia</td></tr>
-                        <tr><td><strong>Ayat 20-26</strong></td><td>Kekuasaan Allah dan Kebatilan Syirik</td><td>Nikmat-nikmat Allah yang diberikan kepada manusia; kebatilan menyembah selain Allah; segala sesuatu milik Allah</td></tr>
-                        <tr><td><strong>Ayat 27-30</strong></td><td>Kemahakuasaan Allah</td><td>Kekuasaan Allah dalam penciptaan; ilmu Allah yang meliputi segala sesuatu; Allah Maha Kuat lagi Maha Perkasa</td></tr>
-                        <tr><td><strong>Ayat 31-34</strong></td><td>Tanda-tanda Kekuasaan Allah</td><td>Tanda-tanda alam sebagai bukti kekuasaan Allah; keterbatasan ilmu manusia; kepastian hari kiamat</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Ayat Kunci untuk Tadabbur -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Ayat Kunci untuk Tadabbur</h2>
-                <div class="verse">
-                    <div class="arabic">وَلَقَدْ آتَيْنَا لُقْمَانَ الْحِكْمَةَ أَنِ اشْكُرْ لِلَّهِ ۚ وَمَنْ يَشْكُرْ فَإِنَّمَا يَشْكُرُ لِنَفْسِهِ ۖ وَمَنْ كَفَرَ فَإِنَّ اللَّهَ غَنِيٌّ حَمِيدٌ</div>
-                    <div class="transliteration">Wa laqad ātainā luqmānal-ḥikmata anisykur lillāh, wa man yasykur fa innamā yasykuru linafsih, wa man kafara fa innallāha ganiyyun ḥamīd.</div>
-                    <p><strong>"Dan sungguh, telah Kami berikan hikmah kepada Luqman, yaitu, 'Bersyukurlah kepada Allah!' Dan barang siapa bersyukur (kepada Allah), maka sesungguhnya dia bersyukur untuk dirinya sendiri; dan barang siapa tidak bersyukur (kufur), maka sesungguhnya Allah Maha Kaya lagi Maha Terpuji."</strong> (Luqman 31:12)</p>
-                    
-                    <div class="tafsir-box">
-                        <strong>Kenapa ayat ini penting:</strong>
-                        <p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=12&to=12" target="_blank">IslamicStudies.info</a>, ayat ini menegaskan bahwa hikmah sejati adalah mensyukuri nikmat Allah. Luqman bukanlah nabi tetapi seorang hamba yang shalih yang diberi hikmah oleh Allah. Ayat ini mengajarkan tentang hakikat syukur yang manfaatnya kembali kepada diri sendiri, sedangkan kekufuran tidak mengurangi kemuliaan Allah sedikit pun karena Dia Maha Kaya dan Maha Terpuji.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Pesan Akidah, Ibadah, & Akhlak -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak</h2>
-                <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Surah Luqman</h3>
-                    <ul>
-                        <li><strong>Akidah</strong> : Keyakinan bahwa Allah Maha Esa dan tidak ada sekutu bagi-Nya (31:13); iman kepada hari akhir (31:34); keyakinan bahwa Allah Maha Mengetahui segala sesuatu (31:34); pengakuan bahwa semua nikmat berasal dari Allah (31:20).</li>
-                        <li><strong>Ibadah</strong> : Syukur kepada Allah atas segala nikmat (31:12); mendirikan shalat (31:17); amar ma'ruf nahi mungkar (31:17); sabar menghadapi cobaan (31:17).</li>
-                        <li><strong>Akhlak</strong> : Berbakti kepada orang tua (31:14); rendah hati dan tidak sombong (31:18); sederhana dalam berjalan dan merendahkan suara (31:19); menepati janji (31:32).</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Tema Utama Surah Luqman</h2>
-                
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-1 verse-title-icon"></i> 1. Karakteristik Orang Bertakwa</div>
-                    <p>Ciri-ciri orang yang bertakwa dan kehidupan mereka yang dipenuhi petunjuk Ilahi.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=2&to=5" target="_blank">Luqman 31:2-5</a>
-                        <div class="arabic">تِلْكَ آيَاتُ الْكِتَابِ الْحَكِيمِ هُدًى وَرَحْمَةً لِلْمُحْسِنِينَ الَّذِينَ يُقِيمُونَ الصَّلَاةَ وَيُؤْتُونَ الزَّكَاةَ وَهُمْ بِالْآخِرَةِ هُمْ يُوقِنُونَ أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ</div>
-                        <div class="transliteration">Tilka āyātul-kitābil-ḥakīm, hudaw wa raḥmatan lil-muḥsinīn, allażīna yuqīmụnaṣ-ṣalāta wa yu`tụnaz-zakāta wa hum bil-ākhirati hum yụqinụn, ulā`ika `alā hudam mir rabbihim wa ulā`ika humul-mufliḥụn.</div>
-                        <p>"Inilah ayat-ayat Al-Qur'an yang penuh hikmah, sebagai petunjuk dan rahmat bagi orang-orang yang berbuat kebaikan, (yaitu) orang-orang yang melaksanakan shalat, menunaikan zakat, dan mereka yakin akan adanya akhirat. Merekalah orang-orang yang mendapat petunjuk dari Tuhan mereka, dan mereka itulah orang-orang yang beruntung."</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=2&to=5" target="_blank">IslamicStudies.info</a>, ayat-ayat ini menetapkan karakteristik dasar orang bertakwa. Al-Qur'an adalah petunjuk dan rahmat khusus bagi orang yang berbuat ihsan. Kesempurnaan iman tercermin dalam tiga hal: menegakkan shalat, menunaikan zakat, dan yakin kepada hari akhir. Ketiga hal ini merupakan indikator keislaman yang sejati.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="praise-section">
-                    <div class="theme-title"><i class="fas fa-2 verse-title-icon"></i> 2. Nasihat Luqman kepada Anaknya</div>
-                    <p>Hikmah dan nasihat berharga dari Luqman yang bijaksana untuk pendidikan anak.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=13&to=19" target="_blank">Luqman 31:13-19</a>
-                        <div class="arabic">وَإِذْ قَالَ لُقْمَانُ لِابْنِهِ وَهُوَ يَعِظُهُ يَا بُنَيَّ لَا تُشْرِكْ بِاللَّهِ ۖ إِنَّ الشِّرْكَ لَظُلْمٌ عَظِيمٌ ... يَا بُنَيَّ أَقِمِ الصَّلَاةَ وَأْمُرْ بِالْمَعْرُوفِ وَانْهَ عَنِ الْمُنْكَرِ وَاصْبِرْ عَلَىٰ مَا أَصَابَكَ ۖ إِنَّ ذَٰلِكَ مِنْ عَزْمِ الْأُمُورِ</div>
-                        <div class="transliteration">Wa iż qāla luqmānu libnihī wa huwa ya'iẓuhụ yā bunayya lā tusyrik billāh, innasy-syirka laẓulmun 'aẓīm ... yā bunayya aqimiṣ-ṣalāta wa`mur bil-ma'rụfi wanha 'anil-mungkari waṣbir 'alā mā aṣābak, inna żālika min 'azmil-umụr.</div>
-                        <p>"Dan (ingatlah) ketika Luqman berkata kepada anaknya, di waktu dia memberi pelajaran kepadanya, 'Wahai anakku! Janganlah kamu mempersekutukan Allah, sesungguhnya mempersekutukan (Allah) adalah benar-benar kezaliman yang besar.' ... 'Wahai anakku! Laksanakanlah shalat dan suruhlah (manusia) berbuat yang makruf dan cegahlah (mereka) dari yang mungkar dan bersabarlah terhadap apa yang menimpamu, sesungguhnya yang demikian itu termasuk perkara yang penting.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=13&to=19" target="_blank">IslamicStudies.info</a> menjelaskan bahwa nasihat Luqman merupakan panduan lengkap pendidikan anak. Luqman memulai dengan larangan syirik karena itu adalah dosa terbesar. Nasihat Luqman mencakup semua aspek kehidupan: akidah (tauhid), ibadah (shalat), sosial (amar ma'ruf nahi mungkar), dan psikologis (kesabaran). Ini adalah kurikulum pendidikan Islami yang komprehensif.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-3 verse-title-icon"></i> 3. Kekuasaan Allah dan Kebatilan Syirik</div>
-                    <p>Penegasan tentang kekuasaan Allah atas alam semesta dan kebatilan menyembah selain-Nya.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=20&to=20" target="_blank">Luqman 31:20</a>
-                        <div class="arabic">أَلَمْ تَرَوْا أَنَّ اللَّهَ سَخَّرَ لَكُمْ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ وَأَسْبَغَ عَلَيْكُمْ نِعَمَهُ ظَاهِرَةً وَبَاطِنَةً ۗ وَمِنَ النَّاسِ مَنْ يُجَادِلُ فِي اللَّهِ بِغَيْرِ عِلْمٍ وَلَا هُدًى وَلَا كِتَابٍ مُنِيرٍ</div>
-                        <div class="transliteration">A lam tarau annallāha sakhkhara lakum mā fis-samāwāti wa mā fil-arḍi wa asbaga 'alaikum ni'amahụ ẓāhiraṅ wa bāṭinah, wa minan-nāsi may yujādilu fillāhi bigairi 'ilmiw wa lā hudaw wa lā kitābim munīr.</div>
-                        <p>"Tidakkah kamu memperhatikan bahwa sesungguhnya Allah telah menundukkan untuk (kepentingan)mu apa yang di langit dan apa yang di bumi dan menyempurnakan untukmu nikmat-Nya lahir dan batin. Dan di antara manusia ada yang membantah tentang (keesaan) Allah tanpa ilmu pengetahuan atau petunjuk dan tanpa Kitab yang memberi penerangan."</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=20&to=20" target="_blank">IslamicStudies.info</a>, ayat ini mengajak manusia merenungkan nikmat Allah yang tak terhitung. Semua yang ada di langit dan bumi telah ditundukkan untuk kemaslahatan manusia. Nikmat Allah ada yang lahir (kesehatan, kekayaan) dan batin (iman, ketenangan hati). Meskipun demikian, masih ada manusia yang mengingkari keberadaan Allah tanpa dasar ilmu.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="guidance-section">
-                    <div class="theme-title"><i class="fas fa-4 verse-title-icon"></i> 4. Kemahakuasaan Allah dalam Penciptaan</div>
-                    <p>Bukti-bukti kemahakuasaan Allah dalam penciptaan alam semesta.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=27&to=27" target="_blank">Luqman 31:27</a>
-                        <div class="arabic">وَلَوْ أَنَّمَا فِي الْأَرْضِ مِنْ شَجَرَةٍ أَقْلَامٌ وَالْبَحْرُ يَمُدُّهُ مِنْ بَعْدِهِ سَبْعَةُ أَبْحُرٍ مَا نَفِدَتْ كَلِمَاتُ اللَّهِ ۗ إِنَّ اللَّهَ عَزِيزٌ حَكِيمٌ</div>
-                        <div class="transliteration">Wa lau annamā fil-arḍi min syajaratin aqlām, wal-baḥru yamudduhụ mim ba'dihī sab'atu abḥurin mā nafidat kalimātullāh, innallāha 'azīzun ḥakīm.</div>
-                        <p>"Dan seandainya pohon-pohon di bumi menjadi pena dan lautan (menjadi tinta), ditambahkan kepadanya tujuh lautan (lagi) sesudah (kering)nya, niscaya tidak akan habis-habisnya (dituliskan) kalimat-kalimat Allah. Sesungguhnya Allah Maha Perkasa lagi Maha Bijaksana."</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=27&to=27" target="_blank">IslamicStudies.info</a> menjelaskan bahwa ayat ini menggambarkan ketidakterbatasan ilmu Allah. "Kalimat-kalimat Allah" mencakup ilmu-Nya, kekuasaan-Nya, dan semua yang Dia kehendaki. Perumpamaan ini menunjukkan bahwa ilmu Allah tak terbatas, sedangkan kemampuan manusia sangat terbatas. Ini adalah pengingat akan keagungan dan kemahakuasaan Allah.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-5 verse-title-icon"></i> 5. Keterbatasan Ilmu Manusia dan Kepastian Hari Akhir</div>
-                    <p>Pengakuan akan keterbatasan ilmu manusia dan kepastian datangnya hari kiamat.</p>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=34&to=34" target="_blank">Luqman 31:34</a>
-                        <div class="arabic">إِنَّ اللَّهَ عِنْدَهُ عِلْمُ السَّاعَةِ وَيُنَزِّلُ الْغَيْثَ وَيَعْلَمُ مَا فِي الْأَرْحَامِ ۖ وَمَا تَدْرِي نَفْسٌ مَاذَا تَكْسِبُ غَدًا ۖ وَمَا تَدْرِي نَفْسٌ بِأَيِّ أَرْضٍ تَمُوتُ ۚ إِنَّ اللَّهَ عَلِيمٌ خَبِيرٌ</div>
-                        <div class="transliteration">Innallāha 'indahụ 'ilmus-sā'ah, wa yunazzilul-gaiṡ, wa ya'lamu mā fil-arḥām, wa mā tadrī nafsum māżā taksibu gadā, wa mā tadrī nafsum bi`ayyi arḍin tamụt, innallāha 'alīmun khabīr.</div>
-                        <p>"Sesungguhnya hanya di sisi Allah ilmu tentang hari Kiamat; dan Dialah yang menurunkan hujan, dan yang mengetahui apa yang ada dalam rahim. Dan tidak ada seorang pun yang dapat mengetahui (dengan pasti) apa yang akan diusahakannya besok dan tidak ada seorang pun yang dapat mengetahui di bumi mana dia akan mati. Sesungguhnya Allah Maha Mengetahui lagi Maha Mengenal."</p>
-                        <div class="tafsir-box">
-                            <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=34&to=34" target="_blank">IslamicStudies.info</a> menjelaskan bahwa ayat ini menegaskan lima perkara yang hanya diketahui Allah. Ini adalah "al-mughayyibat al-khams" (lima hal gaib) yang hanya Allah yang mengetahuinya. Ayat ini mengajarkan kerendahan hati ilmiah: manusia tidak boleh sombong dengan ilmunya karena masih banyak hal yang tidak diketahuinya. Ini adalah obat untuk kesombongan intelektual.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Pelajaran Spiritual dari Surah Luqman</h2>
-                <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Pelajaran Penting untuk Kehidupan</h3>
-                    <ul>
-                        <li><strong>Pendidikan Anak yang Holistik:</strong> Nasihat Luqman mencakup akidah, ibadah, akhlak, dan psikologi.</li>
-                        <li><strong>Syukur sebagai Inti Hikmah:</strong> Hikmah sejati dimulai dengan bersyukur kepada Allah.</li>
-                        <li><strong>Tauhid sebagai Pondasi:</strong> Larangan syirik adalah nasihat pertama dan terpenting.</li>
-                        <li><strong>Kerendahan Hati:</strong> Manusia harus rendah hati mengakui keterbatasan ilmunya.</li>
-                        <li><strong>Alam sebagai Ayat Allah:</strong> Seluruh alam semesta adalah bukti kekuasaan Allah.</li>
-                        <li><strong>Kesabaran dalam Dakwah:</strong> Amar ma'ruf nahi mungkar membutuhkan kesabaran.</li>
-                        <li><strong>Keterbatasan Ilmu Manusia:</strong> Hanya Allah yang mengetahui hal-hal gaib.</li>
-                        <li><strong>Kepastian Hari Akhir:</strong> Hari kiamat pasti datang meskipun waktunya hanya Allah yang tahu.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Hubungan dengan Surah Lain</h2>
-                <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> Dengan Surah Ar-Rum (30)</h4>
-                        <p>Surah Ar-Rum menutup dengan penegasan tentang hari kiamat dan kekuasaan Allah (30:55-60), sedangkan Surah Luqman dibuka dengan karakteristik orang bertakwa (31:2-5). Jika Surah Ar-Rum fokus pada tanda-tanda kekuasaan Allah di alam semesta, Surah Luqman memberikan panduan praktis untuk hidup sesuai petunjuk Allah melalui nasihat Luqman. Keduanya saling melengkapi dalam menggambarkan hubungan antara keimanan dan kehidupan praktis.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> Dengan Surah As-Sajdah (32)</h4>
-                        <p>Surah Luqman menutup dengan penegasan tentang ilmu Allah yang meliputi segala sesuatu (31:34), sedangkan Surah As-Sajdah dibuka dengan penciptaan alam semesta dan manusia (32:4-9). Jika Surah Luqman menekankan pendidikan dan nasihat praktis, Surah As-Sajdah memberikan perspektif tentang penciptaan, kebangkitan, dan keagungan Allah. Keduanya membahas tentang kekuasaan Allah dari sudut pandang yang saling melengkapi.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="surah-navigation">
-                <a href="030.html" class="nav-link"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: Ar-Rum</a>
-                <a href="032.html" class="nav-link">Surah Berikutnya: As-Sajdah <i class="fas fa-arrow-right"></i></a>
-            </div>
-
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+        <!-- Gambaran Umum -->
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Luqman</h3>
+            <p>Surah Luqman (سورة لقمان) adalah surah ke-31 dalam Al-Qur'an yang terdiri dari 34 ayat. Surah ini termasuk dalam kategori Makkiyah (diturunkan di Mekah) menurut mayoritas ulama. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34&opt=1" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah As-Saffat dan sebelum Surah Saba'. Surah Luqman dinamai dari kisah Luqman yang disebutkan dalam ayat 12-19 sebagai sosok bijak yang memberikan nasihat kepada anaknya. Surah ini berisi pelajaran tentang hikmah, pendidikan anak, tauhid, akhlak, dan hikmah penciptaan alam semesta.</p>
+            <p>Surah ini dimulai dengan penegasan bahwa Al-Qur'an adalah petunjuk dan rahmat bagi orang-orang yang berbuat baik (31:1-3) dan diakhiri dengan penegasan tentang ilmu Allah yang meliputi segala sesuatu (31:34). Surah Luqman mendapatkan namanya dari kisah Luqman yang bijaksana yang memberikan nasihat berharga kepada anaknya tentang tauhid, akhlak, dan kehidupan.</p>
         </div>
 
-        <!-- English Content (Hidden by Default) -->
-        <div id="english-content" class="hidden">
-            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-            <h1 class="surah-title">Surah Luqman - Thematic Tafsir</h1>
-            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34" target="_blank">IslamicStudies.info - Surah Luqman</a></div>
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+            <p><a href="https://quran.com/31?translations=33" target="_blank">Quran.com - Surah Luqman (Terjemahan Indonesia)</a></p>
+        </div>
+        <div class="audio-player">
+            <div class="audio-title">🎧 Dengarkan Surah Luqman</div>
+            <audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/031.mp3" type="audio/mpeg"></audio>
+        </div>
 
-            <div class="arabic">الم</div>
-            <div class="transliteration">Alif Lām Mīm.</div>
-            <p style="text-align: center; font-style: italic;">"Alif Lam Mim." (Luqman 31:1)</p>
+        <!-- Pembagian Tema per Bagian Ayat -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-11</strong></td><td>Karakteristik Orang Bertakwa</td><td>Ciri-ciri orang bertakwa; kesia-siaan hidup tanpa petunjuk; hikmah penciptaan langit dan bumi.</td></tr>
+                    <tr><td><strong>12-19</strong></td><td>Nasihat Luqman kepada Anaknya</td><td>Hikmah yang diberikan kepada Luqman; nasihat tentang tauhid, berbakti kepada orang tua, dan akhlak mulia.</td></tr>
+                    <tr><td><strong>20-26</strong></td><td>Kekuasaan Allah dan Kebatilan Syirik</td><td>Nikmat-nikmat Allah yang diberikan kepada manusia; kebatilan menyembah selain Allah; segala sesuatu milik Allah.</td></tr>
+                    <tr><td><strong>27-30</strong></td><td>Kemahakuasaan Allah</td><td>Kekuasaan Allah dalam penciptaan; ilmu Allah yang meliputi segala sesuatu; Allah Maha Kuat lagi Maha Perkasa.</td></tr>
+                    <tr><td><strong>31-34</strong></td><td>Tanda-tanda Kekuasaan Allah</td><td>Tanda-tanda alam sebagai bukti kekuasaan Allah; keterbatasan ilmu manusia; kepastian hari kiamat.</td></tr>
+                </tbody>
+            </table>
+        </div>
 
-            <div class="theme-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-star section-title-icon"></i> Overview of Surah Luqman</h3>
-                <p>Surah Luqman (سورة لقمان) is the 31st chapter of the Qur'an and consists of 34 verses. This surah is classified as Makki (revealed in Mecca) according to majority of scholars. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah As-Saffat and before Surah Saba'. Surah Luqman is named after the story of Luqman mentioned in verses 12-19 as a wise man who gave advice to his son. This surah contains lessons about wisdom, child education, monotheism, ethics, and wisdom of universe creation.</p>
-                <p>This surah begins with affirmation that the Qur'an is guidance and mercy for those who do good (31:1-3) and concludes with affirmation about Allah's knowledge encompassing all things (31:34). Surah Luqman gets its name from the story of wise Luqman who gave valuable advice to his son about monotheism, ethics, and life.</p>
+        <!-- Pesan Akidah, Ibadah, & Akhlak -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-mosque"></i> Pesan Akidah, Ibadah, & Akhlak</h2>
+            <div class="benefits-list">
+                <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Surah Luqman</h3>
+                <ul>
+                    <li><strong>Akidah</strong> : Keyakinan bahwa Allah Maha Esa dan tidak ada sekutu bagi-Nya (31:13); iman kepada hari akhir (31:34); keyakinan bahwa Allah Maha Mengetahui segala sesuatu (31:34); pengakuan bahwa semua nikmat berasal dari Allah (31:20).</li>
+                    <li><strong>Ibadah</strong> : Syukur kepada Allah atas segala nikmat (31:12); mendirikan shalat (31:17); amar ma'ruf nahi mungkar (31:17); sabar menghadapi cobaan (31:17).</li>
+                    <li><strong>Akhlak</strong> : Berbakti kepada orang tua (31:14); rendah hati dan tidak sombong (31:18); sederhana dalam berjalan dan merendahkan suara (31:19); menepati janji (31:32).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Ayat Kunci untuk Tadabbur -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
+            <div class="verse">
+                <div class="arabic">وَلَقَدْ آتَيْنَا لُقْمَانَ الْحِكْمَةَ أَنِ اشْكُرْ لِلَّهِ ۚ وَمَنْ يَشْكُرْ فَإِنَّمَا يَشْكُرُ لِنَفْسِهِ ۖ وَمَنْ كَفَرَ فَإِنَّ اللَّهَ غَنِيٌّ حَمِيدٌ</div>
+                <div class="transliteration">Wa laqad ātainā luqmānal-ḥikmata anisykur lillāh, wa man yasykur fa innamā yasykuru linafsih, wa man kafara fa innallāha ganiyyun ḥamīd.</div>
+                <p><strong>"Dan sungguh, telah Kami berikan hikmah kepada Luqman, yaitu, 'Bersyukurlah kepada Allah!' Dan barang siapa bersyukur, maka sesungguhnya dia bersyukur untuk dirinya sendiri; dan barang siapa tidak bersyukur, maka sesungguhnya Allah Maha Kaya lagi Maha Terpuji."</strong> (Luqman 31:12)</p>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Hikmah sejati adalah mensyukuri nikmat Allah. Syukur manfaatnya kembali kepada diri sendiri, sedangkan kekufuran tidak mengurangi kemuliaan Allah. Ini mengajarkan bahwa kebijaksanaan dimulai dari kesadaran bersyukur.</div>
+            </div>
+        </div>
+
+        <!-- Tema Utama Surah (FULL VERSES) -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Luqman</h2>
+
+            <!-- 1. Karakteristik Orang Bertakwa (Ayat 2-5) FULL -->
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Karakteristik Orang Bertakwa (1-11)</div>
+                <div class="verse"><strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=2&to=5&opt=1" target="_blank">Luqman 31:2-5</a>
+                <div class="arabic">تِلْكَ آيَاتُ الْكِتَابِ الْحَكِيمِ . هُدًى وَرَحْمَةً لِلْمُحْسِنِينَ . الَّذِينَ يُقِيمُونَ الصَّلَاةَ وَيُؤْتُونَ الزَّكَاةَ وَهُمْ بِالْآخِرَةِ هُمْ يُوقِنُونَ . أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ</div>
+                <div class="transliteration">Tilka āyātul-kitābil-ḥakīm. Hudaw wa raḥmatan lil-muḥsinīn. Allażīna yuqīmụnaṣ-ṣalāta wa yu`tụnaz-zakāta wa hum bil-ākhirati hum yụqinụn. Ulā`ika `alā hudam mir rabbihim wa ulā`ika humul-mufliḥụn.</div>
+                <p><strong>Terjemahan:</strong> "Inilah ayat-ayat Al-Qur'an yang penuh hikmah, sebagai petunjuk dan rahmat bagi orang-orang yang berbuat kebaikan, (yaitu) orang-orang yang melaksanakan shalat, menunaikan zakat, dan mereka yakin akan adanya akhirat. Merekalah orang-orang yang mendapat petunjuk dari Tuhan mereka, dan mereka itulah orang-orang yang beruntung."</p>
+                <div class="tafsir-box">IslamicStudies.info: Al-Qur'an adalah petunjuk dan rahmat khusus bagi muhsinin. Ciri mereka: menegakkan shalat, menunaikan zakat, dan yakin kepada akhirat. Ini adalah indikator keberuntungan sejati.</div></div>
             </div>
 
-            <div class="info-box">
-                <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
-                <p>To read the complete text of Surah Luqman along with its translation, visit: 
-                <a href="https://recitequran.com/31:1-34" target="_blank">reciteQuran.com - Surah Luqman</a></p>
+            <!-- 2. Nasihat Luqman (Ayat 13-19) FULL -->
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Nasihat Luqman kepada Anaknya (12-19)</div>
+                <div class="verse"><strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=13&to=19&opt=1" target="_blank">Luqman 31:13-19</a>
+                <div class="arabic">وَإِذْ قَالَ لُقْمَانُ لِابْنِهِ وَهُوَ يَعِظُهُ يَا بُنَيَّ لَا تُشْرِكْ بِاللَّهِ ۖ إِنَّ الشِّرْكَ لَظُلْمٌ عَظِيمٌ ۞ وَوَصَّيْنَا الْإِنسَانَ بِوَالِدَيْهِ حَمَلَتْهُ أُمُّهُ وَهْنًا عَلَىٰ وَهْنٍ وَفِصَالُهُ فِي عَامَيْنِ أَنِ اشْكُرْ لِي وَلِوَالِدَيْكَ إِلَيَّ الْمَصِيرُ ۞ وَإِن جَاهَدَاكَ عَلَىٰ أَن تُشْرِكَ بِي مَا لَيْسَ لَكَ بِهِ عِلْمٌ فَلَا تُطِعْهُمَا ۖ وَصَاحِبْهُمَا فِي الدُّنْيَا مَعْرُوفًا ۖ وَاتَّبِعْ سَبِيلَ مَنْ أَنَابَ إِلَيَّ ۚ ثُمَّ إِلَيَّ مَرْجِعُكُمْ فَأُنَبِّئُكُم بِمَا كُنتُمْ تَعْمَلُونَ ۞ يَا بُنَيَّ إِنَّهَا إِن تَكُ مِثْقَالَ حَبَّةٍ مِّنْ خَرْدَلٍ فَتَكُن فِي صَخْرَةٍ أَوْ فِي السَّمَاوَاتِ أَوْ فِي الْأَرْضِ يَأْتِ بِهَا اللَّهُ ۚ إِنَّ اللَّهَ لَطِيفٌ خَبِيرٌ ۞ يَا بُنَيَّ أَقِمِ الصَّلَاةَ وَأْمُرْ بِالْمَعْرُوفِ وَانْهَ عَنِ الْمُنكَرِ وَاصْبِرْ عَلَىٰ مَا أَصَابَكَ ۖ إِنَّ ذَٰلِكَ مِنْ عَزْمِ الْأُمُورِ ۞ وَلَا تُصَعِّرْ خَدَّكَ لِلنَّاسِ وَلَا تَمْشِ فِي الْأَرْضِ مَرَحًا ۖ إِنَّ اللَّهَ لَا يُحِبُّ كُلَّ مُخْتَالٍ فَخُورٍ ۞ وَاقْصِدْ فِي مَشْيِكَ وَاغْضُضْ مِن صَوْتِكَ ۚ إِنَّ أَنكَرَ الْأَصْوَاتِ لَصَوْتُ الْحَمِيرِ</div>
+                <div class="transliteration">Wa iż qāla luqmānu libnihī wa huwa ya'iẓuhụ yā bunayya lā tusyrik billāh, innasy-syirka laẓulmun 'aẓīm. Wa waṣṣainal-insāna biwālidaih, ḥamalat-hu ummuhū wahnan 'alā wahniw wa fiṣāluhū fī 'āmain, anisykur lī wa liwālidaik, ilayyal-maṣīr. Wa in jāhadāka 'alā an tusyrika bī mā laisa laka bihī 'ilmun falā tuṭi‘humā, wa ṣāḥibhumā fid-dun-yā ma‘rūfā, wattabi‘ sabīla man anāba ilayy, ṡumma ilayya marji‘ukum fa unabbi’ukum bimā kuntum ta‘malūn. Yā bunayya innahā in taku miṡqāla ḥabbatim min khardalin fatakun fī ṣakhratin aw fis-samāwāti aw fil-arḍi ya’ti bihallāh, innallāha laṭīfun khabīr. Yā bunayya aqimiṣ-ṣalāta wa’mur bil-ma‘rūfi wanha ‘anil-munkari waṣbir ‘alā mā aṣābak, inna żālika min ‘azmil-umūr. Wa lā tuṣa‘‘ir khaddaka lin-nāsi wa lā tamshi fil-arḍi maraḥā, innallāha lā yuḥibbu kulla mukhtālin fakhūr. Waqṣid fī masy-yika wagḥḍuḍ min ṣautik, inna ankaral-aṣwāti laṣautul-ḥamīr.</div>
+                <p><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Luqman berkata kepada anaknya, di waktu dia memberi pelajaran kepadanya, 'Wahai anakku! Janganlah kamu mempersekutukan Allah, sesungguhnya mempersekutukan (Allah) adalah benar-benar kezaliman yang besar.' Dan Kami perintahkan kepada manusia (agar berbuat baik) kepada kedua orang tuanya. Ibunya telah mengandungnya dalam keadaan lemah yang bertambah-tambah, dan menyapihnya dalam dua tahun. Bersyukurlah kepada-Ku dan kepada kedua orang tuamu. Hanya kepada Aku kembalimu. Dan jika keduanya memaksamu untuk mempersekutukan Aku dengan sesuatu yang engkau tidak mempunyai ilmu tentang itu, maka janganlah engkau menaati keduanya, dan pergaulilah keduanya di dunia dengan baik, dan ikutilah jalan orang yang kembali kepada-Ku. Kemudian hanya kepada Aku lah kembalimu, maka akan Kuberitahukan kepadamu apa yang telah kamu kerjakan. (Luqman berkata), 'Wahai anakku! Sungguh, jika ada (suatu perbuatan) seberat biji sawi, dan berada dalam batu atau di langit atau di bumi, niscaya Allah akan memberikannya (balasan). Sesungguhnya Allah Maha Halus lagi Maha Mengetahui. Wahai anakku! Laksanakanlah shalat dan suruhlah (manusia) berbuat yang makruf dan cegahlah (mereka) dari yang mungkar dan bersabarlah terhadap apa yang menimpamu, sesungguhnya yang demikian itu termasuk perkara yang penting. Dan janganlah memalingkan wajah dari manusia (karena sombong) dan janganlah berjalan di bumi dengan angkuh. Sesungguhnya Allah tidak menyukai orang-orang yang sombong lagi membanggakan diri. Dan sederhanalah dalam berjalan dan lunakkanlah suaramu. Sesungguhnya seburuk-buruk suara adalah suara keledai.'"</p>
+                <div class="tafsir-box">IslamicStudies.info: Nasihat Luqman merupakan kurikulum pendidikan Islami: dimulai dengan tauhid, kemudian berbakti kepada orang tua, shalat, amar ma'ruf nahi mungkar, kesabaran, kerendahan hati, dan kesederhanaan. Ini mencakup akidah, ibadah, akhlak, dan psikologi.</div></div>
             </div>
 
-            <div class="bonus">
-                <div class="section-title">Reliable Tafsir Sources</div>
-                <p>The discussion on this page follows the thematic framework well-known in the science of tafsir, referencing reliable source <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34" target="_blank">IslamicStudies.info</a>.</p>
+            <!-- 3. Kekuasaan Allah & Kebatilan Syirik (Ayat 20-26) FULL -->
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Kekuasaan Allah & Kebatilan Syirik (20-26)</div>
+                <div class="verse"><strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=20&to=26&opt=1" target="_blank">Luqman 31:20-26</a>
+                <div class="arabic">أَلَمْ تَرَوْا أَنَّ اللَّهَ سَخَّرَ لَكُمْ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ وَأَسْبَغَ عَلَيْكُمْ نِعَمَهُ ظَاهِرَةً وَبَاطِنَةً ۗ وَمِنَ النَّاسِ مَنْ يُجَادِلُ فِي اللَّهِ بِغَيْرِ عِلْمٍ وَلَا هُدًى وَلَا كِتَابٍ مُنِيرٍ ۞ وَإِذَا قِيلَ لَهُمُ اتَّبِعُوا مَا أَنْزَلَ اللَّهُ قَالُوا بَلْ نَتَّبِعُ مَا وَجَدْنَا عَلَيْهِ آبَاءَنَا ۚ أَوَلَوْ كَانَ الشَّيْطَانُ يَدْعُوهُمْ إِلَىٰ عَذَابِ السَّعِيرِ ۞ وَمَنْ يُسْلِمْ وَجْهَهُ إِلَى اللَّهِ وَهُوَ مُحْسِنٌ فَقَدِ اسْتَمْسَكَ بِالْعُرْوَةِ الْوُثْقَىٰ ۗ وَإِلَى اللَّهِ عَاقِبَةُ الْأُمُورِ ۞ وَمَنْ كَفَرَ فَلَا يَحْزُنْكَ كُفْرُهُ ۚ إِلَيْنَا مَرْجِعُهُمْ فَنُنَبِّئُهُمْ بِمَا عَمِلُوا ۚ إِنَّ اللَّهَ عَلِيمٌ بِذَاتِ الصُّدُورِ ۞ نُمَتِّعُهُمْ قَلِيلًا ثُمَّ نَضْطَرُّهُمْ إِلَىٰ عَذَابٍ غَلِيظٍ ۞ وَلَئِنْ سَأَلْتَهُمْ مَنْ خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ لَيَقُولُنَّ اللَّهُ ۚ قُلِ الْحَمْدُ لِلَّهِ ۚ بَلْ أَكْثَرُهُمْ لَا يَعْلَمُونَ ۞ لِلَّهِ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ ۚ إِنَّ اللَّهَ هُوَ الْغَنِيُّ الْحَمِيدُ</div>
+                <div class="transliteration">A lam tarau annallāha sakhkhara lakum mā fis-samāwāti wa mā fil-arḍi wa asbaga ‘alaikum ni‘amahū ẓāhirataw wa bāṭinah, wa minan-nāsi may yujādilu fillāhi bigairi ‘ilmiw wa lā hudaw wa lā kitābim munīr. Wa iżā qīla lahumuttabi‘ū mā anzalal-lāhu qālū bal nattabi‘u mā wajadnā ‘alaihi ābā'anā, a wa lau kānasy-syaiṭānu yad‘ūhum ilā ‘ażābis-sa‘īr. Wa may yuslim wajhahū ilallāhi wa huwa muḥsinun faqadistamsaka bil-‘urwatil-wuṡqā, wa ilallāhi ‘āqibatul-umūr. Wa man kafara falā yaḥzunka kufruh, ilainā marji‘uhum fanunabbi’uhum bimā ‘amilū, innallāha ‘alīmun biżātiṣ-ṣudūr. Numatti‘uhum qalīlan ṡumma naḍṭarruhum ilā ‘ażābin ghalīẓ. Wa la’in sa'altahum man khalaqas-samāwāti wal-arḍa layaqūlunnallāh, qulil-ḥamdu lillāh, bal akṡaruhum lā ya‘lamūn. Lillāhi mā fis-samāwāti wal-arḍ, innallāha huwal-ganiyyul-ḥamīd.</div>
+                <p><strong>Terjemahan:</strong> "Tidakkah kamu memperhatikan bahwa sesungguhnya Allah telah menundukkan untuk (kepentingan)mu apa yang di langit dan apa yang di bumi dan menyempurnakan untukmu nikmat-Nya lahir dan batin. Dan di antara manusia ada yang membantah tentang (keesaan) Allah tanpa ilmu pengetahuan atau petunjuk dan tanpa Kitab yang memberi penerangan. Dan apabila dikatakan kepada mereka, 'Ikutilah apa yang diturunkan Allah,' mereka berkata, '(Tidak,) tetapi kami mengikuti apa yang kami dapati nenek moyang kami mengerjakannya.' (Apakah mereka akan mengikuti nenek moyang mereka) walaupun setan menyeru mereka ke dalam azab api yang menyala-nyala? Dan siapa yang menyerahkan dirinya kepada Allah, sedang dia berbuat kebaikan, maka sesungguhnya dia telah berpegang kepada buhul tali yang kokoh. Dan hanya kepada Allah kesudahan segala urusan. Dan barangsiapa kafir, maka janganlah kekafirannya itu menyedihkanmu. Hanya kepada Kami tempat kembali mereka, lalu Kami kabarkan kepada mereka apa yang telah mereka kerjakan. Sesungguhnya Allah Maha Mengetahui segala isi hati. Kami biarkan mereka bersenang-senang sebentar, kemudian Kami paksa mereka (masuk) ke dalam azab yang keras. Dan sungguh, jika engkau bertanya kepada mereka, 'Siapa yang menciptakan langit dan bumi?' niscaya mereka menjawab, 'Allah.' Katakanlah, 'Segala puji bagi Allah!' Tetapi kebanyakan mereka tidak mengetahui. Milik Allah apa yang ada di langit dan di bumi. Sungguh, Allah Maha Kaya, Maha Terpuji."</p>
+                <div class="tafsir-box">IslamicStudies.info: Ayat ini mengajak merenungkan nikmat Allah yang tak terhitung (lahir dan batin). Meski demikian, masih ada yang mendebat keesaan Allah tanpa dasar ilmu. Segala sesuatu di langit dan bumi adalah milik Allah.</div></div>
             </div>
 
-            <div class="audio-player">
-                <div class="audio-title">Listen to Surah Luqman</div>
-                <audio controls style="width: 100%;">
-                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/031.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
+            <!-- 4. Kemahakuasaan Allah (Ayat 27-30) FULL -->
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Kemahakuasaan Allah (27-30)</div>
+                <div class="verse"><strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=27&to=30&opt=1" target="_blank">Luqman 31:27-30</a>
+                <div class="arabic">وَلَوْ أَنَّمَا فِي الْأَرْضِ مِنْ شَجَرَةٍ أَقْلَامٌ وَالْبَحْرُ يَمُدُّهُ مِنْ بَعْدِهِ سَبْعَةُ أَبْحُرٍ مَا نَفِدَتْ كَلِمَاتُ اللَّهِ ۗ إِنَّ اللَّهَ عَزِيزٌ حَكِيمٌ ۞ مَا خَلْقُكُمْ وَلَا بَعْثُكُمْ إِلَّا كَنَفْسٍ وَاحِدَةٍ ۚ إِنَّ اللَّهَ سَمِيعٌ بَصِيرٌ ۞ أَلَمْ تَرَ أَنَّ اللَّهَ يُولِجُ اللَّيْلَ فِي النَّهَارِ وَيُولِجُ النَّهَارَ فِي اللَّيْلِ وَسَخَّرَ الشَّمْسَ وَالْقَمَرَ كُلٌّ يَجْرِي إِلَىٰ أَجَلٍ مُسَمًّى وَأَنَّ اللَّهَ بِمَا تَعْمَلُونَ خَبِيرٌ ۞ ذَٰلِكَ بِأَنَّ اللَّهَ هُوَ الْحَقُّ وَأَنَّ مَا يَدْعُونَ مِن دُونِهِ الْبَاطِلُ وَأَنَّ اللَّهَ هُوَ الْعَلِيُّ الْكَبِيرُ</div>
+                <div class="transliteration">Wa lau annamā fil-arḍi min syajaratin aqlām, wal-baḥru yamudduhū mim ba‘dihī sab‘atu abḥurin mā nafidat kalimātullāh, innallāha ‘azīzun ḥakīm. Mā khalqukum wa lā ba‘ṡukum illā kanafsiw wāḥidah, innallāha samī‘um baṣīr. Alam tara annallāha yūlijul-laila fin-nahāri wa yūlijun-nahāra fil-laili wa sakhkharasy-syamsa wal-qamara kulluy yajrī ilā ajalin musammā, wa annallāha bimā ta‘malūna khabīr. Żālika bi-annallāha huwal-ḥaqqu wa anna mā yad‘ūna min dūnihil-bāṭil, wa annallāha huwal-‘aliyyul-kabīr.</div>
+                <p><strong>Terjemahan:</strong> "Dan seandainya pohon-pohon di bumi menjadi pena dan lautan (menjadi tinta), ditambahkan kepadanya tujuh lautan (lagi) sesudah (kering)nya, niscaya tidak akan habis-habisnya (dituliskan) kalimat-kalimat Allah. Sesungguhnya Allah Maha Perkasa lagi Maha Bijaksana. Penciptaan kamu dan kebangkitan kamu hanyalah seperti (menciptakan dan membangkitkan) satu jiwa saja. Sungguh, Allah Maha Mendengar, Maha Melihat. Tidakkah engkau memperhatikan bahwa sesungguhnya Allah memasukkan malam ke dalam siang dan memasukkan siang ke dalam malam, dan Dia menundukkan matahari dan bulan, masing-masing beredar sampai waktu yang ditentukan, dan sesungguhnya Allah Maha Mengetahui apa yang kamu kerjakan. Demikianlah, karena sesungguhnya Allah, Dialah yang hak, dan sesungguhnya apa yang mereka seru selain Dia adalah batil; dan sesungguhnya Allah, Dialah Yang Mahatinggi, Mahabesar."</p>
+                <div class="tafsir-box">IslamicStudies.info: Perumpamaan ini menunjukkan ketidakterbatasan ilmu dan kekuasaan Allah. Kalimat-Nya tidak akan pernah habis ditulis, meski seluruh pohon menjadi pena dan lautan menjadi tinta. Ini mengingatkan akan keagungan Allah.</div></div>
             </div>
 
-            <!-- Theme Division by Verses -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h2>
-                <table class="theme-table">
-                    <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
-                    <tbody>
-                        <tr><td><strong>Verses 1-11</strong></td><td>Characteristics of the Pious</td><td>Traits of pious people; futility of life without guidance; wisdom of heavens and earth creation</td></tr>
-                        <tr><td><strong>Verses 12-19</strong></td><td>Luqman's Advice to His Son</td><td>Wisdom given to Luqman; advice about monotheism, kindness to parents, and noble ethics</td></tr>
-                        <tr><td><strong>Verses 20-26</strong></td><td>Allah's Power and Falsehood of Polytheism</td><td>Allah's blessings given to humans; falsehood of worshipping others besides Allah; everything belongs to Allah</td></tr>
-                        <tr><td><strong>Verses 27-30</strong></td><td>Allah's Omnipotence</td><td>Allah's power in creation; Allah's knowledge encompassing all things; Allah is All-Mighty, All-Wise</td></tr>
-                        <tr><td><strong>Verses 31-34</strong></td><td>Signs of Allah's Power</td><td>Natural signs as evidence of Allah's power; limitations of human knowledge; certainty of Judgment Day</td></tr>
-                    </tbody>
-                </table>
+            <!-- 5. Keterbatasan Ilmu Manusia & Kepastian Hari Akhir (Ayat 31-34) FULL -->
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Keterbatasan Ilmu Manusia & Kepastian Hari Akhir (31-34)</div>
+                <div class="verse"><strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=31&to=34&opt=1" target="_blank">Luqman 31:31-34</a>
+                <div class="arabic">أَلَمْ تَرَ أَنَّ الْفُلْكَ تَجْرِي فِي الْبَحْرِ بِنِعْمَتِ اللَّهِ لِيُرِيَكُمْ مِنْ آيَاتِهِ ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِكُلِّ صَبَّارٍ شَكُورٍ ۞ وَإِذَا غَشِيَهُمْ مَوْجٌ كَالظُّلَلِ دَعَوُا اللَّهَ مُخْلِصِينَ لَهُ الدِّينَ فَلَمَّا نَجَّاهُمْ إِلَى الْبَرِّ فَمِنْهُمْ مُقْتَصِدٌ ۚ وَمَا يَجْحَدُ بِآيَاتِنَا إِلَّا كُلُّ خَتَّارٍ كَفُورٍ ۞ يَا أَيُّهَا النَّاسُ اتَّقُوا رَبَّكُمْ وَاخْشَوْا يَوْمًا لَا يَجْزِي وَالِدٌ عَنْ وَلَدِهِ وَلَا مَوْلُودٌ هُوَ جَازٍ عَنْ وَالِدِهِ شَيْئًا ۚ إِنَّ وَعْدَ اللَّهِ حَقٌّ ۖ فَلَا تَغُرَّنَّكُمُ الْحَيَاةُ الدُّنْيَا وَلَا يَغُرَّنَّكُمْ بِاللَّهِ الْغَرُورُ ۞ إِنَّ اللَّهَ عِنْدَهُ عِلْمُ السَّاعَةِ وَيُنَزِّلُ الْغَيْثَ وَيَعْلَمُ مَا فِي الْأَرْحَامِ ۖ وَمَا تَدْرِي نَفْسٌ مَاذَا تَكْسِبُ غَدًا ۖ وَمَا تَدْرِي نَفْسٌ بِأَيِّ أَرْضٍ تَمُوتُ ۚ إِنَّ اللَّهَ عَلِيمٌ خَبِيرٌ</div>
+                <div class="transliteration">Alam tara annal-fulka tajrī fil-baḥri bini‘matillāhi liyuriyakum min āyātih, inna fī żālika la’āyātil likulli ṣabbārin syakūr. Wa iżā ghashiyahum mawjun kaẓ-ẓulali da‘awullāha mukhliṣīna lahud-dīn, falammā najjāhum ilal-barri faminhum muqtaṣid, wa mā yajḥadu bi’āyātinā illā kullu khattārin kafūr. Yā ayyuhan-nāsuttaqū rabbakum wakhsyau yauman lā yajzī wālidun ‘an waladihī wa lā maulūdun huwa jāzin ‘an wālidihī syai’ā, inna wa‘dallāhi ḥaqqun falā taghurrannakumul-ḥayātud-dun-yā wa lā yaghurrannakum billāhil-garūr. Innallāha ‘indahū ‘ilmus-sā‘ah, wa yunazzilul-ghaiṡ, wa ya‘lamu mā fil-arḥām, wa mā tadrī nafsum māżā taksibu gadā, wa mā tadrī nafsum bi’ayyi arḍin tamūt, innallāha ‘alīmun khabīr.</div>
+                <p><strong>Terjemahan:</strong> "Tidakkah engkau memperhatikan bahwa kapal itu berlayar di laut dengan nikmat Allah, agar Dia memperlihatkan kepadamu sebagian tanda-tanda (kebesaran)-Nya. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi setiap orang yang sangat sabar dan banyak bersyukur. Dan apabila gelombang besar menutupi mereka seperti naungan (awan), mereka berdoa kepada Allah dengan tulus ikhlas beragama kepada-Nya; tetapi setelah Allah menyelamatkan mereka ke daratan, lalu sebagian mereka tetap menempuh jalan yang lurus (moderat). Dan tidak ada yang mengingkari ayat-ayat Kami, kecuali setiap pengkhianat yang tidak bersyukur. Wahai manusia! Bertakwalah kepada Tuhanmu dan takutilah hari yang (pada hari itu) seorang bapak tidak dapat menolong anaknya, dan seorang anak tidak dapat (pula) menolong bapaknya sedikit pun. Sungguh, janji Allah itu benar. Maka janganlah sampai kamu terpedaya oleh kehidupan dunia, dan janganlah sampai kamu terpedaya oleh setan dalam (menaati) Allah. Sesungguhnya hanya di sisi Allah ilmu tentang hari Kiamat; dan Dialah yang menurunkan hujan, dan yang mengetahui apa yang ada dalam rahim. Dan tidak ada seorang pun yang dapat mengetahui (dengan pasti) apa yang akan diusahakannya besok dan tidak ada seorang pun yang dapat mengetahui di bumi mana dia akan mati. Sesungguhnya Allah Maha Mengetahui lagi Maha Mengenal."</p>
+                <div class="tafsir-box">IslamicStudies.info: Ayat ini menegaskan lima perkara gaib (al-mughayyibat al-khams) yang hanya diketahui Allah. Manusia harus rendah hati mengakui keterbatasan ilmunya. Kepastian hari kiamat dan ilmu Allah yang meliputi segala sesuatu menjadi landasan keimanan.</div></div>
             </div>
+        </div>
 
-            <!-- Key Verse for Contemplation -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Key Verse for Contemplation</h2>
-                <div class="verse">
-                    <div class="arabic">وَلَقَدْ آتَيْنَا لُقْمَانَ الْحِكْمَةَ أَنِ اشْكُرْ لِلَّهِ ۚ وَمَنْ يَشْكُرْ فَإِنَّمَا يَشْكُرُ لِنَفْسِهِ ۖ وَمَنْ كَفَرَ فَإِنَّ اللَّهَ غَنِيٌّ حَمِيدٌ</div>
-                    <div class="transliteration">Wa laqad ātainā luqmānal-ḥikmata anisykur lillāh, wa man yasykur fa innamā yasykuru linafsih, wa man kafara fa innallāha ganiyyun ḥamīd.</div>
-                    <p><strong>"And We had certainly given Luqman wisdom [and said], 'Be grateful to Allah.' And whoever is grateful is grateful for [the benefit of] himself. And whoever denies [His favor] - then indeed, Allah is Free of need and Praiseworthy."</strong> (Luqman 31:12)</p>
-                    
-                    <div class="tafsir-box">
-                        <strong>Why this verse is important:</strong>
-                        <p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=12&to=12" target="_blank">IslamicStudies.info</a>, this verse affirms that true wisdom is being grateful for Allah's blessings. Luqman was not a prophet but a righteous servant who was given wisdom by Allah. This verse teaches about essence of gratitude whose benefits return to oneself, while disbelief does not diminish Allah's glory at all because He is Free of need and Praiseworthy.</p>
-                    </div>
-                </div>
+        <!-- Keutamaan Khusus -->
+        <div class="special-benefits">
+            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Luqman</h3>
+            <ul>
+                <li>Mengajarkan kurikulum pendidikan anak yang holistik: tauhid, ibadah, akhlak, dan psikologi.</li>
+                <li>Menekankan syukur sebagai inti hikmah dan kunci kebahagiaan.</li>
+                <li>Memberikan peringatan tentang larangan syirik sebagai kezaliman terbesar.</li>
+                <li>Mengingatkan keterbatasan ilmu manusia dan pentingnya tawakal.</li>
+                <li>Menegaskan kepastian hari kiamat dan ilmu Allah yang meliputi segala sesuatu.</li>
+            </ul>
+        </div>
+
+        <!-- Pelajaran Spiritual -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-heart"></i> Pelajaran Spiritual dari Surah Luqman</h3>
+            <ul>
+                <li>Al-Qur'an adalah petunjuk dan rahmat bagi orang yang berbuat baik.</li>
+                <li>Shalat, zakat, dan keyakinan akan akhirat adalah ciri keberuntungan.</li>
+                <li>Pendidikan anak dimulai dengan tauhid dan akhlak mulia.</li>
+                <li>Berbakti kepada orang tua adalah kewajiban setelah tauhid.</li>
+                <li>Rendah hati dan sederhana adalah akhlak orang beriman.</li>
+                <li>Hanya Allah yang mengetahui perkara gaib; manusia harus rendah hati.</li>
+            </ul>
+        </div>
+
+        <!-- Relevansi untuk Kehidupan Modern -->
+        <div class="theme-point">
+            <div class="theme-title"><i class="fas fa-users"></i> Relevansi untuk Umat Islam Kontemporer</div>
+            <p>Berdasarkan analisis <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34&opt=1" target="_blank">IslamicStudies.info</a>, Surah Luqman sangat relevan dengan tantangan modern:</p>
+            <ol>
+                <li>Memberikan panduan pendidikan anak di tengah arus liberalisme dan materialisme.</li>
+                <li>Mengajarkan keseimbangan antara hak orang tua dan kewajiban anak.</li>
+                <li>Menolak kesombongan intelektual dengan mengakui keterbatasan ilmu manusia.</li>
+                <li>Mengingatkan bahwa kemajuan teknologi tidak menghapus ketergantungan kepada Allah.</li>
+                <li>Menegaskan bahwa kebahagiaan sejati terletak pada syukur dan ketakwaan, bukan akumulasi materi.</li>
+            </ol>
+        </div>
+
+        <!-- Hubungan dengan Surah Lain -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h2>
+            <div class="structure-grid">
+                <div class="structure-item"><h4><i class="fas fa-arrow-right"></i> Dengan Surah Sebelumnya (Ar-Rum 30)</h4><p>Surah Ar-Rum menutup dengan penegasan tentang hari kiamat dan kekuasaan Allah. Surah Luqman membuka dengan karakteristik orang bertakwa, melanjutkan tema keimanan dengan penekanan pada pendidikan dan nasihat praktis.</p></div>
+                <div class="structure-item"><h4><i class="fas fa-arrow-left"></i> Dengan Surah Sesudahnya (As-Sajdah 32)</h4><p>Surah Luqman menutup dengan lima perkara gaib, sementara As-Sajdah dibuka dengan penciptaan langit, bumi, dan manusia. Keduanya menegaskan keesaan dan kekuasaan Allah.</p></div>
+                <div class="structure-item"><h4><i class="fas fa-book"></i> Dengan Surah Al-Isra (17:23-24)</h4><p>Keduanya menekankan kewajiban berbakti kepada orang tua setelah tauhid.</p></div>
+                <div class="structure-item"><h4><i class="fas fa-hand-holding-heart"></i> Dengan Surah Al-Ankabut (29:45)</h4><p>Keduanya menegaskan bahwa shalat mencegah perbuatan keji dan mungkar.</p></div>
             </div>
-
-            <!-- Message of Aqidah, Worship, & Akhlaq -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq</h2>
-                <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Surah Luqman Teachings</h3>
-                    <ul>
-                        <li><strong>Aqidah (Creed)</strong> : Belief that Allah is One and there is no partner for Him (31:13); faith in the Last Day (31:34); conviction that Allah knows all things (31:34); acknowledgment that all blessings come from Allah (31:20).</li>
-                        <li><strong>Worship</strong> : Gratitude to Allah for all blessings (31:12); establishing prayer (31:17); enjoining good and forbidding evil (31:17); patience facing trials (31:17).</li>
-                        <li><strong>Akhlaq (Character)</strong> : Kindness to parents (31:14); humility and avoiding arrogance (31:18); moderation in walking and lowering voice (31:19); fulfilling promises (31:32).</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Main Themes of Surah Luqman</h2>
-                
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-1 verse-title-icon"></i> 1. Characteristics of the Pious</div>
-                    <p>Traits of people who are pious and their lives filled with Divine guidance.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=2&to=5" target="_blank">Luqman 31:2-5</a>
-                        <div class="arabic">تِلْكَ آيَاتُ الْكِتَابِ الْحَكِيمِ هُدًى وَرَحْمَةً لِلْمُحْسِنِينَ الَّذِينَ يُقِيمُونَ الصَّلَاةَ وَيُؤْتُونَ الزَّكَاةَ وَهُمْ بِالْآخِرَةِ هُمْ يُوقِنُونَ أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ</div>
-                        <div class="transliteration">Tilka āyātul-kitābil-ḥakīm, hudaw wa raḥmatan lil-muḥsinīn, allażīna yuqīmụnaṣ-ṣalāta wa yu`tụnaz-zakāta wa hum bil-ākhirati hum yụqinụn, ulā`ika `alā hudam mir rabbihim wa ulā`ika humul-mufliḥụn.</div>
-                        <p>"These are verses of the Wise Book, as guidance and mercy for the doers of good - Those who establish prayer and give zakah, and they, of the Hereafter, are certain [in faith]. Those are on [right] guidance from their Lord, and it is those who are the successful."</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=2&to=5" target="_blank">IslamicStudies.info</a>, these verses establish basic characteristics of pious people. The Qur'an is guidance and mercy specifically for those who do ihsan. Perfection of faith is reflected in three things: establishing prayer, giving zakah, and believing in the Hereafter. These three are indicators of true Islam.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="praise-section">
-                    <div class="theme-title"><i class="fas fa-2 verse-title-icon"></i> 2. Luqman's Advice to His Son</div>
-                    <p>Wisdom and valuable advice from wise Luqman for child education.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=13&to=19" target="_blank">Luqman 31:13-19</a>
-                        <div class="arabic">وَإِذْ قَالَ لُقْمَانُ لِابْنِهِ وَهُوَ يَعِظُهُ يَا بُنَيَّ لَا تُشْرِكْ بِاللَّهِ ۖ إِنَّ الشِّرْكَ لَظُلْمٌ عَظِيمٌ ... يَا بُنَيَّ أَقِمِ الصَّلَاةَ وَأْمُرْ بِالْمَعْرُوفِ وَانْهَ عَنِ الْمُنْكَرِ وَاصْبِرْ عَلَىٰ مَا أَصَابَكَ ۖ إِنَّ ذَٰلِكَ مِنْ عَزْمِ الْأُمُورِ</div>
-                        <div class="transliteration">Wa iż qāla luqmānu libnihī wa huwa ya'iẓuhụ yā bunayya lā tusyrik billāh, innasy-syirka laẓulmun 'aẓīm ... yā bunayya aqimiṣ-ṣalāta wa`mur bil-ma'rụfi wanha 'anil-mungkari waṣbir 'alā mā aṣābak, inna żālika min 'azmil-umụr.</div>
-                        <p>"And [mention, O Muhammad], when Luqman said to his son while he was instructing him, 'O my son, do not associate [anything] with Allah. Indeed, association [with Him] is great injustice.' ... 'O my son, establish prayer, enjoin what is right, forbid what is wrong, and be patient over what befalls you. Indeed, [all] that is of the matters [requiring] determination.'"</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=13&to=19" target="_blank">IslamicStudies.info</a> explains that Luqman's advice is a complete guide for child education. Luqman began with prohibition of shirk because it is the greatest sin. Luqman's advice covers all aspects of life: creed (monotheism), worship (prayer), social (enjoining good and forbidding evil), and psychological (patience). This is a comprehensive Islamic educational curriculum.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-3 verse-title-icon"></i> 3. Allah's Power and Falsehood of Polytheism</div>
-                    <p>Affirmation of Allah's power over universe and falsehood of worshipping others besides Him.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=20&to=20" target="_blank">Luqman 31:20</a>
-                        <div class="arabic">أَلَمْ تَرَوْا أَنَّ اللَّهَ سَخَّرَ لَكُمْ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ وَأَسْبَغَ عَلَيْكُمْ نِعَمَهُ ظَاهِرَةً وَبَاطِنَةً ۗ وَمِنَ النَّاسِ مَنْ يُجَادِلُ فِي اللَّهِ بِغَيْرِ عِلْمٍ وَلَا هُدًى وَلَا كِتَابٍ مُنِيرٍ</div>
-                        <div class="transliteration">A lam tarau annallāha sakhkhara lakum mā fis-samāwāti wa mā fil-arḍi wa asbaga 'alaikum ni'amahụ ẓāhiraṅ wa bāṭinah, wa minan-nāsi may yujādilu fillāhi bigairi 'ilmiw wa lā hudaw wa lā kitābim munīr.</div>
-                        <p>"Do you not see that Allah has subjected to you whatever is in the heavens and whatever is on the earth and amply bestowed upon you His favors, [both] apparent and unapparent? But of the people is he who disputes about Allah without knowledge or guidance or an enlightening Book [from Him]."</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=20&to=20" target="_blank">IslamicStudies.info</a>, this verse invites humans to contemplate Allah's countless blessings. Everything in heavens and earth has been subjected for human benefit. Allah's blessings include apparent ones (health, wealth) and hidden ones (faith, heart tranquility). Despite this, there are still humans who deny Allah's existence without basis of knowledge.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="guidance-section">
-                    <div class="theme-title"><i class="fas fa-4 verse-title-icon"></i> 4. Allah's Omnipotence in Creation</div>
-                    <p>Evidence of Allah's omnipotence in creation of universe.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=27&to=27" target="_blank">Luqman 31:27</a>
-                        <div class="arabic">وَلَوْ أَنَّمَا فِي الْأَرْضِ مِنْ شَجَرَةٍ أَقْلَامٌ وَالْبَحْرُ يَمُدُّهُ مِنْ بَعْدِهِ سَبْعَةُ أَبْحُرٍ مَا نَفِدَتْ كَلِمَاتُ اللَّهِ ۗ إِنَّ اللَّهَ عَزِيزٌ حَكِيمٌ</div>
-                        <div class="transliteration">Wa lau annamā fil-arḍi min syajaratin aqlām, wal-baḥru yamudduhụ mim ba'dihī sab'atu abḥurin mā nafidat kalimātullāh, innallāha 'azīzun ḥakīm.</div>
-                        <p>"And if whatever trees upon the earth were pens and the sea [was ink], replenished thereafter by seven [more] seas, the words of Allah would not be exhausted. Indeed, Allah is Exalted in Might and Wise."</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=27&to=27" target="_blank">IslamicStudies.info</a> explains that this verse illustrates boundlessness of Allah's knowledge. "Words of Allah" include His knowledge, His power, and all that He wills. This analogy shows that Allah's knowledge is unlimited, while human capability is very limited. This is a reminder of Allah's greatness and omnipotence.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="theme-point">
-                    <div class="theme-title"><i class="fas fa-5 verse-title-icon"></i> 5. Limitations of Human Knowledge and Certainty of Hereafter</div>
-                    <p>Acknowledgment of limitations of human knowledge and certainty of Judgment Day coming.</p>
-                    <div class="verse">
-                        <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=34&to=34" target="_blank">Luqman 31:34</a>
-                        <div class="arabic">إِنَّ اللَّهَ عِنْدَهُ عِلْمُ السَّاعَةِ وَيُنَزِّلُ الْغَيْثَ وَيَعْلَمُ مَا فِي الْأَرْحَامِ ۖ وَمَا تَدْرِي نَفْسٌ مَاذَا تَكْسِبُ غَدًا ۖ وَمَا تَدْرِي نَفْسٌ بِأَيِّ أَرْضٍ تَمُوتُ ۚ إِنَّ اللَّهَ عَلِيمٌ خَبِيرٌ</div>
-                        <div class="transliteration">Innallāha 'indahụ 'ilmus-sā'ah, wa yunazzilul-gaiṡ, wa ya'lamu mā fil-arḥām, wa mā tadrī nafsum māżā taksibu gadā, wa mā tadrī nafsum bi`ayyi arḍin tamụt, innallāha 'alīmun khabīr.</div>
-                        <p>"Indeed, Allah [alone] has knowledge of the Hour and sends down the rain and knows what is in the wombs. And no soul perceives what it will earn tomorrow, and no soul perceives in what land it will die. Indeed, Allah is Knowing and Acquainted."</p>
-                        <div class="tafsir-box">
-                            <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=34&to=34" target="_blank">IslamicStudies.info</a> explains that this verse affirms five matters known only to Allah. These are "al-mughayyibat al-khams" (five unseen matters) that only Allah knows. This verse teaches scientific humility: humans should not be arrogant with their knowledge because there are still many things they don't know. This is medicine for intellectual arrogance.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Spiritual Lessons from Surah Luqman</h2>
-                <div class="benefits-list">
-                    <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Important Lessons for Life</h3>
-                    <ul>
-                        <li><strong>Holistic Child Education:</strong> Luqman's advice covers creed, worship, ethics, and psychology.</li>
-                        <li><strong>Gratitude as Core of Wisdom:</strong> True wisdom begins with being grateful to Allah.</li>
-                        <li><strong>Monotheism as Foundation:</strong> Prohibition of shirk is first and most important advice.</li>
-                        <li><strong>Humility:</strong> Humans must humbly acknowledge limitations of their knowledge.</li>
-                        <li><strong>Nature as Allah's Signs:</strong> Entire universe is evidence of Allah's power.</li>
-                        <li><strong>Patience in Preaching:</strong> Enjoining good and forbidding evil requires patience.</li>
-                        <li><strong>Limitations of Human Knowledge:</strong> Only Allah knows unseen matters.</li>
-                        <li><strong>Certainty of Hereafter:</strong> Judgment Day will certainly come though only Allah knows its time.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Relationship with Other Surahs</h2>
-                <div class="structure-grid">
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-left verse-title-icon"></i> With Surah Ar-Rum (30)</h4>
-                        <p>Surah Ar-Rum concludes with affirmation about Judgment Day and Allah's power (30:55-60), while Surah Luqman opens with characteristics of pious people (31:2-5). If Surah Ar-Rum focuses on signs of Allah's power in universe, Surah Luqman provides practical guide for living according to Allah's guidance through Luqman's advice. Both complement each other in depicting relationship between faith and practical life.</p>
-                    </div>
-                    <div class="structure-item">
-                        <h4><i class="fas fa-arrow-right verse-title-icon"></i> With Surah As-Sajdah (32)</h4>
-                        <p>Surah Luqman concludes with affirmation about Allah's knowledge encompassing all things (31:34), while Surah As-Sajdah opens with creation of universe and humans (32:4-9). If Surah Luqman emphasizes education and practical advice, Surah As-Sajdah provides perspective about creation, resurrection, and Allah's greatness. Both discuss Allah's power from complementary viewpoints.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="surah-navigation">
-                <a href="030.html" class="nav-link"><i class="fas fa-arrow-left"></i> Previous Surah: Ar-Rum</a>
-                <a href="032.html" class="nav-link">Next Surah: As-Sajdah <i class="fas fa-arrow-right"></i></a>
-            </div>
-
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
         </div>
     </div>
 
-    <footer>
-        <p>© (2026 AD) 1447 AH - Surah Luqman Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
-    </footer>
+    <!-- ENGLISH CONTENT (with FULL verses) -->
+    <div id="english-content" class="hidden">
+        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+        <h1 class="surah-title">Surah Luqman - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34&opt=1" target="_blank">IslamicStudies.info - Surah Luqman (1-34)</a></div>
+        <div class="arabic">الم</div>
+        <div class="transliteration">Alif Lām Mīm</div>
+        <p style="text-align: center; font-style: italic;">"Alif Lam Mim." (Luqman 31:1)</p>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const englishContent = document.getElementById('english-content');
-            const indonesianContent = document.getElementById('indonesian-content');
-            const languageToggle = document.getElementById('languageToggle');
-            const transliterationToggle = document.getElementById('transliterationToggle');
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const transliterationElements = document.querySelectorAll('.transliteration');
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Overview of Surah Luqman</h3>
+            <p>Surah Luqman (سورة لقمان) is the 31st chapter of the Qur'an and consists of 34 verses. This surah is classified as Makki (revealed in Mecca) according to majority of scholars. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=1&to=34&opt=1" target="_blank">IslamicStudies.info</a>, this surah was revealed after Surah As-Saffat and before Surah Saba'. Surah Luqman is named after the story of Luqman mentioned in verses 12-19 as a wise man who gave advice to his son. This surah contains lessons about wisdom, child education, monotheism, ethics, and wisdom of universe creation.</p>
+            <p>This surah begins with affirmation that the Qur'an is guidance and mercy for those who do good (31:1-3) and concludes with affirmation about Allah's knowledge encompassing all things (31:34). Surah Luqman gets its name from the story of wise Luqman who gave valuable advice to his son about monotheism, ethics, and life.</p>
+        </div>
 
-            if (!englishContent || !indonesianContent || !languageToggle || !transliterationToggle || !darkModeToggle) {
-                console.error('One or more required elements missing. Toggles may not work.');
-                return;
-            }
+        <div class="info-box"><h3>Full Text</h3><p><a href="https://recitequran.com/31" target="_blank">reciteQuran.com - Surah Luqman</a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Luqman</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/031.mp3" type="audio/mpeg"></audio></div>
 
-            const urlParams = new URLSearchParams(window.location.search);
-            let langParam = null;
-            if (urlParams.has('English')) langParam = 'english';
-            else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
+                <tr><td><strong>1-11</strong></td><td>Characteristics of the Pious</td><td>Traits of pious people; futility of life without guidance; wisdom of heavens and earth creation.</td></tr>
+                <tr><td><strong>12-19</strong></td><td>Luqman's Advice to His Son</td><td>Wisdom given to Luqman; advice about monotheism, kindness to parents, and noble ethics.</td></tr>
+                <tr><td><strong>20-26</strong></td><td>Allah's Power and Falsehood of Polytheism</td><td>Allah's blessings given to humans; falsehood of worshipping others besides Allah; everything belongs to Allah.</td></tr>
+                <tr><td><strong>27-30</strong></td><td>Allah's Omnipotence</td><td>Allah's power in creation; Allah's knowledge encompassing all things; Allah is All-Mighty, All-Wise.</td></tr>
+                <tr><td><strong>31-34</strong></td><td>Signs of Allah's Power</td><td>Natural signs as evidence of Allah's power; limitations of human knowledge; certainty of Judgment Day.</td></tr>
+            </tbody></table>
+        </div>
 
-            let currentLanguage = langParam || localStorage.getItem('language') || 'indonesian';
-            if (currentLanguage === 'english') {
-                englishContent.classList.remove('hidden');
-                indonesianContent.classList.add('hidden');
-                languageToggle.textContent = 'Switch to Indonesian';
-            } else {
-                englishContent.classList.add('hidden');
-                indonesianContent.classList.remove('hidden');
-                languageToggle.textContent = 'Switch to English';
-            }
-            if (langParam) localStorage.setItem('language', langParam);
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-mosque"></i> Message of Aqidah, Worship, & Akhlaq</h2>
+            <div class="benefits-list">
+                <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Surah Luqman Teachings</h3>
+                <ul>
+                    <li><strong>Aqidah (Creed)</strong> : Belief that Allah is One and there is no partner for Him (31:13); faith in the Last Day (31:34); conviction that Allah knows all things (31:34); acknowledgment that all blessings come from Allah (31:20).</li>
+                    <li><strong>Worship</strong> : Gratitude to Allah for all blessings (31:12); establishing prayer (31:17); enjoining good and forbidding evil (31:17); patience facing trials (31:17).</li>
+                    <li><strong>Akhlaq (Character)</strong> : Kindness to parents (31:14); humility and avoiding arrogance (31:18); moderation in walking and lowering voice (31:19); fulfilling promises (31:32).</li>
+                </ul>
+            </div>
+        </div>
 
-            languageToggle.addEventListener('click', function() {
-                if (englishContent.classList.contains('hidden')) {
-                    englishContent.classList.remove('hidden');
-                    indonesianContent.classList.add('hidden');
-                    languageToggle.textContent = 'Switch to Indonesian';
-                    localStorage.setItem('language', 'english');
-                } else {
-                    englishContent.classList.add('hidden');
-                    indonesianContent.classList.remove('hidden');
-                    languageToggle.textContent = 'Switch to English';
-                    localStorage.setItem('language', 'indonesian');
-                }
-            });
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
+            <div class="verse">
+                <div class="arabic">وَلَقَدْ آتَيْنَا لُقْمَانَ الْحِكْمَةَ أَنِ اشْكُرْ لِلَّهِ ۚ وَمَنْ يَشْكُرْ فَإِنَّمَا يَشْكُرُ لِنَفْسِهِ ۖ وَمَنْ كَفَرَ فَإِنَّ اللَّهَ غَنِيٌّ حَمِيدٌ</div>
+                <div class="transliteration">Wa laqad ātainā luqmānal-ḥikmata anisykur lillāh, wa man yasykur fa innamā yasykuru linafsih, wa man kafara fa innallāha ganiyyun ḥamīd.</div>
+                <p><strong>"And We had certainly given Luqman wisdom [and said], 'Be grateful to Allah.' And whoever is grateful is grateful for [the benefit of] himself. And whoever denies [His favor] - then indeed, Allah is Free of need and Praiseworthy."</strong> (Luqman 31:12)</p>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> True wisdom begins with gratitude. Gratitude benefits oneself, while disbelief does not diminish Allah's glory. This teaches that wisdom starts from conscious gratitude.</div>
+            </div>
+        </div>
 
-            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
-            if (transliterationVisible) {
-                transliterationElements.forEach(el => el.style.display = 'block');
-                transliterationToggle.textContent = 'Hide Transliteration';
-            } else {
-                transliterationElements.forEach(el => el.style.display = 'none');
-                transliterationToggle.textContent = 'Show Transliteration';
-            }
+        <!-- Main Themes (FULL VERSES) in English -->
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Luqman</h2>
+            <div class="theme-card"><div class="theme-title">1. Characteristics of the Pious (1-11)</div><div class="verse"><strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=2&to=5&opt=1" target="_blank">31:2-5</a>
+                <div class="arabic">تِلْكَ آيَاتُ الْكِتَابِ الْحَكِيمِ . هُدًى وَرَحْمَةً لِلْمُحْسِنِينَ . الَّذِينَ يُقِيمُونَ الصَّلَاةَ وَيُؤْتُونَ الزَّكَاةَ وَهُمْ بِالْآخِرَةِ هُمْ يُوقِنُونَ . أُولَٰئِكَ عَلَىٰ هُدًى مِنْ رَبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ</div>
+                <div class="transliteration">Tilka āyātul-kitābil-ḥakīm. Hudaw wa raḥmatan lil-muḥsinīn. Allażīna yuqīmụnaṣ-ṣalāta wa yu`tụnaz-zakāta wa hum bil-ākhirati hum yụqinụn. Ulā`ika `alā hudam mir rabbihim wa ulā`ika humul-mufliḥụn.</div>
+                <p><strong>Translation:</strong> "These are verses of the Wise Book, as guidance and mercy for the doers of good - those who establish prayer and give zakah, and they, of the Hereafter, are certain. Those are on guidance from their Lord, and it is those who are the successful."</p>
+                <div class="tafsir-box">IslamicStudies.info: The Qur'an is guidance and mercy specifically for the muhsinin. Their traits: prayer, zakah, certainty in the Hereafter. These are indicators of true success.</div></div></div>
 
-            transliterationToggle.addEventListener('click', function() {
-                const isVisible = transliterationElements[0]?.style.display === 'block';
-                if (isVisible) {
-                    transliterationElements.forEach(el => el.style.display = 'none');
-                    transliterationToggle.textContent = 'Show Transliteration';
-                    localStorage.setItem('transliteration', 'false');
-                } else {
-                    transliterationElements.forEach(el => el.style.display = 'block');
-                    transliterationToggle.textContent = 'Hide Transliteration';
-                    localStorage.setItem('transliteration', 'true');
-                }
-            });
+            <div class="theme-card"><div class="theme-title">2. Luqman's Advice to His Son (12-19)</div><div class="verse"><strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=13&to=19&opt=1" target="_blank">31:13-19</a>
+                <div class="arabic">وَإِذْ قَالَ لُقْمَانُ لِابْنِهِ وَهُوَ يَعِظُهُ يَا بُنَيَّ لَا تُشْرِكْ بِاللَّهِ ۖ إِنَّ الشِّرْكَ لَظُلْمٌ عَظِيمٌ ۞ وَوَصَّيْنَا الْإِنسَانَ بِوَالِدَيْهِ حَمَلَتْهُ أُمُّهُ وَهْنًا عَلَىٰ وَهْنٍ وَفِصَالُهُ فِي عَامَيْنِ أَنِ اشْكُرْ لِي وَلِوَالِدَيْكَ إِلَيَّ الْمَصِيرُ ۞ وَإِن جَاهَدَاكَ عَلَىٰ أَن تُشْرِكَ بِي مَا لَيْسَ لَكَ بِهِ عِلْمٌ فَلَا تُطِعْهُمَا ۖ وَصَاحِبْهُمَا فِي الدُّنْيَا مَعْرُوفًا ۖ وَاتَّبِعْ سَبِيلَ مَنْ أَنَابَ إِلَيَّ ۚ ثُمَّ إِلَيَّ مَرْجِعُكُمْ فَأُنَبِّئُكُم بِمَا كُنتُمْ تَعْمَلُونَ ۞ يَا بُنَيَّ إِنَّهَا إِن تَكُ مِثْقَالَ حَبَّةٍ مِّنْ خَرْدَلٍ فَتَكُن فِي صَخْرَةٍ أَوْ فِي السَّمَاوَاتِ أَوْ فِي الْأَرْضِ يَأْتِ بِهَا اللَّهُ ۚ إِنَّ اللَّهَ لَطِيفٌ خَبِيرٌ ۞ يَا بُنَيَّ أَقِمِ الصَّلَاةَ وَأْمُرْ بِالْمَعْرُوفِ وَانْهَ عَنِ الْمُنكَرِ وَاصْبِرْ عَلَىٰ مَا أَصَابَكَ ۖ إِنَّ ذَٰلِكَ مِنْ عَزْمِ الْأُمُورِ ۞ وَلَا تُصَعِّرْ خَدَّكَ لِلنَّاسِ وَلَا تَمْشِ فِي الْأَرْضِ مَرَحًا ۖ إِنَّ اللَّهَ لَا يُحِبُّ كُلَّ مُخْتَالٍ فَخُورٍ ۞ وَاقْصِدْ فِي مَشْيِكَ وَاغْضُضْ مِن صَوْتِكَ ۚ إِنَّ أَنكَرَ الْأَصْوَاتِ لَصَوْتُ الْحَمِيرِ</div>
+                <div class="transliteration">Wa iż qāla luqmānu libnihī wa huwa ya'iẓuhụ yā bunayya lā tusyrik billāh, innasy-syirka laẓulmun 'aẓīm. Wa waṣṣainal-insāna biwālidaih, ḥamalat-hu ummuhū wahnan 'alā wahniw wa fiṣāluhū fī 'āmain, anisykur lī wa liwālidaik, ilayyal-maṣīr. Wa in jāhadāka 'alā an tusyrika bī mā laisa laka bihī 'ilmun falā tuṭi‘humā, wa ṣāḥibhumā fid-dun-yā ma‘rūfā, wattabi‘ sabīla man anāba ilayy, ṡumma ilayya marji‘ukum fa unabbi’ukum bimā kuntum ta‘malūn. Yā bunayya innahā in taku miṡqāla ḥabbatim min khardalin fatakun fī ṣakhratin aw fis-samāwāti aw fil-arḍi ya’ti bihallāh, innallāha laṭīfun khabīr. Yā bunayya aqimiṣ-ṣalāta wa’mur bil-ma‘rūfi wanha ‘anil-munkari waṣbir ‘alā mā aṣābak, inna żālika min ‘azmil-umūr. Wa lā tuṣa‘‘ir khaddaka lin-nāsi wa lā tamshi fil-arḍi maraḥā, innallāha lā yuḥibbu kulla mukhtālin fakhūr. Waqṣid fī masy-yika wagḥḍuḍ min ṣautik, inna ankaral-aṣwāti laṣautul-ḥamīr.</div>
+                <p><strong>Translation:</strong> "And [mention, O Muhammad], when Luqman said to his son while he was instructing him, 'O my son, do not associate [anything] with Allah. Indeed, association [with Him] is great injustice.' And We have enjoined upon man [care] for his parents. His mother carried him in weakness upon weakness, and his weaning is in two years. Be grateful to Me and to your parents; to Me is the [final] destination. But if they endeavor to make you associate with Me that of which you have no knowledge, do not obey them but accompany them in [this] world with appropriate kindness and follow the way of those who turn back to Me [in repentance]. Then to Me will be your return, and I will inform you about what you used to do. [And Luqman said], 'O my son, indeed if wrong should be the weight of a mustard seed and should be within a rock or [anywhere] in the heavens or in the earth, Allah will bring it forth. Indeed, Allah is Subtle and Acquainted. O my son, establish prayer, enjoin what is right, forbid what is wrong, and be patient over what befalls you. Indeed, [all] that is of the matters [requiring] determination. And do not turn your cheek away from people in arrogance and do not walk on the earth exultantly. Indeed, Allah does not like everyone self-deluded and boastful. And be moderate in your pace and lower your voice; indeed, the most disagreeable of sounds is the voice of donkeys.'"</p>
+                <div class="tafsir-box">IslamicStudies.info: Luqman's advice forms a complete Islamic educational curriculum: monotheism, kindness to parents, prayer, enjoining good, patience, humility, and moderation.</div></div></div>
 
-            const darkMode = localStorage.getItem('darkMode') === 'true';
-            if (darkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeToggle.textContent = 'Light Mode';
-            } else {
-                darkModeToggle.textContent = 'Dark Mode';
-            }
+            <div class="theme-card"><div class="theme-title">3. Allah's Power & Falsehood of Polytheism (20-26)</div><div class="verse"><strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=20&to=26&opt=1" target="_blank">31:20-26</a>
+                <div class="arabic">أَلَمْ تَرَوْا أَنَّ اللَّهَ سَخَّرَ لَكُمْ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ وَأَسْبَغَ عَلَيْكُمْ نِعَمَهُ ظَاهِرَةً وَبَاطِنَةً ۗ وَمِنَ النَّاسِ مَنْ يُجَادِلُ فِي اللَّهِ بِغَيْرِ عِلْمٍ وَلَا هُدًى وَلَا كِتَابٍ مُنِيرٍ ۞ وَإِذَا قِيلَ لَهُمُ اتَّبِعُوا مَا أَنْزَلَ اللَّهُ قَالُوا بَلْ نَتَّبِعُ مَا وَجَدْنَا عَلَيْهِ آبَاءَنَا ۚ أَوَلَوْ كَانَ الشَّيْطَانُ يَدْعُوهُمْ إِلَىٰ عَذَابِ السَّعِيرِ ۞ وَمَنْ يُسْلِمْ وَجْهَهُ إِلَى اللَّهِ وَهُوَ مُحْسِنٌ فَقَدِ اسْتَمْسَكَ بِالْعُرْوَةِ الْوُثْقَىٰ ۗ وَإِلَى اللَّهِ عَاقِبَةُ الْأُمُورِ ۞ وَمَنْ كَفَرَ فَلَا يَحْزُنْكَ كُفْرُهُ ۚ إِلَيْنَا مَرْجِعُهُمْ فَنُنَبِّئُهُمْ بِمَا عَمِلُوا ۚ إِنَّ اللَّهَ عَلِيمٌ بِذَاتِ الصُّدُورِ ۞ نُمَتِّعُهُمْ قَلِيلًا ثُمَّ نَضْطَرُّهُمْ إِلَىٰ عَذَابٍ غَلِيظٍ ۞ وَلَئِنْ سَأَلْتَهُمْ مَنْ خَلَقَ السَّمَاوَاتِ وَالْأَرْضَ لَيَقُولُنَّ اللَّهُ ۚ قُلِ الْحَمْدُ لِلَّهِ ۚ بَلْ أَكْثَرُهُمْ لَا يَعْلَمُونَ ۞ لِلَّهِ مَا فِي السَّمَاوَاتِ وَالْأَرْضِ ۚ إِنَّ اللَّهَ هُوَ الْغَنِيُّ الْحَمِيدُ</div>
+                <div class="transliteration">A lam tarau annallāha sakhkhara lakum mā fis-samāwāti wa mā fil-arḍi wa asbaga ‘alaikum ni‘amahū ẓāhirataw wa bāṭinah, wa minan-nāsi may yujādilu fillāhi bigairi ‘ilmiw wa lā hudaw wa lā kitābim munīr. Wa iżā qīla lahumuttabi‘ū mā anzalal-lāhu qālū bal nattabi‘u mā wajadnā ‘alaihi ābā'anā, a wa lau kānasy-syaiṭānu yad‘ūhum ilā ‘ażābis-sa‘īr. Wa may yuslim wajhahū ilallāhi wa huwa muḥsinun faqadistamsaka bil-‘urwatil-wuṡqā, wa ilallāhi ‘āqibatul-umūr. Wa man kafara falā yaḥzunka kufruh, ilainā marji‘uhum fanunabbi’uhum bimā ‘amilū, innallāha ‘alīmun biżātiṣ-ṣudūr. Numatti‘uhum qalīlan ṡumma naḍṭarruhum ilā ‘ażābin ghalīẓ. Wa la’in sa'altahum man khalaqas-samāwāti wal-arḍa layaqūlunnallāh, qulil-ḥamdu lillāh, bal akṡaruhum lā ya‘lamūn. Lillāhi mā fis-samāwāti wal-arḍ, innallāha huwal-ganiyyul-ḥamīd.</div>
+                <p><strong>Translation:</strong> "Do you not see that Allah has subjected to you whatever is in the heavens and whatever is on the earth and amply bestowed upon you His favors, [both] apparent and unapparent? But of the people is he who disputes about Allah without knowledge or guidance or an enlightening Book [from Him]. And when it is said to them, 'Follow what Allah has revealed,' they say, 'Rather, we will follow that which we found our fathers doing.' Even if Satan was inviting them to the punishment of the Blaze? And whoever submits his face to Allah while he is a doer of good - then he has grasped the most trustworthy handhold. And to Allah will be the outcome of [all] matters. And whoever has disbelieved - let not his disbelief grieve you. To Us is their return, and We will inform them of what they did. Indeed, Allah is Knowing of that within the breasts. We grant them enjoyment for a little; then We will force them to a massive punishment. And if you asked them, 'Who created the heavens and earth?' they would surely say, 'Allah.' Say, '[All] praise is [due] to Allah!' But most of them do not know. To Allah belongs whatever is in the heavens and earth. Indeed, Allah is the Free of need, the Praiseworthy."</p>
+                <div class="tafsir-box">IslamicStudies.info: This verse invites reflection on Allah's countless blessings, both visible and hidden. Despite this, some dispute Allah's oneness without knowledge. Everything in heavens and earth belongs to Him.</div></div></div>
 
-            darkModeToggle.addEventListener('click', function() {
-                document.body.classList.toggle('dark-mode');
-                const isDark = document.body.classList.contains('dark-mode');
-                darkModeToggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-                localStorage.setItem('darkMode', isDark);
-            });
+            <div class="theme-card"><div class="theme-title">4. Allah's Omnipotence (27-30)</div><div class="verse"><strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=27&to=30&opt=1" target="_blank">31:27-30</a>
+                <div class="arabic">وَلَوْ أَنَّمَا فِي الْأَرْضِ مِنْ شَجَرَةٍ أَقْلَامٌ وَالْبَحْرُ يَمُدُّهُ مِنْ بَعْدِهِ سَبْعَةُ أَبْحُرٍ مَا نَفِدَتْ كَلِمَاتُ اللَّهِ ۗ إِنَّ اللَّهَ عَزِيزٌ حَكِيمٌ ۞ مَا خَلْقُكُمْ وَلَا بَعْثُكُمْ إِلَّا كَنَفْسٍ وَاحِدَةٍ ۚ إِنَّ اللَّهَ سَمِيعٌ بَصِيرٌ ۞ أَلَمْ تَرَ أَنَّ اللَّهَ يُولِجُ اللَّيْلَ فِي النَّهَارِ وَيُولِجُ النَّهَارَ فِي اللَّيْلِ وَسَخَّرَ الشَّمْسَ وَالْقَمَرَ كُلٌّ يَجْرِي إِلَىٰ أَجَلٍ مُسَمًّى وَأَنَّ اللَّهَ بِمَا تَعْمَلُونَ خَبِيرٌ ۞ ذَٰلِكَ بِأَنَّ اللَّهَ هُوَ الْحَقُّ وَأَنَّ مَا يَدْعُونَ مِن دُونِهِ الْبَاطِلُ وَأَنَّ اللَّهَ هُوَ الْعَلِيُّ الْكَبِيرُ</div>
+                <div class="transliteration">Wa lau annamā fil-arḍi min syajaratin aqlām, wal-baḥru yamudduhū mim ba‘dihī sab‘atu abḥurin mā nafidat kalimātullāh, innallāha ‘azīzun ḥakīm. Mā khalqukum wa lā ba‘ṡukum illā kanafsiw wāḥidah, innallāha samī‘um baṣīr. Alam tara annallāha yūlijul-laila fin-nahāri wa yūlijun-nahāra fil-laili wa sakhkharasy-syamsa wal-qamara kulluy yajrī ilā ajalin musammā, wa annallāha bimā ta‘malūna khabīr. Żālika bi-annallāha huwal-ḥaqqu wa anna mā yad‘ūna min dūnihil-bāṭil, wa annallāha huwal-‘aliyyul-kabīr.</div>
+                <p><strong>Translation:</strong> "If all the trees on earth were pens and the sea [was ink], replenished thereafter by seven [more] seas, the words of Allah would not be exhausted. Indeed, Allah is Exalted in Might and Wise. Your creation and your resurrection are not but as [that of] a single soul. Indeed, Allah is Hearing and Seeing. Do you not see that Allah causes the night to enter the day and causes the day to enter the night and has subjected the sun and the moon, each running [its course] for a specified term, and that Allah, with whatever you do, is Acquainted? That is because Allah is the Truth, and that which they call upon besides Him is falsehood, and because Allah is the Most High, the Grand."</p>
+                <div class="tafsir-box">IslamicStudies.info: This parable illustrates the boundlessness of Allah's knowledge and power. His words cannot be exhausted, reminding us of His greatness.</div></div></div>
 
-            const scrollUp = document.getElementById('scrollUp');
-            const scrollDown = document.getElementById('scrollDown');
-            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy(0, -window.innerHeight));
-            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy(0, window.innerHeight));
+            <div class="theme-card"><div class="theme-title">5. Limits of Human Knowledge & Certainty of Hereafter (31-34)</div><div class="verse"><strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=31&verse=31&to=34&opt=1" target="_blank">31:31-34</a>
+                <div class="arabic">أَلَمْ تَرَ أَنَّ الْفُلْكَ تَجْرِي فِي الْبَحْرِ بِنِعْمَتِ اللَّهِ لِيُرِيَكُمْ مِنْ آيَاتِهِ ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِكُلِّ صَبَّارٍ شَكُورٍ ۞ وَإِذَا غَشِيَهُمْ مَوْجٌ كَالظُّلَلِ دَعَوُا اللَّهَ مُخْلِصِينَ لَهُ الدِّينَ فَلَمَّا نَجَّاهُمْ إِلَى الْبَرِّ فَمِنْهُمْ مُقْتَصِدٌ ۚ وَمَا يَجْحَدُ بِآيَاتِنَا إِلَّا كُلُّ خَتَّارٍ كَفُورٍ ۞ يَا أَيُّهَا النَّاسُ اتَّقُوا رَبَّكُمْ وَاخْشَوْا يَوْمًا لَا يَجْزِي وَالِدٌ عَنْ وَلَدِهِ وَلَا مَوْلُودٌ هُوَ جَازٍ عَنْ وَالِدِهِ شَيْئًا ۚ إِنَّ وَعْدَ اللَّهِ حَقٌّ ۖ فَلَا تَغُرَّنَّكُمُ الْحَيَاةُ الدُّنْيَا وَلَا يَغُرَّنَّكُمْ بِاللَّهِ الْغَرُورُ ۞ إِنَّ اللَّهَ عِنْدَهُ عِلْمُ السَّاعَةِ وَيُنَزِّلُ الْغَيْثَ وَيَعْلَمُ مَا فِي الْأَرْحَامِ ۖ وَمَا تَدْرِي نَفْسٌ مَاذَا تَكْسِبُ غَدًا ۖ وَمَا تَدْرِي نَفْسٌ بِأَيِّ أَرْضٍ تَمُوتُ ۚ إِنَّ اللَّهَ عَلِيمٌ خَبِيرٌ</div>
+                <div class="transliteration">Alam tara annal-fulka tajrī fil-baḥri bini‘matillāhi liyuriyakum min āyātih, inna fī żālika la’āyātil likulli ṣabbārin syakūr. Wa iżā ghashiyahum mawjun kaẓ-ẓulali da‘awullāha mukhliṣīna lahud-dīn, falammā najjāhum ilal-barri faminhum muqtaṣid, wa mā yajḥadu bi’āyātinā illā kullu khattārin kafūr. Yā ayyuhan-nāsuttaqū rabbakum wakhsyau yauman lā yajzī wālidun ‘an waladihī wa lā maulūdun huwa jāzin ‘an wālidihī syai’ā, inna wa‘dallāhi ḥaqqun falā taghurrannakumul-ḥayātud-dun-yā wa lā yaghurrannakum billāhil-garūr. Innallāha ‘indahū ‘ilmus-sā‘ah, wa yunazzilul-ghaiṡ, wa ya‘lamu mā fil-arḥām, wa mā tadrī nafsum māżā taksibu gadā, wa mā tadrī nafsum bi’ayyi arḍin tamūt, innallāha ‘alīmun khabīr.</div>
+                <p><strong>Translation:</strong> "Do you not see that ships sail through the sea by the favor of Allah that He may show you of His signs? Indeed in that are signs for everyone patient and grateful. And when waves come over them like canopies, they supplicate Allah, sincere to Him in religion. But when He delivers them to the land, there are [some] of them who are moderate [in faith]. And none rejects Our signs except everyone treacherous and ungrateful. O mankind, fear your Lord and fear a Day when no father will avail his son, nor will a son avail his father at all. Indeed, the promise of Allah is truth, so let not the worldly life delude you and be not deceived about Allah by the Deceiver. Indeed, Allah [alone] has knowledge of the Hour and sends down the rain and knows what is in the wombs. And no soul perceives what it will earn tomorrow, and no soul perceives in what land it will die. Indeed, Allah is Knowing and Acquainted."</p>
+                <div class="tafsir-box">IslamicStudies.info: This verse affirms the five unseen matters (al-mughayyibat al-khams) known only to Allah. It teaches humility about human knowledge and reinforces faith in the unseen.</div></div></div>
+        </div>
 
-            document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
-                if (!icon.closest('.scroll-arrow') && !icon.closest('.nav-link')) {
-                    icon.remove();
-                }
-            });
-        });
-    </script>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Luqman</h3><ul><li>Provides a comprehensive framework for child education: monotheism, worship, ethics, and psychology.</li><li>Emphasizes gratitude as the core of wisdom and happiness.</li><li>Warns against shirk as the greatest injustice.</li><li>Reminds of human limitations and the necessity of tawakkul.</li><li>Affirms the certainty of the Hereafter and Allah's encompassing knowledge.</li></ul></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Spiritual Lessons from Surah Luqman</h3><ul><li>The Qur'an is guidance and mercy for those who do good.</li><li>Prayer, zakah, and belief in the Hereafter are keys to success.</li><li>Child education must start with monotheism and noble character.</li><li>Kindness to parents is a duty second only to monotheism.</li><li>Humility and moderation are traits of the believers.</li><li>Only Allah knows the unseen; humans must remain humble.</li></ul></div>
+
+        <div class="theme-point"><div class="theme-title"><i class="fas fa-users"></i> Relevance for Contemporary Muslims</div><p>Based on IslamicStudies.info analysis:</p><ol><li>Provides guidance for child education amid materialism and liberalism.</li><li>Teaches balance between parental rights and children's duties.</li><li>Challenges intellectual arrogance by affirming the limits of human knowledge.</li><li>Reminds that technological progress does not eliminate dependence on Allah.</li><li>Affirms that true happiness lies in gratitude and piety, not material accumulation.</li></ol></div>
+
+        <div class="section"><h2 class="section-title"><i class="fas fa-link"></i> Relationship with Other Surahs</h2><div class="structure-grid">
+            <div class="structure-item"><h4><i class="fas fa-arrow-right"></i> With Previous (Ar-Rum 30)</h4><p>Ar-Rum concludes with affirmation of the Hereafter; Luqman opens with characteristics of the pious, continuing the theme with practical education.</p></div>
+            <div class="structure-item"><h4><i class="fas fa-arrow-left"></i> With Next (As-Sajdah 32)</h4><p>Luqman ends with the five unseen matters; As-Sajdah opens with creation, both affirming Allah's power and oneness.</p></div>
+            <div class="structure-item"><h4><i class="fas fa-book"></i> With Al-Isra (17:23-24)</h4><p>Both emphasize kindness to parents after monotheism.</p></div>
+            <div class="structure-item"><h4><i class="fas fa-hand-holding-heart"></i> With Al-Ankabut (29:45)</h4><p>Both affirm that prayer prevents immorality and wrongdoing.</p></div>
+        </div></div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="surah-pagination">
+        <a href="030.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya / Previous: Ar-Rum</a>
+        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
+        <a href="032.html" class="pagination-item">Surah Berikutnya / Next: As-Sajdah <i class="fas fa-arrow-right"></i></a>
+    </div>
+</div>
+
+<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
+
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const englishDiv = document.getElementById('english-content');
+    const indonesianDiv = document.getElementById('indonesian-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
+    const translitElements = document.querySelectorAll('.transliteration');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let langParam = null;
+    if (urlParams.has('English')) langParam = 'english';
+    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+
+    function setLanguage(lang) {
+        const isEnglish = (lang === 'english');
+        if (isEnglish) {
+            englishDiv.classList.remove('hidden');
+            indonesianDiv.classList.add('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+        } else {
+            englishDiv.classList.add('hidden');
+            indonesianDiv.classList.remove('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+        }
+        localStorage.setItem('language', lang);
+    }
+    setLanguage(currentLang);
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang);
+    });
+
+    let translitVisible = (urlParams.has('Transliteration') ? true : localStorage.getItem('transliteration') === 'true');
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        localStorage.setItem('transliteration', show);
+    }
+    setTransliteration(translitVisible);
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
+
+    let darkActive = (urlParams.has('Dark') ? true : localStorage.getItem('darkMode') === 'true');
+    if (darkActive) document.body.classList.add('dark-mode');
+    function setDarkUI() {
+        const active = document.body.classList.contains('dark-mode');
+        darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
+        localStorage.setItem('darkMode', active);
+    }
+    setDarkUI();
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        setDarkUI();
+    });
+
+    const upArrow = document.getElementById('scrollUp');
+    const downArrow = document.getElementById('scrollDown');
+    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+});
+</script>
 </body>
 </html>
