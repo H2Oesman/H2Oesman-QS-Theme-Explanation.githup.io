@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Surah An-Nahl - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
@@ -20,14 +20,14 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
+            --theme-card-bg: #ffffffdd;
         }
-
         .dark-mode {
             --bg-color: #121826;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
             --arabic-color: #7bc9ff;
-            --section-title-color: #5dade2;
+            --section-title-color: #90d0ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
@@ -35,10 +35,10 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #7bc9ff;
+            --link-color: #93c5fd;
             --link-hover: #c3e2ff;
+            --theme-card-bg: #1e293bdd;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.8;
@@ -59,21 +59,35 @@
         }
         a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
         a:hover { color: var(--link-hover); text-decoration: underline; }
+        .blink-arrow {
+            animation: blink 1s step-start infinite;
+            display: inline-block;
+            font-weight: bold;
+            background: #ffcc00;
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 6px;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
         .arabic {
-            font-size: 42px;
+            font-size: 36px;
             text-align: right;
             direction: rtl;
-            margin: 20px 0;
+            margin: 20px 0 10px 0;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
-            line-height: 2;
+            line-height: 1.8;
         }
         .transliteration {
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
             text-align: center;
-            margin: -15px 0 20px;
+            margin: 0 0 10px 0;
             display: none;
         }
         .dark-mode .transliteration { color: #b0c4de; }
@@ -97,7 +111,7 @@
             align-items: center;
             gap: 10px;
         }
-        .verse, .theme-point {
+        .verse, .theme-point, .theme-card {
             background-color: var(--verse-bg);
             padding: 20px;
             border-radius: 20px;
@@ -128,17 +142,10 @@
             font-weight: 500;
         }
         .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
-        .structure-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .structure-item {
-            background: var(--structure-bg);
-            padding: 18px;
-            border-radius: 20px;
-            border-left: 4px solid #2c7da0;
+        .theme-card {
+            background: var(--theme-card-bg);
+            border-left: 6px solid #2c7da0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
         .benefits-list {
             background: var(--benefits-bg);
@@ -146,28 +153,37 @@
             border-radius: 20px;
             margin: 20px 0;
         }
-        .theme-overview, .info-box, .bonus {
+        .theme-overview, .special-benefits {
             background: var(--bonus-bg);
             padding: 25px;
             border-radius: 24px;
             margin: 25px 0;
         }
-        .info-box { text-align: center; }
+        .info-box {
+            background: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
         .audio-player {
             max-width: 400px;
             margin: 20px auto;
             text-align: center;
         }
-        .theme-card {
-            padding: 20px;
-            border-radius: 24px;
-            margin: 30px 0;
-            border-left: 6px solid;
-            background-color: var(--verse-bg);
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--structure-bg);
+            border-radius: 16px;
+            overflow: hidden;
         }
-        .theme-card:nth-child(odd) { border-left-color: #3498db; }
-        .theme-card:nth-child(even) { border-left-color: #2ecc71; }
-        .dark-mode .theme-card { background-color: var(--structure-bg); }
+        .theme-table th, .theme-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--verse-border);
+            text-align: left;
+        }
+        .theme-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
             position: fixed;
             left: 20px;
@@ -196,6 +212,7 @@
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+            flex-wrap: wrap;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -236,308 +253,353 @@
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
         .fa, .fas, .far { margin-right: 4px; }
-        table.theme-table {
-            width: 100%;
-            border-collapse: collapse;
+        .verse-item { margin-bottom: 20px; border-bottom: 1px dashed var(--verse-border); padding-bottom: 15px; }
+        .verse-item:last-child { border-bottom: none; }
+        .relationship-box {
             background: var(--structure-bg);
-            border-radius: 20px;
-            overflow: hidden;
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
         }
-        table.theme-table th, table.theme-table td {
-            padding: 12px;
-            border-bottom: 1px solid var(--verse-border);
-            text-align: left;
-        }
-        table.theme-table th { background: var(--link-color); color: white; }
+        .external-arrow { margin-left: 4px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<div class="container">
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> <span class="lang-text">🇬🇧 Switch to English</span></div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<div class="container" id="mainContainer">
     <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah An-Nahl - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=1&to=128" target="_blank">IslamicStudies.info - Surah An-Nahl (1-128)</a></div>
-        <div class="arabic">أَتَىٰٓ أَمۡرُ ٱللَّهِ فَلَا تَسۡتَعۡجِلُوهُۚ سُبۡحَٰنَهُۥ وَتَعَٰلَىٰ عَمَّا يُشۡرِكُونَ</div>
-        <div class="transliteration">Atā amrullāhi falā tasta'jilụh, sub-ḥānahụ wa ta'ālā 'ammā yusyrikụn.</div>
-        <p style="text-align: center; font-style: italic;">"Telah pasti datangnya ketetapan Allah; maka janganlah kamu meminta agar disegerakan (datang)nya. Mahasuci Allah dan Mahatinggi Dia dari apa yang mereka persekutukan." (An-Nahl 16:1)</p>
+        <h1 class="surah-title">Surah An-Nahl (Lebah) - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=1&to=128&opt=1" target="_blank">IslamicStudies.info - Surah An-Nahl (1-128)</a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
 
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Gambaran Umum Surah An-Nahl</h3>
-            <p>Surah An-Nahl (16), 128 ayat, Makkiyah. Dinamai “An-Nahl” (lebah) karena ayat 68-69 menyebut lebah sebagai tanda kekuasaan Allah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=1&to=128" target="_blank">IslamicStudies.info</a>, surah ini menguraikan nikmat-nikmat Allah yang tak terhitung, bukti tauhid, perintah bersyukur, serta etika berdakwah.</p>
+            <p>Surah An-Nahl (16), 128 ayat, Makkiyah. Dinamai “An-Nahl” (lebah) karena ayat 68-69 menyebut lebah sebagai tanda kekuasaan Allah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=1&to=128&opt=1" target="_blank">IslamicStudies.info</a>, surah ini menguraikan nikmat-nikmat Allah yang tak terhitung, bukti tauhid, perintah bersyukur, serta etika berdakwah. Surah ini juga dikenal sebagai surah yang penuh dengan bukti rasional dan ilmiah tentang kekuasaan Allah.</p>
         </div>
         <div class="info-box">
             <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p><a href="https://quran.com/16:1-128?translations=33" target="_blank">Quran.com - Surah An-Nahl (Terjemahan Indonesia)</a></p>
+            <p><a href="https://quran.com/16?translations=33" target="_blank"><span class="blink-arrow">👉 KLIK DISINI 👈</span> Quran.com - Surah An-Nahl (Terjemahan Indonesia) <i class="fas fa-external-link-alt external-arrow"></i></a></p>
         </div>
         <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah An-Nahl</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/016.mp3" type="audio/mpeg"></audio></div>
 
-        <!-- Tabel pembagian tema -->
+        <!-- Struktur dan Kandungan -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-9</strong></td><td>Kepastian hari kiamat & tanda kekuasaan</td><td>Ketetapan Allah, hewan ternak, petunjuk jalan.</td></tr>
+                    <tr><td><strong>10-20</strong></td><td>Nikmat Allah yang berlimpah</td><td>Air hujan, laut, gunung, matahari, bulan.</td></tr>
+                    <tr><td><strong>21-34</strong></td><td>Kebatilan berhala & kebenaran tauhid</td><td>Berhala tidak mampu mencipta, balasan orang mukmin dan kafir.</td></tr>
+                    <tr><td><strong>35-50</strong></td><td>Hujjah terhadap musyrik & keajaiban penciptaan</td><td>Penciptaan dari nutfah, takdir, kekuasaan mutlak Allah.</td></tr>
+                    <tr><td><strong>51-65</strong></td><td>Larangan menyekutukan Allah & perintah syukur</td><td>Allah melarang dua tuhan, perintah bersyukur, azab umat terdahulu.</td></tr>
+                    <tr><td><strong>66-83</strong></td><td>Bukti kekuasaan Allah dalam kehidupan</td><td>Susu dari ternak, buah-buahan, perumpamaan hamba dan tuan.</td></tr>
+                    <tr><td><strong>84-100</strong></td><td>Hari kebangkitan & pertanggungjawaban</td><td>Saksi dari setiap umat, penyesalan orang kafir, perlindungan dari setan.</td></tr>
+                    <tr><td><strong>101-128</strong></td><td>Naskh ayat & petunjuk praktis</td><td>Hikmah penggantian ayat, perintah adil, larangan harta haram, etika dakwah.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pembagian Tema per Bagian Ayat -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
             <table class="theme-table">
                 <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-9</strong></td><td>Kepastian hari kiamat & tanda kekuasaan</td><td>Ketetapan Allah, penciptaan hewan ternak, petunjuk jalan</td></tr>
-                    <tr><td><strong>10-20</strong></td><td>Nikmat Allah yang berlimpah</td><td>Air hujan, laut, gunung, matahari, bulan</td></tr>
-                    <tr><td><strong>21-34</strong></td><td>Kebatilan berhala & kebenaran tauhid</td><td>Berhala tidak mampu mencipta, balasan orang mukmin dan kafir</td></tr>
-                    <tr><td><strong>35-50</strong></td><td>Hujjah terhadap musyrik & keajaiban penciptaan</td><td>Penciptaan dari nutfah, takdir, kekuasaan mutlak Allah</td></tr>
-                    <tr><td><strong>51-65</strong></td><td>Larangan menyekutukan Allah & perintah syukur</td><td>Allah melarang dua tuhan, perintah bersyukur, azab umat terdahulu</td></tr>
-                    <tr><td><strong>66-83</strong></td><td>Bukti kekuasaan Allah dalam kehidupan</td><td>Susu dari ternak, buah-buahan, perumpamaan hamba dan tuan</td></tr>
-                    <tr><td><strong>84-100</strong></td><td>Hari kebangkitan & pertanggungjawaban</td><td>Saksi dari setiap umat, penyesalan orang kafir, perlindungan dari setan</td></tr>
-                    <tr><td><strong>101-128</strong></td><td>Naskh ayat & petunjuk praktis</td><td>Hikmah penggantian ayat, perintah adil, larangan harta haram, etika dakwah</td></tr>
+                    <tr><td><strong>16:1-4</strong></td><td>Kepastian ketetapan Allah</td><td>Jangan meminta disegerakan azab; Allah menciptakan manusia dari setetes mani.</td></tr>
+                    <tr><td><strong>16:10-11</strong></td><td>Air hujan sumber kehidupan</td><td>Dari air tumbuh pohon, buah, zaitun, kurma, anggur – tanda bagi orang yang berpikir.</td></tr>
+                    <tr><td><strong>16:68-69</strong></td><td>Keajaiban lebah dan madu</td><td>Ilham Allah kepada lebah; madu sebagai obat bagi manusia.</td></tr>
+                    <tr><td><strong>16:90</strong></td><td>Perintah adil, ihsan, dan menjauhi keji</td><td>Landasan akhlak mulia dalam Islam.</td></tr>
+                    <tr><td><strong>16:114-115</strong></td><td>Makanan halal dan larangan</td><td>Memakan rezeki halal baik, bersyukur, diharamkan bangkai, darah, babi, dan sembelihan selain Allah.</td></tr>
+                    <tr><td><strong>16:125</strong></td><td>Metode dakwah dengan hikmah</td><td>Serulah dengan hikmah, pelajaran baik, dan diskusi dengan cara terbaik.</td></tr>
+                    <tr><td><strong>16:127-128</strong></td><td>Kesabaran dan pertolongan Allah</td><td>Bersabarlah, kesabaranmu hanya karena Allah; jangan bersedih, Allah bersama orang bertakwa.</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- TEMA UTAMA (deep from IslamicStudies.info) -->
+        <!-- Ayat Kunci untuk Tadabbur -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
+            <div class="verse">
+                <div class="arabic">وَأَوْحَىٰ رَبُّكَ إِلَى النَّحْلِ أَنِ اتَّخِذِي مِنَ الْجِبَالِ بُيُوتًا وَمِنَ الشَّجَرِ وَمِمَّا يَعْرِشُونَ * ثُمَّ كُلِي مِنْ كُلِّ الثَّمَرَاتِ فَاسْلُكِي سُبُلَ رَبِّكِ ذُلُلًا ۚ يَخْرُجُ مِنْ بُطُونِهَا شَرَابٌ مُخْتَلِفٌ أَلْوَانُهُ فِيهِ شِفَاءٌ لِلنَّاسِ ۗ إِنَّ فِي ذَٰلِكَ لَآيَةً لِقَوْمٍ يَتَفَكَّرُونَ</div>
+                <div class="transliteration">Wa awḥā rabbuka ilā al-naḥli ani ittakhidhī mina al-jibāli buyūtan wa mina al-shajari wa mimmā yaʿrishūn * thumma kulī min kulli al-thamarāti fa-uslukī subula rabbiki dhululā, yakhruju min buṭūnihā sharābun mukh-talifun alwānuhu fīhi shifā’un lil-nās, inna fī dhālika la’āyatan liqawmin yatafakkarūn.</div>
+                <p><strong>Terjemahan:</strong> "Dan Tuhanmu mewahyukan kepada lebah: 'Buatlah sarang-sarang di gunung-gunung, di pohon-pohon kayu, dan di tempat-tempat yang dibikin manusia. Kemudian makanlah dari segala (macam) buah-buahan lalu tempuhlah jalan Tuhanmu yang telah dimudahkan (bagimu).' Dari perut lebah itu keluar minuman (madu) yang bermacam-macam warnanya, di dalamnya terdapat obat yang menyembuhkan bagi manusia. Sungguh, pada yang demikian itu benar-benar terdapat tanda (kebesaran Allah) bagi orang-orang yang berpikir." (An-Nahl 16:68-69)</p>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menunjukkan bahwa Allah mengilhamkan kepada lebah cara membuat sarang dan mencari makan, lalu menghasilkan madu yang bermanfaat sebagai obat. Ini adalah bukti ilmiah tentang insting hewan dan mukjizat Al-Qur'an. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=68&to=69&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+            </div>
+        </div>
+
+        <!-- Tema Utama dengan ayat lengkap -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah An-Nahl</h2>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-1"></i> 1. Nikmat Allah yang Tak Terhitung (16:10-18)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=10&to=18" target="_blank">An-Nahl 16:10-18</a>
-                    <div class="arabic">هُوَ ٱلَّذِىٓ أَنزَلَ مِنَ ٱلسَّمَآءِ مَآءًۭ ۖ لَّكُم مِّنْهُ شَرَابٌۭ وَمِنْهُ شَجَرٌۭ فِيهِ تُسِيمُونَ</div>
-                    <div class="transliteration">Huwa alladhī anzala mina al-samā'i mā'an lakum minhu sharābun waminhu shajarun fīhi tusīmūn</div>
-                    <div class="tafsir-box">Allah menurunkan air hujan, menjadi minuman dan menumbuhkan pepohonan. Dari air itu pula tercipta buah-buahan, zaitun, kurma, anggur. Sungguh tanda bagi orang yang berpikir. IslamicStudies.info: setiap nikmat menunjukkan keesaan Pencipta dan kewajiban bersyukur.</div>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Nikmat Allah yang Tak Terhitung – Ayat 10-18</div>
+                <div class="verse-item">
+                    <div class="arabic">هُوَ الَّذِي أَنْزَلَ مِنَ السَّمَاءِ مَاءً ۖ لَكُمْ مِنْهُ شَرَابٌ وَمِنْهُ شَجَرٌ فِيهِ تُسِيمُونَ * يُنْبِتُ لَكُمْ بِهِ الزَّرْعَ وَالزَّيْتُونَ وَالنَّخِيلَ وَالْأَعْنَابَ وَمِنْ كُلِّ الثَّمَرَاتِ ۗ إِنَّ فِي ذَٰلِكَ لَآيَةً لِقَوْمٍ يَتَفَكَّرُونَ</div>
+                    <div class="transliteration">Huwa alladhī anzala mina al-samā’i mā’an lakum minhu sharābun wa minhu shajarun fīhi tusīmūn * yunbitu lakum bihi al-zar‘a wa al-zaytūna wa al-nakhīla wa al-a‘nāba wa min kulli al-thamarāti, inna fī dhālika la’āyatan liqawmin yatafakkarūn.</div>
+                    <p><strong>Terjemahan:</strong> "Dialah yang menurunkan air hujan dari langit untuk kamu, sebagian menjadi minuman dan sebagian (menyuburkan) tumbuhan, padanya kamu menggembalakan ternak. Dengan air itu Dia menumbuhkan untuk kamu tanam-tanaman, zaitun, kurma, anggur, dan segala macam buah-buahan. Sungguh, pada yang demikian itu benar-benar ada tanda (kekuasaan Allah) bagi orang-orang yang berpikir." (16:10-11)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Setiap nikmat air, tumbuhan, dan buah menunjukkan keesaan Pencipta dan kewajiban bersyukur. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=10&to=18&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-2"></i> 2. Keajaiban Lebah & Madu (16:68-69)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=68&to=69" target="_blank">An-Nahl 16:68-69</a>
-                    <div class="arabic">وَأَوْحَىٰ رَبُّكَ إِلَى ٱلنَّحْلِ أَنِ ٱتَّخِذِى مِنَ ٱلْجِبَالِ بُيُوتًا وَمِنَ ٱلشَّجَرِ وَمِمَّا يَعْرِشُونَ</div>
-                    <div class="transliteration">Wa awḥā rabbuka ilā al-naḥli ani ittakhidhī mina al-jibāli buyūtan wa mina al-shajari wa mimmā yaʿrishūn</div>
-                    <div class="tafsir-box">Allah mewahyukan (mengilhamkan) kepada lebah untuk membuat sarang, memakan buah-buahan, lalu keluar minuman (madu) yang berwarna-warni, mengandung obat bagi manusia. IslamicStudies.info: ini bukti insting yang luar biasa dan manfaat penyembuhan, sekaligus bukti kekuasaan Allah.</div>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Keajaiban Lebah & Madu – Ayat 68-69</div>
+                <div class="verse-item">
+                    <div class="arabic">وَأَوْحَىٰ رَبُّكَ إِلَى النَّحْلِ أَنِ اتَّخِذِي مِنَ الْجِبَالِ بُيُوتًا وَمِنَ الشَّجَرِ وَمِمَّا يَعْرِشُونَ * ثُمَّ كُلِي مِنْ كُلِّ الثَّمَرَاتِ فَاسْلُكِي سُبُلَ رَبِّكِ ذُلُلًا ۚ يَخْرُجُ مِنْ بُطُونِهَا شَرَابٌ مُخْتَلِفٌ أَلْوَانُهُ فِيهِ شِفَاءٌ لِلنَّاسِ ۗ إِنَّ فِي ذَٰلِكَ لَآيَةً لِقَوْمٍ يَتَفَكَّرُونَ</div>
+                    <div class="transliteration">Wa awḥā rabbuka ilā al-naḥli ani ittakhidhī mina al-jibāli buyūtan wa mina al-shajari wa mimmā yaʿrishūn * thumma kulī min kulli al-thamarāti fa-uslukī subula rabbiki dhululā, yakhruju min buṭūnihā sharābun mukh-talifun alwānuhu fīhi shifā’un lil-nās, inna fī dhālika la’āyatan liqawmin yatafakkarūn.</div>
+                    <p><strong>Terjemahan:</strong> "Dan Tuhanmu mewahyukan kepada lebah: 'Buatlah sarang-sarang di gunung-gunung, di pohon-pohon kayu, dan di tempat-tempat yang dibikin manusia. Kemudian makanlah dari segala (macam) buah-buahan lalu tempuhlah jalan Tuhanmu yang telah dimudahkan (bagimu).' Dari perut lebah itu keluar minuman (madu) yang bermacam-macam warnanya, di dalamnya terdapat obat yang menyembuhkan bagi manusia. Sungguh, pada yang demikian itu benar-benar terdapat tanda (kebesaran Allah) bagi orang-orang yang berpikir." (16:68-69)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Ilham Allah kepada lebah menghasilkan madu yang memiliki khasiat penyembuhan. Ini adalah bukti ilmiah yang baru terbukti di era modern. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=68&to=69&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-3"></i> 3. Perintah Adil, Ihsan, dan Menjauhi Keji (16:90)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=90&to=90" target="_blank">An-Nahl 16:90</a>
-                    <div class="arabic">إِنَّ ٱللَّهَ يَأْمُرُ بِٱلْعَدْلِ وَٱلْإِحْسَٰنِ وَإِيتَآئِ ذِى ٱلْقُرْبَىٰ وَيَنْهَىٰ عَنِ ٱلْفَحْشَآءِ وَٱلْمُنكَرِ وَٱلْبَغْىِ</div>
-                    <div class="transliteration">Inna Allāha ya'muru bi al-'adli wa al-iḥsāni wa ītā'i dhī al-qurbā wa yanhā 'an al-faḥshā'i wa al-munkari wa al-baghyi</div>
-                    <div class="tafsir-box">Ayat komprehensif tentang etika Islam: keadilan, kebajikan, memberi kerabat, dan melarang perbuatan keji, kemungkaran, serta permusuhan. IslamicStudies.info: ini adalah landasan akhlak mulia yang mencakup seluruh aspek kehidupan.</div>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Perintah Adil, Ihsan, dan Menjauhi Keji – Ayat 90</div>
+                <div class="verse-item">
+                    <div class="arabic">إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ وَإِيتَاءِ ذِي الْقُرْبَىٰ وَيَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنْكَرِ وَالْبَغْيِ ۚ يَعِظُكُمْ لَعَلَّكُمْ تَذَكَّرُونَ</div>
+                    <div class="transliteration">Inna Allāha ya’muru bi al-‘adli wa al-iḥsāni wa ītā’i dhī al-qurbā wa yanhā ‘an al-faḥshā’i wa al-munkari wa al-baghyi, ya‘iẓukum la‘allakum tadhakkarūn.</div>
+                    <p><strong>Terjemahan:</strong> "Sesungguhnya Allah menyuruh (kamu) berlaku adil dan berbuat kebajikan, memberi bantuan kepada kerabat, dan melarang dari perbuatan keji, kemungkaran dan permusuhan. Dia memberi pengajaran kepadamu agar kamu dapat mengambil pelajaran." (16:90)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Ayat komprehensif tentang etika Islam: keadilan, kebajikan, silaturahmi, dan larangan keji, mungkar, serta kezaliman. Ini adalah landasan akhlak mulia. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=90&to=90&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-4"></i> 4. Larangan Memakan Harta Haram & Makanan Halal (16:114-115)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=114&to=115" target="_blank">An-Nahl 16:114-115</a>
-                    <div class="arabic">فَكُلُوا۟ مِمَّا رَزَقَكُمُ ٱللَّهُ حَلَـٰلًۭا طَيِّبًۭا وَٱشْكُرُوا۟ نِعْمَتَ ٱللَّهِ إِن كُنتُمْ إِيَّاهُ تَعْبُدُونَ</div>
-                    <div class="transliteration">Fakulū mimmā razaqakumu Allāu ḥalālan ṭayyiban wa ushkurū ni'mata Allāhi in kuntum iyyāhu ta'budūn</div>
-                    <div class="tafsir-box">Perintah memakan rezeki yang halal lagi baik, serta bersyukur. Allah hanya mengharamkan bangkai, darah, daging babi, dan sembelihan untuk selain Allah. Dalam kondisi darurat diperbolehkan dengan batas. IslamicStudies.info: menjaga kehalalan adalah bentuk ketaatan.</div>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Larangan Memakan Harta Haram & Makanan Halal – Ayat 114-115</div>
+                <div class="verse-item">
+                    <div class="arabic">فَكُلُوا مِمَّا رَزَقَكُمُ اللَّهُ حَلَالًا طَيِّبًا وَاشْكُرُوا نِعْمَتَ اللَّهِ إِنْ كُنْتُمْ إِيَّاهُ تَعْبُدُونَ * إِنَّمَا حَرَّمَ عَلَيْكُمُ الْمَيْتَةَ وَالدَّمَ وَلَحْمَ الْخِنْزِيرِ وَمَا أُهِلَّ لِغَيْرِ اللَّهِ بِهِ ۖ فَمَنِ اضْطُرَّ غَيْرَ بَاغٍ وَلَا عَادٍ فَإِنَّ اللَّهَ غَفُورٌ رَحِيمٌ</div>
+                    <div class="transliteration">Fakulū mimmā razaqakumu Allāhu ḥalālan ṭayyiban wa ushkurū ni‘mata Allāhi in kuntum iyyāhu ta‘budūn * innamā ḥarrama ‘alaykumu al-maytata wa al-dama wa laḥma al-khinzīri wa mā uhilla li-ghayri Allāhi bih, famani uḍṭurra ghayra bāghin wa lā ‘ādin fa-inna Allāha ghafūrun raḥīm.</div>
+                    <p><strong>Terjemahan:</strong> "Maka makanlah yang halal lagi baik dari rezeki yang telah diberikan Allah kepadamu; dan syukurilah nikmat Allah, jika kamu hanya menyembah kepada-Nya. Sesungguhnya Allah hanya mengharamkan bagimu bangkai, darah, daging babi, dan binatang yang (ketika disembelih) disebut (nama) selain Allah. Tetapi barang siapa dalam keadaan terpaksa (memakannya) sedangkan dia tidak menginginkannya dan tidak (pula) melampaui batas, maka sesungguhnya Allah Maha Pengampun lagi Maha Penyayang." (16:114-115)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Perintah memakan rezeki halal dan bersyukur, serta penjelasan tentang yang diharamkan. Ini menunjukkan perhatian Islam terhadap kehalalan makanan. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=114&to=115&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-5"></i> 5. Etika Dakwah dengan Hikmah (16:125)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=125&to=125" target="_blank">An-Nahl 16:125</a>
-                    <div class="arabic">ٱدْعُ إِلَىٰ سَبِيلِ رَبِّكَ بِٱلْحِكْمَةِ وَٱلْمَوْعِظَةِ ٱلْحَسَنَةِ ۖ وَجَٰدِلْهُم بِٱلَّتِى هِىَ أَحْسَنُ</div>
-                    <div class="transliteration">Ud'u ilā sabīli rabbika bi al-ḥikmati wa al-maw'iẓati al-ḥasanati wa jādilhum bi-allatī hiya aḥsanu</div>
-                    <div class="tafsir-box">Metode dakwah: hikmah (tepat sasaran), mau'izah hasanah (nasihat baik), dan diskusi dengan cara terbaik. IslamicStudies.info: dakwah harus disesuaikan dengan kondisi objek, tanpa kekerasan, mengedepankan kasih sayang.</div>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Etika Dakwah dengan Hikmah – Ayat 125</div>
+                <div class="verse-item">
+                    <div class="arabic">ادْعُ إِلَىٰ سَبِيلِ رَبِّكَ بِالْحِكْمَةِ وَالْمَوْعِظَةِ الْحَسَنَةِ ۖ وَجَادِلْهُمْ بِالَّتِي هِيَ أَحْسَنُ ۚ إِنَّ رَبَّكَ هُوَ أَعْلَمُ بِمَنْ ضَلَّ عَنْ سَبِيلِهِ ۖ وَهُوَ أَعْلَمُ بِالْمُهْتَدِينَ</div>
+                    <div class="transliteration">Ud‘u ilā sabīli rabbika bi al-ḥikmati wa al-maw‘iẓati al-ḥasanati wa jādilhum bi-allatī hiya aḥsanu, inna rabbaka huwa a‘lamu bi man ḍalla ‘an sabīlihi wa huwa a‘lamu bi al-muhtadīn.</div>
+                    <p><strong>Terjemahan:</strong> "Serulah (manusia) kepada jalan Tuhanmu dengan hikmah dan pengajaran yang baik, dan bantahlah mereka dengan cara yang baik. Sesungguhnya Tuhanmu, Dialah yang lebih mengetahui siapa yang sesat dari jalan-Nya dan Dialah yang lebih mengetahui siapa yang mendapat petunjuk." (16:125)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Metode dakwah yang ideal: hikmah (tepat sasaran), mau'izah hasanah (nasihat baik), dan diskusi dengan cara terbaik. Dakwah tanpa kekerasan dan penuh kasih sayang. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=125&to=125&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
         </div>
 
-        <div class="benefits-list">
-            <h3><i class="fas fa-award"></i> Pesan Akidah, Ibadah, Akhlak</h3>
+        <!-- Keutamaan Khusus Surah -->
+        <div class="special-benefits">
+            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah An-Nahl</h3>
             <ul>
-                <li><strong>Akidah:</strong> Semua nikmat dari Allah (16:53), tauhid murni (16:36), keniscayaan hari kiamat (16:38-39).</li>
-                <li><strong>Ibadah:</strong> Bersyukur (16:114), beribadah dengan ikhlas (16:36), membaca Al-Qur'an dan berlindung dari setan (16:98).</li>
-                <li><strong>Akhlak:</strong> Berlaku adil (16:90), menepati janji (16:91), berkata baik, berbakti kepada orang tua (16:23).</li>
+                <li><strong>Ayat tentang Lebah:</strong> Menjadi inspirasi ilmiah tentang madu sebagai obat (apiterapi).</li>
+                <li><strong>Nikmat yang Tak Terhitung:</strong> Mengajarkan rasa syukur mendalam atas setiap nikmat.</li>
+                <li><strong>Etika Komprehensif:</strong> Ayat 90 merangkum seluruh ajaran moral Islam.</li>
+                <li><strong>Metode Dakwah:</strong> Ayat 125 menjadi pedoman dakwah sepanjang masa.</li>
+                <li><strong>Perlindungan dari Setan:</strong> Ayat 98-100 mengajarkan membaca ta'awudz sebelum membaca Al-Qur'an.</li>
             </ul>
         </div>
-        <div class="info-box" style="background:var(--benefits-bg);">
-            <div class="theme-title">Relevansi Kontemporer</div>
-            <p>Ilmu tentang lebah (apiterapi), pentingnya kehalalan pangan, etika komunikasi digital, serta keadilan sosial sangat relevan dengan pesan surah ini.</p>
+
+        <!-- Pesan Akidah, Ibadah, Akhlak -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+            <p><strong>Akidah:</strong> Semua nikmat dari Allah (16:53), tauhid murni (16:36), keniscayaan hari kiamat (16:38-39). Meyakini bahwa hanya Allah yang memberi rezeki dan kehidupan.</p>
+            <p><strong>Ibadah:</strong> Bersyukur (16:114), beribadah dengan ikhlas (16:36), membaca ta'awudz sebelum membaca Al-Qur'an (16:98), dan melaksanakan perintah adil.</p>
+            <p><strong>Akhlak:</strong> Berlaku adil dan ihsan (16:90), menepati janji (16:91), berkata baik, berbakti kepada orang tua (16:23), dan berdakwah dengan hikmah.</p>
         </div>
+
+        <!-- Pelajaran Spiritual -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah An-Nahl</h3>
+            <ul>
+                <li>Merawat rasa syukur atas setiap nikmat, dari air hujan hingga madu.</li>
+                <li>Merenungkan keajaiban alam (lebah, buah-buahan) sebagai bukti kekuasaan Allah.</li>
+                <li>Menjunjung tinggi keadilan, kebajikan, dan silaturahmi dalam kehidupan sehari-hari.</li>
+                <li>Menjaga kehalalan makanan dan minuman sebagai bentuk ketaatan.</li>
+                <li>Mendakwahkan Islam dengan hikmah, kasih sayang, dan dialog yang baik.</li>
+            </ul>
+        </div>
+
+        <!-- Relevansi Kehidupan Modern -->
+        <div class="theme-card">
+            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div>
+            <ol>
+                <li><strong>Apiterapi & Kesehatan:</strong> Madu terbukti secara ilmiah memiliki khasiat penyembuhan (antibakteri, antiinflamasi).</li>
+                <li><strong>Krisis Syukur:</strong> Masyarakat modern cenderung kufur nikmat; surah ini mengajak bersyukur secara aktif.</li>
+                <li><strong>Keadilan Sosial:</strong> Ayat 90 menjadi landasan gerakan anti-korupsi, kezaliman, dan ketidakadilan.</li>
+                <li><strong>Industri Halal:</strong> Kesadaran akan kehalalan makanan dan minuman semakin global.</li>
+                <li><strong>Etika Digital:</strong> Metode dakwah dengan hikmah dan diskusi terbaik relevan untuk berdakwah di media sosial.</li>
+            </ol>
+        </div>
+
+        <!-- Hubungan dengan Surah Lain -->
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <ul>
+                <li><strong>Dengan Surah Al-Hijr (15):</strong> Al-Hijr berbicara tentang penjagaan Al-Qur'an dan kisah umat terdahulu; An-Nahl menguraikan nikmat Allah dan petunjuk praktis.</li>
+                <li><strong>Dengan Surah Al-Isra' (17):</strong> An-Nahl fokus pada nikmat alam dan etika dasar; Al-Isra' menekankan akhlak mulia dan larangan-larangan.</li>
+                <li><strong>Dengan Surah Luqman (31):</strong> Sama-sama mengajarkan syukur, tauhid, dan etika berbakti kepada orang tua.</li>
+                <li><strong>Dengan Surah Ar-Rahman (55):</strong> Keduanya menyebut nikmat-nikmat Allah secara berulang sebagai pengingat.</li>
+            </ul>
+        </div>
+
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Sesungguhnya Allah menyuruh (kamu) berlaku adil dan berbuat kebajikan.” (16:90)</div>
     </div>
 
     <!-- ENGLISH CONTENT -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah An-Nahl - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=1&to=128" target="_blank">IslamicStudies.info - Surah An-Nahl (1-128)</a></div>
-        <div class="arabic">أَتَىٰٓ أَمۡرُ ٱللَّهِ فَلَا تَسۡتَعۡجِلُوهُۚ سُبۡحَٰنَهُۥ وَتَعَٰلَىٰ عَمَّا يُشۡرِكُونَ</div>
-        <div class="transliteration">Atā amrullāhi falā tasta'jilụh, sub-ḥānahụ wa ta'ālā 'ammā yusyrikụn.</div>
-        <p style="text-align: center;">"The command of Allah is coming, so do not seek to hasten it. Exalted is He and high above what they associate with Him." (An-Nahl 16:1)</p>
-
-        <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Overview of Surah An-Nahl</h3>
-            <p>Surah An-Nahl (16), 128 verses, Meccan. Named “The Bee” after verses 68-69 highlighting bees as a sign. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=1&to=128" target="_blank">IslamicStudies.info</a>, it elaborates on Allah’s countless favors, proofs of Tawheed, gratitude, and ethics of da‘wah.</p>
-        </div>
-        <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Full Text Access</h3>
-            <p><a href="https://recitequran.com/16:1" target="_blank">ReciteQuran.com - Surah An-Nahl</a></p>
-        </div>
+        <h1 class="surah-title">Surah An-Nahl (The Bee) - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=1&to=128&opt=1" target="_blank">IslamicStudies.info - Surah An-Nahl (1-128)</a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah An-Nahl</h3><p>Meccan surah (128 verses). Named after the bee (An-Nahl) in verses 68-69. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=1&to=128&opt=1" target="_blank">IslamicStudies.info</a>, this surah elaborates Allah's countless favors, proofs of Tawheed, gratitude, and ethics of da‘wah. It is a surah rich with rational and scientific signs of Allah's power.</p></div>
+        <div class="info-box"><h3>Full Text</h3><p><a href="https://recitequran.com/16" target="_blank"><span class="blink-arrow">👉 CLICK HERE 👈</span> ReciteQuran.com - Surah An-Nahl <i class="fas fa-external-link-alt external-arrow"></i></a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Listen to Surah An-Nahl</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/016.mp3"></audio></div>
 
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme</th><th>Core Message</th></tr></thead>
-            <tbody>
-                <tr><td><strong>1-9</strong></td><td>Certainty of the Hour & Signs</td><td>Allah’s decree, livestock, guidance of paths</td></tr>
-                <tr><td><strong>10-20</strong></td><td>Abundant Favors of Allah</td><td>Rain, seas, mountains, sun, moon</td></tr>
-                <tr><td><strong>21-34</strong></td><td>Falsehood of Idols & Truth of Tawheed</td><td>Idols cannot create; reward of believers vs. disbelievers</td></tr>
-                <tr><td><strong>35-50</strong></td><td>Arguments against Polytheists & Wonders</td><td>Creation from a drop, destiny, absolute power</td></tr>
-                <tr><td><strong>51-65</strong></td><td>Prohibition of Shirk & Command to be Grateful</td><td>No two gods, gratitude, destruction of previous nations</td></tr>
-                <tr><td><strong>66-83</strong></td><td>Evidence of Allah’s Power in Life</td><td>Milk from cattle, fruits, parable of slave and master</td></tr>
-                <tr><td><strong>84-100</strong></td><td>Resurrection & Accountability</td><td>Witness from every nation, regret of disbelievers, protection from Satan</td></tr>
-                <tr><td><strong>101-128</strong></td><td>Abrogation & Practical Guidance</td><td>Wisdom of abrogation, justice, forbidden wealth, da‘wah ethics</td></tr>
+        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead><tbody>
+                <tr><td><strong>1-9</strong></td><td>Certainty of the Hour & Signs</td><td>Allah's decree, livestock, guidance of paths.</td></tr>
+                <tr><td><strong>10-20</strong></td><td>Abundant Favors of Allah</td><td>Rain, seas, mountains, sun, moon.</td></tr>
+                <tr><td><strong>21-34</strong></td><td>Falsehood of Idols & Truth of Tawheed</td><td>Idols cannot create; reward of believers vs. disbelievers.</td></tr>
+                <tr><td><strong>35-50</strong></td><td>Arguments against Polytheists & Wonders</td><td>Creation from a drop, destiny, absolute power.</td></tr>
+                <tr><td><strong>51-65</strong></td><td>Prohibition of Shirk & Command to be Grateful</td><td>No two gods, gratitude, destruction of previous nations.</td></tr>
+                <tr><td><strong>66-83</strong></td><td>Evidence of Allah’s Power in Life</td><td>Milk from cattle, fruits, parable of slave and master.</td></tr>
+                <tr><td><strong>84-100</strong></td><td>Resurrection & Accountability</td><td>Witness from every nation, regret of disbelievers, protection from Satan.</td></tr>
+                <tr><td><strong>101-128</strong></td><td>Abrogation & Practical Guidance</td><td>Wisdom of abrogation, justice, forbidden wealth, da‘wah ethics.</td></tr>
             </tbody></table>
         </div>
 
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah An-Nahl</h2>
+        <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
+                <tr><td><strong>16:1-4</strong></td><td>Certainty of Allah's decree</td><td>Do not seek to hasten punishment; Allah created man from a drop of fluid.</td></tr>
+                <tr><td><strong>16:10-11</strong></td><td>Rain as source of life</td><td>From water grow plants, olives, dates, grapes – a sign for those who reflect.</td></tr>
+                <tr><td><strong>16:68-69</strong></td><td>Miracle of bees & honey</td><td>Allah's inspiration to bees; honey as healing for people.</td></tr>
+                <tr><td><strong>16:90</strong></td><td>Command of justice, excellence, and forbidding evil</td><td>Foundation of Islamic morality.</td></tr>
+                <tr><td><strong>16:114-115</strong></td><td>Lawful food and prohibitions</td><td>Eat halal good provisions, be grateful; forbidden: carrion, blood, swine, what is dedicated to other than Allah.</td></tr>
+                <tr><td><strong>16:125</strong></td><td>Method of da‘wah with wisdom</td><td>Invite with wisdom, good advice, and argue in the best manner.</td></tr>
+                <tr><td><strong>16:127-128</strong></td><td>Patience and Allah's help</td><td>Be patient – your patience is only from Allah; do not grieve; Allah is with the righteous.</td></tr>
+            </tbody></table>
+        </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-1"></i> 1. Countless Favors of Allah (16:10-18)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=10&to=18" target="_blank">16:10-18</a>
-                    <div class="arabic">هُوَ ٱلَّذِىٓ أَنزَلَ مِنَ ٱلسَّمَآءِ مَآءًۭ ۖ لَّكُم مِّنْهُ شَرَابٌۭ وَمِنْهُ شَجَرٌۭ فِيهِ تُسِيمُونَ</div>
-                    <div class="transliteration">Huwa alladhī anzala mina al-samā'i mā'an lakum minhu sharābun waminhu shajarun fīhi tusīmūn</div>
-                    <div class="tafsir-box">Allah sends down rain, providing drink and vegetation. Fruits, olives, dates, grapes grow. IslamicStudies.info: each favor points to the Oneness of the Creator and the duty of gratitude.</div>
-                </div>
-            </div>
-
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-2"></i> 2. The Miracle of Bees & Honey (16:68-69)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=68&to=69" target="_blank">16:68-69</a>
-                    <div class="arabic">وَأَوْحَىٰ رَبُّكَ إِلَى ٱلنَّحْلِ أَنِ ٱتَّخِذِى مِنَ ٱلْجِبَالِ بُيُوتًا وَمِنَ ٱلشَّجَرِ وَمِمَّا يَعْرِشُونَ</div>
-                    <div class="transliteration">Wa awḥā rabbuka ilā al-naḥli ani ittakhidhī mina al-jibāli buyūtan wa mina al-shajari wa mimmā yaʿrishūn</div>
-                    <div class="tafsir-box">Allah inspired the bee to build hives, eat fruits, and produce honey with healing properties. IslamicStudies.info: a sign of intricate design and natural remedy.</div>
-                </div>
-            </div>
-
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-3"></i> 3. Command of Justice, Excellence & Prohibition of Evil (16:90)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=90&to=90" target="_blank">16:90</a>
-                    <div class="arabic">إِنَّ ٱللَّهَ يَأْمُرُ بِٱلْعَدْلِ وَٱلْإِحْسَٰنِ وَإِيتَآئِ ذِى ٱلْقُرْبَىٰ وَيَنْهَىٰ عَنِ ٱلْفَحْشَآءِ وَٱلْمُنكَرِ وَٱلْبَغْىِ</div>
-                    <div class="transliteration">Inna Allāha ya'muru bi al-'adli wa al-iḥsāni wa ītā'i dhī al-qurbā wa yanhā 'an al-faḥshā'i wa al-munkari wa al-baghyi</div>
-                    <div class="tafsir-box">A comprehensive verse on Islamic ethics: justice, benevolence, helping relatives, and forbidding immorality, wrongdoing, and oppression. IslamicStudies.info: foundation of moral conduct.</div>
-                </div>
-            </div>
-
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-4"></i> 4. Lawful & Pure Provisions (16:114-115)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=114&to=115" target="_blank">16:114-115</a>
-                    <div class="arabic">فَكُلُوا۟ مِمَّا رَزَقَكُمُ ٱللَّهُ حَلَـٰلًۭا طَيِّبًۭا وَٱشْكُرُوا۟ نِعْمَتَ ٱللَّهِ إِن كُنتُمْ إِيَّاهُ تَعْبُدُونَ</div>
-                    <div class="transliteration">Fakulū mimmā razaqakumu Allāu ḥalālan ṭayyiban wa ushkurū ni'mata Allāhi in kuntum iyyāhu ta'budūn</div>
-                    <div class="tafsir-box">Eat lawful good things and be grateful. Forbidden: carrion, blood, swine flesh, and what is dedicated to other than Allah. Exceptions in necessity. IslamicStudies.info: maintaining halal is an act of worship.</div>
-                </div>
-            </div>
-
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-5"></i> 5. Ethics of Da‘wah with Wisdom (16:125)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=125&to=125" target="_blank">16:125</a>
-                    <div class="arabic">ٱدْعُ إِلَىٰ سَبِيلِ رَبِّكَ بِٱلْحِكْمَةِ وَٱلْمَوْعِظَةِ ٱلْحَسَنَةِ ۖ وَجَٰدِلْهُم بِٱلَّتِى هِىَ أَحْسَنُ</div>
-                    <div class="transliteration">Ud'u ilā sabīli rabbika bi al-ḥikmati wa al-maw'iẓati al-ḥasanati wa jādilhum bi-allatī hiya aḥsanu</div>
-                    <div class="tafsir-box">Invite with wisdom, good advice, and argue in the best manner. IslamicStudies.info: da‘wah must be gentle, contextual, and free from coercion.</div>
-                </div>
+        <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
+            <div class="verse">
+                <div class="arabic">وَأَوْحَىٰ رَبُّكَ إِلَى النَّحْلِ أَنِ اتَّخِذِي مِنَ الْجِبَالِ بُيُوتًا وَمِنَ الشَّجَرِ وَمِمَّا يَعْرِشُونَ * ثُمَّ كُلِي مِنْ كُلِّ الثَّمَرَاتِ فَاسْلُكِي سُبُلَ رَبِّكِ ذُلُلًا ۚ يَخْرُجُ مِنْ بُطُونِهَا شَرَابٌ مُخْتَلِفٌ أَلْوَانُهُ فِيهِ شِفَاءٌ لِلنَّاسِ ۗ إِنَّ فِي ذَٰلِكَ لَآيَةً لِقَوْمٍ يَتَفَكَّرُونَ</div>
+                <div class="transliteration">Wa awḥā rabbuka ilā al-naḥli ani ittakhidhī mina al-jibāli buyūtan wa mina al-shajari wa mimmā yaʿrishūn * thumma kulī min kulli al-thamarāti fa-uslukī subula rabbiki dhululā, yakhruju min buṭūnihā sharābun mukh-talifun alwānuhu fīhi shifā’un lil-nās, inna fī dhālika la’āyatan liqawmin yatafakkarūn.</div>
+                <p><strong>Translation:</strong> "And your Lord inspired the bee: 'Take for yourself among the mountains, houses, and among the trees and [in] that which they construct. Then eat from all the fruits and follow the ways of your Lord laid down [for you].' There emerges from their bellies a drink, varying in colors, in which there is healing for people. Indeed in that is a sign for a people who give thought." (16:68-69)</p>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse shows Allah inspiring the bee to build hives and produce honey with healing properties – a scientific miracle of the Qur'an. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=68&to=69&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
             </div>
         </div>
-        <div class="benefits-list"><h3>Spiritual Takeaways</h3><ul><li>Gratitude for countless blessings</li><li>Contemplation of nature (bees, honey)</li><li>Commitment to justice and kindness</li><li>Consuming only lawful provisions</li><li>Wisdom in inviting others to truth</li></ul></div>
+
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah An-Nahl</h2>
+            <div class="theme-card"><div class="theme-title">1. Countless Favors of Allah – Verses 10-18</div>
+                <div class="verse-item"><div class="arabic">هُوَ الَّذِي أَنْزَلَ مِنَ السَّمَاءِ مَاءً ۖ لَكُمْ مِنْهُ شَرَابٌ وَمِنْهُ شَجَرٌ فِيهِ تُسِيمُونَ</div><div class="transliteration">Huwa alladhī anzala mina al-samā’i mā’an lakum minhu sharābun wa minhu shajarun fīhi tusīmūn.</div><p><strong>Translation:</strong> "It is He who sends down rain from the sky; from it is drink and from it is foliage in which you pasture [animals]." (16:10)</p><div class="tafsir-box">Every favor – water, plants, fruits – points to the Creator and the duty of gratitude. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=10&to=18&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">2. The Miracle of Bees & Honey – Verses 68-69</div>
+                <div class="verse-item"><div class="arabic">وَأَوْحَىٰ رَبُّكَ إِلَى النَّحْلِ...</div><div class="transliteration">Wa awḥā rabbuka ilā al-naḥli...</div><p><strong>Translation:</strong> "And your Lord inspired the bee..." (16:68)</p><div class="tafsir-box">Allah's inspiration to bees produces honey – a healing for mankind, a sign for those who reflect. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=68&to=69&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">3. Command of Justice, Excellence & Prohibition of Evil – Verse 90</div>
+                <div class="verse-item"><div class="arabic">إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ...</div><div class="transliteration">Inna Allāha ya’muru bi al-‘adli wa al-iḥsāni...</div><p><strong>Translation:</strong> "Indeed, Allah orders justice and good conduct..." (16:90)</p><div class="tafsir-box">A comprehensive verse on Islamic ethics: justice, benevolence, helping relatives, and forbidding immorality, wrongdoing, and oppression. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=90&to=90&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">4. Lawful & Pure Provisions – Verses 114-115</div>
+                <div class="verse-item"><div class="arabic">فَكُلُوا مِمَّا رَزَقَكُمُ اللَّهُ حَلَالًا طَيِّبًا...</div><div class="transliteration">Fakulū mimmā razaqakumu Allāhu ḥalālan ṭayyiban...</div><p><strong>Translation:</strong> "So eat of the lawful and good food which Allah has provided for you..." (16:114)</p><div class="tafsir-box">Command to eat halal and be grateful; forbidden: carrion, blood, swine, and what is dedicated to other than Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=114&to=115&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">5. Ethics of Da‘wah with Wisdom – Verse 125</div>
+                <div class="verse-item"><div class="arabic">ادْعُ إِلَىٰ سَبِيلِ رَبِّكَ بِالْحِكْمَةِ وَالْمَوْعِظَةِ الْحَسَنَةِ...</div><div class="transliteration">Ud‘u ilā sabīli rabbika bi al-ḥikmati wa al-maw‘iẓati al-ḥasanati...</div><p><strong>Translation:</strong> "Invite to the way of your Lord with wisdom and good instruction..." (16:125)</p><div class="tafsir-box">The ideal method of da‘wah: wisdom, good advice, and arguing in the best manner. <a href="https://www.islamicstudies.info/tafheem.php?sura=16&verse=125&to=125&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+        </div>
+
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah An-Nahl</h3><ul><li>The bee verse inspires scientific study of apitherapy.</li><li>Teaches profound gratitude for countless blessings.</li><li>Verse 90 summarizes Islamic morality.</li><li>Verse 125 is the timeless methodology of da‘wah.</li><li>Commands seeking refuge from Satan before reciting Qur'an.</li></ul></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> All blessings are from Allah (16:53), pure Tawheed (16:36), certainty of resurrection (16:38-39).</p><p><strong>Ibadah (Worship):</strong> Be grateful (16:114), worship sincerely (16:36), seek refuge before reciting Qur'an (16:98), practice justice.</p><p><strong>Akhlaq (Character):</strong> Be just and benevolent (16:90), fulfill promises (16:91), speak kindly, honor parents (16:23), and do da‘wah with wisdom.</p></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah An-Nahl</h3><ul><li>Cultivate gratitude for every blessing, from rainwater to honey.</li><li>Contemplate nature's wonders (bees, fruits) as proof of Allah's power.</li><li>Uphold justice, kindness, and family ties daily.</li><li>Ensure food and drink are halal as an act of obedience.</li><li>Convey Islam with wisdom, compassion, and respectful dialogue.</li></ul></div>
+
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Apitherapy & Health: Honey's scientifically proven healing properties.</li><li>Crisis of Gratitude: Modern consumerism leads to ingratitude; the surah calls to active thankfulness.</li><li>Social Justice: Verse 90 underpins anti-corruption and anti-oppression movements.</li><li>Halal Industry: Global awareness of halal food and ethics.</li><li>Digital Ethics: Da‘wah with wisdom and best argument is crucial for social media.</li></ol></div>
+
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Al-Hijr (15):</strong> Al-Hijr focuses on preservation of Qur'an and past nations; An-Nahl elaborates blessings and practical guidance.</li><li><strong>With Surah Al-Isra' (17):</strong> An-Nahl emphasizes natural blessings; Al-Isra' emphasizes moral commandments.</li><li><strong>With Surah Luqman (31):</strong> Both teach gratitude, Tawheed, and honoring parents.</li><li><strong>With Surah Ar-Rahman (55):</strong> Both repeatedly remind of Allah's favors.</li></ul></div>
+
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Indeed, Allah orders justice and good conduct...” (16:90)</div>
     </div>
 
-    <!-- Unified Pagination -->
+    <!-- PAGINATION -->
     <div class="surah-pagination">
-        <a href="015.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Al-Hijr</a>
+        <a href="015.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya / Previous: Al-Hijr</a>
         <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="017.html" class="pagination-item">Next Surah: Al-Isra <i class="fas fa-arrow-right"></i></a>
+        <a href="017.html" class="pagination-item">Surah Berikutnya / Next: Al-Isra <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
-
 <footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
 
-<!-- fixed scroll arrows -->
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const englishContent = document.getElementById('english-content');
-    const indonesianContent = document.getElementById('indonesian-content');
-    let languageToggle = document.getElementById('languageToggle');
-    let transliterationToggle = document.getElementById('transliterationToggle');
-    let darkModeToggle = document.getElementById('darkModeToggle');
-
-    if (!languageToggle) { let btn = document.createElement('div'); btn.id = 'languageToggle'; btn.className = 'language-toggle'; document.body.appendChild(btn); languageToggle = btn; }
-    if (!transliterationToggle) { let btn = document.createElement('div'); btn.id = 'transliterationToggle'; btn.className = 'transliteration-toggle'; document.body.appendChild(btn); transliterationToggle = btn; }
-    if (!darkModeToggle) { let btn = document.createElement('div'); btn.id = 'darkModeToggle'; btn.className = 'dark-mode-toggle'; document.body.appendChild(btn); darkModeToggle = btn; }
-
+(function(){
+    const englishDiv = document.getElementById('english-content');
+    const indoDiv = document.getElementById('indonesian-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
     const translitElements = document.querySelectorAll('.transliteration');
+    const langSpan = langToggle.querySelector('.lang-text');
 
     const urlParams = new URLSearchParams(window.location.search);
-    let langParam = null;
-    if (urlParams.has('English')) langParam = 'english';
-    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
-
-    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
-    function updateLanguageUI(lang) {
-        if (lang === 'english') {
-            englishContent.classList.remove('hidden');
-            indonesianContent.classList.add('hidden');
-            languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+    let currentLang = localStorage.getItem('language') || 'indonesian';
+    if(urlParams.has('English')) currentLang = 'english';
+    if(urlParams.has('Indonesian')) currentLang = 'indonesian';
+    
+    function setLanguage(lang){
+        const isEnglish = (lang === 'english');
+        if(isEnglish){
+            englishDiv.classList.remove('hidden');
+            indoDiv.classList.add('hidden');
+            if(langSpan) langSpan.innerHTML = '🇮🇩 Switch to Indonesian';
+            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
         } else {
-            englishContent.classList.add('hidden');
-            indonesianContent.classList.remove('hidden');
-            languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+            englishDiv.classList.add('hidden');
+            indoDiv.classList.remove('hidden');
+            if(langSpan) langSpan.innerHTML = '🇬🇧 Switch to English';
+            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
         }
         localStorage.setItem('language', lang);
     }
-    updateLanguageUI(currentLang);
-    languageToggle.addEventListener('click', () => {
-        const newLang = englishContent.classList.contains('hidden') ? 'english' : 'indonesian';
-        updateLanguageUI(newLang);
+    setLanguage(currentLang);
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang);
     });
 
     let translitVisible = localStorage.getItem('transliteration') === 'true';
-    function setTransliteration(show) {
+    if(urlParams.has('Transliteration')) translitVisible = true;
+    function setTransliteration(show){
         translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        transliterationToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
         localStorage.setItem('transliteration', show);
     }
     setTransliteration(translitVisible);
-    transliterationToggle.addEventListener('click', () => {
+    translitToggle.addEventListener('click', () => {
         const currently = translitElements[0]?.style.display === 'block';
         setTransliteration(!currently);
     });
 
     let darkActive = localStorage.getItem('darkMode') === 'true';
-    if (urlParams.has('Dark')) darkActive = true;
-    if (urlParams.has('Light')) darkActive = false;
-    if (darkActive) document.body.classList.add('dark-mode');
-    function setDarkModeUI() {
-        const isDark = document.body.classList.contains('dark-mode');
-        darkModeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
-        localStorage.setItem('darkMode', isDark);
+    if(urlParams.has('Dark')) darkActive = true;
+    if(darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI(){
+        const active = document.body.classList.contains('dark-mode');
+        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        localStorage.setItem('darkMode', active);
     }
     setDarkModeUI();
-    darkModeToggle.addEventListener('click', () => {
+    darkToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         setDarkModeUI();
     });
 
-    const scrollUp = document.getElementById('scrollUp');
-    const scrollDown = document.getElementById('scrollDown');
-    if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
-
-    document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
-        if (!icon.closest('.pagination-item') && !icon.closest('#scrollUp') && !icon.closest('#scrollDown')) {
-            icon.remove();
-        }
-    });
-});
+    const upArrow = document.getElementById('scrollUp');
+    const downArrow = document.getElementById('scrollDown');
+    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+})();
 </script>
 </body>
 </html>
-
