@@ -20,6 +20,7 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
+            --theme-card-bg: #ffffffdd;
         }
         .dark-mode {
             --bg-color: #121826;
@@ -34,8 +35,9 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #7bc9ff;
+            --link-color: #93c5fd;
             --link-hover: #c3e2ff;
+            --theme-card-bg: #1e293bdd;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -61,7 +63,7 @@
             font-size: 42px;
             text-align: right;
             direction: rtl;
-            margin: 20px 0;
+            margin: 20px 0 10px 0;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
             line-height: 2;
@@ -71,7 +73,7 @@
             color: #7f8c8d;
             font-size: 18px;
             text-align: center;
-            margin: -15px 0 20px;
+            margin: 0 0 10px 0;
             display: none;
         }
         .dark-mode .transliteration { color: #b0c4de; }
@@ -126,17 +128,13 @@
             font-weight: 500;
         }
         .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
-        .structure-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .structure-item {
-            background: var(--structure-bg);
-            padding: 18px;
-            border-radius: 20px;
-            border-left: 4px solid #2c7da0;
+        .theme-card {
+            background: var(--theme-card-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 6px solid #2c7da0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
         .benefits-list {
             background: var(--benefits-bg);
@@ -144,28 +142,37 @@
             border-radius: 20px;
             margin: 20px 0;
         }
-        .theme-overview, .info-box, .bonus {
+        .theme-overview, .special-benefits {
             background: var(--bonus-bg);
             padding: 25px;
             border-radius: 24px;
             margin: 25px 0;
         }
-        .info-box { text-align: center; }
+        .info-box {
+            background: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
         .audio-player {
             max-width: 400px;
             margin: 20px auto;
             text-align: center;
         }
-        .theme-card {
-            padding: 20px;
-            border-radius: 24px;
-            margin: 30px 0;
-            border-left: 6px solid;
-            background-color: var(--verse-bg);
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--structure-bg);
+            border-radius: 16px;
+            overflow: hidden;
         }
-        .theme-card:nth-child(odd) { border-left-color: #3498db; }
-        .theme-card:nth-child(even) { border-left-color: #2ecc71; }
-        .dark-mode .theme-card { background-color: var(--structure-bg); }
+        .theme-table th, .theme-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--verse-border);
+            text-align: left;
+        }
+        .theme-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
             position: fixed;
             left: 20px;
@@ -194,6 +201,7 @@
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+            flex-wrap: wrap;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -233,456 +241,300 @@
             .arabic { font-size: 30px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
-        i, .fas, .far { margin-right: 4px; }
-        table.theme-table {
-            width: 100%;
-            border-collapse: collapse;
+        .fa, .fas, .far { margin-right: 4px; }
+        .relationship-box, .structure-grid {
             background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .verse-item {
+            margin-bottom: 25px;
+            border-bottom: 1px dashed var(--verse-border);
+            padding-bottom: 15px;
+        }
+        .verse-item:last-child { border-bottom: none; }
+        .blink-click {
+            display: inline-block;
+            animation: blinkSoft 1.2s infinite;
+            font-weight: bold;
+            background: rgba(0,0,0,0.05);
+            padding: 2px 6px;
             border-radius: 20px;
-            overflow: hidden;
+            margin-left: 6px;
+            font-size: 0.85rem;
         }
-        table.theme-table th, table.theme-table td {
-            padding: 12px;
-            border-bottom: 1px solid var(--verse-border);
-            text-align: left;
+        @keyframes blinkSoft {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; background: rgba(0,0,0,0.15); }
+            100% { opacity: 0.6; }
         }
-        table.theme-table th { background: var(--link-color); color: white; }
+        .dark-mode .blink-click {
+            background: rgba(255,255,255,0.1);
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<!-- Toggles (fixed upper right) -->
 <div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
 
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT (Original detailed content preserved) -->
+    <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah Al-Furqan - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77" target="_blank">IslamicStudies.info - Surah Al-Furqan</a></div>
-
+        <h1 class="surah-title">Surah Al-Furqan (Pembeda) - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77&opt=1" target="_blank">IslamicStudies.info - Surah Al-Furqan (1-77) <span class="blink-click"><i class="fas fa-hand-point-right"></i> Klik Detail</span></a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
         <div class="arabic">تَبَارَكَ الَّذِي نَزَّلَ الْفُرْقَانَ عَلَىٰ عَبْدِهِ لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا</div>
         <div class="transliteration">Tabārakallażī nazzalal-furqāna 'alā 'abdihī liyakụna lil-'ālamīna nażīrā.</div>
         <p style="text-align: center; font-style: italic;">"Mahasuci Allah yang telah menurunkan Al-Furqan (Al-Qur'an) kepada hamba-Nya (Muhammad), agar dia menjadi pemberi peringatan kepada seluruh alam." (Al-Furqan 25:1)</p>
 
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Furqan</h3>
-            <p>Surah Al-Furqan (سورة الفرقان) adalah surah ke-25 dalam Al-Qur'an dan terdiri dari 77 ayat. Surah ini termasuk golongan Makkiyah (diturunkan di Mekah) menurut mayoritas ulama. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77" target="_blank">IslamicStudies.info</a>, surah ini diturunkan setelah Surah Yasin dan sebelum Surah Fatir. Surah Al-Furqan menekankan tentang Al-Qur'an sebagai pembeda antara haq dan batil, serta menjawab berbagai syubhat dan tuduhan orang-orang musyrik terhadap Nabi Muhammad dan Al-Qur'an. Surah ini merupakan penegasan tentang kebenaran kenabian Muhammad dan keagungan Al-Qur'an sebagai petunjuk bagi manusia.</p>
-            <p>Berdasarkan Tafhimul Qur'an, surah ini dimulai dengan penjelasan tentang Al-Qur'an sebagai furqan (pembeda) (25:1) dan diakhiri dengan gambaran tentang hari kiamat (25:77). Surah Al-Furqan memberikan bantahan terhadap berbagai tuduhan orang kafir Mekah dan menjelaskan karakteristik hamba-hamba Allah yang sejati.</p>
+            <p>Surah Al-Furqan (25) terdiri dari 77 ayat dan tergolong surah Makkiyah. Dinamai “Al-Furqan” (pembeda) karena ayat pertama menyebut Al-Qur'an sebagai furqan yang membedakan haq dan batil. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77&opt=1" target="_blank">IslamicStudies.info</a>, surah ini menjawab berbagai tuduhan orang musyrik terhadap Nabi Muhammad dan Al-Qur'an, serta memaparkan bukti-bukti kekuasaan Allah di alam semesta. Puncaknya adalah penjelasan tentang sifat-sifat mulia hamba Allah yang pengasih (<em>‘ibādur-raḥmān</em>).</p>
         </div>
-
         <div class="info-box">
             <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p>Untuk membaca teks lengkap Surah Al-Furqan beserta terjemahannya, kunjungi: 
-            <a href="https://quran.com/25:1-77?translations=33" target="_blank">Quran.com - Surah Al-Furqan (dengan terjemahan)</a></p>
+            <p><a href="https://quran.com/25:1-77?translations=33" target="_blank">Quran.com - Surah Al-Furqan (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-mouse-pointer"></i> Klik di sini</span></a></p>
         </div>
+        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Furqan</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/025.mp3" type="audio/mpeg"></audio></div>
 
-        <div class="bonus">
-            <div class="section-title">Sumber Tafsir Terpercaya</div>
-            <p>Pembahasan dalam halaman ini mengikuti kerangka tematik dari <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a>.</p>
-        </div>
-
-        <div class="audio-player">
-            <div class="audio-title">Dengarkan Surah Al-Furqan</div>
-            <audio controls style="width: 100%;">
-                <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/025.mp3" type="audio/mpeg">
-                Browser Anda tidak mendukung elemen audio.
-            </audio>
-        </div>
-
-        <!-- Pembagian Tema per Bagian Ayat (Original table) -->
+        <!-- Struktur dan Kandungan Surah -->
         <div class="section">
-            <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema per Bagian Ayat</h2>
+            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
             <table class="theme-table">
-                <thead>    <tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr> </thead>
+                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>Ayat 1-20</strong></td><td>Al-Qur'an sebagai Furqan dan Bantahan terhadap Tuduhan</td><td>Kebenaran Al-Qur'an; bantahan terhadap tuduhan orang musyrik; kisah nabi-nabi terdahulu</td></tr>
-                    <tr><td><strong>Ayat 21-44</strong></td><td>Karakteristik Orang Kafir dan Penjelasan tentang Hari Kiamat</td><td>Sikap orang kafir terhadap Rasul; tanda-tanda kekuasaan Allah di alam; azab bagi orang kafir</td></tr>
-                    <tr><td><strong>Ayat 45-62</strong></td><td>Bukti-bukti Kekuasaan Allah di Alam Semesta</td><td>Tanda-tanda kekuasaan Allah dalam penciptaan; perbandingan antara yang hidup dan mati</td></tr>
-                    <tr><td><strong>Ayat 63-77</strong></td><td>Sifat-sifat Ibadurrahman (Hamba Allah Yang Maha Pengasih)</td><td>Karakteristik hamba Allah sejati; doa mereka; balasan bagi orang yang bertakwa</td></tr>
+                    <tr><td><strong>1-20</strong></td><td>Al-Furqan dan Bantahan Tuduhan</th><td>Penegasan Al-Qur'an sebagai pembeda, bantahan bahwa Muhammad hanya manusia biasa, dan kisah para nabi terdahulu sebagai pelajaran.</td></tr>
+                    <tr><td><strong>21-44</strong></td><td>Sikap Orang Kafir & Hari Kiamat</th><td>Orang kafir meminta mukjizat aneh, ancaman azab, dan penjelasan tentang kesesatan mereka di hari kiamat.</td></tr>
+                    <tr><td><strong>45-62</strong></td><td>Tanda-tanda Kekuasaan Allah</th><td>Ayat-ayat kauniyah: pergantian siang-malam, awan, angin, dan air hujan sebagai bukti keesaan Allah. </tr>
+                    <tr><td><strong>63-77</strong></td><td>Sifat Ibadurrahman</th><td>Karakteristik hamba Allah yang sejati: rendah hati, banyak ibadah malam, tidak terlibat dalam kesia-siaan, dan doa mulia. </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Ayat Kunci untuk Tadabbur (Original) -->
+        <!-- Pembagian Tema per Bagian Ayat -->
         <div class="section">
-            <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Ayat Kunci untuk Tadabbur</h2>
+            <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-20</strong></td><td>Al-Qur'an sebagai Furqan & Bantahan Tuduhan</th><td>Kebenaran Al-Qur'an, kenabian Muhammad sebagai rahmat seluruh alam, bantahan syubhat musyrikin. </tr>
+                    <tr><td><strong>21-44</strong></td><td>Karakteristik Orang Kafir & Kiamat</th><td>Sikap ingkar, permintaan mukjizat aneh, ancaman neraka, dan penyesalan di hari kiamat. </tr>
+                    <tr><td><strong>45-62</strong></td><td>Bukti Kekuasaan Allah di Alam</th><td>Tadabbur alam: bayang-bayang, malam dan siang, angin, hujan, serta lautan sebagai tanda kebesaran Allah.</tr>
+                    <tr><td><strong>63-77</strong></td><td>Sifat-sifat Ibadurrahman</th><td>Lima belas karakter hamba Ar-Rahman: tawadhu', sabar terhadap kebodohan, qiyamul lail, takut neraka, dermawan, tidak menyekutukan Allah, menjaga kehormatan, jujur, dan doa untuk keturunan yang shalih. </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Ayat Kunci untuk Tadabbur -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
             <div class="verse">
-                <div class="arabic">تَبَارَكَ الَّذِي نَزَّلَ الْفُرْقَانَ عَلَىٰ عَبْدِهِ لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا</div>
-                <div class="transliteration">Tabārakallażī nazzalal-furqāna 'alā 'abdihī liyakụna lil-'ālamīna nażīrā.</div>
-                <p><strong>"Mahasuci Allah yang telah menurunkan Al-Furqan (Al-Qur'an) kepada hamba-Nya (Muhammad), agar dia menjadi pemberi peringatan kepada seluruh alam."</strong> (Al-Furqan 25:1)</p>
-                <div class="tafsir-box">
-                    <strong>Kenapa ayat ini penting:</strong>
-                    <p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1" target="_blank">IslamicStudies.info</a>, ayat ini membuka surah dengan penegasan bahwa Al-Qur'an adalah furqan (pembeda) antara haq dan batil. Kata "tabarak" menunjukkan kesempurnaan dan keagungan Allah, dan Al-Furqan adalah salah satu nama Al-Qur'an karena ia membedakan antara kebenaran dan kebatilan. Ayat ini juga menunjukkan universalitas risalah Nabi Muhammad yang ditujukan untuk seluruh alam, bukan hanya untuk bangsa Arab.</p>
-                </div>
+                <div class="arabic">وَعِبَادُ الرَّحْمَٰنِ الَّذِينَ يَمْشُونَ عَلَى الْأَرْضِ هَوْنًا وَإِذَا خَاطَبَهُمُ الْجَاهِلُونَ قَالُوا سَلَامًا</div>
+                <div class="transliteration">Wa 'ibādur-raḥmānillażīna yamsyụna 'alal-arḍi haunaw wa iżā khāṭabahumul-jāhilụna qālụ salāmā.</div>
+                <p><strong>Terjemahan:</strong> "Dan hamba-hamba Tuhan Yang Maha Pengasih adalah orang-orang yang berjalan di bumi dengan rendah hati dan apabila orang-orang bodoh menyapa mereka (dengan kata-kata yang menghina), mereka mengucapkan 'salam'." (Al-Furqan 25:63)</p>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menjadi fondasi akhlak mulia seorang muslim. Rendah hati bukan berarti lemah, justru menunjukkan kekuatan jiwa. Menjawab kebodohan dengan ucapan selamat/salam adalah puncak pengendalian diri. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=63&to=63&opt=1" target="_blank">📖 Rinci Tafsir Ayat 63</a></div>
             </div>
         </div>
 
-        <!-- Pesan Akidah, Ibadah, & Akhlak (Original) -->
+        <!-- Tema Utama Surah dengan Ayat Lengkap -->
         <div class="section">
-            <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Pesan Akidah, Ibadah, & Akhlak</h2>
-            <div class="benefits-list">
-                <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Intisari Ajaran Surah Al-Furqan</h3>
-                <ul>
-                    <li><strong>Akidah</strong> : Keyakinan bahwa Al-Qur'an adalah furqan (pembeda) dari Allah (25:1); keimanan pada kenabian Muhammad (25:7-8); keyakinan pada hari kebangkitan (25:17-19); pengakuan bahwa hanya Allah yang berhak disembah (25:55).</li>
-                    <li><strong>Ibadah</strong> : Membaca dan mentadabburi Al-Qur'an (25:1); shalat malam (25:64); berdoa dengan rendah hati (25:77); bersyukur atas nikmat Allah (25:62).</li>
-                    <li><strong>Akhlak</strong> : Berjalan di bumi dengan rendah hati (25:63); menghindari perbuatan sia-sia (25:72); sabar menghadapi cercaan (25:65); memaafkan kesalahan orang lain (25:72-74).</li>
-                </ul>
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Al-Furqan</h2>
+
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Al-Qur'an sebagai Furqan (Pembeda) – 25:1-6</div>
+                <div class="verse-item"><div class="arabic">تَبَارَكَ الَّذِي نَزَّلَ الْفُرْقَانَ عَلَىٰ عَبْدِهِ لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا</div><div class="transliteration">Tabārakallażī nazzalal-furqāna 'alā 'abdihī liyakụna lil-'ālamīna nażīrā.</div><p><strong>Terjemahan:</strong> "Mahasuci Allah yang telah menurunkan Al-Furqan (Al-Qur'an) kepada hamba-Nya (Muhammad), agar dia menjadi pemberi peringatan kepada seluruh alam."</p><div class="tafsir-box">IslamicStudies.info: Al-Furqan adalah nama lain Al-Qur'an karena ia membedakan antara petunjuk dan kesesatan, halal dan haram, haq dan batil. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=6&opt=1" target="_blank">Rinci Tafsir 25:1-6</a></div></div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Bantahan terhadap Tuduhan Musyrik – 25:7-10</div>
+                <div class="verse-item"><div class="arabic">وَقَالُوا مَالِ هَٰذَا الرَّسُولِ يَأْكُلُ الطَّعَامَ وَيَمْشِي فِي الْأَسْوَاقِ...</div><div class="transliteration">Wa qālụ māli hāżar-rasụli ya`kulụṭ-ṭa'āma wa yamsyī fil-aswāq...</div><p><strong>Terjemahan:</strong> "Dan mereka berkata, 'Mengapa Rasul ini memakan makanan dan berjalan di pasar-pasar? Mengapa tidak diturunkan kepadanya malaikat?'"</p><div class="tafsir-box">IslamicStudies.info: Tuduhan bahwa rasul harus malaikat atau memiliki harta melimpah dibantah dengan menunjukkan bahwa para rasul terdahulu juga manusia biasa. Justru keteladanan manusia nyata lebih bermakna. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=7&to=10&opt=1" target="_blank">Rinci Tafsir 25:7-10</a></div></div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Tanda-tanda Kekuasaan Allah di Alam – 25:45-50</div>
+                <div class="verse-item"><div class="arabic">أَلَمْ تَرَ إِلَىٰ رَبِّكَ كَيْفَ مَدَّ الظِّلَّ وَلَوْ شَاءَ لَجَعَلَهُ سَاكِنًا...</div><div class="transliteration">A lam tara ilā rabbika kaifa maddaẓ-ẓilla, wa law syā`a laja'alahụ sākinā...</div><p><strong>Terjemahan:</strong> "Tidakkah engkau memperhatikan (penciptaan) Tuhanmu, bagaimana Dia memanjangkan bayang-bayang? Dan sekiranya Dia menghendaki, niscaya Dia jadikan tetap bayang-bayang itu..."</p><div class="tafsir-box">IslamicStudies.info: Fenomena alam seperti bayang-bayang, pergantian malam dan siang, angin, serta hujan adalah bukti nyata kekuasaan Allah yang mengajak manusia berpikir. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=45&to=50&opt=1" target="_blank">Rinci Tafsir 25:45-50</a></div></div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Sifat-sifat Ibadurrahman – 25:63-76</div>
+                <div class="verse-item"><div class="arabic">وَعِبَادُ الرَّحْمَٰنِ الَّذِينَ يَمْشُونَ عَلَى الْأَرْضِ هَوْنًا...</div><div class="transliteration">Wa 'ibādur-raḥmānillażīna yamsyụna 'alal-arḍi haunaw...</div><p><strong>Terjemahan:</strong> "Dan hamba-hamba Tuhan Yang Maha Pengasih adalah orang-orang yang berjalan di bumi dengan rendah hati..."</p><div class="tafsir-box">IslamicStudies.info: Lima belas sifat mulia: tawadhu', sabar menghadapi kebodohan, rajin tahajud, takut neraka, sederhana dalam infak, tidak membunuh, tidak berzina, tidak bersaksi palsu, dan lain-lain. Ini adalah profil muslim paripurna. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=63&to=76&opt=1" target="_blank">Rinci Tafsir 25:63-76</a></div></div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Doa Ibadurrahman dan Balasan Surga – 25:74-77</div>
+                <div class="verse-item"><div class="arabic">وَالَّذِينَ يَقُولُونَ رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا</div><div class="transliteration">Wallażīna yaqụlụna rabbanā hab lanā min azwājinā wa żurriyyātinā qurrata a'yuniw waj'alnā lil-muttaqīna imāmā.</div><p><strong>Terjemahan:</strong> "Dan orang-orang yang berkata, 'Ya Tuhan kami, anugerahkanlah kepada kami pasangan dan keturunan kami sebagai penyenang hati, dan jadikanlah kami pemimpin bagi orang-orang yang bertakwa.'"</p><div class="tafsir-box">IslamicStudies.info: Doa yang mencakup kebahagiaan keluarga dan kepemimpinan dalam kebaikan. Balasannya adalah tempat tertinggi di surga (al-gurfah) karena kesabaran mereka. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=74&to=77&opt=1" target="_blank">Rinci Tafsir 25:74-77</a></div></div>
             </div>
         </div>
 
-        <!-- Tema Utama (Original detailed themes with full translations) -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Tema Utama Surah Al-Furqan</h2>
-
-            <div class="theme-point">
-                <div class="theme-title"><i class="fas fa-1 verse-title-icon"></i> 1. Al-Qur'an sebagai Furqan (Pembeda)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=6" target="_blank">Al-Furqan 25:1-6</a>
-                    <div class="arabic">تَبَارَكَ الَّذِي نَزَّلَ الْفُرْقَانَ عَلَىٰ عَبْدِهِ لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا الَّذِي لَهُ مُلْكُ السَّمَاوَاتِ وَالْأَرْضِ وَلَمْ يَتَّخِذْ وَلَدًا وَلَمْ يَكُنْ لَهُ شَرِيكٌ فِي الْمُلْكِ وَخَلَقَ كُلَّ شَيْءٍ فَقَدَّرَهُ تَقْدِيرًا</div>
-                    <div class="transliteration">Tabārakallażī nazzalal-furqāna 'alā 'abdihī liyakụna lil-'ālamīna nażīrā. Allażī lahụ mulkus-samāwāti wal-arḍi wa lam yattakhiż waladaw wa lam yakul lahụ syarīkun fil-mulki wa khalaqa kulla syai`in fa qaddarahụ taqdīrā.</div>
-                    <p><strong>"Mahasuci Allah yang telah menurunkan Al-Furqan (Al-Qur'an) kepada hamba-Nya (Muhammad), agar dia menjadi pemberi peringatan kepada seluruh alam. (Yaitu) Yang mempunyai kerajaan langit dan bumi, tidak mempunyai anak, tidak ada sekutu bagi-Nya dalam kekuasaan(Nya), dan Dia menciptakan segala sesuatu, lalu menetapkan ukuran-ukurannya dengan tepat."</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=6" target="_blank">IslamicStudies.info</a>, ayat-ayat ini menegaskan bahwa Al-Qur'an adalah pembeda yang jelas antara kebenaran dan kebatilan. "Furqan" berarti sesuatu yang memisahkan antara haq dan batil, petunjuk dan kesesatan. Ayat ini juga membantah keyakinan orang musyrik tentang anak Allah dan sekutu-sekutu-Nya.
-                    </div>
-                </div>
-            </div>
-
-            <div class="praise-section" style="background-color: var(--praise-bg);">
-                <div class="theme-title"><i class="fas fa-2 verse-title-icon"></i> 2. Bantahan terhadap Tuduhan Orang Musyrik</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=7&to=10" target="_blank">Al-Furqan 25:7-10</a>
-                    <div class="arabic">وَقَالُوا مَالِ هَٰذَا الرَّسُولِ يَأْكُلُ الطَّعَامَ وَيَمْشِي فِي الْأَسْوَاقِ ۙ لَوْلَا أُنْزِلَ إِلَيْهِ مَلَكٌ فَيَكُونَ مَعَهُ نَذِيرًا أَوْ يُلْقَىٰ إِلَيْهِ كَنْزٌ أَوْ تَكُونُ لَهُ جَنَّةٌ يَأْكُلُ مِنْهَا ۚ وَقَالَ الظَّالِمُونَ إِنْ تَتَّبِعُونَ إِلَّا رَجُلًا مَسْحُورًا</div>
-                    <div class="transliteration">Wa qālụ māli hāżar-rasụli ya`kulụṭ-ṭa'āma wa yamsyī fil-aswāq, lau lā unzila ilaihi malakun fa yakụna ma'ahụ nażīrā, au yulqā ilaihi kanzun au takụnu lahụ jannatuy ya`kulu minhā, wa qālaẓ-ẓālimụna in tattabi'ūna illā rajulam mas-ḥụrā.</div>
-                    <p><strong>"Dan mereka (orang-orang kafir) berkata, 'Mengapa Rasul (Muhammad) ini memakan makanan dan berjalan di pasar-pasar? Mengapa tidak diturunkan kepadanya seorang malaikat (agar malaikat itu) memberi peringatan bersama-sama dia? Atau mengapa tidak diberikan kepadanya perbendaharaan (harta benda), atau (mengapa tidak) ada kebun baginya, sehingga dia dapat makan (dari hasil kebun) itu?' Dan orang-orang zalim itu berkata, 'Kamu sekalian tidak lain hanyalah mengikuti seorang lelaki yang kena sihir.'"</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=7&to=10" target="_blank">IslamicStudies.info</a> menjelaskan bahwa ayat-ayat ini menggambarkan berbagai tuduhan tidak masuk akal dari orang musyrik terhadap Nabi Muhammad. Mereka tidak bisa menerima kenyataan bahwa seorang manusia biasa bisa menjadi Rasul. Justru kenyataan Nabi Muhammad sebagai manusia biasa yang makan, minum, dan berjalan di pasar menunjukkan universalitas Islam yang sesuai dengan fitrah manusia.
-                    </div>
-                </div>
-            </div>
-
-            <div class="theme-point">
-                <div class="theme-title"><i class="fas fa-3 verse-title-icon"></i> 3. Tanda-tanda Kekuasaan Allah di Alam Semesta</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=45&to=50" target="_blank">Al-Furqan 25:45-50</a>
-                    <div class="arabic">أَلَمْ تَرَ إِلَىٰ رَبِّكَ كَيْفَ مَدَّ الظِّلَّ وَلَوْ شَاءَ لَجَعَلَهُ سَاكِنًا ثُمَّ جَعَلْنَا الشَّمْسَ عَلَيْهِ دَلِيلًا ثُمَّ قَبَضْنَاهُ إِلَيْنَا قَبْضًا يَسِيرًا</div>
-                    <div class="transliteration">A lam tara ilā rabbika kaifa maddaẓ-ẓilla, wa law syā`a laja'alahụ sākinā, ṡumma ja'alnasy-syamsa 'alaihi dalīlā, ṡumma qabaḍnāhu ilainā qabḍay yasīrā.</div>
-                    <p><strong>"Tidakkah engkau memperhatikan (penciptaan) Tuhanmu, bagaimana Dia memanjangkan (dan memendekkan) bayang-bayang; dan sekiranya Dia menghendaki, niscaya Dia jadikan tetap bayang-bayang itu, kemudian Kami jadikan matahari sebagai petunjuk atas bayang-bayang itu, kemudian Kami menarik bayang-bayang itu kepada Kami dengan tarikan yang perlahan-lahan."</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Pembahasan:</strong> Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=45&to=50" target="_blank">IslamicStudies.info</a>, ayat-ayat ini menunjukkan tanda-tanda kekuasaan Allah dalam fenomena alam yang sehari-hari kita lihat. Perubahan bayang-bayang dari pagi hingga sore hari adalah bukti pengaturan Allah yang sempurna. Semua fenomena alam ini adalah ayat-ayat kauniyah yang mengajak manusia untuk berpikir dan mengenal Penciptanya.
-                    </div>
-                </div>
-            </div>
-
-            <div class="guidance-section" style="background-color: var(--guidance-bg);">
-                <div class="theme-title"><i class="fas fa-4 verse-title-icon"></i> 4. Sifat-sifat Ibadurrahman (Hamba Allah Yang Maha Pengasih)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=63&to=76" target="_blank">Al-Furqan 25:63-76</a>
-                    <div class="arabic">وَعِبَادُ الرَّحْمَٰنِ الَّذِينَ يَمْشُونَ عَلَى الْأَرْضِ هَوْنًا وَإِذَا خَاطَبَهُمُ الْجَاهِلُونَ قَالُوا سَلَامًا وَالَّذِينَ يَبِيتُونَ لِرَبِّهِمْ سُجَّدًا وَقِيَامًا</div>
-                    <div class="transliteration">Wa 'ibādur-raḥmānillażīna yamsyụna 'alal-arḍi haunaw wa iżā khāṭabahumul-jāhilụna qālụ salāmā. Wallażīna yabītụna lirabbihim sujjadaw wa qiyāmā.</div>
-                    <p><strong>"Dan hamba-hamba Tuhan Yang Maha Pengasih adalah orang-orang yang berjalan di bumi dengan rendah hati dan apabila orang-orang bodoh menyapa mereka (dengan kata-kata yang menghina), mereka mengucapkan 'salam', dan orang-orang yang menghabiskan waktu malam untuk beribadah kepada Tuhan mereka dengan bersujud dan berdiri."</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=63&to=76" target="_blank">IslamicStudies.info</a> menjelaskan bahwa bagian ini adalah salah satu bagian paling indah dalam Al-Qur'an yang menggambarkan karakteristik hamba Allah sejati. Sifat-sifat ini adalah standar akhlak yang tinggi yang harus dicapai oleh setiap muslim. Gambaran ini menunjukkan bahwa Islam adalah agama yang mengatur seluruh aspek kehidupan, mulai dari cara berjalan hingga cara berbicara.
-                    </div>
-                </div>
-            </div>
-
-            <div class="theme-point">
-                <div class="theme-title"><i class="fas fa-5 verse-title-icon"></i> 5. Doa Ibadurrahman dan Balasan bagi Orang Bertakwa</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=74&to=77" target="_blank">Al-Furqan 25:74-77</a>
-                    <div class="arabic">وَالَّذِينَ يَقُولُونَ رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا أُولَٰئِكَ يُجْزَوْنَ الْغُرْفَةَ بِمَا صَبَرُوا وَيُلَقَّوْنَ فِيهَا تَحِيَّةً وَسَلَامًا</div>
-                    <div class="transliteration">Wallażīna yaqụlụna rabbanā hab lanā min azwājinā wa żurriyyātinā qurrata a'yuniw waj'alnā lil-muttaqīna imāmā. Ulā`ika yujzawnal-gurfata bimā ṣabarụ wa yulaqqauna fīhā taḥiyyataw wa salāmā.</div>
-                    <p><strong>"Dan orang-orang yang berkata, 'Ya Tuhan kami, anugerahkanlah kepada kami pasangan kami dan keturunan kami sebagai penyenang hati (kami), dan jadikanlah kami pemimpin bagi orang-orang yang bertakwa.' Mereka itu akan diberi balasan dengan tempat yang tinggi (di surga) karena kesabaran mereka, dan mereka akan disambut di dalamnya dengan penghormatan dan salam."</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Pembahasan:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=74&to=77" target="_blank">IslamicStudies.info</a> menjelaskan bahwa doa ini mencakup semua aspek kehidupan dunia dan akhirat. "Qurrata a'yun" berarti keturunan yang taat yang membawa kebahagiaan bagi orang tua. Doa untuk menjadi pemimpin bagi orang bertakwa menunjukkan bahwa muslim sejati harus menjadi teladan dan pemimpin dalam kebaikan.
-                    </div>
-                </div>
-            </div>
+        <!-- Keutamaan Khusus Surah -->
+        <div class="special-benefits">
+            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Furqan</h3>
+            <ul><li><strong>Al-Furqan (Pembeda):</strong> Nama lain Al-Qur'an yang menegaskan fungsinya memisahkan kebenaran dari kebatilan.</li><li><strong>Profil Hamba Ar-Rahman:</strong> Memberikan standar akhlak tertinggi yang harus dicapai setiap muslim.</li><li><strong>Bantahan Syubhat:</strong> Menjawab berbagai keraguan orang kafir tentang kenabian dan kerasulan.</li><li><strong>Tadabbur Alam:</strong> Mengajak merenungkan tanda-tanda kekuasaan Allah di alam semesta.</li><li><strong>Doa Keluarga Sakinah:</strong> Doa untuk keturunan yang shalih dan menjadi pemimpin dalam takwa.</li></ul>
         </div>
 
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-hands-praying section-title-icon"></i> Pelajaran Spiritual dari Surah Al-Furqan</h2>
-            <div class="benefits-list">
-                <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-award"></i> Pelajaran Penting untuk Kehidupan</h3>
-                <ul>
-                    <li><strong>Al-Qur'an sebagai Petunjuk:</strong> Al-Qur'an adalah pembeda yang jelas antara kebenaran dan kebatilan yang harus dijadikan pedoman hidup.</li>
-                    <li><strong>Keteladanan Nabi:</strong> Nabi Muhammad sebagai manusia biasa justru menunjukkan bahwa Islam adalah agama yang sesuai dengan fitrah manusia.</li>
-                    <li><strong>Tafakkur Alam:</strong> Semua fenomena alam adalah tanda-tanda kekuasaan Allah yang mengajak manusia untuk berpikir.</li>
-                    <li><strong>Akhlak Mulia:</strong> Karakteristik ibadurrahman adalah standar akhlak yang harus dicapai setiap muslim.</li>
-                    <li><strong>Doa yang Komprehensif:</strong> Doa mencakup kebutuhan dunia dan akhirat, keluarga, dan masyarakat.</li>
-                    <li><strong>Kesabaran dan Ketakwaan:</strong> Balasan di surga diberikan karena kesabaran dalam menjalankan ketakwaan.</li>
-                    <li><strong>Bantahan terhadap Syubhat:</strong> Al-Qur'an memberikan jawaban terhadap berbagai syubhat dan tuduhan.</li>
-                    <li><strong>Universalitas Islam:</strong> Risalah Nabi Muhammad ditujukan untuk seluruh alam, bukan untuk bangsa tertentu.</li>
-                </ul>
-            </div>
+        <div class="benefits-list">
+            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, Akhlak</h3>
+            <p><strong>Akidah:</strong> Al-Qur'an adalah furqan dari Allah, kenabian Muhammad adalah rahmat bagi alam, keyakinan pada hari kiamat dan balasan.</p>
+            <p><strong>Ibadah:</strong> Qiyamul lail (shalat malam), berdoa dengan doa ibadurrahman, bersyukur atas nikmat Allah di alam.</p>
+            <p><strong>Akhlak:</strong> Rendah hati (tawadhu'), sabar terhadap hinaan, menahan amarah, menjaga pandangan dan kemaluan, jujur dalam kesaksian.</p>
         </div>
 
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-link section-title-icon"></i> Hubungan dengan Surah Lain</h2>
-            <div class="structure-grid">
-                <div class="structure-item">
-                    <h4><i class="fas fa-arrow-left verse-title-icon"></i> Dengan Surah An-Nur (24)</h4>
-                    <p>Surah An-Nur menutup dengan penegasan kekuasaan mutlak Allah (24:64), sedangkan Surah Al-Furqan dibuka dengan penjelasan tentang Al-Qur'an sebagai pembeda (25:1). Jika Surah An-Nur membahas tatanan sosial masyarakat muslim, Surah Al-Furqan fokus pada karakteristik hamba-hamba Allah yang pengasih. Keduanya memberikan panduan komprehensif tentang bagaimana menjadi muslim yang baik secara individu (Al-Furqan) dan sebagai bagian dari masyarakat (An-Nur).</p>
-                </div>
-                <div class="structure-item">
-                    <h4><i class="fas fa-arrow-right verse-title-icon"></i> Dengan Surah Asy-Syu'ara (26)</h4>
-                    <p>Surah Al-Furqan menutup dengan doa ibadurrahman dan balasan bagi orang bertakwa (25:74-77), sedangkan Surah Asy-Syu'ara dibuka dengan penjelasan tentang Al-Qur'an yang jelas (26:1-2). Jika Surah Al-Furqan memberikan gambaran umum tentang karakteristik hamba Allah, Surah Asy-Syu'ara memberikan kisah-kisah detail tentang perjuangan para nabi. Keduanya saling melengkapi dalam memberikan teladan dan panduan hidup bagi orang beriman.</p>
-                </div>
-            </div>
+        <div class="benefits-list">
+            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Furqan</h3>
+            <ul><li>Al-Qur'an adalah pedoman hidup yang membedakan antara yang haq dan batil.</li><li>Kesombongan dan tuntutan mukjizat aneh adalah ciri orang kafir.</li><li>Setiap fenomena alam adalah ayat Allah yang perlu direnungkan.</li><li>Akhlak mulia adalah bukti keimanan yang sejati.</li><li>Doa untuk keluarga dan kepemimpinan dalam kebaikan adalah cita-cita tertinggi orang beriman.</li></ul>
         </div>
 
-        <!-- Navigation (matching modern style) -->
-        <div class="surah-pagination">
-            <a href="024.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: An-Nur</a>
-            <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-            <a href="026.html" class="pagination-item">Surah Berikutnya: Asy-Syu'ara <i class="fas fa-arrow-right"></i></a>
+        <div class="theme-card">
+            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div>
+            <ol><li>Krisis identitas: Al-Qur'an sebagai furqan memberikan kepastian di tengah arus pemikiran yang membingungkan.</li><li>Ujaran kebencian di media sosial: Meneladani ibadurrahman yang menjawab kebodohan dengan "salam".</li><li>Keluarga modern: Doa "hab lana min azwajina ... qurrata a'yun" menjadi benteng keluarga sakinah.</li><li>Lingkungan dan sains: Tadabbur alam (25:45-50) sejalan dengan kajian ekologi dan astronomi.</li><li>Kepemimpinan: "Waj'alna lil-muttaqina imama" – muslim harus menjadi teladan, bukan sekadar pengikut.</li></ol>
         </div>
-        <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <ul><li><strong>Dengan Surah An-Nur (24):</strong> An-Nur membangun tatanan sosial masyarakat muslim, sedangkan Al-Furqan membangun karakter individu muslim (ibadurrahman). Keduanya saling melengkapi.</li><li><strong>Dengan Surah Asy-Syu'ara (26):</strong> Al-Furqan memberikan prinsip umum kenabian, sementara Asy-Syu'ara menceritakan kisah detail perjuangan para nabi.</li><li><strong>Dengan Surah Yasin (36):</strong> Sama-sama surah Makkiyah yang menegaskan kenabian Muhammad dan kebangkitan.</li></ul>
+        </div>
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Dan jadikanlah kami pemimpin bagi orang-orang yang bertakwa.” (25:74) – Doa agung seorang muslim.</div>
     </div>
 
-    <!-- ENGLISH CONTENT (mirror of Indonesian content, with full translations) -->
+    <!-- ENGLISH CONTENT -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Al-Furqan - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77" target="_blank">IslamicStudies.info - Surah Al-Furqan</a></div>
-
+        <h1 class="surah-title">Surah Al-Furqan (The Criterion) - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77&opt=1" target="_blank">IslamicStudies.info - Surah Al-Furqan (1-77) <span class="blink-click"><i class="fas fa-hand-point-right"></i> Click Details</span></a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
         <div class="arabic">تَبَارَكَ الَّذِي نَزَّلَ الْفُرْقَانَ عَلَىٰ عَبْدِهِ لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا</div>
         <div class="transliteration">Tabārakallażī nazzalal-furqāna 'alā 'abdihī liyakụna lil-'ālamīna nażīrā.</div>
-        <p style="text-align: center; font-style: italic;">"Blessed is He who sent down the Criterion upon His Servant that he may be to the worlds a warner." (Al-Furqan 25:1)</p>
+        <p style="text-align: center;">"Blessed is He who sent down the Criterion upon His Servant that he may be to the worlds a warner." (Al-Furqan 25:1)</p>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Furqan</h3><p>Meccan surah (77 verses) named "The Criterion". According to <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77&opt=1" target="_blank">IslamicStudies.info</a>, it refutes polytheists' accusations, presents signs of Allah's power in nature, and culminates in the description of the noble characteristics of the true servants of the Most Merciful ('Ibadur-Rahman).</p></div>
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Full Text Access</h3><p><a href="https://recitequran.com/25:1" target="_blank">ReciteQuran.com - Surah Al-Furqan <span class="blink-click"><i class="fas fa-mouse-pointer"></i> Click Here</span></a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Furqan</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/025.mp3"></audio></div>
 
-        <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Overview of Surah Al-Furqan</h3>
-            <p>Surah Al-Furqan (25) is a Meccan surah consisting of 77 verses. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77" target="_blank">IslamicStudies.info</a>, it emphasizes the Qur'an as the criterion between truth and falsehood, refutes the polytheists' accusations, and describes the qualities of Allah's true servants (Ibadurrahman).</p>
+        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead><tbody>
+                <tr><td><strong>1-20</strong></td><td>Al-Furqan & Refutation of Accusations</th><td>Affirmation of the Qur'an as Criterion, rebuttal that Muhammad is just an ordinary human, stories of past prophets.</tr>
+                <tr><td><strong>21-44</strong></td><td>Disbelievers' Attitude & Judgment Day</th><td>Disbelievers demand bizarre miracles, warning of punishment, and their regret on Judgment Day.</tr>
+                <tr><td><strong>45-62</strong></td><td>Signs of Allah's Power in the Universe</th><td>Cosmic signs: shadows, day and night, clouds, wind, rain as proofs of Allah's oneness.</tr>
+                <tr><td><strong>63-77</strong></td><td>Characteristics of Ibadurrahman</th><td>Fifteen noble traits: humility, patience with ignorance, night prayer, fear of Hell, moderate spending, avoiding murder, zina, false testimony, and beautiful supplication.</tr>
+            </tbody></table>
         </div>
 
-        <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Access Complete Text</h3>
-            <p><a href="https://recitequran.com/25:1" target="_blank">ReciteQuran.com - Surah Al-Furqan</a></p>
+        <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
+                <tr><td><strong>1-20</strong></td><td>Qur'an as Criterion & Refutation of Accusations</th><td>Truth of the Qur'an, universality of Muhammad's prophethood, rebuttal of polytheists' doubts.</tr>
+                <tr><td><strong>21-44</strong></td><td>Characteristics of Disbelievers & Day of Judgment</th><td>Denial, demand for strange miracles, warning of Hellfire, and regret on the Last Day.</tr>
+                <tr><td><strong>45-62</strong></td> DidžiulisEvidences of Allah's Power in Creation</th><td>Contemplation of nature: shadows, night and day, wind, rain, seas as signs of Allah's greatness.</tr>
+                <tr><td><strong>63-77</strong></td><td>Qualities of Ibadurrahman</th><td>Fifteen attributes: humility, forgiveness, night prayer, modesty, honesty, and prayer for righteous offspring and leadership in piety.</tr>
+            </tbody></table>
         </div>
 
-        <div class="bonus">
-            <div class="section-title">Reliable Tafsir Source</div>
-            <p>The discussion on this page follows the thematic framework from <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=77" target="_blank">IslamicStudies.info (Tafhimul Qur'an)</a>.</p>
+        <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
+            <div class="verse"><div class="arabic">وَعِبَادُ الرَّحْمَٰنِ الَّذِينَ يَمْشُونَ عَلَى الْأَرْضِ هَوْنًا وَإِذَا خَاطَبَهُمُ الْجَاهِلُونَ قَالُوا سَلَامًا</div><div class="transliteration">Wa 'ibādur-raḥmānillażīna yamsyụna 'alal-arḍi haunaw wa iżā khāṭabahumul-jāhilụna qālụ salāmā.</div><p><strong>Translation:</strong> "And the servants of the Most Merciful are those who walk upon the earth easily, and when the ignorant address them [harshly], they say [words of] peace." (Al-Furqan 25:63)</p><div class="tafsir-box"><strong>IslamicStudies.info:</strong> This verse is the foundation of noble character. Humility reflects inner strength, and responding to ignorance with "peace" is the peak of self-control. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=63&to=63&opt=1" target="_blank">📖 Detailed Tafsir 25:63</a></div></div>
         </div>
 
-        <div class="audio-player">
-            <div class="audio-title">Listen to Surah Al-Furqan</div>
-            <audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/025.mp3" type="audio/mpeg"></audio>
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Furqan</h2>
+            <div class="theme-card"><div class="theme-title">1. The Qur'an as Criterion (25:1-6)</div><div class="verse-item"><div class="arabic">تَبَارَكَ الَّذِي نَزَّلَ الْفُرْقَانَ عَلَىٰ عَبْدِهِ...</div><div class="transliteration">Tabārakallażī nazzalal-furqāna...</div><p><strong>Translation:</strong> "Blessed is He who sent down the Criterion upon His Servant..."</p><div class="tafsir-box">IslamicStudies.info: Al-Furqan is one of the names of the Qur'an because it distinguishes truth from falsehood. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=6&opt=1">Full Tafsir</a></div></div></div>
+            <div class="theme-card"><div class="theme-title">2. Refutation of Polytheists' Accusations (25:7-10)</div><div class="verse-item"><div class="arabic">وَقَالُوا مَالِ هَٰذَا الرَّسُولِ يَأْكُلُ الطَّعَامَ...</div><div class="transliteration">Wa qālụ māli hāżar-rasụli ya`kulụṭ-ṭa'āma...</div><p><strong>Translation:</strong> "And they say, 'What is this messenger that eats food and walks in the markets?'"</p><div class="tafsir-box">IslamicStudies.info: Prophets were human beings; their humanity makes their example relatable. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=7&to=10&opt=1">Details</a></div></div></div>
+            <div class="theme-card"><div class="theme-title">3. Signs of Allah's Power in the Universe (25:45-50)</div><div class="verse-item"><div class="arabic">أَلَمْ تَرَ إِلَىٰ رَبِّكَ كَيْفَ مَدَّ الظِّلَّ...</div><div class="transliteration">A lam tara ilā rabbika kaifa maddaẓ-ẓilla...</div><p><strong>Translation:</strong> "Have you not considered your Lord - how He extends the shadow?"</p><div class="tafsir-box">IslamicStudies.info: Natural phenomena are open books of divine signs. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=45&to=50&opt=1">Read more</a></div></div></div>
+            <div class="theme-card"><div class="theme-title">4. Characteristics of Ibadurrahman (25:63-76)</div><div class="verse-item"><div class="arabic">وَعِبَادُ الرَّحْمَٰنِ الَّذِينَ يَمْشُونَ عَلَى الْأَرْضِ هَوْنًا...</div><div class="transliteration">Wa 'ibādur-raḥmānillażīna yamsyụna 'alal-arḍi haunaw...</div><p><strong>Translation:</strong> "And the servants of the Most Merciful are those who walk upon the earth humbly..."</p><div class="tafsir-box">IslamicStudies.info: Fifteen noble traits that define a complete Muslim. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=63&to=76&opt=1">Full Tafsir</a></div></div></div>
+            <div class="theme-card"><div class="theme-title">5. Prayer of Ibadurrahman & Reward (25:74-77)</div><div class="verse-item"><div class="arabic">وَالَّذِينَ يَقُولُونَ رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ...</div><div class="transliteration">Wallażīna yaqụlụna rabbanā hab lanā min azwājinā wa żurriyyātinā qurrata a'yun...</div><p><strong>Translation:</strong> "And those who say, 'Our Lord, grant us from among our wives and offspring comfort to our eyes...'"</p><div class="tafsir-box">IslamicStudies.info: A comprehensive prayer for family happiness and righteous leadership. The reward is the highest chambers of Paradise. <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=74&to=77&opt=1">Details</a></div></div></div>
         </div>
 
-        <!-- Theme Division by Verses -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h2>
-            <table class="theme-table">
-                <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
-                <tbody>
-                    <tr><td><strong>Verses 1-20</strong></td><td>Qur'an as Criterion and Refutation of Accusations</td><td>Truth of the Qur'an; refutation of polytheists' accusations; stories of previous prophets</td></tr>
-                    <tr><td><strong>Verses 21-44</strong></td><td>Characteristics of Disbelievers and Explanation of Judgment Day</td><td>Disbelievers' attitude towards Messenger; signs of Allah's power in nature; punishment for disbelievers</td></tr>
-                    <tr><td><strong>Verses 45-62</strong></td><td>Evidences of Allah's Power in the Universe</td><td>Signs of Allah's power in creation; comparison between living and dead</td></tr>
-                    <tr><td><strong>Verses 63-77</strong></td><td>Characteristics of Ibadurrahman (Servants of the Most Merciful)</td><td>Characteristics of Allah's true servants; their prayers; reward for the righteous</td></tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Al-Furqan</h3><ul><li>The Qur'an as the Criterion between right and wrong.</li><li>The complete profile of a true believer ('Ibadur-Rahman).</li><li>Refutation of all doubts about prophethood.</li><li>Encouragement to reflect on cosmic signs.</li><li>Supplication for a righteous family and leadership in piety.</li></ul></div>
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> The Qur'an is Allah's Criterion, Muhammad is a warner for all worlds, belief in the Hereafter.</p><p><strong>Ibadah (Worship):</strong> Night prayer (qiyam al-layl), making the du'a of Ibadurrahman, gratitude for natural blessings.</p><p><strong>Akhlaq (Character):</strong> Humility, patience with insults, guarding gaze and chastity, truthfulness in testimony.</p></div>
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Furqan</h3><ul><li>The Qur'an is the ultimate criterion for life.</li><li>Arrogance and demanding strange miracles are signs of disbelief.</li><li>Every natural phenomenon is a sign of Allah.</li><li>Noble character is the proof of true faith.</li><li>A believer prays for righteous family and to be a leader in goodness.</li></ul></div>
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Identity crisis: Al-Furqan provides certainty amidst confusing ideologies.</li><li>Hate speech online: Emulate 'Ibadurrahman who respond to ignorance with "peace".</li><li>Modern family: The prayer "hab lana min azwajina ... qurrata a'yun" strengthens family bonds.</li><li>Environmental science: Contemplation of nature (25:45-50) aligns with ecology and astronomy.</li><li>Leadership: "Waj'alna lil-muttaqina imama" – Muslims should be role models, not mere followers.</li></ol></div>
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li>With An-Nur (24): An-Nur builds social order, while Al-Furqan builds individual character ('Ibadurrahman).</li><li>With Ash-Shu'ara (26): Al-Furqan gives general principles of prophethood, Ash-Shu'ara gives detailed stories.</li><li>With Ya-Sin (36): Both Meccan surahs affirming prophethood and resurrection.</li></ul></div>
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> "And make us leaders for the righteous." (25:74) – The noble aspiration of a believer.</div>
+    </div>
 
-        <!-- Key Verse for Contemplation -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-lightbulb section-title-icon"></i> Key Verse for Contemplation</h2>
-            <div class="verse">
-                <div class="arabic">تَبَارَكَ الَّذِي نَزَّلَ الْفُرْقَانَ عَلَىٰ عَبْدِهِ لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا</div>
-                <div class="transliteration">Tabārakallażī nazzalal-furqāna 'alā 'abdihī liyakụna lil-'ālamīna nażīrā.</div>
-                <p><strong>"Blessed is He who sent down the Criterion upon His Servant that he may be to the worlds a warner."</strong> (Al-Furqan 25:1)</p>
-                <div class="tafsir-box">
-                    <strong>Why this verse is important:</strong>
-                    <p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1" target="_blank">IslamicStudies.info</a>, this verse opens the surah with affirmation that the Qur'an is the criterion distinguishing truth from falsehood. It also highlights the universality of Prophet Muhammad's message.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Message of Aqidah, Worship, & Akhlaq -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-mosque section-title-icon"></i> Message of Aqidah, Worship, & Akhlaq</h2>
-            <div class="benefits-list">
-                <h3 style="color: #27ae60; margin-top: 0;"><i class="fas fa-book-quran"></i> Essence of Surah Al-Furqan Teachings</h3>
-                <ul>
-                    <li><strong>Aqidah (Creed)</strong> : Belief that the Qur'an is the Criterion from Allah; faith in Muhammad's prophethood; belief in the Day of Resurrection; acknowledgment that only Allah deserves worship.</li>
-                    <li><strong>Worship</strong> : Reading and contemplating the Qur'an; night prayers; praying humbly; being grateful for Allah's blessings.</li>
-                    <li><strong>Akhlaq (Character)</strong> : Walking on earth humbly; avoiding vain deeds; patience when facing insults; forgiving others' mistakes.</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Main Themes (with full translations restored) -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette section-title-icon"></i> Main Themes of Surah Al-Furqan</h2>
-
-            <div class="theme-point">
-                <div class="theme-title"><i class="fas fa-1 verse-title-icon"></i> 1. Qur'an as Criterion (Al-Furqan)</div>
-                <div class="verse">
-                    <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=6" target="_blank">Al-Furqan 25:1-6</a>
-                    <div class="arabic">تَبَارَكَ الَّذِي نَزَّلَ الْفُرْقَانَ عَلَىٰ عَبْدِهِ لِيَكُونَ لِلْعَالَمِينَ نَذِيرًا الَّذِي لَهُ مُلْكُ السَّمَاوَاتِ وَالْأَرْضِ وَلَمْ يَتَّخِذْ وَلَدًا وَلَمْ يَكُنْ لَهُ شَرِيكٌ فِي الْمُلْكِ وَخَلَقَ كُلَّ شَيْءٍ فَقَدَّرَهُ تَقْدِيرًا</div>
-                    <div class="transliteration">Tabārakallażī nazzalal-furqāna 'alā 'abdihī liyakụna lil-'ālamīna nażīrā. Allażī lahụ mulkus-samāwāti wal-arḍi wa lam yattakhiż waladaw wa lam yakul lahụ syarīkun fil-mulki wa khalaqa kulla syai`in fa qaddarahụ taqdīrā.</div>
-                    <p><strong>"Blessed is He who sent down the Criterion upon His Servant that he may be to the worlds a warner - He to whom belongs the dominion of the heavens and the earth and who has not taken a son and has not had a partner in dominion and has created each thing and determined it with [precise] determination."</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Discussion:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=1&to=6" target="_blank">IslamicStudies.info</a>, these verses affirm that the Qur'an is the clear distinguisher between truth and falsehood. "Furqan" means something that separates truth from falsehood, guidance from misguidance. This verse also refutes polytheists' beliefs about Allah having children or partners.
-                    </div>
-                </div>
-            </div>
-
-            <div class="praise-section" style="background-color: var(--praise-bg);">
-                <div class="theme-title"><i class="fas fa-2 verse-title-icon"></i> 2. Refutation of Polytheists' Accusations</div>
-                <div class="verse">
-                    <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=7&to=10" target="_blank">Al-Furqan 25:7-10</a>
-                    <div class="arabic">وَقَالُوا مَالِ هَٰذَا الرَّسُولِ يَأْكُلُ الطَّعَامَ وَيَمْشِي فِي الْأَسْوَاقِ ۙ لَوْلَا أُنْزِلَ إِلَيْهِ مَلَكٌ فَيَكُونَ مَعَهُ نَذِيرًا أَوْ يُلْقَىٰ إِلَيْهِ كَنْزٌ أَوْ تَكُونُ لَهُ جَنَّةٌ يَأْكُلُ مِنْهَا ۚ وَقَالَ الظَّالِمُونَ إِنْ تَتَّبِعُونَ إِلَّا رَجُلًا مَسْحُورًا</div>
-                    <div class="transliteration">Wa qālụ māli hāżar-rasụli ya`kulụṭ-ṭa'āma wa yamsyī fil-aswāq, lau lā unzila ilaihi malakun fa yakụna ma'ahụ nażīrā, au yulqā ilaihi kanzun au takụnu lahụ jannatuy ya`kulu minhā, wa qālaẓ-ẓālimụna in tattabi'ūna illā rajulam mas-ḥụrā.</div>
-                    <p><strong>"And they say, 'What is this messenger that eats food and walks in the markets? Why was there not sent down to him an angel so he would be with him a warner? Or [why is not] a treasure presented to him [from heaven], or does he [not] have a garden from which he eats?' And the wrongdoers say, 'You follow not but a man affected by magic.'"</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=7&to=10" target="_blank">IslamicStudies.info</a> explains that these verses depict various unreasonable accusations from polytheists against Prophet Muhammad. They couldn't accept that an ordinary human could be a Messenger. The fact that Prophet Muhammad was an ordinary human who ate, drank, and walked in markets actually shows Islam's universality which suits human nature.
-                    </div>
-                </div>
-            </div>
-
-            <div class="theme-point">
-                <div class="theme-title"><i class="fas fa-3 verse-title-icon"></i> 3. Signs of Allah's Power in the Universe</div>
-                <div class="verse">
-                    <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=45&to=50" target="_blank">Al-Furqan 25:45-50</a>
-                    <div class="arabic">أَلَمْ تَرَ إِلَىٰ رَبِّكَ كَيْفَ مَدَّ الظِّلَّ وَلَوْ شَاءَ لَجَعَلَهُ سَاكِنًا ثُمَّ جَعَلْنَا الشَّمْسَ عَلَيْهِ دَلِيلًا ثُمَّ قَبَضْنَاهُ إِلَيْنَا قَبْضًا يَسِيرًا</div>
-                    <div class="transliteration">A lam tara ilā rabbika kaifa maddaẓ-ẓilla, wa law syā`a laja'alahụ sākinā, ṡumma ja'alnasy-syamsa 'alaihi dalīlā, ṡumma qabaḍnāhu ilainā qabḍay yasīrā.</div>
-                    <p><strong>"Have you not considered your Lord - how He extends the shadow, and if He willed, He could have made it stationary? Then We made the sun for it an indication. Then We hold it in hand with a gentle grip."</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Discussion:</strong> According to <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=45&to=50" target="_blank">IslamicStudies.info</a>, these verses show signs of Allah's power in natural phenomena we see daily. The changing of shadows from morning to evening is proof of Allah's perfect arrangement. All these natural phenomena are kauniyah verses that invite humans to think and know their Creator.
-                    </div>
-                </div>
-            </div>
-
-            <div class="guidance-section" style="background-color: var(--guidance-bg);">
-                <div class="theme-title"><i class="fas fa-4 verse-title-icon"></i> 4. Characteristics of Ibadurrahman (Servants of the Most Merciful)</div>
-                <div class="verse">
-                    <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=63&to=76" target="_blank">Al-Furqan 25:63-76</a>
-                    <div class="arabic">وَعِبَادُ الرَّحْمَٰنِ الَّذِينَ يَمْشُونَ عَلَى الْأَرْضِ هَوْنًا وَإِذَا خَاطَبَهُمُ الْجَاهِلُونَ قَالُوا سَلَامًا وَالَّذِينَ يَبِيتُونَ لِرَبِّهِمْ سُجَّدًا وَقِيَامًا</div>
-                    <div class="transliteration">Wa 'ibādur-raḥmānillażīna yamsyụna 'alal-arḍi haunaw wa iżā khāṭabahumul-jāhilụna qālụ salāmā. Wallażīna yabītụna lirabbihim sujjadaw wa qiyāmā.</div>
-                    <p><strong>"And the servants of the Most Merciful are those who walk upon the earth easily, and when the ignorant address them [harshly], they say [words of] peace, And those who spend [part of] the night to their Lord prostrating and standing [in prayer]."</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=63&to=76" target="_blank">IslamicStudies.info</a> explains that this section is one of the most beautiful parts in the Qur'an describing characteristics of Allah's true servants. These characteristics are high moral standards that every Muslim should achieve. This description shows that Islam is a religion that regulates all aspects of life, from how to walk to how to speak.
-                    </div>
-                </div>
-            </div>
-
-            <div class="theme-point">
-                <div class="theme-title"><i class="fas fa-5 verse-title-icon"></i> 5. Prayer of Ibadurrahman and Reward for the Righteous</div>
-                <div class="verse">
-                    <strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=74&to=77" target="_blank">Al-Furqan 25:74-77</a>
-                    <div class="arabic">وَالَّذِينَ يَقُولُونَ رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا أُولَٰئِكَ يُجْزَوْنَ الْغُرْفَةَ بِمَا صَبَرُوا وَيُلَقَّوْنَ فِيهَا تَحِيَّةً وَسَلَامًا</div>
-                    <div class="transliteration">Wallażīna yaqụlụna rabbanā hab lanā min azwājinā wa żurriyyātinā qurrata a'yuniw waj'alnā lil-muttaqīna imāmā. Ulā`ika yujzawnal-gurfata bimā ṣabarụ wa yulaqqauna fīhā taḥiyyataw wa salāmā.</div>
-                    <p><strong>"And those who say, 'Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.' Those will be awarded the Chamber for what they patiently endured, and they will be received therein with greetings and [words of] peace."</strong></p>
-                    <div class="tafsir-box">
-                        <strong>Discussion:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=25&verse=74&to=77" target="_blank">IslamicStudies.info</a> explains that this prayer covers all aspects of worldly and hereafter life. "Qurrata a'yun" means obedient offspring who bring happiness to parents. Prayer to become leaders for the righteous shows that true Muslims should be examples and leaders in goodness.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Navigation -->
-        <div class="surah-pagination">
-            <a href="024.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: An-Nur</a>
-            <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Main Menu</a>
-            <a href="026.html" class="pagination-item">Next Surah: Ash-Shu'ara <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+    <!-- Pagination -->
+    <div class="surah-pagination">
+        <a href="024.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: An-Nur</a>
+        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
+        <a href="026.html" class="pagination-item">Next Surah: Ash-Shu'ara <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
-
 <footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Guidance for Reflection</footer>
 
-<!-- scroll arrows left side -->
 <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
 <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const englishContent = document.getElementById('english-content');
-    const indonesianContent = document.getElementById('indonesian-content');
-    const languageToggle = document.getElementById('languageToggle');
-    const transliterationToggle = document.getElementById('transliterationToggle');
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const transliterationElements = document.querySelectorAll('.transliteration');
+(function() {
+    const englishDiv = document.getElementById('english-content');
+    const indoDiv = document.getElementById('indonesian-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
+    const translitElements = document.querySelectorAll('.transliteration');
 
-    if (!englishContent || !indonesianContent || !languageToggle || !transliterationToggle || !darkModeToggle) {
-        console.error('Required elements missing');
-        return;
-    }
-
-    // Language with URL override
     const urlParams = new URLSearchParams(window.location.search);
     let langParam = null;
     if (urlParams.has('English')) langParam = 'english';
     else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
 
-    let currentLanguage = langParam || localStorage.getItem('language') || 'indonesian';
-    function setLanguageUI(lang) {
-        if (lang === 'english') {
-            englishContent.classList.remove('hidden');
-            indonesianContent.classList.add('hidden');
-            languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+    function setLanguage(lang) {
+        const isEnglish = (lang === 'english');
+        if (isEnglish) {
+            englishDiv.classList.remove('hidden');
+            indoDiv.classList.add('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
         } else {
-            englishContent.classList.add('hidden');
-            indonesianContent.classList.remove('hidden');
-            languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+            englishDiv.classList.add('hidden');
+            indoDiv.classList.remove('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
         }
         localStorage.setItem('language', lang);
     }
-    setLanguageUI(currentLanguage);
-    languageToggle.addEventListener('click', () => {
-        const newLang = englishContent.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguageUI(newLang);
+    setLanguage(currentLang);
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang);
     });
 
-    // Transliteration toggle
-    const translitVisible = localStorage.getItem('transliteration') === 'true';
+    let translitVisible = localStorage.getItem('transliteration') === 'true';
+    if (urlParams.has('Transliteration')) translitVisible = true;
     function setTransliteration(show) {
-        transliterationElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        transliterationToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
         localStorage.setItem('transliteration', show);
     }
     setTransliteration(translitVisible);
-    transliterationToggle.addEventListener('click', () => {
-        const currently = transliterationElements[0]?.style.display === 'block';
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
         setTransliteration(!currently);
     });
 
-    // Dark mode with URL override
-    let darkActive = localStorage.getItem('darkMode') === 'true';
+    let darkActive = false;
     if (urlParams.has('Dark')) darkActive = true;
-    if (urlParams.has('Light')) darkActive = false;
+    else darkActive = localStorage.getItem('darkMode') === 'true';
     if (darkActive) document.body.classList.add('dark-mode');
     function setDarkModeUI() {
-        const isDark = document.body.classList.contains('dark-mode');
-        darkModeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
-        localStorage.setItem('darkMode', isDark);
+        const active = document.body.classList.contains('dark-mode');
+        darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
+        localStorage.setItem('darkMode', active);
     }
     setDarkModeUI();
-    darkModeToggle.addEventListener('click', () => {
+    darkToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         setDarkModeUI();
     });
 
-    // Scroll arrows (screen height)
-    const scrollUp = document.getElementById('scrollUp');
-    const scrollDown = document.getElementById('scrollDown');
-    if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
-
-    // Remove stray arrow icons except pagination/scroll arrows
-    document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up, i.fa-arrow-down').forEach(icon => {
-        if (!icon.closest('.pagination-item') && !icon.closest('#scrollUp') && !icon.closest('#scrollDown')) {
-            if (icon.parentElement && icon.parentElement.tagName !== 'A') icon.remove();
-        }
-    });
-});
+    const upArrow = document.getElementById('scrollUp');
+    const downArrow = document.getElementById('scrollDown');
+    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+})();
 </script>
 </body>
 </html>
