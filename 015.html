@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Surah Al-Hijr - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
@@ -20,14 +20,14 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
+            --theme-card-bg: #ffffffdd;
         }
-
         .dark-mode {
             --bg-color: #121826;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
             --arabic-color: #7bc9ff;
-            --section-title-color: #5dade2;
+            --section-title-color: #90d0ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
@@ -35,10 +35,10 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #7bc9ff;
+            --link-color: #93c5fd;
             --link-hover: #c3e2ff;
+            --theme-card-bg: #1e293bdd;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.8;
@@ -57,35 +57,40 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
         }
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-            transition: 0.2s;
+        a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
+        .blink-arrow {
+            animation: blink 1s step-start infinite;
+            display: inline-block;
+            font-weight: bold;
+            background: #ffcc00;
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 6px;
         }
-        a:hover {
-            color: var(--link-hover);
-            text-decoration: underline;
+        @keyframes blink {
+            50% { opacity: 0; }
         }
         .arabic {
-            font-size: 42px;
+            font-size: 36px;
             text-align: right;
             direction: rtl;
-            margin: 20px 0;
+            margin: 20px 0 10px 0;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
-            line-height: 2;
+            line-height: 1.8;
         }
         .transliteration {
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
             text-align: center;
-            margin: -15px 0 20px;
+            margin: 0 0 10px 0;
             display: none;
         }
-        .dark-mode .transliteration {
-            color: #b0c4de;
-        }
+        .dark-mode .transliteration { color: #b0c4de; }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -95,9 +100,7 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .section {
-            margin: 30px 0;
-        }
+        .section { margin: 30px 0; }
         .section-title {
             font-size: 24px;
             color: var(--section-title-color);
@@ -108,7 +111,7 @@
             align-items: center;
             gap: 10px;
         }
-        .verse, .theme-point {
+        .verse, .theme-point, .theme-card {
             background-color: var(--verse-bg);
             padding: 20px;
             border-radius: 20px;
@@ -121,9 +124,7 @@
             margin-bottom: 12px;
             font-size: 1.2rem;
         }
-        .dark-mode .verse-title, .dark-mode .theme-title {
-            color: #66d9a7;
-        }
+        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
@@ -131,9 +132,7 @@
             margin-top: 15px;
             border: 1px solid var(--tafsir-border);
         }
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -142,22 +141,11 @@
             border: 1px solid var(--link-color);
             font-weight: 500;
         }
-        .top-home-link:hover {
-            background-color: var(--link-color);
-            color: white;
-            text-decoration: none;
-        }
-        .structure-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .structure-item {
-            background: var(--structure-bg);
-            padding: 18px;
-            border-radius: 20px;
-            border-left: 4px solid #2c7da0;
+        .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
+        .theme-card {
+            background: var(--theme-card-bg);
+            border-left: 6px solid #2c7da0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
         .benefits-list {
             background: var(--benefits-bg);
@@ -182,19 +170,20 @@
             margin: 20px auto;
             text-align: center;
         }
-
-        /* theme sections colorful */
-        .theme-card {
-            padding: 20px;
-            border-radius: 24px;
-            margin: 30px 0;
-            border-left: 6px solid;
-            background-color: var(--verse-bg);
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--structure-bg);
+            border-radius: 16px;
+            overflow: hidden;
         }
-        .theme-card:nth-child(odd) { border-left-color: #3498db; }
-        .theme-card:nth-child(even) { border-left-color: #2ecc71; }
-        .dark-mode .theme-card { background-color: var(--structure-bg); }
-
+        .theme-table th, .theme-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--verse-border);
+            text-align: left;
+        }
+        .theme-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
             position: fixed;
             left: 20px;
@@ -216,7 +205,6 @@
         .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
         .scroll-arrow.up { top: 90px; }
         .scroll-arrow.down { bottom: 90px; }
-
         .surah-pagination {
             display: flex;
             justify-content: center;
@@ -224,6 +212,7 @@
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+            flex-wrap: wrap;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -236,11 +225,7 @@
             border: 1px solid var(--verse-border);
             transition: 0.2s;
         }
-        .pagination-item:hover {
-            background: var(--link-color);
-            color: white;
-            text-decoration: none;
-        }
+        .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -268,307 +253,359 @@
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
         .fa, .fas, .far { margin-right: 4px; }
-        table.theme-table { width: 100%; border-collapse: collapse; background: var(--structure-bg); border-radius: 20px; overflow: hidden; }
-        table.theme-table th, table.theme-table td { padding: 12px; border-bottom: 1px solid var(--verse-border); text-align: left; }
-        table.theme-table th { background: var(--link-color); color: white; }
+        .verse-item { margin-bottom: 20px; border-bottom: 1px dashed var(--verse-border); padding-bottom: 15px; }
+        .verse-item:last-child { border-bottom: none; }
+        .relationship-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+        }
+        .external-arrow { margin-left: 4px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> <span class="lang-text">🇬🇧 Switch to English</span></div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
 <div class="container" id="mainContainer">
     <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
         <h1 class="surah-title">Surah Al-Hijr - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=1&to=99" target="_blank">IslamicStudies.info - Surah Al-Hijr (1-99)</a></div>
-        <div class="arabic">الر ۚ تِلْكَ آيَاتُ الْكِتَابِ وَقُرْآنٍ مُبِينٍ</div>
-        <div class="transliteration">Alif Lām Rā, tilka āyātul-kitābi wa qur`ānim mubīn.</div>
-        <p style="text-align: center; font-style: italic;">"Alif Lām Rā. Inilah ayat-ayat Al-Qur'an (yang menerangkan kebenaran) dan Kitab yang jelas." (Al-Hijr 15:1)</p>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=1&to=99&opt=1" target="_blank">IslamicStudies.info - Surah Al-Hijr (1-99)</a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
 
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Hijr</h3>
-            <p>Surah Al-Hijr (سورة الحجر) adalah surah ke-15, 99 ayat, Makkiyah. Dinamai Al-Hijr karena kisah kaum Tsamud di daerah Al-Hijr (15:80-84). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=1&to=99" target="_blank">IslamicStudies.info</a>, surah ini menegaskan penjagaan Al-Qur'an, kisah penciptaan Adam dan Iblis, peringatan umat terdahulu, serta bukti kekuasaan Allah.</p>
+            <p>Surah Al-Hijr (سورة الحجر) adalah surah ke-15, 99 ayat, Makkiyah. Dinamai Al-Hijr karena kisah kaum Tsamud di daerah Al-Hijr (15:80-84). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=1&to=99&opt=1" target="_blank">IslamicStudies.info</a>, surah ini menegaskan penjagaan Al-Qur'an, kisah penciptaan Adam dan Iblis, peringatan umat terdahulu, serta bukti kekuasaan Allah. Surah ini juga menguatkan hati Nabi Muhammad ﷺ menghadapi ejekan orang kafir.</p>
         </div>
         <div class="info-box">
             <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p><a href="https://quran.com/15:1-99?translations=33" target="_blank">Quran.com - Surah Al-Hijr (Terjemahan Indonesia)</a></p>
+            <p><a href="https://quran.com/15?translations=33" target="_blank"><span class="blink-arrow">👉 KLIK DISINI 👈</span> Quran.com - Surah Al-Hijr (Terjemahan Indonesia) <i class="fas fa-external-link-alt external-arrow"></i></a></p>
         </div>
         <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Hijr</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/015.mp3" type="audio/mpeg"></audio></div>
 
+        <!-- Struktur dan Kandungan -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-15</strong></td><td>Kemukjizatan Al-Qur'an & Penolakan Musyrik</td><td>Penjagaan Allah terhadap Al-Qur'an, ejekan kaum musyrik.</td></tr>
+                    <tr><td><strong>16-25</strong></td><td>Tanda-tanda Kekuasaan di Alam</td><td>Gugusan bintang, angin pembawa hujan, penciptaan dari tanah.</td></tr>
+                    <tr><td><strong>26-44</strong></td><td>Penciptaan Manusia & Kisah Iblis</td><td>Adam dari tanah liat, Iblis sombong, ancaman godaan.</td></tr>
+                    <tr><td><strong>45-60</strong></td><td>Janji Surga & Ancaman Neraka</td><td>Gambaran surga, tamu Ibrahim (malaikat) akan menghancurkan kaum Lut.</td></tr>
+                    <tr><td><strong>61-77</strong></td><td>Kisah Nabi Lut & Kehancuran Kaumnya</td><td>Azab homoseksualitas, penyelamatan keluarga Lut.</td></tr>
+                    <tr><td><strong>78-84</strong></td><td>Penduduk Aikah & Tsamud</td><td>Kaum Syu'aib dan Tsamud dibinasakan karena mendustakan rasul.</td></tr>
+                    <tr><td><strong>85-99</strong></td><td>Pengingatan & Penutup</td><td>Kepastian hari kiamat, perintah sabar dan bertasbih.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pembagian Tema per Bagian Ayat -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
             <table class="theme-table">
                 <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-15</strong></td><td>Kemukjizatan Al-Qur'an & penolakan musyrik</td><td>Penjagaan Allah terhadap Al-Qur'an, ejekan kaum musyrik</td></tr>
-                    <tr><td><strong>16-25</strong></td><td>Tanda-tanda kekuasaan di alam</td><td>Gugusan bintang, angin pembawa hujan, penciptaan dari tanah</td></tr>
-                    <tr><td><strong>26-44</strong></td><td>Penciptaan manusia & kisah Iblis</td><td>Adam dari tanah liat, Iblis sombong, ancaman godaan</td></tr>
-                    <tr><td><strong>45-60</strong></td><td>Janji surga & ancaman neraka</td><td>Gambaran surga, tamu Ibrahim (malaikat) akan menghancurkan kaum Lut</td></tr>
-                    <tr><td><strong>61-77</strong></td><td>Kisah Nabi Lut & kehancuran kaumnya</td><td>Azab homoseksualitas, penyelamatan keluarga Lut</td></tr>
-                    <tr><td><strong>78-84</strong></td><td>Penduduk Aikah & Tsamud</td><td>Kaum Syu'aib dan Tsamud dibinasakan karena mendustakan rasul</td></tr>
-                    <tr><td><strong>85-99</strong></td><td>Pengingatan & penutup</td><td>Kepastian hari kiamat, perintah sabar dan bertasbih</td></tr>
+                    <tr><td><strong>15:1-4</strong></td><td>Al-Qur'an yang jelas & penolakan</td><td>Kitab yang menerangkan, orang kafir akan menyesal.</td></tr>
+                    <tr><td><strong>15:9</strong></td><td>Penjagaan Al-Qur'an</td><td>Allah sendiri yang menurunkan dan memelihara Al-Qur'an.</td></tr>
+                    <tr><td><strong>15:16-18</strong></td><td>Gugusan bintang & perlindungan langit</td><td>Bintang sebagai hiasan dan perlindungan dari setan.</td></tr>
+                    <tr><td><strong>15:26-30</strong></td><td>Penciptaan Adam</td><td>Manusia dari tanah liat, perintah sujud malaikat.</td></tr>
+                    <tr><td><strong>15:31-44</strong></td><td>Kesombongan Iblis</td><td>Iblis menolak sujud, dikutuk hingga hari kiamat.</td></tr>
+                    <tr><td><strong>15:45-48</strong></td><td>Nikmat surga</td><td>Orang bertakwa di surga penuh kedamaian.</td></tr>
+                    <tr><td><strong>15:61-77</strong></td><td>Kisah Lut</td><td>Azab bagi kaum homoseks, keselamatan keluarga Lut.</td></tr>
+                    <tr><td><strong>15:78-84</strong></td><td>Penduduk Aikah & Tsamud</td><td>Azab membinasakan karena mendustakan rasul.</td></tr>
+                    <tr><td><strong>15:85-99</strong></td><td>Perintah sabar dan bertasbih</td><td>Kepastian kiamat, jangan sedih terhadap ejekan.</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- TEMA UTAMA dengan pendalaman IslamicStudies.info -->
+        <!-- Ayat Kunci untuk Tadabbur -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
+            <div class="verse">
+                <div class="arabic">إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ</div>
+                <div class="transliteration">Innā naḥnu nazzalnaż-żikra wa innā lahū laḥāfiẓụn.</div>
+                <p><strong>Terjemahan:</strong> "Sesungguhnya Kamilah yang menurunkan Al-Qur'an (Az-Zikr), dan sesungguhnya Kami benar-benar memeliharanya." (Al-Hijr 15:9)</p>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Janji ilahi yang unik untuk Al-Qur'an. Tidak diberikan kepada kitab sebelumnya. Allah menjaga lafaz, makna, dan keasliannya hingga akhir zaman. Ini menjadi fondasi kemurnian Islam. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=9&to=9&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+            </div>
+        </div>
+
+        <!-- Tema Utama dengan ayat lengkap -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Al-Hijr</h2>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-1"></i> 1. Penjagaan Allah Terhadap Al-Qur'an (15:9)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=9&to=9" target="_blank">Al-Hijr 15:9</a>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Penjagaan Allah Terhadap Al-Qur'an – Ayat 9</div>
+                <div class="verse-item">
                     <div class="arabic">إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ</div>
                     <div class="transliteration">Innā naḥnu nazzalnaż-żikra wa innā lahū laḥāfiẓụn.</div>
-                    <div class="tafsir-box">IslamicStudies.info: “Al-Dzikr” adalah Al-Qur’an. Janji ilahi ini tidak diberikan kepada kitab sebelumnya. Allah menjaga lafaz, makna, dan keasliannya hingga hari kiamat. Ini menjadi landasan kemurnian petunjuk Islam.</div>
+                    <p><strong>Terjemahan:</strong> "Sesungguhnya Kamilah yang menurunkan Al-Qur'an (Az-Zikr), dan sesungguhnya Kami benar-benar memeliharanya." (15:9)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> "Az-Zikr" adalah Al-Qur'an. Allah menjamin keutuhan teks dan maknanya. Tidak ada perubahan hingga hari kiamat. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=9&to=9&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-2"></i> 2. Penciptaan Manusia & Kesombongan Iblis (15:28-44)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=28&to=44" target="_blank">Al-Hijr 15:28-44</a>
-                    <div class="arabic">وَإِذْ قَالَ رَبُّكَ لِلْمَلَائِكَةِ إِنِّي خَالِقٌ بَشَرًا مِنْ صَلْصَالٍ مِنْ حَمَإٍ مَسْنُونٍ فَإِذَا سَوَّيْتُهُ وَنَفَخْتُ فِيهِ مِنْ رُوحِي فَقَعُوا لَهُ سَاجِدِينَ</div>
-                    <div class="transliteration">Wa iż qāla rabbuka lil-malā`ikati innī khāliqum basyaram min ṣalṣālim min ḥama`im masnụn, fa iżā sawwaituhụ wa nafaḫtu fīhi mir rụḥī faqa'ụ lahụ sājidīn.</div>
-                    <div class="tafsir-box">Allah menciptakan manusia dari tanah liat kering, lalu meniupkan ruh. Iblis menolak sujud karena sombong (aku lebih baik dari api). Allah mengutuknya, memberi penangguhan hingga hari kiamat, dan Iblis bersumpah menyesatkan manusia kecuali hamba yang ikhlas. Pelajaran: sombong adalah akar kehancuran.</div>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Penciptaan Manusia & Kesombongan Iblis – Ayat 28-44</div>
+                <div class="verse-item">
+                    <div class="arabic">وَإِذْ قَالَ رَبُّكَ لِلْمَلَائِكَةِ إِنِّي خَالِقٌ بَشَرًا مِنْ صَلْصَالٍ مِنْ حَمَإٍ مَسْنُونٍ * فَإِذَا سَوَّيْتُهُ وَنَفَخْتُ فِيهِ مِنْ رُوحِي فَقَعُوا لَهُ سَاجِدِينَ</div>
+                    <div class="transliteration">Wa iż qāla rabbuka lil-malā`ikati innī khāliqum basyaram min ṣalṣālim min ḥama`im masnụn * fa iżā sawwaituhụ wa nafaḫtu fīhi mir rụḥī faqa'ụ lahụ sājidīn.</div>
+                    <p><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Tuhanmu berfirman kepada para malaikat, 'Sesungguhnya Aku akan menciptakan seorang manusia dari tanah liat kering (yang berasal) dari lumpur hitam yang diberi bentuk. Maka apabila Aku telah menyempurnakan kejadiannya dan Aku tiupkan ruh (ciptaan)-Ku ke dalamnya, maka tunduklah kamu kepadanya dengan bersujud.'" (15:28-29)</p>
+                    <div class="arabic">قَالَ يَا إِبْلِيسُ مَا لَكَ أَلَّا تَكُونَ مَعَ السَّاجِدِينَ * قَالَ لَمْ أَكُنْ لِأَسْجُدَ لِبَشَرٍ خَلَقْتَهُ مِنْ صَلْصَالٍ مِنْ حَمَإٍ مَسْنُونٍ</div>
+                    <div class="transliteration">Qāla yā iblīsu mā laka allā takūna ma'as-sājidīn * qāla lam akul li`asjuda libasyarin khalaqtahụ min ṣalṣālim min ḥama`im masnụn.</div>
+                    <p><strong>Terjemahan:</strong> "Allah berfirman, 'Hai Iblis, apa sebabnya kamu tidak (ikut sujud) bersama mereka?' Iblis menjawab, 'Aku sekali-kali tidak akan sujud kepada manusia yang Engkau ciptakan dari tanah liat kering (yang berasal) dari lumpur hitam yang diberi bentuk.'" (15:32-33)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Adam dimuliakan dengan sujud malaikat. Iblis sombong karena merasa lebih baik dari api. Allah mengutuknya hingga hari kiamat. Iblis bersumpah akan menyesatkan manusia kecuali hamba yang ikhlas. Pelajaran: kesombongan adalah akar kehancuran. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=28&to=44&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-3"></i> 3. Kisah Kaum Lut & Peringatan Moral (15:61-77)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=61&to=77" target="_blank">Al-Hijr 15:61-77</a>
-                    <div class="arabic">فَلَمَّا جَاءَ آلَ لُوطٍ الْمُرْسَلُونَ قَالَ إِنَّكُمْ قَوْمٌ مُنْكَرُونَ قَالُوا بَلْ جِئْنَاكَ بِمَا كَانُوا فِيهِ يَمْتَرُونَ</div>
-                    <div class="transliteration">Falammā jā`a āla lụṭinil-mursalụn, qāla innakum qaumung mungkarụn, qālụ bal ji`nāka bimā kānụ fīhi yamtarụn.</div>
-                    <div class="tafsir-box">Malaikat datang kepada Lut membawa azab. Kaum Lut melakukan homoseksualitas yang belum pernah dilakukan sebelumnya. Azab (hujan batu dari tanah yang terbakar) membinasakan mereka kecuali keluarga Lut kecuali istrinya yang ikut binasa. Surah ini menegaskan larangan keras penyimpangan seksual.</div>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Kisah Kaum Lut & Peringatan Moral – Ayat 61-77</div>
+                <div class="verse-item">
+                    <div class="arabic">فَلَمَّا جَاءَ آلَ لُوطٍ الْمُرْسَلُونَ * قَالَ إِنَّكُمْ قَوْمٌ مُنْكَرُونَ * قَالُوا بَلْ جِئْنَاكَ بِمَا كَانُوا فِيهِ يَمْتَرُونَ</div>
+                    <div class="transliteration">Falammā jā`a āla lụṭinil-mursalụn * qāla innakum qaumung mungkarụn * qālụ bal ji`nāka bimā kānụ fīhi yamtarụn.</div>
+                    <p><strong>Terjemahan:</strong> "Maka ketika para utusan (malaikat) itu datang kepada keluarga Lut, dia berkata, 'Sesungguhnya kamu adalah orang-orang yang tidak dikenal.' Mereka menjawab, 'Sebenarnya kami datang kepadamu membawa azab yang selalu mereka ragukan.'" (15:61-63)</p>
+                    <div class="arabic">فَأَخَذَتْهُمُ الصَّيْحَةُ مُشْرِقِينَ * فَجَعَلْنَا عَالِيَهَا سَافِلَهَا وَأَمْطَرْنَا عَلَيْهِمْ حِجَارَةً مِنْ سِجِّيلٍ</div>
+                    <div class="transliteration">Fa`akhażat-humuṣ-ṣayḥatu musyriqīn * fa ja'alnā 'āliyahā sāfilahā wa amṭarnā 'alaihim ḥijāratam min sijjīl.</div>
+                    <p><strong>Terjemahan:</strong> "Maka mereka dibinasakan oleh suara keras yang mengguntur ketika matahari akan terbit. Lalu Kami jungkir balikkan negeri itu dan Kami hujani mereka dengan batu dari tanah yang terbakar." (15:73-74)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Azab bagi kaum yang melakukan homoseksualitas, suatu kejahatan yang belum pernah dilakukan sebelumnya. Surah ini menegaskan larangan keras penyimpangan seksual. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=61&to=77&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-4"></i> 4. Tanda-tanda Kekuasaan Allah di Langit dan Bumi (15:16-25)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=16&to=17" target="_blank">Al-Hijr 15:16-17</a>
-                    <div class="arabic">وَلَقَدْ جَعَلْنَا فِي السَّمَاءِ بُرُوجًا وَزَيَّنَّاهَا لِلنَّاظِرِينَ وَحَفِظْنَاهَا مِنْ كُلِّ شَيْطَانٍ رَجِيمٍ</div>
-                    <div class="transliteration">Wa laqad ja'alnā fis-samā`i burụjaw wa zayyannāhā lin-nāẓirīn, wa ḥafiẓnāhā min kulli syaiṭānir rajīm.</div>
-                    <div class="tafsir-box">“Buruj” gugusan bintang sebagai hiasan dan penjagaan dari setan yang mencoba mencuri berita langit. Ini ajakan merenungkan astronomi dan kebesaran Allah. Angin yang membuahi awan menurunkan hujan, semua dengan kadar tertentu – bukti kekuasaan Pencipta.</div>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Tanda-tanda Kekuasaan Allah di Langit – Ayat 16-25</div>
+                <div class="verse-item">
+                    <div class="arabic">وَلَقَدْ جَعَلْنَا فِي السَّمَاءِ بُرُوجًا وَزَيَّنَّاهَا لِلنَّاظِرِينَ * وَحَفِظْنَاهَا مِنْ كُلِّ شَيْطَانٍ رَجِيمٍ</div>
+                    <div class="transliteration">Wa laqad ja'alnā fis-samā`i burụjaw wa zayyannāhā lin-nāẓirīn * wa ḥafiẓnāhā min kulli syaiṭānir rajīm.</div>
+                    <p><strong>Terjemahan:</strong> "Dan sesungguhnya Kami telah menciptakan gugusan bintang-bintang (di langit) dan Kami telah menghiasinya bagi orang-orang yang memandang, dan Kami menjaganya dari setiap setan yang terkutuk." (15:16-17)</p>
+                    <div class="tafsir-box">"Buruj" gugusan bintang sebagai hiasan dan penjagaan dari setan. Ini ajakan merenungkan astronomi dan kebesaran Allah. Angin yang membuahi awan menurunkan hujan – bukti kekuasaan Pencipta. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=16&to=25&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-5"></i> 5. Perlindungan dari Godaan Setan & Keikhlasan (15:39-40)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=39&to=40" target="_blank">Al-Hijr 15:39-40</a>
-                    <div class="arabic">قَالَ رَبِّ بِمَا أَغْوَيْتَنِي لَأُزَيِّنَنَّ لَهُمْ فِي الْأَرْضِ وَلَأُغْوِيَنَّهُمْ أَجْمَعِينَ إِلَّا عِبَادَكَ مِنْهُمُ الْمُخْلَصِينَ</div>
-                    <div class="transliteration">Qāla rabbi bimā agwaitanī la`uzayyinanna lahum fil-arḍi wa la`ugwiyannahum ajma'īn, illā 'ibādaka min-humul-mukhlaṣīn.</div>
-                    <div class="tafsir-box">Iblis menyatakan akan menghiasi maksiat di bumi. Namun, hamba Allah yang ikhlas (mukhlasīn) akan terlindungi. Kunci keselamatan adalah ikhlas dalam ibadah dan selalu memohon perlindungan dari godaan setan.</div>
-                </div>
-            </div>
-
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-6"></i> 6. Pelajaran dari Umat Terdahulu (15:78-84)</div>
-                <div class="verse">
-                    <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=78&to=84" target="_blank">Al-Hijr 15:78-84</a>
-                    <div class="arabic">وَإِن كَانَ أَصْحَابُ الْأَيْكَةِ لَظَالِمِينَ فَانتَقَمْنَا مِنْهُمْ وَإِنَّهُمَا لَبِإِمَامٍ مُّبِينٍ</div>
-                    <div class="transliteration">Wa in kāna aṣ-ḥābul-aikati laẓālimīn, fantaqamnā min-hum wa innahumā labi'imāmim mubīn.</div>
-                    <div class="tafsir-box">Penduduk Aikah (kaum Syu’aib) dan kaum Tsamud (Al-Hijr) juga dibinasakan karena kedurhakaan. Mereka mendustakan rasul, lalu azab menyambar. Surah ini mengajarkan bahwa sejarah adalah pelajaran berharga.</div>
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Pelajaran dari Umat Terdahulu – Ayat 78-84</div>
+                <div class="verse-item">
+                    <div class="arabic">وَإِنْ كَانَ أَصْحَابُ الْأَيْكَةِ لَظَالِمِينَ * فَانْتَقَمْنَا مِنْهُمْ وَإِنَّهُمَا لَبِإِمَامٍ مُبِينٍ</div>
+                    <div class="transliteration">Wa in kāna aṣ-ḥābul-aikati laẓālimīn * fantaqamnā min-hum wa innahumā labi'imāmim mubīn.</div>
+                    <p><strong>Terjemahan:</strong> "Dan sesungguhnya penduduk Aikah itu benar-benar orang-orang yang zalim. Maka Kami datangkan azab kepada mereka; dan sesungguhnya kedua (negeri) itu benar-benar berada di jalan yang jelas (nyata)." (15:78-79)</p>
+                    <div class="tafsir-box">Penduduk Aikah (kaum Syu'aib) dan kaum Tsamud (Al-Hijr) dibinasakan karena kedurhakaan. Mereka mendustakan rasul, lalu azab menyambar. Surah ini mengajarkan bahwa sejarah adalah pelajaran berharga. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=78&to=84&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
                 </div>
             </div>
         </div>
 
-        <div class="benefits-list">
-            <h3><i class="fas fa-award"></i> Pesan Akidah, Ibadah, Akhlak</h3>
+        <!-- Keutamaan Khusus Surah -->
+        <div class="special-benefits">
+            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Hijr</h3>
             <ul>
-                <li><strong>Akidah:</strong> Al-Qur’an terjaga (15:9), penciptaan manusia dari tanah (15:26), kebangkitan pasti (15:85).</li>
-                <li><strong>Ibadah:</strong> Bertasbih dan bersujud (15:98), memohon perlindungan dari setan, sabar dalam beribadah.</li>
-                <li><strong>Akhlak:</strong> Tidak mengejek, menjaga kesucian, bersikap ramah kepada tamu, rendah hati.</li>
+                <li><strong>Penjagaan Al-Qur'an:</strong> Ayat 9 adalah bukti otentisitas Al-Qur'an yang tak tertandingi.</li>
+                <li><strong>Kisah Iblis & Adam:</strong> Mengajarkan tentang akar kesombongan dan pentingnya ketaatan.</li>
+                <li><strong>Peringatan Moral:</strong> Kisah Lut menjadi peringatan tegas terhadap penyimpangan seksual.</li>
+                <li><strong>Tanda-tanda Kosmik:</strong> Bintang dan hujan sebagai bukti kekuasaan Allah yang rasional.</li>
+                <li><strong>Ketenangan Hati Nabi:</strong> Perintah sabar dan bertasbih menghadapi ejekan.</li>
             </ul>
         </div>
 
-        <div class="divine-guidance-section" style="background:var(--bonus-bg); padding:20px; border-radius:20px;">
-            <div class="theme-title">Relevansi Kontemporer</div>
-            <p>Penjagaan Al-Qur’an membantah upaya distorsi, kisah Iblis mengingatkan bahaya kesombongan digital dan materialisme, serta peringatan kisah Lut relevan dengan krisis moral modern.</p>
+        <!-- Pesan Akidah, Ibadah, Akhlak -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+            <p><strong>Akidah:</strong> Al-Qur'an terjaga (15:9), penciptaan manusia dari tanah (15:26), kebangkitan pasti (15:85). Meyakini bahwa Allah Maha Kuasa atas segala sesuatu.</p>
+            <p><strong>Ibadah:</strong> Bertasbih dan bersujud (15:98), memohon perlindungan dari setan, sabar dalam beribadah, dan selalu membaca Al-Qur'an dengan tadabbur.</p>
+            <p><strong>Akhlak:</strong> Tidak mengejek, menjaga kesucian, bersikap ramah kepada tamu (contoh Ibrahim dan Lut), rendah hati, dan menjauhi sifat sombong seperti Iblis.</p>
         </div>
+
+        <!-- Pelajaran Spiritual -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Hijr</h3>
+            <ul>
+                <li>Al-Qur'an adalah kitab yang terpelihara sepanjang masa.</li>
+                <li>Kesombongan adalah dosa pertama yang tercatat dalam sejarah.</li>
+                <li>Setan akan terus menggoda, namun hamba yang ikhlas akan selamat.</li>
+                <li>Penyimpangan seksual membawa azab dunia dan akhirat.</li>
+                <li>Merenungkan alam semesta meningkatkan keimanan.</li>
+                <li>Sabar dan tasbih adalah senjata menghadapi cemoohan.</li>
+            </ul>
+        </div>
+
+        <!-- Relevansi Kehidupan Modern -->
+        <div class="theme-card">
+            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div>
+            <ol>
+                <li><strong>Krisis Otentisitas Kitab Suci:</strong> Ayat 9 menjadi jawaban atas upaya distorsi dan keraguan terhadap Al-Qur'an.</li>
+                <li><strong>Bahaya Kesombongan Digital:</strong> Iblis merasa lebih baik; kini manusia sombong karena harta, status, atau teknologi.</li>
+                <li><strong>Penyimpangan Moral:</strong> Kisah Lut sangat relevan dalam menghadapi normalisasi LGBT di era modern.</li>
+                <li><strong>Sains & Keimanan:</strong> Gugusan bintang (astronomi) dan siklus hujan menjadi jembatan antara sains dan agama.</li>
+                <li><strong>Kesehatan Mental:</strong> Perintah sabar dan bertasbih (15:97-98) menjadi terapi spiritual menghadapi tekanan sosial.</li>
+            </ol>
+        </div>
+
+        <!-- Hubungan dengan Surah Lain -->
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <ul>
+                <li><strong>Dengan Surah Ibrāhīm (14):</strong> Ibrāhīm berbicara tentang misi kenabian dan syukur; Al-Hijr menekankan penjagaan wahyu dan kisah para nabi.</li>
+                <li><strong>Dengan Surah Al-Anbiya' (21):</strong> Sama-sama menceritakan kisah para nabi (Ibrahim, Lut, Nuh) dengan penekanan pada azab umat terdahulu.</li>
+                <li><strong>Dengan Surah Ash-Shu'ara (26):</strong> Al-Hijr lebih ringkas namun padat, Ash-Shu'ara mengulang kisah dengan lebih panjang.</li>
+                <li><strong>Dengan Surah Al-Hijr (15) dan Surah Al-Furqan (25):</strong> Keduanya menyebut penjagaan langit dari setan.</li>
+            </ul>
+        </div>
+
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Sesungguhnya Kamilah yang menurunkan Al-Qur'an, dan sesungguhnya Kami benar-benar memeliharanya.” (15:9)</div>
     </div>
 
     <!-- ENGLISH CONTENT -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Al-Hijr - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=1&to=99" target="_blank">IslamicStudies.info - Surah Al-Hijr (1-99)</a></div>
-        <div class="arabic">الر ۚ تِلْكَ آيَاتُ الْكِتَابِ وَقُرْآنٍ مُبِينٍ</div>
-        <div class="transliteration">Alif Lām Rā, tilka āyātul-kitābi wa qur`ānim mubīn.</div>
-        <p style="text-align: center;">"Alif Lām Rā. These are the verses of the Book and a clear Qur’an." (Al-Hijr 15:1)</p>
-
-        <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Overview of Surah Al-Hijr</h3>
-            <p>Surah Al-Hijr (15th chapter, 99 verses, Meccan) emphasizes divine preservation of the Qur’an, the creation of Adam and Iblis’s arrogance, the destruction of past nations, and signs of Allah’s power. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=1&to=99" target="_blank">IslamicStudies.info</a>, it reassures the Prophet against mockery and affirms the truth of revelation.</p>
-        </div>
-        <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Full Text Access</h3>
-            <p><a href="https://recitequran.com/15:1" target="_blank">ReciteQuran.com - Surah Al-Hijr</a></p>
-        </div>
+        <h1 class="surah-title">Surah Al-Hijr (The Rocky Tract) - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=1&to=99&opt=1" target="_blank">IslamicStudies.info - Surah Al-Hijr (1-99)</a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Hijr</h3><p>Meccan surah (99 verses). Named after the people of Thamud who lived in Al-Hijr (rocky tract). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=1&to=99&opt=1" target="_blank">IslamicStudies.info</a>, this surah emphasizes the preservation of the Qur'an, the creation of Adam and Iblis's arrogance, warnings from past nations, and signs of Allah's power. It consoles the Prophet against mockery.</p></div>
+        <div class="info-box"><h3>Full Text</h3><p><a href="https://recitequran.com/15" target="_blank"><span class="blink-arrow">👉 CLICK HERE 👈</span> ReciteQuran.com - Surah Al-Hijr <i class="fas fa-external-link-alt external-arrow"></i></a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Hijr</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/015.mp3"></audio></div>
 
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme</th><th>Core Message</th></tr></thead>
-            <tbody>
-                <tr><td><strong>1-15</strong></td><td>Qur’an’s miracle & rejection</td><td>Allah’s guarantee to preserve Qur’an</td></tr>
-                <tr><td><strong>16-25</strong></td><td>Cosmic signs</td><td>Stars, rain, creation from clay</td></tr>
-                <tr><td><strong>26-44</strong></td><td>Creation of man & Iblis</td><td>Adam honored, Iblis’s arrogance and enmity</td></tr>
-                <tr><td><strong>45-60</strong></td><td>Paradise & warning</td><td>Angels visit Ibrahim, destruction of Lot’s people announced</td></tr>
-                <tr><td><strong>61-77</strong></td><td>Story of Prophet Lot</td><td>Punishment of homosexuality, rescue of Lot’s family</td></tr>
-                <tr><td><strong>78-84</strong></td><td>People of Aikah & Thamud</td><td>Destruction of Shu’ayb’s and Thamud nations</td></tr>
-                <tr><td><strong>85-99</strong></td><td>Conclusion</td><td>Certainty of Judgment, patience, glorification</td></tr>
+        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead><tbody>
+                <tr><td><strong>1-15</strong></td><td>Qur'an's Miracle & Rejection</td><td>Allah's guarantee to preserve the Qur'an, mockery of disbelievers.</td></tr>
+                <tr><td><strong>16-25</strong></td><td>Cosmic Signs</td><td>Constellations, wind bringing rain, creation from clay.</td></tr>
+                <tr><td><strong>26-44</strong></td><td>Creation of Man & Iblis</td><td>Adam from clay, Iblis's arrogance and enmity.</td></tr>
+                <tr><td><strong>45-60</strong></td><td>Paradise & Warning</td><td>Description of Paradise, angels visiting Ibrahim announcing destruction of Lot's people.</td></tr>
+                <tr><td><strong>61-77</strong></td><td>Story of Prophet Lot</td><td>Punishment of homosexuality, rescue of Lot's family.</td></tr>
+                <tr><td><strong>78-84</strong></td><td>People of Aikah & Thamud</td><td>Destruction of Shu'ayb's and Thamud nations for denying messengers.</td></tr>
+                <tr><td><strong>85-99</strong></td><td>Conclusion</td><td>Certainty of Judgment, command to be patient and glorify Allah.</td></tr>
             </tbody></table>
         </div>
 
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Hijr</h2>
+        <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
+                <tr><td><strong>15:1-4</strong></td><td>The Clear Book & Rejection</td><td>Clear Qur'an, disbelievers will regret.</td></tr>
+                <tr><td><strong>15:9</strong></td><td>Preservation of the Qur'an</td><td>Allah Himself reveals and protects the Qur'an.</td></tr>
+                <tr><td><strong>15:16-18</strong></td><td>Constellations & Protection of Sky</td><td>Stars as adornment and protection from devils.</td></tr>
+                <tr><td><strong>15:26-30</strong></td><td>Creation of Adam</td><td>Human from clay, command to angels to prostrate.</td></tr>
+                <tr><td><strong>15:31-44</strong></td><td>Arrogance of Iblis</td><td>Iblis refuses, cursed until Day of Judgment.</td></tr>
+                <tr><td><strong>15:45-48</strong></td><td>Blessings of Paradise</td><td>Righteous in gardens of peace.</td></tr>
+                <tr><td><strong>15:61-77</strong></td><td>Story of Lot</td><td>Punishment for homosexuality, salvation of Lot's family.</td></tr>
+                <tr><td><strong>15:78-84</strong></td><td>People of Aikah & Thamud</td><td>Destruction for denying messengers.</td></tr>
+                <tr><td><strong>15:85-99</strong></td><td>Command to be patient & glorify</td><td>Certainty of the Hour, do not grieve over mockery.</td></tr>
+            </tbody></table>
+        </div>
 
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-1"></i> 1. Divine Preservation of the Qur’an (15:9)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=9&to=9" target="_blank">15:9</a>
-                    <div class="arabic">إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ</div>
-                    <div class="transliteration">Innā naḥnu nazzalnaż-żikra wa innā lahū laḥāfiẓụn.</div>
-                    <div class="tafsir-box">IslamicStudies.info: “Al-Dhikr” refers to the Qur’an. Allah promises to protect its wording, meaning, and authenticity until the end of time—unlike previous scriptures.</div>
-                </div>
-            </div>
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-2"></i> 2. Creation of Man & Iblis’s Rebellion (15:28-44)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=28&to=44" target="_blank">15:28-44</a>
-                    <div class="arabic">وَإِذْ قَالَ رَبُّكَ لِلْمَلَائِكَةِ إِنِّي خَالِقٌ بَشَرًا مِنْ صَلْصَالٍ مِنْ حَمَإٍ مَسْنُونٍ ...</div>
-                    <div class="transliteration">Wa iż qāla rabbuka lil-malā`ikati innī khāliqum basyaram min ṣalṣālim min ḥama`im masnụn...</div>
-                    <div class="tafsir-box">Adam created from clay, honored by prostration of angels. Iblis refused out of arrogance. He vowed to mislead humanity except sincere servants. A timeless lesson against pride.</div>
-                </div>
-            </div>
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-3"></i> 3. People of Lut & Moral Warning (15:61-77)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=61&to=77" target="_blank">15:61-77</a>
-                    <div class="arabic">فَلَمَّا جَاءَ آلَ لُوطٍ الْمُرْسَلُونَ قَالَ إِنَّكُمْ قَوْمٌ مُنْكَرُونَ ...</div>
-                    <div class="transliteration">Falammā jā`a āla lụṭinil-mursalụn, qāla innakum qaumung mungkarụn...</div>
-                    <div class="tafsir-box">The angels came to Lot, announcing doom for his people who practiced immorality. The punishment—a rain of stones—destroyed them. A firm prohibition of homosexual acts and transgression.</div>
-                </div>
-            </div>
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-4"></i> 4. Signs of Allah in the Heavens (15:16-25)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=16&to=17" target="_blank">15:16-17</a>
-                    <div class="arabic">وَلَقَدْ جَعَلْنَا فِي السَّمَاءِ بُرُوجًا وَزَيَّنَّاهَا لِلنَّاظِرِينَ وَحَفِظْنَاهَا مِنْ كُلِّ شَيْطَانٍ رَجِيمٍ</div>
-                    <div class="transliteration">Wa laqad ja'alnā fis-samā`i burụjaw wa zayyannāhā lin-nāẓirīn, wa ḥafiẓnāhā min kulli syaiṭānir rajīm.</div>
-                    <div class="tafsir-box">Constellations beautify and protect the sky from devils. Winds bring rain, everything measured—signs for those who reflect.</div>
-                </div>
-            </div>
-            <div class="theme-card">
-                <div class="theme-title"><i class="fas fa-5"></i> 5. Seeking Refuge from Satan (15:39-40)</div>
-                <div class="verse"><a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=39&to=40" target="_blank">15:39-40</a>
-                    <div class="arabic">قَالَ رَبِّ بِمَا أَغْوَيْتَنِي لَأُزَيِّنَنَّ لَهُمْ فِي الْأَرْضِ وَلَأُغْوِيَنَّهُمْ أَجْمَعِينَ إِلَّا عِبَادَكَ مِنْهُمُ الْمُخْلَصِينَ</div>
-                    <div class="transliteration">Qāla rabbi bimā agwaitanī la`uzayyinanna lahum fil-arḍi wa la`ugwiyannahum ajma'īn, illā 'ibādaka min-humul-mukhlaṣīn.</div>
-                    <div class="tafsir-box">Iblis’s strategy is to beautify evil. The only protection is sincere devotion (ikhlas).</div>
-                </div>
+        <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
+            <div class="verse">
+                <div class="arabic">إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ</div>
+                <div class="transliteration">Innā naḥnu nazzalnaż-żikra wa innā lahū laḥāfiẓụn.</div>
+                <p><strong>Translation:</strong> "Indeed, it is We who sent down the Qur'an and indeed, We will be its guardian." (15:9)</p>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> A unique divine promise not given to previous scriptures. Allah protects its wording, meaning, and authenticity forever. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=9&to=9&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
             </div>
         </div>
-        <div class="benefits-list"><h3>Spiritual Takeaways</h3><ul><li>Certainty in Qur’anic preservation</li><li>Humility before Allah</li><li>Avoiding moral perversion</li><li>Gratitude for cosmic signs</li><li>Sincerity as shield against Shaytan</li></ul></div>
+
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Hijr</h2>
+            <div class="theme-card"><div class="theme-title">1. Divine Preservation of the Qur'an – Verse 9</div>
+                <div class="verse-item"><div class="arabic">إِنَّا نَحْنُ نَزَّلْنَا الذِّكْرَ وَإِنَّا لَهُ لَحَافِظُونَ</div><div class="transliteration">Innā naḥnu nazzalnaż-żikra wa innā lahū laḥāfiẓụn.</div><p><strong>Translation:</strong> "Indeed, it is We who sent down the Qur'an and indeed, We will be its guardian."</p><div class="tafsir-box">The foundation of Qur'anic authenticity. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=9&to=9&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">2. Creation of Adam & Iblis's Arrogance – Verses 28-44</div>
+                <div class="verse-item"><div class="arabic">وَإِذْ قَالَ رَبُّكَ لِلْمَلَائِكَةِ إِنِّي خَالِقٌ بَشَرًا مِنْ صَلْصَالٍ...</div><div class="transliteration">Wa iż qāla rabbuka lil-malā`ikati innī khāliqum basyaram min ṣalṣāl...</div><p><strong>Translation:</strong> "And when your Lord said to the angels, 'Indeed, I will create a human being from clay...'"</p><div class="tafsir-box">Adam honored, Iblis's pride leads to curse. Satan's vow to mislead except sincere servants. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=28&to=44&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">3. People of Lot & Moral Warning – Verses 61-77</div>
+                <div class="verse-item"><div class="arabic">فَلَمَّا جَاءَ آلَ لُوطٍ الْمُرْسَلُونَ...</div><div class="transliteration">Falammā jā`a āla lụṭinil-mursalụn...</div><p><strong>Translation:</strong> "And when the messengers came to the family of Lot..."</p><div class="tafsir-box">Punishment of homosexuality – a crime never before committed. Strong prohibition. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=61&to=77&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">4. Signs of Allah in the Heavens – Verses 16-25</div>
+                <div class="verse-item"><div class="arabic">وَلَقَدْ جَعَلْنَا فِي السَّمَاءِ بُرُوجًا...</div><div class="transliteration">Wa laqad ja'alnā fis-samā`i burụjā...</div><p><strong>Translation:</strong> "And We have placed within the heaven great stars and have beautified it for the observers."</p><div class="tafsir-box">Constellations as adornment and protection. Winds fertilize clouds – signs for the reflective. <a href="https://www.islamicstudies.info/tafheem.php?sura=15&verse=16&to=25&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+        </div>
+
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Al-Hijr</h3><ul><li>Verse 9 is the ultimate proof of Qur'anic preservation.</li><li>Story of Iblis teaches the root of all evil: arrogance.</li><li>Story of Lot provides a definitive moral boundary.</li><li>Cosmic signs bridge science and faith.</li><li>Command to be patient and glorify Allah strengthens the believer.</li></ul></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> Believe in the preserved Qur'an, creation from clay, and the certainty of resurrection.</p><p><strong>Ibadah (Worship):</strong> Glorify Allah (tasbih), seek refuge from Shaytan, be patient in worship, and recite the Qur'an with reflection.</p><p><strong>Akhlaq (Character):</strong> Never be arrogant like Iblis, avoid sexual immorality, be hospitable, and do not mock others.</p></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Hijr</h3><ul><li>The Qur'an is divinely guarded forever.</li><li>Arrogance was the first sin in history.</li><li>Satan will always tempt, but the sincere are protected.</li><li>Sexual deviation brings divine punishment.</li><li>Contemplating the universe strengthens faith.</li><li>Patience and glorification overcome mockery.</li></ul></div>
+
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Authenticity crisis: Verse 9 refutes doubts about Qur'anic integrity.</li><li>Digital arrogance: People boast about wealth, status, or technology like Iblis.</li><li>Moral deviation: Lot's story is a strong warning against LGBT normalization.</li><li>Science & faith: Astronomy and water cycles are bridges between revelation and reason.</li><li>Mental health: Command to be patient and glorify Allah (15:97-98) is spiritual therapy.</li></ol></div>
+
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Ibrahim (14):</strong> Ibrahim focuses on gratitude and prayer; Al-Hijr emphasizes preservation of revelation and past punishments.</li><li><strong>With Surah Al-Anbiya' (21):</strong> Both narrate stories of prophets (Ibrahim, Lut, Noah) with focus on divine punishment.</li><li><strong>With Surah Ash-Shu'ara (26):</strong> Al-Hijr is concise, Ash-Shu'ara expands on similar stories.</li><li><strong>With Surah Al-Furqan (25):</strong> Both mention protection of the sky from devils.</li></ul></div>
+
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Indeed, it is We who sent down the Qur'an and indeed, We will be its guardian.” (15:9)</div>
     </div>
 
-    <!-- Unified Pagination -->
+    <!-- PAGINATION -->
     <div class="surah-pagination">
-        <a href="014.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Ibrahim</a>
+        <a href="014.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya / Previous: Ibrahim</a>
         <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="016.html" class="pagination-item">Next Surah: An-Nahl <i class="fas fa-arrow-right"></i></a>
+        <a href="016.html" class="pagination-item">Surah Berikutnya / Next: An-Nahl <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
-
 <footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
 
-<!-- fixed scroll arrows -->
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const englishContent = document.getElementById('english-content');
-    const indonesianContent = document.getElementById('indonesian-content');
-    let languageToggle = document.getElementById('languageToggle');
-    let transliterationToggle = document.getElementById('transliterationToggle');
-    let darkModeToggle = document.getElementById('darkModeToggle');
-
-    // create missing toggles
-    if (!languageToggle) { let btn = document.createElement('div'); btn.id = 'languageToggle'; btn.className = 'language-toggle'; document.body.appendChild(btn); languageToggle = btn; }
-    if (!transliterationToggle) { let btn = document.createElement('div'); btn.id = 'transliterationToggle'; btn.className = 'transliteration-toggle'; document.body.appendChild(btn); transliterationToggle = btn; }
-    if (!darkModeToggle) { let btn = document.createElement('div'); btn.id = 'darkModeToggle'; btn.className = 'dark-mode-toggle'; document.body.appendChild(btn); darkModeToggle = btn; }
-
+(function(){
+    const englishDiv = document.getElementById('english-content');
+    const indoDiv = document.getElementById('indonesian-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
     const translitElements = document.querySelectorAll('.transliteration');
+    const langSpan = langToggle.querySelector('.lang-text');
 
-    // URL params override
     const urlParams = new URLSearchParams(window.location.search);
-    let langParam = null;
-    if (urlParams.has('English')) langParam = 'english';
-    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
-
-    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
-    function updateLanguageUI(lang) {
-        if (lang === 'english') {
-            englishContent.classList.remove('hidden');
-            indonesianContent.classList.add('hidden');
-            languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+    let currentLang = localStorage.getItem('language') || 'indonesian';
+    if(urlParams.has('English')) currentLang = 'english';
+    if(urlParams.has('Indonesian')) currentLang = 'indonesian';
+    
+    function setLanguage(lang){
+        const isEnglish = (lang === 'english');
+        if(isEnglish){
+            englishDiv.classList.remove('hidden');
+            indoDiv.classList.add('hidden');
+            if(langSpan) langSpan.innerHTML = '🇮🇩 Switch to Indonesian';
+            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
         } else {
-            englishContent.classList.add('hidden');
-            indonesianContent.classList.remove('hidden');
-            languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+            englishDiv.classList.add('hidden');
+            indoDiv.classList.remove('hidden');
+            if(langSpan) langSpan.innerHTML = '🇬🇧 Switch to English';
+            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
         }
         localStorage.setItem('language', lang);
     }
-    updateLanguageUI(currentLang);
-    languageToggle.addEventListener('click', () => {
-        const newLang = englishContent.classList.contains('hidden') ? 'english' : 'indonesian';
-        updateLanguageUI(newLang);
+    setLanguage(currentLang);
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang);
     });
 
-    // transliteration toggle
     let translitVisible = localStorage.getItem('transliteration') === 'true';
-    function setTransliteration(show) {
+    if(urlParams.has('Transliteration')) translitVisible = true;
+    function setTransliteration(show){
         translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        transliterationToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
         localStorage.setItem('transliteration', show);
     }
     setTransliteration(translitVisible);
-    transliterationToggle.addEventListener('click', () => {
+    translitToggle.addEventListener('click', () => {
         const currently = translitElements[0]?.style.display === 'block';
         setTransliteration(!currently);
     });
 
-    // dark mode + URL override
     let darkActive = localStorage.getItem('darkMode') === 'true';
-    if (urlParams.has('Dark')) darkActive = true;
-    if (urlParams.has('Light')) darkActive = false;
-    if (darkActive) document.body.classList.add('dark-mode');
-    function setDarkModeUI() {
-        const isDark = document.body.classList.contains('dark-mode');
-        darkModeToggle.innerHTML = isDark ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
-        localStorage.setItem('darkMode', isDark);
+    if(urlParams.has('Dark')) darkActive = true;
+    if(darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI(){
+        const active = document.body.classList.contains('dark-mode');
+        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        localStorage.setItem('darkMode', active);
     }
     setDarkModeUI();
-    darkModeToggle.addEventListener('click', () => {
+    darkToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         setDarkModeUI();
     });
 
-    // scroll arrows: screen-height move
-    const scrollUp = document.getElementById('scrollUp');
-    const scrollDown = document.getElementById('scrollDown');
-    if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
-
-    // remove extra arrows except pagination and scroll arrows
-    document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
-        if (!icon.closest('.pagination-item') && !icon.closest('#scrollUp') && !icon.closest('#scrollDown')) {
-            icon.remove();
-        }
-    });
-});
+    const upArrow = document.getElementById('scrollUp');
+    const downArrow = document.getElementById('scrollDown');
+    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+})();
 </script>
 </body>
 </html>
