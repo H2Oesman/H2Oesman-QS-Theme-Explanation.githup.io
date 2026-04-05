@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Surah Ar-Ra‘d - Tafsir Tematik | Thematic Tafsir</title>
+    <title>Surah Ar-Ra'd (Guruh) - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -20,14 +20,14 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
+            --theme-card-bg: #ffffffdd;
         }
-
         .dark-mode {
             --bg-color: #121826;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
             --arabic-color: #7bc9ff;
-            --section-title-color: #7bc9ff;
+            --section-title-color: #90d0ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
@@ -35,10 +35,10 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #7bc9ff;
+            --link-color: #93c5fd;
             --link-hover: #c3e2ff;
+            --theme-card-bg: #1e293bdd;
         }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.8;
@@ -57,35 +57,40 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             transition: all 0.3s ease;
         }
-        a {
-            color: var(--link-color);
-            text-decoration: none;
-            transition: 0.2s;
+        a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
+        .blink-arrow {
+            animation: blink 1s step-start infinite;
+            display: inline-block;
+            font-weight: bold;
+            background: #ffcc00;
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 6px;
         }
-        a:hover {
-            color: var(--link-hover);
-            text-decoration: underline;
+        @keyframes blink {
+            50% { opacity: 0; }
         }
         .arabic {
-            font-size: 42px;
+            font-size: 36px;
             text-align: right;
             direction: rtl;
-            margin: 20px 0;
+            margin: 20px 0 10px 0;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
-            line-height: 2;
+            line-height: 1.8;
         }
         .transliteration {
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
             text-align: center;
-            margin: -15px 0 20px;
+            margin: 0 0 10px 0;
             display: none;
         }
-        .dark-mode .transliteration {
-            color: #b0c4de;
-        }
+        .dark-mode .transliteration { color: #b0c4de; }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -95,9 +100,7 @@
             background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .section {
-            margin: 30px 0;
-        }
+        .section { margin: 30px 0; }
         .section-title {
             font-size: 24px;
             color: var(--section-title-color);
@@ -108,7 +111,7 @@
             align-items: center;
             gap: 10px;
         }
-        .verse, .theme-point {
+        .verse, .theme-point, .theme-card {
             background-color: var(--verse-bg);
             padding: 20px;
             border-radius: 20px;
@@ -121,9 +124,7 @@
             margin-bottom: 12px;
             font-size: 1.2rem;
         }
-        .dark-mode .verse-title, .dark-mode .theme-title {
-            color: #66d9a7;
-        }
+        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
@@ -131,9 +132,7 @@
             margin-top: 15px;
             border: 1px solid var(--tafsir-border);
         }
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
@@ -142,22 +141,11 @@
             border: 1px solid var(--link-color);
             font-weight: 500;
         }
-        .top-home-link:hover {
-            background-color: var(--link-color);
-            color: white;
-            text-decoration: none;
-        }
-        .structure-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .structure-item {
-            background: var(--structure-bg);
-            padding: 18px;
-            border-radius: 20px;
-            border-left: 4px solid #2c7da0;
+        .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
+        .theme-card {
+            background: var(--theme-card-bg);
+            border-left: 6px solid #2c7da0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
         .benefits-list {
             background: var(--benefits-bg);
@@ -182,27 +170,20 @@
             margin: 20px auto;
             text-align: center;
         }
-
-        /* theme sections */
-        .nature-section, .truth-section, .tranquility-section, .decree-section, .believers-section {
-            padding: 20px;
-            border-radius: 24px;
-            margin: 30px 0;
-            border-left: 6px solid;
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--structure-bg);
+            border-radius: 16px;
+            overflow: hidden;
         }
-        .nature-section { background-color: #e8f4fc; border-left-color: #3498db; }
-        .truth-section { background-color: #fff5e6; border-left-color: #e67e22; }
-        .tranquility-section { background-color: #e8f5e9; border-left-color: #2ecc71; }
-        .decree-section { background-color: #f3e8ff; border-left-color: #9b59b6; }
-        .believers-section { background-color: #fff0f6; border-left-color: #9b59b6; }
-
-        .dark-mode .nature-section { background-color: #1a2a3a; }
-        .dark-mode .truth-section { background-color: #3a2e1f; }
-        .dark-mode .tranquility-section { background-color: #1a2a1a; }
-        .dark-mode .decree-section { background-color: #2a1f3a; }
-        .dark-mode .believers-section { background-color: #2a1f3a; }
-
-        /* scroll arrows left side */
+        .theme-table th, .theme-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--verse-border);
+            text-align: left;
+        }
+        .theme-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
             position: fixed;
             left: 20px;
@@ -224,8 +205,6 @@
         .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
         .scroll-arrow.up { top: 90px; }
         .scroll-arrow.down { bottom: 90px; }
-
-        /* bottom pagination */
         .surah-pagination {
             display: flex;
             justify-content: center;
@@ -233,6 +212,7 @@
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+            flex-wrap: wrap;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -245,11 +225,7 @@
             border: 1px solid var(--verse-border);
             transition: 0.2s;
         }
-        .pagination-item:hover {
-            background: var(--link-color);
-            color: white;
-            text-decoration: none;
-        }
+        .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -266,7 +242,6 @@
             gap: 8px;
             font-size: 14px;
             backdrop-filter: blur(2px);
-            border: none;
         }
         .language-toggle { top: 20px; background: #2c7da0; }
         .transliteration-toggle { top: 80px; background: #27ae60; }
@@ -277,237 +252,351 @@
             .arabic { font-size: 30px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
-        i, .fas, .far { margin-right: 4px; }
+        .fa, .fas, .far { margin-right: 4px; }
+        .verse-item { margin-bottom: 20px; border-bottom: 1px dashed var(--verse-border); padding-bottom: 15px; }
+        .verse-item:last-child { border-bottom: none; }
+        .relationship-box, .structure-grid {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+        }
+        .flag-icon { margin-right: 6px; font-size: 1.1em; }
+        .external-arrow {
+            display: inline-block;
+            margin-left: 6px;
+            font-size: 0.9em;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- scroll arrows left side -->
-    <div class="scroll-arrow up" id="scrollUp"><i class="fas fa-chevron-up"></i></div>
-    <div class="scroll-arrow down" id="scrollDown"><i class="fas fa-chevron-down"></i></div>
 
-    <!-- toggles -->
-    <div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
-    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
-    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> <span class="lang-text">🇬🇧 Switch to English</span></div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
-    <div class="container" id="mainContainer">
-        <!-- Indonesian content -->
-        <div id="indonesian-content">
-            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-            <h1 class="surah-title">Surah Ar-Ra‘d (Guruh) - Tafsir Tematik</h1>
-            <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=1&to=43" target="_blank">IslamicStudies.info - Surah Ar-Ra‘d (1-43)</a></div>
+<div class="container" id="mainContainer">
+    <!-- INDONESIAN CONTENT -->
+    <div id="indonesian-content">
+        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+        <h1 class="surah-title">Surah Ar-Ra'd (Guruh) - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=1&to=43&opt=1" target="_blank">IslamicStudies.info - Surah Ar-Ra'd (1-43)</a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
 
-            <div class="arabic">المر ۚ تِلْكَ آيَاتُ الْكِتَابِ ۗ وَالَّذِي أُنْزِلَ إِلَيْكَ مِنْ رَبِّكَ الْحَقُّ وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يُؤْمِنُونَ ﴿١﴾</div>
-            <div class="transliteration">Alif Lām Mīm Rā, tilka āyātul-kitāb, wallażī unzila ilaika mir rabbikal-ḥaqqu wa lākinna akṡaran-nāsi lā yu`minūn.</div>
-            <p style="text-align: center; font-style: italic;">"Alif Lām Mīm Rā. Ini adalah ayat-ayat Al-Kitab. Dan (Al-Qur'an) yang diturunkan kepadamu dari Tuhanmu itu adalah benar, tetapi kebanyakan manusia tidak beriman." (Ar-Ra‘d 13:1)</p>
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Ar-Ra'd</h3>
+            <p>Surah ke-13 (43 ayat) Makkiyah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=1&to=43&opt=1" target="_blank">IslamicStudies.info</a>, surah ini menguatkan kebenaran Al-Qur'an sebagai wahyu Allah dan menegaskan konsep tauhid. Surah ini mengandung bukti-bukti kekuasaan Allah di alam semesta, penegasan tentang hari kebangkitan, serta perbandingan antara orang beriman dan kafir. Nama "Ar-Ra'd" (guruh) diambil dari ayat 13.</p>
+        </div>
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+            <p><a href="https://quran.com/13?translations=33" target="_blank"><span class="blink-arrow">👉 KLIK DISINI 👈</span> Quran.com - Surah Ar-Ra'd (Terjemahan Indonesia) <i class="fas fa-external-link-alt external-arrow"></i></a></p>
+        </div>
+        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Ar-Ra'd</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/013.mp3" type="audio/mpeg"></audio></div>
 
-            <div class="theme-overview">
-                <h3><i class="fas fa-star"></i> Gambaran Umum Surah Ar-Ra‘d</h3>
-                <p>Surah ke-13 (43 ayat) Makkiyah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=1&to=43" target="_blank">IslamicStudies.info</a>, surah ini menguatkan kebenaran Al-Qur'an sebagai wahyu Allah dan menegaskan konsep tauhid. Surah ini mengandung bukti-bukti kekuasaan Allah di alam semesta, penegasan tentang hari kebangkitan, serta perbandingan antara orang beriman dan kafir. Nama "Ar-Ra‘d" (guruh) diambil dari ayat 13.</p>
-            </div>
-
-            <div class="info-box">
-                <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-                <p><a href="https://quran.com/13?translations=33" target="_blank">Quran.com - Surah Ar-Ra‘d (Terjemahan Indonesia)</a></p>
-            </div>
-
-            <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Ar-Ra‘d</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/013.mp3" type="audio/mpeg"></audio></div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Ar-Ra‘d</h2>
-
-                <div class="nature-section">
-                    <div class="theme-title"><i class="fas fa-1"></i> 1. Bukti Kekuasaan Allah di Alam Semesta - Ayat 2-4</div>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=2&to=4" target="_blank">Ar-Ra‘d 13:2-4</a>
-                        <div class="arabic">اللَّهُ الَّذِي رَفَعَ السَّمَاوَاتِ بِغَيْرِ عَمَدٍ تَرَوْنَهَا ۖ ثُمَّ اسْتَوَىٰ عَلَى الْعَرْشِ ۖ وَسَخَّرَ الشَّمْسَ وَالْقَمَرَ ۖ كُلٌّ يَجْرِي لِأَجَلٍ مُسَمًّى ۚ يُدَبِّرُ الْأَمْرَ يُفَصِّلُ الْآيَاتِ لَعَلَّكُمْ بِلِقَاءِ رَبِّكُمْ تُوقِنُونَ</div>
-                        <div class="transliteration">Allāhu llażī rafa‘as-samāwāti bigairi ‘amadin taraunahā, ṡummastawā ‘alal-‘arsyi wa sakhkharasy-syamsa wal-qamar, kulluy yajrī li-ajalim musammā, yudabbirul-amra yufaṣṣilul-āyāti la‘allakum biliqā’i rabbikum tūqinūn.</div>
-                        <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Allah meninggikan langit tanpa tiang, menundukkan matahari dan bulan yang beredar hingga waktu tertentu. Ini adalah bukti kekuasaan Allah yang sempurna. Ayat ini mengajak merenungkan keajaiban penciptaan sebagai jalan menuju keyakinan akan pertemuan dengan Allah.</div>
-                    </div>
-                </div>
-
-                <div class="truth-section">
-                    <div class="theme-title"><i class="fas fa-2"></i> 2. Perbandingan antara Hak dan Batil - Ayat 17</div>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=17&to=17" target="_blank">Ar-Ra‘d 13:17</a>
-                        <div class="arabic">أَنْزَلَ مِنَ السَّمَاءِ مَاءً فَسَالَتْ أَوْدِيَةٌ بِقَدَرِهَا فَاحْتَمَلَ السَّيْلُ زَبَدًا رَابِيًا ۚ وَمِمَّا يُوقِدُونَ عَلَيْهِ فِي النَّارِ ابْتِغَاءَ حِلْيَةٍ أَوْ مَتَاعٍ زَبَدٌ مِثْلُهُ ۚ كَذَٰلِكَ يَضْرِبُ اللَّهُ الْحَقَّ وَالْبَاطِلَ ۚ فَأَمَّا الزَّبَدُ فَيَذْهَبُ جُفَاءً ۖ وَأَمَّا مَا يَنْفَعُ النَّاسَ فَيَمْكُثُ فِي الْأَرْضِ ۚ كَذَٰلِكَ يَضْرِبُ اللَّهُ الْأَمْثَالَ</div>
-                        <div class="transliteration">Anzala minas-samā’i mā’an fa sālat audiyatum biqadarihā faḥtamalas-sailu zabadar rābiyā, wa mimmā yūqidūna ‘alaihi fin-nāribtigā’a ḥilyatin au matā‘in zabadum miṡluh, każālika yaḍribullāḥul-ḥaqqa wal-bāṭil, fa ammaz-zabadu fa yażhabu jufā’ā, wa ammā mā yanfa‘un-nāsu fa yamkuṡu fil-arḍ, każālika yaḍribullāḥul-amṡāl.</div>
-                        <div class="tafsir-box">Perumpamaan air hujan yang mengalir membawa buih, dan logam yang dilebur juga menghasilkan buih. Buih melambangkan kebatilan yang akan hilang, sedangkan air jernih dan logam murni melambangkan kebenaran yang kekal dan bermanfaat. Pelajaran: pilihlah kebenaran meskipun tampak sedikit.</div>
-                    </div>
-                </div>
-
-                <div class="tranquility-section">
-                    <div class="theme-title"><i class="fas fa-3"></i> 3. Ketenteraman Hati dengan Mengingat Allah - Ayat 28</div>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=28&to=28" target="_blank">Ar-Ra‘d 13:28</a>
-                        <div class="arabic">الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
-                        <div class="transliteration">Allażīna āmanū wa taṭma‘innu qulūbuhum biżikrillāh, alā biżikrillāhi taṭma‘innul-qulūb.</div>
-                        <div class="tafsir-box">Hati orang beriman menjadi tenteram dengan mengingat Allah. Inilah resep spiritual untuk menghadapi kegelisahan dan kecemasan. Hanya dengan zikir kepada Allah hati memperoleh ketenangan sejati.</div>
-                    </div>
-                </div>
-
-                <div class="decree-section">
-                    <div class="theme-title"><i class="fas fa-4"></i> 4. Konsep Takdir dan Ilmu Allah - Ayat 8, 39</div>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=8&to=8" target="_blank">Ar-Ra‘d 13:8</a>
-                        <div class="arabic">اللَّهُ يَعْلَمُ مَا تَحْمِلُ كُلُّ أُنْثَىٰ وَمَا تَغِيضُ الْأَرْحَامُ وَمَا تَزْدَادُ ۖ وَكُلُّ شَيْءٍ عِنْدَهُ بِمِقْدَارٍ</div>
-                        <div class="transliteration">Allāhu ya‘lamu mā taḥmilu kullu unṡā wa mā tagīḍul-ar-ḥāmu wa mā tazdād, wa kullu syai‘in ‘indahū bimiqdār.</div>
-                        <div class="tafsir-box">Allah mengetahui apa yang dikandung setiap perempuan, apa yang kurang dan bertambah dalam rahim. Segala sesuatu di sisi Allah ada ukurannya. Ini menegaskan ilmu Allah yang sempurna dan ketetapan takdir yang tepat.</div>
-                    </div>
-                    <div class="verse">
-                        <strong>Ayat Penting:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=39&to=39" target="_blank">Ar-Ra‘d 13:39</a>
-                        <div class="arabic">يَمْحُو اللَّهُ مَا يَشَاءُ وَيُثْبِتُ ۖ وَعِنْدَهُ أُمُّ الْكِتَابِ</div>
-                        <div class="transliteration">Yam-ḥullāhu mā yasyā‘u wa yuṡbit, wa ‘indahū ummul-kitāb.</div>
-                        <div class="tafsir-box">Allah menghapus atau menetapkan apa yang Dia kehendaki, dan di sisi-Nya terdapat Ummul-Kitab (Lauh Mahfuzh). Ini menunjukkan kekuasaan Allah mengubah takdir sesuai hikmah-Nya.</div>
-                    </div>
-                </div>
-
-                <div class="believers-section">
-                    <div class="theme-title"><i class="fas fa-5"></i> 5. Ciri-ciri Orang Beriman Sejati - Ayat 20-22</div>
-                    <div class="verse">
-                        <strong>Ayat Kunci:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=20&to=22" target="_blank">Ar-Ra‘d 13:20-22</a>
-                        <div class="arabic">الَّذِينَ يُوفُونَ بِعَهْدِ اللَّهِ وَلَا يَنْقُضُونَ الْمِيثَاقَ ... وَالَّذِينَ يَصِلُونَ مَا أَمَرَ اللَّهُ بِهِ أَنْ يُوصَلَ وَيَخْشَوْنَ رَبَّهُمْ وَيَخَافُونَ سُوءَ الْحِسَابِ ... وَالَّذِينَ صَبَرُوا ابْتِغَاءَ وَجْهِ رَبِّهِمْ وَأَقَامُوا الصَّلَاةَ وَأَنْفَقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً وَيَدْرَءُونَ بِالْحَسَنَةِ السَّيِّئَةَ أُولَٰئِكَ لَهُمْ عُقْبَى الدَّارِ</div>
-                        <div class="transliteration">Allażīna yūfūna bi‘ahdillāhi wa lā yangquḍūnal-mīṡāq ... wallażīna yaṣilūna mā amarallāhu bihī ay yūṣala wa yakhsyauna rabbahum wa yakhāfūna sū’al-ḥisāb ... wallażīna ṣabarubtigā’a wajhi rabbihim wa aqāmuṣ-ṣalāta wa anfaqū mimmā razaqnāhum sirran wa ‘alāniyataw wa yadra’ūna bil-ḥasanatis-sayyi’ah, ulā’ika lahum ‘uqbad-dār.</div>
-                        <div class="tafsir-box">Ciri orang beriman: menepati janji Allah, menjaga silaturahmi, takut kepada Allah, sabar karena wajah-Nya, mendirikan shalat, berinfak secara rahasia dan terang-terangan, serta menolak kejahatan dengan kebaikan. Mereka akan mendapatkan tempat kesudahan yang baik (surga).</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-star"></i> Ayat Kunci untuk Tadabbur</h2>
-                <div class="verse">
-                    <strong>Ayat 28:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=28&to=28" target="_blank">Ar-Ra‘d 13:28</a>
-                    <div class="arabic">الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
-                    <div class="transliteration">Allażīna āmanū wa taṭma‘innu qulūbuhum biżikrillāh, alā biżikrillāhi taṭma‘innul-qulūb.</div>
-                    <div class="tafsir-box"><strong>Pesan inti:</strong> Resep ketenangan jiwa yang abadi: mengingat Allah dalam setiap keadaan. Hanya dengan zikir hati menjadi tenteram, jauh dari kegelisahan duniawi.</div>
-                </div>
-            </div>
-
-            <div class="benefits-list"><h3><i class="fas fa-award"></i> Pelajaran Spiritual</h3><ul><li>Merenungkan alam semesta sebagai bukti kekuasaan Allah.</li><li>Kebenaran (hak) bersifat abadi, kebatilan (batil) pasti lenyap.</li><li>Hanya dengan mengingat Allah hati memperoleh ketenangan sejati.</li><li>Segala sesuatu telah ditakdirkan dengan ukuran yang tepat oleh Allah.</li><li>Ciri orang beriman: menepati janji, sabar, shalat, infak, dan membalas kejahatan dengan kebaikan.</li></ul></div>
-            <div class="info-box"><i class="fas fa-book-open"></i> Renungkan: “Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram.” (13:28)</div>
+        <!-- Struktur dan Kandungan -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-4</strong></td><td>Kebenaran Wahyu & Tanda-tanda Kekuasaan Allah</td><td>Al-Qur'an adalah kebenaran, langit dan bumi sebagai bukti keesaan Allah.</td></tr>
+                    <tr><td><strong>5-15</strong></td><td>Sikap Orang Kafir dan Bukti Tauhid</td><td>Keengganan beriman, ancaman azab, dan sujudnya makhluk kepada Allah.</td></tr>
+                    <tr><td><strong>16-25</strong></td><td>Perbandingan Hak dan Batil, Ciri Orang Beriman</td><td>Perumpamaan kebenaran yang kekal vs kebatilan yang lenyap, sifat orang bertakwa.</td></tr>
+                    <tr><td><strong>26-31</strong></td><td>Ketenangan dengan Dzikir & Ujian Dunia</td><td>Hati tenteram dengan mengingat Allah, kesenangan dunia hanya sementara.</td></tr>
+                    <tr><td><strong>32-43</strong></td><td>Ancaman bagi Pendusta & Kekuasaan Mutlak Allah</td><td>Allah Maha Mengetahui, tidak ada yang dapat mengubah ketetapan-Nya.</td></tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- English content -->
-        <div id="english-content" class="hidden">
-            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-            <h1 class="surah-title">Surah Ar-Ra‘d (The Thunder) - Thematic Tafsir</h1>
-            <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=1&to=43" target="_blank">IslamicStudies.info - Surah Ar-Ra‘d (1-43)</a></div>
-
-            <div class="arabic">المر ۚ تِلْكَ آيَاتُ الْكِتَابِ ۗ وَالَّذِي أُنْزِلَ إِلَيْكَ مِنْ رَبِّكَ الْحَقُّ وَلَٰكِنَّ أَكْثَرَ النَّاسِ لَا يُؤْمِنُونَ ﴿١﴾</div>
-            <div class="transliteration">Alif Lām Mīm Rā, tilka āyātul-kitāb, wallażī unzila ilaika mir rabbikal-ḥaqqu wa lākinna akṡaran-nāsi lā yu`minūn.</div>
-            <p style="text-align: center;">"Alif Lām Mīm Rā. These are the verses of the Book. And what has been revealed to you from your Lord is the truth, but most of the people do not believe." (Ar-Ra‘d 13:1)</p>
-
-            <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview</h3><p>Meccan surah (43 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=1&to=43" target="_blank">IslamicStudies.info</a>, this surah affirms the truth of the Qur’an as revelation from Allah and emphasizes the concept of tawhid. It contains proofs of Allah’s power in the universe, affirmation of the Hereafter, and a comparison between believers and disbelievers. The name “Ar-Ra‘d” (Thunder) is taken from verse 13.</p></div>
-            <div class="info-box"><h3>Full Text</h3><p><a href="https://recitequran.com/13" target="_blank">ReciteQuran.com - Surah Ar-Ra‘d</a></p></div>
-            <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Ar-Ra‘d</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/013.mp3"></audio></div>
-
-            <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes</h2>
-                <div class="nature-section"><div class="theme-title">1. Evidences of Allah’s Power – Verses 2-4</div><div class="verse"><strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=2&to=4" target="_blank">13:2-4</a><div class="arabic">اللَّهُ الَّذِي رَفَعَ السَّمَاوَاتِ بِغَيْرِ عَمَدٍ تَرَوْنَهَا ... لَعَلَّكُمْ بِلِقَاءِ رَبِّكُمْ تُوقِنُونَ</div><div class="transliteration">Allāhu llażī rafa‘as-samāwāti bigairi ‘amadin taraunahā ... la‘allakum biliqā’i rabbikum tūqinūn.</div><div class="tafsir-box">Allah raised the heavens without pillars, subjected the sun and moon. These are signs for those who reflect and attain certainty about meeting their Lord.</div></div></div>
-                <div class="truth-section"><div class="theme-title">2. Truth vs. Falsehood – Verse 17</div><div class="verse"><strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=17&to=17" target="_blank">13:17</a><div class="arabic">أَنْزَلَ مِنَ السَّمَاءِ مَاءً ... كَذَٰلِكَ يَضْرِبُ اللَّهُ الْأَمْثَالَ</div><div class="transliteration">Anzala minas-samā’i mā’an ... każālika yaḍribullāḥul-amṡāl.</div><div class="tafsir-box">Rainwater and melted metal produce foam (falsehood) that vanishes, while the beneficial water and pure metal (truth) remain. A powerful parable: falsehood is temporary, truth is eternal.</div></div></div>
-                <div class="tranquility-section"><div class="theme-title">3. Heart Tranquility through Remembrance – Verse 28</div><div class="verse"><strong>Key Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=28&to=28" target="_blank">13:28</a><div class="arabic">الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللَّهِ ... أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div><div class="transliteration">Allażīna āmanū wa taṭma‘innu qulūbuhum biżikrillāh ... alā biżikrillāhi taṭma‘innul-qulūb.</div><div class="tafsir-box">True believers find peace in remembering Allah. Indeed, only by the remembrance of Allah do hearts find rest – the spiritual remedy for anxiety.</div></div></div>
-                <div class="decree-section"><div class="theme-title">4. Divine Decree and Knowledge – Verses 8, 39</div><div class="verse"><strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=8&to=8" target="_blank">13:8</a> & <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=39&to=39" target="_blank">13:39</a><div class="arabic">اللَّهُ يَعْلَمُ مَا تَحْمِلُ كُلُّ أُنْثَىٰ ... يَمْحُو اللَّهُ مَا يَشَاءُ وَيُثْبِتُ ۖ وَعِنْدَهُ أُمُّ الْكِتَابِ</div><div class="transliteration">Allāhu ya‘lamu mā taḥmilu kullu unṡā ... yam-ḥullāhu mā yasyā‘u wa yuṡbit, wa ‘indahū ummul-kitāb.</div><div class="tafsir-box">Allah knows what every female carries, what wombs lose or exceed. He eliminates or confirms what He wills; with Him is the Mother of the Book. Shows Allah’s perfect knowledge and power over destiny.</div></div></div>
-                <div class="believers-section"><div class="theme-title">5. Characteristics of True Believers – Verses 20-22</div><div class="verse"><strong>Key Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=20&to=22" target="_blank">13:20-22</a><div class="arabic">الَّذِينَ يُوفُونَ بِعَهْدِ اللَّهِ ... أُولَٰئِكَ لَهُمْ عُقْبَى الدَّارِ</div><div class="transliteration">Allażīna yūfūna bi‘ahdillāhi ... ulā’ika lahum ‘uqbad-dār.</div><div class="tafsir-box">Believers fulfill Allah’s covenant, maintain family ties, fear Allah, are patient, establish prayer, give charity secretly and openly, and repel evil with good. They will have the ultimate good abode (Paradise).</div></div></div>
-            </div>
-
-            <div class="section"><h2 class="section-title"><i class="fas fa-star"></i> Key Verse for Contemplation</h2>
-                <div class="verse"><strong>Verse 28:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=28&to=28" target="_blank">13:28</a><div class="arabic">الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div><div class="transliteration">Allażīna āmanū wa taṭma‘innu qulūbuhum biżikrillāh, alā biżikrillāhi taṭma‘innul-qulūb.</div><div class="tafsir-box">The ultimate formula for inner peace: remembrance of Allah. Hearts find true rest only through connection with the Divine.</div></div>
-            </div>
-
-            <div class="benefits-list"><h3>Spiritual Takeaways</h3><ul><li>Contemplate the universe as proof of Allah’s power.</li><li>Truth is eternal; falsehood is fleeting.</li><li>Only through remembering Allah do hearts find tranquility.</li><li>Everything is decreed by Allah with precise measure.</li><li>True believers fulfill covenants, are patient, pray, give charity, and respond to evil with good.</li></ul></div>
-            <div class="info-box"><i class="fas fa-book-open"></i> Reflect: “Unquestionably, by the remembrance of Allah hearts are assured.” (13:28)</div>
+        <!-- Pembagian Tema per Bagian Ayat -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>13:1</strong></td><td>Kebenaran Al-Qur'an</td><td>Alif Lām Mīm Rā, ayat-ayat Kitab dan wahyu yang hak dari Tuhan.</td></tr>
+                    <tr><td><strong>13:2-4</strong></td><td>Kekuasaan Allah di Alam Semesta</td><td>Langit tanpa tiang, matahari dan bulan beredar, bumi dengan buah-buahan.</td></tr>
+                    <tr><td><strong>13:11</strong></td><td>Perubahan Nasib</td><td>Allah tidak mengubah keadaan suatu kaum hingga mereka mengubah diri sendiri.</td></tr>
+                    <tr><td><strong>13:17</strong></td><td>Hak vs Batil</td><td>Perumpamaan air hujan dan logam: kebenaran kekal, kebatilan hilang.</td></tr>
+                    <tr><td><strong>13:20-22</strong></td><td>Ciri Orang Beriman</td><td>Menepati janji, silaturahmi, takut Allah, sabar, shalat, infak, membalas kejahatan dengan kebaikan.</td></tr>
+                    <tr><td><strong>13:28</strong></td><td>Ketenangan Hati</td><td>Hanya dengan mengingat Allah hati menjadi tenteram.</td></tr>
+                    <tr><td><strong>13:39</strong></td><td>Takdir dan Ummul Kitab</td><td>Allah menghapus dan menetapkan, di sisi-Nya induk kitab.</td></tr>
+                </tbody>
+            </table>
         </div>
 
-        <!-- bottom pagination -->
-        <div class="surah-pagination">
-            <a href="012.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Yūsuf</a>
-            <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-            <a href="014.html" class="pagination-item">Ibrāhīm <i class="fas fa-arrow-right"></i></a>
+        <!-- Ayat Kunci Tadabbur -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
+            <div class="verse">
+                <div class="arabic">الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+                <div class="transliteration">Allażīna āmanū wa taṭma'innu qulūbuhum biżikrillāh, alā biżikrillāhi taṭma'innul-qulūb.</div>
+                <p><strong>Terjemahan:</strong> "(Yaitu) orang-orang yang beriman dan hati mereka menjadi tenteram dengan mengingat Allah. Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram." (Ar-Ra'd 13:28)</p>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Inilah resep spiritual menghadapi kegelisahan. Zikir kepada Allah memberikan ketenangan sejati yang tidak bisa didapat dari materi. <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=28&to=28&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+            </div>
         </div>
+
+        <!-- Tema Utama dengan ayat lengkap -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Ar-Ra'd</h2>
+            
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Bukti Kekuasaan Allah di Alam Semesta – Ayat 2-4</div>
+                <div class="verse-item">
+                    <div class="arabic">اللَّهُ الَّذِي رَفَعَ السَّمَاوَاتِ بِغَيْرِ عَمَدٍ تَرَوْنَهَا ۖ ثُمَّ اسْتَوَىٰ عَلَى الْعَرْشِ ۖ وَسَخَّرَ الشَّمْسَ وَالْقَمَرَ ۖ كُلٌّ يَجْرِي لِأَجَلٍ مُسَمًّى ۚ يُدَبِّرُ الْأَمْرَ يُفَصِّلُ الْآيَاتِ لَعَلَّكُمْ بِلِقَاءِ رَبِّكُمْ تُوقِنُونَ</div>
+                    <div class="transliteration">Allāhu llażī rafa‘as-samāwāti bigairi ‘amadin taraunahā, ṡummastawā ‘alal-‘arsyi wa sakhkharasy-syamsa wal-qamar, kulluy yajrī li-ajalim musammā, yudabbirul-amra yufaṣṣilul-āyāti la‘allakum biliqā’i rabbikum tūqinūn.</div>
+                    <p><strong>Terjemahan:</strong> "Allah lah yang meninggikan langit tanpa tiang (sebagaimana) yang kamu lihat, kemudian Dia bersemayam di atas 'Arsy, dan menundukkan matahari dan bulan; masing-masing beredar hingga waktu yang ditentukan. Dia mengatur urusan (makhluk-Nya), menjelaskan tanda-tanda (kebesaran-Nya) agar kamu yakin akan pertemuan dengan Tuhanmu." (13:2)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Bukti kekuasaan Allah yang sempurna; merenungkan ciptaan mengantarkan pada keyakinan hari akhir. <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=2&to=4&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                </div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Perbandingan antara Hak dan Batil – Ayat 17 (Lengkap)</div>
+                <div class="verse-item">
+                    <div class="arabic">أَنْزَلَ مِنَ السَّمَاءِ مَاءً فَسَالَتْ أَوْدِيَةٌ بِقَدَرِهَا فَاحْتَمَلَ السَّيْلُ زَبَدًا رَابِيًا ۚ وَمِمَّا يُوقِدُونَ عَلَيْهِ فِي النَّارِ ابْتِغَاءَ حِلْيَةٍ أَوْ مَتَاعٍ زَبَدٌ مِثْلُهُ ۚ كَذَٰلِكَ يَضْرِبُ اللَّهُ الْحَقَّ وَالْبَاطِلَ ۚ فَأَمَّا الزَّبَدُ فَيَذْهَبُ جُفَاءً ۖ وَأَمَّا مَا يَنْفَعُ النَّاسَ فَيَمْكُثُ فِي الْأَرْضِ ۚ كَذَٰلِكَ يَضْرِبُ اللَّهُ الْأَمْثَالَ</div>
+                    <div class="transliteration">Anzala minas-samā’i mā’an fa sālat audiyatum biqadarihā faḥtamalas-sailu zabadar rābiyā, wa mimmā yūqidūna ‘alaihi fin-nāribtigā’a ḥilyatin au matā‘in zabadum miṡluh, każālika yaḍribullāḥul-ḥaqqa wal-bāṭil, fa ammaz-zabadu fa yażhabu jufā’ā, wa ammā mā yanfa‘un-nāsu fa yamkuṡu fil-arḍ, każālika yaḍribullāḥul-amṡāl.</div>
+                    <p><strong>Terjemahan:</strong> "Allah menurunkan air (hujan) dari langit, maka mengalirlah air di lembah-lembah menurut ukurannya, maka arus itu membawa buih yang mengapung. Dan dari apa (logam) yang mereka lebur dalam api untuk membuat perhiasan atau alat-alat, ada pula buihnya seperti buih arus itu. Demikianlah Allah membuat perumpamaan tentang yang benar dan yang batil. Adapun buih itu akan hilang sebagai sesuatu yang tak berguna; tetapi sesuatu yang berguna bagi manusia, tetap ada di bumi. Demikianlah Allah membuat perumpamaan." (13:17)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Kebenaran abadi bagaikan air dan logam murni; kebatilan lenyap bagaikan buih. <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=17&to=17&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                </div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Konsep Perubahan dan Syukur – Ayat 11</div>
+                <div class="verse-item">
+                    <div class="arabic">إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنْفُسِهِمْ</div>
+                    <div class="transliteration">Innallāha lā yugayyiru mā biqaumin ḥattā yugayyirū mā bi'anfusihim</div>
+                    <p><strong>Terjemahan:</strong> "Sesungguhnya Allah tidak mengubah keadaan suatu kaum sehingga mereka mengubah keadaan yang ada pada diri mereka sendiri." (13:11) – ayat kunci tentang transformasi diri.</p>
+                    <div class="tafsir-box">Pelajaran: perubahan nasib suatu bangsa bergantung pada usaha dan perubahan internal mereka. Ini mendorong syukur dengan meningkatkan amal saleh. <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=11&to=11&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                </div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Ciri-ciri Orang Beriman Sejati – Ayat 20-22</div>
+                <div class="verse-item">
+                    <div class="arabic">الَّذِينَ يُوفُونَ بِعَهْدِ اللَّهِ وَلَا يَنْقُضُونَ الْمِيثَاقَ ... وَالَّذِينَ يَصِلُونَ مَا أَمَرَ اللَّهُ بِهِ أَنْ يُوصَلَ وَيَخْشَوْنَ رَبَّهُمْ وَيَخَافُونَ سُوءَ الْحِسَابِ ... وَالَّذِينَ صَبَرُوا ابْتِغَاءَ وَجْهِ رَبِّهِمْ وَأَقَامُوا الصَّلَاةَ وَأَنْفَقُوا مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً وَيَدْرَءُونَ بِالْحَسَنَةِ السَّيِّئَةَ أُولَٰئِكَ لَهُمْ عُقْبَى الدَّارِ</div>
+                    <div class="transliteration">Allażīna yūfūna bi‘ahdillāhi wa lā yangquḍūnal-mīṡāq ... wallażīna yaṣilūna mā amarallāhu bihī ay yūṣala wa yakhsyauna rabbahum wa yakhāfūna sū’al-ḥisāb ... wallażīna ṣabarubtigā’a wajhi rabbihim wa aqāmuṣ-ṣalāta wa anfaqū mimmā razaqnāhum sirran wa ‘alāniyataw wa yadra’ūna bil-ḥasanatis-sayyi’ah, ulā’ika lahum ‘uqbad-dār.</div>
+                    <p><strong>Terjemahan:</strong> "(Yaitu) orang-orang yang memenuhi janji Allah dan tidak merusak perjanjian, dan orang-orang yang menghubungkan apa yang diperintahkan Allah untuk dihubungkan, mereka takut kepada Tuhannya dan takut kepada hisab yang buruk, dan orang-orang yang sabar karena mencari wajah Tuhannya, melaksanakan shalat, menginfakkan sebagian rezeki Kami secara sembunyi dan terang-terangan, serta menolak kejahatan dengan kebaikan. Mereka itulah yang mendapat tempat kesudahan yang baik." (13:20-22)</p>
+                    <div class="tafsir-box"><strong>Tafsir:</strong> Enam ciri utama: menepati janji, silaturahmi, takut Allah, sabar, shalat, infak, dan membalas keburukan dengan kebaikan. <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=20&to=22&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                </div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Takdir dan Ilmu Allah – Ayat 8 & 39</div>
+                <div class="verse-item">
+                    <div class="arabic">اللَّهُ يَعْلَمُ مَا تَحْمِلُ كُلُّ أُنْثَىٰ وَمَا تَغِيضُ الْأَرْحَامُ وَمَا تَزْدَادُ ۖ وَكُلُّ شَيْءٍ عِنْدَهُ بِمِقْدَارٍ</div>
+                    <div class="transliteration">Allāhu ya‘lamu mā taḥmilu kullu unṡā wa mā tagīḍul-ar-ḥāmu wa mā tazdād, wa kullu syai‘in ‘indahū bimiqdār.</div>
+                    <p><strong>Terjemahan:</strong> "Allah mengetahui apa yang dikandung setiap perempuan, apa yang kurang dan apa yang bertambah dalam rahim. Dan segala sesuatu di sisi-Nya ada ukurannya." (13:8)</p>
+                    <div class="arabic">يَمْحُو اللَّهُ مَا يَشَاءُ وَيُثْبِتُ ۖ وَعِنْدَهُ أُمُّ الْكِتَابِ</div>
+                    <div class="transliteration">Yam-ḥullāhu mā yasyā‘u wa yuṡbit, wa ‘indahū ummul-kitāb.</div>
+                    <p><strong>Terjemahan:</strong> "Allah menghapus dan menetapkan apa yang Dia kehendaki; dan di sisi-Nya terdapat Ummul Kitab (Lauh Mahfuzh)." (13:39)</p>
+                    <div class="tafsir-box">Menegaskan ilmu Allah yang sempurna, ketetapan takdir, dan kekuasaan-Nya mengubah takdir sesuai hikmah. <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=8&to=8&opt=1" target="_blank">📖 Rinci Ayat 8</a> | <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=39&to=39&opt=1" target="_blank">Ayat 39</a></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keutamaan Khusus Surah -->
+        <div class="special-benefits">
+            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Ar-Ra'd</h3>
+            <ul>
+                <li><strong>Penegasan Tauhid Rububiyyah:</strong> Menampilkan bukti-bukti kekuasaan Allah di alam semesta.</li>
+                <li><strong>Obat Hati yang Gelisah:</strong> Ayat 28 menjadi landasan terapi spiritual untuk ketenangan jiwa.</li>
+                <li><strong>Perumpamaan Hak dan Batil:</strong> Mengajarkan untuk memilih kebenaran meskipun sementara terlihat sedikit.</li>
+                <li><strong>Motivasi Perubahan Diri:</strong> Ayat 11 mendorong umat untuk memperbaiki diri agar nasib berubah.</li>
+                <li><strong>Ciri Mukmin Sejati:</strong> Memberikan gambaran praktis untuk meraih surga.</li>
+            </ul>
+        </div>
+
+        <!-- Pesan Akidah, Ibadah, Akhlak -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+            <p><strong>Akidah:</strong> Meyakini bahwa Al-Qur'an adalah kebenaran mutlak dari Allah, mengimani takdir dan ilmu Allah yang meliputi segala sesuatu.</p>
+            <p><strong>Ibadah:</strong> Memperbanyak dzikir sebagai sumber ketenangan, mendirikan shalat, dan berinfak baik sembunyi maupun terang-terangan.</p>
+            <p><strong>Akhlak:</strong> Menepati janji, menjaga silaturahmi, sabar, serta membalas kejahatan dengan kebaikan.</p>
+        </div>
+
+        <!-- Pelajaran Spiritual -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Ar-Ra'd</h3>
+            <ul>
+                <li>Merenungkan alam semesta sebagai bukti kekuasaan Allah.</li>
+                <li>Kebenaran bersifat abadi, kebatilan pasti lenyap.</li>
+                <li>Hanya dengan mengingat Allah hati memperoleh ketenangan sejati.</li>
+                <li>Setiap perubahan nasib dimulai dari perubahan diri.</li>
+                <li>Orang beriman menolak kejahatan dengan kebaikan.</li>
+            </ul>
+        </div>
+
+        <!-- Relevansi Kehidupan Modern -->
+        <div class="theme-card">
+            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div>
+            <ol>
+                <li><strong>Krisis Mental & Kecemasan:</strong> Ayat 28 menjadi solusi atas kegelisahan dan tekanan hidup modern.</li>
+                <li><strong>Perubahan Sosial:</strong> Ayat 11 menginspirasi gerakan perubahan dari dalam individu dan komunitas.</li>
+                <li><strong>Konsumerisme & Kebatilan:</strong> Perumpamaan buih mengingatkan agar tidak terbuai pada kemewahan sementara.</li>
+                <li><strong>Media Sosial & Silaturahmi:</strong> Perintah menjaga hubungan (silaturahim) relevan di era digital.</li>
+                <li><strong>Keadaban Publik:</strong> Membalas kejahatan dengan kebaikan menciptakan harmoni sosial.</li>
+            </ol>
+        </div>
+
+        <!-- Hubungan dengan Surah Lain -->
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <ul>
+                <li><strong>Dengan Surah Ibrahim (14):</strong> Ar-Ra'd berbicara tentang bukti kekuasaan Allah di alam, sedangkan Ibrahim menekankan tauhid dan doa para nabi. Keduanya Makkiyah dan saling melengkapi.</li>
+                <li><strong>Dengan Surah Ar-Rahman (55):</strong> Sama-sama menyebut nikmat dan tanda-tanda kekuasaan Allah di langit dan bumi.</li>
+                <li><strong>Dengan Surah Al-Ankabut (29):</strong> Menguatkan bahwa iman diuji, namun hanya dengan kesabaran dan dzikir hati menjadi tenteram.</li>
+            </ul>
+        </div>
+
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Ingatlah, hanya dengan mengingat Allah hati menjadi tenteram.” (13:28)</div>
     </div>
 
-    <footer>© 1447 AH / 2025 AD - Tafsir berbasis IslamicStudies.info | Guidance for Reflection</footer>
+    <!-- ENGLISH CONTENT -->
+    <div id="english-content" class="hidden">
+        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+        <h1 class="surah-title">Surah Ar-Ra'd (The Thunder) - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=1&to=43&opt=1" target="_blank">IslamicStudies.info - Surah Ar-Ra'd (1-43)</a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Ar-Ra'd</h3><p>Meccan surah (43 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=1&to=43&opt=1" target="_blank">IslamicStudies.info</a>, this surah affirms the truth of the Qur’an as revelation from Allah and emphasizes the concept of tawhid. It contains proofs of Allah’s power in the universe, affirmation of the Hereafter, and a comparison between believers and disbelievers. The name “Ar-Ra‘d” (Thunder) is taken from verse 13.</p></div>
+        <div class="info-box"><h3>Full Text</h3><p><a href="https://recitequran.com/13" target="_blank"><span class="blink-arrow">👉 CLICK HERE 👈</span> ReciteQuran.com - Surah Ar-Ra'd <i class="fas fa-external-link-alt external-arrow"></i></a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Ar-Ra'd</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/013.mp3"></audio></div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const englishContent = document.getElementById('english-content');
-            const indonesianContent = document.getElementById('indonesian-content');
-            const languageToggle = document.getElementById('languageToggle');
-            const transliterationToggle = document.getElementById('transliterationToggle');
-            const darkModeToggle = document.getElementById('darkModeToggle');
-            const transliterationElements = document.querySelectorAll('.transliteration');
+        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead><tbody>
+                <tr><td><strong>1-4</strong></td><td>Truth of Revelation & Signs of Allah's Power</td><td>The Qur'an is truth, heavens and earth as proofs of Oneness.</td></tr>
+                <tr><td><strong>5-15</strong></td><td>Disbelievers' Attitude & Tawhid Evidences</td><td>Denial, warning of punishment, prostration to Allah.</td></tr>
+                <tr><td><strong>16-25</strong></td><td>Truth vs Falsehood, Traits of Believers</td><td>Parable of foam vs beneficial water, characteristics of the righteous.</td></tr>
+                <tr><td><strong>26-31</strong></td><td>Tranquility through Remembrance & Trials of World</td><td>Hearts find rest in Allah's remembrance, worldly pleasures are fleeting.</td></tr>
+                <tr><td><strong>32-43</strong></td><td>Threats to Deniers & Allah's Absolute Power</td><td>Allah knows all, no one can change His decree.</td></tr>
+            </tbody></table>
+        </div>
 
-            if (!englishContent || !indonesianContent || !languageToggle || !transliterationToggle || !darkModeToggle) {
-                console.error('Required elements missing');
-                return;
-            }
+        <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
+                <tr><td><strong>13:1</strong></td><td>Truth of the Qur'an</td><td>Alif Lām Mīm Rā, the verses of the Book are the truth from your Lord.</td></tr>
+                <tr><td><strong>13:2-4</strong></td><td>Allah's Power in Universe</td><td>Heavens without pillars, sun and moon running their course, earth with fruits.</td></tr>
+                <tr><td><strong>13:11</strong></td><td>Change of Destiny</td><td>Allah does not change a people's condition until they change themselves.</td></tr>
+                <tr><td><strong>13:17</strong></td><td>Truth vs Falsehood</td><td>Parable of water and metal: truth remains, falsehood vanishes.</td></tr>
+                <tr><td><strong>13:20-22</strong></td><td>Characteristics of True Believers</td><td>Fulfill covenant, maintain ties, fear Allah, patient, pray, spend, repel evil with good.</td></tr>
+                <tr><td><strong>13:28</strong></td><td>Tranquility of Heart</td><td>Only in the remembrance of Allah do hearts find rest.</td></tr>
+                <tr><td><strong>13:39</strong></td><td>Decree and Ummul Kitab</td><td>Allah erases and confirms what He wills; with Him is the Mother of the Book.</td></tr>
+            </tbody></table>
+        </div>
 
-            // Language with URL override
-            const urlParams = new URLSearchParams(window.location.search);
-            let langParam = null;
-            if (urlParams.has('English')) langParam = 'english';
-            else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+        <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
+            <div class="verse">
+                <div class="arabic">الَّذِينَ آمَنُوا وَتَطْمَئِنُّ قُلُوبُهُمْ بِذِكْرِ اللَّهِ ۗ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+                <div class="transliteration">Allażīna āmanū wa taṭma'innu qulūbuhum biżikrillāh, alā biżikrillāhi taṭma'innul-qulūb.</div>
+                <p><strong>Translation:</strong> "Those who have believed and whose hearts are assured by the remembrance of Allah. Unquestionably, by the remembrance of Allah hearts are assured." (13:28)</p>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The ultimate formula for inner peace: remembrance of Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=28&to=28&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+            </div>
+        </div>
 
-            let currentLanguage = langParam || localStorage.getItem('language') || 'indonesian';
-            function setLanguageUI(lang) {
-                if (lang === 'english') {
-                    englishContent.classList.remove('hidden');
-                    indonesianContent.classList.add('hidden');
-                    languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
-                } else {
-                    englishContent.classList.add('hidden');
-                    indonesianContent.classList.remove('hidden');
-                    languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
-                }
-                localStorage.setItem('language', lang);
-            }
-            setLanguageUI(currentLanguage);
-            languageToggle.addEventListener('click', () => {
-                const newLang = englishContent.classList.contains('hidden') ? 'english' : 'indonesian';
-                setLanguageUI(newLang);
-            });
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Ar-Ra'd</h2>
+            <div class="theme-card"><div class="theme-title">1. Evidences of Allah's Power – Verses 2-4</div>
+                <div class="verse-item"><div class="arabic">اللَّهُ الَّذِي رَفَعَ السَّمَاوَاتِ بِغَيْرِ عَمَدٍ تَرَوْنَهَا ... لَعَلَّكُمْ بِلِقَاءِ رَبِّكُمْ تُوقِنُونَ</div><div class="transliteration">Allāhu llażī rafa‘as-samāwāti bigairi ‘amadin taraunahā ... la‘allakum biliqā’i rabbikum tūqinūn.</div><p><strong>Translation:</strong> "It is Allah who raised the heavens without pillars that you see... that you may be certain of meeting your Lord." (13:2)</p><div class="tafsir-box">Signs for those who reflect. <a href="https://www.islamicstudies.info/tafheem.php?sura=13&verse=2&to=4&opt=1" target="_blank">Read more</a></div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">2. Truth vs Falsehood – Verse 17</div>
+                <div class="verse-item"><div class="arabic">أَنْزَلَ مِنَ السَّمَاءِ مَاءً ... كَذَٰلِكَ يَضْرِبُ اللَّهُ الْأَمْثَالَ</div><div class="transliteration">Anzala minas-samā’i mā’an ... każālika yaḍribullāḥul-amṡāl.</div><p><strong>Translation:</strong> "He sends down water from the sky... Thus Allah presents examples." (13:17)</p><div class="tafsir-box">Truth is eternal like water and pure metal; falsehood vanishes like foam.</div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">3. Concept of Change & Gratitude – Verse 11</div>
+                <div class="verse-item"><div class="arabic">إِنَّ اللَّهَ لَا يُغَيِّرُ مَا بِقَوْمٍ حَتَّىٰ يُغَيِّرُوا مَا بِأَنْفُسِهِمْ</div><div class="transliteration">Innallāha lā yugayyiru mā biqaumin ḥattā yugayyirū mā bi'anfusihim</div><p><strong>Translation:</strong> "Indeed, Allah will not change the condition of a people until they change what is in themselves." (13:11)</p><div class="tafsir-box">Transformation starts from within; encouragement to be grateful through righteous deeds.</div></div>
+            </div>
+            <div class="theme-card"><div class="theme-title">4. Characteristics of True Believers – Verses 20-22</div>
+                <div class="verse-item"><div class="arabic">الَّذِينَ يُوفُونَ بِعَهْدِ اللَّهِ ... أُولَٰئِكَ لَهُمْ عُقْبَى الدَّارِ</div><div class="transliteration">Allażīna yūfūna bi‘ahdillāhi ... ulā’ika lahum ‘uqbad-dār.</div><p><strong>Translation:</strong> "Those who fulfill the covenant of Allah... for them is the final home." (13:20-22)</p><div class="tafsir-box">Six key traits: fulfilling promises, maintaining ties, fearing Allah, patience, prayer, charity, repelling evil with good.</div></div>
+            </div>
+        </div>
 
-            // Transliteration toggle
-            const translitVisible = localStorage.getItem('transliteration') === 'true';
-            function setTransliteration(show) {
-                transliterationElements.forEach(el => el.style.display = show ? 'block' : 'none');
-                transliterationToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-                localStorage.setItem('transliteration', show);
-            }
-            setTransliteration(translitVisible);
-            transliterationToggle.addEventListener('click', () => {
-                const currently = transliterationElements[0]?.style.display === 'block';
-                setTransliteration(!currently);
-            });
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Ar-Ra'd</h3><ul><li>Affirmation of Tawhid Rububiyyah through cosmic signs.</li><li>Verse 28 is a spiritual remedy for anxiety.</li><li>The parable of truth vs falsehood guides decision-making.</li><li>Verse 11 motivates self-reform.</li><li>Practical description of believers' character.</li></ul></div>
 
-            // Dark mode
-            const isDark = localStorage.getItem('darkMode') === 'true';
-            if (isDark) document.body.classList.add('dark-mode');
-            function setDarkModeUI() {
-                const darkActive = document.body.classList.contains('dark-mode');
-                darkModeToggle.innerHTML = darkActive ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
-                localStorage.setItem('darkMode', darkActive);
-            }
-            setDarkModeUI();
-            darkModeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
-                setDarkModeUI();
-            });
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> Believe that the Qur'an is absolute truth, trust in Allah's decree and perfect knowledge.</p><p><strong>Ibadah (Worship):</strong> Increase dhikr for tranquility, establish prayer, give charity secretly and openly.</p><p><strong>Akhlaq (Character):</strong> Fulfill covenants, maintain family ties, be patient, and repel evil with good.</p></div>
 
-            // Scroll arrows
-            const scrollUp = document.getElementById('scrollUp');
-            const scrollDown = document.getElementById('scrollDown');
-            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Ar-Ra'd</h3><ul><li>Contemplate the universe as proof of Allah's power.</li><li>Truth is eternal, falsehood is fleeting.</li><li>Only through Allah's remembrance do hearts find peace.</li><li>Change starts from within.</li><li>Repel evil with good.</li></ul></div>
 
-            // Remove stray arrow icons except pagination/scroll
-            document.querySelectorAll('i.fa-arrow-left, i.fa-arrow-right, i.fa-arrow-up').forEach(icon => {
-                if (!icon.closest('.pagination-item') && !icon.closest('#scrollUp') && !icon.closest('#scrollDown')) {
-                    if (icon.parentElement && icon.parentElement.tagName !== 'A') icon.remove();
-                }
-            });
-        });
-    </script>
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Mental health crisis: Verse 28 is the antidote for anxiety.</li><li>Social change: Verse 11 inspires grassroots transformation.</li><li>Consumerism: Foam parable warns against chasing fleeting material.</li><li>Digital relationships: Maintaining ties (silaturahim) is crucial.</li><li>Public civility: Responding to evil with good fosters harmony.</li></ol></div>
+
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Ibrahim (14):</strong> Ar-Ra'd focuses on cosmic signs, Ibrahim on prayer and monotheism; both Meccan.</li><li><strong>With Surah Ar-Rahman (55):</strong> Both highlight divine favors and natural phenomena.</li><li><strong>With Surah Al-Ankabut (29):</strong> Faith is tested but patience and remembrance bring tranquility.</li></ul></div>
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Unquestionably, by the remembrance of Allah hearts are assured.” (13:28)</div>
+    </div>
+
+    <!-- PAGINATION -->
+    <div class="surah-pagination">
+        <a href="012.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya / Previous: Yusuf</a>
+        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
+        <a href="014.html" class="pagination-item">Surah Berikutnya / Next: Ibrahim <i class="fas fa-arrow-right"></i></a>
+    </div>
+</div>
+<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
+
+<script>
+(function(){
+    const englishDiv = document.getElementById('english-content');
+    const indoDiv = document.getElementById('indonesian-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
+    const translitElements = document.querySelectorAll('.transliteration');
+    const langSpan = langToggle.querySelector('.lang-text');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = localStorage.getItem('language') || 'indonesian';
+    if(urlParams.has('English')) currentLang = 'english';
+    if(urlParams.has('Indonesian')) currentLang = 'indonesian';
+    
+    function setLanguage(lang){
+        const isEnglish = (lang === 'english');
+        if(isEnglish){
+            englishDiv.classList.remove('hidden');
+            indoDiv.classList.add('hidden');
+            if(langSpan) langSpan.innerHTML = '🇮🇩 Switch to Indonesian';
+            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+        } else {
+            englishDiv.classList.add('hidden');
+            indoDiv.classList.remove('hidden');
+            if(langSpan) langSpan.innerHTML = '🇬🇧 Switch to English';
+            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+        }
+        localStorage.setItem('language', lang);
+    }
+    setLanguage(currentLang);
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang);
+    });
+
+    let translitVisible = localStorage.getItem('transliteration') === 'true';
+    if(urlParams.has('Transliteration')) translitVisible = true;
+    function setTransliteration(show){
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        localStorage.setItem('transliteration', show);
+    }
+    setTransliteration(translitVisible);
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
+
+    let darkActive = localStorage.getItem('darkMode') === 'true';
+    if(urlParams.has('Dark')) darkActive = true;
+    if(darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI(){
+        const active = document.body.classList.contains('dark-mode');
+        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        localStorage.setItem('darkMode', active);
+    }
+    setDarkModeUI();
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        setDarkModeUI();
+    });
+
+    const upArrow = document.getElementById('scrollUp');
+    const downArrow = document.getElementById('scrollDown');
+    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+})();
+</script>
 </body>
 </html>
