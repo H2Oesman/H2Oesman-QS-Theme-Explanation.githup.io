@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Surah Āli 'Imrān - Tafsir Tematik | Thematic Tafsir</title>
+    <title>Surah Āli 'Imrān (3) - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -20,8 +20,8 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
-            --translation-color: #2c5282;
             --theme-card-bg: #ffffffdd;
+            --translation-color: #2c3e50;
         }
         .dark-mode {
             --bg-color: #121826;
@@ -38,8 +38,8 @@
             --benefits-bg: #1f3a2f;
             --link-color: #93c5fd;
             --link-hover: #c3e2ff;
-            --translation-color: #bdd4ff;
             --theme-card-bg: #1e293bdd;
+            --translation-color: #cbd5e1;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -74,6 +74,7 @@
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
+            text-align: right;
             margin: 8px 0 6px;
             padding: 6px 0;
             border-bottom: 1px dashed var(--verse-border);
@@ -210,14 +211,14 @@
         .scroll-arrow.down { bottom: 90px; }
         .surah-pagination {
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            justify-content: space-between;
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
             flex-wrap: wrap;
+            align-items: center;
         }
-        .pagination-item {
+        .pagination-prev, .pagination-next {
             background: var(--verse-bg);
             padding: 10px 24px;
             border-radius: 60px;
@@ -228,7 +229,11 @@
             border: 1px solid var(--verse-border);
             transition: 0.2s;
         }
-        .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-prev:hover, .pagination-next:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center {
+            text-align: center;
+            margin-top: 15px;
+        }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -253,6 +258,8 @@
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
             .scroll-arrow { width: 38px; height: 38px; left: 12px; }
             .arabic { font-size: 28px; }
+            .surah-pagination { flex-direction: column; gap: 10px; align-items: stretch; }
+            .pagination-prev, .pagination-next { justify-content: center; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
         .fa, .fas, .far { margin-right: 4px; }
@@ -268,12 +275,74 @@
             border-radius: 16px;
             border-left: 4px solid #2c7da0;
         }
-        .verse-item {
-            margin-bottom: 25px;
-            border-bottom: 1px dashed var(--verse-border);
-            padding-bottom: 15px;
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
         }
-        .verse-item:last-child { border-bottom: none; }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
+        }
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
+        }
+        .key-verse {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fa 100%);
+            border-left: 6px solid #2c7da0;
+            padding: 25px;
+            border-radius: 24px;
+            margin: 30px 0;
+        }
+        .dark-mode .key-verse {
+            background: linear-gradient(135deg, #1e2a3a 0%, #1a2535 100%);
+        }
+        .relationship-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        .timeline-item {
+            background: var(--verse-bg);
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 12px;
+        }
+        .hikmah-section {
+            background: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .historical-section {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.8;
+            font-style: italic;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -283,254 +352,351 @@
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT -->
+    <!-- INDONESIAN CONTENT (unchanged, full) -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah Āli 'Imrān (Keluarga Imran) - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">IslamicStudies.info - Surah Āli 'Imrān (1-200)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Āli 'Imrān (3) - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">IslamicStudies.info - Surah Āli 'Imrān <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
         <div class="arabic">الٓمٓ ﴿١﴾ ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ﴿٢﴾ نَزَّلَ عَلَيْكَ ٱلْكِتَـٰبَ بِٱلْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ ٱلتَّوْرَىٰةَ وَٱلْإِنجِيلَ ﴿٣﴾ مِن قَبْلُ هُدًى لِّلنَّاسِ وَأَنزَلَ ٱلْفُرْقَانَ ۗ إِنَّ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَـٰتِ ٱللَّهِ لَهُمْ عَذَابٌ شَدِيدٌ ۗ وَٱللَّهُ عَزِيزٌ ذُو ٱنتِقَامٍ ﴿٤﴾</div>
         <div class="transliteration">Alif-Lām-Mīm. Allāhu lā ilāha illā huwal-ḥayyul-qayyụm. Nazzala 'alaikal-kitāba bil-ḥaqqi muṣaddiqal limā baina yadaihi wa anzalat-taurāta wal-injīl. Ming qablu hudal lin-nāsi wa anzalal-furqān, innallażīna kafarụ bi`āyātillāhi lahum 'ażābun syadīd, wallāhu 'azīzun żuntiqām.</div>
-        <div class="translation-text"><strong>Terjemahan:</strong> "Alif Lam Mim. Allah, tidak ada tuhan selain Dia, Yang Maha Hidup, Maha Kekal, terus menerus mengurus (makhluk-Nya). Dia menurunkan Kitab (Al-Qur'an) kepadamu (Muhammad) dengan membawa kebenaran, membenarkan (kitab-kitab) sebelumnya, dan menurunkan Taurat dan Injil, sebelum (Al-Qur'an), sebagai petunjuk bagi manusia, dan Dia menurunkan Furqan. Sesungguhnya orang-orang yang kafir terhadap ayat-ayat Allah akan mendapat azab yang berat. Allah Maha Perkasa, mempunyai balasan (siksaan)." (Āli 'Imrān 3:1-4)</div>
+        <div class="translation">"Alif Lam Mim. Allah, tidak ada tuhan selain Dia, Yang Maha Hidup, Maha Kekal. Dia menurunkan Kitab (Al-Qur'an) kepadamu dengan membawa kebenaran, membenarkan kitab-kitab sebelumnya, dan menurunkan Taurat dan Injil, sebelum (Al-Qur'an), sebagai petunjuk bagi manusia, dan Dia menurunkan Furqan. Sesungguhnya orang-orang yang kafir terhadap ayat-ayat Allah akan mendapat azab yang berat. Allah Maha Perkasa, mempunyai balasan (siksaan)." (Āli 'Imrān 3:1-4)</div>
 
         <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Āli 'Imrān</h3>
-            <p>Surah ke-3 (200 ayat) Madaniyah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">IslamicStudies.info</a>, surah ini melanjutkan pembahasan Surah Al-Baqarah dengan fokus khusus pada dialog dengan Ahli Kitab (Yahudi dan Nasrani) dan penegasan tentang kebenaran Islam. Surah ini menegaskan prinsip-prinsip akidah Islam yang benar, khususnya mengenai Isa putra Maryam. Surah Āli 'Imrān juga mengajarkan tentang keluarga suci (Āl 'Imrān) dan pentingnya persatuan umat Islam. Dinamakan Āli 'Imrān karena memuat kisah keluarga Imran (ayah Maryam) yang menjadi teladan dalam kesalehan dan pendidikan anak.</p>
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Āli 'Imrān (3)</h3>
+            <p>Surah ke-3 (200 ayat) Madaniyah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">IslamicStudies.info</a>, surah ini melanjutkan pembahasan Surah Al-Baqarah dengan fokus khusus pada dialog dengan Ahli Kitab (Yahudi dan Nasrani) dan penegasan tentang kebenaran Islam. Surah ini menegaskan prinsip-prinsip akidah Islam yang benar, khususnya mengenai Isa putra Maryam. Dinamakan Āli 'Imrān karena memuat kisah keluarga Imran (ayah Maryam) yang menjadi teladan dalam kesalehan dan pendidikan anak.</p>
         </div>
 
-        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/3?translations=33" target="_blank">Quran.com - Surah Āli 'Imrān (Terjemahan Indonesia)</a> | <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">Tafsir Lengkap IslamicStudies.info</a></p></div>
+        <!-- REVELATION CONTEXT (INDONESIAN) -->
+        <div class="historical-section">
+            <h3><i class="fas fa-history"></i> Konteks Penurunan</h3>
+            <p>Surah Āli 'Imrān diturunkan di Madinah sebagai kelanjutan dari Surah Al-Baqarah, dengan fokus pada dialog dengan Ahli Kitab (terutama Nasrani) dan memperkuat fondasi akidah. Surah ini juga memberikan pelajaran penting dari Perang Uhud.</p>
+            <div class="timeline">
+                <div class="timeline-item"><strong>Lokasi:</strong> Madinah (Madaniyah)</div>
+                <div class="timeline-item"><strong>Periode:</strong> Tahun ke-3 hingga ke-6 Hijriah</div>
+                <div class="timeline-item"><strong>Latar Belakang:</strong> Dialog dengan Ahli Kitab, Perang Uhud, dan penguatan akidah</div>
+                <div class="timeline-item"><strong>Tujuan:</strong> Menegaskan kebenaran Islam dan membantah klaim Kristen tentang Isa AS</div>
+            </div>
+        </div>
+
+        <!-- Tiga Kolom Akidah, Ibadah, Akhlak -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Penegasan tauhid murni (Allah tidak beranak dan tidak diperanakkan), iman kepada semua kitab Allah, dan keyakinan bahwa Isa adalah hamba dan rasul Allah, bukan Tuhan. (QS 3:2, 3:59-60, 3:64)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Perintah berpegang teguh pada tali Allah (Al-Qur'an), larangan berpecah belah, dan perintah untuk berdoa memohon keteguhan hati (3:8, 3:103). Ayat tentang ulul albab (3:190-191) mengajarkan bahwa merenungkan ciptaan Allah adalah ibadah.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Kesabaran dalam tiga tingkatan (3:200), kejujuran dalam berdialog dengan Ahli Kitab (3:64), dan meneladani kesalehan keluarga Imran serta kesabaran para nabi.</div>
+        </div>
+
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/3?translations=33" target="_blank">Quran.com - Surah Āli 'Imrān (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a> | <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">Tafsir Lengkap IslamicStudies.info</a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Āli 'Imrān</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3" type="audio/mpeg"></audio></div>
 
-        <!-- Struktur dan Kandungan Surah (table diperbaiki, tanpa karakter aneh) -->
+        <!-- KEY VERSE FOR CONTEMPLATION (Ayat 190-191) -->
+        <div class="key-verse">
+            <h3><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h3>
+            <div class="arabic">إِنَّ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَٱخْتِلَـٰفِ ٱلَّيْلِ وَٱلنَّهَارِ لَـَٔايَـٰتٍ لِّأُو۟لِى ٱلْأَلْبَـٰبِ ﴿١٩٠﴾ ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَـٰمًا وَقُعُودًا وَعَلَىٰ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَـٰذَا بَـٰطِلًا سُبْحَـٰنَكَ فَقِنَا عَذَابَ ٱلنَّارِ ﴿١٩١﴾</div>
+            <div class="transliteration">Inna fī khalqis-samāwāti wal-arḍi wakhtilāfil-laili wan-nahāri la`āyātil li`ulil-albāb. Allażīna yażkurụnallāha qiyāmaw wa qu'ụdaw wa 'alā junụbihim wa yatafakkarụna fī khalqis-samāwāti wal-arḍ, rabbanā mā khalaqta hāżā bāṭilā, subḥānaka fa qinā 'ażāban-nār.</div>
+            <div class="translation"><strong>Terjemahan:</strong> "Sesungguhnya dalam penciptaan langit dan bumi, dan silih bergantinya malam dan siang terdapat tanda-tanda (kebesaran Allah) bagi orang yang berakal. (Yaitu) orang-orang yang mengingat Allah sambil berdiri, duduk, atau dalam keadaan berbaring, dan memikirkan tentang penciptaan langit dan bumi (seraya berkata), 'Ya Tuhan kami, tidaklah Engkau menciptakan semua ini sia-sia. Maha Suci Engkau. Lindungilah kami dari azab neraka.'" (Āli 'Imrān 3:190-191)</div>
+            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini adalah fondasi bagi ilmuwan muslim: alam semesta adalah ayat-ayat Allah yang harus diteliti. "Ulul albab" adalah mereka yang mengamati alam, lalu mengingat Allah dalam setiap keadaan, dan berdoa agar diselamatkan dari neraka. Tafakur adalah ibadah yang menghasilkan keyakinan. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=190&to=191&opt=1" target="_blank">📖 Baca tafsir lengkap di IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
+            <div class="tafsir-box"><strong>Tafsir Tambahan – Ibnu Katsir:</strong> Ibnu Katsir menjelaskan bahwa ayat ini mendorong umat Islam untuk merenungkan keajaiban alam. Semakin dalam seseorang merenungkan ciptaan Allah, semakin kuat imannya. Ulul albab tidak pernah lalai dari mengingat Allah, baik berdiri, duduk, maupun berbaring. Mereka menyadari bahwa alam semesta tidak diciptakan sia-sia, melainkan sebagai bukti kekuasaan Allah. <a href="https://quran.com/3:190/tafsirs/ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir selengkapnya</a></div>
+        </div>
+
+        <!-- THEMATIC DIVISION TABLE -->
         <div class="section">
-            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
+            <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tematik per Ayat</h2>
             <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-32</strong></td><td>Tauhid & Keesaan Allah</td><td>Penegasan bahwa Allah Maha Esa, menurunkan Taurat, Injil, dan Al-Qur'an sebagai petunjuk. Mengajak Ahli Kitab kepada kalimat yang sama (tauhid).</td></tr>
-                    <tr><td><strong>33-63</strong></td><td>Kisah Keluarga Imran dan Kelahiran Isa</td><td>Kesucian Maryam, mukjizat kelahiran Isa AS, dan bantahan terhadap klaim ketuhanan Isa.</td></tr>
-                    <tr><td><strong>64-99</strong></td><td>Dialog dengan Ahli Kitab</td><td>Ajakan kepada Ahli Kitab untuk bersatu dalam tauhid, kritik terhadap penyembahan berhala, dan perintah mengikuti agama Ibrahim yang hanif.</td></tr>
-                    <tr><td><strong>100-120</strong></td><td>Larangan Mengikuti Golongan Kafir</td><td>Peringatan agar tidak mengikuti orang kafir dan munafik, serta dorongan untuk bersabar dalam menghadapi gangguan mereka.</td></tr>
-                    <tr><td><strong>121-148</strong></td><td>Pelajaran dari Perang Uhud</td><td>Kisah Perang Uhud, kesabaran, taat kepada Nabi, dan pelajaran bahwa kekalahan adalah ujian keimanan.</td></tr>
-                    <tr><td><strong>149-180</strong></td><td>Kecaman terhadap Ahli Kitab dan Orang Munafik</td><td>Kritik terhadap sifat kikir, ejekan terhadap orang beriman, serta ancaman bagi mereka yang berpaling dari petunjuk Allah.</td></tr>
-                    <tr><td><strong>181-200</strong></td><td>Penutup: Doa Ulul Albab & Kemenangan</td><td>Ayat-ayat tentang kekikiran Ahli Kitab, keutamaan infak, doa orang-orang berakal (ulul albab) yang merenungkan ciptaan Allah, dan perintah sabar dalam tiga tingkatan.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>1-32</strong></td><td>Tauhid & Keesaan Allah</td><td>Penegasan bahwa Allah Maha Esa, menurunkan Taurat, Injil, dan Al-Qur'an sebagai petunjuk. Mengajak Ahli Kitab kepada kalimat yang sama (tauhid). — Ibnu Katsir</td></tr>
+                    <tr><td><strong>33-63</strong></td><td>Kisah Keluarga Imran dan Kelahiran Isa</td><td>Kesucian Maryam, mukjizat kelahiran Isa AS, dan bantahan terhadap klaim ketuhanan Isa. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>64-99</strong></td><td>Dialog dengan Ahli Kitab</td><td>Ajakan kepada Ahli Kitab untuk bersatu dalam tauhid, kritik terhadap penyembahan berhala, dan perintah mengikuti agama Ibrahim yang hanif. — As-Sa'di</td></tr>
+                    <tr><td><strong>100-120</strong></td><td>Larangan Mengikuti Golongan Kafir</td><td>Peringatan agar tidak mengikuti orang kafir dan munafik, serta dorongan untuk bersabar dalam menghadapi gangguan mereka. — At-Tabari</td></tr>
+                    <tr><td><strong>121-148</strong></td><td>Pelajaran dari Perang Uhud</td><td>Kisah Perang Uhud, kesabaran, taat kepada Nabi, dan bahwa kekalahan adalah ujian keimanan. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>149-180</strong></td><td>Kecaman terhadap Ahli Kitab dan Orang Munafik</td><td>Kritik terhadap sifat kikir, ejekan terhadap orang beriman, serta ancaman bagi mereka yang berpaling dari petunjuk Allah. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>181-200</strong></td><td>Penutup: Doa Ulul Albab & Kemenangan</td><td>Ayat-ayat tentang kekikiran Ahli Kitab, keutamaan infak, doa orang-orang berakal (ulul albab), dan perintah sabar dalam tiga tingkatan. — As-Sa'di</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Pembagian Tema per Bagian Ayat (ringkasan) -->
-	<div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2></div>
+        <!-- SPECIAL SIGNIFICANCE -->
+        <div class="special-benefits">
+            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Āli 'Imrān</h3>
+            <ul>
+                <li><strong>Dua surah yang menerangi (Al-Baqarah dan Āli 'Imrān):</strong> Akan datang pada hari kiamat membela pembacanya (HR. Muslim).</li>
+                <li><strong>Mengandung penjelasan tentang keluarga suci (Maryam dan Isa)</strong> yang menjadi bantahan terhadap klaim Kristen.</li>
+                <li><strong>Ayat 190-191 tentang ulul albab</strong> menjadi motivasi pengembangan ilmu pengetahuan.</li>
+                <li><strong>Ayat 200 mengajarkan tiga tingkatan sabar</strong> dan kesiapsiagaan.</li>
+                <li><strong>Mengandung doa untuk keteguhan hati (3:8)</strong> dan perlindungan dari kesesatan.</li>
+            </ul>
+        </div>
 
-        <!-- Ayat Kunci untuk Tadabbur (Ayat 190-191) -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
-            <div class="verse">
-                <div class="arabic">إِنَّ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَٱخْتِلَـٰفِ ٱلَّيْلِ وَٱلنَّهَارِ لَـَٔايَـٰتٍ لِّأُو۟لِى ٱلْأَلْبَـٰبِ</div>
-                <div class="transliteration">Inna fī khalqis-samāwāti wal-arḍi wakhtilāfil-laili wan-nahāri la`āyātil li`ulil-albāb.</div>
-                <div class="translation-text"><strong>Terjemahan:</strong> "Sesungguhnya dalam penciptaan langit dan bumi, dan silih bergantinya malam dan siang terdapat tanda-tanda (kebesaran Allah) bagi orang yang berakal." (Āli 'Imrān 3:190)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini adalah fondasi bagi ilmuwan muslim: alam semesta adalah ayat-ayat Allah yang harus diteliti. "Ulul albab" adalah mereka yang mengamati alam, lalu mengingat Allah dalam setiap keadaan (berdiri, duduk, berbaring), dan akhirnya berdoa agar diselamatkan dari neraka. Tafakur adalah ibadah yang menghasilkan keyakinan. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=190&to=191&opt=1" target="_blank">📖 Baca tafsir lengkap di IslamicStudies.info</a></div>
+        <!-- WISDOM OF SURAH -->
+        <div class="hikmah-section">
+            <h3 class="section-title"><i class="fas fa-gem"></i> Hikmah Surah Āli 'Imrān</h3>
+            <div class="structure-grid">
+                <div class="structure-item"><h4>Penegasan Tauhid</h4><p>Bantahan terhadap konsep trinitas dan ketuhanan Isa.</p></div>
+                <div class="structure-item"><h4>Dialog Antaragama</h4><p>"Kalimatun sawa'" sebagai landasan dialog dengan Ahli Kitab.</p></div>
+                <div class="structure-item"><h4>Kesabaran Berjenjang</h4><p>Ishbiru, shabiru, rabithu – tiga tingkatan sabar.</p></div>
+                <div class="structure-item"><h4>Ilmu dan Iman</h4><p>Ulul albab menggabungkan iman, ilmu, dan amal.</p></div>
             </div>
         </div>
 
-        <!-- Keutamaan Khusus Surah -->
-        <div class="special-benefits"><h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Āli 'Imrān</h3><ul><li>Termasuk dua surah yang menerangi (Al-Baqarah dan Āli 'Imrān) – akan datang pada hari kiamat membela pembacanya (HR. Muslim).</li><li>Mengandung penjelasan tentang keluarga suci (Maryam dan Isa) yang menjadi bantahan terhadap klaim Kristen.</li><li>Ayat 190-191 tentang ulul albab menjadi motivasi pengembangan ilmu pengetahuan.</li><li>Ayat 200 mengajarkan tiga tingkatan sabar dan kesiapsiagaan.</li><li>Mengandung doa untuk keteguhan hati (3:8) dan perlindungan dari kesesatan.</li></ul></div>
-
-        <!-- Pesan Aqidah, Ibadah, Akhlak -->
-        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Pesan Aqidah, Ibadah, & Akhlak</h3><p><strong>Akidah:</strong> Penegasan tauhid murni (Allah tidak beranak dan tidak diperanakkan), iman kepada semua kitab Allah, dan keyakinan bahwa Isa adalah hamba dan rasul Allah, bukan Tuhan.</p><p><strong>Ibadah:</strong> Perintah berpegang teguh pada tali Allah (Al-Qur'an), larangan berpecah belah, dan perintah untuk berdoa memohon keteguhan hati. Ayat tentang ulul albab mengajarkan bahwa merenungkan ciptaan Allah adalah ibadah.</p><p><strong>Akhlak:</strong> Kesabaran dalam tiga tingkatan (sabar, saling menasihati sabar, dan bersiap siaga), kejujuran dalam berdialog dengan Ahli Kitab, dan meneladani kesalehan keluarga Imran.</p></div>
-
-        <!-- Pelajaran Spiritual -->
-        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Āli 'Imrān</h3><ul><li>Al-Qur'an adalah pembenar kitab-kitab sebelumnya dan sekaligus furqan (pembeda antara haq dan batil).</li><li>Kesalehan dapat diwariskan dalam keluarga, namun tetap tergantung pada usaha individu.</li><li>Doa ibu (Hannah) untuk anaknya (Maryam) dikabulkan, menunjukkan kekuatan doa orang tua.</li><li>Kelahiran Isa tanpa ayah adalah mukjizat, bukan bukti ketuhanan.</li><li>Ajakan kepada Ahli Kitab dengan "kalimatun sawa'" (kalimat yang sama) adalah metode dakwah yang santun.</li><li>Umat Islam dilarang berpecah belah dan diperintahkan berpegang teguh pada tali Allah.</li><li>Ulul albab: orang yang menggabungkan iman, ilmu, dan amal.</li><li>Tiga tingkatan sabar: ishbirū (sabar), shābirū (saling menguatkan dalam sabar), rābiṭū (bersiap siaga).</li></ul></div>
-
-        <!-- Relevansi untuk Kehidupan Modern -->
-        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div><ol><li>Dialog Antaragama: Ayat 64 menjadi landasan dialog dengan penganut agama lain dengan mencari titik temu (tauhid).</li><li>Krisis Umat Islam: Ayat 103 mengajarkan pentingnya persatuan di tengah perpecahan modern.</li><li>Ilmu Pengetahuan dan Iman: Ayat 190-191 mendorong penelitian ilmiah sebagai bagian dari ibadah.</li><li>Pendidikan Anak: Kisah keluarga Imran memberikan teladan tentang pendidikan anak sejak dini dan doa untuk keturunan.</li><li>Manajemen Stres dan Kecemasan: Doa "rabbanā lā tuzigh qulūbanā" (3:8) menjadi terapi untuk keteguhan hati di tengah fitnah.</li></ol></div>
-
-        <!-- Hubungan dengan Surah Lain -->
-        <div class="theme-card"><div class="theme-title"><i class="fas fa-link"></i> Hubungan dengan Surah Lain</div><ul><li><strong>Dengan Surah Al-Baqarah (2):</strong> Al-Baqarah fokus pada hukum dan kisah Bani Israil, sedangkan Āli 'Imrān fokus pada dialog dengan Ahli Kitab (Nasrani) dan keluarga Imran.</li><li><strong>Dengan Surah Maryam (19):</strong> Kisah Maryam dan Isa lebih panjang dalam Āli 'Imrān, sementara Maryam menekankan aspek ketakwaan Maryam.</li><li><strong>Dengan Surah Al-Maidah (5):</strong> Keduanya membahas tentang Ahli Kitab, tetapi Al-Maidah lebih banyak tentang hukum makanan dan perjanjian.</li><li><strong>Dengan Surah Al-Ankabut (29):</strong> Keduanya mengingatkan tentang ujian dan kesabaran dalam menghadapi cobaan.</li></ul></div>
-
-        <!-- Pertanyaan Umum (FAQ) -->
-        <div class="theme-card"><div class="theme-title"><i class="fas fa-question-circle"></i> Pertanyaan Umum tentang Surah Āli 'Imrān</div><div class="structure-grid"><div class="structure-item"><h4>Mengapa dinamakan "Āli 'Imrān"?</h4><p>Karena surah ini menceritakan kisah keluarga Imran (ayah Maryam), yang meliputi Imran, istrinya Hannah, Maryam, dan putranya Isa AS. Ini menjadi teladan tentang kesalehan keluarga dan pendidikan anak.</p></div><div class="structure-item"><h4>Apa makna "ulul albab" dalam surah ini?</h4><p>Ulul albab adalah orang-orang yang memiliki akal sehat yang digunakan untuk merenungkan ciptaan Allah, mengingat Allah dalam segala kondisi, dan akhirnya berdoa untuk diselamatkan dari neraka. Mereka adalah ilmuwan sejati.</p></div><div class="structure-item"><h4>Apa "kalimatun sawa'" dalam ayat 64?</h4><p>Kalimatun sawa' adalah "kalimat yang sama" antara Muslim dan Ahli Kitab, yaitu: (1) hanya menyembah Allah, (2) tidak menyekutukan-Nya, (3) tidak menjadikan sesama manusia sebagai tuhan selain Allah. Ini adalah titik temu dialog antaragama.</p></div><div class="structure-item"><h4>Bagaimana surah ini menolak konsep trinitas?</h4><p>Ayat 64 melarang menyembah selain Allah, dan ayat 59-60 menegaskan bahwa Isa sama seperti Adam (diciptakan dari tanah), sehingga tidak mungkin dia adalah Tuhan. Ayat 2 menegaskan bahwa Allah adalah Al-Hayyul Qayyum (Maha Hidup dan Berdiri Sendiri), tidak membutuhkan anak.</p></div><div class="structure-item"><h4>Apa pesan utama dari Perang Uhud dalam surah ini?</h4><p>Kekalahan dalam Perang Uhud adalah ujian keimanan untuk membedakan orang mukmin sejati dari munafik. Allah mengajarkan bahwa kemenangan tidak selalu bersifat fisik, dan kesabaran serta ketaatan kepada Nabi adalah kunci.</p></div></div></div>
-
-        <!-- Tema Utama (Rinci Tafsir) – 8 Tema dengan Ayat Lengkap -->
+        <!-- MAIN THEMES (INDONESIAN – DETAILED) -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah</h2>
-            
 
             <!-- 1. Kebenaran Al-Qur'an dan Kitab Sebelumnya (1-4) -->
             <div class="theme-card"><div class="theme-title">1. Kebenaran Al-Qur'an dan Kitab Sebelumnya – Ayat 1-4</div>
-                <div class="verse"><div class="arabic">الٓمٓ</div><div class="transliteration">Alif-Lām-Mīm.</div><div class="translation-text"><strong>Terjemahan:</strong> Alif Lam Mim.</div>
-                <div class="arabic">ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ</div><div class="transliteration">Allāhu lā ilāha illā huwal-ḥayyul-qayyụm.</div><div class="translation-text"><strong>Terjemahan:</strong> Allah, tidak ada tuhan selain Dia, Yang Maha Hidup, Maha Kekal.</div>
-                <div class="arabic">نَزَّلَ عَلَيْكَ ٱلْكِتَـٰبَ بِٱلْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ ٱلتَّوْرَىٰةَ وَٱلْإِنجِيلَ</div><div class="transliteration">Nazzala 'alaikal-kitāba bil-ḥaqqi muṣaddiqal limā baina yadaihi wa anzalat-taurāta wal-injīl.</div><div class="translation-text"><strong>Terjemahan:</strong> Dia menurunkan Kitab (Al-Qur'an) kepadamu dengan membawa kebenaran, membenarkan kitab-kitab sebelumnya, dan menurunkan Taurat dan Injil.</div>
-                <div class="arabic">مِن قَبْلُ هُدًى لِّلنَّاسِ وَأَنزَلَ ٱلْفُرْقَانَ ۗ إِنَّ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَـٰتِ ٱللَّهِ لَهُمْ عَذَابٌ شَدِيدٌ ۗ وَٱللَّهُ عَزِيزٌ ذُو ٱنتِقَامٍ</div><div class="transliteration">Ming qablu hudal lin-nāsi wa anzalal-furqān, innallażīna kafarụ bi`āyātillāhi lahum 'ażābun syadīd, wallāhu 'azīzun żuntiqām.</div><div class="translation-text"><strong>Terjemahan:</strong> sebelum (Al-Qur'an), sebagai petunjuk bagi manusia, dan Dia menurunkan Furqan. Sesungguhnya orang-orang yang kafir terhadap ayat-ayat Allah akan mendapat azab yang berat. Allah Maha Perkasa, mempunyai balasan (siksaan).</div>
-                <div class="tafsir-box">Al-Qur'an adalah kitab terakhir yang membenarkan Taurat dan Injil. "Furqan" berarti pembeda antara haq dan batil. Meskipun Taurat dan Injil asli adalah petunjuk, namun telah mengalami perubahan, sehingga Al-Qur'an diturunkan sebagai koreksi. Ayat ini juga peringatan keras bagi yang mengingkari ayat-ayat Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=3&to=4&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 3-4)</a></div></div>
+                <div class="arabic">الٓمٓ ﴿١﴾ ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ﴿٢﴾ نَزَّلَ عَلَيْكَ ٱلْكِتَـٰبَ بِٱلْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ ٱلتَّوْرَىٰةَ وَٱلْإِنجِيلَ ﴿٣﴾ مِن قَبْلُ هُدًى لِّلنَّاسِ وَأَنزَلَ ٱلْفُرْقَانَ ۗ إِنَّ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَـٰتِ ٱللَّهِ لَهُمْ عَذَابٌ شَدِيدٌ ۗ وَٱللَّهُ عَزِيزٌ ذُو ٱنتِقَامٍ ﴿٤﴾</div>
+                <div class="transliteration">Alif-Lām-Mīm. Allāhu lā ilāha illā huwal-ḥayyul-qayyụm. Nazzala 'alaikal-kitāba bil-ḥaqqi muṣaddiqal limā baina yadaihi wa anzalat-taurāta wal-injīl. Ming qablu hudal lin-nāsi wa anzalal-furqān, innallażīna kafarụ bi`āyātillāhi lahum 'ażābun syadīd, wallāhu 'azīzun żuntiqām.</div>
+                <div class="translation">"Alif Lam Mim. Allah, tidak ada tuhan selain Dia, Yang Maha Hidup, Maha Kekal. Dia menurunkan Kitab (Al-Qur'an) kepadamu dengan membawa kebenaran, membenarkan kitab-kitab sebelumnya, dan menurunkan Taurat dan Injil..."</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Al-Qur'an adalah kitab terakhir yang membenarkan Taurat dan Injil. "Furqan" berarti pembeda antara haq dan batil. Meskipun Taurat dan Injil asli adalah petunjuk, namun telah mengalami perubahan, sehingga Al-Qur'an diturunkan sebagai koreksi. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=3&to=4&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 3-4) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Tafsir Tambahan – Ibnu Katsir:</strong> "Alif Lam Mim" termasuk huruf muqaṭṭa'ah yang hanya Allah mengetahui maknanya. Penegasan bahwa Allah adalah Al-Ḥayyul Qayyūm (Maha Hidup dan Berdiri Sendiri) menjadi dasar tauhid. Al-Qur'an diturunkan dengan kebenaran, membenarkan kitab-kitab sebelumnya, sekaligus menjadi furqan (pembeda) antara kebenaran dan kebatilan. <a href="https://quran.com/3:2/tafsirs/ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir</a></div>
             </div>
 
             <!-- 2. Kisah Keluarga Imran (33-37) -->
             <div class="theme-card"><div class="theme-title">2. Kisah Keluarga Imran – Ayat 33-37</div>
-                <div class="verse"><div class="arabic">إِنَّ ٱللَّهَ ٱصْطَفَىٰٓ ءَادَمَ وَنُوحًا وَءَالَ إِبْرَٰهِيمَ وَءَالَ عِمْرَٰنَ عَلَى ٱلْعَـٰلَمِينَ</div><div class="transliteration">Innallāhaṣṭafā ādam wa nụḥaw wa āla ibrāhīma wa āla 'imrāna 'alal-'ālamīn.</div><div class="translation-text"><strong>Terjemahan:</strong> Sesungguhnya Allah telah memilih Adam, Nuh, keluarga Ibrahim, dan keluarga Imran melebihi seluruh umat (pada masa masing-masing).</div>
-                <div class="arabic">إِذْ قَالَتِ ٱمْرَأَتُ عِمْرَٰنَ رَبِّ إِنِّى نَذَرْتُ لَكَ مَا فِى بَطْنِى مُحَرَّرًا فَتَقَبَّلْ مِنِّىٓ ۖ إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلْعَلِيمُ</div><div class="transliteration">Iż qālatimra`atu 'imrāna rabbi innī nażartu laka mā fī baṭnī muḥarraran fa taqabbal minnī, innaka antas-samī'ul-'alīm.</div><div class="translation-text"><strong>Terjemahan:</strong> (Ingatlah) ketika istri Imran berkata, "Ya Tuhanku, aku nazarkan kepada-Mu anak yang dalam kandunganku menjadi hamba yang dikhususkan (untuk beribadah kepada-Mu), maka terimalah (nazar) itu dariku. Sesungguhnya Engkau Maha Mendengar, Maha Mengetahui."</div>
-                <div class="arabic">فَلَمَّا وَضَعَتْهَا قَالَتْ رَبِّ إِنِّى وَضَعْتُهَآ أُنثَىٰ وَٱللَّهُ أَعْلَمُ بِمَا وَضَعَتْ وَلَيْسَ ٱلذَّكَرُ كَٱلْأُنثَىٰ ۖ وَإِنِّى سَمَّيْتُهَا مَرْيَمَ وَإِنِّىٓ أُعِيذُهَا بِكَ وَذُرِّيَّتَهَا مِنَ ٱلشَّيْطَـٰنِ ٱلرَّجِيمِ</div><div class="transliteration">Falammā waḍa'athā qālat rabbi innī waḍa'tuhā unthā, wallāhu a'lamu bimā waḍa'at, wa laysaż-żakaru kal-unthā, wa innī sammaituhā maryama wa innī u'īżuhā bika wa żurriyatahā minasy-syaiṭānir-rajīm.</div><div class="translation-text"><strong>Terjemahan:</strong> Maka ketika melahirkan, dia berkata, "Ya Tuhanku, aku melahirkan anak perempuan." Dan Allah lebih tahu apa yang dilahirkannya; dan anak laki-laki tidak seperti anak perempuan. "Aku menamainya Maryam, dan aku mohon perlindungan untuknya dan keturunannya dari setan yang terkutuk."</div>
-                <div class="tafsir-box">Allah memilih keluarga Imran. Istri Imran (Hannah) bernazar mengabdikan anaknya. Ketika melahirkan Maryam, ia menerima takdir dengan lapang dada. Ia memberi nama Maryam dan memohon perlindungan untuknya. Pelajaran: keikhlasan dalam bernazar, penerimaan takdir, doa perlindungan dari setan, dan kesalehan orang tua berpengaruh pada keturunan. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=35&to=37&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 35-37)</a></div></div>
+                <div class="arabic">إِنَّ ٱللَّهَ ٱصْطَفَىٰٓ ءَادَمَ وَنُوحًا وَءَالَ إِبْرَٰهِيمَ وَءَالَ عِمْرَٰنَ عَلَى ٱلْعَـٰلَمِينَ ﴿٣٣﴾ إِذْ قَالَتِ ٱمْرَأَتُ عِمْرَٰنَ رَبِّ إِنِّى نَذَرْتُ لَكَ مَا فِى بَطْنِى مُحَرَّرًا فَتَقَبَّلْ مِنِّىٓ ۖ إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلْعَلِيمُ ﴿٣٤﴾ فَلَمَّا وَضَعَتْهَا قَالَتْ رَبِّ إِنِّى وَضَعْتُهَآ أُنثَىٰ وَٱللَّهُ أَعْلَمُ بِمَا وَضَعَتْ وَلَيْسَ ٱلذَّكَرُ كَٱلْأُنثَىٰ ۖ وَإِنِّى سَمَّيْتُهَا مَرْيَمَ وَإِنِّىٓ أُعِيذُهَا بِكَ وَذُرِّيَّتَهَا مِنَ ٱلشَّيْطَـٰنِ ٱلرَّجِيمِ ﴿٣٥﴾</div>
+                <div class="transliteration">Innallāhaṣṭafā ādam wa nụḥaw wa āla ibrāhīma wa āla 'imrāna 'alal-'ālamīn. Iż qālatimra`atu 'imrāna rabbi innī nażartu laka mā fī baṭnī muḥarraran fa taqabbal minnī, innaka antas-samī'ul-'alīm. Falammā waḍa'athā qālat rabbi innī waḍa'tuhā unthā, wallāhu a'lamu bimā waḍa'at, wa laysaż-żakaru kal-unthā, wa innī sammaituhā maryama wa innī u'īżuhā bika wa żurriyatahā minasy-syaiṭānir-rajīm.</div>
+                <div class="translation">"Sesungguhnya Allah telah memilih Adam, Nuh, keluarga Ibrahim, dan keluarga Imran melebihi seluruh umat. (Ingatlah) ketika istri Imran berkata, 'Ya Tuhanku, aku nazarkan kepada-Mu anak yang dalam kandunganku menjadi hamba yang dikhususkan...'"</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Allah memilih keluarga Imran. Istri Imran (Hannah) bernazar mengabdikan anaknya. Ketika melahirkan Maryam, ia menerima takdir dengan lapang dada. Ia memberi nama Maryam dan memohon perlindungan untuknya. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=35&to=37&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 35-37) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Tafsir Tambahan – Al-Qurthubi:</strong> Kisah ini mengajarkan bahwa doa orang tua untuk anaknya sangat mustajab. Hannah bernazar dengan ikhlas, dan Allah menerimanya. Meskipun ia mengharapkan anak laki-laki, ia tetap bersyukur ketika dikaruniai Maryam. Doa perlindungan dari setan untuk Maryam dan keturunannya menjadi sebab lahirnya Isa AS yang suci. <a href="https://quran.com/3:35/tafsirs/qurtubi" target="_blank">📖 Baca tafsir Al-Qurthubi</a></div>
             </div>
 
             <!-- 3. Kelahiran Isa AS (45-51) -->
             <div class="theme-card"><div class="theme-title">3. Kelahiran Isa AS – Ayat 45-51</div>
-                <div class="verse"><div class="arabic">إِذْ قَالَتِ ٱلْمَلَـٰٓئِكَةُ يَـٰمَرْيَمُ إِنَّ ٱللَّهَ يُبَشِّرُكِ بِكَلِمَةٍ مِّنْهُ ٱسْمُهُ ٱلْمَسِيحُ عِيسَى ٱبْنُ مَرْيَمَ وَجِيهًا فِى ٱلدُّنْيَا وَٱلْـَٔاخِرَةِ وَمِنَ ٱلْمُقَرَّبِينَ</div><div class="transliteration">Iż qālatil-malā`ikatu yā maryamu innallāha yubasysyiruki bikalimatim min-husmuhul-masīḥu 'īsabnu maryama wajīhan fid-dun-yā wal-ākhirati wa minal-muqarrabīn.</div><div class="translation-text"><strong>Terjemahan:</strong> (Ingatlah) ketika malaikat berkata, "Wahai Maryam! Sesungguhnya Allah menggembirakanmu dengan sebuah kalimat (firman) dari-Nya, namanya Al-Masih, Isa putra Maryam, terkemuka di dunia dan akhirat, dan termasuk orang-orang yang didekatkan (kepada Allah)."</div>
-                <div class="arabic">قَالَتْ رَبِّ أَنَّىٰ يَكُونُ لِى وَلَدٌ وَلَمْ يَمْسَسْنِى بَشَرٌ ۖ قَالَ كَذَٰلِكِ ٱللَّهُ يَخْلُقُ مَا يَشَآءُ ۚ إِذَا قَضَىٰٓ أَمْرًا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ</div><div class="transliteration">Qālat rabbi annā yakūnu lī waladuw wa lam yamsasnī basyar, qāla każālikillāhu yakhluqu mā yasyā`, iżā qaḍā amran fa innamā yaqụlu lahụ kun fa yakụn.</div><div class="translation-text"><strong>Terjemahan:</strong> Maryam berkata, "Ya Tuhanku, bagaimana mungkin aku memiliki anak, padahal tidak ada seorang pun yang menyentuhku?" Dia (Allah) berfirman, "Demikianlah Allah menciptakan apa yang Dia kehendaki. Apabila Dia hendak menetapkan sesuatu, maka Dia hanya berkata kepadanya, 'Jadilah!' Maka jadilah sesuatu itu."</div>
-                <div class="tafsir-box">Malaikat menyampaikan kabar gembira kelahiran Isa tanpa ayah sebagai mukjizat kekuasaan Allah. Kata "kalimatullah" (firman Allah) berarti Isa diciptakan dengan kalimat "Kun". Isa adalah hamba dan nabi Allah, bukan anak Allah atau Tuhan. Kemampuan Isa berbicara dalam buaian adalah mukjizat untuk membela ibunya. Ayat ini menjadi bantahan terhadap keyakinan Kristen tentang ketuhanan Isa. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=45&to=47&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 45-47)</a></div></div>
+                <div class="arabic">إِذْ قَالَتِ ٱلْمَلَـٰٓئِكَةُ يَـٰمَرْيَمُ إِنَّ ٱللَّهَ يُبَشِّرُكِ بِكَلِمَةٍ مِّنْهُ ٱسْمُهُ ٱلْمَسِيحُ عِيسَى ٱبْنُ مَرْيَمَ وَجِيهًا فِى ٱلدُّنْيَا وَٱلْـَٔاخِرَةِ وَمِنَ ٱلْمُقَرَّبِينَ ﴿٤٥﴾ قَالَتْ رَبِّ أَنَّىٰ يَكُونُ لِى وَلَدٌ وَلَمْ يَمْسَسْنِى بَشَرٌ ۖ قَالَ كَذَٰلِكِ ٱللَّهُ يَخْلُقُ مَا يَشَآءُ ۚ إِذَا قَضَىٰٓ أَمْرًا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ ﴿٤٧﴾</div>
+                <div class="transliteration">Iż qālatil-malā`ikatu yā maryamu innallāha yubasysyiruki bikalimatim min-husmuhul-masīḥu 'īsabnu maryama wajīhan fid-dun-yā wal-ākhirati wa minal-muqarrabīn. Qālat rabbi annā yakūnu lī waladuw wa lam yamsasnī basyar, qāla każālikillāhu yakhluqu mā yasyā`, iżā qaḍā amran fa innamā yaqụlu lahụ kun fa yakụn.</div>
+                <div class="translation">"(Ingatlah) ketika malaikat berkata, 'Wahai Maryam! Sesungguhnya Allah menggembirakanmu dengan sebuah kalimat (firman) dari-Nya, namanya Al-Masih, Isa putra Maryam...' Maryam berkata, 'Ya Tuhanku, bagaimana mungkin aku memiliki anak, padahal tidak ada seorang pun yang menyentuhku?' Dia berfirman, 'Demikianlah Allah menciptakan apa yang Dia kehendaki...'"</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Malaikat menyampaikan kabar gembira kelahiran Isa tanpa ayah sebagai mukjizat kekuasaan Allah. Isa adalah hamba dan nabi Allah, bukan anak Allah atau Tuhan. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=45&to=47&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 45-47) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Tafsir Tambahan – As-Sa'di:</strong> Ayat ini dengan tegas membantah keyakinan Kristen tentang ketuhanan Isa. Isa disebut "kalimatullah" (firman Allah) karena ia diciptakan dengan kalimat "Kun". Isa bukan anak Allah, karena Allah tidak beranak. Mukjizat kelahiran tanpa ayah adalah bukti kekuasaan Allah, bukan bukti ketuhanan. <a href="https://quran.com/3:47/tafsirs/saadi" target="_blank">📖 Baca tafsir As-Sa'di</a></div>
             </div>
 
             <!-- 4. Ajakan kepada Kalimat yang Sama (64) -->
             <div class="theme-card"><div class="theme-title">4. Ajakan kepada Kalimat yang Sama – Ayat 64</div>
-                <div class="verse"><div class="arabic">قُلْ يَـٰٓأَهْلَ ٱلْكِتَـٰبِ تَعَالَوْا۟ إِلَىٰ كَلِمَةٍ سَوَآءٍۭ بَيْنَنَا وَبَيْنَكُمْ أَلَّا نَعْبُدَ إِلَّا ٱللَّهَ وَلَا نُشْرِكَ بِهِۦ شَيْـًٔا وَلَا يَتَّخِذَ بَعْضُنَا بَعْضًا أَرْبَابًا مِّن دُونِ ٱللَّهِ ۚ فَإِن تَوَلَّوْا۟ فَقُولُوا۟ ٱشْهَدُوا۟ بِأَنَّا مُسْلِمُونَ</div><div class="transliteration">Qul yā ahlal-kitābi ta'ālau ilā kalimatin sawā`im bainanā wa bainakum allā na'bud(a) illallāha wa lā nusyrika bihī syai`aw wa lā yattakhiża ba'ḍunā ba'ḍan arbābam min dụnillāh, fa in tawallau fa qụlusy-hadū bi'annā muslimụn.</div><div class="translation-text"><strong>Terjemahan:</strong> Katakanlah (Muhammad), "Wahai Ahli Kitab! Marilah (berpegang) pada suatu kalimat (ketetapan) yang tidak ada perselisihan antara kami dan kamu, bahwa kita tidak menyembah selain Allah, dan tidak mempersekutukan-Nya dengan sesuatu apa pun, dan bahwa sebagian kita tidak menjadikan sebagian yang lain sebagai tuhan selain Allah." Jika mereka berpaling, maka katakanlah, "Saksikanlah, bahwa kami adalah orang muslim."</div>
-                <div class="tafsir-box">Ajakan kepada Ahli Kitab untuk bersatu pada kalimat yang sama: (1) hanya menyembah Allah; (2) tidak menyekutukan-Nya; (3) tidak saling menjadikan tuhan. Ini adalah dasar tauhid yang seharusnya disepakati oleh semua agama samawi. Jika mereka menolak, umat Islam diminta bersaksi bahwa mereka adalah muslim. Ayat ini menjadi landasan dialog antaragama yang konstruktif. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=64&to=64&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 64)</a></div></div>
+                <div class="arabic">قُلْ يَـٰٓأَهْلَ ٱلْكِتَـٰبِ تَعَالَوْا۟ إِلَىٰ كَلِمَةٍ سَوَآءٍۭ بَيْنَنَا وَبَيْنَكُمْ أَلَّا نَعْبُدَ إِلَّا ٱللَّهَ وَلَا نُشْرِكَ بِهِۦ شَيْـًٔا وَلَا يَتَّخِذَ بَعْضُنَا بَعْضًا أَرْبَابًا مِّن دُونِ ٱللَّهِ ۚ فَإِن تَوَلَّوْا۟ فَقُولُوا۟ ٱشْهَدُوا۟ بِأَنَّا مُسْلِمُونَ</div>
+                <div class="transliteration">Qul yā ahlal-kitābi ta'ālau ilā kalimatin sawā`im bainanā wa bainakum allā na'bud(a) illallāha wa lā nusyrika bihī syai`aw wa lā yattakhiża ba'ḍunā ba'ḍan arbābam min dụnillāh, fa in tawallau fa qụlusy-hadū bi'annā muslimụn.</div>
+                <div class="translation">"Katakanlah (Muhammad), 'Wahai Ahli Kitab! Marilah (berpegang) pada suatu kalimat (ketetapan) yang tidak ada perselisihan antara kami dan kamu, bahwa kita tidak menyembah selain Allah, dan tidak mempersekutukan-Nya dengan sesuatu apa pun, dan bahwa sebagian kita tidak menjadikan sebagian yang lain sebagai tuhan selain Allah.' Jika mereka berpaling, maka katakanlah, 'Saksikanlah, bahwa kami adalah orang muslim.'"</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ajakan kepada Ahli Kitab untuk bersatu pada kalimat yang sama: (1) hanya menyembah Allah; (2) tidak menyekutukan-Nya; (3) tidak saling menjadikan tuhan. Ini adalah dasar tauhid yang seharusnya disepakati oleh semua agama samawi. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=64&to=64&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 64) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Tafsir Tambahan – At-Tabari:</strong> Ayat ini menjadi landasan dialog antaragama. Allah memerintahkan Nabi untuk mengajak Ahli Kitab dengan cara yang santun dan mencari titik temu. "Kalimatun sawa'" adalah prinsip tauhid yang tidak bisa ditawar. Jika mereka menolak, maka umat Islam tetap konsisten dengan keislaman mereka. <a href="https://quran.com/3:64/tafsirs/tabari" target="_blank">📖 Baca tafsir At-Tabari</a></div>
             </div>
 
             <!-- 5. Persatuan Umat Islam (103) -->
             <div class="theme-card"><div class="theme-title">5. Persatuan Umat Islam – Ayat 103</div>
-                <div class="verse"><div class="arabic">وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا۟ ۚ وَٱذْكُرُوا۟ نِعْمَتَ ٱللَّهِ عَلَيْكُمْ إِذْ كُنتُمْ أَعْدَآءً فَأَلَّفَ بَيْنَ قُلُوبِكُمْ فَأَصْبَحْتُم بِنِعْمَتِهِۦٓ إِخْوَٰنًا وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ فَأَنقَذَكُم مِّنْهَا ۗ كَذَٰلِكَ يُبَيِّنُ ٱللَّهُ لَكُمْ ءَايَـٰتِهِۦ لَعَلَّكُمْ تَهْتَدُونَ</div><div class="transliteration">Wa'taṣimụ biḥabillāhi jamī'aw wa lā tafarraqụ, ważkurụ ni'matallāhi 'alaikum iż kuntum a'dā`an fa allafa baina qulụbikum fa aṣbaḥtum bini'matihī ikhwānā, wa kuntum 'alā syafā ḥufratim minan-nāri fa anqażakum min-hā, każālika yubayyinullāhu lakum āyātihī la'allakum tahtadūn.</div><div class="translation-text"><strong>Terjemahan:</strong> Dan berpegang teguhlah kamu semua pada tali (agama) Allah, dan janganlah bercerai berai. Ingatlah nikmat Allah kepadamu ketika kamu dahulu (masa jahiliah) bermusuhan, lalu Allah mempersatukan hatimu, sehingga dengan nikmat-Nya kamu menjadi bersaudara. Kamu berada di tepi jurang neraka, lalu Allah menyelamatkanmu darinya. Demikianlah Allah menerangkan ayat-ayat-Nya kepadamu agar kamu mendapat petunjuk.</div>
-                <div class="tafsir-box">Perintah berpegang teguh pada tali Allah (agama-Nya) dan larangan berpecah belah. Mengingat nikmat persatuan setelah masa jahiliah yang penuh permusuhan. "Hablullah" adalah Al-Qur'an dan Islam. Ayat ini sangat relevan untuk menjaga persatuan umat Islam yang sering terpecah oleh perbedaan pendapat. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=103&to=103&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 103)</a></div></div>
+                <div class="arabic">وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا۟ ۚ وَٱذْكُرُوا۟ نِعْمَتَ ٱللَّهِ عَلَيْكُمْ إِذْ كُنتُمْ أَعْدَآءً فَأَلَّفَ بَيْنَ قُلُوبِكُمْ فَأَصْبَحْتُم بِنِعْمَتِهِۦٓ إِخْوَٰنًا وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ فَأَنقَذَكُم مِّنْهَا ۗ كَذَٰلِكَ يُبَيِّنُ ٱللَّهُ لَكُمْ ءَايَـٰتِهِۦ لَعَلَّكُمْ تَهْتَدُونَ</div>
+                <div class="transliteration">Wa'taṣimụ biḥabillāhi jamī'aw wa lā tafarraqụ, ważkurụ ni'matallāhi 'alaikum iż kuntum a'dā`an fa allafa baina qulụbikum fa aṣbaḥtum bini'matihī ikhwānā, wa kuntum 'alā syafā ḥufratim minan-nāri fa anqażakum min-hā, każālika yubayyinullāhu lakum āyātihī la'allakum tahtadūn.</div>
+                <div class="translation">"Dan berpegang teguhlah kamu semua pada tali (agama) Allah, dan janganlah bercerai berai. Ingatlah nikmat Allah kepadamu ketika kamu dahulu (masa jahiliah) bermusuhan, lalu Allah mempersatukan hatimu, sehingga dengan nikmat-Nya kamu menjadi bersaudara..."</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Perintah berpegang teguh pada tali Allah (agama-Nya) dan larangan berpecah belah. Mengingat nikmat persatuan setelah masa jahiliah yang penuh permusuhan. "Hablullah" adalah Al-Qur'an dan Islam. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=103&to=103&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 103) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Tafsir Tambahan – Ibnu Katsir:</strong> Ayat ini sangat relevan untuk menjaga persatuan umat Islam. Tali Allah adalah Al-Qur'an dan Islam. Umat Islam diperintahkan untuk bersatu dan tidak terpecah belah. Allah mengingatkan nikmat persatuan yang telah diberikan setelah sebelumnya mereka saling bermusuhan. Ini menjadi peringatan agar tidak kembali kepada perpecahan. <a href="https://quran.com/3:103/tafsirs/ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir</a></div>
             </div>
 
             <!-- 6. Ulul Albab: Tafakur dan Zikir (190-191) -->
             <div class="theme-card"><div class="theme-title">6. Ulul Albab: Tafakur dan Zikir – Ayat 190-191</div>
-                <div class="verse"><div class="arabic">إِنَّ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَٱخْتِلَـٰفِ ٱلَّيْلِ وَٱلنَّهَارِ لَـَٔايَـٰتٍ لِّأُو۟لِى ٱلْأَلْبَـٰبِ</div><div class="transliteration">Inna fī khalqis-samāwāti wal-arḍi wakhtilāfil-laili wan-nahāri la`āyātil li`ulil-albāb.</div><div class="translation-text"><strong>Terjemahan:</strong> Sesungguhnya dalam penciptaan langit dan bumi, dan silih bergantinya malam dan siang terdapat tanda-tanda (kebesaran Allah) bagi orang yang berakal.</div>
-                <div class="arabic">ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَـٰمًا وَقُعُودًا وَعَلَىٰ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَـٰذَا بَـٰطِلًا سُبْحَـٰنَكَ فَقِنَا عَذَابَ ٱلنَّارِ</div><div class="transliteration">Allażīna yażkurụnallāha qiyāmaw wa qu'ụdaw wa 'alā junụbihim wa yatafakkarụna fī khalqis-samāwāti wal-arḍ, rabbanā mā khalaqta hāżā bāṭilā, subḥānaka fa qinā 'ażāban-nār.</div><div class="translation-text"><strong>Terjemahan:</strong> (Yaitu) orang-orang yang mengingat Allah sambil berdiri, duduk, atau dalam keadaan berbaring, dan memikirkan tentang penciptaan langit dan bumi (seraya berkata), "Ya Tuhan kami, tidaklah Engkau menciptakan semua ini sia-sia. Maha Suci Engkau. Lindungilah kami dari azab neraka."</div>
-                <div class="tafsir-box">Ciri ulul albab (orang berakal): (1) selalu berzikir dalam semua keadaan; (2) bertafakur tentang penciptaan langit dan bumi; (3) meyakini alam tidak diciptakan sia-sia; (4) mengagungkan Allah; (5) memohon perlindungan dari neraka. Tafakur tentang alam adalah ibadah yang menghasilkan keyakinan. Ayat ini mendorong pengembangan ilmu pengetahuan sebagai sarana mengenal Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=190&to=191&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 190-191)</a></div></div>
+                <div class="arabic">إِنَّ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَٱخْتِلَـٰفِ ٱلَّيْلِ وَٱلنَّهَارِ لَـَٔايَـٰتٍ لِّأُو۟لِى ٱلْأَلْبَـٰبِ ﴿١٩٠﴾ ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَـٰمًا وَقُعُودًا وَعَلَىٰ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَـٰذَا بَـٰطِلًا سُبْحَـٰنَكَ فَقِنَا عَذَابَ ٱلنَّارِ ﴿١٩١﴾</div>
+                <div class="transliteration">Inna fī khalqis-samāwāti wal-arḍi wakhtilāfil-laili wan-nahāri la`āyātil li`ulil-albāb. Allażīna yażkurụnallāha qiyāmaw wa qu'ụdaw wa 'alā junụbihim wa yatafakkarụna fī khalqis-samāwāti wal-arḍ, rabbanā mā khalaqta hāżā bāṭilā, subḥānaka fa qinā 'ażāban-nār.</div>
+                <div class="translation">"Sesungguhnya dalam penciptaan langit dan bumi, dan silih bergantinya malam dan siang terdapat tanda-tanda (kebesaran Allah) bagi orang yang berakal. (Yaitu) orang-orang yang mengingat Allah sambil berdiri, duduk, atau dalam keadaan berbaring, dan memikirkan tentang penciptaan langit dan bumi..."</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ciri ulul albab: (1) selalu berzikir dalam semua keadaan; (2) bertafakur tentang penciptaan langit dan bumi; (3) meyakini alam tidak diciptakan sia-sia; (4) mengagungkan Allah; (5) memohon perlindungan dari neraka. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=190&to=191&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 190-191) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Tafsir Tambahan – As-Sa'di:</strong> Ulul albab adalah orang yang menggunakan akalnya untuk merenungkan ciptaan Allah, bukan untuk hal-hal yang sia-sia. Semakin dalam mereka merenung, semakin kuat iman dan keyakinan mereka. Mereka selalu mengingat Allah dalam setiap keadaan, tidak pernah lalai. Doa mereka adalah permohonan agar diselamatkan dari neraka, karena mereka sadar bahwa dunia hanyalah persinggahan. <a href="https://quran.com/3:191/tafsirs/saadi" target="_blank">📖 Baca tafsir As-Sa'di</a></div>
             </div>
 
             <!-- 7. Doa untuk Keteguhan Hati (8) -->
             <div class="theme-card"><div class="theme-title">7. Doa untuk Keteguhan Hati – Ayat 8</div>
-                <div class="verse"><div class="arabic">رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً ۚ إِنَّكَ أَنتَ ٱلْوَهَّابُ</div><div class="transliteration">Rabbanā lā tuzig qulụbanā ba'da iż hadaitanā wa hab lanā mil ladunka raḥmah, innaka antal-wahhāb.</div><div class="translation-text"><strong>Terjemahan:</strong> Ya Tuhan kami, janganlah Engkau condongkan hati kami kepada kesesatan setelah Engkau beri petunjuk kepada kami, dan karuniakanlah kepada kami rahmat dari sisi-Mu. Sesungguhnya Engkau Maha Pemberi.</div>
-                <div class="tafsir-box">Doa yang diajarkan Allah kepada orang beriman untuk memohon keteguhan hati (istiqamah). Ini menunjukkan bahwa manusia lemah dan butuh pertolongan Allah agar tidak tersesat setelah mendapat petunjuk. Doa ini dibaca bersama ayat 7 tentang muhkam dan mutasyabihat. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=8&to=8&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 8)</a></div></div>
+                <div class="arabic">رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً ۚ إِنَّكَ أَنتَ ٱلْوَهَّابُ</div>
+                <div class="transliteration">Rabbanā lā tuzig qulụbanā ba'da iż hadaitanā wa hab lanā mil ladunka raḥmah, innaka antal-wahhāb.</div>
+                <div class="translation">"Ya Tuhan kami, janganlah Engkau condongkan hati kami kepada kesesatan setelah Engkau beri petunjuk kepada kami, dan karuniakanlah kepada kami rahmat dari sisi-Mu. Sesungguhnya Engkau Maha Pemberi."</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Doa yang diajarkan Allah kepada orang beriman untuk memohon keteguhan hati (istiqamah). Ini menunjukkan bahwa manusia lemah dan butuh pertolongan Allah agar tidak tersesat setelah mendapat petunjuk. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=8&to=8&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 8) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Tafsir Tambahan – At-Tabari:</strong> Doa ini mengajarkan bahwa setelah Allah memberikan petunjuk, setan terus berusaha menyesatkan. Maka seorang mukmin selalu memohon agar hatinya tidak condong kepada kesesatan. Rahmat dari sisi Allah adalah anugerah terbesar yang membuat seseorang tetap istiqamah. <a href="https://quran.com/3:8/tafsirs/tabari" target="_blank">📖 Baca tafsir At-Tabari</a></div>
             </div>
 
             <!-- 8. Ayat Penutup: Tiga Tingkatan Sabar (200) -->
             <div class="theme-card"><div class="theme-title">8. Ayat Penutup: Tiga Tingkatan Sabar – Ayat 200</div>
-                <div class="verse"><div class="arabic">يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱصْبِرُوا۟ وَصَابِرُوا۟ وَرَابِطُوا۟ وَٱتَّقُوا۟ ٱللَّهَ لَعَلَّكُمْ تُفْلِحُونَ</div><div class="transliteration">Yā ayyuhallażīna āmanuṣbirụ wa ṣābirụ wa rābiṭụ wattaqullāha la'allakum tufliḥụn.</div><div class="translation-text"><strong>Terjemahan:</strong> Wahai orang-orang yang beriman! Bersabarlah kamu dan kuatkanlah kesabaranmu dan tetaplah bersiap siaga (di perbatasan) dan bertakwalah kepada Allah agar kamu beruntung.</div>
-                <div class="tafsir-box">Ayat terakhir surah ini mengandung tiga tingkatan sabar: (1) <em>Ishbiru</em> – sabar dalam ketaatan dan menjauhi maksiat; (2) <em>Shabiru</em> – sabar yang lebih intensif, saling menasihati dalam kesabaran; (3) <em>Rabithu</em> – bersiap siaga menjaga perbatasan (secara fisik dan mental). Kombinasi sabar (spiritual) dan ribath (fisik) mengajarkan keseimbangan. Tujuan akhir: meraih kemenangan (al-falah). Prinsip ini berlaku untuk menghadapi semua tantangan sepanjang zaman. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=200&to=200&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 200)</a></div></div>
+                <div class="arabic">يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱصْبِرُوا۟ وَصَابِرُوا۟ وَرَابِطُوا۟ وَٱتَّقُوا۟ ٱللَّهَ لَعَلَّكُمْ تُفْلِحُونَ</div>
+                <div class="transliteration">Yā ayyuhallażīna āmanuṣbirụ wa ṣābirụ wa rābiṭụ wattaqullāha la'allakum tufliḥụn.</div>
+                <div class="translation">"Wahai orang-orang yang beriman! Bersabarlah kamu dan kuatkanlah kesabaranmu dan tetaplah bersiap siaga (di perbatasan) dan bertakwalah kepada Allah agar kamu beruntung."</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat terakhir surah ini mengandung tiga tingkatan sabar: (1) <em>Ishbiru</em> – sabar dalam ketaatan dan menjauhi maksiat; (2) <em>Shabiru</em> – sabar yang lebih intensif, saling menasihati dalam kesabaran; (3) <em>Rabithu</em> – bersiap siaga menjaga perbatasan (secara fisik dan mental). <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=200&to=200&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 200) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Tafsir Tambahan – Al-Qurthubi:</strong> Tiga perintah sabar ini menunjukkan tingkatan yang semakin tinggi. Ishbiru adalah sabar secara individu. Shabiru adalah sabar berjamaah, saling menguatkan. Rabithu adalah kesiapsiagaan total, baik dalam menghadapi musuh maupun dalam menjaga ketakwaan. Kombinasi ini mengajarkan bahwa kemenangan tidak datang hanya dengan kesabaran pasif, tetapi dengan kesiapsiagaan aktif. <a href="https://quran.com/3:200/tafsirs/qurtubi" target="_blank">📖 Baca tafsir Al-Qurthubi</a></div>
             </div>
         </div>
 
-        <div class="info-box"><i class="fas fa-book-open"></i> Renungkan: “Wahai orang-orang yang beriman! Bersabarlah kamu dan kuatkanlah kesabaranmu dan tetaplah bersiap siaga (di perbatasan) dan bertakwalah kepada Allah agar kamu beruntung.” (3:200)</div>
+        <!-- Spiritual Takeaways (Indonesian) -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-award"></i> Pelajaran Spiritual dari Surah Āli 'Imrān</h3>
+            <ul>
+                <li>Al-Qur'an adalah pembenar kitab-kitab sebelumnya dan sekaligus furqan (pembeda antara haq dan batil).</li>
+                <li>Kesalehan dapat diwariskan dalam keluarga, namun tetap tergantung pada usaha individu.</li>
+                <li>Doa ibu (Hannah) untuk anaknya (Maryam) dikabulkan, menunjukkan kekuatan doa orang tua.</li>
+                <li>Kelahiran Isa tanpa ayah adalah mukjizat, bukan bukti ketuhanan.</li>
+                <li>Ajakan kepada Ahli Kitab dengan "kalimatun sawa'" adalah metode dakwah yang santun.</li>
+                <li>Umat Islam dilarang berpecah belah dan diperintahkan berpegang teguh pada tali Allah.</li>
+                <li>Ulul albab: orang yang menggabungkan iman, ilmu, dan amal.</li>
+                <li>Tiga tingkatan sabar: ishbirū (sabar), shābirū (saling menguatkan dalam sabar), rābiṭū (bersiap siaga).</li>
+            </ul>
+        </div>
+
+        <!-- Relationship with other surahs (Indonesian) -->
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <ul>
+                <li><strong>Dengan Surah Al-Baqarah (2):</strong> Al-Baqarah fokus pada hukum dan kisah Bani Israil, sedangkan Āli 'Imrān fokus pada dialog dengan Ahli Kitab (Nasrani) dan keluarga Imran.</li>
+                <li><strong>Dengan Surah Maryam (19):</strong> Kisah Maryam dan Isa lebih panjang dalam Āli 'Imrān, sementara Maryam menekankan aspek ketakwaan Maryam.</li>
+                <li><strong>Dengan Surah Al-Maidah (5):</strong> Keduanya membahas tentang Ahli Kitab, tetapi Al-Maidah lebih banyak tentang hukum makanan dan perjanjian.</li>
+                <li><strong>Dengan Surah Al-Ankabut (29):</strong> Keduanya mengingatkan tentang ujian dan kesabaran dalam menghadapi cobaan.</li>
+            </ul>
+        </div>
+
+        <!-- Pagination Indonesian -->
+        <div class="surah-pagination">
+            <a href="002.html" class="pagination-prev"><i class="fas fa-arrow-left"></i> Sebelumnya: Al-Baqarah (2)</a>
+            <a href="004.html" class="pagination-next">Selanjutnya: An-Nisā' (4) <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
     </div>
 
-    <!-- ENGLISH CONTENT (FULLY PARALLEL) -->
+    <!-- ENGLISH CONTENT (MIRRORED, WITH ALL DETAILS) -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Āli 'Imrān (Family of Imran) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">IslamicStudies.info - Surah Āli 'Imrān (1-200)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Āli 'Imrān (3) - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">IslamicStudies.info - Surah Āli 'Imrān <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
         <div class="arabic">الٓمٓ ﴿١﴾ ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ﴿٢﴾ نَزَّلَ عَلَيْكَ ٱلْكِتَـٰبَ بِٱلْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ ٱلتَّوْرَىٰةَ وَٱلْإِنجِيلَ ﴿٣﴾ مِن قَبْلُ هُدًى لِّلنَّاسِ وَأَنزَلَ ٱلْفُرْقَانَ ۗ إِنَّ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَـٰتِ ٱللَّهِ لَهُمْ عَذَابٌ شَدِيدٌ ۗ وَٱللَّهُ عَزِيزٌ ذُو ٱنتِقَامٍ ﴿٤﴾</div>
         <div class="transliteration">Alif-Lām-Mīm. Allāhu lā ilāha illā huwal-ḥayyul-qayyụm. Nazzala 'alaikal-kitāba bil-ḥaqqi muṣaddiqal limā baina yadaihi wa anzalat-taurāta wal-injīl. Ming qablu hudal lin-nāsi wa anzalal-furqān, innallażīna kafarụ bi`āyātillāhi lahum 'ażābun syadīd, wallāhu 'azīzun żuntiqām.</div>
-        <div class="translation-text"><strong>Translation:</strong> "Alif Lam Mim. Allah – there is no deity except Him, the Ever-Living, the Sustainer of existence. He has sent down upon you, [O Muhammad], the Book in truth, confirming what was before it. And He revealed the Torah and the Gospel. Before, as guidance for the people. And He revealed the Qur'an. Indeed, those who disbelieve in the verses of Allah will have a severe punishment, and Allah is exalted in Might, the Owner of Retribution." (3:1-4)</div>
+        <div class="translation">"Alif Lam Mim. Allah – there is no deity except Him, the Ever-Living, the Sustainer of existence. He has sent down upon you the Book in truth, confirming what was before it, and He revealed the Torah and the Gospel." (3:1-4)</div>
 
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview</h3><p>Madani surah (200 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">IslamicStudies.info</a>, this surah continues the discussion from Surah Al-Baqarah with a focus on dialogue with the People of the Book (Jews and Christians) and the affirmation of Islamic creed, especially regarding Jesus son of Mary. It also teaches about the holy family (Āl 'Imrān) and the importance of Muslim unity. The name "Āli 'Imrān" refers to the family of Imran (father of Mary), a model of piety and child upbringing.</p></div>
-        <div class="info-box"><h3>Full Text & Tafsir</h3><p><a href="https://recitequran.com/3" target="_blank">ReciteQuran.com - Surah Āli 'Imrān</a> | <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">Complete Tafsir on IslamicStudies.info</a></p></div>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Āli 'Imrān (3)</h3><p>Madani surah (200 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">IslamicStudies.info</a>, this surah continues the discussion from Surah Al-Baqarah with a focus on dialogue with the People of the Book (Jews and Christians) and the affirmation of Islamic creed, especially regarding Jesus son of Mary. The name "Āli 'Imrān" refers to the family of Imran (father of Mary), a model of piety and child upbringing.</p></div>
+
+        <!-- Revelation Context (English) -->
+        <div class="historical-section"><h3><i class="fas fa-history"></i> Revelation Context</h3><p>Revealed in Medina as a continuation of Surah Al-Baqarah, focusing on dialogue with the People of the Book (especially Christians) and strengthening the foundations of creed. It also provides important lessons from the Battle of Uhud.</p><div class="timeline"><div class="timeline-item"><strong>Location:</strong> Medina (Madani)</div><div class="timeline-item"><strong>Period:</strong> 3rd to 6th year of Hijrah</div><div class="timeline-item"><strong>Background:</strong> Dialogue with People of the Book, Battle of Uhud, strengthening of creed</div><div class="timeline-item"><strong>Purpose:</strong> Affirm the truth of Islam and refute Christian claims about Jesus</div></div></div>
+
+        <!-- Three columns for Aqidah, Ibadah, Akhlaq (English) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Affirmation of pure tawhid (Allah does not beget nor is He begotten), faith in all scriptures, and belief that Jesus is a servant and messenger of Allah, not divine. (Q 3:2, 3:59-60, 3:64)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Command to hold firmly to the rope of Allah (the Qur'an), prohibition of division, and command to pray for steadfastness (3:8, 3:103). Verses about "ulul albab" (3:190-191) teach that reflecting on creation is worship.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Three levels of patience (3:200), honesty in dialogue with People of the Book (3:64), and emulating the piety of the family of Imran and the patience of the prophets.</div>
+        </div>
+
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Access Complete Text</h3><p><a href="https://recitequran.com/3" target="_blank">ReciteQuran.com - Surah Āli 'Imrān <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a> | <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=1&to=200&opt=1" target="_blank">Complete Tafsir on IslamicStudies.info</a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Āli 'Imrān</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3"></audio></div>
 
-        <!-- Structure and Content (English) -->
-        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
+        <!-- Key Verse for Contemplation (English) -->
+        <div class="key-verse">
+            <h3><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h3>
+            <div class="arabic">إِنَّ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَٱخْتِلَـٰفِ ٱلَّيْلِ وَٱلنَّهَارِ لَـَٔايَـٰتٍ لِّأُو۟لِى ٱلْأَلْبَـٰبِ</div>
+            <div class="transliteration">Inna fī khalqis-samāwāti wal-arḍi wakhtilāfil-laili wan-nahāri la`āyātil li`ulil-albāb.</div>
+            <div class="translation"><strong>Translation:</strong> "Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding." (3:190)</div>
+            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse is the foundation for Muslim scientists: the universe contains signs of Allah that must be studied. "Ulul albab" are those who observe nature, then remember Allah in every state, and pray to be saved from Hellfire. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=190&to=191&opt=1" target="_blank">📖 Read full tafsir at IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+            <div class="tafsir-box"><strong>Additional Tafsir – Ibn Kathir:</strong> This verse encourages Muslims to reflect on the wonders of creation. The deeper one reflects, the stronger their faith becomes. People of understanding never forget to remember Allah, whether standing, sitting, or lying down. They realize that the universe was not created in vain but as evidence of Allah's power. <a href="https://quran.com/3:190/tafsirs/ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></div>
+        </div>
+
+        <!-- Thematic Division Table (English) -->
+        <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
             <table class="theme-table">
-                <thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead>
+                <thead><tr><th>Verses</th><th>Theme</th><th>Core Message & Tafsir</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-32</strong></td><td>Tawhid & Oneness of Allah</td><td>Affirmation that Allah is One, revealed the Torah, Gospel, and Qur'an as guidance. Invites People of the Book to a common word (tawhid).</td></tr>
-                    <tr><td><strong>33-63</strong></td><td>Story of the Family of Imran and Birth of Jesus</td><td>The purity of Mary, miraculous birth of Jesus, and refutation of Jesus's divinity.</td></tr>
-                    <tr><td><strong>64-99</strong></td><td>Dialogue with People of the Book</td><td>Invitation to unite in tawhid, criticism of idol worship, and command to follow the religion of Abraham (hanif).</td></tr>
-                    <tr><td><strong>100-120</strong></td><td>Prohibition of Following Disbelievers</td><td>Warning not to follow disbelievers and hypocrites, and encouragement to be patient in facing their harm.</td></tr>
-                    <tr><td><strong>121-148</strong></td><td>Lessons from the Battle of Uhud</td><td>Story of the Battle of Uhud, patience, obedience to the Prophet, and that defeat is a test of faith.</td></tr>
-                    <tr><td><strong>149-180</strong></td><td>Reproach to People of the Book and Hypocrites</td><td>Condemnation of their stinginess, mockery of believers, and Allah's response.</td></tr>
-                    <tr><td><strong>181-200</strong></td><td>Conclusion: Prayer of Ulul Albab & Victory</td><td>Verses about miserliness, virtue of spending, the prayer of people of understanding who reflect on Allah's creation, and command of patience on three levels.</td></tr>
+                    <tr><td><strong>1-32</strong></td><td>Tawhid & Oneness of Allah</td><td>Affirmation that Allah is One, revealed the Torah, Gospel, and Qur'an as guidance. Invites People of the Book to a common word (tawhid). — Ibn Kathir</td></tr>
+                    <tr><td><strong>33-63</strong></td><td>Story of the Family of Imran and Birth of Jesus</td><td>The purity of Mary, miraculous birth of Jesus, and refutation of Jesus's divinity. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>64-99</strong></td><td>Dialogue with People of the Book</td><td>Invitation to unite in tawhid, criticism of idol worship, and command to follow the religion of Abraham (hanif). — As-Sa'di</td></tr>
+                    <tr><td><strong>100-120</strong></td><td>Prohibition of Following Disbelievers</td><td>Warning not to follow disbelievers and hypocrites, and encouragement to be patient in facing their harm. — At-Tabari</td></tr>
+                    <tr><td><strong>121-148</strong></td><td>Lessons from the Battle of Uhud</td><td>Story of the Battle of Uhud, patience, obedience to the Prophet, and that defeat is a test of faith. — Ibn Kathir</td></tr>
+                    <tr><td><strong>149-180</strong></td><td>Reproach to People of the Book and Hypocrites</td><td>Condemnation of their stinginess, mockery of believers, and Allah's response. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>181-200</strong></td><td>Conclusion: Prayer of Ulul Albab & Victory</td><td>Verses about miserliness, virtue of spending, the prayer of people of understanding, and command of patience on three levels. — As-Sa'di</td></tr>
                 </tbody>
             </table>
         </div>
 
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance</h3><ul><li>Among the two shining surahs (Al-Baqarah and Āli 'Imrān) that will come on the Day of Judgment to defend their reciters (Muslim).</li><li>Contains detailed clarification about the holy family (Mary and Jesus), refuting Christian claims.</li><li>Verses 190-191 about "ulul albab" are a motivation for scientific advancement.</li><li>Verse 200 teaches three levels of patience and preparedness.</li><li>Contains the prayer for steadfastness (3:8) and protection from deviation.</li></ul></div>
 
-        <!-- Key Verse for Contemplation -->
-        <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
-            <div class="verse"><div class="arabic">إِنَّ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَٱخْتِلَـٰفِ ٱلَّيْلِ وَٱلنَّهَارِ لَـَٔايَـٰتٍ لِّأُو۟لِى ٱلْأَلْبَـٰبِ</div><div class="transliteration">Inna fī khalqis-samāwāti wal-arḍi wakhtilāfil-laili wan-nahāri la`āyātil li`ulil-albāb.</div><div class="translation-text"><strong>Translation:</strong> "Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding." (3:190)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse is the foundation for Muslim scientists: the universe contains signs of Allah that must be studied. "Ulul albab" are those who observe nature, then remember Allah in every state (standing, sitting, lying), and finally pray to be saved from Hellfire. Reflection (tafakkur) is an act of worship that strengthens faith. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=190&to=191&opt=1" target="_blank">📖 Read full tafsir at IslamicStudies.info</a></div></div>
-        </div>
+        <div class="hikmah-section"><h3 class="section-title"><i class="fas fa-gem"></i> Wisdom of Surah Āli 'Imrān</h3><div class="structure-grid"><div class="structure-item"><h4>Affirmation of Tawhid</h4><p>Refutation of Trinity and divinity of Jesus.</p></div><div class="structure-item"><h4>Interfaith Dialogue</h4><p>"Common word" as basis for dialogue with People of the Book.</p></div><div class="structure-item"><h4>Patience in Levels</h4><p>Ishbiru, shabiru, rabithu – three levels of patience.</p></div><div class="structure-item"><h4>Science and Faith</h4><p>Ulul albab combine faith, knowledge, and action.</p></div></div></div>
 
-        <!-- Special Significance, Message, Spiritual Lessons, Relevance, FAQ (identical to Indonesian but English) -->
-        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Āli 'Imrān</h3><ul><li>Among the two shining surahs (Al-Baqarah and Āli 'Imrān) that will come on the Day of Judgment to defend their reciters (Muslim).</li><li>Contains detailed clarification about the holy family (Mary and Jesus), refuting Christian claims.</li><li>Verses 190-191 about "ulul albab" are a motivation for scientific advancement.</li><li>Verse 200 teaches three levels of patience and preparedness.</li><li>Contains the prayer for steadfastness (3:8) and protection from deviation.</li></ul></div>
-        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah:</strong> Affirmation of pure tawhid (Allah does not beget nor is He begotten), faith in all scriptures, and belief that Jesus is a servant and messenger of Allah, not divine.</p><p><strong>Worship:</strong> Command to hold firmly to the rope of Allah (the Qur'an), prohibition of division, and command to pray for steadfastness. Verses about "ulul albab" teach that reflecting on creation is worship.</p><p><strong>Akhlaq:</strong> Three levels of patience (endurance, competing in endurance, and guarding), honesty in dialogue with People of the Book, and emulating the piety of the family of Imran.</p></div>
-        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Āli 'Imrān</h3><ul><li>The Qur'an confirms previous scriptures and is the final criterion (furqan).</li><li>Piety can be inherited in a family, but still depends on individual effort.</li><li>A mother's prayer (Hannah) for her child (Mary) was answered, showing the power of parental supplication.</li><li>The birth of Jesus without a father is a miracle, not proof of divinity.</li><li>The invitation to People of the Book with "a common word" is a polite method of da'wah.</li><li>Muslims are forbidden to be divided and commanded to hold to the rope of Allah.</li><li>Ulul albab: people who combine faith, knowledge, and action.</li><li>Three levels of patience: ishbirū (endure), shābirū (compete in endurance), rābiṭū (stand guard).</li></ul></div>
-        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Interfaith Dialogue: Verse 64 is the foundation for dialogue with followers of other religions by seeking common ground (tawhid).</li><li>Muslim Unity Crisis: Verse 103 teaches the importance of unity in the face of modern divisions.</li><li>Science and Faith: Verses 190-191 encourage scientific research as part of worship.</li><li>Child Upbringing: The story of the family of Imran provides a model for early childhood education and prayers for offspring.</li><li>Stress and Anxiety Management: The prayer "rabbanā lā tuzigh qulūbanā" (3:8) is therapy for steadfastness amidst trials.</li></ol></div>
-        <div class="theme-card"><div class="theme-title"><i class="fas fa-question-circle"></i> Frequently Asked Questions about Surah Āli 'Imrān</div><div class="structure-grid"><div class="structure-item"><h4>Why is it named "Āli 'Imrān"?</h4><p>Because it narrates the story of the family of Imran (father of Mary), including Imran, his wife Hannah, Mary, and her son Jesus. It serves as a model of family piety and child upbringing.</p></div><div class="structure-item"><h4>What is the meaning of "ulul albab" in this surah?</h4><p>Ulul albab are people of understanding who reflect on Allah's creation, remember Allah in all situations, and pray to be saved from Hellfire. They are true scientists.</p></div><div class="structure-item"><h4>What is the "common word" (kalimatun sawa') in verse 64?</h4><p>It is the common ground between Muslims and People of the Book: (1) worship Allah alone, (2) associate no partners with Him, (3) do not take one another as lords besides Allah. This is the basis for interfaith dialogue.</p></div><div class="structure-item"><h4>How does this surah refute the concept of Trinity?</h4><p>Verse 64 prohibits worshiping other than Allah, and verses 59-60 affirm that Jesus is like Adam (created from dust), so he cannot be divine. Verse 2 affirms that Allah is Al-Hayyul Qayyum (Ever-Living, Self-Sustaining), needing no son.</p></div><div class="structure-item"><h4>What is the main lesson from the Battle of Uhud in this surah?</h4><p>The defeat at Uhud was a test of faith to distinguish true believers from hypocrites. Allah teaches that victory is not always physical, and patience and obedience to the Prophet are key.</p></div></div></div>
+        <!-- MAIN THEMES (ENGLISH – DETAILED, MIRRORING INDONESIAN) -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Main Themes (Detailed Tafsir) – Complete to End of Surah</h2>
 
-        <!-- Main Themes (Detailed Tafsir) – English, fully parallel to Indonesian -->
-        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes (Detailed Tafsir) – Complete to End of Surah</h2>
-
-
-            <!-- 1. Truth of the Qur'an (1-4) -->
+            <!-- 1. Truth of the Qur'an and Previous Scriptures (1-4) -->
             <div class="theme-card"><div class="theme-title">1. Truth of the Qur'an and Previous Scriptures – Verses 1-4</div>
-                <div class="verse"><div class="arabic">الٓمٓ</div><div class="transliteration">Alif-Lām-Mīm.</div><div class="translation-text"><strong>Translation:</strong> Alif Lam Mim.</div>
-                <div class="arabic">ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ</div><div class="transliteration">Allāhu lā ilāha illā huwal-ḥayyul-qayyụm.</div><div class="translation-text"><strong>Translation:</strong> Allah – there is no deity except Him, the Ever-Living, the Sustainer of existence.</div>
-                <div class="arabic">نَزَّلَ عَلَيْكَ ٱلْكِتَـٰبَ بِٱلْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ ٱلتَّوْرَىٰةَ وَٱلْإِنجِيلَ</div><div class="transliteration">Nazzala 'alaikal-kitāba bil-ḥaqqi muṣaddiqal limā baina yadaihi wa anzalat-taurāta wal-injīl.</div><div class="translation-text"><strong>Translation:</strong> He has sent down upon you the Book in truth, confirming what was before it, and He revealed the Torah and the Gospel.</div>
-                <div class="arabic">مِن قَبْلُ هُدًى لِّلنَّاسِ وَأَنزَلَ ٱلْفُرْقَانَ ۗ إِنَّ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَـٰتِ ٱللَّهِ لَهُمْ عَذَابٌ شَدِيدٌ ۗ وَٱللَّهُ عَزِيزٌ ذُو ٱنتِقَامٍ</div><div class="transliteration">Ming qablu hudal lin-nāsi wa anzalal-furqān, innallażīna kafarụ bi`āyātillāhi lahum 'ażābun syadīd, wallāhu 'azīzun żuntiqām.</div><div class="translation-text"><strong>Translation:</strong> Before, as guidance for the people. And He revealed the Qur'an. Indeed, those who disbelieve in the verses of Allah will have a severe punishment, and Allah is exalted in Might, the Owner of Retribution.</div>
-                <div class="tafsir-box">The Qur'an confirms previous scriptures. "Furqan" means the criterion between truth and falsehood. The original Torah and Gospel were guidance, but they have been altered, so the Qur'an was sent as a correction. A severe warning is given to those who deny Allah's verses. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=3&to=4&opt=1" target="_blank">📖 Read full tafsir (Verses 3-4)</a></div></div>
+                <div class="arabic">الٓمٓ ﴿١﴾ ٱللَّهُ لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَىُّ ٱلْقَيُّومُ ﴿٢﴾ نَزَّلَ عَلَيْكَ ٱلْكِتَـٰبَ بِٱلْحَقِّ مُصَدِّقًا لِّمَا بَيْنَ يَدَيْهِ وَأَنزَلَ ٱلتَّوْرَىٰةَ وَٱلْإِنجِيلَ ﴿٣﴾ مِن قَبْلُ هُدًى لِّلنَّاسِ وَأَنزَلَ ٱلْفُرْقَانَ ۗ إِنَّ ٱلَّذِينَ كَفَرُوا۟ بِـَٔايَـٰتِ ٱللَّهِ لَهُمْ عَذَابٌ شَدِيدٌ ۗ وَٱللَّهُ عَزِيزٌ ذُو ٱنتِقَامٍ ﴿٤﴾</div>
+                <div class="transliteration">Alif-Lām-Mīm. Allāhu lā ilāha illā huwal-ḥayyul-qayyụm. Nazzala 'alaikal-kitāba bil-ḥaqqi muṣaddiqal limā baina yadaihi wa anzalat-taurāta wal-injīl. Ming qablu hudal lin-nāsi wa anzalal-furqān, innallażīna kafarụ bi`āyātillāhi lahum 'ażābun syadīd, wallāhu 'azīzun żuntiqām.</div>
+                <div class="translation">"Alif Lam Mim. Allah – there is no deity except Him, the Ever-Living, the Sustainer of existence. He has sent down upon you the Book in truth, confirming what was before it, and He revealed the Torah and the Gospel..."</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The Qur'an is the final book confirming the Torah and Gospel. "Furqan" means the criterion between truth and falsehood. Although the original Torah and Gospel were guidance, they have been altered, so the Qur'an was sent as a correction. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=3&to=4&opt=1" target="_blank">📖 Read full tafsir (Verses 3-4) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Additional Tafsir – Ibn Kathir:</strong> "Alif Lam Mim" are among the muqaṭṭa'āt whose full meaning is known only to Allah. The affirmation that Allah is Al-Ḥayyul Qayyūm (Ever-Living, Self-Sustaining) is the foundation of tawhid. The Qur'an was sent down in truth, confirming previous scriptures and serving as the final criterion. <a href="https://quran.com/3:2/tafsirs/ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></div>
             </div>
 
             <!-- 2. Story of the Family of Imran (33-37) -->
             <div class="theme-card"><div class="theme-title">2. Story of the Family of Imran – Verses 33-37</div>
-                <div class="verse"><div class="arabic">إِنَّ ٱللَّهَ ٱصْطَفَىٰٓ ءَادَمَ وَنُوحًا وَءَالَ إِبْرَٰهِيمَ وَءَالَ عِمْرَٰنَ عَلَى ٱلْعَـٰلَمِينَ</div><div class="transliteration">Innallāhaṣṭafā ādam wa nụḥaw wa āla ibrāhīma wa āla 'imrāna 'alal-'ālamīn.</div><div class="translation-text"><strong>Translation:</strong> Indeed, Allah chose Adam, Noah, the family of Abraham, and the family of Imran over the worlds.</div>
-                <div class="arabic">إِذْ قَالَتِ ٱمْرَأَتُ عِمْرَٰنَ رَبِّ إِنِّى نَذَرْتُ لَكَ مَا فِى بَطْنِى مُحَرَّرًا فَتَقَبَّلْ مِنِّىٓ ۖ إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلْعَلِيمُ</div><div class="transliteration">Iż qālatimra`atu 'imrāna rabbi innī nażartu laka mā fī baṭnī muḥarraran fa taqabbal minnī, innaka antas-samī'ul-'alīm.</div><div class="translation-text"><strong>Translation:</strong> [Mention, O Muhammad], when the wife of Imran said, "My Lord, indeed I have pledged to You what is in my womb, consecrated [for Your service], so accept this from me. Indeed, You are the Hearing, the Knowing."</div>
-                <div class="arabic">فَلَمَّا وَضَعَتْهَا قَالَتْ رَبِّ إِنِّى وَضَعْتُهَآ أُنثَىٰ وَٱللَّهُ أَعْلَمُ بِمَا وَضَعَتْ وَلَيْسَ ٱلذَّكَرُ كَٱلْأُنثَىٰ ۖ وَإِنِّى سَمَّيْتُهَا مَرْيَمَ وَإِنِّىٓ أُعِيذُهَا بِكَ وَذُرِّيَّتَهَا مِنَ ٱلشَّيْطَـٰنِ ٱلرَّجِيمِ</div><div class="transliteration">Falammā waḍa'athā qālat rabbi innī waḍa'tuhā unthā, wallāhu a'lamu bimā waḍa'at, wa laysaż-żakaru kal-unthā, wa innī sammaituhā maryama wa innī u'īżuhā bika wa żurriyatahā minasy-syaiṭānir-rajīm.</div><div class="translation-text"><strong>Translation:</strong> But when she delivered her, she said, "My Lord, I have delivered a female." And Allah was most knowing of what she delivered. "And the male is not like the female. And I have named her Mary, and I seek refuge for her in You and for her descendants from Satan, the expelled [from the mercy of Allah]."</div>
-                <div class="tafsir-box">Allah chose the family of Imran. Hannah made a vow to dedicate her child. When she gave birth to Mary, she accepted destiny gracefully. She named her Mary and prayed for protection. Lessons: sincerity in vows, acceptance of destiny, prayer for protection from Satan, and that parental piety influences offspring. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=35&to=37&opt=1" target="_blank">📖 Read full tafsir (Verses 35-37)</a></div></div>
+                <div class="arabic">إِنَّ ٱللَّهَ ٱصْطَفَىٰٓ ءَادَمَ وَنُوحًا وَءَالَ إِبْرَٰهِيمَ وَءَالَ عِمْرَٰنَ عَلَى ٱلْعَـٰلَمِينَ ﴿٣٣﴾ إِذْ قَالَتِ ٱمْرَأَتُ عِمْرَٰنَ رَبِّ إِنِّى نَذَرْتُ لَكَ مَا فِى بَطْنِى مُحَرَّرًا فَتَقَبَّلْ مِنِّىٓ ۖ إِنَّكَ أَنتَ ٱلسَّمِيعُ ٱلْعَلِيمُ ﴿٣٤﴾ فَلَمَّا وَضَعَتْهَا قَالَتْ رَبِّ إِنِّى وَضَعْتُهَآ أُنثَىٰ وَٱللَّهُ أَعْلَمُ بِمَا وَضَعَتْ وَلَيْسَ ٱلذَّكَرُ كَٱلْأُنثَىٰ ۖ وَإِنِّى سَمَّيْتُهَا مَرْيَمَ وَإِنِّىٓ أُعِيذُهَا بِكَ وَذُرِّيَّتَهَا مِنَ ٱلشَّيْطَـٰنِ ٱلرَّجِيمِ ﴿٣٥﴾</div>
+                <div class="transliteration">Innallāhaṣṭafā ādam wa nụḥaw wa āla ibrāhīma wa āla 'imrāna 'alal-'ālamīn. Iż qālatimra`atu 'imrāna rabbi innī nażartu laka mā fī baṭnī muḥarraran fa taqabbal minnī, innaka antas-samī'ul-'alīm. Falammā waḍa'athā qālat rabbi innī waḍa'tuhā unthā, wallāhu a'lamu bimā waḍa'at, wa laysaż-żakaru kal-unthā, wa innī sammaituhā maryama wa innī u'īżuhā bika wa żurriyatahā minasy-syaiṭānir-rajīm.</div>
+                <div class="translation">"Indeed, Allah chose Adam, Noah, the family of Abraham, and the family of Imran over the worlds. [Mention] when the wife of Imran said, 'My Lord, I have pledged to You what is in my womb, consecrated [for Your service], so accept this from me...'"</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Allah chose the family of Imran. Hannah made a vow to dedicate her child. When she gave birth to Mary, she accepted destiny gracefully and prayed for protection. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=35&to=37&opt=1" target="_blank">📖 Read full tafsir (Verses 35-37) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Additional Tafsir – Al-Qurtubi:</strong> This story teaches that a parent's prayer for their child is highly answered. Hannah vowed sincerely, and Allah accepted it. Although she had hoped for a son, she remained grateful when given Mary. Her prayer for protection from Satan for Mary and her descendants was the reason for the birth of the pure Jesus. <a href="https://quran.com/3:35/tafsirs/qurtubi" target="_blank">📖 Read Al-Qurtubi tafsir</a></div>
             </div>
 
             <!-- 3. Birth of Jesus (45-51) -->
             <div class="theme-card"><div class="theme-title">3. Birth of Jesus – Verses 45-51</div>
-                <div class="verse"><div class="arabic">إِذْ قَالَتِ ٱلْمَلَـٰٓئِكَةُ يَـٰمَرْيَمُ إِنَّ ٱللَّهَ يُبَشِّرُكِ بِكَلِمَةٍ مِّنْهُ ٱسْمُهُ ٱلْمَسِيحُ عِيسَى ٱبْنُ مَرْيَمَ وَجِيهًا فِى ٱلدُّنْيَا وَٱلْـَٔاخِرَةِ وَمِنَ ٱلْمُقَرَّبِينَ</div><div class="transliteration">Iż qālatil-malā`ikatu yā maryamu innallāha yubasysyiruki bikalimatim min-husmuhul-masīḥu 'īsabnu maryama wajīhan fid-dun-yā wal-ākhirati wa minal-muqarrabīn.</div><div class="translation-text"><strong>Translation:</strong> [And mention] when the angels said, "O Mary, indeed Allah gives you good tidings of a word from Him, whose name will be the Messiah, Jesus, the son of Mary – distinguished in this world and the Hereafter and among those brought near [to Allah]."</div>
-                <div class="arabic">قَالَتْ رَبِّ أَنَّىٰ يَكُونُ لِى وَلَدٌ وَلَمْ يَمْسَسْنِى بَشَرٌ ۖ قَالَ كَذَٰلِكِ ٱللَّهُ يَخْلُقُ مَا يَشَآءُ ۚ إِذَا قَضَىٰٓ أَمْرًا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ</div><div class="transliteration">Qālat rabbi annā yakūnu lī waladuw wa lam yamsasnī basyar, qāla każālikillāhu yakhluqu mā yasyā`, iżā qaḍā amran fa innamā yaqụlu lahụ kun fa yakụn.</div><div class="translation-text"><strong>Translation:</strong> She said, "My Lord, how will I have a child when no man has touched me?" [The angel] said, "Such is Allah; He creates what He wills. When He decrees a matter, He only says to it, 'Be,' and it is."</div>
-                <div class="tafsir-box">The angels gave the glad tidings of the miraculous birth of Jesus without a father as a sign of Allah's power. "Kalimatullah" (word of Allah) means Jesus was created by the command "Be." Jesus is a servant and prophet of Allah, not divine. This refutes Christian claims of his divinity. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=45&to=47&opt=1" target="_blank">📖 Read full tafsir (Verses 45-47)</a></div></div>
+                <div class="arabic">إِذْ قَالَتِ ٱلْمَلَـٰٓئِكَةُ يَـٰمَرْيَمُ إِنَّ ٱللَّهَ يُبَشِّرُكِ بِكَلِمَةٍ مِّنْهُ ٱسْمُهُ ٱلْمَسِيحُ عِيسَى ٱبْنُ مَرْيَمَ وَجِيهًا فِى ٱلدُّنْيَا وَٱلْـَٔاخِرَةِ وَمِنَ ٱلْمُقَرَّبِينَ ﴿٤٥﴾ قَالَتْ رَبِّ أَنَّىٰ يَكُونُ لِى وَلَدٌ وَلَمْ يَمْسَسْنِى بَشَرٌ ۖ قَالَ كَذَٰلِكِ ٱللَّهُ يَخْلُقُ مَا يَشَآءُ ۚ إِذَا قَضَىٰٓ أَمْرًا فَإِنَّمَا يَقُولُ لَهُۥ كُن فَيَكُونُ ﴿٤٧﴾</div>
+                <div class="transliteration">Iż qālatil-malā`ikatu yā maryamu innallāha yubasysyiruki bikalimatim min-husmuhul-masīḥu 'īsabnu maryama wajīhan fid-dun-yā wal-ākhirati wa minal-muqarrabīn. Qālat rabbi annā yakūnu lī waladuw wa lam yamsasnī basyar, qāla każālikillāhu yakhluqu mā yasyā`, iżā qaḍā amran fa innamā yaqụlu lahụ kun fa yakụn.</div>
+                <div class="translation">"[And mention] when the angels said, 'O Mary, indeed Allah gives you good tidings of a word from Him, whose name will be the Messiah, Jesus, the son of Mary...' She said, 'My Lord, how will I have a child when no man has touched me?' [The angel] said, 'Such is Allah; He creates what He wills. When He decrees a matter, He only says to it, "Be," and it is.'"</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The angels gave the glad tidings of the miraculous birth of Jesus without a father as a sign of Allah's power. Jesus is a servant and prophet of Allah, not divine. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=45&to=47&opt=1" target="_blank">📖 Read full tafsir (Verses 45-47) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Additional Tafsir – As-Sa'di:</strong> This verse decisively refutes Christian beliefs about Jesus's divinity. Jesus is called "kalimatullah" (word of Allah) because he was created by the command "Be." Jesus is not the son of Allah, for Allah does not beget. The miracle of birth without a father is proof of Allah's power, not proof of divinity. <a href="https://quran.com/3:47/tafsirs/saadi" target="_blank">📖 Read As-Sa'di tafsir</a></div>
             </div>
 
             <!-- 4. Invitation to a Common Word (64) -->
             <div class="theme-card"><div class="theme-title">4. Invitation to a Common Word – Verse 64</div>
-                <div class="verse"><div class="arabic">قُلْ يَـٰٓأَهْلَ ٱلْكِتَـٰبِ تَعَالَوْا۟ إِلَىٰ كَلِمَةٍ سَوَآءٍۭ بَيْنَنَا وَبَيْنَكُمْ أَلَّا نَعْبُدَ إِلَّا ٱللَّهَ وَلَا نُشْرِكَ بِهِۦ شَيْـًٔا وَلَا يَتَّخِذَ بَعْضُنَا بَعْضًا أَرْبَابًا مِّن دُونِ ٱللَّهِ ۚ فَإِن تَوَلَّوْا۟ فَقُولُوا۟ ٱشْهَدُوا۟ بِأَنَّا مُسْلِمُونَ</div><div class="transliteration">Qul yā ahlal-kitābi ta'ālau ilā kalimatin sawā`im bainanā wa bainakum allā na'bud(a) illallāha wa lā nusyrika bihī syai`aw wa lā yattakhiża ba'ḍunā ba'ḍan arbābam min dụnillāh, fa in tawallau fa qụlusy-hadū bi'annā muslimụn.</div><div class="translation-text"><strong>Translation:</strong> Say, "O People of the Scripture, come to a word that is equitable between us and you – that we will not worship except Allah and not associate anything with Him and not take one another as lords instead of Allah." But if they turn away, then say, "Bear witness that we are Muslims [submitting to Him]."</div>
-                <div class="tafsir-box">An invitation to unite on a common word: (1) worship Allah alone, (2) associate no partners with Him, (3) do not take one another as lords. This is the foundation of tawhid that all Abrahamic religions should agree upon. If they refuse, Muslims bear witness that they are submitters (Muslims). This verse is the basis for constructive interfaith dialogue. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=64&to=64&opt=1" target="_blank">📖 Read full tafsir (Verse 64)</a></div></div>
+                <div class="arabic">قُلْ يَـٰٓأَهْلَ ٱلْكِتَـٰبِ تَعَالَوْا۟ إِلَىٰ كَلِمَةٍ سَوَآءٍۭ بَيْنَنَا وَبَيْنَكُمْ أَلَّا نَعْبُدَ إِلَّا ٱللَّهَ وَلَا نُشْرِكَ بِهِۦ شَيْـًٔا وَلَا يَتَّخِذَ بَعْضُنَا بَعْضًا أَرْبَابًا مِّن دُونِ ٱللَّهِ ۚ فَإِن تَوَلَّوْا۟ فَقُولُوا۟ ٱشْهَدُوا۟ بِأَنَّا مُسْلِمُونَ</div>
+                <div class="transliteration">Qul yā ahlal-kitābi ta'ālau ilā kalimatin sawā`im bainanā wa bainakum allā na'bud(a) illallāha wa lā nusyrika bihī syai`aw wa lā yattakhiża ba'ḍunā ba'ḍan arbābam min dụnillāh, fa in tawallau fa qụlusy-hadū bi'annā muslimụn.</div>
+                <div class="translation">"Say, 'O People of the Scripture, come to a word that is equitable between us and you – that we will not worship except Allah and not associate anything with Him and not take one another as lords instead of Allah.' But if they turn away, then say, 'Bear witness that we are Muslims [submitting to Him].'"</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> An invitation to unite on a common word: (1) worship Allah alone, (2) associate no partners with Him, (3) do not take one another as lords. This is the foundation of tawhid that all Abrahamic religions should agree upon. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=64&to=64&opt=1" target="_blank">📖 Read full tafsir (Verse 64) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Additional Tafsir – At-Tabari:</strong> This verse is the foundation for interfaith dialogue. Allah commanded the Prophet to invite the People of the Book with politeness and seek common ground. "Kalimatun sawa'" is the principle of tawhid that cannot be compromised. If they refuse, Muslims remain consistent in their Islam. <a href="https://quran.com/3:64/tafsirs/tabari" target="_blank">📖 Read At-Tabari tafsir</a></div>
             </div>
 
             <!-- 5. Muslim Unity (103) -->
             <div class="theme-card"><div class="theme-title">5. Muslim Unity – Verse 103</div>
-                <div class="verse"><div class="arabic">وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا۟ ۚ وَٱذْكُرُوا۟ نِعْمَتَ ٱللَّهِ عَلَيْكُمْ إِذْ كُنتُمْ أَعْدَآءً فَأَلَّفَ بَيْنَ قُلُوبِكُمْ فَأَصْبَحْتُم بِنِعْمَتِهِۦٓ إِخْوَٰنًا وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ فَأَنقَذَكُم مِّنْهَا ۗ كَذَٰلِكَ يُبَيِّنُ ٱللَّهُ لَكُمْ ءَايَـٰتِهِۦ لَعَلَّكُمْ تَهْتَدُونَ</div><div class="transliteration">Wa'taṣimụ biḥabillāhi jamī'aw wa lā tafarraqụ, ważkurụ ni'matallāhi 'alaikum iż kuntum a'dā`an fa allafa baina qulụbikum fa aṣbaḥtum bini'matihī ikhwānā, wa kuntum 'alā syafā ḥufratim minan-nāri fa anqażakum min-hā, każālika yubayyinullāhu lakum āyātihī la'allakum tahtadūn.</div><div class="translation-text"><strong>Translation:</strong> And hold firmly to the rope of Allah all together and do not become divided. And remember the favor of Allah upon you – when you were enemies and He brought your hearts together and you became, by His favor, brothers. And you were on the edge of a pit of the Fire, and He saved you from it. Thus does Allah make clear to you His verses that you may be guided.</div>
-                <div class="tafsir-box">Command to hold firmly to the rope of Allah (His religion) and not to be divided. Remember the blessing of unity after pre-Islamic enmity. "Hablullah" is the Qur'an and Islam. This verse is highly relevant for maintaining Muslim unity amidst differences of opinion. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=103&to=103&opt=1" target="_blank">📖 Read full tafsir (Verse 103)</a></div></div>
+                <div class="arabic">وَٱعْتَصِمُوا۟ بِحَبْلِ ٱللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا۟ ۚ وَٱذْكُرُوا۟ نِعْمَتَ ٱللَّهِ عَلَيْكُمْ إِذْ كُنتُمْ أَعْدَآءً فَأَلَّفَ بَيْنَ قُلُوبِكُمْ فَأَصْبَحْتُم بِنِعْمَتِهِۦٓ إِخْوَٰنًا وَكُنتُمْ عَلَىٰ شَفَا حُفْرَةٍ مِّنَ ٱلنَّارِ فَأَنقَذَكُم مِّنْهَا ۗ كَذَٰلِكَ يُبَيِّنُ ٱللَّهُ لَكُمْ ءَايَـٰتِهِۦ لَعَلَّكُمْ تَهْتَدُونَ</div>
+                <div class="transliteration">Wa'taṣimụ biḥabillāhi jamī'aw wa lā tafarraqụ, ważkurụ ni'matallāhi 'alaikum iż kuntum a'dā`an fa allafa baina qulụbikum fa aṣbaḥtum bini'matihī ikhwānā, wa kuntum 'alā syafā ḥufratim minan-nāri fa anqażakum min-hā, każālika yubayyinullāhu lakum āyātihī la'allakum tahtadūn.</div>
+                <div class="translation">"And hold firmly to the rope of Allah all together and do not become divided. And remember the favor of Allah upon you – when you were enemies and He brought your hearts together and you became, by His favor, brothers..."</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Command to hold firmly to the rope of Allah (His religion) and not to be divided. Remember the blessing of unity after pre-Islamic enmity. "Hablullah" is the Qur'an and Islam. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=103&to=103&opt=1" target="_blank">📖 Read full tafsir (Verse 103) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Additional Tafsir – Ibn Kathir:</strong> This verse is highly relevant for maintaining Muslim unity. The rope of Allah is the Qur'an and Islam. Muslims are commanded to unite and not be divided. Allah reminds them of the blessing of unity after they were enemies. This is a warning not to return to division. <a href="https://quran.com/3:103/tafsirs/ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></div>
             </div>
 
             <!-- 6. Ulul Albab (190-191) -->
             <div class="theme-card"><div class="theme-title">6. Ulul Albab – Reflection and Remembrance – Verses 190-191</div>
-                <div class="verse"><div class="arabic">إِنَّ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَٱخْتِلَـٰفِ ٱلَّيْلِ وَٱلنَّهَارِ لَـَٔايَـٰتٍ لِّأُو۟لِى ٱلْأَلْبَـٰبِ</div><div class="transliteration">Inna fī khalqis-samāwāti wal-arḍi wakhtilāfil-laili wan-nahāri la`āyātil li`ulil-albāb.</div><div class="translation-text"><strong>Translation:</strong> Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding.</div>
-                <div class="arabic">ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَـٰمًا وَقُعُودًا وَعَلَىٰ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَـٰذَا بَـٰطِلًا سُبْحَـٰنَكَ فَقِنَا عَذَابَ ٱلنَّارِ</div><div class="transliteration">Allażīna yażkurụnallāha qiyāmaw wa qu'ụdaw wa 'alā junụbihim wa yatafakkarụna fī khalqis-samāwāti wal-arḍ, rabbanā mā khalaqta hāżā bāṭilā, subḥānaka fa qinā 'ażāban-nār.</div><div class="translation-text"><strong>Translation:</strong> Who remember Allah while standing or sitting or [lying] on their sides and give thought to the creation of the heavens and the earth, [saying], "Our Lord, You did not create this aimlessly; exalted are You [above such a thing]; then protect us from the punishment of the Fire."</div>
-                <div class="tafsir-box">Characteristics of "ulul albab" (people of understanding): (1) always remember Allah in all states; (2) reflect on the creation of the heavens and earth; (3) believe that nothing was created in vain; (4) glorify Allah; (5) seek protection from Hellfire. Reflection on nature is an act of worship that yields certainty. These verses encourage scientific inquiry as a means to know Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=190&to=191&opt=1" target="_blank">📖 Read full tafsir (Verses 190-191)</a></div></div>
+                <div class="arabic">إِنَّ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ وَٱخْتِلَـٰفِ ٱلَّيْلِ وَٱلنَّهَارِ لَـَٔايَـٰتٍ لِّأُو۟لِى ٱلْأَلْبَـٰبِ ﴿١٩٠﴾ ٱلَّذِينَ يَذْكُرُونَ ٱللَّهَ قِيَـٰمًا وَقُعُودًا وَعَلَىٰ جُنُوبِهِمْ وَيَتَفَكَّرُونَ فِى خَلْقِ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ رَبَّنَا مَا خَلَقْتَ هَـٰذَا بَـٰطِلًا سُبْحَـٰنَكَ فَقِنَا عَذَابَ ٱلنَّارِ ﴿١٩١﴾</div>
+                <div class="transliteration">Inna fī khalqis-samāwāti wal-arḍi wakhtilāfil-laili wan-nahāri la`āyātil li`ulil-albāb. Allażīna yażkurụnallāha qiyāmaw wa qu'ụdaw wa 'alā junụbihim wa yatafakkarụna fī khalqis-samāwāti wal-arḍ, rabbanā mā khalaqta hāżā bāṭilā, subḥānaka fa qinā 'ażāban-nār.</div>
+                <div class="translation">"Indeed, in the creation of the heavens and the earth and the alternation of the night and the day are signs for those of understanding. Who remember Allah while standing or sitting or [lying] on their sides and give thought to the creation of the heavens and the earth, [saying], 'Our Lord, You did not create this aimlessly; exalted are You [above such a thing]; then protect us from the punishment of the Fire.'"</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Characteristics of "ulul albab" (people of understanding): (1) always remember Allah in all states; (2) reflect on the creation of the heavens and earth; (3) believe that nothing was created in vain; (4) glorify Allah; (5) seek protection from Hellfire. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=190&to=191&opt=1" target="_blank">📖 Read full tafsir (Verses 190-191) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Additional Tafsir – As-Sa'di:</strong> People of understanding use their intellect to reflect on Allah's creation, not on futile matters. The deeper they reflect, the stronger their faith becomes. They remember Allah in every state and never neglect Him. Their prayer is to be saved from Hellfire, knowing that this world is only a passing stop. <a href="https://quran.com/3:191/tafsirs/saadi" target="_blank">📖 Read As-Sa'di tafsir</a></div>
             </div>
 
             <!-- 7. Prayer for Steadfastness (8) -->
             <div class="theme-card"><div class="theme-title">7. Prayer for Steadfastness – Verse 8</div>
-                <div class="verse"><div class="arabic">رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً ۚ إِنَّكَ أَنتَ ٱلْوَهَّابُ</div><div class="transliteration">Rabbanā lā tuzig qulụbanā ba'da iż hadaitanā wa hab lanā mil ladunka raḥmah, innaka antal-wahhāb.</div><div class="translation-text"><strong>Translation:</strong> Our Lord, let not our hearts deviate after You have guided us and grant us from Yourself mercy. Indeed, You are the Bestower.</div>
-                <div class="tafsir-box">A prayer taught by Allah to believers to ask for steadfastness (istiqamah). It shows that humans are weak and need Allah's help not to deviate after being guided. This prayer is recited in conjunction with verse 7 about clear and allegorical verses. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=8&to=8&opt=1" target="_blank">📖 Read full tafsir (Verse 8)</a></div></div>
+                <div class="arabic">رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً ۚ إِنَّكَ أَنتَ ٱلْوَهَّابُ</div>
+                <div class="transliteration">Rabbanā lā tuzig qulụbanā ba'da iż hadaitanā wa hab lanā mil ladunka raḥmah, innaka antal-wahhāb.</div>
+                <div class="translation">"Our Lord, let not our hearts deviate after You have guided us and grant us from Yourself mercy. Indeed, You are the Bestower."</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> A prayer taught by Allah to believers to ask for steadfastness (istiqamah). It shows that humans are weak and need Allah's help not to deviate after being guided. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=8&to=8&opt=1" target="_blank">📖 Read full tafsir (Verse 8) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Additional Tafsir – At-Tabari:</strong> This prayer teaches that after Allah grants guidance, Satan continues to try to lead astray. Therefore, a believer constantly prays that his heart does not incline to deviation. Mercy from Allah is the greatest gift that keeps a person steadfast. <a href="https://quran.com/3:8/tafsirs/tabari" target="_blank">📖 Read At-Tabari tafsir</a></div>
             </div>
 
             <!-- 8. Concluding Verse: Three Levels of Patience (200) -->
             <div class="theme-card"><div class="theme-title">8. Concluding Verse: Three Levels of Patience – Verse 200</div>
-                <div class="verse"><div class="arabic">يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱصْبِرُوا۟ وَصَابِرُوا۟ وَرَابِطُوا۟ وَٱتَّقُوا۟ ٱللَّهَ لَعَلَّكُمْ تُفْلِحُونَ</div><div class="transliteration">Yā ayyuhallażīna āmanuṣbirụ wa ṣābirụ wa rābiṭụ wattaqullāha la'allakum tufliḥụn.</div><div class="translation-text"><strong>Translation:</strong> O you who have believed, persevere and endure and remain stationed and fear Allah that you may be successful.</div>
-                <div class="tafsir-box">The final verse contains three levels of patience: (1) <em>Ishbiru</em> – endure in obedience and avoiding sin; (2) <em>Shabiru</em> – compete in endurance and encourage one another; (3) <em>Rabithu</em> – stand guard (physically and mentally). Combining spiritual patience with physical readiness teaches balance. The ultimate goal is success (al-falah). This principle applies to facing all challenges across time. <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=200&to=200&opt=1" target="_blank">📖 Read full tafsir (Verse 200)</a></div></div>
+                <div class="arabic">يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱصْبِرُوا۟ وَصَابِرُوا۟ وَرَابِطُوا۟ وَٱتَّقُوا۟ ٱللَّهَ لَعَلَّكُمْ تُفْلِحُونَ</div>
+                <div class="transliteration">Yā ayyuhallażīna āmanuṣbirụ wa ṣābirụ wa rābiṭụ wattaqullāha la'allakum tufliḥụn.</div>
+                <div class="translation">"O you who have believed, persevere and endure and remain stationed and fear Allah that you may be successful."</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The final verse contains three levels of patience: (1) <em>Ishbiru</em> – endure in obedience and avoiding sin; (2) <em>Shabiru</em> – compete in endurance and encourage one another; (3) <em>Rabithu</em> – stand guard (physically and mentally). <a href="https://www.islamicstudies.info/tafheem.php?sura=3&verse=200&to=200&opt=1" target="_blank">📖 Read full tafsir (Verse 200) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-box"><strong>Additional Tafsir – Al-Qurtubi:</strong> These three commands show increasing levels of patience. Ishbiru is individual patience. Shabiru is collective patience, encouraging one another. Rabithu is total preparedness, both in facing the enemy and in maintaining taqwa. This combination teaches that victory comes not through passive patience alone but through active readiness. <a href="https://quran.com/3:200/tafsirs/qurtubi" target="_blank">📖 Read Al-Qurtubi tafsir</a></div>
             </div>
         </div>
 
-        <div class="info-box"><i class="fas fa-book-open"></i> Reflect: “O you who have believed, persevere and endure and remain stationed and fear Allah that you may be successful.” (3:200)</div>
-    </div>
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons</h3><ul><li>The Qur'an confirms previous scriptures and is the final criterion (furqan).</li><li>Piety can be inherited in a family, but still depends on individual effort.</li><li>A mother's prayer for her child is powerful.</li><li>The birth of Jesus without a father is a miracle, not proof of divinity.</li><li>Interfaith dialogue should be based on common ground (tawhid).</li><li>Muslims are forbidden to be divided and commanded to hold to the rope of Allah.</li><li>Ulul albab combine faith, knowledge, and action.</li><li>Three levels of patience: endure, compete, and stand guard.</li></ul></div>
 
-    <!-- PAGINATION -->
-    <div class="surah-pagination">
-        <a href="002.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Al-Baqarah</a>
-        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="004.html" class="pagination-item">An-Nisā’ <i class="fas fa-arrow-right"></i></a>
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li>With Surah Al-Baqarah (2): Al-Baqarah focuses on laws and the story of Bani Israel, while Āli 'Imrān focuses on dialogue with People of the Book (Christians) and the family of Imran.</li><li>With Surah Maryam (19): The story of Mary and Jesus is longer in Āli 'Imrān, while Maryam emphasizes Mary's piety.</li><li>With Surah Al-Maidah (5): Both discuss People of the Book, but Al-Maidah focuses more on food laws and covenants.</li><li>With Surah Al-Ankabut (29): Both remind of trials and patience in facing hardships.</li></ul></div>
+
+        <!-- Pagination English -->
+        <div class="surah-pagination">
+            <a href="002.html" class="pagination-prev"><i class="fas fa-arrow-left"></i> Previous: Al-Baqarah (2)</a>
+            <a href="004.html" class="pagination-next">Next: An-Nisā' (4) <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
     </div>
 </div>
-<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection | Semua ayat ditampilkan secara lengkap tanpa pemotongan.</footer>
+<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info & sumber klasik (Ibnu Katsir, Al-Qurthubi, As-Sa'di, At-Tabari) | Guidance for Reflection</footer>
 <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
 <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 <script>
@@ -563,7 +729,7 @@
         if (urlParams.has('Dark')) darkActive = true;
         else darkActive = localStorage.getItem('darkMode') === 'true';
         if (darkActive) document.body.classList.add('dark-mode');
-        function setDarkModeUI() { const active = document.body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
+        function setDarkModeUI() { const active = document.body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
         setDarkModeUI();
         darkToggle.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
         const upArrow = document.getElementById('scrollUp'); const downArrow = document.getElementById('scrollDown');
