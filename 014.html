@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Surah Ibrāhīm - Tafsir Tematik | Thematic Tafsir</title>
+    <title>Surah Ibrāhīm (14) - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -20,6 +20,7 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
+            --translation-color: #2c5282;
             --theme-card-bg: #ffffffdd;
         }
         .dark-mode {
@@ -27,7 +28,7 @@
             --text-color: #eef2ff;
             --container-bg: #1e293b;
             --arabic-color: #7bc9ff;
-            --section-title-color: #90d0ff;
+            --section-title-color: #7bc9ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
@@ -37,6 +38,7 @@
             --benefits-bg: #1f3a2f;
             --link-color: #93c5fd;
             --link-hover: #c3e2ff;
+            --translation-color: #bdd4ff;
             --theme-card-bg: #1e293bdd;
         }
         body {
@@ -59,38 +61,37 @@
         }
         a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
         a:hover { color: var(--link-hover); text-decoration: underline; }
-        .blink-arrow {
-            animation: blink 1s step-start infinite;
-            display: inline-block;
-            font-weight: bold;
-            background: #ffcc00;
-            color: #000;
-            padding: 2px 6px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin-right: 6px;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
         .arabic {
             font-size: 36px;
             text-align: right;
             direction: rtl;
-            margin: 20px 0 10px 0;
+            margin: 10px 0 5px;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
-            line-height: 1.8;
+            line-height: 1.6;
+            word-wrap: break-word;
         }
         .transliteration {
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
-            text-align: center;
-            margin: 0 0 10px 0;
+            margin: 8px 0 6px;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--verse-border);
             display: none;
+            text-align: right;
         }
         .dark-mode .transliteration { color: #b0c4de; }
+        .translation-text {
+            font-size: 16px;
+            background-color: rgba(44, 82, 130, 0.08);
+            padding: 8px 12px;
+            border-radius: 14px;
+            margin: 6px 0 12px;
+            color: var(--translation-color);
+            border-left: 3px solid var(--link-color);
+            font-weight: 500;
+        }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -111,26 +112,33 @@
             align-items: center;
             gap: 10px;
         }
-        .verse, .theme-point, .theme-card {
+        .verse, .theme-point {
             background-color: var(--verse-bg);
             padding: 20px;
             border-radius: 20px;
             margin: 25px 0;
             border: 1px solid var(--verse-border);
         }
-        .verse-title, .theme-title {
+        .theme-title {
             font-weight: bold;
             color: #1e7e5c;
             margin-bottom: 12px;
             font-size: 1.2rem;
         }
-        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
+        .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
             border-radius: 16px;
             margin-top: 15px;
             border: 1px solid var(--tafsir-border);
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.7;
+            font-style: italic;
         }
         .hidden { display: none; }
         .top-home-link {
@@ -144,6 +152,9 @@
         .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
         .theme-card {
             background: var(--theme-card-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
             border-left: 6px solid #2c7da0;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
@@ -182,6 +193,7 @@
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
             text-align: left;
+            vertical-align: top;
         }
         .theme-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
@@ -206,13 +218,17 @@
         .scroll-arrow.up { top: 90px; }
         .scroll-arrow.down { bottom: 90px; }
         .surah-pagination {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+        }
+        .pagination-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -226,6 +242,7 @@
             transition: 0.2s;
         }
         .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center { text-align: center; }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -249,80 +266,92 @@
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
             .scroll-arrow { width: 38px; height: 38px; left: 12px; }
-            .arabic { font-size: 30px; }
+            .arabic { font-size: 28px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
-        .fa, .fas, .far { margin-right: 4px; }
-        .verse-item { margin-bottom: 20px; border-bottom: 1px dashed var(--verse-border); padding-bottom: 15px; }
-        .verse-item:last-child { border-bottom: none; }
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
+        }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
+        }
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
+        }
         .relationship-box {
             background: var(--structure-bg);
             padding: 20px;
             border-radius: 24px;
             margin: 30px 0;
+            border-left: 5px solid #2c7da0;
         }
-        .external-arrow { margin-left: 4px; }
+        .fa, .fas, .far { margin-right: 4px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> <span class="lang-text">🇬🇧 Switch to English</span></div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
-
 <div class="container" id="mainContainer">
     <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah Ibrāhīm - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=52&opt=1" target="_blank">IslamicStudies.info - Surah Ibrāhīm (1-52)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Ibrāhīm (14) - Tafsir Tematik</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=52&opt=1" target="_blank">IslamicStudies.info - Surah Ibrāhīm (1-52) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></div>
+        <div class="arabic">الٓر ۟ كِتَـٰبٌ أَنزَلْنَـٰهُ إِلَيْكَ لِتُخْرِجَ ٱلنَّاسَ مِنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَٰطِ ٱلْعَزِيزِ ٱلْحَمِيدِ</div>
+        <div class="transliteration">Alif Lām Rā, kitābun anzalnāhu ilaika litukhrijan-nāsa minaẓ-ẓulumāti ilan-nūri bi`iżni rabbihim ilā ṣirāṭil-'azīzil-ḥamīd.</div>
+        <div class="translation-text"><strong>Terjemahan:</strong> "Alif Lām Rā. (Ini adalah) Kitab yang Kami turunkan kepadamu (Muhammad) agar engkau mengeluarkan manusia dari kegelapan kepada cahaya terang-benderang dengan izin Tuhan mereka, (yaitu) menuju jalan Tuhan Yang Mahaperkasa, Maha Terpuji." (Ibrāhīm 14:1)</div>
 
         <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Ibrāhīm</h3>
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Ibrāhīm (Surah ke-14)</h3>
             <p>Surah ke-14 (52 ayat) Makkiyah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=52&opt=1" target="_blank">IslamicStudies.info</a>, surah ini dinamai Ibrāhīm karena memuat doa-doa Nabi Ibrahim AS yang sangat lengkap (ayat 35-41). Surah ini menguatkan konsep tauhid, mengingatkan tentang nasib umat-umat terdahulu yang mendustakan para rasul, serta memberikan perumpamaan-perumpamaan indah tentang kebenaran dan kebatilan. Misi utama Al-Qur'an adalah mengeluarkan manusia dari berbagai kegelapan menuju cahaya yang satu.</p>
         </div>
-        <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p><a href="https://quran.com/14?translations=33" target="_blank"><span class="blink-arrow">👉 KLIK DISINI 👈</span> Quran.com - Surah Ibrāhīm (Terjemahan Indonesia) <i class="fas fa-external-link-alt external-arrow"></i></a></p>
+
+        <!-- Aqidah, Ibadah, Akhlak Columns (Indonesian) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Meyakini Al-Qur'an sebagai petunjuk mutlak; mengesakan Allah; meyakini bahwa hanya dengan tauhid hati menjadi teguh. (QS 14:1, 14:24-27)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Mendirikan shalat (sebagaimana doa Ibrahim), memperbanyak syukur, dan berdoa dengan doa-doa yang diajarkan Al-Qur'an. (14:35-41, 14:7)</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Menjauhi kesombongan seperti umat terdahulu, bersikap rendah hati, dan selalu mengingat nikmat Allah. (14:9-12, 14:7)</div>
         </div>
+
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/14?translations=33" target="_blank">Quran.com - Surah Ibrāhīm (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Ibrāhīm</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/014.mp3" type="audio/mpeg"></audio></div>
 
-        <!-- Struktur dan Kandungan -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
-            <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
-                <tbody>
-                    <tr><td><strong>1-4</strong></td><td>Misi Al-Qur'an & Peringatan</td><td>Al-Qur'an diturunkan untuk mengeluarkan manusia dari kegelapan menuju cahaya.</td></tr>
-                    <tr><td><strong>5-8</strong></td><td>Pelajaran dari Nabi Musa & Syukur</td><td>Allah mengingatkan nikmat-Nya; syukur mendatangkan tambahan, kufur mendatangkan azab.</td></tr>
-                    <tr><td><strong>9-12</strong></td><td>Sejarah Umat Terdahulu</td><td>Kisah Nuh, 'Ad, Tsamud; kesombongan mereka dan keteguhan para rasul.</td></tr>
-                    <tr><td><strong>13-21</strong></td><td>Ancaman bagi Orang Zalim</td><td>Orang kafir mengancam mengusir rasul, namun Allah memberi kemenangan.</td></tr>
-                    <tr><td><strong>22-27</strong></td><td>Perumpamaan Kalimat Baik & Buruk</td><td>Pohon baik vs pohon buruk; gambaran iman dan kekufuran.</td></tr>
-                    <tr><td><strong>28-34</strong></td><td>Nikmat Allah yang Tak Terhitung</td><td>Allah menundukkan alam semesta untuk manusia, peringatan bagi yang kufur.</td></tr>
-                    <tr><td><strong>35-41</strong></td><td>Doa Nabi Ibrahim</td><td>Doa untuk keamanan Mekah, keturunan yang shalat, dan perlindungan dari berhala.</td></tr>
-                    <tr><td><strong>42-52</strong></td><td>Hari Pembalasan</td><td>Allah tidak lengah, orang zalim akan melihat azab, bumi diganti dengan bumi lain.</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Pembagian Tema per Bagian Ayat -->
+        <!-- Thematic Division by Verses -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
             <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>14:1</strong></td><td>Misi Al-Qur'an</td><td>Mengeluarkan manusia dari kegelapan kepada cahaya menuju jalan Allah Yang Maha Perkasa.</td></tr>
-                    <tr><td><strong>14:7</strong></td><td>Syukur & Kufur Nikmat</td><td>Sesungguhnya jika kamu bersyukur pasti Aku tambah; jika kufur azab-Ku sangat pedih.</td></tr>
-                    <tr><td><strong>14:9</strong></td><td>Sikap Kaum Terdahulu</td><td>Mereka menolak rasul dengan sombong, berkata “kami ragu terhadap ajakanmu”.</td></tr>
-                    <tr><td><strong>14:24-26</strong></td><td>Perumpamaan Pohon Baik & Buruk</td><td>Kalimat thayyibah seperti pohon berakar kuat; kalimat khabīthah seperti pohon rapuh.</td></tr>
-                    <tr><td><strong>14:35-41</strong></td><td>Doa Nabi Ibrahim</td><td>Doa komprehensif: keamanan, jauh dari berhala, keturunan shalat, hati yang cenderung, rezeki.</td></tr>
-                    <tr><td><strong>14:48</strong></td><td>Hari Bergantinya Bumi</td><td>Pada hari kiamat bumi diganti dengan bumi lain, dan mereka akan menghadap Allah Yang Maha Esa.</td></tr>
+                    <tr><td><strong>1-4</strong></td><td>Misi Al-Qur'an & Peringatan</td><td>Al-Qur'an diturunkan untuk mengeluarkan manusia dari kegelapan menuju cahaya. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>5-8</strong></td><td>Pelajaran dari Nabi Musa & Syukur</td><td>Allah mengingatkan nikmat-Nya; syukur mendatangkan tambahan, kufur mendatangkan azab. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>9-12</strong></td><td>Sejarah Umat Terdahulu</td><td>Kisah Nuh, 'Ad, Tsamud; kesombongan mereka dan keteguhan para rasul. — As-Sa'di</td></tr>
+                    <tr><td><strong>13-21</strong></td><td>Ancaman bagi Orang Zalim</td><td>Orang kafir mengancam mengusir rasul, namun Allah memberi kemenangan. — At-Tabari</td></tr>
+                    <tr><td><strong>22-27</strong></td><td>Perumpamaan Kalimat Baik & Buruk</td><td>Pohon baik vs pohon buruk; gambaran iman dan kekufuran. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>28-34</strong></td><td>Nikmat Allah yang Tak Terhitung</td><td>Allah menundukkan alam semesta untuk manusia, peringatan bagi yang kufur. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>35-41</strong></td><td>Doa Nabi Ibrahim</td><td>Doa untuk keamanan Mekah, keturunan yang shalat, dan perlindungan dari berhala. — As-Sa'di</td></tr>
+                    <tr><td><strong>42-52</strong></td><td>Hari Pembalasan</td><td>Allah tidak lengah, orang zalim akan melihat azab, bumi diganti dengan bumi lain. — At-Tabari</td></tr>
                 </tbody>
             </table>
         </div>
@@ -331,176 +360,167 @@
         <div class="section">
             <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
             <div class="verse">
-                <div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِنْ كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ</div>
+                <div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌ</div>
                 <div class="transliteration">Wa iż ta`ażżana rabbukum la`in syakartum la`azīdannakum, wa la`ing kafartum inna 'ażābī lasyadīd.</div>
-                <p><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Tuhanmu memaklumkan, 'Sesungguhnya jika kamu bersyukur, niscaya Aku akan menambah (nikmat) kepadamu; tetapi jika kamu mengingkari (nikmat-Ku), sesungguhnya azab-Ku sangat pedih.'" (Ibrāhīm 14:7)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Prinsip dasar kehidupan: syukur adalah kunci bertambahnya nikmat, kufur nikmat mengundang azab. Syukur bukan hanya ucapan tapi juga menggunakan nikmat sesuai kehendak pemberi nikmat. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=7&to=7&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-            </div>
-        </div>
-
-        <!-- Tema Utama dengan ayat lengkap -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Ibrāhīm</h2>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Misi Al-Qur'an sebagai Pembawa Cahaya – Ayat 1</div>
-                <div class="verse-item">
-                    <div class="arabic">الر ۚ كِتَابٌ أَنْزَلْنَاهُ إِلَيْكَ لِتُخْرِجَ النَّاسَ مِنَ الظُّلُمَاتِ إِلَى النُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَاطِ الْعَزِيزِ الْحَمِيدِ</div>
-                    <div class="transliteration">Alif Lām Rā, kitābun anzalnāhu ilaika litukhrijan-nāsa minaẓ-ẓulumāti ilan-nūri bi`iżni rabbihim ilā ṣirāṭil-'azīzil-ḥamīd.</div>
-                    <p><strong>Terjemahan:</strong> "Alif Lām Rā. (Ini adalah) Kitab yang Kami turunkan kepadamu (Muhammad) agar engkau mengeluarkan manusia dari kegelapan kepada cahaya terang-benderang dengan izin Tuhan mereka, (yaitu) menuju jalan Tuhan Yang Mahaperkasa, Maha Terpuji." (14:1)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Misi universal Al-Qur'an: mengeluarkan dari berbagai kegelapan (syirik, kebodohan, maksiat) menuju cahaya tauhid dan petunjuk. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=1&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Perumpamaan Kalimat Thayyibah dan Khabīthah – Ayat 24-27</div>
-                <div class="verse-item">
-                    <div class="arabic">أَلَمْ تَرَ كَيْفَ ضَرَبَ اللَّهُ مَثَلًا كَلِمَةً طَيِّبَةً كَشَجَرَةٍ طَيِّبَةٍ أَصْلُهَا ثَابِتٌ وَفَرْعُهَا فِي السَّمَاءِ * تُؤْتِي أُكُلَهَا كُلَّ حِينٍ بِإِذْنِ رَبِّهَا ۗ وَيَضْرِبُ اللَّهُ الْأَمْثَالَ لِلنَّاسِ لَعَلَّهُمْ يَتَذَكَّرُونَ * وَمَثَلُ كَلِمَةٍ خَبِيثَةٍ كَشَجَرَةٍ خَبِيثَةٍ اجْتُثَّتْ مِنْ فَوْقِ الْأَرْضِ مَا لَهَا مِنْ قَرَارٍ * يُثَبِّتُ اللَّهُ الَّذِينَ آمَنُوا بِالْقَوْلِ الثَّابِتِ فِي الْحَيَاةِ الدُّنْيَا وَفِي الْآخِرَةِ ۖ وَيُضِلُّ اللَّهُ الظَّالِمِينَ ۚ وَيَفْعَلُ اللَّهُ مَا يَشَاءُ</div>
-                    <div class="transliteration">A lam tara kaifa ḍaraballāhu maṡalan kalimatan ṭayyibatan kasyajaratin ṭayyibatin aṣluhā ṡābitun wa far'uhā fis-samā` * tu`tī ukulahā kulla ḥīnim bi`iżni rabbihā, wa yaḍribullāhul-amṡāla lin-nāsi la'allahum yatażakkarūn * wa maṡalu kalimatin khabīṡatin kasyajaratin khabīṡatinijtuṡṡat min fawqil-arḍi mā lahā min qarār * yuṡabbitullāhullażīna āmanū bil-qauliṡ-ṡābiti fil-ḥayātid-dun-yā wa fil-ākhirah, wa yuḍillullāhu ẓ-ẓālimīn, wa yaf'alullāhu mā yasyā`.</div>
-                    <p><strong>Terjemahan:</strong> "Tidakkah engkau perhatikan bagaimana Allah telah membuat perumpamaan kalimat yang baik seperti pohon yang baik, akarnya kokoh dan cabangnya menjulang ke langit? Pohon itu memberi buahnya pada setiap musim dengan izin Tuhannya. Dan Allah membuat perumpamaan-perumpamaan itu untuk manusia agar mereka selalu ingat. Dan perumpamaan kalimat yang buruk seperti pohon yang buruk, yang tercabut akar-akarnya dari permukaan bumi; tidak dapat tetap (tegak) sedikit pun. Allah meneguhkan orang-orang yang beriman dengan ucapan yang teguh dalam kehidupan di dunia dan di akhirat; dan Allah menyesatkan orang-orang zalim, dan Allah berbuat apa yang Dia kehendaki." (14:24-27)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Kalimat tauhid (Laa ilaaha illallah) seperti pohon kokoh yang terus berbuah. Kalimat kekufuran seperti pohon tak berakar, mudah tumbang. Ini menggambarkan kondisi hati orang beriman vs kafir. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=24&to=27&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Pentingnya Syukur atas Nikmat Allah – Ayat 7</div>
-                <div class="verse-item">
-                    <div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِنْ كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ</div>
-                    <div class="transliteration">Wa iż ta`ażżana rabbukum la`in syakartum la`azīdannakum, wa la`ing kafartum inna 'ażābī lasyadīd.</div>
-                    <p><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Tuhanmu memaklumkan, 'Sesungguhnya jika kamu bersyukur, niscaya Aku akan menambah (nikmat) kepadamu; tetapi jika kamu mengingkari (nikmat-Ku), sesungguhnya azab-Ku sangat pedih.'" (14:7)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Janji Allah yang jelas: syukur mendatangkan tambahan nikmat, kufur nikmat mendatangkan azab. Syukur meliputi hati (mengakui), lisan (memuji), dan perbuatan (menggunakan nikmat untuk taat). <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=7&to=7&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Doa-doa Nabi Ibrahim yang Agung – Ayat 35-41</div>
-                <div class="verse-item">
-                    <div class="arabic">وَإِذْ قَالَ إِبْرَاهِيمُ رَبِّ اجْعَلْ هَٰذَا الْبَلَدَ آمِنًا وَاجْنُبْنِي وَبَنِيَّ أَنْ نَعْبُدَ الْأَصْنَامَ ... رَبَّنَا لِيُقِيمُوا الصَّلَاةَ فَاجْعَلْ أَفْئِدَةً مِنَ النَّاسِ تَهْوِي إِلَيْهِمْ وَارْزُقْهُمْ مِنَ الثَّمَرَاتِ لَعَلَّهُمْ يَشْكُرُونَ</div>
-                    <div class="transliteration">Wa iż qāla ibrāhīmu rabbij'al hāżal-balada āminaw wajtubnī wa baniyya an na'budal-aṣnām ... rabbanā liyuqīmuṣ-ṣalāta faj'al af`idatan minan-nāsi tahwī ilaihim warzuq-hum minaṡ-ṡamarāti la'allahum yasykurūn.</div>
-                    <p><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Ibrahim berkata, 'Ya Tuhanku, jadikanlah negeri ini (Mekah) negeri yang aman, dan jauhkanlah aku beserta anak cucuku dari menyembah berhala... Ya Tuhan kami, jadikanlah mereka orang yang mendirikan shalat, dan jadikanlah hati sebagian manusia cenderung kepada mereka, dan berikanlah kepada mereka rezeki dari buah-buahan, mudah-mudahan mereka bersyukur.'" (14:35-41)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Doa komprehensif yang mencakup keamanan, tauhid, keturunan yang shalat, hati yang cenderung kepada kebaikan, dan rezeki halal. Ini model doa untuk kebaikan dunia dan akhirat. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35&to=41&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Pengingat tentang Nasib Umat Terdahulu – Ayat 9-12</div>
-                <div class="verse-item">
-                    <div class="arabic">أَلَمْ يَأْتِكُمْ نَبَأُ الَّذِينَ مِنْ قَبْلِكُمْ قَوْمِ نُوحٍ وَعَادٍ وَثَمُودَ وَالَّذِينَ مِنْ بَعْدِهِمْ لَا يَعْلَمُهُمْ إِلَّا اللَّهُ ۚ جَاءَتْهُمْ رُسُلُهُمْ بِالْبَيِّنَاتِ فَرَدُّوا أَيْدِيَهُمْ فِي أَفْوَاهِهِمْ وَقَالُوا إِنَّا كَفَرْنَا بِمَا أُرْسِلْتُمْ بِهِ وَإِنَّا لَفِي شَكٍّ مِمَّا تَدْعُونَنَا إِلَيْهِ مُرِيبٍ</div>
-                    <div class="transliteration">A lam ya`tikum naba`ullażīna min qablikum qaumi nụḥiw wa 'ādiw wa ṡamụda wallażīna mim ba'dihim, lā ya'lamuhum illallāh, jā`at-hum rusuluhum bil-bayyināti fa raddū aidiyahum fī afwāhihim wa qālū innā kafarnā bimā ursiltum bihī wa innā lafī syakkim mimmā tad'ụnanā ilaihi murīb.</div>
-                    <p><strong>Terjemahan:</strong> "Belumkah sampai kepadamu berita orang-orang sebelum kamu (yaitu) kaum Nuh, 'Ad, Tsamud, dan orang-orang setelah mereka? Tidak ada yang mengetahui mereka selain Allah. Telah datang kepada mereka rasul-rasul dengan membawa bukti-bukti yang nyata, lalu mereka menutupkan tangannya ke mulutnya (karena sombong) dan berkata, 'Sesungguhnya kami mengingkari apa yang kamu sampaikan, dan sesungguhnya kami benar-benar dalam keraguan yang menggelisahkan terhadap apa yang kamu serukan kepada kami.'" (14:9)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Mengingatkan sikap kaum terdahulu yang menolak rasul dengan kesombongan. “Menutupkan tangan ke mulut” adalah isyarat kemarahan dan penolakan. Pelajaran agar tidak mengulangi kesalahan yang sama. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=9&to=9&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
+                <div class="translation-text"><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Tuhanmu memaklumkan, 'Sesungguhnya jika kamu bersyukur, niscaya Aku akan menambah (nikmat) kepadamu; tetapi jika kamu mengingkari (nikmat-Ku), sesungguhnya azab-Ku sangat pedih.'" (Ibrāhīm 14:7)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Prinsip dasar kehidupan: syukur adalah kunci bertambahnya nikmat, kufur nikmat mengundang azab. Syukur bukan hanya ucapan tapi juga menggunakan nikmat sesuai kehendak pemberi nikmat.</div>
             </div>
         </div>
 
         <!-- Keutamaan Khusus Surah -->
-        <div class="special-benefits">
-            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Ibrāhīm</h3>
-            <ul>
-                <li><strong>Misi Iluminasi:</strong> Surah ini menegaskan bahwa Al-Qur'an adalah cahaya yang mengeluarkan dari kegelapan.</li>
-                <li><strong>Perumpamaan Terbaik:</strong> Ayat tentang pohon baik menjadi landasan dakwah dan pendidikan tauhid.</li>
-                <li><strong>Kunci Keberkahan:</strong> Ayat syukur (14:7) menjadi motivasi untuk selalu bersyukur dalam segala keadaan.</li>
-                <li><strong>Doa Mustajab:</strong> Doa Nabi Ibrahim diabadikan sebagai teladan doa yang lengkap dan mustajab.</li>
-                <li><strong>Peringatan Sejarah:</strong> Kisah umat terdahulu menjadi pelajaran berharga agar tidak sombong.</li>
-            </ul>
-        </div>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Ibrāhīm</h3><ul><li>Misi Iluminasi: Surah ini menegaskan bahwa Al-Qur'an adalah cahaya yang mengeluarkan dari kegelapan.</li><li>Perumpamaan Terbaik: Ayat tentang pohon baik menjadi landasan dakwah dan pendidikan tauhid.</li><li>Kunci Keberkahan: Ayat syukur (14:7) menjadi motivasi untuk selalu bersyukur dalam segala keadaan.</li><li>Doa Mustajab: Doa Nabi Ibrahim diabadikan sebagai teladan doa yang lengkap dan mustajab.</li><li>Peringatan Sejarah: Kisah umat terdahulu menjadi pelajaran berharga agar tidak sombong.</li></ul></div>
 
-        <!-- Pesan Akidah, Ibadah, Akhlak -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
-            <p><strong>Akidah:</strong> Meyakini Al-Qur'an sebagai petunjuk mutlak, mengesakan Allah, dan meyakini bahwa hanya dengan tauhid hati menjadi teguh.</p>
-            <p><strong>Ibadah:</strong> Mendirikan shalat (sebagaimana doa Ibrahim), memperbanyak syukur, dan berdoa dengan doa-doa yang diajarkan Al-Qur'an.</p>
-            <p><strong>Akhlak:</strong> Menjauhi kesombongan seperti umat terdahulu, bersikap rendah hati, dan selalu mengingat nikmat Allah.</p>
-        </div>
+        <!-- Pesan Aqidah, Ibadah, Akhlak -->
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Pesan Aqidah, Ibadah, & Akhlak</h3><p><strong>Akidah:</strong> Meyakini Al-Qur'an sebagai petunjuk mutlak, mengesakan Allah, dan meyakini bahwa hanya dengan tauhid hati menjadi teguh.</p><p><strong>Ibadah:</strong> Mendirikan shalat (sebagaimana doa Ibrahim), memperbanyak syukur, dan berdoa dengan doa-doa yang diajarkan Al-Qur'an.</p><p><strong>Akhlak:</strong> Menjauhi kesombongan seperti umat terdahulu, bersikap rendah hati, dan selalu mengingat nikmat Allah.</p></div>
 
         <!-- Pelajaran Spiritual -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Ibrāhīm</h3>
-            <ul>
-                <li>Al-Qur'an adalah cahaya yang mengeluarkan manusia dari kegelapan menuju terang.</li>
-                <li>Kalimat tauhid adalah pohon baik yang akarnya kokoh di hati orang beriman.</li>
-                <li>Syukur adalah kunci bertambahnya nikmat; kufur nikmat mengundang azab.</li>
-                <li>Doa Nabi Ibrahim mengajarkan kita untuk memohon keamanan, keturunan saleh, dan rezeki halal.</li>
-                <li>Sejarah umat terdahulu adalah pelajaran agar tidak mengulangi kesalahan yang sama.</li>
-            </ul>
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Ibrāhīm</h3><ul><li>Al-Qur'an adalah cahaya yang mengeluarkan manusia dari kegelapan menuju terang.</li><li>Kalimat tauhid adalah pohon baik yang akarnya kokoh di hati orang beriman.</li><li>Syukur adalah kunci bertambahnya nikmat; kufur nikmat mengundang azab.</li><li>Doa Nabi Ibrahim mengajarkan kita untuk memohon keamanan, keturunan saleh, dan rezeki halal.</li><li>Sejarah umat terdahulu adalah pelajaran agar tidak mengulangi kesalahan yang sama.</li></ul></div>
+
+        <!-- Relevansi untuk Kehidupan Modern -->
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div><ol><li>Krisis Spiritual: Masyarakat modern butuh cahaya Al-Qur'an untuk keluar dari kegelapan materialisme dan nihilisme.</li><li>Pendidikan Karakter: Perumpamaan pohon baik mengajarkan bahwa iman harus berbuah amal saleh secara berkelanjutan.</li><li>Ekonomi Syukur: Prinsip syukur mendorong produktivitas dan keberkahan rezeki, bukan konsumerisme.</li><li>Doa untuk Keluarga: Doa Ibrahim menjadi panduan bagi orang tua untuk mendoakan keturunan yang shalat dan jauh dari kemusyrikan.</li><li>Kewaspadaan terhadap Kesombongan: Mengingatkan para pemimpin dan masyarakat agar tidak meniru sikap sombong umat terdahulu.</li></ol></div>
+
+        <!-- Tema Utama (Rinci Tafsir) – Full Ayat & Tafsir Mendalam -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah</h2>
+
+            <!-- 1. Misi Al-Qur'an sebagai Pembawa Cahaya (1) -->
+            <div class="theme-card">
+                <div class="theme-title">1. Misi Al-Qur'an sebagai Pembawa Cahaya – Ayat 1</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=1&opt=1" target="_blank">Ibrāhīm 14:1 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">الٓر ۟ كِتَـٰبٌ أَنزَلْنَـٰهُ إِلَيْكَ لِتُخْرِجَ ٱلنَّاسَ مِنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَٰطِ ٱلْعَزِيزِ ٱلْحَمِيدِ</div>
+                    <div class="transliteration">Alif Lām Rā, kitābun anzalnāhu ilaika litukhrijan-nāsa minaẓ-ẓulumāti ilan-nūri bi`iżni rabbihim ilā ṣirāṭil-'azīzil-ḥamīd.</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Alif Lām Rā. (Ini adalah) Kitab yang Kami turunkan kepadamu (Muhammad) agar engkau mengeluarkan manusia dari kegelapan kepada cahaya terang-benderang dengan izin Tuhan mereka, (yaitu) menuju jalan Tuhan Yang Mahaperkasa, Maha Terpuji." (14:1)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir):</strong> Ayat ini menegaskan misi utama Al-Qur'an: mengeluarkan manusia dari berbagai macam kegelapan (kegelapan kekufuran, kebodohan, kemaksiatan) menuju cahaya iman dan petunjuk. "Aziz" (Maha Perkasa) menunjukkan bahwa tidak ada yang dapat menghalangi petunjuk ini, dan "Hamid" (Maha Terpuji) menunjukkan bahwa Allah layak dipuji atas petunjuk-Nya. Al-Qur'an adalah cahaya yang sempurna, dan Nabi Muhammad adalah pembawa cahaya tersebut. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+
+            <!-- 2. Perumpamaan Kalimat Thayyibah dan Khabīthah (24-27) -->
+            <div class="theme-card">
+                <div class="theme-title">2. Perumpamaan Kalimat Thayyibah dan Khabīthah – Ayat 24-27</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=24&to=27&opt=1" target="_blank">Ibrāhīm 14:24-27 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًۭا كَلِمَةًۭ طَيِّبَةًۭ كَشَجَرَةٍۢ طَيِّبَةٍ أَصْلُهَا ثَابِتٌۭ وَفَرْعُهَا فِى ٱلسَّمَآءِ (٢٤) تُؤْتِىٓ أُكُلَهَا كُلَّ حِينٍۭ بِإِذْنِ رَبِّهَا ۗ وَيَضْرِبُ ٱللَّهُ ٱلْأَمْثَالَ لِلنَّاسِ لَعَلَّهُمْ يَتَذَكَّرُونَ (٢٥) وَمَثَلُ كَلِمَةٍ خَبِيثَةٍۢ كَشَجَرَةٍ خَبِيثَةٍ ٱجْتُثَّتْ مِن فَوْقِ ٱلْأَرْضِ مَا لَهَا مِن قَرَارٍۢ (٢٦) يُثَبِّتُ ٱللَّهُ ٱلَّذِينَ ءَامَنُوا۟ بِٱلْقَوْلِ ٱلثَّابِتِ فِى ٱلْحَيَوٰةِ ٱلدُّنْيَا وَفِى ٱلْءَاخِرَةِ ۖ وَيُضِلُّ ٱللَّهُ ٱلظَّـٰلِمِينَ ۚ وَيَفْعَلُ ٱللَّهُ مَا يَشَآءُ (٢٧)</div>
+                    <div class="transliteration">A lam tara kaifa ḍaraballāhu maṡalan kalimatan ṭayyibatan kasyajaratin ṭayyibatin aṣluhā ṡābitun wa far'uhā fis-samā` (24) Tu`tī ukulahā kulla ḥīnim bi`iżni rabbihā, wa yaḍribullāhul-amṡāla lin-nāsi la'allahum yatażakkarūn (25) Wa maṡalu kalimatin khabīṡatin kasyajaratin khabīṡatinijtuṡṡat min fawqil-arḍi mā lahā min qarār (26) Yuṡabbitullāhullażīna āmanū bil-qauliṡ-ṡābiti fil-ḥayātid-dun-yā wa fil-ākhirah, wa yuḍillullāhu ẓ-ẓālimīn, wa yaf'alullāhu mā yasyā` (27)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Tidakkah engkau perhatikan bagaimana Allah telah membuat perumpamaan kalimat yang baik seperti pohon yang baik, akarnya kokoh dan cabangnya menjulang ke langit? (24) Pohon itu memberi buahnya pada setiap musim dengan izin Tuhannya. Dan Allah membuat perumpamaan-perumpamaan itu untuk manusia agar mereka selalu ingat. (25) Dan perumpamaan kalimat yang buruk seperti pohon yang buruk, yang tercabut akar-akarnya dari permukaan bumi; tidak dapat tetap (tegak) sedikit pun. (26) Allah meneguhkan orang-orang yang beriman dengan ucapan yang teguh dalam kehidupan di dunia dan di akhirat; dan Allah menyesatkan orang-orang zalim, dan Allah berbuat apa yang Dia kehendaki." (27)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Al-Qurthubi):</strong> Kalimat thayyibah (baik) adalah kalimat tauhid "Laa ilaaha illallah". Pohon yang baik adalah pohon kurma atau pohon yang memiliki akar kuat, batang kokoh, dan buah berlimpah. Demikianlah iman: akarnya tertanam dalam hati, cabangnya naik ke langit (amal saleh), dan terus memberi buah kapan saja. Sebaliknya, kalimat khabīthah (kekufuran) seperti pohon hanzalah (pahit) yang mudah tumbang. Allah meneguhkan orang beriman dengan kalimat tauhid di dunia (saat sakaratul maut dan di alam kubur) dan di akhirat. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
+            </div>
+
+            <!-- 3. Prinsip Syukur (7) -->
+            <div class="theme-card">
+                <div class="theme-title">3. Prinsip Syukur – Ayat 7</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=7&to=7&opt=1" target="_blank">Ibrāhīm 14:7 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌ</div>
+                    <div class="transliteration">Wa iż ta`ażżana rabbukum la`in syakartum la`azīdannakum, wa la`ing kafartum inna 'ażābī lasyadīd.</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Tuhanmu memaklumkan, 'Sesungguhnya jika kamu bersyukur, niscaya Aku akan menambah (nikmat) kepadamu; tetapi jika kamu mengingkari (nikmat-Ku), sesungguhnya azab-Ku sangat pedih.'" (14:7)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (As-Sa'di):</strong> Ini adalah janji Allah yang pasti: syukur mendatangkan tambahan nikmat, baik secara kualitas maupun kuantitas. Syukur yang hakiki meliputi tiga tingkatan: (1) Syukur hati dengan mengakui bahwa nikmat berasal dari Allah, (2) Syukur lisan dengan memuji Allah, (3) Syukur anggota badan dengan menggunakan nikmat untuk taat kepada Allah. Sebaliknya, kekufuran nikmat (tidak bersyukur) akan mendatangkan azab yang pedih, baik di dunia maupun di akhirat. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Sumber: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
+            </div>
+
+            <!-- 4. Doa-doa Nabi Ibrahim (35-41) -->
+            <div class="theme-card">
+                <div class="theme-title">4. Doa-doa Nabi Ibrahim yang Agung – Ayat 35-41</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35&to=41&opt=1" target="_blank">Ibrāhīm 14:35-41 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَإِذْ قَالَ إِبْرَٰهِيمُ رَبِّ ٱجْعَلْ هَـٰذَا ٱلْبَلَدَ ءَامِنًۭا وَٱجْنُبْنِى وَبَنِىَّ أَن نَّعْبُدَ ٱلْأَصْنَامَ (٣٥) ... رَبَّنَا لِيُقِيمُوا۟ ٱلصَّلَوٰةَ فَٱجْعَلْ أَفْـِٔدَةًۭ مِّنَ ٱلنَّاسِ تَهْوِىٓ إِلَيْهِمْ وَٱرْزُقْهُم مِّنَ ٱلثَّمَرَٰتِ لَعَلَّهُمْ يَشْكُرُونَ (٣٧) رَبَّنَا ٱغْفِرْ لِى وَلِوَٰلِدَىَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ ٱلْحِسَابُ (٤١)</div>
+                    <div class="transliteration">Wa iż qāla ibrāhīmu rabbij'al hāżal-balada āminaw wajtubnī wa baniyya an na'budal-aṣnām (35) ... rabbanā liyuqīmuṣ-ṣalāta faj'al af`idatan minan-nāsi tahwī ilaihim warzuq-hum minaṡ-ṡamarāti la'allahum yasykurūn (37) rabbanagfir lī wa liwālidayya wa lil-mu`minīna yauma yaqūmul-ḥisāb (41)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Ibrahim berkata, 'Ya Tuhanku, jadikanlah negeri ini (Mekah) negeri yang aman, dan jauhkanlah aku beserta anak cucuku dari menyembah berhala... (35) Ya Tuhan kami, jadikanlah mereka orang yang mendirikan shalat, dan jadikanlah hati sebagian manusia cenderung kepada mereka, dan berikanlah kepada mereka rezeki dari buah-buahan, mudah-mudahan mereka bersyukur. (37) Ya Tuhan kami, ampunilah aku, kedua orang tuaku, dan orang-orang mukmin pada hari perhitungan (hisab) berlangsung." (41)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (At-Tabari):</strong> Doa Nabi Ibrahim adalah doa komprehensif yang mencakup aspek dunia dan akhirat: (1) Keamanan negeri (fondasi kehidupan), (2) Perlindungan dari syirik (tauhid), (3) Keturunan yang mendirikan shalat (ibadah), (4) Hati manusia yang cenderung kepada kebaikan (dakwah), (5) Rezeki yang halal dan baik (ekonomi), (6) Ampunan untuk diri, orang tua, dan seluruh mukmin. Inilah model doa yang sempurna. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
+            </div>
+
+            <!-- 5. Pengingat tentang Nasib Umat Terdahulu (9-12) -->
+            <div class="theme-card">
+                <div class="theme-title">5. Pengingat tentang Nasib Umat Terdahulu – Ayat 9-12</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=9&to=12&opt=1" target="_blank">Ibrāhīm 14:9-12 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">أَلَمْ يَأْتِكُمْ نَبَؤُا۟ ٱلَّذِينَ مِن قَبْلِكُمْ قَوْمِ نُوحٍۢ وَعَادٍۢ وَثَمُودَ ۛ وَٱلَّذِينَ مِنۢ بَعْدِهِمْ ۛ لَا يَعْلَمُهُمْ إِلَّا ٱللَّهُ ۚ جَآءَتْهُمْ رُسُلُهُم بِٱلْبَيِّنَـٰتِ فَرَدُّوٓا۟ أَيْدِيَهُمْ فِىٓ أَفْوَٰهِهِمْ وَقَالُوٓا۟ إِنَّا كَفَرْنَا بِمَآ أُرْسِلْتُم بِهِۦ وَإِنَّا لَفِى شَكٍّۢ مِّمَّا تَدْعُونَنَآ إِلَيْهِ مُرِيبٍۢ</div>
+                    <div class="transliteration">A lam ya`tikum naba`ullażīna min qablikum qaumi nụḥiw wa 'ādiw wa ṡamụda wallażīna mim ba'dihim, lā ya'lamuhum illallāh, jā`at-hum rusuluhum bil-bayyināti fa raddū aidiyahum fī afwāhihim wa qālū innā kafarnā bimā ursiltum bihī wa innā lafī syakkim mimmā tad'ụnanā ilaihi murīb.</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Belumkah sampai kepadamu berita orang-orang sebelum kamu (yaitu) kaum Nuh, 'Ad, Tsamud, dan orang-orang setelah mereka? Tidak ada yang mengetahui mereka selain Allah. Telah datang kepada mereka rasul-rasul dengan membawa bukti-bukti yang nyata, lalu mereka menutupkan tangannya ke mulutnya (karena sombong) dan berkata, 'Sesungguhnya kami mengingkari apa yang kamu sampaikan, dan sesungguhnya kami benar-benar dalam keraguan yang menggelisahkan terhadap apa yang kamu serukan kepada kami.'" (14:9)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir):</strong> Allah mengingatkan orang-orang kafir Quraisy tentang nasib umat-umat terdahulu yang mendustakan rasul. "Menutupkan tangan ke mulut" adalah isyarat kemarahan, ejekan, dan penolakan yang keras. Mereka sombong dan berkata, "Kami ragu terhadap ajakanmu." Padahal rasul-rasul datang dengan bukti nyata. Ini adalah peringatan bahwa sikap sombong dan ragu yang sama akan berakhir dengan kehancuran yang sama. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
         </div>
 
-        <!-- Relevansi Kehidupan Modern -->
-        <div class="theme-card">
-            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div>
-            <ol>
-                <li><strong>Krisis Spiritual:</strong> Masyarakat modern butuh cahaya Al-Qur'an untuk keluar dari kegelapan materialisme dan nihilisme.</li>
-                <li><strong>Pendidikan Karakter:</strong> Perumpamaan pohon baik mengajarkan bahwa iman harus berbuah amal saleh secara berkelanjutan.</li>
-                <li><strong>Ekonomi Syukur:</strong> Prinsip syukur mendorong produktivitas dan keberkahan rezeki, bukan konsumerisme.</li>
-                <li><strong>Doa untuk Keluarga:</strong> Doa Ibrahim menjadi panduan bagi orang tua untuk mendoakan keturunan yang shalat dan jauh dari kemusyrikan.</li>
-                <li><strong>Kewaspadaan terhadap Kesombongan:</strong> Mengingatkan para pemimpin dan masyarakat agar tidak meniru sikap sombong umat terdahulu.</li>
-            </ol>
-        </div>
-
-        <!-- Hubungan dengan Surah Lain -->
+        <!-- Hubungan dengan Surah Lain (Indonesian) -->
         <div class="relationship-box">
             <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <p>Surah Ibrāhīm (14) memiliki keterkaitan erat dengan surah-surah Makkiyah dan Madaniyah lainnya.</p>
             <ul>
-                <li><strong>Dengan Surah Ar-Ra'd (13):</strong> Ar-Ra'd berbicara tentang bukti kekuasaan Allah di alam, sedangkan Ibrāhīm menekankan misi kenabian dan doa. Keduanya Makkiyah dan saling melengkapi.</li>
-                <li><strong>Dengan Surah Al-Baqarah (2):</strong> Doa Nabi Ibrahim juga disebut di Al-Baqarah ayat 127-129, namun di sini lebih lengkap dan terperinci.</li>
-                <li><strong>Dengan Surah Ash-Shu'ara (26):</strong> Sama-sama menceritakan kisah para nabi dan perlawanan kaumnya, namun Ibrāhīm lebih fokus pada doa dan perumpamaan.</li>
+                <li><strong>Dengan Surah Ar-Ra'd (13):</strong> Ar-Ra'd berbicara tentang bukti kekuasaan Allah di alam semesta (tanda-tanda kauniyah), sedangkan Ibrāhīm menekankan misi kenabian, perumpamaan, dan doa. Keduanya turun berurutan dan saling melengkapi dalam membangun fondasi iman.</li>
+                <li><strong>Dengan Surah Al-Baqarah (2):</strong> Doa Nabi Ibrahim juga disebut di Al-Baqarah ayat 127-129, namun di surah Ibrāhīm doa tersebut lebih lengkap dan terperinci, terutama tentang perlindungan dari berhala dan keturunan yang shalat.</li>
+                <li><strong>Dengan Surah Ash-Shu'ara (26):</strong> Ash-Shu'ara menceritakan kisah para nabi secara bergantian, sedangkan Ibrāhīm lebih fokus pada doa Nabi Ibrahim dan perumpamaan pohon baik. Keduanya sama-sama mengingatkan tentang sikap sombong umat terdahulu.</li>
             </ul>
         </div>
 
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Sesungguhnya jika kamu bersyukur, niscaya Aku akan menambah (nikmat) kepadamu.” (14:7)</div>
+        <div class="info-box"><i class="fas fa-book-open"></i> Renungkan: “Sesungguhnya jika kamu bersyukur, niscaya Aku akan menambah (nikmat) kepadamu.” (14:7)</div>
+
+        <!-- Pagination INDONESIA -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="013.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: Ar-Ra'd (13)</a>
+                <a href="015.html" class="pagination-item">Surah Berikutnya: Al-Ḥijr (15) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            </div>
+        </div>
     </div>
 
-    <!-- ENGLISH CONTENT -->
+    <!-- ENGLISH CONTENT (FULLY PARALLEL) -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Ibrāhīm (Abraham) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=52&opt=1" target="_blank">IslamicStudies.info - Surah Ibrāhīm (1-52)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Ibrāhīm (14) - Thematic Tafsir</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Ibrāhīm</h3><p>Meccan surah (52 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=52&opt=1" target="_blank">IslamicStudies.info</a>, this surah is named Ibrāhīm because it contains the comprehensive prayers of Prophet Abraham (verses 35-41). It affirms tawhid, warns about the fate of previous nations, and presents beautiful parables about truth and falsehood. The Qur’an’s mission is to bring people out of multiple darknesses into a single light.</p></div>
-        <div class="info-box"><h3>Full Text</h3><p><a href="https://recitequran.com/14" target="_blank"><span class="blink-arrow">👉 CLICK HERE 👈</span> ReciteQuran.com - Surah Ibrāhīm <i class="fas fa-external-link-alt external-arrow"></i></a></p></div>
+        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=52&opt=1" target="_blank">IslamicStudies.info - Surah Ibrāhīm (1-52) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
+        <div class="arabic">الٓر ۟ كِتَـٰبٌ أَنزَلْنَـٰهُ إِلَيْكَ لِتُخْرِجَ ٱلنَّاسَ مِنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ بِإِذْنِ رَبِّهِمْ إِلَىٰ صِرَٰطِ ٱلْعَزِيزِ ٱلْحَمِيدِ</div>
+        <div class="transliteration">Alif Lām Rā, kitābun anzalnāhu ilaika litukhrijan-nāsa minaẓ-ẓulumāti ilan-nūri bi`iżni rabbihim ilā ṣirāṭil-'azīzil-ḥamīd.</div>
+        <div class="translation-text"><strong>Translation:</strong> "Alif Lām Rā. [This is] a Book which We have revealed to you, that you might bring mankind out of darknesses into the light by permission of their Lord, to the path of the Exalted in Might, the Praiseworthy." (14:1)</div>
+
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Ibrāhīm (Surah 14)</h3><p>Meccan surah (52 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=52&opt=1" target="_blank">IslamicStudies.info</a>, this surah is named Ibrāhīm because it contains the comprehensive prayers of Prophet Abraham (verses 35-41). It affirms tawhid, warns about the fate of previous nations, and presents beautiful parables about truth and falsehood. The Qur'an's mission is to bring people out of multiple darknesses into a single light.</p></div>
+
+        <!-- Aqidah, Ibadah, Akhlaq Columns (English) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Believe that the Qur'an is absolute guidance, affirm tawhid, and know that only faith makes the heart firm. (14:1, 14:24-27)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Establish prayer (as in Abraham's prayer), increase gratitude, and supplicate using Qur'anic prayers. (14:35-41, 14:7)</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Avoid arrogance like previous nations, be humble, and always remember Allah's blessings. (14:9-12, 14:7)</div>
+        </div>
+
+        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/14" target="_blank">ReciteQuran.com - Surah Ibrāhīm <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Ibrāhīm</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/014.mp3"></audio></div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead><tbody>
-                <tr><td><strong>1-4</strong></td><td>Mission of the Qur'an & Warning</td><td>The Qur'an revealed to bring people from darkness to light.</td></tr>
-                <tr><td><strong>5-8</strong></td><td>Lesson from Moses & Gratitude</td><td>Allah reminds of His favors; gratitude increases blessings.</td></tr>
-                <tr><td><strong>9-12</strong></td><td>History of Previous Nations</td><td>Stories of Noah, 'Ad, Thamud; their arrogance and the steadfastness of messengers.</td></tr>
-                <tr><td><strong>13-21</strong></td><td>Threat against the Wrongdoers</td><td>Disbelievers threaten to expel messengers, but Allah grants victory.</td></tr>
-                <tr><td><strong>22-27</strong></td><td>Parable of Good and Evil Words</td><td>Good tree vs bad tree; depiction of faith and disbelief.</td></tr>
-                <tr><td><strong>28-34</strong></td><td>Countless Blessings of Allah</td><td>Allah has subjected the universe for mankind; warning for the ungrateful.</td></tr>
-                <tr><td><strong>35-41</strong></td><td>Prayers of Prophet Abraham</td><td>Prayer for security of Mecca, righteous descendants who pray, protection from idols.</td></tr>
-                <tr><td><strong>42-52</strong></td><td>The Day of Recompense</td><td>Allah is not unaware; the earth will be changed to another earth.</td></tr>
-            </tbody></table>
-        </div>
-
+        <!-- Thematic Division by Verses (English) -->
         <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
-                <tr><td><strong>14:1</strong></td><td>Mission of the Qur'an</td><td>To bring mankind out of darkness into light, to the path of the Almighty.</td></tr>
-                <tr><td><strong>14:7</strong></td><td>Gratitude & Ingratitude</td><td>If you are grateful, I will increase you; if you are ungrateful, My punishment is severe.</td></tr>
-                <tr><td><strong>14:9</strong></td><td>Attitude of Previous Peoples</td><td>They arrogantly rejected the messengers, saying "we are in doubt".</td></tr>
-                <tr><td><strong>14:24-26</strong></td><td>Parable of Good & Bad Tree</td><td>Good word is like a firm tree; bad word is like a uprooted tree.</td></tr>
-                <tr><td><strong>14:35-41</strong></td><td>Abraham's Prayer</td><td>Comprehensive prayer: security,远离 idols, righteous descendants, provision, and hearts inclined.</td></tr>
-                <tr><td><strong>14:48</strong></td><td>The Day the Earth is Changed</td><td>On Judgment Day the earth will be changed to another earth, and they will face Allah.</td></tr>
-            </tbody></table>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Theme Title</th><th>Description & Additional Tafsir</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-4</strong></td><td>Mission of the Qur'an & Warning</td><td>The Qur'an revealed to bring people from darkness to light. — Ibn Kathir</td></tr>
+                    <tr><td><strong>5-8</strong></td><td>Lesson from Moses & Gratitude</td><td>Allah reminds of His favors; gratitude increases blessings. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>9-12</strong></td><td>History of Previous Nations</td><td>Stories of Noah, 'Ad, Thamud; their arrogance and the steadfastness of messengers. — As-Sa'di</td></tr>
+                    <tr><td><strong>13-21</strong></td><td>Threat against the Wrongdoers</td><td>Disbelievers threaten to expel messengers, but Allah grants victory. — At-Tabari</td></tr>
+                    <tr><td><strong>22-27</strong></td><td>Parable of Good and Evil Words</td><td>Good tree vs bad tree; depiction of faith and disbelief. — Ibn Kathir</td></tr>
+                    <tr><td><strong>28-34</strong></td><td>Countless Blessings of Allah</td><td>Allah has subjected the universe for mankind; warning for the ungrateful. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>35-41</strong></td><td>Prayers of Prophet Abraham</td><td>Prayer for security of Mecca, righteous descendants who pray, protection from idols. — As-Sa'di</td></tr>
+                    <tr><td><strong>42-52</strong></td><td>The Day of Recompense</td><td>Allah is not unaware; the earth will be changed to another earth. — At-Tabari</td></tr>
+                </tbody>
+            </table>
         </div>
 
+        <!-- Key Verse for Contemplation -->
         <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
             <div class="verse">
-                <div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِنْ كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ</div>
+                <div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌ</div>
                 <div class="transliteration">Wa iż ta`ażżana rabbukum la`in syakartum la`azīdannakum, wa la`ing kafartum inna 'ażābī lasyadīd.</div>
-                <p><strong>Translation:</strong> "And [remember] when your Lord proclaimed, 'If you are grateful, I will surely increase you [in favor]; but if you deny, indeed My punishment is severe.'" (14:7)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> A fundamental principle: gratitude increases blessings, ingratitude invites punishment. Gratitude involves heart, tongue, and actions. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=7&to=7&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
-            </div>
-        </div>
-
-        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Ibrāhīm</h2>
-            <div class="theme-card"><div class="theme-title">1. Mission of the Qur'an – Verse 1</div>
-                <div class="verse-item"><div class="arabic">الر ۚ كِتَابٌ أَنْزَلْنَاهُ إِلَيْكَ لِتُخْرِجَ النَّاسَ مِنَ الظُّلُمَاتِ إِلَى النُّورِ</div><div class="transliteration">Alif Lām Rā, kitābun anzalnāhu ilaika litukhrijan-nāsa minaẓ-ẓulumāti ilan-nūri.</div><p><strong>Translation:</strong> "Alif Lām Rā. [This is] a Book which We have revealed to you, that you might bring mankind out of darknesses into the light." (14:1)</p><div class="tafsir-box">The universal mission of the Qur'an: from multiple darknesses to one light. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=1&opt=1" target="_blank">Read more</a></div></div>
-            </div>
-            <div class="theme-card"><div class="theme-title">2. Parable of the Good Tree – Verses 24-27</div>
-                <div class="verse-item"><div class="arabic">أَلَمْ تَرَ كَيْفَ ضَرَبَ اللَّهُ مَثَلًا كَلِمَةً طَيِّبَةً كَشَجَرَةٍ طَيِّبَةٍ أَصْلُهَا ثَابِتٌ وَفَرْعُهَا فِي السَّمَاءِ</div><div class="transliteration">A lam tara kaifa ḍaraballāhu maṡalan kalimatan ṭayyibatan kasyajaratin ṭayyibatin aṣluhā ṡābitun wa far'uhā fis-samā`.</div><p><strong>Translation:</strong> "Have you not considered how Allah presents an example, [making] a good word like a good tree, whose root is firmly fixed and its branches [high] in the sky?" (14:24)</p><div class="tafsir-box">The word of tawhid is like a firm tree that gives fruit continuously. <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=24&to=27&opt=1" target="_blank">Read more</a></div></div>
-            </div>
-            <div class="theme-card"><div class="theme-title">3. Gratitude – Verse 7</div>
-                <div class="verse-item"><div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِنْ شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِنْ كَفَرْتُمْ إِنَّ عَذَابِي لَشَدِيدٌ</div><div class="transliteration">Wa iż ta`ażżana rabbukum la`in syakartum la`azīdannakum, wa la`ing kafartum inna 'ażābī lasyadīd.</div><p><strong>Translation:</strong> "If you are grateful, I will surely increase you..." (14:7)</p><div class="tafsir-box">The principle of increase through gratitude.</div></div>
-            </div>
-            <div class="theme-card"><div class="theme-title">4. Abraham's Prayer – Verses 35-41</div>
-                <div class="verse-item"><div class="arabic">وَإِذْ قَالَ إِبْرَاهِيمُ رَبِّ اجْعَلْ هَٰذَا الْبَلَدَ آمِنًا ... رَبَّنَا لِيُقِيمُوا الصَّلَاةَ</div><div class="transliteration">Wa iż qāla ibrāhīmu rabbij'al hāżal-balada āminā ... rabbanā liyuqīmuṣ-ṣalāta.</div><p><strong>Translation:</strong> "My Lord, make this city secure... Our Lord, make them establish prayer." (14:35-41)</p><div class="tafsir-box">A comprehensive prayer for security, righteous descendants, provision, and hearts inclined to good.</div></div>
+                <div class="translation-text"><strong>Translation:</strong> "And [remember] when your Lord proclaimed, 'If you are grateful, I will surely increase you [in favor]; but if you deny, indeed My punishment is severe.'" (14:7)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> A fundamental principle: gratitude increases blessings, ingratitude invites punishment. Gratitude involves heart, tongue, and actions.</div>
             </div>
         </div>
 
@@ -512,88 +532,121 @@
 
         <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Spiritual crisis: Modern society needs the Qur'an's light to escape materialism and nihilism.</li><li>Character education: The parable of the good tree teaches that faith must produce continuous good deeds.</li><li>Economics of gratitude: Gratitude encourages productivity and blessed provision, not consumerism.</li><li>Family prayers: Abraham's prayer guides parents to pray for righteous children who pray.</li><li>Humility in leadership: Reminds leaders not to be arrogant like previous nations.</li></ol></div>
 
-        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Ar-Ra'd (13):</strong> Ar-Ra'd focuses on cosmic signs, Ibrāhīm on prophetic mission and prayer; both Meccan and complementary.</li><li><strong>With Surah Al-Baqarah (2):</strong> Abraham's prayer is also mentioned in Al-Baqarah 127-129, but here it is more detailed.</li><li><strong>With Surah Ash-Shu'ara (26):</strong> Both narrate stories of prophets, but Ibrāhīm focuses more on prayer and parables.</li></ul></div>
+        <!-- Main Themes (Detailed Tafsir) – English Parallel -->
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes (Detailed Tafsir) – Complete to End of Surah</h2>
 
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> “If you are grateful, I will surely increase you [in favor].” (14:7)</div>
-    </div>
+            <div class="theme-card"><div class="theme-title">1. Mission of the Qur'an as a Light – Verse 1</div>
+                <div class="verse">
+                    <strong>Full Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=1&to=1&opt=1" target="_blank">Ibrāhīm 14:1 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">الٓر ۟ كِتَـٰبٌ أَنزَلْنَـٰهُ إِلَيْكَ لِتُخْرِجَ ٱلنَّاسَ مِنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ</div>
+                    <div class="transliteration">Alif Lām Rā, kitābun anzalnāhu ilaika litukhrijan-nāsa minaẓ-ẓulumāti ilan-nūri</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Alif Lām Rā. [This is] a Book which We have revealed to you, that you might bring mankind out of darknesses into the light." (14:1)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Ibn Kathir):</strong> This verse affirms the main mission of the Qur'an: to bring people out of multiple darknesses (of disbelief, ignorance, sin) into the light of faith and guidance. "Aziz" (Exalted in Might) indicates that no one can hinder this guidance, and "Hamid" (Praiseworthy) shows that Allah is worthy of praise for His guidance. The Qur'an is the perfect light, and Prophet Muhammad is its bearer. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
 
-    <!-- PAGINATION -->
-    <div class="surah-pagination">
-        <a href="013.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya / Previous: Ar-Ra'd</a>
-        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="015.html" class="pagination-item">Surah Berikutnya / Next: Al-Ḥijr <i class="fas fa-arrow-right"></i></a>
+            <div class="theme-card"><div class="theme-title">2. Parable of the Good Tree and the Bad Tree – Verses 24-27</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=24&to=27&opt=1" target="_blank">Ibrāhīm 14:24-27 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">أَلَمْ تَرَ كَيْفَ ضَرَبَ ٱللَّهُ مَثَلًۭا كَلِمَةًۭ طَيِّبَةًۭ كَشَجَرَةٍۢ طَيِّبَةٍ ... يُثَبِّتُ ٱللَّهُ ٱلَّذِينَ ءَامَنُوا۟ بِٱلْقَوْلِ ٱلثَّابِتِ</div>
+                    <div class="transliteration">A lam tara kaifa ḍaraballāhu maṡalan kalimatan ṭayyibatan kasyajaratin ṭayyibatin ... yuṡabbitullāhullażīna āmanū bil-qauliṡ-ṡābiti</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Have you not considered how Allah presents an example, [making] a good word like a good tree, whose root is firmly fixed and its branches [high] in the sky?... Allah keeps firm those who believe with the firm word in worldly life and the Hereafter." (14:24-27)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Al-Qurtubi):</strong> The good word is the declaration of tawhid "Laa ilaaha illallah". The good tree is like a palm tree: deep roots, strong trunk, abundant fruit. Faith is like that: its roots are firm in the heart, its branches reach the sky (good deeds), and it gives fruit continuously. The bad word is like the hanẓalah plant, which is uprooted easily. Allah makes the believers firm with the firm word at the time of death, in the grave, and on the Day of Judgment. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title">3. The Principle of Gratitude – Verse 7</div>
+                <div class="verse">
+                    <strong>Full Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=7&to=7&opt=1" target="_blank">Ibrāhīm 14:7 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ ۖ وَلَئِن كَفَرْتُمْ إِنَّ عَذَابِى لَشَدِيدٌ</div>
+                    <div class="transliteration">Wa iż ta`ażżana rabbukum la`in syakartum la`azīdannakum, wa la`ing kafartum inna 'ażābī lasyadīd</div>
+                    <div class="translation-text"><strong>Translation:</strong> "If you are grateful, I will surely increase you; but if you are ungrateful, indeed My punishment is severe." (14:7)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (As-Sa'di):</strong> This is Allah's certain promise: gratitude brings increase of blessings, both in quality and quantity. True gratitude has three levels: (1) Gratitude of the heart by acknowledging that blessings come from Allah, (2) Gratitude of the tongue by praising Allah, (3) Gratitude of the limbs by using blessings in obedience to Allah. Ingratitude, on the other hand, invites severe punishment in this world and the Hereafter. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Source: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title">4. The Magnificent Prayers of Abraham – Verses 35-41</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=35&to=41&opt=1" target="_blank">Ibrāhīm 14:35-41 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَإِذْ قَالَ إِبْرَٰهِيمُ رَبِّ ٱجْعَلْ هَـٰذَا ٱلْبَلَدَ ءَامِنًۭا ... رَبَّنَا ٱغْفِرْ لِى وَلِوَٰلِدَىَّ وَلِلْمُؤْمِنِينَ</div>
+                    <div class="transliteration">Wa iż qāla ibrāhīmu rabbij'al hāżal-balada āminā ... rabbanagfir lī wa liwālidayya wa lil-mu`minīna</div>
+                    <div class="translation-text"><strong>Translation:</strong> "My Lord, make this city secure... Our Lord, forgive me, my parents, and the believers on the Day the account is established." (14:35-41)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (At-Tabari):</strong> Abraham's prayer is comprehensive, covering both worldly and spiritual needs: (1) Security of the land (foundation of life), (2) Protection from idolatry (tawhid), (3) Righteous descendants who establish prayer (worship), (4) Hearts of people inclined toward good (da'wah), (5) Lawful and good provision (economy), (6) Forgiveness for himself, his parents, and all believers. This is the perfect model of supplication. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Source: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
+            </div>
+
+            <div class="theme-card"><div class="theme-title">5. Reminder of the Fate of Previous Nations – Verses 9-12</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=14&verse=9&to=12&opt=1" target="_blank">Ibrāhīm 14:9-12 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">أَلَمْ يَأْتِكُمْ نَبَؤُا۟ ٱلَّذِينَ مِن قَبْلِكُمْ قَوْمِ نُوحٍۢ وَعَادٍۢ وَثَمُودَ ... فَرَدُّوٓا۟ أَيْدِيَهُمْ فِىٓ أَفْوَٰهِهِمْ</div>
+                    <div class="transliteration">A lam ya`tikum naba`ullażīna min qablikum qaumi nụḥiw wa 'ādiw wa ṡamụda ... fa raddū aidiyahum fī afwāhihim</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Has there not reached you the news of those before you – the people of Noah, 'Ad, and Thamud... they put their hands over their mouths and said, 'Indeed we disbelieve in that with which you have been sent, and indeed we are in disquieting doubt about that to which you invite us.'" (14:9)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Ibn Kathir):</strong> Allah reminds the disbelievers of Quraish about the fate of previous nations who denied their messengers. "Putting their hands over their mouths" is a gesture of anger, mockery, and strong rejection. They were arrogant and said, "We are in doubt about your call." Yet the messengers came with clear proofs. This is a warning that the same arrogant and doubtful attitude will lead to the same destruction. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Ar-Ra'd (13):</strong> Ar-Ra'd focuses on cosmic signs, Ibrāhīm on prophetic mission and prayer; both Meccan and complementary.</li><li><strong>With Surah Al-Baqarah (2):</strong> Abraham's prayer is also mentioned in Al-Baqarah 127-129, but here it is more detailed and comprehensive.</li><li><strong>With Surah Ash-Shu'ara (26):</strong> Ash-Shu'ara narrates stories of prophets alternately, while Ibrāhīm focuses on Abraham's prayer and the parable of the good tree. Both remind of the arrogant attitude of previous nations.</li></ul></div>
+
+        <div class="info-box"><i class="fas fa-book-open"></i> Reflect: “If you are grateful, I will surely increase you [in favor].” (14:7)</div>
+
+        <!-- Pagination ENGLISH -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="013.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Ar-Ra'd (13)</a>
+                <a href="015.html" class="pagination-item">Next Surah: Al-Ḥijr (15) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+            </div>
+        </div>
     </div>
 </div>
-<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
-
+<footer>© 1447 AH / 2026 AD - Tafsir based on IslamicStudies.info & classical sources (Ibn Kathir, Al-Qurtubi, As-Sa'di, At-Tabari) | Thematic Reflection | Complete verses displayed without truncation.</footer>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 <script>
-(function(){
-    const englishDiv = document.getElementById('english-content');
-    const indoDiv = document.getElementById('indonesian-content');
-    const langToggle = document.getElementById('languageToggle');
-    const translitToggle = document.getElementById('transliterationToggle');
-    const darkToggle = document.getElementById('darkModeToggle');
-    const translitElements = document.querySelectorAll('.transliteration');
-    const langSpan = langToggle.querySelector('.lang-text');
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let currentLang = localStorage.getItem('language') || 'indonesian';
-    if(urlParams.has('English')) currentLang = 'english';
-    if(urlParams.has('Indonesian')) currentLang = 'indonesian';
-    
-    function setLanguage(lang){
-        const isEnglish = (lang === 'english');
-        if(isEnglish){
-            englishDiv.classList.remove('hidden');
-            indoDiv.classList.add('hidden');
-            if(langSpan) langSpan.innerHTML = '🇮🇩 Switch to Indonesian';
-            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
-        } else {
-            englishDiv.classList.add('hidden');
-            indoDiv.classList.remove('hidden');
-            if(langSpan) langSpan.innerHTML = '🇬🇧 Switch to English';
-            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+    (function() {
+        const englishDiv = document.getElementById('english-content');
+        const indoDiv = document.getElementById('indonesian-content');
+        const langToggle = document.getElementById('languageToggle');
+        const translitToggle = document.getElementById('transliterationToggle');
+        const darkToggle = document.getElementById('darkModeToggle');
+        const translitElements = document.querySelectorAll('.transliteration');
+        const urlParams = new URLSearchParams(window.location.search);
+        let langParam = null;
+        if (urlParams.has('English')) langParam = 'english';
+        else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+        let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+        function setLanguage(lang) {
+            const isEnglish = (lang === 'english');
+            if (isEnglish) { englishDiv.classList.remove('hidden'); indoDiv.classList.add('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian'; }
+            else { englishDiv.classList.add('hidden'); indoDiv.classList.remove('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English'; }
+            localStorage.setItem('language', lang);
         }
-        localStorage.setItem('language', lang);
-    }
-    setLanguage(currentLang);
-    langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
-    });
-
-    let translitVisible = localStorage.getItem('transliteration') === 'true';
-    if(urlParams.has('Transliteration')) translitVisible = true;
-    function setTransliteration(show){
-        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-        localStorage.setItem('transliteration', show);
-    }
-    setTransliteration(translitVisible);
-    translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
-        setTransliteration(!currently);
-    });
-
-    let darkActive = localStorage.getItem('darkMode') === 'true';
-    if(urlParams.has('Dark')) darkActive = true;
-    if(darkActive) document.body.classList.add('dark-mode');
-    function setDarkModeUI(){
-        const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-        localStorage.setItem('darkMode', active);
-    }
-    setDarkModeUI();
-    darkToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+        setLanguage(currentLang);
+        langToggle.addEventListener('click', () => { const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian'; setLanguage(newLang); });
+        let translitVisible = localStorage.getItem('transliteration') === 'true';
+        if (urlParams.has('Transliteration')) translitVisible = true;
+        function setTransliteration(show) { translitElements.forEach(el => el.style.display = show ? 'block' : 'none'); translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration'; localStorage.setItem('transliteration', show); }
+        setTransliteration(translitVisible);
+        translitToggle.addEventListener('click', () => { const currently = translitElements[0]?.style.display === 'block'; setTransliteration(!currently); });
+        let darkActive = false;
+        if (urlParams.has('Dark')) darkActive = true;
+        else darkActive = localStorage.getItem('darkMode') === 'true';
+        if (darkActive) document.body.classList.add('dark-mode');
+        function setDarkModeUI() { const active = document.body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
         setDarkModeUI();
-    });
-
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
-})();
+        darkToggle.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
+        const upArrow = document.getElementById('scrollUp'); const downArrow = document.getElementById('scrollDown');
+        if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+        if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    })();
 </script>
 </body>
 </html>
