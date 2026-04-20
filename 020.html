@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Surah Taha - Tafsir Tematik | Thematic Tafsir</title>
+    <title>Surah Ṭāhā (20) - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -20,6 +20,7 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
+            --translation-color: #2c5282;
             --theme-card-bg: #ffffffdd;
         }
         .dark-mode {
@@ -27,7 +28,7 @@
             --text-color: #eef2ff;
             --container-bg: #1e293b;
             --arabic-color: #7bc9ff;
-            --section-title-color: #90d0ff;
+            --section-title-color: #7bc9ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
@@ -37,6 +38,7 @@
             --benefits-bg: #1f3a2f;
             --link-color: #93c5fd;
             --link-hover: #c3e2ff;
+            --translation-color: #bdd4ff;
             --theme-card-bg: #1e293bdd;
         }
         body {
@@ -59,38 +61,37 @@
         }
         a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
         a:hover { color: var(--link-hover); text-decoration: underline; }
-        .blink-arrow {
-            animation: blink 1s step-start infinite;
-            display: inline-block;
-            font-weight: bold;
-            background: #ffcc00;
-            color: #000;
-            padding: 2px 6px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin-right: 6px;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
         .arabic {
             font-size: 36px;
             text-align: right;
             direction: rtl;
-            margin: 20px 0 10px 0;
+            margin: 10px 0 5px;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
-            line-height: 1.8;
+            line-height: 1.6;
+            word-wrap: break-word;
         }
         .transliteration {
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
-            text-align: center;
-            margin: 0 0 10px 0;
+            margin: 8px 0 6px;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--verse-border);
             display: none;
+            text-align: right;
         }
         .dark-mode .transliteration { color: #b0c4de; }
+        .translation-text {
+            font-size: 16px;
+            background-color: rgba(44, 82, 130, 0.08);
+            padding: 8px 12px;
+            border-radius: 14px;
+            margin: 6px 0 12px;
+            color: var(--translation-color);
+            border-left: 3px solid var(--link-color);
+            font-weight: 500;
+        }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -111,26 +112,33 @@
             align-items: center;
             gap: 10px;
         }
-        .verse, .theme-point, .theme-card {
+        .verse, .theme-point {
             background-color: var(--verse-bg);
             padding: 20px;
             border-radius: 20px;
             margin: 25px 0;
             border: 1px solid var(--verse-border);
         }
-        .verse-title, .theme-title {
+        .theme-title {
             font-weight: bold;
             color: #1e7e5c;
             margin-bottom: 12px;
             font-size: 1.2rem;
         }
-        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
+        .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
             border-radius: 16px;
             margin-top: 15px;
             border: 1px solid var(--tafsir-border);
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.7;
+            font-style: italic;
         }
         .hidden { display: none; }
         .top-home-link {
@@ -144,6 +152,9 @@
         .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
         .theme-card {
             background: var(--theme-card-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
             border-left: 6px solid #2c7da0;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
@@ -182,6 +193,7 @@
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
             text-align: left;
+            vertical-align: top;
         }
         .theme-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
@@ -206,13 +218,17 @@
         .scroll-arrow.up { top: 90px; }
         .scroll-arrow.down { bottom: 90px; }
         .surah-pagination {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+        }
+        .pagination-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -226,6 +242,7 @@
             transition: 0.2s;
         }
         .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center { text-align: center; }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -249,84 +266,91 @@
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
             .scroll-arrow { width: 38px; height: 38px; left: 12px; }
-            .arabic { font-size: 30px; }
+            .arabic { font-size: 28px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
-        .fa, .fas, .far { margin-right: 4px; }
-        .verse-item { margin-bottom: 20px; border-bottom: 1px dashed var(--verse-border); padding-bottom: 15px; }
-        .verse-item:last-child { border-bottom: none; }
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
+        }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
+        }
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
+        }
         .relationship-box {
             background: var(--structure-bg);
             padding: 20px;
             border-radius: 24px;
             margin: 30px 0;
+            border-left: 5px solid #2c7da0;
         }
-        .external-arrow { margin-left: 4px; }
+        .fa, .fas, .far { margin-right: 4px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> <span class="lang-text">🇬🇧 Switch to English</span></div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
-
 <div class="container" id="mainContainer">
     <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah Taha - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=1&to=135&opt=1" target="_blank">IslamicStudies.info - Surah Taha (1-135)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Ṭāhā (20) - Tafsir Tematik</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=1&to=135&opt=1" target="_blank">IslamicStudies.info - Surah Ṭāhā (1-135) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></div>
+        <div class="arabic">طَهٰ</div>
+        <div class="transliteration">Ṭāhā</div>
+        <div class="translation-text"><strong>Terjemahan:</strong> "Ṭāhā." (Ṭāhā 20:1)</div>
 
         <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Taha</h3>
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Ṭāhā (Surah ke-20)</h3>
             <p>Surah ke-20 (135 ayat) Makkiyah. Dinamai dari huruf pembuka "Ṭāhā". Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=1&to=135&opt=1" target="_blank">IslamicStudies.info</a>, surah ini turun untuk menghibur Nabi Muhammad SAW dari tekanan kaum musyrik, berisi kisah detail Nabi Musa, penegasan tauhid, perintah shalat, dan peringatan hari kiamat. Surah ini juga dikenal karena doa Nabi Musa yang sangat masyhur.</p>
         </div>
-        <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p><a href="https://quran.com/20?translations=33" target="_blank"><span class="blink-arrow">👉 KLIK DISINI 👈</span> Quran.com - Surah Taha (Terjemahan Indonesia) <i class="fas fa-external-link-alt external-arrow"></i></a></p>
-        </div>
-        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Taha</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/020.mp3" type="audio/mpeg"></audio></div>
 
-        <!-- Struktur dan Kandungan -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
-            <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
-                <tbody>
-                    <tr><td><strong>1-8</strong></td><td>Pengantar & penegasan Al-Qur'an</td><td>Al-Qur'an sebagai peringatan; keagungan Allah.  </td></tr>
-                    <tr><td><strong>9-24</strong></td><td>Panggilan kenabian Musa di Lembah Tuwa</td><td>Musa melihat api, dipanggil Allah, diberi mukjizat tongkat dan tangan bercahaya.</td></tr>
-                    <tr><td><strong>25-32</strong></td><td>Doa Musa memohon kelapangan dada dan dukungan</td><td>Doa komprehensif untuk kemudahan, kelancaran bicara, dan bantuan Harun.</td></tr>
-                    <tr><td><strong>33-76</strong></td><td>Musa menghadap Firaun & mukjizat</td><td>Dialog Musa dengan Firaun, mukjizat tongkat menjadi ular, tangan bercahaya.</td></tr>
-                    <tr><td><strong>77-98</strong></td><td>Penyelamatan Bani Israel & kehancuran Firaun</td><td>Laut terbelah, Firaun tenggelam, Bani Israel selamat.</td></tr>
-                    <tr><td><strong>99-114</strong></td><td>Kisah Adam & Iblis</td><td>Penciptaan Adam, pembangkangan Iblis, godaan, dan perintah menjauhi setan.</td></tr>
-                    <tr><td><strong>115-135</strong></td><td>Peringatan hari kiamat & penutup</td><td>Gambaran kiamat, perintah sabar, shalat, dan bertasbih.</td></tr>
-                </tbody>
-            </table>
+        <!-- Aqidah, Ibadah, Akhlak Columns (Indonesian) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Keesaan Allah (20:14), kenabian Musa dan Muhammad, keniscayaan hari kiamat (20:102-104), dan bahwa Allah tidak memiliki anak. (20:116)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Mendirikan shalat dengan khusyuk (20:14), berdoa dengan doa-doa yang diajarkan Al-Qur'an (20:25-32), membaca Al-Qur'an dengan tartil.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Berkata lembut (20:44), sabar dalam menghadapi ujian, rendah hati, tolong-menolong dalam kebaikan (Musa dan Harun).</div>
         </div>
 
-        <!-- Pembagian Tema per Bagian Ayat -->
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/20?translations=33" target="_blank">Quran.com - Surah Ṭāhā (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Ṭāhā</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/020.mp3" type="audio/mpeg"></audio></div>
+
+        <!-- Thematic Division by Verses -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
             <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>20:1-4</strong></td><td>Huruf Muqatta'ah & tujuan Al-Qur'an</td><td>Ṭāhā, Al-Qur'an diturunkan bukan untuk menyusahkan, tetapi sebagai peringatan.</td></tr>
-                    <tr><td><strong>20:9-16</strong></td><td>Musa mendengar panggilan Allah</td><td>"Sesungguhnya Aku adalah Allah, tidak ada tuhan selain Aku; maka sembahlah Aku dan dirikanlah shalat untuk mengingat Aku."</td></tr>
-                    <tr><td><strong>20:17-24</strong></td><td>Mukjizat tongkat dan tangan</td><td>Tongkat menjadi ular, tangan bercahaya putih – bukti kekuasaan Allah.</td></tr>
-                    <tr><td><strong>20:25-28</strong></td><td>Doa Musa yang agung</td><td>"Ya Tuhanku, lapangkanlah dadaku, mudahkanlah urusanku, lepaskanlah kekakuan dari lidahku."</td></tr>
-                    <tr><td><strong>20:29-32</strong></td><td>Permohonan pembantu (Harun)</td><td>"Jadikanlah untukku seorang pembantu dari keluargaku, yaitu Harun, saudaraku."</td></tr>
-                    <tr><td><strong>20:44</strong></td><td>Perintah berkata lembut kepada Firaun</td><td>"Maka berbicaralah kamu berdua kepadanya dengan kata-kata yang lemah lembut."</td></tr>
-                    <tr><td><strong>20:47-48</strong></td><td>Pesan tauhid kepada Firaun</td><td>"Sesungguhnya kami adalah utusan Tuhanmu, maka lepaskanlah Bani Israel bersama kami."</td></tr>
-                    <tr><td><strong>20:77-80</strong></td><td>Penyelamatan menyeberangi laut</td><td>Allah memerintahkan Musa memukul laut dengan tongkat, terbelahlah laut.</td></tr>
-                    <tr><td><strong>20:115-123</strong></td><td>Adam, Iblis, dan peringatan</td><td>"Sesungguhnya ini (Iblis) adalah musuh bagimu dan bagi istrimu."</td></tr>
-                    <tr><td><strong>20:130-132</strong></td><td>Perintah sabar, shalat, dan bertasbih</td><td>"Dan perintahkanlah keluargamu mendirikan shalat dan bersabarlah kamu dalam mengerjakannya."</td></tr>
-                    <tr><td><strong>20:133-135</strong></td><td>Penutup: seruan untuk mengikuti petunjuk</td><td>"Katakanlah, 'Masing-masing (kita) menanti, maka nantikanlah...'"</td></tr>
+                    <tr><td><strong>1-8</strong></td><td>Pengantar & penegasan Al-Qur'an</td<td>Al-Qur'an sebagai peringatan; keagungan Allah. — Ibnu Katsir</td</tr>
+                    <tr><td><strong>9-24</strong></td><td>Panggilan kenabian Musa di Lembah Tuwa</td<td>Musa melihat api, dipanggil Allah, diberi mukjizat tongkat dan tangan bercahaya. — Al-Qurthubi</td</tr>
+                    <tr><td><strong>25-32</strong></td><td>Doa Musa memohon kelapangan dada dan dukungan</td<td>Doa komprehensif untuk kemudahan, kelancaran bicara, dan bantuan Harun. — As-Sa'di</td</tr>
+                    <tr><td><strong>33-76</strong></td><td>Musa menghadap Firaun & mukjizat</td-saluran Dialog Musa dengan Firaun, mukjizat tongkat menjadi ular, tangan bercahaya. — At-Tabari</td</tr>
+                    <tr><td><strong>77-98</strong></td>-saluran Penyelamatan Bani Israel & kehancuran Firaun</td-saluran Laut terbelah, Firaun tenggelam, Bani Israel selamat. — Ibnu Katsir</td</tr>
+                    <tr><td><strong>99-114</strong></td>-saluran Kisah Adam & Iblis</td-saluran Penciptaan Adam, pembangkangan Iblis, godaan, dan perintah menjauhi setan. — Al-Qurthubi</td</tr>
+                    <tr><td><strong>115-135</strong></td>-saluran Peringatan hari kiamat & penutup</td-saluran Gambaran kiamat, perintah sabar, shalat, dan bertasbih. — As-Sa'di</td</tr>
                 </tbody>
             </table>
         </div>
@@ -335,276 +359,303 @@
         <div class="section">
             <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
             <div class="verse">
-                <div class="arabic">قَالَ رَبِّ ٱشْرَحْ لِى صَدْرِى * وَيَسِّرْ لِىٓ أَمْرِى * وَٱحْلُلْ عُقْدَةً مِّن لِّسَانِى * يَفْقَهُوا۟ قَوْلِى * وَٱجْعَل لِّى وَزِيرًا مِّنْ أَهْلِى * هَٰرُونَ أَخِى</div>
-                <div class="transliteration">Qāla rabbi syraḥ lī ṣadrī * wa yassir lī amrī * waḥlul 'uqdatam mil lisānī * yafqahụ qaulī * waj'al lī wazīram min ahlī * hārụna akhī.</div>
-                <p><strong>Terjemahan:</strong> "Dia (Musa) berkata, 'Ya Tuhanku, lapangkanlah dadaku, mudahkanlah urusanku, lepaskanlah kekakuan dari lidahku, agar mereka mengerti perkataanku, dan jadikanlah untukku seorang pembantu dari keluargaku, (yaitu) Harun, saudaraku.'" (Taha 20:25-30)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Doa Musa mencakup kelapangan dada, kemudahan urusan, kelancaran komunikasi, dan dukungan tim. Ini adalah doa komprehensif bagi setiap pemimpin, dai, dan siapa pun yang menghadapi tugas berat. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=25&to=30&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-            </div>
-        </div>
-
-        <!-- Tema Utama dengan ayat lengkap -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Taha</h2>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Panggilan Kenabian Musa & Mukjizat – Ayat 9-24</div>
-                <div class="verse-item">
-                    <div class="arabic">وَهَلْ أَتَىٰكَ حَدِيثُ مُوسَىٰٓ * إِذْ رَءَا نَارًا فَقَالَ لِأَهْلِهِ ٱمْكُثُوٓا۟ إِنِّىٓ ءَانَسْتُ نَارًا لَّعَلِّىٓ ءَاتِيكُم مِّنْهَا بِقَبَسٍ أَوْ أَجِدُ عَلَى ٱلنَّارِ هُدًۭى * فَلَمَّآ أَتَىٰهَا نُودِىَ يَٰمُوسَىٰٓ * إِنِّىٓ أَنَا۠ رَبُّكَ فَٱخْلَعْ نَعْلَيْكَ إِنَّكَ بِٱلْوَادِ ٱلْمُقَدَّسِ طُوًۭى</div>
-                    <div class="transliteration">Wa hal atāka ḥadīṡu mụsā * iż ra`ā nāran fa qāla li`ahlihimkụṡū innī ānastu nāral la‘allī ātīkum min-hā biqabasin au ajidu ‘alan-nāri hudā * fa lammā atāhā nụdiya yā mụsā * innī ana rabbuka fakhla' na'laika innaka bil-wādil-muqaddasi ṭuwā.</div>
-                    <p><strong>Terjemahan:</strong> "Dan apakah telah sampai kepadamu kisah Musa? Ketika dia melihat api, lalu berkata kepada keluarganya, 'Tinggallah kamu (di sini), sesungguhnya aku melihat api, mudah-mudahan aku dapat membawa sedikit daripadanya kepadamu atau aku akan mendapat petunjuk di tempat api itu.' Maka ketika dia sampai ke (tempat) api itu, dia dipanggil, 'Wahai Musa! Sesungguhnya Aku adalah Tuhanmu, maka lepaskan kedua terompahmu; sesungguhnya engkau berada di lembah suci, Tuwa.'" (20:9-12)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Pengangkatan Musa sebagai nabi di tempat suci. Perintah melepas sandal sebagai bentuk penghormatan. Ini menunjukkan kesucian misi kenabian. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=9&to=24&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Doa Musa (Rabbi syraḥ lī ṣadrī) – Ayat 25-32</div>
-                <div class="verse-item">
-                    <div class="arabic">قَالَ رَبِّ ٱشْرَحْ لِى صَدْرِى * وَيَسِّرْ لِىٓ أَمْرِى * وَٱحْلُلْ عُقْدَةً مِّن لِّسَانِى * يَفْقَهُوا۟ قَوْلِى * وَٱجْعَل لِّى وَزِيرًا مِّنْ أَهْلِى * هَٰرُونَ أَخِى * ٱشْدُدْ بِهِۦٓ أَزْرِى * وَأَشْرِكْهُ فِىٓ أَمْرِى</div>
-                    <div class="transliteration">Qāla rabbi syraḥ lī ṣadrī * wa yassir lī amrī * waḥlul 'uqdatam mil lisānī * yafqahụ qaulī * waj'al lī wazīram min ahlī * hārụna akhī * ushdud bihī azrī * wa ashrik-hu fī amrī.</div>
-                    <p><strong>Terjemahan:</strong> "Dia (Musa) berkata, 'Ya Tuhanku, lapangkanlah dadaku, mudahkanlah urusanku, lepaskanlah kekakuan dari lidahku, agar mereka mengerti perkataanku, dan jadikanlah untukku seorang pembantu dari keluargaku, (yaitu) Harun, saudaraku, kuatkanlah punggungku dengan (keberadaan)nya, dan jadikanlah dia sekutu dalam urusanku.'" (20:25-32)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Doa komprehensif yang mencakup aspek psikologis (lapang dada), praktis (kemudahan), komunikasi (kelancaran bicara), dan dukungan tim (Harun). Ini menjadi amalan para dai dan pemimpin. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=25&to=32&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Perintah Shalat untuk Mengingat Allah – Ayat 14</div>
-                <div class="verse-item">
-                    <div class="arabic">إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَٰهَ إِلَّآ أَنَا۠ فَٱعْبُدْنِى وَأَقِمِ ٱلصَّلَوٰةَ لِذِكْرِىٓ</div>
-                    <div class="transliteration">Innanī anallāhu lā ilāha illā ana fa'budnī wa aqimiṣ-ṣalāta liżikrī.</div>
-                    <p><strong>Terjemahan:</strong> "Sesungguhnya Aku adalah Allah, tidak ada tuhan selain Aku; maka sembahlah Aku dan dirikanlah shalat untuk mengingat Aku." (20:14)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Shalat bukan sekadar ritual, tetapi inti ibadah yang menghubungkan hamba dengan Tuhan. Didirikan sebagai sarana mengingat Allah di tengah kesibukan. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=14&to=14&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Kisah Adam & Iblis: Musuh yang Nyata – Ayat 115-123</div>
-                <div class="verse-item">
-                    <div class="arabic">وَلَقَدْ عَهِدْنَآ إِلَىٰٓ ءَادَمَ مِن قَبْلُ فَنَسِىَ وَلَمْ نَجِدْ لَهُۥ عَزْمًا * وَإِذْ قُلْنَا لِلْمَلَٰٓئِكَةِ ٱسْجُدُوا۟ لِءَادَمَ فَسَجَدُوٓا۟ إِلَّآ إِبْلِيسَ أَبَىٰ ... فَقُلْنَا يَٰٓءَادَمُ إِنَّ هَٰذَا عَدُوٌّ لَّكَ وَلِزَوْجِكَ فَلَا يُخْرِجَنَّكُمَا مِنَ ٱلْجَنَّةِ فَتَشْقَىٰٓ</div>
-                    <div class="transliteration">Wa laqad 'ahidnā ilā ādama min qablu fanasiya wa lam najid lahụ 'azmā * wa iż qulnā lil-malā`ikatisjudū li`ādama fasajadū illā iblīs abā ... fa qulnā yā ādamu inna hāżā 'aduwwul laka wa lizaujika falā yukhrijannakumā minal-jannati fa tasyqā.</div>
-                    <p><strong>Terjemahan:</strong> "Dan sungguh, telah Kami perintahkan kepada Adam dahulu, maka dia lupa (akan perintah itu), dan Kami tidak dapati padanya kemauan yang kuat. Dan (ingatlah) ketika Kami berfirman kepada malaikat, 'Sujudlah kamu semua kepada Adam,' maka mereka sujud kecuali Iblis. Dia menolak... Maka Kami berfirman, 'Wahai Adam, sesungguhnya ini (Iblis) adalah musuh bagimu dan bagi istrimu, maka janganlah sampai dia mengeluarkan kamu berdua dari surga, yang menyebabkan kamu menjadi celaka.'" (20:115-117)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Manusia mudah lalai, namun Allah memberi pintu taubat. Iblis adalah musuh abadi yang harus diwaspadai. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=115&to=123&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Peringatan Hari Kiamat – Ayat 102-104</div>
-                <div class="verse-item">
-                    <div class="arabic">يَوْمَ يُنفَخُ فِى ٱلصُّورِ وَنَحْشُرُ ٱلْمُجْرِمِينَ يَوْمَئِذٍ زُرْقًۭا * يَتَخَٰفَتُونَ بَيْنَهُمْ إِن لَّبِثْتُمْ إِلَّا عَشْرًۭا</div>
-                    <div class="transliteration">Yauma yunfakhu fiṣ-ṣụri wa naḥsyurul-mujrimīna yauma`iżin zurqā * yatakhāfatụna bainahum il labiṡtum illā 'asyrā.</div>
-                    <p><strong>Terjemahan:</strong> "(Yaitu) pada hari (ketika) sangkakala ditiup, dan Kami akan mengumpulkan pada hari itu orang-orang yang berdosa dengan mata biru (karena ketakutan). Mereka berbisik-bisik satu sama lain, 'Kamu tidak berdiam (di dunia) hanya sepuluh (hari).'" (20:102-103)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Gambaran dahsyat hari kiamat. Orang berdosa akan ketakutan, dan mereka merasa hidup di dunia hanya sebentar. Peringatan agar tidak terpedaya dunia. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=102&to=104&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
+                <div class="arabic">قَالَ رَبِّ ٱشْرَحْ لِى صَدْرِى (٢٥) وَيَسِّرْ لِىٓ أَمْرِى (٢٦) وَٱحْلُلْ عُقْدَةًۭ مِّن لِّسَانِى (٢٧) يَفْقَهُوا۟ قَوْلِى (٢٨) وَٱجْعَل لِّى وَزِيرًۭا مِّنْ أَهْلِى (٢٩) هَـٰرُونَ أَخِى (٣٠)</div>
+                <div class="transliteration">Qāla rabbi syraḥ lī ṣadrī (25) wa yassir lī amrī (26) waḥlul 'uqdatam mil lisānī (27) yafqahụ qaulī (28) waj'al lī wazīram min ahlī (29) hārụna akhī (30)</div>
+                <div class="translation-text"><strong>Terjemahan:</strong> "Dia (Musa) berkata, 'Ya Tuhanku, lapangkanlah dadaku, (25) mudahkanlah urusanku, (26) lepaskanlah kekakuan dari lidahku, (27) agar mereka mengerti perkataanku, (28) dan jadikanlah untukku seorang pembantu dari keluargaku, (29) (yaitu) Harun, saudaraku.'" (30)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Doa Musa mencakup kelapangan dada, kemudahan urusan, kelancaran komunikasi, dan dukungan tim. Ini adalah doa komprehensif bagi setiap pemimpin, dai, dan siapa pun yang menghadapi tugas berat.</div>
             </div>
         </div>
 
         <!-- Keutamaan Khusus Surah -->
-        <div class="special-benefits">
-            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Taha</h3>
-            <ul>
-                <li><strong>Penghiburan bagi Nabi:</strong> Surah ini turun saat Nabi Muhammad sangat tertekan, menguatkan hatinya.</li>
-                <li><strong>Doa Musa yang mustajab:</strong> Doa "Rabbi syraḥ lī ṣadrī" menjadi amalan para dai dan pemimpin.</li>
-                <li><strong>Perintah shalat yang ditekankan:</strong> Shalat sebagai sarana mengingat Allah (20:14).</li>
-                <li><strong>Kisah Musa & Firaun:</strong> Mengajarkan bahwa kebenaran pasti menang meskipun menghadapi kekuatan besar.</li>
-                <li><strong>Peringatan keras tentang hari kiamat:</strong> Menggugah kesadaran akan akhirat.</li>
-            </ul>
-        </div>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Ṭāhā</h3><ul><li>Penghiburan bagi Nabi: Surah ini turun saat Nabi Muhammad sangat tertekan, menguatkan hatinya.</li><li>Doa Musa yang mustajab: Doa "Rabbi syraḥ lī ṣadrī" menjadi amalan para dai dan pemimpin.</li><li>Perintah shalat yang ditekankan: Shalat sebagai sarana mengingat Allah (20:14).</li><li>Kisah Musa & Firaun: Mengajarkan bahwa kebenaran pasti menang meskipun menghadapi kekuatan besar.</li><li>Peringatan keras tentang hari kiamat: Menggugah kesadaran akan akhirat.</li></ul></div>
 
-        <!-- Pesan Akidah, Ibadah, Akhlak -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
-            <p><strong>Akidah:</strong> Keesaan Allah, kenabian Musa dan Muhammad, keniscayaan hari kiamat, dan bahwa Allah tidak memiliki anak.</p>
-            <p><strong>Ibadah:</strong> Mendirikan shalat dengan khusyuk, berdoa dengan doa-doa yang diajarkan Al-Qur'an, membaca Al-Qur'an dengan tartil.</p>
-            <p><strong>Akhlak:</strong> Berkata lembut (20:44), sabar dalam menghadapi ujian, rendah hati, tolong-menolong dalam kebaikan (Musa dan Harun).</p>
-        </div>
+        <!-- Pesan Aqidah, Ibadah, Akhlak -->
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Pesan Aqidah, Ibadah, & Akhlak</h3><p><strong>Akidah:</strong> Keesaan Allah, kenabian Musa dan Muhammad, keniscayaan hari kiamat, dan bahwa Allah tidak memiliki anak.</p><p><strong>Ibadah:</strong> Mendirikan shalat dengan khusyuk, berdoa dengan doa-doa yang diajarkan Al-Qur'an, membaca Al-Qur'an dengan tartil.</p><p><strong>Akhlak:</strong> Berkata lembut (20:44), sabar dalam menghadapi ujian, rendah hati, tolong-menolong dalam kebaikan (Musa dan Harun).</p></div>
 
         <!-- Pelajaran Spiritual -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Taha</h3>
-            <ul>
-                <li>Allah selalu mendampingi hamba-Nya yang tulus, bahkan dalam kesulitan.</li>
-                <li>Doa adalah senjata utama; mintalah kelapangan dada, kemudahan, dan dukungan.</li>
-                <li>Shalat adalah tiang agama dan sarana mengingat Allah di tengah kesibukan.</li>
-                <li>Jangan takut kepada penguasa zalim; kebenaran akan menang dengan izin Allah.</li>
-                <li>Hati-hati terhadap godaan setan yang terus-menerus berusaha menyesatkan.</li>
-            </ul>
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Ṭāhā</h3><ul><li>Allah selalu mendampingi hamba-Nya yang tulus, bahkan dalam kesulitan.</li><li>Doa adalah senjata utama; mintalah kelapangan dada, kemudahan, dan dukungan.</li><li>Shalat adalah tiang agama dan sarana mengingat Allah di tengah kesibukan.</li><li>Jangan takut kepada penguasa zalim; kebenaran akan menang dengan izin Allah.</li><li>Hati-hati terhadap godaan setan yang terus-menerus berusaha menyesatkan.</li></ul></div>
+
+        <!-- Relevansi untuk Kehidupan Modern -->
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div><ol><li>Kepemimpinan: Doa Musa menjadi panduan bagi pemimpin dan aktivis untuk memohon kemudahan dan dukungan tim.</li><li>Komunikasi yang lembut: Perintah "qawlā layyinā" (20:44) sangat relevan dalam dakwah digital dan hubungan antarmanusia.</li><li>Manajemen Stres: Shalat sebagai terapi spiritual untuk mengatasi kecemasan dan tekanan hidup.</li><li>Keadilan sosial: Kisah perlawanan Musa terhadap Firaun menginspirasi perjuangan melawan tirani dan ketidakadilan.</li><li>Kesadaran akhirat: Peringatan tentang hari kiamat mengoreksi gaya hidup hedonis dan materialistis.</li></ol></div>
+
+        <!-- Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah</h2>
+
+            <!-- 1. Panggilan Kenabian Musa & Mukjizat (9-24) -->
+            <div class="theme-card">
+                <div class="theme-title">1. Panggilan Kenabian Musa & Mukjizat – Ayat 9-24</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=9&to=24&opt=1" target="_blank">Ṭāhā 20:9-24 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَهَلْ أَتَىٰكَ حَدِيثُ مُوسَىٰٓ (٩) إِذْ رَءَا نَارًۭا فَقَالَ لِأَهْلِهِ ٱمْكُثُوٓا۟ إِنِّىٓ ءَانَسْتُ نَارًۭا لَّعَلِّىٓ ءَاتِيكُم مِّنْهَا بِقَبَسٍ أَوْ أَجِدُ عَلَى ٱلنَّارِ هُدًۭى (١٠) فَلَمَّآ أَتَىٰهَا نُودِىَ يَٰمُوسَىٰٓ (١١) إِنِّىٓ أَنَا۠ رَبُّكَ فَٱخْلَعْ نَعْلَيْكَ إِنَّكَ بِٱلْوَادِ ٱلْمُقَدَّسِ طُوًۭى (١٢) وَأَنَا ٱخْتَرْتُكَ فَٱسْتَمِعْ لِمَا يُوحَىٰٓ (١٣) إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَٰهَ إِلَّآ أَنَا۠ فَٱعْبُدْنِى وَأَقِمِ ٱلصَّلَوٰةَ لِذِكْرِىٓ (١٤) إِنَّ ٱلسَّاعَةَ ءَاتِيَةٌ أَكَادُ أُخْفِيهَا لِتُجْزَىٰ كُلُّ نَفْسٍۭ بِمَا تَسْعَىٰ (١٥) فَلَا يَصُدَّنَّكَ عَنْهَا مَن لَّا يُؤْمِنُ بِهَا وَٱتَّبَعَ هَوَىٰهُ فَتَرْدَىٰ (١٦) وَمَا تِلْكَ بِيَمِينِكَ يَٰمُوسَىٰ (١٧) قَالَ هِىَ عَصَاىَ أَتَوَكَّؤُا۟ عَلَيْهَا وَأَهُشُّ بِهَا عَلَىٰ غَنَمِى وَلِىَ فِيهَا مَـَٔارِبُ أُخْرَىٰ (١٨) قَالَ أَلْقِهَا يَٰمُوسَىٰ (١٩) فَأَلْقَىٰهَا فَإِذَا هِىَ حَيَّةٌۭ تَسْعَىٰ (٢٠) قَالَ خُذْهَا وَلَا تَخَفْ ۖ سَنُعِيدُهَا سِيرَتَهَا ٱلْأُولَىٰ (٢١) وَٱضْمُمْ يَدَكَ إِلَىٰ جَنَاحِكَ تَخْرُجْ بَيْضَآءَ مِنْ غَيْرِ سُوٓءٍ ءَايَةً أُخْرَىٰ (٢٢) لِنُرِيَكَ مِنْ ءَايَـٰتِنَا ٱلْكُبْرَى (٢٣) ٱذْهَبْ إِلَىٰ فِرْعَوْنَ إِنَّهُۥ طَغَىٰ (٢٤)</div>
+                    <div class="transliteration">Wa hal atāka ḥadīṡu mụsā (9) Iż ra`ā nāran fa qāla li`ahlihimkụṡū innī ānastu nāral la‘allī ātīkum min-hā biqabasin au ajidu ‘alan-nāri hudā (10) Fa lammā atāhā nụdiya yā mụsā (11) Innī ana rabbuka fakhla' na'laika innaka bil-wādil-muqaddasi ṭuwā (12) Wa anakhtartuka fastami‘ limā yūḥā (13) Innanī anallāhu lā ilāha illā ana fa‘budnī wa aqimiṣ-ṣalāta liżikrī (14) Innas-sā‘ata ātiyatun akādu ukhfīhā litujzā kullu nafsim bimā tas‘ā (15) Falā yaṣuddannaka ‘an-hā man lā yu’minu bihā wattaba‘a hawāhu fa tardā (16) Wa mā tilka biyamīnika yā mụsā (17) Qāla hiya ‘aṣāya atawakka’u ‘alaihā wa ahusysyu bihā ‘alā ganamī wa liya fīhā ma’āribu ukhrā (18) Qāla alqihā yā mụsā (19) Fa alqāhā fa iżā hiya ḥayyatun tas‘ā (20) Qāla khużhā wa lā takhaf, sanu‘īduhā sīratahal-ūlā (21) Waḍmum yadaka ilā janāḥika takhruj baiḍā’a min gairi sū’in āyatan ukhrā (22) Linuriyaka min āyātinā al-kubrā (23) Iżhab ilā fir‘auna innahū ṭagā (24)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan apakah telah sampai kepadamu kisah Musa? (9) Ketika dia melihat api, lalu berkata kepada keluarganya, 'Tinggallah kamu (di sini), sesungguhnya aku melihat api, mudah-mudahan aku dapat membawa sedikit daripadanya kepadamu atau aku akan mendapat petunjuk di tempat api itu.' (10) Maka ketika dia sampai ke (tempat) api itu, dia dipanggil, 'Wahai Musa! (11) Sesungguhnya Aku adalah Tuhanmu, maka lepaskan kedua terompahmu; sesungguhnya engkau berada di lembah suci, Tuwa. (12) Dan Aku telah memilihmu, maka dengarkanlah apa yang akan diwahyukan (kepadamu). (13) Sesungguhnya Aku adalah Allah, tidak ada tuhan selain Aku; maka sembahlah Aku dan dirikanlah shalat untuk mengingat Aku. (14) Sesungguhnya hari Kiamat pasti akan datang. Aku hampir menyembunyikannya, agar setiap jiwa dibalas dengan apa yang diusahakannya. (15) Maka janganlah sekali-kali kamu dipalingkan dari (kiamat) itu oleh orang yang tidak beriman kepadanya dan mengikuti hawa nafsunya, yang menyebabkan kamu celaka. (16) Apakah itu yang di tangan kananmu, wahai Musa?' (17) Dia (Musa) menjawab, 'Ini adalah tongkatku, aku bertelekan padanya, dan aku pukul (daun) dengannya untuk kambingku, dan bagiku ada lagi keperluan yang lain padanya.' (18) Allah berfirman, 'Lemparkanlah ia, wahai Musa!' (19) Lalu dia melemparkannya, maka tiba-tiba ia menjadi ular yang merayap dengan cepat. (20) Allah berfirman, 'Peganglah ia dan jangan takut! Kami akan mengembalikannya kepada keadaannya semula. (21) Dan kepitkanlah tanganmu ke ketiakmu, niscaya ia keluar menjadi putih cemerlang tanpa cacat, sebagai mukjizat yang lain (pula), (22) untuk Kami perlihatkan kepadamu sebagian dari tanda-tanda kebesaran Kami yang sangat besar. (23) Pergilah kepada Firaun; sesungguhnya dia telah melampaui batas.' (24)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir):</strong> Allah memanggil Musa di lembah suci Tuwa. Perintah melepas sandal sebagai bentuk penghormatan. Musa diberi dua mukjizat: tongkat menjadi ular dan tangan bercahaya. Ini adalah persiapan untuk menghadapi Firaun yang zalim. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+
+            <!-- 2. Doa Musa (Rabbi syraḥ lī ṣadrī) – Ayat 25-32 -->
+            <div class="theme-card">
+                <div class="theme-title">2. Doa Musa (Rabbi syraḥ lī ṣadrī) – Ayat 25-32</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=25&to=32&opt=1" target="_blank">Ṭāhā 20:25-32 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">قَالَ رَبِّ ٱشْرَحْ لِى صَدْرِى (٢٥) وَيَسِّرْ لِىٓ أَمْرِى (٢٦) وَٱحْلُلْ عُقْدَةًۭ مِّن لِّسَانِى (٢٧) يَفْقَهُوا۟ قَوْلِى (٢٨) وَٱجْعَل لِّى وَزِيرًۭا مِّنْ أَهْلِى (٢٩) هَـٰرُونَ أَخِى (٣٠) ٱشْدُدْ بِهِۦٓ أَزْرِى (٣١) وَأَشْرِكْهُ فِىٓ أَمْرِى (٣٢)</div>
+                    <div class="transliteration">Qāla rabbi syraḥ lī ṣadrī (25) wa yassir lī amrī (26) waḥlul 'uqdatam mil lisānī (27) yafqahụ qaulī (28) waj'al lī wazīram min ahlī (29) hārụna akhī (30) ushdud bihī azrī (31) wa ashrik-hu fī amrī (32)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dia (Musa) berkata, 'Ya Tuhanku, lapangkanlah dadaku, (25) mudahkanlah urusanku, (26) lepaskanlah kekakuan dari lidahku, (27) agar mereka mengerti perkataanku, (28) dan jadikanlah untukku seorang pembantu dari keluargaku, (29) (yaitu) Harun, saudaraku, (30) kuatkanlah punggungku dengan (keberadaan)nya, (31) dan jadikanlah dia sekutu dalam urusanku.' (32)"</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (As-Sa'di):</strong> Doa komprehensif yang mencakup aspek psikologis (lapang dada), praktis (kemudahan), komunikasi (kelancaran bicara), dan dukungan tim (Harun). Ini menjadi amalan para dai dan pemimpin. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Sumber: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
+            </div>
+
+            <!-- 3. Perintah Shalat untuk Mengingat Allah – Ayat 14 -->
+            <div class="theme-card">
+                <div class="theme-title">3. Perintah Shalat untuk Mengingat Allah – Ayat 14</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=14&to=14&opt=1" target="_blank">Ṭāhā 20:14 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَٰهَ إِلَّآ أَنَا۠ فَٱعْبُدْنِى وَأَقِمِ ٱلصَّلَوٰةَ لِذِكْرِىٓ</div>
+                    <div class="transliteration">Innanī anallāhu lā ilāha illā ana fa'budnī wa aqimiṣ-ṣalāta liżikrī.</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Sesungguhnya Aku adalah Allah, tidak ada tuhan selain Aku; maka sembahlah Aku dan dirikanlah shalat untuk mengingat Aku." (20:14)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Al-Qurthubi):</strong> Shalat bukan sekadar ritual, tetapi inti ibadah yang menghubungkan hamba dengan Tuhan. Didirikan sebagai sarana mengingat Allah di tengah kesibukan. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
+            </div>
+
+            <!-- 4. Kisah Adam & Iblis: Musuh yang Nyata – Ayat 115-123 -->
+            <div class="theme-card">
+                <div class="theme-title">4. Kisah Adam & Iblis: Musuh yang Nyata – Ayat 115-123</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=115&to=123&opt=1" target="_blank">Ṭāhā 20:115-123 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَلَقَدْ عَهِدْنَآ إِلَىٰٓ ءَادَمَ مِن قَبْلُ فَنَسِىَ وَلَمْ نَجِدْ لَهُۥ عَزْمًۭا (١١٥) وَإِذْ قُلْنَا لِلْمَلَـٰٓئِكَةِ ٱسْجُدُوا۟ لِءَادَمَ فَسَجَدُوٓا۟ إِلَّآ إِبْلِيسَ أَبَىٰ (١١٦) فَقُلْنَا يَـٰٓءَادَمُ إِنَّ هَـٰذَا عَدُوٌّۭ لَّكَ وَلِزَوْجِكَ فَلَا يُخْرِجَنَّكُمَا مِنَ ٱلْجَنَّةِ فَتَشْقَىٰٓ (١١٧) إِنَّ لَكَ أَلَّا تَجُوعَ فِيهَا وَلَا تَعْرَىٰ (١١٨) وَأَنَّكَ لَا تَظْمَؤُا۟ فِيهَا وَلَا تَضْحَىٰ (١١٩) فَوَسْوَسَ إِلَيْهِ ٱلشَّيْطَـٰنُ قَالَ يَـٰٓءَادَمُ هَلْ أَدُلُّكَ عَلَىٰ شَجَرَةِ ٱلْخُلْدِ وَمُلْكٍۢ لَّا يَبْلَىٰ (١٢٠) فَأَكَلَا مِنْهَا فَبَدَتْ لَهُمَا سَوْءَٰتُهُمَا وَطَفِقَا يَخْصِفَانِ عَلَيْهِمَا مِن وَرَقِ ٱلْجَنَّةِ ۚ وَعَصَىٰٓ ءَادَمُ رَبَّهُۥ فَغَوَىٰ (١٢١) ثُمَّ ٱجْتَبَـٰهُ رَبُّهُۥ فَتَابَ عَلَيْهِ وَهَدَىٰ (١٢٢) قَالَ ٱهْبِطَا مِنْهَا جَمِيعًۢا ۖ بَعْضُكُمْ لِبَعْضٍ عَدُوٌّۭ ۖ فَإِمَّا يَأْتِيَنَّكُم مِّنِّى هُدًۭى فَمَنِ ٱتَّبَعَ هُدَاىَ فَلَا يَضِلُّ وَلَا يَشْقَىٰ (١٢٣)</div>
+                    <div class="transliteration">Wa laqad 'ahidnā ilā ādama min qablu fanasiya wa lam najid lahụ 'azmā (115) Wa iż qulnā lil-malā`ikatisjudū li`ādama fasajadū illā iblīs abā (116) Fa qulnā yā ādamu inna hāżā 'aduwwul laka wa lizaujika falā yukhrijannakumā minal-jannati fa tasyqā (117) Inna laka allā tajū'a fīhā wa lā ta'rā (118) Wa annaka lā taẓma'u fīhā wa lā taḍḥā (119) Fa waswasa ilaihisy-syaiṭānu qāla yā ādamu hal adulluka 'alā syajaratil-khuldi wa mulkil lā yablā (120) Fa akalā min-hā fa badat lahumā sau`ātuhumā wa ṭafiqā yakhṣifāni 'alaihimā min waraqil-jannah, wa 'aṣā ādamu rabbahū fa gawā (121) Ṡumma jtabāhu rabbuhū fa tāba 'alaihi wa hadā (122) Qālahbiṭā min-hā jamī‘am ba‘ḍukum liba‘ḍin ‘aduww, fa immā ya’tiyannakum minnī hudan famanittaba‘a hudāya falā yaḍillu wa lā yasyqā (123)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan sungguh, telah Kami perintahkan kepada Adam dahulu, maka dia lupa (akan perintah itu), dan Kami tidak dapati padanya kemauan yang kuat. (115) Dan (ingatlah) ketika Kami berfirman kepada malaikat, 'Sujudlah kamu semua kepada Adam,' maka mereka sujud kecuali Iblis. Dia menolak. (116) Maka Kami berfirman, 'Wahai Adam, sesungguhnya ini (Iblis) adalah musuh bagimu dan bagi istrimu, maka janganlah sampai dia mengeluarkan kamu berdua dari surga, yang menyebabkan kamu menjadi celaka. (117) Sesungguhnya kamu tidak akan kelaparan di dalamnya dan tidak akan telanjang, (118) dan sesungguhnya kamu tidak akan merasa dahaga dan tidak akan ditimpa panas matahari di dalamnya.' (119) Kemudian setan membisikkan (pikiran jahat) kepadanya, dengan berkata, 'Wahai Adam, maukah aku tunjukkan kepada kamu pohon keabadian dan kerajaan yang tidak akan binasa?' (120) Maka keduanya memakan (buah) dari pohon itu, lalu tampaklah bagi mereka aurat-auratnya dan mulailah mereka menutupinya dengan daun-daun surga. Dan durhakalah Adam kepada Tuhannya, sehingga dia sesat. (121) Kemudian Tuhannya memilihnya, maka Dia menerima taubatnya dan memberinya petunjuk. (122) Allah berfirman, 'Turunlah kamu berdua dari surga bersama-sama, sebagian kamu menjadi musuh bagi sebagian yang lain. Jika datang kepadamu petunjuk dari-Ku, maka barang siapa mengikuti petunjuk-Ku, dia tidak akan sesat dan tidak akan celaka.'" (123)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Al-Qurthubi):</strong> Manusia mudah lalai, namun Allah memberi pintu taubat. Iblis adalah musuh abadi yang harus diwaspadai. Setelah Adam bertaubat, Allah memberikan petunjuk sebagai rahmat bagi seluruh keturunan Adam. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
+            </div>
+
+            <!-- 5. Peringatan Hari Kiamat – Ayat 102-104 -->
+            <div class="theme-card">
+                <div class="theme-title">5. Peringatan Hari Kiamat – Ayat 102-104</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=102&to=104&opt=1" target="_blank">Ṭāhā 20:102-104 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">يَوْمَ يُنفَخُ فِى ٱلصُّورِ ۚ وَنَحْشُرُ ٱلْمُجْرِمِينَ يَوْمَئِذٍۢ زُرْقًۭا (١٠٢) يَتَخَـٰفَتُونَ بَيْنَهُمْ إِن لَّبِثْتُمْ إِلَّا عَشْرًۭا (١٠٣) نَّحْنُ أَعْلَمُ بِمَا يَقُولُونَ إِذْ يَقُولُ أَمْثَلُهُمْ طَرِيقَةً إِن لَّبِثْتُمْ إِلَّا يَوْمًۭا (١٠٤)</div>
+                    <div class="transliteration">Yauma yunfakhu fiṣ-ṣụri wa naḥsyurul-mujrimīna yauma`iżin zurqā (102) Yatakhāfatụna bainahum il labiṡtum illā 'asyrā (103) Naḥnu a‘lamu bimā yaqūlūna iż yaqūlu amṡaluhum ṭarīqatan il labiṡtum illā yaumā (104)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "(Yaitu) pada hari (ketika) sangkakala ditiup, dan Kami akan mengumpulkan pada hari itu orang-orang yang berdosa dengan mata biru (karena ketakutan). (102) Mereka berbisik-bisik satu sama lain, 'Kamu tidak berdiam (di dunia) hanya sepuluh (hari).' (103) Kami lebih mengetahui apa yang mereka katakan, ketika orang yang paling baik jalan (pikirannya) di antara mereka berkata, 'Kamu tidak berdiam (di dunia) hanya sehari saja.'" (104)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (At-Tabari):</strong> Gambaran dahsyat hari kiamat. Orang berdosa akan ketakutan, dan mereka merasa hidup di dunia hanya sebentar. Peringatan agar tidak terpedaya dunia. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
+            </div>
         </div>
 
-        <!-- Relevansi Kehidupan Modern -->
-        <div class="theme-card">
-            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div>
-            <ol>
-                <li><strong>Kepemimpinan:</strong> Doa Musa menjadi panduan bagi pemimpin dan aktivis untuk memohon kemudahan dan dukungan tim.</li>
-                <li><strong>Komunikasi yang lembut:</strong> Perintah "qawlā layyinā" (20:44) sangat relevan dalam dakwah digital dan hubungan antarmanusia.</li>
-                <li><strong>Manajemen Stres:</strong> Shalat sebagai terapi spiritual untuk mengatasi kecemasan dan tekanan hidup.</li>
-                <li><strong>Keadilan sosial:</strong> Kisah perlawanan Musa terhadap Firaun menginspirasi perjuangan melawan tirani dan ketidakadilan.</li>
-                <li><strong>Kesadaran akhirat:</strong> Peringatan tentang hari kiamat mengoreksi gaya hidup hedonis dan materialistis.</li>
-            </ol>
-        </div>
-
-        <!-- Hubungan dengan Surah Lain -->
+        <!-- Hubungan dengan Surah Lain (Indonesian) -->
         <div class="relationship-box">
             <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <p>Surah Ṭāhā (20) memiliki keterkaitan erat dengan surah-surah Makkiyah lainnya.</p>
             <ul>
                 <li><strong>Dengan Surah Maryam (19):</strong> Sama-sama Makkiyah, mengandung kisah para nabi dan penegasan tauhid.</li>
-                <li><strong>Dengan Surah Al-Qasas (28):</strong> Al-Qasas juga menceritakan kisah Musa secara panjang lebar, namun Taha lebih fokus pada panggilan kenabian dan mukjizat.</li>
+                <li><strong>Dengan Surah Al-Qasas (28):</strong> Al-Qasas juga menceritakan kisah Musa secara panjang lebar, namun Ṭāhā lebih fokus pada panggilan kenabian dan mukjizat.</li>
                 <li><strong>Dengan Surah Ash-Shu'ara (26):</strong> Keduanya menceritakan dialog Musa dengan Firaun dan mukjizat tongkat.</li>
-                <li><strong>Dengan Surah Al-A'la (87):</strong> Surah Taha dan Al-A'la sama-sama diawali dengan perintah bertasbih.</li>
+                <li><strong>Dengan Surah Al-A'la (87):</strong> Surah Ṭāhā dan Al-A'la sama-sama diawali dengan perintah bertasbih.</li>
             </ul>
         </div>
 
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Sesungguhnya Aku adalah Allah, tidak ada tuhan selain Aku; maka sembahlah Aku dan dirikanlah shalat untuk mengingat Aku.” (20:14)</div>
+        <div class="info-box"><i class="fas fa-book-open"></i> Renungkan: "Sesungguhnya Aku adalah Allah, tidak ada tuhan selain Aku; maka sembahlah Aku dan dirikanlah shalat untuk mengingat Aku." (20:14)</div>
+
+        <!-- Pagination INDONESIA -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="019.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: Maryam (19)</a>
+                <a href="021.html" class="pagination-item">Surah Berikutnya: Al-Anbiyā' (21) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            </div>
+        </div>
     </div>
 
-    <!-- ENGLISH CONTENT -->
+    <!-- ENGLISH CONTENT (FULLY PARALLEL) -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Taha - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=1&to=135&opt=1" target="_blank">IslamicStudies.info - Surah Taha (1-135)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Ṭāhā (20) - Thematic Tafsir</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Taha</h3><p>Meccan surah (135 verses) named after the opening letters "Ṭāhā". According to <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=1&to=135&opt=1" target="_blank">IslamicStudies.info</a>, it was revealed to console the Prophet Muhammad during difficult times in Mecca. It contains the detailed story of Prophet Musa, affirmation of Tawhid, the command to establish prayer, and warnings of the Last Day. The surah is also famous for Musa's comprehensive supplication.</p></div>
-        <div class="info-box"><h3>Full Text</h3><p><a href="https://recitequran.com/20" target="_blank"><span class="blink-arrow">👉 CLICK HERE 👈</span> ReciteQuran.com - Surah Taha <i class="fas fa-external-link-alt external-arrow"></i></a></p></div>
-        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Taha</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/020.mp3"></audio></div>
+        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=1&to=135&opt=1" target="_blank">IslamicStudies.info - Surah Ṭāhā (1-135) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
+        <div class="arabic">طَهٰ</div>
+        <div class="transliteration">Ṭāhā</div>
+        <div class="translation-text"><strong>Translation:</strong> "Ṭāhā." (20:1)</div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead><tbody>
-                <tr><td><strong>1-8</strong></td><td>Introduction & affirmation of the Qur'an</td><td>The Qur'an as a reminder; Allah's greatness.</td></tr>
-                <tr><td><strong>9-24</strong></td><td>Musa's Prophetic call in the valley of Tuwa</td><td>Musa sees fire, is called by Allah, given miracles of the staff and shining hand.</td></tr>
-                <tr><td><strong>25-32</strong></td><td>Musa's prayer for ease and support</td><td>Comprehensive supplication for relief, eloquence, and Harun as helper.</td></tr>
-                <tr><td><strong>33-76</strong></td><td>Musa confronts Pharaoh & miracles</td><td>Dialogue with Pharaoh, staff turns into snake, shining hand.</td></tr>
-                <tr><td><strong>77-98</strong></td><td>Rescue of the Israelites & destruction of Pharaoh</td><td>Sea splits, Pharaoh drowns, Israelites saved.</td></tr>
-                <tr><td><strong>99-114</strong></td><td>Story of Adam & Iblis</td><td>Creation of Adam, Iblis's defiance, temptation, command to avoid Satan.</td></tr>
-                <tr><td><strong>115-135</strong></td><td>Warning of the Last Day & conclusion</td><td>Description of the Day of Judgment, command to be patient, pray, and glorify Allah.</td></tr>
-            </tbody></table>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Ṭāhā (Surah 20)</h3><p>Meccan surah (135 verses) named after the opening letters "Ṭāhā". According to <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=1&to=135&opt=1" target="_blank">IslamicStudies.info</a>, it was revealed to console the Prophet Muhammad during difficult times in Mecca. It contains the detailed story of Prophet Musa, affirmation of Tawhid, the command to establish prayer, and warnings of the Last Day. The surah is also famous for Musa's comprehensive supplication.</p></div>
+
+        <!-- Aqidah, Ibadah, Akhlaq Columns (English) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Oneness of Allah (20:14), prophethood of Musa and Muhammad, certainty of the Last Day (20:102-104), and that Allah has no son. (20:116)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Establish prayer with devotion (20:14), supplicate with Qur'anic prayers (20:25-32), recite the Qur'an with care.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Speak gently (20:44), be patient, humble, cooperate in goodness (Musa and Harun).</div>
         </div>
 
+        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/20" target="_blank">ReciteQuran.com - Surah Ṭāhā <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Ṭāhā</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/020.mp3"></audio></div>
+
+        <!-- Thematic Division by Verses (English) -->
         <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
-                <tr><td><strong>20:1-4</strong></td><td>Muqatta'at letters & purpose of the Qur'an</td><td>Ṭāhā; the Qur'an is not to cause hardship but as a reminder.</td></tr>
-                <tr><td><strong>20:9-16</strong></td><td>Musa hears the call of Allah</td><td>"Indeed, I am Allah; there is no deity except Me, so worship Me and establish prayer for My remembrance."</td></tr>
-                <tr><td><strong>20:17-24</strong></td><td>Miracles of the staff and hand</td><td>Staff becomes a snake; hand shines white – proof of Allah's power.</td></tr>
-                <tr><td><strong>20:25-28</strong></td><td>Musa's great supplication</td><td>"My Lord, expand my chest for me, make my task easy for me, and untie the knot from my tongue."</td></tr>
-                <tr><td><strong>20:29-32</strong></td><td>Request for a helper (Harun)</td><td>"Appoint for me a minister from my family – Harun, my brother."</td></tr>
-                <tr><td><strong>20:44</strong></td><td>Command to speak gently to Pharaoh</td><td>"Speak to him with gentle speech."</td></tr>
-                <tr><td><strong>20:77-80</strong></td><td>Rescue across the sea</td><td>Allah commands Musa to strike the sea; it splits.</td></tr>
-                <tr><td><strong>20:115-123</strong></td><td>Adam, Iblis, and the warning</td><td>"Indeed, this (Iblis) is an enemy to you and to your wife."</td></tr>
-                <tr><td><strong>20:130-132</strong></td><td>Command to be patient, pray, and glorify</td><td>"And enjoin prayer upon your family and be steadfast in it."</td></tr>
-                <tr><td><strong>20:133-135</strong></td><td>Conclusion: invitation to follow guidance</td><td>"Say, 'Each is waiting; so wait...'"</td></tr>
-            </tbody></table>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Theme Title</th><th>Description & Additional Tafsir</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-8</strong>         </td<td>Introduction & affirmation of the Qur'an</td<td>The Qur'an as a reminder; Allah's greatness. — Ibn Kathir</td</tr>
+                    <tr><td><strong>9-24</strong>        </td<td>Musa's Prophetic call in the valley of Tuwa</td<td>Musa sees fire, is called by Allah, given miracles of the staff and shining hand. — Al-Qurtubi</td</tr>
+                    <tr><td><strong>25-32</strong>       </td<td>Musa's prayer for ease and support</td-saluran Comprehensive supplication for relief, eloquence, and Harun as helper. — As-Sa'di</td</tr>
+                    <tr><td><strong>33-76</strong>       </td-saluran Musa confronts Pharaoh & miracles</td-saluran Dialogue with Pharaoh, staff turns into snake, shining hand. — At-Tabari</td</tr>
+                    <tr><td><strong>77-98</strong>       </td-saluran Rescue of the Israelites & destruction of Pharaoh</td-saluran Sea splits, Pharaoh drowns, Israelites saved. — Ibn Kathir</td</tr>
+                    <tr><td><strong>99-114</strong>      </td-saluran Story of Adam & Iblis</td-saluran Creation of Adam, Iblis's defiance, temptation, command to avoid Satan. — Al-Qurtubi</td</tr>
+                    <tr><td><strong>115-135</strong>     </td-saluran Warning of the Last Day & conclusion</td-saluran Description of the Day of Judgment, command to be patient, pray, and glorify Allah. — As-Sa'di</td</tr>
+                </tbody>
+            </table>
         </div>
 
+        <!-- Key Verse for Contemplation -->
         <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
             <div class="verse">
-                <div class="arabic">قَالَ رَبِّ ٱشْرَحْ لِى صَدْرِى * وَيَسِّرْ لِىٓ أَمْرِى * وَٱحْلُلْ عُقْدَةً مِّن لِّسَانِى * يَفْقَهُوا۟ قَوْلِى * وَٱجْعَل لِّى وَزِيرًا مِّنْ أَهْلِى * هَٰرُونَ أَخِى</div>
-                <div class="transliteration">Qāla rabbi syraḥ lī ṣadrī * wa yassir lī amrī * waḥlul 'uqdatam mil lisānī * yafqahụ qaulī * waj'al lī wazīram min ahlī * hārụna akhī.</div>
-                <p><strong>Translation:</strong> "He (Musa) said, 'My Lord, expand for me my breast, ease for me my task, and untie the knot from my tongue so they may understand my speech. And appoint for me a minister from my family – Harun, my brother.'" (20:25-30)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Musa's prayer encompasses relief, ease, eloquence, and teamwork. A model supplication for every leader and caller to Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=25&to=30&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+                <div class="arabic">قَالَ رَبِّ ٱشْرَحْ لِى صَدْرِى (٢٥) وَيَسِّرْ لِىٓ أَمْرِى (٢٦) وَٱحْلُلْ عُقْدَةًۭ مِّن لِّسَانِى (٢٧) يَفْقَهُوا۟ قَوْلِى (٢٨) وَٱجْعَل لِّى وَزِيرًۭا مِّنْ أَهْلِى (٢٩) هَـٰرُونَ أَخِى (٣٠)</div>
+                <div class="transliteration">Qāla rabbi syraḥ lī ṣadrī (25) wa yassir lī amrī (26) waḥlul 'uqdatam mil lisānī (27) yafqahụ qaulī (28) waj'al lī wazīram min ahlī (29) hārụna akhī (30)</div>
+                <div class="translation-text"><strong>Translation:</strong> "He (Musa) said, 'My Lord, expand my chest for me, (25) make my task easy for me, (26) and untie the knot from my tongue, (27) so they may understand my speech, (28) and appoint for me a minister from my family, (29) Harun, my brother.'" (30)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Musa's prayer encompasses relief, ease, eloquence, and teamwork. A model supplication for every leader and caller to Allah.</div>
             </div>
         </div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Taha</h2>
-            <div class="theme-card"><div class="theme-title">1. Musa's Prophetic Call & Miracles – Verses 9-24</div>
-                <div class="verse-item"><div class="arabic">وَهَلْ أَتَىٰكَ حَدِيثُ مُوسَىٰٓ ... إِنِّىٓ أَنَا۠ رَبُّكَ فَٱخْلَعْ نَعْلَيْكَ</div><div class="transliteration">Wa hal atāka ḥadīṡu mụsā ... innī ana rabbuka fakhla' na'laika</div><p><strong>Translation:</strong> "Has the story of Moses reached you? ... Indeed, I am your Lord, so remove your sandals." (20:9-12)</p><div class="tafsir-box">Musa's appointment as a prophet in the sacred valley; the command to remove sandals as a sign of reverence. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=9&to=24&opt=1" target="_blank">Read more</a></div></div>
-            </div>
-            <div class="theme-card"><div class="theme-title">2. Musa's Prayer (Rabbi syraḥ lī ṣadrī) – Verses 25-32</div>
-                <div class="verse-item"><div class="arabic">قَالَ رَبِّ ٱشْرَحْ لِى صَدْرِى ... وَٱجْعَل لِّى وَزِيرًا مِّنْ أَهْلِى هَٰرُونَ أَخِى</div><div class="transliteration">Qāla rabbi syraḥ lī ṣadrī ... waj'al lī wazīram min ahlī hārụna akhī</div><p><strong>Translation:</strong> "He said, 'My Lord, expand my chest... and appoint for me a minister from my family, Harun, my brother.'" (20:25-30)</p><div class="tafsir-box">A comprehensive supplication covering psychological, practical, communicative, and team aspects. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=25&to=32&opt=1" target="_blank">Read more</a></div></div>
-            </div>
-            <div class="theme-card"><div class="theme-title">3. Command to Pray for Remembrance – Verse 14</div>
-                <div class="verse-item"><div class="arabic">إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَٰهَ إِلَّآ أَنَا۠ فَٱعْبُدْنِى وَأَقِمِ ٱلصَّلَوٰةَ لِذِكْرِىٓ</div><div class="transliteration">Innanī anallāhu lā ilāha illā ana fa'budnī wa aqimiṣ-ṣalāta liżikrī</div><p><strong>Translation:</strong> "Indeed, I am Allah; there is no deity except Me, so worship Me and establish prayer for My remembrance." (20:14)</p><div class="tafsir-box">Prayer is the core of worship and the means to remember Allah amidst daily life. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=14&to=14&opt=1" target="_blank">Read more</a></div></div>
-            </div>
-            <div class="theme-card"><div class="theme-title">4. The Story of Adam & Iblis – Verses 115-123</div>
-                <div class="verse-item"><div class="arabic">وَلَقَدْ عَهِدْنَآ إِلَىٰٓ ءَادَمَ ... فَقُلْنَا يَٰٓءَادَمُ إِنَّ هَٰذَا عَدُوٌّ لَّكَ وَلِزَوْجِكَ</div><div class="transliteration">Wa laqad 'ahidnā ilā ādama ... fa qulnā yā ādamu inna hāżā 'aduwwul laka wa lizaujika</div><p><strong>Translation:</strong> "And We had already taken a promise from Adam... We said, 'O Adam, indeed this (Iblis) is an enemy to you and to your wife.'" (20:115-117)</p><div class="tafsir-box">Human forgetfulness, Iblis as a perpetual enemy, and the door of repentance. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=115&to=123&opt=1" target="_blank">Read more</a></div></div>
-            </div>
-            <div class="theme-card"><div class="theme-title">5. Warning of the Last Day – Verses 102-104</div>
-                <div class="verse-item"><div class="arabic">يَوْمَ يُنفَخُ فِى ٱلصُّورِ وَنَحْشُرُ ٱلْمُجْرِمِينَ يَوْمَئِذٍ زُرْقًۭا</div><div class="transliteration">Yauma yunfakhu fiṣ-ṣụri wa naḥsyurul-mujrimīna yauma`iżin zurqā</div><p><strong>Translation:</strong> "The Day the Horn is blown, and We will gather the criminals, that Day, blue-eyed (from terror)." (20:102)</p><div class="tafsir-box">A terrifying depiction of the Hereafter, reminding believers not to be deceived by worldly life. <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=102&to=104&opt=1" target="_blank">Read more</a></div></div>
-            </div>
-        </div>
-
-        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Taha</h3><ul><li>Consolation for the Prophet during hardship.</li><li>Musa's prayer is a powerful supplication for leaders and preachers.</li><li>Emphasizes prayer as a means of remembering Allah.</li><li>Shows that truth triumphs over tyranny.</li><li>Strong warning about the Last Day.</li></ul></div>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Ṭāhā</h3><ul><li>Consolation for the Prophet during hardship.</li><li>Musa's prayer is a powerful supplication for leaders and preachers.</li><li>Emphasizes prayer as a means of remembering Allah.</li><li>Shows that truth triumphs over tyranny.</li><li>Strong warning about the Last Day.</li></ul></div>
 
         <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> Oneness of Allah, prophethood of Musa and Muhammad, certainty of the Last Day, rejection of Allah having a son.</p><p><strong>Ibadah (Worship):</strong> Establish prayer with devotion, supplicate with Qur'anic prayers, recite the Qur'an with care.</p><p><strong>Akhlaq (Character):</strong> Speak gently (20:44), be patient, humble, cooperate in goodness (Musa and Harun).</p></div>
 
-        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Taha</h3><ul><li>Allah is always with His sincere servants, even in difficulty.</li><li>Supplication is a powerful weapon; ask for relief, ease, and support.</li><li>Prayer is the pillar of faith and a means to remember Allah.</li><li>Do not fear oppressive rulers; truth will prevail.</li><li>Beware of Satan's constant whispers.</li></ul></div>
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Ṭāhā</h3><ul><li>Allah is always with His sincere servants, even in difficulty.</li><li>Supplication is a powerful weapon; ask for relief, ease, and support.</li><li>Prayer is the pillar of faith and a means to remember Allah.</li><li>Do not fear oppressive rulers; truth will prevail.</li><li>Beware of Satan's constant whispers.</li></ul></div>
 
         <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Leadership: Musa's prayer guides leaders to seek ease and teamwork.</li><li>Gentle communication: "qawlā layyinā" is vital for digital da'wah and interpersonal relations.</li><li>Stress management: Prayer as spiritual therapy for anxiety.</li><li>Social justice: Musa's struggle against Pharaoh inspires resistance against tyranny.</li><li>Hereafter consciousness: Warnings about the Last Day counter hedonism and materialism.</li></ol></div>
 
-        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Maryam (19):</strong> Both Meccan, contain stories of prophets and affirmation of Tawhid.</li><li><strong>With Surah Al-Qasas (28):</strong> Both narrate the story of Musa; Taha focuses on his call and miracles.</li><li><strong>With Surah Ash-Shu'ara (26):</strong> Both describe Musa's dialogue with Pharaoh and the staff miracle.</li><li><strong>With Surah Al-A'la (87):</strong> Both begin with the command to glorify Allah.</li></ul></div>
+        <!-- Main Themes (Detailed Tafsir) – English Parallel, Full Verses -->
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes (Detailed Tafsir) – Complete to End of Surah</h2>
 
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Indeed, I am Allah; there is no deity except Me, so worship Me and establish prayer for My remembrance.” (20:14)</div>
-    </div>
+            <!-- 1. Musa's Prophetic Call & Miracles (9-24) -->
+            <div class="theme-card">
+                <div class="theme-title">1. Musa's Prophetic Call & Miracles – Verses 9-24</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=9&to=24&opt=1" target="_blank">Ṭāhā 20:9-24 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَهَلْ أَتَىٰكَ حَدِيثُ مُوسَىٰٓ ... ٱذْهَبْ إِلَىٰ فِرْعَوْنَ إِنَّهُۥ طَغَىٰ</div>
+                    <div class="transliteration">Wa hal atāka ḥadīṡu mụsā ... iżhab ilā fir‘auna innahū ṭagā</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Has the story of Moses reached you? ... Go to Pharaoh; indeed, he has transgressed." (20:9-24) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Ibn Kathir):</strong> Allah called Musa in the sacred valley of Tuwa. He was commanded to remove his sandals as a sign of respect. Musa was given two miracles: the staff turning into a snake and his hand shining white. This was preparation to confront the tyrant Pharaoh. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
 
-    <!-- PAGINATION -->
-    <div class="surah-pagination">
-        <a href="019.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya / Previous: Maryam</a>
-        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="021.html" class="pagination-item">Surah Berikutnya / Next: Al-Anbiya <i class="fas fa-arrow-right"></i></a>
+            <!-- 2. Musa's Prayer (Rabbi syraḥ lī ṣadrī) – Verses 25-32 -->
+            <div class="theme-card">
+                <div class="theme-title">2. Musa's Prayer (Rabbi syraḥ lī ṣadrī) – Verses 25-32</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=25&to=32&opt=1" target="_blank">Ṭāhā 20:25-32 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">قَالَ رَبِّ ٱشْرَحْ لِى صَدْرِى ... وَأَشْرِكْهُ فِىٓ أَمْرِى</div>
+                    <div class="transliteration">Qāla rabbi syraḥ lī ṣadrī ... wa ashrik-hu fī amrī</div>
+                    <div class="translation-text"><strong>Translation:</strong> "He said, 'My Lord, expand my chest... and make him share in my task.'" (20:25-32) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (As-Sa'di):</strong> A comprehensive supplication covering psychological (expanding the chest), practical (easing the task), communicative (eloquence), and team support (Harun). This is a model for every preacher and leader. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Source: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
+            </div>
+
+            <!-- 3. Command to Pray for Remembrance – Verse 14 -->
+            <div class="theme-card">
+                <div class="theme-title">3. Command to Pray for Remembrance – Verse 14</div>
+                <div class="verse">
+                    <strong>Full Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=14&to=14&opt=1" target="_blank">Ṭāhā 20:14 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">إِنَّنِىٓ أَنَا ٱللَّهُ لَآ إِلَٰهَ إِلَّآ أَنَا۠ فَٱعْبُدْنِى وَأَقِمِ ٱلصَّلَوٰةَ لِذِكْرِىٓ</div>
+                    <div class="transliteration">Innanī anallāhu lā ilāha illā ana fa'budnī wa aqimiṣ-ṣalāta liżikrī</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Indeed, I am Allah; there is no deity except Me, so worship Me and establish prayer for My remembrance." (20:14)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Al-Qurtubi):</strong> Prayer is not merely a ritual but the core of worship connecting the servant to Allah. It is established as a means to remember Allah amidst daily occupations. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
+            </div>
+
+            <!-- 4. The Story of Adam & Iblis – Verses 115-123 -->
+            <div class="theme-card">
+                <div class="theme-title">4. The Story of Adam & Iblis – Verses 115-123</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=115&to=123&opt=1" target="_blank">Ṭāhā 20:115-123 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَلَقَدْ عَهِدْنَآ إِلَىٰٓ ءَادَمَ مِن قَبْلُ ... فَمَنِ ٱتَّبَعَ هُدَاىَ فَلَا يَضِلُّ وَلَا يَشْقَىٰ</div>
+                    <div class="transliteration">Wa laqad 'ahidnā ilā ādama min qablu ... famanittaba‘a hudāya falā yaḍillu wa lā yasyqā</div>
+                    <div class="translation-text"><strong>Translation:</strong> "And We had already taken a promise from Adam before... whoever follows My guidance will not go astray nor suffer." (20:115-123) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Al-Qurtubi):</strong> Humans are prone to forgetfulness, but Allah has opened the door of repentance. Iblis is a perpetual enemy to beware of. After Adam repented, Allah provided guidance as a mercy for all of Adam's descendants. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
+            </div>
+
+            <!-- 5. Warning of the Last Day – Verses 102-104 -->
+            <div class="theme-card">
+                <div class="theme-title">5. Warning of the Last Day – Verses 102-104</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=20&verse=102&to=104&opt=1" target="_blank">Ṭāhā 20:102-104 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">يَوْمَ يُنفَخُ فِى ٱلصُّورِ ۚ وَنَحْشُرُ ٱلْمُجْرِمِينَ يَوْمَئِذٍۢ زُرْقًۭا ... إِلَّا يَوْمًۭا</div>
+                    <div class="transliteration">Yauma yunfakhu fiṣ-ṣụri wa naḥsyurul-mujrimīna yauma`iżin zurqā ... illā yaumā</div>
+                    <div class="translation-text"><strong>Translation:</strong> "The Day the Horn is blown, and We will gather the criminals, that Day, blue-eyed (from terror)... only a day." (20:102-104) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (At-Tabari):</strong> A terrifying depiction of the Last Day. The sinners will be terrified, and they will feel that their worldly stay was only a short time. A warning not to be deceived by worldly life. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Source: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Maryam (19):</strong> Both Meccan, contain stories of prophets and affirmation of Tawhid.</li><li><strong>With Surah Al-Qasas (28):</strong> Both narrate the story of Musa; Ṭāhā focuses on his call and miracles.</li><li><strong>With Surah Ash-Shu'ara (26):</strong> Both describe Musa's dialogue with Pharaoh and the staff miracle.</li><li><strong>With Surah Al-A'la (87):</strong> Both begin with the command to glorify Allah.</li></ul></div>
+
+        <div class="info-box"><i class="fas fa-book-open"></i> Reflect: "Indeed, I am Allah; there is no deity except Me, so worship Me and establish prayer for My remembrance." (20:14)</div>
+
+        <!-- Pagination ENGLISH -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="019.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Maryam (19)</a>
+                <a href="021.html" class="pagination-item">Next Surah: Al-Anbiyā' (21) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+            </div>
+        </div>
     </div>
 </div>
-<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
-
+<footer>© 1447 AH / 2026 AD - Tafsir based on IslamicStudies.info & classical sources (Ibn Kathir, Al-Qurtubi, As-Sa'di, At-Tabari) | Thematic Reflection | Complete verses displayed without truncation.</footer>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 <script>
-(function(){
-    const englishDiv = document.getElementById('english-content');
-    const indoDiv = document.getElementById('indonesian-content');
-    const langToggle = document.getElementById('languageToggle');
-    const translitToggle = document.getElementById('transliterationToggle');
-    const darkToggle = document.getElementById('darkModeToggle');
-    const translitElements = document.querySelectorAll('.transliteration');
-    const langSpan = langToggle.querySelector('.lang-text');
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let currentLang = localStorage.getItem('language') || 'indonesian';
-    if(urlParams.has('English')) currentLang = 'english';
-    if(urlParams.has('Indonesian')) currentLang = 'indonesian';
-    
-    function setLanguage(lang){
-        const isEnglish = (lang === 'english');
-        if(isEnglish){
-            englishDiv.classList.remove('hidden');
-            indoDiv.classList.add('hidden');
-            if(langSpan) langSpan.innerHTML = '🇮🇩 Switch to Indonesian';
-            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
-        } else {
-            englishDiv.classList.add('hidden');
-            indoDiv.classList.remove('hidden');
-            if(langSpan) langSpan.innerHTML = '🇬🇧 Switch to English';
-            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+    (function() {
+        const englishDiv = document.getElementById('english-content');
+        const indoDiv = document.getElementById('indonesian-content');
+        const langToggle = document.getElementById('languageToggle');
+        const translitToggle = document.getElementById('transliterationToggle');
+        const darkToggle = document.getElementById('darkModeToggle');
+        const translitElements = document.querySelectorAll('.transliteration');
+        const urlParams = new URLSearchParams(window.location.search);
+        let langParam = null;
+        if (urlParams.has('English')) langParam = 'english';
+        else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+        let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+        function setLanguage(lang) {
+            const isEnglish = (lang === 'english');
+            if (isEnglish) { englishDiv.classList.remove('hidden'); indoDiv.classList.add('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian'; }
+            else { englishDiv.classList.add('hidden'); indoDiv.classList.remove('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English'; }
+            localStorage.setItem('language', lang);
         }
-        localStorage.setItem('language', lang);
-    }
-    setLanguage(currentLang);
-    langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
-    });
-
-    let translitVisible = localStorage.getItem('transliteration') === 'true';
-    if(urlParams.has('Transliteration')) translitVisible = true;
-    function setTransliteration(show){
-        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-        localStorage.setItem('transliteration', show);
-    }
-    setTransliteration(translitVisible);
-    translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
-        setTransliteration(!currently);
-    });
-
-    let darkActive = localStorage.getItem('darkMode') === 'true';
-    if(urlParams.has('Dark')) darkActive = true;
-    if(darkActive) document.body.classList.add('dark-mode');
-    function setDarkModeUI(){
-        const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-        localStorage.setItem('darkMode', active);
-    }
-    setDarkModeUI();
-    darkToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+        setLanguage(currentLang);
+        langToggle.addEventListener('click', () => { const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian'; setLanguage(newLang); });
+        let translitVisible = localStorage.getItem('transliteration') === 'true';
+        if (urlParams.has('Transliteration')) translitVisible = true;
+        function setTransliteration(show) { translitElements.forEach(el => el.style.display = show ? 'block' : 'none'); translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration'; localStorage.setItem('transliteration', show); }
+        setTransliteration(translitVisible);
+        translitToggle.addEventListener('click', () => { const currently = translitElements[0]?.style.display === 'block'; setTransliteration(!currently); });
+        let darkActive = false;
+        if (urlParams.has('Dark')) darkActive = true;
+        else darkActive = localStorage.getItem('darkMode') === 'true';
+        if (darkActive) document.body.classList.add('dark-mode');
+        function setDarkModeUI() { const active = document.body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
         setDarkModeUI();
-    });
-
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
-})();
+        darkToggle.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
+        const upArrow = document.getElementById('scrollUp'); const downArrow = document.getElementById('scrollDown');
+        if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+        if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    })();
 </script>
 </body>
 </html>
