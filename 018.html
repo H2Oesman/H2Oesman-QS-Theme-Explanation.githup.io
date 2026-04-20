@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Surah Al-Kahf (Gua) - Tafsir Tematik | Thematic Tafsir</title>
+    <title>Surah Al-Kahf (18) - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -20,6 +20,7 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
+            --translation-color: #2c5282;
             --theme-card-bg: #ffffffdd;
         }
         .dark-mode {
@@ -27,7 +28,7 @@
             --text-color: #eef2ff;
             --container-bg: #1e293b;
             --arabic-color: #7bc9ff;
-            --section-title-color: #90d0ff;
+            --section-title-color: #7bc9ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
@@ -37,6 +38,7 @@
             --benefits-bg: #1f3a2f;
             --link-color: #93c5fd;
             --link-hover: #c3e2ff;
+            --translation-color: #bdd4ff;
             --theme-card-bg: #1e293bdd;
         }
         body {
@@ -59,38 +61,37 @@
         }
         a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
         a:hover { color: var(--link-hover); text-decoration: underline; }
-        .blink-arrow {
-            animation: blink 1s step-start infinite;
-            display: inline-block;
-            font-weight: bold;
-            background: #ffcc00;
-            color: #000;
-            padding: 2px 6px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin-right: 6px;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
         .arabic {
             font-size: 36px;
             text-align: right;
             direction: rtl;
-            margin: 20px 0 10px 0;
+            margin: 10px 0 5px;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
-            line-height: 1.8;
+            line-height: 1.6;
+            word-wrap: break-word;
         }
         .transliteration {
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
-            text-align: center;
-            margin: 0 0 10px 0;
+            margin: 8px 0 6px;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--verse-border);
             display: none;
+            text-align: right;
         }
         .dark-mode .transliteration { color: #b0c4de; }
+        .translation-text {
+            font-size: 16px;
+            background-color: rgba(44, 82, 130, 0.08);
+            padding: 8px 12px;
+            border-radius: 14px;
+            margin: 6px 0 12px;
+            color: var(--translation-color);
+            border-left: 3px solid var(--link-color);
+            font-weight: 500;
+        }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -111,26 +112,33 @@
             align-items: center;
             gap: 10px;
         }
-        .verse, .theme-point, .theme-card {
+        .verse, .theme-point {
             background-color: var(--verse-bg);
             padding: 20px;
             border-radius: 20px;
             margin: 25px 0;
             border: 1px solid var(--verse-border);
         }
-        .verse-title, .theme-title {
+        .theme-title {
             font-weight: bold;
             color: #1e7e5c;
             margin-bottom: 12px;
             font-size: 1.2rem;
         }
-        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
+        .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
             border-radius: 16px;
             margin-top: 15px;
             border: 1px solid var(--tafsir-border);
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.7;
+            font-style: italic;
         }
         .hidden { display: none; }
         .top-home-link {
@@ -144,6 +152,9 @@
         .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
         .theme-card {
             background: var(--theme-card-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
             border-left: 6px solid #2c7da0;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
@@ -182,6 +193,7 @@
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
             text-align: left;
+            vertical-align: top;
         }
         .theme-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
@@ -206,13 +218,17 @@
         .scroll-arrow.up { top: 90px; }
         .scroll-arrow.down { bottom: 90px; }
         .surah-pagination {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+        }
+        .pagination-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -226,6 +242,7 @@
             transition: 0.2s;
         }
         .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center { text-align: center; }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -249,364 +266,364 @@
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
             .scroll-arrow { width: 38px; height: 38px; left: 12px; }
-            .arabic { font-size: 30px; }
+            .arabic { font-size: 28px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
-        .fa, .fas, .far { margin-right: 4px; }
-        .verse-item { margin-bottom: 20px; border-bottom: 1px dashed var(--verse-border); padding-bottom: 15px; }
-        .verse-item:last-child { border-bottom: none; }
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
+        }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
+        }
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
+        }
         .relationship-box {
             background: var(--structure-bg);
             padding: 20px;
             border-radius: 24px;
             margin: 30px 0;
+            border-left: 5px solid #2c7da0;
         }
-        .external-arrow { margin-left: 4px; }
+        .fa, .fas, .far { margin-right: 4px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> <span class="lang-text">🇬🇧 Switch to English</span></div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
-
 <div class="container" id="mainContainer">
     <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah Al-Kahf (Gua) - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=1&to=110&opt=1" target="_blank">IslamicStudies.info - Surah Al-Kahf (1-110)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Al-Kahf (18) - Tafsir Tematik</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=1&to=110&opt=1" target="_blank">IslamicStudies.info - Surah Al-Kahf (1-110) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></div>
+        <div class="arabic">ٱلْحَمْدُ لِلَّهِ ٱلَّذِىٓ أَنزَلَ عَلَىٰ عَبْدِهِ ٱلْكِتَـٰبَ وَلَمْ يَجْعَل لَّهُۥ عِوَجَا ۜ</div>
+        <div class="transliteration">Al-ḥamdu lillāhi alladhī anzala ‘alā ‘abdihil-kitāba wa lam yaj‘al lahu ‘iwajā.</div>
+        <div class="translation-text"><strong>Terjemahan:</strong> "Segala puji bagi Allah yang telah menurunkan Kitab (Al-Qur'an) kepada hamba-Nya dan Dia tidak menjadikannya bengkok;" (Al-Kahf 18:1)</div>
 
         <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Kahf</h3>
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Kahf (Surah ke-18)</h3>
             <p>Surah ke-18 (110 ayat) Makkiyah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=1&to=110&opt=1" target="_blank">IslamicStudies.info</a>, surah ini diturunkan sebagai respons terhadap pertanyaan-pertanyaan orang musyrik. Surah ini mengandung empat kisah besar yang masing-masing mengajarkan pelajaran tentang ujian iman: (1) Ashhabul Kahf (penghuni gua) – ujian agama, (2) Pemilik dua kebun – ujian harta, (3) Nabi Musa dan Khidr – ujian ilmu, (4) Dzulqarnain – ujian kekuasaan. Surah Al-Kahf memiliki keutamaan besar sebagai pelindung dari fitnah Dajjal.</p>
         </div>
-        <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p><a href="https://quran.com/18?translations=33" target="_blank"><span class="blink-arrow">👉 KLIK DISINI 👈</span> Quran.com - Surah Al-Kahf (Terjemahan Indonesia) <i class="fas fa-external-link-alt external-arrow"></i></a></p>
+
+        <!-- Aqidah, Ibadah, Akhlak Columns (Indonesian) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Al-Qur'an adalah kitab yang lurus (18:1), iman kepada hari kebangkitan (18:21, 18:47-49), keesaan Allah. Meyakini bahwa hanya Allah yang memberi petunjuk.</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Membaca Al-Qur'an, berdoa (18:10), mengucapkan insya Allah (18:23-24), dan berlindung dari fitnah Dajjal dengan membaca awal dan akhir Al-Kahf.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Rendah hati dalam mencari ilmu (kisah Musa dan Khidr), tidak sombong dengan harta (pemilik kebun), adil dalam kekuasaan (Dzulqarnain), dan loyalitas kepada iman (Ashhabul Kahf).</div>
         </div>
+
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/18?translations=33" target="_blank">Quran.com - Surah Al-Kahf (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Kahf</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/018.mp3" type="audio/mpeg"></audio></div>
 
-        <!-- Struktur dan Kandungan -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
-            <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
-                <tbody>
-                    <tr><td><strong>1-8</strong></td><td>Pujian kepada Al-Qur'an & peringatan bagi orang kafir</td><td>Al-Qur'an tidak bengkok, peringatan azab bagi yang tidak beriman.</td></tr>
-                    <tr><td><strong>9-26</strong></td><td>Kisah Ashhabul Kahf (Penghuni Gua)</td><td>Pemuda beriman berlindung dalam gua, ditidurkan 309 tahun.</td></tr>
-                    <tr><td><strong>27-31</strong></td><td>Perintah berpegang teguh pada Al-Qur'an</td><td>Bersabarlah bersama orang-orang yang beriman.</td></tr>
-                    <tr><td><strong>32-44</strong></td><td>Perumpamaan dua kebun (harta sebagai ujian)</td><td>Kesombongan pemilik kebun yang kafir dan kehancurannya.</td></tr>
-                    <tr><td><strong>45-59</strong></td><td>Perumpamaan kehidupan dunia & keengganan manusia</td><td>Dunia bagaikan air hujan, lalu kering; manusia banyak yang lalai.</td></tr>
-                    <tr><td><strong>60-82</strong></td><td>Kisah Nabi Musa & Khidr</td><td>Musa mencari ilmu, tiga kejadian ganjil, hikmah di balik musibah.</td></tr>
-                    <tr><td><strong>83-98</strong></td><td>Kisah Dzulqarnain & Ya'juj Ma'juj</td><td>Penguasa adil membangun tembok besi, tanda-tanda kiamat.</td></tr>
-                    <tr><td><strong>99-110</strong></td><td>Hari kebangkitan & penutup</td><td>Kiamat pasti datang, amal saleh dan tauhid sebagai bekal.</td></tr>
-                </tbody>
-             </table>
-        </div>
-
-        <!-- Pembagian Tema per Bagian Ayat -->
+        <!-- Thematic Division by Verses -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
             <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>18:1-3</strong></td><td>Kemuliaan Al-Qur'an</td><td>Segala puji bagi Allah yang menurunkan Kitab tanpa kebengkokan.</td></tr>
-                    <tr><td><strong>18:9-12</strong></td><td>Ashhabul Kahf mulai berlindung</td><td>Doa pemuda: "Ya Tuhan kami, berikan rahmat kepada kami."</td></tr>
-                    <tr><td><strong>18:13-16</strong></td><td>Kisah gua secara rinci</td><td>Mereka beriman kepada Tuhan, meninggalkan kaum musyrik.</td></tr>
-                    <tr><td><strong>18:23-24</strong></td><td>Larangan mengatakan "besok" tanpa insya Allah</td><td>Jangan katakan "aku akan lakukan besok" kecuali dengan insya Allah.</td></tr>
-                    <tr><td><strong>18:32-44</strong></td><td>Perumpamaan dua kebun</td><td>Harta tidak abadi, yang kekal adalah amal saleh.</td></tr>
-                    <tr><td><strong>18:45</strong></td><td>Perumpamaan kehidupan dunia</td><td>Dunia bagaikan air hujan, tumbuhan segar lalu kering.</td></tr>
-                    <tr><td><strong>18:60-65</strong></td><td>Musa mencari Khidr</td><td>Musa berkata: "Aku tidak akan berhenti sampai mencapai pertemuan dua laut."</td></tr>
-                    <tr><td><strong>18:66-82</strong></td><td>Pelajaran kesabaran</td><td>Khidr: "Sesungguhnya kamu tidak akan sabar bersamaku."</td></tr>
-                    <tr><td><strong>18:83-88</strong></td><td>Dzulqarnain yang adil</td><td>Ia diberi kekuasaan dan memilih jalan kebaikan.</td></tr>
-                    <tr><td><strong>18:94-98</strong></td><td>Ya'juj Ma'juj dan tembok besi</td><td>Mereka tidak bisa menembus tembok hingga hari kiamat.</td></tr>
-                    <tr><td><strong>18:102-110</strong></td><td>Penutup: amal saleh dan tauhid</td><td>Barang siapa mengharap pertemuan dengan Tuhannya, hendaklah beramal saleh dan tidak menyekutukan-Nya.</td></tr>
+                    <tr><td><strong>1-8</strong></td><td>Pujian kepada Al-Qur'an & peringatan bagi orang kafir</td><td>Al-Qur'an tidak bengkok, peringatan azab bagi yang tidak beriman. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>9-26</strong></td><td>Kisah Ashhabul Kahf (Penghuni Gua)</td><td>Pemuda beriman berlindung dalam gua, ditidurkan 309 tahun. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>27-31</strong></td><td>Perintah berpegang teguh pada Al-Qur'an</td><td>Bersabarlah bersama orang-orang yang beriman. — As-Sa'di</td></tr>
+                    <tr><td><strong>32-44</strong></td><td>Perumpamaan dua kebun (harta sebagai ujian)</td><td>Kesombongan pemilik kebun yang kafir dan kehancurannya. — At-Tabari</td></tr>
+                    <tr><td><strong>45-59</strong></td><td>Perumpamaan kehidupan dunia & keengganan manusia</td><td>Dunia bagaikan air hujan, lalu kering; manusia banyak yang lalai. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>60-82</strong></td><td>Kisah Nabi Musa & Khidr</td><td>Musa mencari ilmu, tiga kejadian ganjil, hikmah di balik musibah. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>83-98</strong></td><td>Kisah Dzulqarnain & Ya'juj Ma'juj</td><td>Penguasa adil membangun tembok besi, tanda-tanda kiamat. — As-Sa'di</td></tr>
+                    <tr><td><strong>99-110</strong></td><td>Hari kebangkitan & penutup</td><td>Kiamat pasti datang, amal saleh dan tauhid sebagai bekal. — At-Tabari</td></tr>
                 </tbody>
-             </table>
+            </table>
         </div>
 
         <!-- Ayat Kunci untuk Tadabbur -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
             <div class="verse">
-                <div class="arabic">وَٱصْبِرْ نَفْسَكَ مَعَ ٱلَّذِينَ يَدْعُونَ رَبَّهُم بِٱلْغَدَوٰةِ وَٱلْعَشِىِّ يُرِيدُونَ وَجْهَهُۥ ۖ وَلَا تَعْدُ عَيْنَاكَ عَنْهُمْ تُرِيدُ زِينَةَ ٱلْحَيَوٰةِ ٱلدُّنْيَا ۖ وَلَا تُطِعْ مَنْ أَغْفَلْنَا قَلْبَهُۥ عَن ذِكْرِنَا وَٱتَّبَعَ هَوَىٰهُ وَكَانَ أَمْرُهُۥ فُرُطًا</div>
-                <div class="transliteration">Waṣbir nafsaka ma‘allażīna yad‘ūna rabbahum bil-gadāti wal-‘asyiyyi yurīdūna wajhah, wa lā ta‘du ‘aynāka ‘anhum turīdu zīnatal-ḥayātid-dunyā, wa lā tuṭi‘ man aghfalnā qalbahū ‘an żikrinā wattaba‘a hawāhu wa kāna amruhū furuṭā.</div>
-                <p><strong>Terjemahan:</strong> "Dan bersabarlah engkau bersama orang-orang yang menyeru Tuhannya pada pagi dan petang hari, mengharap wajah-Nya; dan janganlah kedua matamu berpaling dari mereka (karena) mengharap perhiasan kehidupan dunia; dan janganlah engkau mengikuti orang yang hatinya telah Kami lalaikan dari mengingat Kami, serta menuruti keinginannya dan keadaannya itu melewati batas." (Al-Kahf 18:28)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Perintah untuk bersabar bersama orang-orang beriman sederhana yang tekun beribadah, dan larangan mengikuti orang yang hatinya lalai. Ini pesan penting tentang memilih teman dan menjaga kesederhanaan. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=28&to=28&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-            </div>
-        </div>
-
-        <!-- Tema Utama dengan ayat lengkap -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Al-Kahf</h2>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Kisah Ashhabul Kahf (Penghuni Gua) – Ayat 9-26</div>
-                <div class="verse-item">
-                    <div class="arabic">أَمْ حَسِبْتَ أَنَّ أَصْحَٰبَ ٱلْكَهْفِ وَٱلرَّقِيمِ كَانُوا۟ مِنْ ءَايَٰتِنَا عَجَبًا * إِذْ أَوَى ٱلْفِتْيَةُ إِلَى ٱلْكَهْفِ فَقَالُوا۟ رَبَّنَآ ءَاتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا</div>
-                    <div class="transliteration">Am ḥasibta anna aṣ-ḥābal-kahfi war-raqīmi kānū min āyātinā ‘ajabā * idh awal-fityatu ilal-kahfi fa qālū rabbanā ātinā mil ladunka raḥmataw wa hayyi’ lanā min amrinā rasyadā.</div>
-                    <p><strong>Terjemahan:</strong> "Apakah engkau mengira bahwa penghuni gua dan (yang mempunyai) raqim itu merupakan tanda-tanda (kekuasaan) Kami yang menakjubkan? (Ingatlah) ketika pemuda-pemuda itu berlindung ke dalam gua lalu mereka berdoa, 'Ya Tuhan kami, berikanlah rahmat kepada kami dari sisi-Mu dan sempurnakanlah petunjuk yang lurus bagi kami dalam urusan kami.'" (18:9-10)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Kisah pemuda beriman yang melarikan diri dari penguasa zalim. Allah menidurkan mereka selama 309 tahun. Doa mereka adalah contoh sempurna: memohon rahmat dan petunjuk sekaligus. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=9&to=26&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Perumpamaan Pemilik Dua Kebun – Ayat 32-44</div>
-                <div class="verse-item">
-                    <div class="arabic">وَٱضْرِبْ لَهُم مَّثَلًا رَّجُلَيْنِ جَعَلْنَا لِأَحَدِهِمَا جَنَّتَيْنِ مِنْ أَعْنَابٍ وَحَفَفْنَا هُمَا بِنَخْلٍ وَجَعَلْنَا بَيْنَهُمَا زَرْعًا ... وَأُحِيطَ بِثَمَرِهِۦ فَأَصْبَحَ يُقَلِّبُ كَفَّيْهِ عَلَىٰ مَآ أَنفَقَ فِيهَا وَهِىَ خَاوِيَةٌ عَلَىٰ عُرُوشِهَا</div>
-                    <div class="transliteration">Waḍrib lahum maṡalar rajulaini ja‘alnā li’aḥadihimā jannataini min a‘nābin wa ḥafafnāhumā binakħlin wa ja‘alnā bainahumā zar‘ā ... wa uḥīṭa biṡamarihī fa aṣbaḥa yuqallibu kaffayhi ‘alā mā anfaqa fīhā wa hiya khāwiyatun ‘alā ‘urūsyihā.</div>
-                    <p><strong>Terjemahan:</strong> "Dan buatlah untuk mereka suatu perumpamaan: dua orang laki-laki. Kami berikan kepada salah satu dari keduanya dua kebun anggur dan Kami kelilingi kedua kebun itu dengan pohon kurma, dan di antara keduanya Kami buatkan ladang... lalu kebunnya itu dibinasakan; maka jadilah dia membolak-balikkan kedua tangannya (tanda menyesal) terhadap apa yang telah dia belanjakan padanya, sedang pohon-pohonnya roboh." (18:32, 42)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Perumpamaan dua orang: satu bersyukur dan satu sombong dengan kekayaannya. Pemilik kebun yang kafir berkata, "Aku tidak kira hari kiamat akan terjadi." Lalu kebunnya dihancurkan. Pelajaran: jangan terpedaya harta, kesombongan akan berujung kehancuran. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=32&to=44&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Kisah Nabi Musa dan Khidr – Ayat 60-82</div>
-                <div class="verse-item">
-                    <div class="arabic">وَإِذْ قَالَ مُوسَىٰ لِفَتَىٰهُ لَآ أَبْرَحُ حَتَّىٰٓ أَبْلُغَ مَجْمَعَ ٱلْبَحْرَيْنِ أَوْ أَمْضِىَ حُقُبًا ... قَالَ إِنَّكَ لَن تَسْتَطِيعَ مَعِىَ صَبْرًا</div>
-                    <div class="transliteration">Wa idz qāla mūsā lifatāhu lā abraḥu ḥattā abluga majma‘al-baḥraini au amḍiya ḥuqubā ... qāla innaka lan tastaṭī‘a ma‘iya ṣabrā.</div>
-                    <p><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Musa berkata kepada muridnya, 'Aku tidak akan berhenti (berjalan) sebelum sampai ke pertemuan dua laut; atau aku akan berjalan bertahun-tahun.' ... Dia (Khidr) berkata, 'Sesungguhnya kamu tidak akan sanggup sabar bersamaku.'" (18:60, 67)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Nabi Musa mencari seorang hamba saleh yang diberi ilmu laduni (Khidr). Musa gagal bersabar atas tiga kejadian yang tampak buruk. Pelajaran: ada hikmah di balik ketentuan Allah, dan kesabaran adalah kunci dalam menuntut ilmu. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=60&to=82&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Kisah Dzulqarnain dan Ya'juj Ma'juj – Ayat 83-98</div>
-                <div class="verse-item">
-                    <div class="arabic">وَيَسْـَٔلُونَكَ عَن ذِى ٱلْقَرْنَيْنِ ۖ قُلْ سَأَتْلُوا۟ عَلَيْكُم مِّنْهُ ذِكْرًا * إِنَّا مَكَّنَّا لَهُۥ فِى ٱلْأَرْضِ وَءَاتَيْنَٰهُ مِن كُلِّ شَىْءٍ سَبَبًا ... فَمَا ٱسْطَٰعُوٓا۟ أَن يَظْهَرُوهُ وَمَا ٱسْتَطَٰعُوا۟ لَهُۥ نَقْبًا</div>
-                    <div class="transliteration">Wa yas’alūnaka ‘an żil-qarnain, qul sa’atlū ‘alaikum min-hu żikrā * innā makkannā lahū fīl-arḍi wa ātaināhu min kulli syai’in sababā ... famāsṭā‘ū an yaẓharūhu wa māsṭā‘ū lahū naqbā.</div>
-                    <p><strong>Terjemahan:</strong> "Dan mereka bertanya kepadamu (Muhammad) tentang Dzulqarnain. Katakanlah, 'Aku akan bacakan kepadamu cerita tentangnya.' Sesungguhnya Kami telah memberi kekuasaan kepadanya di (muka) bumi, dan Kami telah memberikan kepadanya jalan (untuk mencapai) segala sesuatu... Maka mereka (Ya'juj Ma'juj) tidak bisa mendakinya dan tidak bisa (pula) melubanginya." (18:83-84, 97)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Dzulqarnain adalah pemimpin adil yang diberi kekuasaan oleh Allah. Ia membangun tembok besi untuk menahan Ya'juj Ma'juj. Kisah ini mengajarkan tentang keadilan, memanfaatkan kekuasaan untuk kebaikan, dan tanda-tanda hari kiamat. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=83&to=98&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Perlindungan dari Fitnah Dajjal & Penutup – Ayat 102-110</div>
-                <div class="verse-item">
-                    <div class="arabic">أَفَحَسِبَ ٱلَّذِينَ كَفَرُوٓا۟ أَن يَتَّخِذُوا۟ عِبَادِى مِن دُونِىٓ أَوْلِيَآءَ ۚ إِنَّآ أَعْتَدْنَا جَهَنَّمَ لِلْكَٰفِرِينَ نُزُلًا ... قُلْ إِنَّمَآ أَنَا۠ بَشَرٌ مِّثْلُكُمْ يُوحَىٰٓ إِلَىَّ أَنَّمَآ إِلَٰهُكُمْ إِلَٰهٌ وَٰحِدٌ ۖ فَمَن كَانَ يَرْجُوا۟ لِقَآءَ رَبِّهِۦ فَلْيَعْمَلْ عَمَلًا صَٰلِحًا وَلَا يُشْرِكْ بِعِبَادَةِ رَبِّهِۦٓ أَحَدًا</div>
-                    <div class="transliteration">A fa ḥasiballażīna kafarū ay yattakhiżū ‘ibādī min dūnī auliyā’, innā a‘tadnā jahannama lil-kāfirīn nuzulā ... qul innamā anā basyarum miṡlukum yūḥā ilayya annamā ilāhukum ilāhun wāḥid, faman kāna yarjū liqā’a rabbihī falya‘mal ‘amalan ṣāliḥaw wa lā yusyrik bi‘ibādati rabbihī aḥadā.</div>
-                    <p><strong>Terjemahan:</strong> "Maka apakah orang-orang kafir menyangka bahwa mereka dapat mengambil hamba-hamba-Ku menjadi penolong selain Aku? Sesungguhnya Kami telah menyediakan neraka Jahanam sebagai tempat tinggal bagi orang-orang kafir... Katakanlah (Muhammad), 'Sesungguhnya aku hanyalah seorang manusia seperti kamu; diwahyukan kepadaku bahwa sesungguhnya Tuhan kamu adalah Tuhan Yang Maha Esa; maka barang siapa mengharap pertemuan dengan Tuhannya, hendaklah dia mengerjakan amal saleh dan janganlah dia mempersekutukan seorang pun dalam beribadah kepada Tuhannya.'" (18:102, 110)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Penutup surah mengingatkan bahwa orang kafir tidak akan mendapat perlindungan selain Allah. Ajaran inti: beramal saleh dan tidak menyekutukan Allah. Membaca Surah Al-Kahf setiap Jumat menjadi perlindungan dari fitnah Dajjal, sesuai hadis Nabi. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=102&to=110&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
-                </div>
+                <div class="arabic">إِنَّا جَعَلْنَا مَا عَلَى ٱلْأَرْضِ زِينَةًۭ لَّهَا لِنَبْلُوَهُمْ أَيُّهُمْ أَحْسَنُ عَمَلًۭا</div>
+                <div class="transliteration">Innā ja‘alnā mā ‘alā al-arḍi zīnatan lahā linabluwahum ayyuhum aḥsanu ‘amalā.</div>
+                <div class="translation-text"><strong>Terjemahan:</strong> "Sesungguhnya Kami telah menjadikan apa yang ada di bumi sebagai perhiasan baginya, agar Kami menguji mereka, siapakah di antara mereka yang terbaik amalnya." (Al-Kahf 18:7)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Seluruh keindahan dunia adalah ujian, bukan tujuan akhir. Amal terbaik adalah yang paling ikhlas dan sesuai sunnah.</div>
             </div>
         </div>
 
         <!-- Keutamaan Khusus Surah -->
-        <div class="special-benefits">
-            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Kahf</h3>
-            <ul>
-                <li><strong>Benteng dari Dajjal:</strong> Rasulullah ﷺ bersabda: "Barang siapa membaca sepuluh ayat pertama dari Surah Al-Kahf, ia akan dilindungi dari Dajjal." (HR Muslim).</li>
-                <li><strong>Cahaya di antara dua Jumat:</strong> Membaca Surah Al-Kahf pada hari Jumat akan diberikan cahaya yang menerangi antara dua Jumat.</li>
-                <li><strong>Empat Kisah Besar:</strong> Setiap kisah mengajarkan solusi atas empat fitnah besar: agama, harta, ilmu, dan kekuasaan.</li>
-                <li><strong>Perumpamaan Dunia:</strong> Ayat 45 mengingatkan bahwa dunia hanya sementara seperti air hujan yang membasahi lalu mengering.</li>
-                <li><strong>Kesabaran dalam Menuntut Ilmu:</strong> Kisah Musa dan Khidr mengajarkan adab dan kesabaran dalam mencari ilmu.</li>
-            </ul>
-        </div>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Kahf</h3><ul><li>Pelindung dari fitnah Dajjal: Barang siapa membaca sepuluh ayat pertama atau sepuluh ayat terakhir Al-Kahf, akan dilindungi dari Dajjal (HR. Muslim).</li><li>Membaca pada hari Jumat: Barang siapa membaca Surah Al-Kahf pada hari Jumat, akan diberi cahaya antara dua Jumat (HR. Hakim).</li><li>Empat kisah besar yang mencakup empat ujian utama: agama, harta, ilmu, dan kekuasaan.</li><li>Mengajarkan bahwa kesabaran dan ketakwaan adalah kunci menghadapi fitnah.</li></ul></div>
 
-        <!-- Pesan Akidah, Ibadah, Akhlak -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
-            <p><strong>Akidah:</strong> Meyakini kekuasaan Allah atas segala sesuatu (kebangkitan, perlindungan dari fitnah, hari kiamat). Tidak menyekutukan Allah dalam beribadah.</p>
-            <p><strong>Ibadah:</strong> Membaca Surah Al-Kahf setiap Jumat, berdoa dengan doa ashhabul kahf (memohon rahmat dan petunjuk), serta mengerjakan amal saleh.</p>
-            <p><strong>Akhlak:</strong> Bersabar bersama orang-orang beriman, tidak sombong dengan harta, rendah hati dalam menuntut ilmu, menggunakan kekuasaan untuk keadilan, dan menjauhi kesombongan.</p>
-        </div>
+        <!-- Pesan Aqidah, Ibadah, Akhlak -->
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Pesan Aqidah, Ibadah, & Akhlak</h3><p><strong>Akidah:</strong> Al-Qur'an adalah kitab yang lurus (18:1), iman kepada hari kebangkitan (18:21, 18:47-49), keesaan Allah. Meyakini bahwa hanya Allah yang memberi petunjuk.</p><p><strong>Ibadah:</strong> Membaca Al-Qur'an, berdoa (18:10), mengucapkan insya Allah (18:23-24), dan berlindung dari fitnah Dajjal dengan membaca awal dan akhir Al-Kahf.</p><p><strong>Akhlak:</strong> Rendah hati dalam mencari ilmu (kisah Musa dan Khidr), tidak sombong dengan harta (pemilik kebun), adil dalam kekuasaan (Dzulqarnain), dan loyalitas kepada iman (Ashhabul Kahf).</p></div>
 
         <!-- Pelajaran Spiritual -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Kahf</h3>
-            <ul>
-                <li>Iman harus dijaga meskipun harus meninggalkan kemewahan dunia (Ashhabul Kahf).</li>
-                <li>Harta adalah ujian; jangan sampai membuat sombong dan lupa kepada Allah.</li>
-                <li>Ilmu yang bermanfaat membutuhkan kesabaran dan kerendahan hati.</li>
-                <li>Kekuasaan harus digunakan untuk menegakkan keadilan dan kebaikan.</li>
-                <li>Membaca Surah Al-Kahf setiap Jumat adalah benteng dari fitnah akhir zaman.</li>
-                <li>Jangan mengatakan "besok" tanpa mengucapkan "insya Allah".</li>
-            </ul>
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Kahf</h3><ul><li>Ujian agama: tetap berpegang pada tauhid di tengah tekanan masyarakat.</li><li>Ujian harta: jangan sombong, sadar bahwa harta adalah titipan Allah.</li><li>Ujian ilmu: rendah hati dan sabar dalam menuntut ilmu, mengakui keterbatasan.</li><li>Ujian kekuasaan: gunakan kekuasaan untuk keadilan dan kebaikan.</li><li>Hidup di dunia hanya sementara, yang kekal adalah akhirat.</li></ul></div>
+
+        <!-- Relevansi untuk Kehidupan Modern -->
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div><ol><li>Krisis Identitas: Ashhabul Kahf mengajarkan keberanian mempertahankan iman di tengah masyarakat yang mencemooh.</li><li>Materialisme: Kisah pemilik dua kebun menjadi peringatan terhadap kesombongan harta dan gaya hidup konsumtif.</li><li>Pencarian Ilmu: Kisah Musa dan Khidr mengajarkan kerendahan hati dan bahwa ada ilmu yang tidak diketahui manusia.</li><li>Kepemimpinan: Dzulqarnain menjadi teladan pemimpin yang adil, kuat, dan beriman.</li><li>Hoax & Fitnah: Surah Al-Kahf adalah benteng dari fitnah Dajjal, analog dengan fitnah informasi di era digital.</li></ol></div>
+
+        <!-- Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah</h2>
+
+            <!-- 1. Ashhabul Kahf (Penghuni Gua) - Ayat 9-26 -->
+            <div class="theme-card">
+                <div class="theme-title">1. Kisah Ashhabul Kahf: Ujian Agama – Ayat 9-26</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap (Ringkasan dengan referensi):</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=9&to=26&opt=1" target="_blank">Al-Kahf 18:9-26 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">أَمْ حَسِبْتَ أَنَّ أَصْحَـٰبَ ٱلْكَهْفِ وَٱلرَّقِيمِ كَانُوا۟ مِنْ ءَايَـٰتِنَا عَجَبًا (٩) إِذْ أَوَى ٱلْفِتْيَةُ إِلَى ٱلْكَهْفِ فَقَالُوا۟ رَبَّنَآ ءَاتِنَا مِن لَّدُنكَ رَحْمَةًۭ وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًۭا (١٠) ... وَلَبِثُوا۟ فِى كَهْفِهِمْ ثَلَـٰثَ مِا۟ئَةٍۢ سِنِينَ وَٱزْدَادُوا۟ تِسْعًۭا (٢٥)</div>
+                    <div class="transliteration">Am ḥasibta anna aṣḥābal-kahfi war-raqīmi kānū min āyātinā ‘ajabā (9) Iż awal-fityatu ilal-kahfi fa qālū rabbanā ātinā min ladunka raḥmataw wa hayyi’ lanā min amrinā rasyadā (10) ... Wa labiṡū fī kahfihim thalāṯa mi’atin sinīna wazdādū tis‘ā (25)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Apakah engkau mengira bahwa orang-orang yang mendiami gua dan (yang mempunyai) raqim itu termasuk tanda-tanda (kekuasaan) Kami yang menakjubkan? (9) (Ingatlah) ketika pemuda-pemuda itu berlindung ke dalam gua lalu mereka berdoa, 'Ya Tuhan kami, berikanlah rahmat kepada kami dari sisi-Mu dan sempurnakanlah petunjuk yang lurus bagi kami dalam urusan kami.' (10) ... Dan mereka tinggal dalam gua mereka tiga ratus tahun dan ditambah sembilan tahun." (25)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir):</strong> Pemuda-pemuda beriman meninggalkan kaum musyrik yang memaksa mereka menyembah berhala. Allah menidurkan mereka selama 309 tahun sebagai bukti kekuasaan-Nya atas kebangkitan. Pelajaran: iman lebih berharga daripada kehidupan dunia; Allah selalu menyediakan jalan keluar bagi hamba-Nya yang bertakwa. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+
+            <!-- 2. Perumpamaan Dua Kebun: Ujian Harta - Ayat 32-44 -->
+            <div class="theme-card">
+                <div class="theme-title">2. Perumpamaan Dua Kebun: Ujian Harta – Ayat 32-44</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=32&to=44&opt=1" target="_blank">Al-Kahf 18:32-44 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَٱضْرِبْ لَهُم مَّثَلًۭا رَّجُلَيْنِ جَعَلْنَا لِأَحَدِهِمَا جَنَّتَيْنِ مِنْ أَعْنَـٰبٍۢ وَحَفَفْنَـٰهُمَا بِنَخْلٍۢ وَجَعَلْنَا بَيْنَهُمَا زَرْعًۭا (٣٢) ... وَأُحِيطَ بِثَمَرِهِۦ فَأَصْبَحَ يُقَلِّبُ كَفَّيْهِ عَلَىٰ مَآ أَنفَقَ فِيهَا وَهِىَ خَاوِيَةٌ عَلَىٰ عُرُوشِهَا (٤٢)</div>
+                    <div class="transliteration">Waḍrib lahum maṡalan rajulaini ja‘alnā li’aḥadihimā jannatayni min a‘nābin wa ḥafafnāhumā binakhlin wa ja‘alnā baynahumā zar‘ā (32) ... Wa uḥīṭa biṡamarihī fa aṣbaḥa yuqallibu kaffayhi ‘alā mā anfaqa fīhā wa hiya khāwiyatun ‘alā ‘urūsyihā (42)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan buatlah untuk mereka sebuah perumpamaan dua orang laki-laki. Kami jadikan untuk salah seorang di antara keduanya dua kebun anggur dan kami kelilingi kedua kebun itu dengan pohon kurma dan di antara keduanya ada tanaman. (32) ... Dan harta kekayaannya dibinasakan, lalu dia membalikkan kedua telapak tangannya (karena sesal) atas apa yang telah dia belanjakan, dan pohon anggur itu roboh bersama para penyangganya." (42)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Al-Qurthubi):</strong> Pemilik kebun sombong dengan hartanya, menganggapnya abadi, dan mengingkari kebangkitan. Allah membinasakan kebunnya sebagai pelajaran. Harta adalah ujian, bukan jaminan keselamatan. Yang kekal adalah amal saleh. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
+            </div>
+
+            <!-- 3. Kisah Musa dan Khidr: Ujian Ilmu - Ayat 60-82 -->
+            <div class="theme-card">
+                <div class="theme-title">3. Kisah Musa & Khidr: Ujian Ilmu – Ayat 60-82</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=60&to=82&opt=1" target="_blank">Al-Kahf 18:60-82 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَإِذْ قَالَ مُوسَىٰ لِفَتَىٰهُ لَآ أَبْرَحُ حَتَّىٰٓ أَبْلُغَ مَجْمَعَ ٱلْبَحْرَيْنِ أَوْ أَمْضِىَ حُقُبًۭا (٦٠) ... قَالَ هَـٰذَا فِرَاقُ بَيْنِى وَبَيْنِكَ ۚ سَأُنَبِّئُكَ بِتَأْوِيلِ مَا لَمْ تَسْتَطِع عَّلَيْهِ صَبْرًا (٧٨)</div>
+                    <div class="transliteration">Wa iż qāla mūsā lifatāhu lā abraḥu ḥattā ablugha majma‘al-baḥraini aw amḍiya ḥuqubā (60) ... Qāla hāżā firāqu bainī wa bainika, sa’unabbi‘uka bi ta’wīli mā lam tastaṭi‘ ‘alaihi ṣabrā (78)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Musa berkata kepada muridnya, 'Aku tidak akan berhenti (bepergian) sampai aku sampai ke pertemuan dua laut, atau aku akan berjalan terus sampai bertahun-tahun.' (60) ... Dia (Khidr) berkata, 'Inilah perpisahan antara aku dan engkau. Aku akan beritahukan kepadamu tafsir atas hal-hal yang engkau tidak mampu sabar terhadapnya.'" (78)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (As-Sa'di):</strong> Musa AS, seorang nabi besar, masih mencari ilmu dari hamba Allah yang shaleh. Ini mengajarkan kerendahan hati dan kesabaran dalam menuntut ilmu. Tiga peristiwa ganjil yang dilakukan Khidr memiliki hikmah yang tidak diketahui Musa. Pelajaran: ada ilmu Allah yang tidak terjangkau akal manusia; bersabarlah terhadap ketentuan Allah. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Sumber: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
+            </div>
+
+            <!-- 4. Kisah Dzulqarnain: Ujian Kekuasaan - Ayat 83-98 -->
+            <div class="theme-card">
+                <div class="theme-title">4. Kisah Dzulqarnain: Ujian Kekuasaan – Ayat 83-98</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=83&to=98&opt=1" target="_blank">Al-Kahf 18:83-98 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَيَسْـَٔلُونَكَ عَن ذِى ٱلْقَرْنَيْنِ ۖ قُلْ سَأَتْلُوا۟ عَلَيْكُم مِّنْهُ ذِكْرًا (٨٣) إِنَّا مَكَّنَّا لَهُۥ فِى ٱلْأَرْضِ وَءَاتَيْنَـٰهُ مِن كُلِّ شَىْءٍۢ سَبَبًۭا (٨٤) ... قَالَ هَـٰذَا رَحْمَةٌۭ مِّن رَّبِّى ۖ فَإِذَا جَآءَ وَعْدُ رَبِّى جَعَلَهُۥ دَكَّآءَ ۖ وَكَانَ وَعْدُ رَبِّى حَقًّۭا (٩٨)</div>
+                    <div class="transliteration">Wa yas’alūnaka ‘an żil-qarnaini, qul sa’atlū ‘alaikum min-hu żikrā (83) Innā makkannā lahū fī al-arḍi wa ātaināhu min kulli syai’in sababā (84) ... Qāla hāżā raḥmatun min rabbī, fa iżā jā’a wa‘du rabbī ja‘alahū dakkā’, wa kāna wa‘du rabbī ḥaqqā (98)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan mereka bertanya kepadamu (Muhammad) tentang Dzulqarnain. Katakanlah, 'Aku akan bacakan kepadamu kisahnya.' (83) Sesungguhnya Kami telah memberinya kekuasaan di bumi dan Kami berikan kepadanya jalan (untuk mencapai) segala sesuatu. (84) ... Dia (Dzulqarnain) berkata, 'Ini adalah rahmat dari Tuhanku. Maka apabila janji Tuhanku datang, Dia akan menjadikannya hancur, dan janji Tuhanku itu pasti benar.'" (98)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (At-Tabari):</strong> Dzulqarnain adalah raja yang adil, diberi kekuasaan sampai ke timur dan barat. Ia membangun tembok besi untuk menahan Ya'juj dan Ma'juj sebagai rahmat bagi manusia. Ia tidak sombong, tetapi mengakui bahwa semua kekuasaan berasal dari Allah. Pelajaran: kekuasaan adalah amanah; gunakan untuk keadilan dan kebaikan, bukan kezaliman. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
+            </div>
         </div>
 
-        <!-- Relevansi Kehidupan Modern -->
-        <div class="theme-card">
-            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div>
-            <ol>
-                <li><strong>Ujian Agama di Era Sekuler:</strong> Kisah Ashhabul Kahf menginspirasi pemuda Muslim untuk tetap beriman di tengah tekanan sosial.</li>
-                <li><strong>Materialisme & Konsumerisme:</strong> Perumpamaan dua kebun mengingatkan agar tidak terpedaya oleh harta dan gaya hidup mewah.</li>
-                <li><strong>Kesombongan Ilmu:</strong> Kisah Musa dan Khidr mengajarkan bahwa ada ilmu yang lebih tinggi dan perlunya kerendahan hati.</li>
-                <li><strong>Keadilan Kepemimpinan:</strong> Dzulqarnain menjadi model pemimpin yang menggunakan kekuasaan untuk kebaikan dan keadilan.</li>
-                <li><strong>Hoax & Fitnah Dajjal:</strong> Surah ini menjadi benteng spiritual dari berbagai fitnah modern, termasuk berita palsu dan penyesatan.</li>
-            </ol>
-        </div>
-
-        <!-- Hubungan dengan Surah Lain -->
+        <!-- Hubungan dengan Surah Lain (Indonesian) -->
         <div class="relationship-box">
             <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <p>Surah Al-Kahf (18) memiliki keterkaitan erat dengan surah-surah Makkiyah lainnya.</p>
             <ul>
-                <li><strong>Dengan Surah Maryam (19):</strong> Sama-sama mengandung kisah-kisah yang menguatkan hati Nabi Muhammad ﷺ dan mengandung pelajaran tentang rahmat Allah.</li>
-                <li><strong>Dengan Surah Thaha (20):</strong> Keduanya menceritakan kisah Nabi Musa, namun di Al-Kahf fokus pada pertemuan dengan Khidr.</li>
-                <li><strong>Dengan Surah Al-Anbiya' (21):</strong> Sama-sama menceritakan kisah para nabi dan umat terdahulu sebagai pelajaran.</li>
-                <li><strong>Dengan Surah Al-Kahf dan Surah Al-Furqan (25):</strong> Keduanya menyebut tentang perlindungan dari kejahatan dan fitnah.</li>
+                <li><strong>Dengan Surah Maryam (19):</strong> Keduanya menceritakan kisah-kisah luar biasa sebagai tanda kekuasaan Allah (Ashhabul Kahf dan kisah Maryam, Zakaria, Yahya, Isa).</li>
+                <li><strong>Dengan Surah Al-Anbiya' (21):</strong> Sama-sama mengumpulkan kisah para nabi sebagai pelajaran, namun Al-Kahf lebih fokus pada empat ujian utama.</li>
+                <li><strong>Dengan Surah Al-Isra' (17):</strong> Al-Isra' menekankan Bani Israil dan perintah agama; Al-Kahf menekankan perlindungan dari fitnah akhir zaman.</li>
+                <li><strong>Dengan Surah Al-Furqan (25):</strong> Keduanya menyebutkan hamba-hamba Allah yang saleh dan sifat-sifat mereka.</li>
             </ul>
         </div>
 
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Dan bersabarlah engkau bersama orang-orang yang menyeru Tuhannya pada pagi dan petang hari.” (18:28)</div>
+        <div class="info-box"><i class="fas fa-book-open"></i> Renungkan: “Sesungguhnya Kami telah menjadikan apa yang ada di bumi sebagai perhiasan baginya, agar Kami menguji mereka, siapakah di antara mereka yang terbaik amalnya.” (18:7)</div>
+
+        <!-- Pagination INDONESIA -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="016.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: An-Nahl (16)</a>
+                <a href="018.html" class="pagination-item">Surah Berikutnya: Maryam (19) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            </div>
+        </div>
     </div>
 
-    <!-- ENGLISH CONTENT -->
+    <!-- ENGLISH CONTENT (FULLY PARALLEL) -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Al-Kahf (The Cave) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=1&to=110&opt=1" target="_blank">IslamicStudies.info - Surah Al-Kahf (1-110)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Al-Kahf (18) - Thematic Tafsir</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Kahf</h3><p>Meccan surah (110 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=1&to=110&opt=1" target="_blank">IslamicStudies.info</a>, it was revealed in response to questions from the polytheists. It contains four major stories, each teaching lessons about tests of faith: (1) People of the Cave – test of religion, (2) Owner of two gardens – test of wealth, (3) Moses and Khidr – test of knowledge, (4) Dhul-Qarnain – test of power. Surah Al-Kahf is renowned for its protection against the fitnah of Dajjal.</p></div>
-        <div class="info-box"><h3>Full Text</h3><p><a href="https://recitequran.com/18" target="_blank"><span class="blink-arrow">👉 CLICK HERE 👈</span> ReciteQuran.com - Surah Al-Kahf <i class="fas fa-external-link-alt external-arrow"></i></a></p></div>
+        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=1&to=110&opt=1" target="_blank">IslamicStudies.info - Surah Al-Kahf (1-110) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
+        <div class="arabic">ٱلْحَمْدُ لِلَّهِ ٱلَّذِىٓ أَنزَلَ عَلَىٰ عَبْدِهِ ٱلْكِتَـٰبَ وَلَمْ يَجْعَل لَّهُۥ عِوَجَا ۜ</div>
+        <div class="transliteration">Al-ḥamdu lillāhi alladhī anzala ‘alā ‘abdihil-kitāba wa lam yaj‘al lahu ‘iwajā.</div>
+        <div class="translation-text"><strong>Translation:</strong> "[All] praise is [due] to Allah, who has sent down upon His Servant the Book and has not made therein any deviance." (18:1)</div>
+
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Kahf (Surah 18)</h3><p>Meccan surah (110 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=1&to=110&opt=1" target="_blank">IslamicStudies.info</a>, this surah was revealed in response to questions from the polytheists. It contains four great stories, each teaching a lesson about trials of faith: (1) People of the Cave – trial of religion, (2) Owner of two gardens – trial of wealth, (3) Moses and Khidr – trial of knowledge, (4) Dhul-Qarnayn – trial of power. Surah Al-Kahf has great virtue as a protection from the trial of Dajjal.</p></div>
+
+        <!-- Aqidah, Ibadah, Akhlaq Columns (English) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> The Qur'an is straight (18:1), belief in resurrection (18:21, 18:47-49), oneness of Allah.</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Recite the Qur'an, supplicate (18:10), say "insha'Allah" (18:23-24), seek protection from Dajjal by reading Al-Kahf.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Humility in seeking knowledge (Moses & Khidr), not arrogant with wealth, just in power (Dhul-Qarnayn), loyalty to faith (People of the Cave).</div>
+        </div>
+
+        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/18" target="_blank">ReciteQuran.com - Surah Al-Kahf <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Kahf</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/018.mp3"></audio></div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead><tbody>
-                <tr><td><strong>1-8</strong></td><td>Praise of the Qur'an & warning to disbelievers</td><td>The Qur'an is straight; warning of severe punishment for disbelievers.</td></tr>
-                <tr><td><strong>9-26</strong></td><td>Story of the People of the Cave</td><td>Young believers seek refuge in a cave; sleep for 309 years.</td></tr>
-                <tr><td><strong>27-31</strong></td><td>Command to adhere to the Qur'an</td><td>Be patient with those who call upon their Lord morning and evening.</td></tr>
-                <tr><td><strong>32-44</strong></td><td>Parable of two gardens (wealth as a test)</td><td>Arrogant owner's garden destroyed; wealth is fleeting.</td></tr>
-                <tr><td><strong>45-59</strong></td><td>Parable of worldly life & human heedlessness</td><td>Worldly life is like rain that brings vegetation then withers.</td></tr>
-                <tr><td><strong>60-82</strong></td><td>Story of Moses and Khidr</td><td>Moses seeks knowledge; three strange events teach patience.</td></tr>
-                <tr><td><strong>83-98</strong></td><td>Story of Dhul-Qarnain and Gog & Magog</td><td>Just ruler builds iron wall; signs of the Last Day.</td></tr>
-                <tr><td><strong>99-110</strong></td><td>The Resurrection & Conclusion</td><td>Judgment Day is certain; righteous deeds and Tawheed are the provision.</td></tr>
-            </tbody></table>
-        </div>
-
+        <!-- Thematic Division by Verses (English) -->
         <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
-                <tr><td><strong>18:1-3</strong></td><td>Glory of the Qur'an</td><td>All praise to Allah who sent down the Book without any crookedness.</td></tr>
-                <tr><td><strong>18:9-12</strong></td><td>People of the Cave take refuge</td><td>Prayer: "Our Lord, grant us mercy and guide us."</td></tr>
-                <tr><td><strong>18:23-24</strong></td><td>Saying "tomorrow" without "insha Allah"</td><td>Do not say "I will do that tomorrow" without adding "if Allah wills."</td></tr>
-                <tr><td><strong>18:32-44</strong></td><td>Parable of two gardens</td><td>Wealth is not eternal; righteous deeds remain.</td></tr>
-                <tr><td><strong>18:45</strong></td><td>Parable of worldly life</td><td>Worldly life is like rain that causes plants to flourish then dry up.</td></tr>
-                <tr><td><strong>18:60-65</strong></td><td>Moses seeks Khidr</td><td>"I will not give up until I reach the junction of the two seas."</td></tr>
-                <tr><td><strong>18:66-82</strong></td><td>Lesson of patience</td><td>Khidr: "You will not be able to have patience with me."</td></tr>
-                <tr><td><strong>18:94-98</strong></td><td>Gog & Magog and the iron wall</td><td>They cannot breach the wall until the Day of Judgment.</td></tr>
-                <tr><td><strong>18:102-110</strong></td><td>Conclusion: righteous deeds & Tawheed</td><td>Whoever hopes to meet his Lord, let him do righteous deeds and associate none with Him.</td></tr>
-            </tbody></table>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Theme Title</th><th>Description & Additional Tafsir</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-8</strong></td><td>Praise of the Qur'an & warning</td><td>The Qur'an has no crookedness; warning of punishment for disbelievers. — Ibn Kathir</td></tr>
+                    <tr><td><strong>9-26</strong></td><td>Story of the People of the Cave</td><td>Young believers take refuge in a cave, sleep for 309 years. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>27-31</strong></td><td>Command to hold firmly to the Qur'an</td><td>Be patient with those who believe. — As-Sa'di</td></tr>
+                    <tr><td><strong>32-44</strong></td><td>Parable of two gardens (wealth as a trial)</td><td>Arrogance of the owner and its destruction. — At-Tabari</td></tr>
+                    <tr><td><strong>45-59</strong></td><td>Parable of worldly life</td><td>World is like rain, then vegetation dries up. — Ibn Kathir</td></tr>
+                    <tr><td><strong>60-82</strong></td><td>Story of Moses & Khidr</td><td>Moses seeks knowledge; three strange events with hidden wisdom. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>83-98</strong></td><td>Story of Dhul-Qarnayn & Ya'juj Ma'juj</td><td>Just ruler builds an iron barrier; signs of the Hour. — As-Sa'di</td></tr>
+                    <tr><td><strong>99-110</strong></td><td>Resurrection & conclusion</td><td>The Hour will surely come; good deeds and tawhid as provision. — At-Tabari</td></tr>
+                </tbody>
+            </table>
         </div>
 
+        <!-- Key Verse for Contemplation -->
         <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
             <div class="verse">
-                <div class="arabic">وَٱصْبِرْ نَفْسَكَ مَعَ ٱلَّذِينَ يَدْعُونَ رَبَّهُم بِٱلْغَدَوٰةِ وَٱلْعَشِىِّ يُرِيدُونَ وَجْهَهُۥ</div>
-                <div class="transliteration">Waṣbir nafsaka ma‘allażīna yad‘ūna rabbahum bil-gadāti wal-‘asyiyyi yurīdūna wajhah.</div>
-                <p><strong>Translation:</strong> "And keep yourself patient [by being] with those who call upon their Lord in the morning and the evening, seeking His countenance." (18:28)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> A command to remain in the company of sincere believers who worship Allah consistently, seeking His pleasure alone. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=28&to=28&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+                <div class="arabic">إِنَّا جَعَلْنَا مَا عَلَى ٱلْأَرْضِ زِينَةًۭ لَّهَا لِنَبْلُوَهُمْ أَيُّهُمْ أَحْسَنُ عَمَلًۭا</div>
+                <div class="transliteration">Innā ja‘alnā mā ‘alā al-arḍi zīnatan lahā linabluwahum ayyuhum aḥsanu ‘amalā.</div>
+                <div class="translation-text"><strong>Translation:</strong> "Indeed, We have made that which is on the earth as an adornment for it that We may test them [as to] which of them is best in deed." (18:7)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> All beauty of the world is a test, not an ultimate goal. The best deed is the most sincere and in accordance with the Sunnah.</div>
             </div>
         </div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Kahf</h2>
-            <div class="theme-card"><div class="theme-title">1. The People of the Cave – Verses 9-26</div>
-                <div class="verse-item"><div class="arabic">أَمْ حَسِبْتَ أَنَّ أَصْحَٰبَ ٱلْكَهْفِ ... رَبَّنَآ ءَاتِنَا مِن لَّدُنكَ رَحْمَةً</div><div class="transliteration">Am ḥasibta anna aṣ-ḥābal-kahfi ... rabbanā ātinā mil ladunka raḥmah</div><p><strong>Translation:</strong> "Do you think the People of the Cave... 'Our Lord, grant us mercy from Yourself.'" (18:9-10)</p><div class="tafsir-box">Young believers fled persecution; Allah caused them to sleep for 309 years. Their prayer is a model of seeking mercy and guidance. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=9&to=26&opt=1" target="_blank">Read more</a></div></div>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Al-Kahf</h3><ul><li>Protection from Dajjal: Whoever recites the first ten or last ten verses will be protected from Dajjal (Muslim).</li><li>Reading on Friday: Whoever reads Surah Al-Kahf on Friday will have light between two Fridays (Hakim).</li><li>Four great stories covering four main trials: religion, wealth, knowledge, power.</li><li>Teaches that patience and piety are keys to facing trials.</li></ul></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> The Qur'an is straight (18:1), belief in resurrection (18:21, 18:47-49), oneness of Allah.</p><p><strong>Ibadah (Worship):</strong> Recite the Qur'an, supplicate (18:10), say "insha'Allah" (18:23-24), seek protection from Dajjal by reading Al-Kahf.</p><p><strong>Akhlaq (Character):</strong> Humility in seeking knowledge (Moses & Khidr), not arrogant with wealth, just in power (Dhul-Qarnayn), loyalty to faith (People of the Cave).</p></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Kahf</h3><ul><li>Trial of religion: hold firm to tawhid despite societal pressure.</li><li>Trial of wealth: do not be arrogant; wealth is a trust from Allah.</li><li>Trial of knowledge: be humble and patient in seeking knowledge; acknowledge human limitation.</li><li>Trial of power: use power for justice and goodness, not oppression.</li><li>Worldly life is temporary; the Hereafter is eternal.</li></ul></div>
+
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Identity crisis: People of the Cave teach courage to maintain faith in a mocking society.</li><li>Materialism: The story of the two gardens warns against arrogance of wealth and consumerism.</li><li>Seeking knowledge: Moses and Khidr teach humility and that there is knowledge beyond human comprehension.</li><li>Leadership: Dhul-Qarnayn is a model of just, strong, and faithful leader.</li><li>Hoaxes & trials: Surah Al-Kahf is a fortress against the trial of Dajjal, analogous to information fitnah in the digital age.</li></ol></div>
+
+        <!-- Main Themes (Detailed Tafsir) – English Parallel, Full Verses -->
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes (Detailed Tafsir) – Complete to End of Surah</h2>
+
+            <div class="theme-card"><div class="theme-title">1. People of the Cave: Trial of Religion – Verses 9-26</div>
+                <div class="verse">
+                    <strong>Full Verses (summary):</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=9&to=26&opt=1" target="_blank">Al-Kahf 18:9-26 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">أَمْ حَسِبْتَ أَنَّ أَصْحَـٰبَ ٱلْكَهْفِ وَٱلرَّقِيمِ كَانُوا۟ مِنْ ءَايَـٰتِنَا عَجَبًا (٩) إِذْ أَوَى ٱلْفِتْيَةُ إِلَى ٱلْكَهْفِ فَقَالُوا۟ رَبَّنَآ ءَاتِنَا مِن لَّدُنكَ رَحْمَةًۭ وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًۭا (١٠) ... وَلَبِثُوا۟ فِى كَهْفِهِمْ ثَلَـٰثَ مِا۟ئَةٍۢ سِنِينَ وَٱزْدَادُوا۟ تِسْعًۭا (٢٥)</div>
+                    <div class="transliteration">Am ḥasibta anna aṣḥābal-kahfi war-raqīmi kānū min āyātinā ‘ajabā (9) Iż awal-fityatu ilal-kahfi fa qālū rabbanā ātinā min ladunka raḥmataw wa hayyi’ lanā min amrinā rasyadā (10) ... Wa labiṡū fī kahfihim thalāṯa mi’atin sinīna wazdādū tis‘ā (25)</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Or have you thought that the companions of the cave and the inscription were, among Our signs, a wonder? (9) [Mention] when the youths retreated to the cave and said, 'Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.' (10) ... And they remained in their cave for three hundred years and exceeded by nine." (25)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Ibn Kathir):</strong> Young believers left their polytheist people who forced them to worship idols. Allah caused them to sleep for 309 years as a proof of His power over resurrection. Lesson: faith is more valuable than worldly life; Allah always provides a way out for His pious servants. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title">2. The Parable of Two Gardens – Verses 32-44</div>
-                <div class="verse-item"><div class="arabic">وَٱضْرِبْ لَهُم مَّثَلًا رَّجُلَيْنِ ... وَأُحِيطَ بِثَمَرِهِۦ</div><div class="transliteration">Waḍrib lahum maṡalar rajulaini ... wa uḥīṭa biṡamarihī</div><p><strong>Translation:</strong> "And present to them an example of two men..." (18:32)</p><div class="tafsir-box">Two men: one grateful, one arrogant with his wealth. The disbelieving owner's garden was destroyed. Wealth is a test. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=32&to=44&opt=1" target="_blank">Read more</a></div></div>
+
+            <div class="theme-card"><div class="theme-title">2. Parable of Two Gardens: Trial of Wealth – Verses 32-44</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=32&to=44&opt=1" target="_blank">Al-Kahf 18:32-44 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَٱضْرِبْ لَهُم مَّثَلًۭا رَّجُلَيْنِ جَعَلْنَا لِأَحَدِهِمَا جَنَّتَيْنِ مِنْ أَعْنَـٰبٍۢ ... وَأُحِيطَ بِثَمَرِهِۦ فَأَصْبَحَ يُقَلِّبُ كَفَّيْهِ عَلَىٰ مَآ أَنفَقَ فِيهَا وَهِىَ خَاوِيَةٌ عَلَىٰ عُرُوشِهَا (٤٢)</div>
+                    <div class="transliteration">Waḍrib lahum maṡalan rajulaini ... wa uḥīṭa biṡamarihī fa aṣbaḥa yuqallibu kaffayhi ‘alā mā anfaqa fīhā wa hiya khāwiyatun ‘alā ‘urūsyihā (42)</div>
+                    <div class="translation-text"><strong>Translation:</strong> "And present to them an example of two men... And his fruits were encompassed [by ruin], so he began to turn his hands about [in dismay] over what he had spent on it, while it had collapsed upon its trellises." (42)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Al-Qurtubi):</strong> The owner of the gardens was arrogant, thinking his wealth was eternal, and denied resurrection. Allah destroyed his garden as a lesson. Wealth is a test, not a guarantee of salvation. What remains forever is righteous deeds. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title">3. Moses and Khidr – Verses 60-82</div>
-                <div class="verse-item"><div class="arabic">وَإِذْ قَالَ مُوسَىٰ لِفَتَىٰهُ ... إِنَّكَ لَن تَسْتَطِيعَ مَعِىَ صَبْرًا</div><div class="transliteration">Wa idz qāla mūsā lifatāhu ... innaka lan tastaṭī‘a ma‘iya ṣabrā</div><p><strong>Translation:</strong> "And when Moses said to his servant... 'Indeed, you will not be able to have patience with me.'" (18:60, 67)</p><div class="tafsir-box">Moses seeks Khidr for special knowledge; fails to be patient. There is wisdom behind divine decrees; patience is key in seeking knowledge. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=60&to=82&opt=1" target="_blank">Read more</a></div></div>
+
+            <div class="theme-card"><div class="theme-title">3. Moses & Khidr: Trial of Knowledge – Verses 60-82</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=60&to=82&opt=1" target="_blank">Al-Kahf 18:60-82 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَإِذْ قَالَ مُوسَىٰ لِفَتَىٰهُ لَآ أَبْرَحُ حَتَّىٰٓ أَبْلُغَ مَجْمَعَ ٱلْبَحْرَيْنِ أَوْ أَمْضِىَ حُقُبًۭا (٦٠) ... قَالَ هَـٰذَا فِرَاقُ بَيْنِى وَبَيْنِكَ ۚ سَأُنَبِّئُكَ بِتَأْوِيلِ مَا لَمْ تَسْتَطِع عَّلَيْهِ صَبْرًا (٧٨)</div>
+                    <div class="transliteration">Wa iż qāla mūsā lifatāhu lā abraḥu ḥattā ablugha majma‘al-baḥraini aw amḍiya ḥuqubā (60) ... Qāla hāżā firāqu bainī wa bainika, sa’unabbi‘uka bi ta’wīli mā lam tastaṭi‘ ‘alaihi ṣabrā (78)</div>
+                    <div class="translation-text"><strong>Translation:</strong> "And [mention] when Moses said to his servant, 'I will not cease [traveling] until I reach the junction of the two seas or continue for a long period.' (60) ... [Khidr] said, 'This is parting between me and you. I will inform you of the interpretation of that for which you could not have patience.'" (78)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (As-Sa'di):</strong> Moses, a great prophet, still sought knowledge from a righteous servant of Allah, teaching humility and patience in seeking knowledge. The three strange events have hidden wisdom unknown to Moses. Lesson: there is knowledge of Allah beyond human intellect; be patient with Allah's decrees. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Source: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title">4. Dhul-Qarnain and Gog & Magog – Verses 83-98</div>
-                <div class="verse-item"><div class="arabic">وَيَسْـَٔلُونَكَ عَن ذِى ٱلْقَرْنَيْنِ ... فَمَا ٱسْطَٰعُوٓا۟ أَن يَظْهَرُوهُ</div><div class="transliteration">Wa yas’alūnaka ‘an żil-qarnain ... famāsṭā‘ū an yaẓharūhu</div><p><strong>Translation:</strong> "And they ask you about Dhul-Qarnain... They could not scale it nor could they penetrate it." (18:83, 97)</p><div class="tafsir-box">A just ruler given power by Allah builds an iron wall to contain Gog and Magog. Teaches justice and using power for good. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=83&to=98&opt=1" target="_blank">Read more</a></div></div>
-            </div>
-            <div class="theme-card"><div class="theme-title">5. Protection from the Fitnah of Dajjal – Verses 102-110</div>
-                <div class="verse-item"><div class="arabic">أَفَحَسِبَ ٱلَّذِينَ كَفَرُوٓا۟ ... فَلْيَعْمَلْ عَمَلًا صَٰلِحًا وَلَا يُشْرِكْ</div><div class="transliteration">A fa ḥasiballażīna kafarū ... falya‘mal ‘amalan ṣāliḥaw wa lā yusyrik</div><p><strong>Translation:</strong> "Then do those who disbelieve think... let him do righteous deeds and not associate anyone in the worship of his Lord." (18:102, 110)</p><div class="tafsir-box">The core teaching: righteous deeds and pure Tawheed. Reciting Surah Al-Kahf every Friday is a shield against Dajjal. <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=102&to=110&opt=1" target="_blank">Read more</a></div></div>
+
+            <div class="theme-card"><div class="theme-title">4. Dhul-Qarnayn: Trial of Power – Verses 83-98</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=18&verse=83&to=98&opt=1" target="_blank">Al-Kahf 18:83-98 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَيَسْـَٔلُونَكَ عَن ذِى ٱلْقَرْنَيْنِ ۖ قُلْ سَأَتْلُوا۟ عَلَيْكُم مِّنْهُ ذِكْرًا (٨٣) ... قَالَ هَـٰذَا رَحْمَةٌۭ مِّن رَّبِّى ۖ فَإِذَا جَآءَ وَعْدُ رَبِّى جَعَلَهُۥ دَكَّآءَ ۖ وَكَانَ وَعْدُ رَبِّى حَقًّۭا (٩٨)</div>
+                    <div class="transliteration">Wa yas’alūnaka ‘an żil-qarnaini, qul sa’atlū ‘alaikum min-hu żikrā (83) ... Qāla hāżā raḥmatun min rabbī, fa iżā jā’a wa‘du rabbī ja‘alahū dakkā’, wa kāna wa‘du rabbī ḥaqqā (98)</div>
+                    <div class="translation-text"><strong>Translation:</strong> "And they ask you, O Muhammad, about Dhul-Qarnayn. Say, 'I will recite to you about him a report.' (83) ... He said, 'This is a mercy from my Lord; but when the promise of my Lord comes, He will make it level, and ever is the promise of my Lord true.'" (98)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (At-Tabari):</strong> Dhul-Qarnayn was a just king given power over east and west. He built an iron barrier to contain Ya'juj and Ma'juj as a mercy to humanity. He was not arrogant but acknowledged that all power comes from Allah. Lesson: power is a trust; use it for justice and goodness, not oppression. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Source: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
             </div>
         </div>
 
-        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Al-Kahf</h3><ul><li>Protection from Dajjal (Hadith: first 10 verses).</li><li>Light between two Fridays when recited on Friday.</li><li>Four stories addressing four major trials: faith, wealth, knowledge, power.</li><li>Parable of worldly life as fleeting rain.</li><li>Lesson of patience in seeking knowledge.</li></ul></div>
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Maryam (19):</strong> Both narrate extraordinary stories as signs of Allah's power (People of the Cave and stories of Mary, Zakariyya, Yahya, Isa).</li><li><strong>With Surah Al-Anbiya' (21):</strong> Both gather stories of prophets as lessons, but Al-Kahf focuses on four main trials.</li><li><strong>With Surah Al-Isra' (17):</strong> Al-Isra' emphasizes the Children of Israel and religious commandments; Al-Kahf emphasizes protection from end-time trials.</li><li><strong>With Surah Al-Furqan (25):</strong> Both mention the righteous servants of Allah and their characteristics.</li></ul></div>
 
-        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> Believe in Allah's absolute power, resurrection, and protection from trials. Associate none with Allah.</p><p><strong>Ibadah (Worship):</strong> Recite Surah Al-Kahf every Friday, pray with the prayer of the People of the Cave, and do righteous deeds.</p><p><strong>Akhlaq (Character):</strong> Be patient with believers, avoid arrogance over wealth, be humble in seeking knowledge, use power justly, and never say "tomorrow" without "insha Allah."</p></div>
+        <div class="info-box"><i class="fas fa-book-open"></i> Reflect: “Indeed, We have made that which is on the earth as an adornment for it that We may test them [as to] which of them is best in deed.” (18:7)</div>
 
-        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Kahf</h3><ul><li>Preserve faith even if it means leaving worldly comforts (People of the Cave).</li><li>Wealth is a test; do not let it make you arrogant.</li><li>Beneficial knowledge requires patience and humility.</li><li>Power must be used to uphold justice and good.</li><li>Reciting Surah Al-Kahf every Friday is a fortress against end‑time trials.</li><li>Always say "insha Allah" when planning for the future.</li></ul></div>
-
-        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Test of faith in secular societies: The People of the Cave inspire youth to remain steadfast.</li><li>Materialism & consumerism: The parable of two gardens warns against being deceived by wealth.</li><li>Arrogance of knowledge: Moses and Khidr teach humility in the pursuit of knowledge.</li><li>Just leadership: Dhul-Qarnain is a model of using power for justice.</li><li>Modern Dajjal trials: This surah is a spiritual shield against misinformation and deception.</li></ol></div>
-
-        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Maryam (19):</strong> Both contain stories that comfort the Prophet and emphasize Allah's mercy.</li><li><strong>With Surah Taha (20):</strong> Both narrate stories of Moses; Al-Kahf focuses on his meeting with Khidr.</li><li><strong>With Surah Al-Anbiya' (21):</strong> Both recount stories of prophets and past nations as lessons.</li><li><strong>With Surah Al-Furqan (25):</strong> Both mention protection from evil and trials.</li></ul></div>
-
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> “And keep yourself patient with those who call upon their Lord in the morning and the evening.” (18:28)</div>
-    </div>
-
-    <!-- PAGINATION -->
-    <div class="surah-pagination">
-        <a href="017.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya / Previous: Al-Isra</a>
-        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="019.html" class="pagination-item">Surah Berikutnya / Next: Maryam <i class="fas fa-arrow-right"></i></a>
+        <!-- Pagination ENGLISH -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="016.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: An-Nahl (16)</a>
+                <a href="018.html" class="pagination-item">Next Surah: Maryam (19) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+            </div>
+        </div>
     </div>
 </div>
-<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
-
+<footer>© 1447 AH / 2026 AD - Tafsir based on IslamicStudies.info & classical sources (Ibn Kathir, Al-Qurtubi, As-Sa'di, At-Tabari) | Thematic Reflection | Complete verses displayed without truncation.</footer>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 <script>
-(function(){
-    const englishDiv = document.getElementById('english-content');
-    const indoDiv = document.getElementById('indonesian-content');
-    const langToggle = document.getElementById('languageToggle');
-    const translitToggle = document.getElementById('transliterationToggle');
-    const darkToggle = document.getElementById('darkModeToggle');
-    const translitElements = document.querySelectorAll('.transliteration');
-    const langSpan = langToggle.querySelector('.lang-text');
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let currentLang = localStorage.getItem('language') || 'indonesian';
-    if(urlParams.has('English')) currentLang = 'english';
-    if(urlParams.has('Indonesian')) currentLang = 'indonesian';
-    
-    function setLanguage(lang){
-        const isEnglish = (lang === 'english');
-        if(isEnglish){
-            englishDiv.classList.remove('hidden');
-            indoDiv.classList.add('hidden');
-            if(langSpan) langSpan.innerHTML = '🇮🇩 Switch to Indonesian';
-            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
-        } else {
-            englishDiv.classList.add('hidden');
-            indoDiv.classList.remove('hidden');
-            if(langSpan) langSpan.innerHTML = '🇬🇧 Switch to English';
-            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+    (function() {
+        const englishDiv = document.getElementById('english-content');
+        const indoDiv = document.getElementById('indonesian-content');
+        const langToggle = document.getElementById('languageToggle');
+        const translitToggle = document.getElementById('transliterationToggle');
+        const darkToggle = document.getElementById('darkModeToggle');
+        const translitElements = document.querySelectorAll('.transliteration');
+        const urlParams = new URLSearchParams(window.location.search);
+        let langParam = null;
+        if (urlParams.has('English')) langParam = 'english';
+        else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+        let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+        function setLanguage(lang) {
+            const isEnglish = (lang === 'english');
+            if (isEnglish) { englishDiv.classList.remove('hidden'); indoDiv.classList.add('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian'; }
+            else { englishDiv.classList.add('hidden'); indoDiv.classList.remove('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English'; }
+            localStorage.setItem('language', lang);
         }
-        localStorage.setItem('language', lang);
-    }
-    setLanguage(currentLang);
-    langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
-    });
-
-    let translitVisible = localStorage.getItem('transliteration') === 'true';
-    if(urlParams.has('Transliteration')) translitVisible = true;
-    function setTransliteration(show){
-        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-        localStorage.setItem('transliteration', show);
-    }
-    setTransliteration(translitVisible);
-    translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
-        setTransliteration(!currently);
-    });
-
-    let darkActive = localStorage.getItem('darkMode') === 'true';
-    if(urlParams.has('Dark')) darkActive = true;
-    if(darkActive) document.body.classList.add('dark-mode');
-    function setDarkModeUI(){
-        const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-        localStorage.setItem('darkMode', active);
-    }
-    setDarkModeUI();
-    darkToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+        setLanguage(currentLang);
+        langToggle.addEventListener('click', () => { const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian'; setLanguage(newLang); });
+        let translitVisible = localStorage.getItem('transliteration') === 'true';
+        if (urlParams.has('Transliteration')) translitVisible = true;
+        function setTransliteration(show) { translitElements.forEach(el => el.style.display = show ? 'block' : 'none'); translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration'; localStorage.setItem('transliteration', show); }
+        setTransliteration(translitVisible);
+        translitToggle.addEventListener('click', () => { const currently = translitElements[0]?.style.display === 'block'; setTransliteration(!currently); });
+        let darkActive = false;
+        if (urlParams.has('Dark')) darkActive = true;
+        else darkActive = localStorage.getItem('darkMode') === 'true';
+        if (darkActive) document.body.classList.add('dark-mode');
+        function setDarkModeUI() { const active = document.body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
         setDarkModeUI();
-    });
-
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
-})();
+        darkToggle.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
+        const upArrow = document.getElementById('scrollUp'); const downArrow = document.getElementById('scrollDown');
+        if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+        if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    })();
 </script>
 </body>
 </html>
