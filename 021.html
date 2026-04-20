@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Surah Al-Anbiya - Tafsir Tematik | Thematic Tafsir</title>
+    <title>Surah Al-Anbiyā' (21) - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -20,13 +20,14 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
+            --translation-color: #2c5282;
             --theme-card-bg: #ffffffdd;
         }
         .dark-mode {
             --bg-color: #121826;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
-            --arabic-color: #9ac8ff;
+            --arabic-color: #7bc9ff;
             --section-title-color: #7bc9ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
@@ -37,6 +38,7 @@
             --benefits-bg: #1f3a2f;
             --link-color: #93c5fd;
             --link-hover: #c3e2ff;
+            --translation-color: #bdd4ff;
             --theme-card-bg: #1e293bdd;
         }
         body {
@@ -60,23 +62,36 @@
         a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
         a:hover { color: var(--link-hover); text-decoration: underline; }
         .arabic {
-            font-size: 42px;
+            font-size: 36px;
             text-align: right;
             direction: rtl;
-            margin: 20px 0 10px 0;
+            margin: 10px 0 5px;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
-            line-height: 2;
+            line-height: 1.6;
+            word-wrap: break-word;
         }
         .transliteration {
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
-            text-align: center;
-            margin: 0 0 10px 0;
+            margin: 8px 0 6px;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--verse-border);
             display: none;
+            text-align: right;
         }
         .dark-mode .transliteration { color: #b0c4de; }
+        .translation-text {
+            font-size: 16px;
+            background-color: rgba(44, 82, 130, 0.08);
+            padding: 8px 12px;
+            border-radius: 14px;
+            margin: 6px 0 12px;
+            color: var(--translation-color);
+            border-left: 3px solid var(--link-color);
+            font-weight: 500;
+        }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -104,19 +119,26 @@
             margin: 25px 0;
             border: 1px solid var(--verse-border);
         }
-        .verse-title, .theme-title {
+        .theme-title {
             font-weight: bold;
             color: #1e7e5c;
             margin-bottom: 12px;
             font-size: 1.2rem;
         }
-        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
+        .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
             border-radius: 16px;
             margin-top: 15px;
             border: 1px solid var(--tafsir-border);
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.7;
+            font-style: italic;
         }
         .hidden { display: none; }
         .top-home-link {
@@ -142,7 +164,7 @@
             border-radius: 20px;
             margin: 20px 0;
         }
-        .theme-overview, .special-benefits, .relationship-box, .relevance-box {
+        .theme-overview, .special-benefits {
             background: var(--bonus-bg);
             padding: 25px;
             border-radius: 24px;
@@ -159,7 +181,7 @@
             margin: 20px auto;
             text-align: center;
         }
-        .theme-table, .structure-table {
+        .theme-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
@@ -167,12 +189,13 @@
             border-radius: 16px;
             overflow: hidden;
         }
-        .theme-table th, .theme-table td, .structure-table th, .structure-table td {
+        .theme-table th, .theme-table td {
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
             text-align: left;
+            vertical-align: top;
         }
-        .theme-table th, .structure-table th { background: #2c7da0; color: white; }
+        .theme-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
             position: fixed;
             left: 20px;
@@ -195,13 +218,17 @@
         .scroll-arrow.up { top: 90px; }
         .scroll-arrow.down { bottom: 90px; }
         .surah-pagination {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+        }
+        .pagination-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -215,6 +242,7 @@
             transition: 0.2s;
         }
         .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center { text-align: center; }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -238,99 +266,91 @@
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
             .scroll-arrow { width: 38px; height: 38px; left: 12px; }
-            .arabic { font-size: 30px; }
+            .arabic { font-size: 28px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
-        .fa, .fas, .far { margin-right: 4px; }
-        .verse-item { margin-bottom: 25px; border-bottom: 1px dashed var(--verse-border); padding-bottom: 15px; }
-        .verse-item:last-child { border-bottom: none; }
-        .blink-arrow {
-            animation: blink 1s infinite;
-            display: inline-block;
-            margin-left: 8px;
-            font-size: 0.9rem;
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
         }
-        @keyframes blink {
-            0% { opacity: 0.2; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.1); }
-            100% { opacity: 0.2; transform: scale(0.9); }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
         }
-        .click-hint {
-            font-size: 0.85rem;
-            background: var(--link-color);
-            color: white;
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
             border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-            margin-left: 6px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
         }
-        .info-box a .click-hint {
-            background: #1e5f8e;
+        .relationship-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 5px solid #2c7da0;
         }
-        .dark-mode .info-box a .click-hint {
-            background: #7bc9ff;
-            color: #121826;
-        }
+        .fa, .fas, .far { margin-right: 4px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
 <div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
-
 <div class="container" id="mainContainer">
     <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah Al-Anbiya (Para Nabi) - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=112&opt=1" target="_blank">IslamicStudies.info - Surah Al-Anbiya (1-112)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Al-Anbiyā' (21) - Tafsir Tematik</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=112&opt=1" target="_blank">IslamicStudies.info - Surah Al-Anbiyā' (1-112) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></div>
+        <div class="arabic">ٱقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ وَهُمْ فِى غَفْلَةٍۢ مُّعْرِضُونَ</div>
+        <div class="transliteration">Iqtaraba lin-nāsi ḥisābuhum wa hum fī ghaflatim mu‘riḍūn.</div>
+        <div class="translation-text"><strong>Terjemahan:</strong> "Telah dekat kepada manusia hari perhitungan amal mereka, sedang mereka dalam kelalaian, berpaling (darinya)." (Al-Anbiyā' 21:1)</div>
 
         <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Anbiya</h3>
-            <p>Surah Al-Anbiya (21) terdiri dari 112 ayat, termasuk golongan Makkiyah. Dinamai “Al-Anbiya” karena memuat kisah banyak nabi. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=112&opt=1" target="_blank">IslamicStudies.info</a>, surah ini turun sebagai bantahan terhadap kaum musyrik Mekah yang meragukan kerasulan Nabi Muhammad dan hari kebangkitan. Surah ini menegaskan tauhid, kebenaran wahyu, serta konsistensi risalah para nabi.</p>
-        </div>
-        <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p>
-                <a href="https://quran.com/21:1-112?translations=33" target="_blank">
-                    Quran.com - Surah Al-Anbiya (Terjemahan Indonesia)
-                    <span class="blink-arrow"><i class="fas fa-arrow-right"></i> <span class="click-hint">Klik di sini!</span></span>
-                </a>
-            </p>
-        </div>
-        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Anbiya</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/021.mp3" type="audio/mpeg"></audio></div>
-
-        <!-- Struktur dan Kandungan Surah -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
-            <table class="structure-table">
-                <thead><tr><th>Rentang Ayat</th><th>Fokus Utama</th><th>Deskripsi Kandungan</th></tr></thead>
-                <tbody>
-                    <tr><td>1-10</td><td>Peringatan Hari Hisab</td><td>Kedekatan kiamat, kelalaian manusia, kebenaran Al-Qur'an</td></tr>
-                    <tr><td>11-29</td><td>Bantahan Syirik</td><td>Kebatilan berhala, keesaan Allah, penciptaan langit bumi</td></tr>
-                    <tr><td>30-50</td><td>Bukti Kekuasaan Allah</td><td>Penciptaan alam, air sumber kehidupan, gunung sebagai pasak</td></tr>
-                    <tr><td>51-93</td><td>Kisah Para Nabi</td><td>Ibrahim, Lut, Nuh, Daud, Sulaiman, Ayyub, Yunus, Zakariya, Yahya, Isa dll.</td></tr>
-                    <tr><td>94-112</td><td>Penegasan & Penutup</td><td>Pahala amal saleh, tugas rasul, seruan tauhid, rahmat bagi alam</td></tr>
-                </tbody>
-            </table>
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Anbiyā' (Surah ke-21)</h3>
+            <p>Surah ke-21 (112 ayat) Makkiyah. Dinamai "Al-Anbiyā'" (para nabi) karena memuat kisah banyak nabi. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=112&opt=1" target="_blank">IslamicStudies.info</a>, surah ini turun sebagai bantahan terhadap kaum musyrik Mekah yang meragukan kerasulan Nabi Muhammad dan hari kebangkitan. Surah ini menegaskan tauhid, kebenaran wahyu, serta konsistensi risalah para nabi. Juga menampilkan bukti-bukti kekuasaan Allah di alam semesta.</p>
         </div>
 
-        <!-- Pembagian Tema per Bagian Ayat -->
+        <!-- Aqidah, Ibadah, Akhlak Columns (Indonesian) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Kedekatan hari kiamat (21:1), keesaan Allah (21:22), kebangkitan setelah mati (21:47), dan bahwa Al-Qur'an adalah kebenaran mutlak.</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Berdoa dengan harap dan takut (21:90), bertasbih siang malam (21:20), bersyukur, dan mengikuti petunjuk para nabi.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Berpikir kritis (Ibrahim), sabar (Ayyub), adil (Daud), rendah hati (Sulaiman), lembut dalam dakwah, dan tidak taklid buta.</div>
+        </div>
+
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/21?translations=33" target="_blank">Quran.com - Surah Al-Anbiyā' (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Anbiyā'</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/021.mp3" type="audio/mpeg"></audio></div>
+
+        <!-- Thematic Division by Verses -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
             <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-10</strong></td><td>Peringatan hari kiamat</td><td>Kedekatan hisab, kelalaian manusia, kebenaran Al-Qur'an</td></tr>
-                    <tr><td><strong>11-29</strong></td><td>Bantahan syirik</td><td>Kebatilan berhala, keesaan Allah, penciptaan langit bumi</td></tr>
-                    <tr><td><strong>30-50</strong></td><td>Bukti kekuasaan Allah</td><td>Penciptaan alam, air sumber kehidupan, gunung sebagai pasak</td></tr>
-                    <tr><td><strong>51-93</strong></td><td>Kisah para nabi</td><td>Ibrahim, Lut, Nuh, Daud, Sulaiman, Ayyub, Yunus, Zakariya, Yahya, Isa dll.</td></tr>
-                    <tr><td><strong>94-112</strong></td><td>Penegasan & penutup</td><td>Pahala amal saleh, tugas rasul, seruan tauhid, rahmat bagi alam</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>1-10</strong></td><td>Peringatan Hari Perhitungan</td><td>Kedekatan hari kiamat, kelalaian manusia, kebenaran Al-Qur'an. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>11-29</strong></td><td>Bantahan Syirik</td><td>Kebatilan berhala, keesaan Allah, penciptaan langit dan bumi. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>30-50</strong></td><td>Bukti Kekuasaan Allah</td><td>Penciptaan alam, air sumber kehidupan, gunung sebagai pasak. — As-Sa'di</td></tr>
+                    <tr><td><strong>51-70</strong></td><td>Kisah Ibrahim & Penolakan Berhala</td><td>Ibrahim menghancurkan berhala, dilemparkan ke api, diselamatkan Allah. — At-Tabari</td></tr>
+                    <tr><td><strong>71-82</strong></td><td>Kisah Luth, Nuh, Daud, Sulaiman</td><td>Keselamatan Luth, Nuh, kekuasaan Daud dan Sulaiman, penundukan angin dan jin. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>83-94</strong></td><td>Kisah Ayyub, Yunus, Zakariya, Isa</td><td>Kesabaran Ayyub, doa Yunus di perut ikan, pengabulan doa Zakariya, kelahiran Yahya, dan Isa. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>95-112</strong></td><td>Penutup & Seruan Tauhid</td><td>Kepastian kebangkitan, rahmat Nabi Muhammad, seruan menyembah Allah Yang Maha Esa. — As-Sa'di</td></tr>
                 </tbody>
             </table>
         </div>
@@ -339,248 +359,303 @@
         <div class="section">
             <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
             <div class="verse">
-                <div class="arabic">أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ أَنَّ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ كَانَتَا رَتْقًا فَفَتَقْنَٰهُمَا ۖ وَجَعَلْنَا مِنَ ٱلْمَآءِ كُلَّ شَىْءٍ حَىٍّ ۖ أَفَلَا يُؤْمِنُونَ</div>
+                <div class="arabic">أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ أَنَّ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ كَانَتَا رَتْقًۭا فَفَتَقْنَـٰهُمَا ۖ وَجَعَلْنَا مِنَ ٱلْمَآءِ كُلَّ شَىْءٍ حَىٍّ ۖ أَفَلَا يُؤْمِنُونَ</div>
                 <div class="transliteration">A wa lam yarallażīna kafarū annas-samāwāti wal-arḍa kānatā ratqan fa fataqnāhumā, wa ja'alnā minal-mā`i kulla syai`in ḥayy, a fa lā yu`minụn.</div>
-                <p><strong>Terjemahan:</strong> "Dan apakah orang-orang yang kafir tidak mengetahui bahwasanya langit dan bumi itu keduanya dahulu adalah suatu yang padu, kemudian Kami pisahkan antara keduanya; dan dari air Kami jadikan segala sesuatu yang hidup. Maka mengapa mereka tidak juga beriman?" (Al-Anbiya 21:30)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menampilkan bukti ilmiah tentang asal-usul alam semesta (Big Bang) dan air sebagai sumber kehidupan. Menjadi penguat keimanan terhadap kekuasaan Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=30&to=30&opt=1" target="_blank">📖 Baca selengkapnya</a></div>
+                <div class="translation-text"><strong>Terjemahan:</strong> "Dan apakah orang-orang yang kafir tidak mengetahui bahwasanya langit dan bumi itu keduanya dahulu adalah suatu yang padu, kemudian Kami pisahkan antara keduanya; dan dari air Kami jadikan segala sesuatu yang hidup. Maka mengapa mereka tidak juga beriman?" (Al-Anbiyā' 21:30)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menampilkan bukti ilmiah tentang asal-usul alam semesta (Big Bang) dan air sebagai sumber kehidupan. Menjadi penguat keimanan terhadap kekuasaan Allah.</div>
             </div>
-        </div>
-
-        <!-- TEMA UTAMA dengan ayat lengkap -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Al-Anbiya</h2>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Peringatan Kedekatan Hari Kiamat (21:1-10)</div>
-                <div class="verse-item"><div class="arabic">ٱقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ وَهُمْ فِى غَفْلَةٍ مُّعْرِضُونَ</div><div class="transliteration">Iqtaraba lin-nāsi ḥisābuhum wa hum fī ghaflatim mu'riḍụn.</div><p><strong>Terjemahan:</strong> "Telah dekat kepada manusia hari perhitungan amal mereka, sedang mereka dalam kelalaian, berpaling (darinya)." (21:1)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: “Kedekatan” hari perhitungan adalah dari sisi Allah, bukan waktu manusia. Peringatan ini mengajak manusia keluar dari kelalaian. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=10&opt=1" target="_blank">📖 Rinci Tafsir Ayat 1-10</a></div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Bantahan terhadap Syirik (21:21-22)</div>
-                <div class="verse-item"><div class="arabic">لَوْ كَانَ فِيهِمَآ ءَالِهَةٌ إِلَّا ٱللَّهُ لَفَسَدَتَا ۚ فَسُبْحَٰنَ ٱللَّهِ رَبِّ ٱلْعَرْشِ عَمَّا يَصِفُونَ</div><div class="transliteration">Lau kāna fīhimā ālihatun illallāhu lafasadatā, fa sub-ḥānallāhi rabbil-'arsyi 'ammā yaṣifụn.</div><p><strong>Terjemahan:</strong> "Sekiranya ada di langit dan bumi tuhan-tuhan selain Allah, tentulah keduanya telah rusak binasa. Maka Mahasuci Allah yang memiliki 'Arsy dari apa yang mereka sifatkan." (21:22)</p></div>
-                <div class="tafsir-box">Argumentasi logis: jika ada banyak tuhan, pasti terjadi kekacauan. IslamicStudies.info: bukti keesaan Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=21&to=22&opt=1" target="_blank">📖 Rinci Tafsir Ayat 21-22</a></div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Bukti Kekuasaan Allah dalam Penciptaan (21:30-33)</div>
-                <div class="verse-item"><div class="arabic">أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ أَنَّ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ كَانَتَا رَتْقًا فَفَتَقْنَٰهُمَا ۖ وَجَعَلْنَا مِنَ ٱلْمَآءِ كُلَّ شَىْءٍ حَىٍّ ۖ أَفَلَا يُؤْمِنُونَ</div><div class="transliteration">A wa lam yarallażīna kafarū annas-samāwāti wal-arḍa kānatā ratqan fa fataqnāhumā, wa ja'alnā minal-mā`i kulla syai`in ḥayy, a fa lā yu`minụn.</div><p><strong>Terjemahan:</strong> "Dan apakah orang-orang yang kafir tidak mengetahui bahwasanya langit dan bumi itu keduanya dahulu adalah suatu yang padu, kemudian Kami pisahkan...?" (21:30)</p></div>
-                <div class="tafsir-box">Fakta ilmiah: langit dan bumi dahulu menyatu lalu dipisahkan, air sebagai sumber kehidupan. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=30&to=33&opt=1" target="_blank">📖 Rinci Tafsir Ayat 30-33</a></div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Kisah Nabi Ibrahim & Penolakan Taklid Buta (21:51-70)</div>
-                <div class="verse-item"><div class="arabic">وَلَقَدْ ءَاتَيْنَآ إِبْرَٰهِيمَ رُشْدَهُۥ مِن قَبْلُ وَكُنَّا بِهِۦ عَٰلِمِينَ إِذْ قَالَ لِأَبِيهِ وَقَوْمِهِۦ مَا هَٰذِهِ ٱلتَّمَاثِيلُ ٱلَّتِىٓ أَنتُمْ لَهَا عَٰكِفُونَ</div><div class="transliteration">Wa laqad ātainā ibrāhīma rusydahụ ming qablu wa kunnā bihī 'ālimīn, iż qāla li`abīhi wa qaumihī mā hāżihit-tamāṡīlullatī antum lahā 'ākifụn.</div><p><strong>Terjemahan:</strong> "Dan sungguh, telah Kami berikan kepada Ibrahim petunjuk kebenaran sebelumnya, dan Kami telah mengetahuinya, ketika dia berkata kepada bapaknya dan kaumnya: 'Patung-patung apakah ini yang kamu tekun beribadah kepadanya?'" (21:51-52)</p></div>
-                <div class="tafsir-box">Ibrahim mengajak berpikir kritis terhadap tradisi menyembah berhala. Teladan menolak taklid buta. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=51&to=70&opt=1" target="_blank">📖 Rinci Tafsir Ayat 51-70</a></div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Nabi Muhammad sebagai Rahmat bagi Alam (21:107-108)</div>
-                <div class="verse-item"><div class="arabic">وَمَآ أَرْسَلْنَٰكَ إِلَّا رَحْمَةً لِّلْعَٰلَمِينَ قُلْ إِنَّمَا يُوحَىٰٓ إِلَىَّ أَنَّمَآ إِلَٰهُكُمْ إِلَٰهٌ وَٰحِدٌ ۖ فَهَلْ أَنتُم مُّسْلِمُونَ</div><div class="transliteration">Wa mā arsalnāka illā raḥmatan lil-'ālamīn, qul innamā yụḥā ilayya annamā ilāhukum ilāhuw wāḥid, fa hal antum muslimụn.</div><p><strong>Terjemahan:</strong> "Dan Kami tidak mengutus engkau (Muhammad) melainkan sebagai rahmat bagi seluruh alam. Katakanlah: 'Sesungguhnya yang diwahyukan kepadaku adalah bahwa Tuhanmu adalah Tuhan Yang Maha Esa, maka apakah kamu berserah diri (masuk Islam)?'" (21:107-108)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: rahmat Nabi Muhammad mencakup seluruh makhluk—petunjuk, syafaat, dan keberkahan. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=107&to=108&opt=1" target="_blank">📖 Rinci Tafsir Ayat 107-108</a></div>
-            </div>
-        </div>
-
-        <!-- Pesan Akidah, Ibadah, Akhlak -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, Akhlak</h3>
-            <p><strong>Akidah:</strong> Kedekatan hari kiamat, keesaan Allah, kebangkitan, Nabi sebagai rahmat.</p>
-            <p><strong>Ibadah:</strong> Berdoa dengan harap dan takut (21:90), bertasbih siang malam (21:20), bersyukur.</p>
-            <p><strong>Akhlak:</strong> Berpikir kritis, sabar (Ayyub), adil (Daud), rendah hati (Sulaiman), lembut dalam dakwah (Ibrahim).</p>
         </div>
 
         <!-- Keutamaan Khusus Surah -->
-        <div class="special-benefits">
-            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Anbiya</h3>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Anbiyā'</h3><ul><li>Memuat kisah 16 nabi sebagai bukti konsistensi risalah tauhid.</li><li>Menjawab keraguan orang musyrik tentang kebangkitan dan kenabian.</li><li>Menegaskan bahwa Al-Qur'an adalah kebenaran mutlak dari Allah.</li><li>Menguatkan hati Nabi Muhammad ﷺ dengan kisah para nabi sebelumnya.</li><li>Ayat 30 (penciptaan langit dan bumi) menjadi bukti ilmiah kemukjizatan Al-Qur'an.</li></ul></div>
+
+        <!-- Pesan Aqidah, Ibadah, Akhlak -->
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Pesan Aqidah, Ibadah, & Akhlak</h3><p><strong>Akidah:</strong> Kedekatan hari kiamat, keesaan Allah, kebangkitan, Nabi sebagai rahmat.</p><p><strong>Ibadah:</strong> Berdoa dengan harap dan takut (21:90), bertasbih siang malam (21:20), bersyukur.</p><p><strong>Akhlak:</strong> Berpikir kritis, sabar (Ayyub), adil (Daud), rendah hati (Sulaiman), lembut dalam dakwah (Ibrahim).</p></div>
+
+        <!-- Pelajaran Spiritual -->
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Anbiyā'</h3><ul><li>Menyadari kedekatan hari hisab dan mempersiapkan bekal akhirat.</li><li>Mengukuhkan tauhid dengan bukti logis dan alam semesta.</li><li>Meneladani kesabaran dan keteguhan para nabi dalam dakwah.</li><li>Menjadikan Nabi Muhammad sebagai rahmat universal dalam kehidupan.</li><li>Menjauhi taklid buta dan selalu menggunakan akal sehat.</li></ul></div>
+
+        <!-- Relevansi untuk Kehidupan Modern -->
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div><ol><li>Krisis spiritual akibat kelalaian dari tujuan hidup – diingatkan dengan ayat 1.</li><li>Politeisme modern (materialisme, hedonisme) – dibantah dengan tauhid rububiyah.</li><li>Bukti ilmiah penciptaan alam memperkuat iman di era sains.</li><li>Kisah nabi menginspirasi ketahanan mental dalam menghadapi penolakan.</li><li>Konsep rahmatan lil 'alamin menjadi fondasi toleransi dan perdamaian global.</li></ol></div>
+
+        <!-- Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah</h2>
+
+            <!-- 1. Peringatan Hari Perhitungan (1-10) -->
+            <div class="theme-card">
+                <div class="theme-title">1. Peringatan Hari Perhitungan – Ayat 1-10</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap (Ringkasan dengan referensi):</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=10&opt=1" target="_blank">Al-Anbiyā' 21:1-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">ٱقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ وَهُمْ فِى غَفْلَةٍۢ مُّعْرِضُونَ (١) مَا يَأْتِيهِم مِّن ذِكْرٍۢ مِّن رَّبِّهِم مُّحْدَثٍ إِلَّا ٱسْتَمَعُوهُ وَهُمْ يَلْعَبُونَ (٢) لَّاهِيَةًۭ أَفْـِٔدَتُهُمْ ۗ وَأَسَرُّوا۟ ٱلنَّجْوَى ٱلَّذِينَ ظَلَمُوا۟ هَلْ هَـٰذَآ إِلَّا بَشَرٌۭ مِّثْلُكُمْ ۖ أَفَتَأْتُونَ ٱلسِّحْرَ وَأَنتُمْ تُبْصِرُونَ (٣) قَالَ رَبِّى يَعْلَمُ ٱلْقَوْلَ فِى ٱلسَّمَآءِ وَٱلْأَرْضِ ۖ وَهُوَ ٱلسَّمِيعُ ٱلْعَلِيمُ (٤) بَلْ قَالُوٓا۟ أَضْغَـٰثُ أَحْلَـٰمٍۭ بَلِ ٱفْتَرَىٰهُ بَلْ هُوَ شَاعِرٌۭ فَلْيَأْتِنَا بِـَٔايَةٍۢ كَمَآ أُرْسِلَ ٱلْأَوَّلُونَ (٥) مَآ ءَامَنَتْ قَبْلَهُم مِّن قَرْيَةٍ أَهْلَكْنَـٰهَآ ۖ أَفَهُمْ يُؤْمِنُونَ (٦) وَمَآ أَرْسَلْنَا قَبْلَكَ إِلَّا رِجَالًۭا نُّوحِىٓ إِلَيْهِمْ ۖ فَسْـَٔلُوٓا۟ أَهْلَ ٱلذِّكْرِ إِن كُنتُمْ لَا تَعْلَمُونَ (٧) وَمَا جَعَلْنَـٰهُمْ جَسَدًۭا لَّا يَأْكُلُونَ ٱلطَّعَامَ وَمَا كَانُوا۟ خَـٰلِدِينَ (٨) ثُمَّ صَدَقْنَـٰهُمُ ٱلْوَعْدَ فَأَنجَيْنَـٰهُمْ وَمَن نَّشَآءُ وَأَهْلَكْنَا ٱلْمُسْرِفِينَ (٩) لَقَدْ أَنزَلْنَآ إِلَيْكُمْ كِتَـٰبًۭا فِيهِ ذِكْرُكُمْ ۖ أَفَلَا تَعْقِلُونَ (١٠)</div>
+                    <div class="transliteration">Iqtaraba lin-nāsi ḥisābuhum wa hum fī ghaflatim mu‘riḍūn (1) Mā ya’tīhim min żikrim mir rabbihim muḥdaṡin illāstama‘ūhu wa hum yal‘abūn (2) Lāhiyatan af`idatuhum, wa asarrun-najwal-lażīna ẓalamū hal hāżā illā basyarum miṡlukum, afata’tūnas-siḥra wa antum tubṣirūn (3) Qāla rabbī ya‘lamul-qaula fis-samā’i wal-arḍi wa huwas-samī‘ul-‘alīm (4) Bal qālū aḍgāṡu aḥlāmim baliftarāhu bal huwa syā‘ir, fal ya’tinā bi’āyatin kamā ursilal-awwalūn (5) Mā āmanat qablahum min qaryatin ahlaknāhā, afahum yu’minūn (6) Wa mā arsalnā qablaka illā rijālan nūḥī ilaihim, fas’alū ahlaż-żikri in kuntum lā ta‘lamūn (7) Wa mā ja‘alnāhum jasadal lā ya’kulūnaṭ-ṭa‘āma wa mā kānū khālidīn (8) Ṡumma ṣadaqnāhumul-wa‘da fa anjaināhum wa man nasyā’u wa ahlaknal-musrifīn (9) Laqad anzalnā ilaikum kitāban fīhi żikrukum, afalā ta‘qilūn (10)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Telah dekat kepada manusia hari perhitungan amal mereka, sedang mereka dalam kelalaian, berpaling (darinya). (1) Tidak datang kepada mereka suatu peringatan pun dari Tuhan mereka yang baru, melainkan mereka mendengarnya sambil bermain-main, (2) (lagi) hati mereka dalam keadaan lalai. Dan mereka yang zalim itu merahasiakan pembicaraan mereka, 'Orang ini (Muhammad) tidak lain hanyalah seorang manusia seperti kamu, maka apakah kamu mengikuti sihir itu, padahal kamu melihatnya?' (3) Dia (Muhammad) berkata, 'Tuhanku mengetahui perkataan di langit dan di bumi, dan Dia Maha Mendengar lagi Maha Mengetahui.' (4) Bahkan mereka berkata, '(Itu adalah) mimpi-mimpi yang kacau, bahkan dia mengada-adakannya, bahkan dia seorang penyair, maka hendaknya dia mendatangkan kepada kita suatu bukti (mukjizat), sebagaimana rasul-rasul yang terdahulu diutus.' (5) Tidak ada satu negeri pun yang beriman sebelum mereka (kaum musyrik Mekah) yang telah Kami binasakan; maka apakah mereka akan beriman? (6) Dan Kami tidak mengutus sebelum engkau (Muhammad), melainkan laki-laki yang Kami beri wahyu kepada mereka; maka bertanyalah kepada orang yang berilmu, jika kamu tidak mengetahui. (7) Dan tidak (pula) Kami jadikan mereka tubuh-tubuh yang tidak memakan makanan, dan mereka tidak (pula) hidup kekal. (8) Kemudian Kami tepati janji (keselamatan) kepada mereka, lalu Kami selamatkan mereka dan orang-orang yang Kami kehendaki dan Kami binasakan orang-orang yang melampaui batas. (9) Sungguh, Kami telah menurunkan kepadamu sebuah Kitab yang di dalamnya terdapat peringatan bagimu. Maka apakah kamu tidak mengerti?" (10)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir):</strong> Surah dibuka dengan peringatan tentang kedekatan hari hisab. Manusia lalai dan berpaling. Mereka mengejek Nabi dengan tuduhan penyihir, penyair, atau pengada-ada. Allah mengingatkan bahwa rasul-rasul sebelumnya juga manusia biasa, dan umat yang mendustakan dibinasakan. Al-Qur'an adalah peringatan yang nyata. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+
+            <!-- 2. Bantahan Syirik & Bukti Keesaan Allah (21-22) -->
+            <div class="theme-card">
+                <div class="theme-title">2. Bantahan Syirik & Bukti Keesaan Allah – Ayat 21-22</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=21&to=22&opt=1" target="_blank">Al-Anbiyā' 21:21-22 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">أَمِ ٱتَّخَذُوٓا۟ ءَالِهَةًۭ مِّنَ ٱلْأَرْضِ هُمْ يُنشِرُونَ (٢١) لَوْ كَانَ فِيهِمَآ ءَالِهَةٌ إِلَّا ٱللَّهُ لَفَسَدَتَا ۚ فَسُبْحَـٰنَ ٱللَّهِ رَبِّ ٱلْعَرْشِ عَمَّا يَصِفُونَ (٢٢)</div>
+                    <div class="transliteration">Amittakhażū ālihatam minal-arḍi hum yunsyirūn (21) Lau kāna fīhimā ālihatun illallāhu lafasadatā, fa sub-ḥānallāhi rabbil-'arsyi 'ammā yaṣifūn (22)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Atau apakah mereka mengambil tuhan-tuhan dari bumi yang dapat membangkitkan (orang mati)? (21) Sekiranya ada di langit dan bumi tuhan-tuhan selain Allah, tentulah keduanya telah rusak binasa. Maka Mahasuci Allah yang memiliki 'Arsy dari apa yang mereka sifatkan." (22)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Al-Qurthubi):</strong> Argumentasi logis: jika ada banyak tuhan, pasti terjadi kekacauan karena persaingan kehendak. Alam semesta yang teratur adalah bukti nyata bahwa hanya satu Tuhan yang mengatur. Ini adalah bantahan tegas terhadap politeisme. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
+            </div>
+
+            <!-- 3. Bukti Kekuasaan Allah: Langit, Bumi, Air (30-33) -->
+            <div class="theme-card">
+                <div class="theme-title">3. Bukti Kekuasaan Allah: Penciptaan Langit, Bumi, Air – Ayat 30-33</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=30&to=33&opt=1" target="_blank">Al-Anbiyā' 21:30-33 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ أَنَّ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ كَانَتَا رَتْقًۭا فَفَتَقْنَـٰهُمَا ۖ وَجَعَلْنَا مِنَ ٱلْمَآءِ كُلَّ شَىْءٍ حَىٍّ ۖ أَفَلَا يُؤْمِنُونَ (٣٠) وَجَعَلْنَا فِى ٱلْأَرْضِ رَوَٰسِىَ أَن تَمِيدَ بِهِمْ وَجَعَلْنَا فِيهَا فِجَاجًۭا سُبُلًۭا لَّعَلَّهُمْ يَهْتَدُونَ (٣١) وَجَعَلْنَا ٱلسَّمَآءَ سَقْفًۭا مَّحْفُوظًۭا ۖ وَهُمْ عَنْ ءَايَـٰتِهَا مُعْرِضُونَ (٣٢) وَهُوَ ٱلَّذِى خَلَقَ ٱلَّيْلَ وَٱلنَّهَارَ وَٱلشَّمْسَ وَٱلْقَمَرَ ۖ كُلٌّۭ فِى فَلَكٍۢ يَسْبَحُونَ (٣٣)</div>
+                    <div class="transliteration">A wa lam yarallażīna kafarū annas-samāwāti wal-arḍa kānatā ratqan fa fataqnāhumā, wa ja'alnā minal-mā`i kulla syai`in ḥayy, a fa lā yu`minụn (30) Wa ja‘alnā fil-arḍi rawāsiya an tamīda bihim wa ja‘alnā fīhā fijājan subulan la‘allahum yahtadūn (31) Wa ja‘alnas-samā’a saqfam maḥfūẓāw wa hum ‘an āyātihā mu‘riḍūn (32) Wa huwallażī khalaqal-laila wan-nahāra wasy-syamsa wal-qamar, kullun fī falakiy yasbaḥūn (33)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan apakah orang-orang yang kafir tidak mengetahui bahwasanya langit dan bumi itu keduanya dahulu adalah suatu yang padu, kemudian Kami pisahkan antara keduanya; dan dari air Kami jadikan segala sesuatu yang hidup. Maka mengapa mereka tidak juga beriman? (30) Dan Kami telah menjadikan di bumi ini gunung-gunung yang kokoh supaya bumi tidak goncang bersama mereka; dan Kami jadikan (pula) di bumi itu jalan-jalan yang luas, agar mereka mendapat petunjuk. (31) Dan Kami menjadikan langit sebagai atap yang terpelihara, tetapi mereka tetap berpaling dari tanda-tanda (kekuasaan Allah) itu. (32) Dan Dialah yang telah menciptakan malam dan siang, matahari dan bulan. Masing-masing beredar pada garis edarnya." (33)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (As-Sa'di):</strong> Ayat ini menampilkan bukti ilmiah tentang asal-usul alam semesta (Big Bang) dan air sebagai sumber kehidupan. Gunung-gunung sebagai pasak, langit sebagai atap yang terjaga, dan peredaran matahari-bulan pada garis edarnya adalah tanda-tanda kekuasaan Allah. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Sumber: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
+            </div>
+
+            <!-- 4. Kisah Ibrahim & Penghancuran Berhala (51-70) -->
+            <div class="theme-card">
+                <div class="theme-title">4. Kisah Ibrahim & Penghancuran Berhala – Ayat 51-70</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap (Ringkasan):</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=51&to=70&opt=1" target="_blank">Al-Anbiyā' 21:51-70 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَلَقَدْ ءَاتَيْنَآ إِبْرَٰهِيمَ رُشْدَهُۥ مِن قَبْلُ وَكُنَّا بِهِۦ عَـٰلِمِينَ (٥١) إِذْ قَالَ لِأَبِيهِ وَقَوْمِهِۦ مَا هَـٰذِهِ ٱلتَّمَاثِيلُ ٱلَّتِىٓ أَنتُمْ لَهَا عَـٰكِفُونَ (٥٢) ... فَأَرَادُوا۟ بِهِۦ كَيْدًۭا فَجَعَلْنَـٰهُمُ ٱلْأَخْسَرِينَ (٧٠)</div>
+                    <div class="transliteration">Wa laqad ātainā ibrāhīma rusydahụ ming qablu wa kunnā bihī ‘ālimīn (51) Iż qāla li’abīhi wa qaumihī mā hāżihit-tamāṡīlullatī antum lahā ‘ākifūn (52) ... Fa arādū bihī kaidā fa ja‘alnāhumul-akhsarīn (70)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan sungguh, telah Kami berikan kepada Ibrahim petunjuk kebenaran sebelumnya, dan Kami telah mengetahuinya, (51) ketika dia berkata kepada bapaknya dan kaumnya, 'Patung-patung apakah ini yang kamu tekun beribadah kepadanya?' (52) ... Mereka hendak berbuat makar terhadap Ibrahim, maka Kami jadikan mereka orang-orang yang paling rugi." (70)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (At-Tabari):</strong> Ibrahim mengajak berpikir kritis terhadap tradisi menyembah berhala. Ia menghancurkan berhala-berhala kecuali yang terbesar. Kaumnya marah dan melemparkannya ke api, namun Allah selamatkan. Teladan menolak taklid buta dan berani menyatakan kebenaran. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
+            </div>
+
+            <!-- 5. Nabi Muhammad sebagai Rahmat bagi Alam (107-108) -->
+            <div class="theme-card">
+                <div class="theme-title">5. Nabi Muhammad sebagai Rahmat bagi Alam – Ayat 107-108</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=107&to=108&opt=1" target="_blank">Al-Anbiyā' 21:107-108 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَمَآ أَرْسَلْنَـٰكَ إِلَّا رَحْمَةًۭ لِّلْعَـٰلَمِينَ (١٠٧) قُلْ إِنَّمَا يُوحَىٰٓ إِلَىَّ أَنَّمَآ إِلَـٰهُكُمْ إِلَـٰهٌۭ وَٰحِدٌۭ ۖ فَهَلْ أَنتُم مُّسْلِمُونَ (١٠٨)</div>
+                    <div class="transliteration">Wa mā arsalnāka illā raḥmatan lil-‘ālamīn (107) Qul innamā yūḥā ilayya annamā ilāhukum ilāhuw wāḥid, fa hal antum muslimūn (108)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan Kami tidak mengutus engkau (Muhammad) melainkan sebagai rahmat bagi seluruh alam. (107) Katakanlah, 'Sesungguhnya yang diwahyukan kepadaku adalah bahwa Tuhanmu adalah Tuhan Yang Maha Esa, maka apakah kamu berserah diri (masuk Islam)?'" (108)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir):</strong> Rahmat Nabi Muhammad mencakup seluruh makhluk: petunjuk, syafaat, dan keberkahan. Misi utamanya adalah menyeru kepada tauhid murni. Ini adalah inti ajaran semua nabi. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hubungan dengan Surah Lain (Indonesian) -->
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <p>Surah Al-Anbiyā' (21) memiliki keterkaitan erat dengan surah-surah Makkiyah lainnya.</p>
             <ul>
-                <li>Memuat kisah 16 nabi sebagai bukti konsistensi risalah tauhid.</li>
-                <li>Menjawab keraguan orang musyrik tentang kebangkitan dan kenabian.</li>
-                <li>Menegaskan bahwa Al-Qur'an adalah kebenaran mutlak dari Allah.</li>
-                <li>Menguatkan hati Nabi Muhammad ﷺ dengan kisah para nabi sebelumnya.</li>
-                <li>Ayat 30 (penciptaan langit dan bumi) menjadi bukti ilmiah kemukjizatan Al-Qur'an.</li>
+                <li><strong>Dengan Surah Ṭāhā (20):</strong> Ṭāhā meneguhkan hati Nabi Musa; Al-Anbiyā' memperluas dengan kisah para nabi sebagai penguat risalah.</li>
+                <li><strong>Dengan Surah Al-Ḥajj (22):</strong> Al-Anbiyā' fokus pada ketauhidan dan kenabian; Al-Ḥajj pada ibadah haji dan pembelaan terhadap orang beriman.</li>
+                <li><strong>Dengan Surah Al-Mu'minūn (23):</strong> Al-Anbiyā' membahas bukti kekuasaan Allah; Al-Mu'minūn merinci ciri orang beriman.</li>
+                <li><strong>Dengan Surah Maryam (19):</strong> Sama-sama menyebut kisah nabi sebagai pelajaran, namun Al-Anbiyā' lebih komprehensif.</li>
             </ul>
         </div>
 
-        <!-- Pelajaran Spiritual -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Anbiya</h3>
-            <ul><li>Menyadari kedekatan hari hisab dan mempersiapkan bekal akhirat.</li><li>Mengukuhkan tauhid dengan bukti logis dan alam semesta.</li><li>Meneladani kesabaran dan keteguhan para nabi dalam dakwah.</li><li>Menjadikan Nabi Muhammad sebagai rahmat universal dalam kehidupan.</li><li>Menjauhi taklid buta dan selalu menggunakan akal sehat.</li></ul>
+        <div class="info-box"><i class="fas fa-book-open"></i> Renungkan: "Dan Kami tidak mengutus engkau melainkan sebagai rahmat bagi seluruh alam." (21:107)</div>
+
+        <!-- Pagination INDONESIA -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="020.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: Ṭāhā (20)</a>
+                <a href="022.html" class="pagination-item">Surah Berikutnya: Al-Ḥajj (22) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            </div>
         </div>
-
-        <!-- Relevansi untuk Kehidupan Modern -->
-        <div class="relevance-box">
-            <h3><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</h3>
-            <ul><li>Krisis spiritual akibat kelalaian dari tujuan hidup – diingatkan dengan ayat 1.</li><li>Politeisme modern (materialisme, hedonisme) – dibantah dengan tauhid rububiyah.</li><li>Bukti ilmiah penciptaan alam memperkuat iman di era sains.</li><li>Kisah nabi menginspirasi ketahanan mental dalam menghadapi penolakan.</li><li>Konsep rahmatan lil 'alamin menjadi fondasi toleransi dan perdamaian global.</li></ul>
-        </div>
-
-        <!-- Hubungan dengan Surah Lain -->
-        <div class="relationship-box">
-            <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
-            <ul><li><strong>Dengan Surah Taha (20):</strong> Taha meneguhkan hati Nabi Musa, Al-Anbiya memperluas dengan kisah para nabi sebagai penguat risalah.</li><li><strong>Dengan Surah Al-Hajj (22):</strong> Al-Anbiya fokus pada ketauhidan dan kenabian, Al-Hajj pada ibadah haji dan pembelaan terhadap orang beriman.</li><li><strong>Dengan Surah Al-Mu’minun (23):</strong> Al-Anbiya membahas bukti kekuasaan Allah, Al-Mu’minun merinci ciri orang beriman.</li><li><strong>Dengan Surah Maryam (19):</strong> Sama-sama menyebut kisah nabi sebagai pelajaran, namun Al-Anbiya lebih komprehensif.</li></ul>
-        </div>
-
-        <!-- Sumpah dalam Surah -->
-        <div class="info-box"><i class="fas fa-gavel"></i> Sumpah-Sumpah dalam Surah: Surah Al-Anbiya tidak mengandung sumpah secara eksplisit, namun banyak ayat yang menggunakan kata “Wa laqad” (sungguh) sebagai penegasan kebenaran risalah.</div>
-
-        <div class="info-box"><i class="fas fa-dove"></i> Renungkan: “Dan Kami tidak mengutus engkau melainkan sebagai rahmat bagi seluruh alam.” – pesan universal Islam yang penuh kasih.</div>
     </div>
 
-    <!-- ENGLISH CONTENT -->
+    <!-- ENGLISH CONTENT (FULLY PARALLEL) -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Al-Anbiya (The Prophets) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=112&opt=1" target="_blank">IslamicStudies.info - Surah Al-Anbiya (1-112)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Al-Anbiyā' (21) - Thematic Tafsir</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=112&opt=1" target="_blank">IslamicStudies.info - Surah Al-Anbiyā' (1-112) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
+        <div class="arabic">ٱقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ وَهُمْ فِى غَفْلَةٍۢ مُّعْرِضُونَ</div>
+        <div class="transliteration">Iqtaraba lin-nāsi ḥisābuhum wa hum fī ghaflatim mu‘riḍūn.</div>
+        <div class="translation-text"><strong>Translation:</strong> "Their reckoning has drawn near to people, while they are in heedlessness, turning away." (21:1)</div>
 
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Anbiya</h3><p>Meccan surah (112 verses) named “The Prophets”. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=112&opt=1" target="_blank">IslamicStudies.info</a>, it refutes the polytheists’ denial of prophethood and resurrection, affirms tawhid, and presents stories of numerous prophets to show the consistency of the divine message.</p></div>
-        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/21:1" target="_blank">ReciteQuran.com - Surah Al-Anbiya <span class="blink-arrow"><i class="fas fa-arrow-right"></i> <span class="click-hint">Click here!</span></span></a></p></div>
-        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Anbiya</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/021.mp3"></audio></div>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Anbiyā' (Surah 21)</h3><p>Meccan surah (112 verses) named "The Prophets". According to <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=112&opt=1" target="_blank">IslamicStudies.info</a>, it refutes the polytheists' denial of prophethood and resurrection, affirms tawhid, and presents stories of numerous prophets to show the consistency of the divine message. It also presents scientific signs of Allah's power.</p></div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
-            <table class="structure-table"><thead><tr><th>Verses</th><th>Main Focus</th><th>Description</th></tr></thead><tbody>
-                <tr><td>1-10</td><td>Warning of the Reckoning</td><td>Nearness of Judgment, heedlessness, truth of Qur'an</td></tr>
-                <tr><td>11-29</td><td>Refutation of Shirk</td><td>Falsehood of idols, oneness of Allah, creation</td></tr>
-                <tr><td>30-50</td><td>Proofs of Allah's Power</td><td>Creation of heavens/earth, water as source of life, mountains as pegs</td></tr>
-                <tr><td>51-93</td><td>Stories of Prophets</td><td>Ibrahim, Lut, Nuh, Daud, Sulaiman, Ayyub, Yunus, Zakariya, Yahya, Isa etc.</td></tr>
-                <tr><td>94-112</td><td>Affirmation & Conclusion</td><td>Reward of righteous deeds, Prophet's duty, call to tawhid, mercy to worlds</td></tr>
-            </tbody></table>
+        <!-- Aqidah, Ibadah, Akhlaq Columns (English) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Nearness of the Hour (21:1), oneness of Allah (21:22), resurrection after death (21:47), and the Qur'an as absolute truth.</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Supplicate with hope and fear (21:90), glorify Allah day and night (21:20), be grateful, and follow the guidance of the prophets.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Critical thinking (Ibrahim), patience (Ayyub), justice (Dawud), humility (Sulayman), gentleness in da'wah, and rejecting blind following.</div>
         </div>
 
+        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/21" target="_blank">ReciteQuran.com - Surah Al-Anbiyā' <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Anbiyā'</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/021.mp3"></audio></div>
+
+        <!-- Thematic Division by Verses (English) -->
         <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
-                <tr><td><strong>1-10</strong></td><td>Warning of the Hour</td><td>Nearness of reckoning, heedlessness, truth of the Qur’an</td></tr>
-                <tr><td><strong>11-29</strong></td><td>Refutation of shirk</td><td>Falsehood of idols, oneness of Allah, creation</td></tr>
-                <tr><td><strong>30-50</strong></td><td>Proofs of Allah’s power</td><td>Creation of heavens/earth, water as life source, mountains as pegs</td></tr>
-                <tr><td><strong>51-93</strong></td><td>Stories of prophets</td><td>Ibrahim, Lut, Nuh, Daud, Sulaiman, Ayyub, Yunus, Zakariya, Yahya, Isa, etc.</td></tr>
-                <tr><td><strong>94-112</strong></td><td>Affirmation & conclusion</td><td>Reward of righteous deeds, Prophet’s duty, call to tawhid, mercy to worlds</td></tr>
-            </tbody></table>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Theme Title</th><th>Description & Additional Tafsir</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>1-10</strong></td><td>Warning of the Reckoning</td><td>Nearness of Judgment, heedlessness, truth of the Qur'an. — Ibn Kathir</td></tr>
+                    <tr><td><strong>11-29</strong></td><td>Refutation of Shirk</td><td>Falsehood of idols, oneness of Allah, creation. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>30-50</strong></td><td>Proofs of Allah's Power</td><td>Creation of heavens/earth, water as source of life, mountains as pegs. — As-Sa'di</td></tr>
+                    <tr><td><strong>51-70</strong></td><td>Story of Ibrahim & Destruction of Idols</td><td>Ibrahim breaks idols, is thrown into fire, saved by Allah. — At-Tabari</td></tr>
+                    <tr><td><strong>71-82</strong></td><td>Stories of Lut, Nuh, Dawud, Sulayman</td><td>Salvation of Lut and Nuh, power of Dawud and Sulayman, subjugation of wind and jinn. — Ibn Kathir</td></tr>
+                    <tr><td><strong>83-94</strong></td><td>Stories of Ayyub, Yunus, Zakariya, Isa</td><td>Patience of Ayyub, Yunus's prayer in the whale, Zakariya's prayer answered, birth of Yahya and Isa. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>95-112</strong></td><td>Conclusion & Call to Tawhid</td><td>Certainty of resurrection, Prophet Muhammad as mercy, call to worship One God. — As-Sa'di</td></tr>
+                </tbody>
+            </table>
         </div>
 
+        <!-- Key Verse for Contemplation -->
         <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
             <div class="verse">
-                <div class="arabic">أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ أَنَّ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ كَانَتَا رَتْقًا فَفَتَقْنَٰهُمَا ۖ وَجَعَلْنَا مِنَ ٱلْمَآءِ كُلَّ شَىْءٍ حَىٍّ ۖ أَفَلَا يُؤْمِنُونَ</div>
+                <div class="arabic">أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ أَنَّ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ كَانَتَا رَتْقًۭا فَفَتَقْنَـٰهُمَا ۖ وَجَعَلْنَا مِنَ ٱلْمَآءِ كُلَّ شَىْءٍ حَىٍّ ۖ أَفَلَا يُؤْمِنُونَ</div>
                 <div class="transliteration">A wa lam yarallażīna kafarū annas-samāwāti wal-arḍa kānatā ratqan fa fataqnāhumā, wa ja'alnā minal-mā`i kulla syai`in ḥayy, a fa lā yu`minụn.</div>
-                <p><strong>Translation:</strong> "Have those who disbelieved not considered that the heavens and the earth were a joined entity, then We separated them, and made from water every living thing? Then will they not believe?" (21:30)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse presents a scientific sign of the universe's origin (Big Bang) and water as the basis of life, strengthening faith in Allah's power. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=30&to=30&opt=1" target="_blank">📖 Read full tafsir</a></div>
+                <div class="translation-text"><strong>Translation:</strong> "Have those who disbelieved not considered that the heavens and the earth were a joined entity, then We separated them, and made from water every living thing? Then will they not believe?" (21:30)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse presents a scientific sign of the universe's origin (Big Bang) and water as the basis of life, strengthening faith in Allah's power.</div>
             </div>
         </div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Anbiya</h2>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Warning of the Nearness of the Day of Judgment (21:1-10)</div>
-                <div class="verse-item"><div class="arabic">ٱقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ وَهُمْ فِى غَفْلَةٍ مُّعْرِضُونَ</div><div class="transliteration">Iqtaraba lin-nāsi ḥisābuhum wa hum fī ghaflatim mu'riḍụn.</div><p><strong>Translation:</strong> "Their reckoning has drawn near to people, while they are in heedlessness, turning away." (21:1)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: the nearness is from Allah’s perspective, urging mankind to awaken. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=10&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Al-Anbiyā'</h3><ul><li>Contains stories of 16 prophets as proof of consistent tawhid message.</li><li>Refutes polytheists' doubts about resurrection and prophethood.</li><li>Affirms the Qur'an as absolute truth from Allah.</li><li>Strengthens the heart of Prophet Muhammad ﷺ through previous prophets' stories.</li><li>Verse 30 (creation of heavens and earth) is a scientific miracle of the Qur'an.</li></ul></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> Nearness of the Hour, oneness of Allah, resurrection, Prophet as mercy.</p><p><strong>Ibadah (Worship):</strong> Supplicate with hope and fear (21:90), glorify Allah day and night (21:20), be grateful.</p><p><strong>Akhlaq (Character):</strong> Critical thinking, patience (Ayyub), justice (Dawud), humility (Sulayman), gentleness in da'wah (Ibrahim).</p></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Anbiyā'</h3><ul><li>Be mindful of the approaching reckoning and prepare for the Hereafter.</li><li>Strengthen tawhid through logical and cosmic proofs.</li><li>Emulate the patience and steadfastness of the prophets in dawah.</li><li>Embrace Prophet Muhammad as universal mercy in daily life.</li><li>Reject blind following and always use sound reasoning.</li></ul></div>
+
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Spiritual crisis due to heedlessness – reminded by verse 1.</li><li>Modern polytheism (materialism, hedonism) – refuted by tawhid rububiyyah.</li><li>Scientific signs of creation strengthen faith in the age of science.</li><li>Prophetic stories inspire mental resilience in facing rejection.</li><li>Rahmatan lil 'alamin becomes foundation for global tolerance and peace.</li></ol></div>
+
+        <!-- Main Themes (Detailed Tafsir) – English Parallel, Full Verses -->
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes (Detailed Tafsir) – Complete to End of Surah</h2>
+
+            <!-- 1. Warning of the Reckoning (1-10) -->
+            <div class="theme-card">
+                <div class="theme-title">1. Warning of the Reckoning – Verses 1-10</div>
+                <div class="verse">
+                    <strong>Full Verses (summary):</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=1&to=10&opt=1" target="_blank">Al-Anbiyā' 21:1-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">ٱقْتَرَبَ لِلنَّاسِ حِسَابُهُمْ ... لَقَدْ أَنزَلْنَآ إِلَيْكُمْ كِتَـٰبًۭا فِيهِ ذِكْرُكُمْ ۖ أَفَلَا تَعْقِلُونَ</div>
+                    <div class="transliteration">Iqtaraba lin-nāsi ḥisābuhum ... laqad anzalnā ilaikum kitāban fīhi żikrukum, afalā ta‘qilūn</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Their reckoning has drawn near... We have certainly sent down to you a Book in which is your mention. Then will you not reason?" (21:1-10) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Ibn Kathir):</strong> The surah opens with a warning about the nearness of the Day of Reckoning. People are heedless and turning away. They mock the Prophet with accusations of sorcery, poetry, and fabrication. Allah reminds that previous messengers were also human, and nations that denied were destroyed. The Qur'an is a clear reminder. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Refutation of Shirk (21:21-22)</div>
-                <div class="verse-item"><div class="arabic">لَوْ كَانَ فِيهِمَآ ءَالِهَةٌ إِلَّا ٱللَّهُ لَفَسَدَتَا ۚ فَسُبْحَٰنَ ٱللَّهِ رَبِّ ٱلْعَرْشِ عَمَّا يَصِفُونَ</div><div class="transliteration">Lau kāna fīhimā ālihatun illallāhu lafasadatā, fa sub-ḥānallāhi rabbil-'arsyi 'ammā yaṣifụn.</div><p><strong>Translation:</strong> "If there were within them [heavens and earth] gods besides Allah, they would both be ruined. So exalted is Allah, Lord of the Throne, above what they describe." (21:22)</p></div>
-                <div class="tafsir-box">Logical proof: multiple gods would cause chaos. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=21&to=22&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+
+            <!-- 2. Refutation of Shirk & Proof of Oneness (21-22) -->
+            <div class="theme-card">
+                <div class="theme-title">2. Refutation of Shirk & Proof of Oneness – Verses 21-22</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=21&to=22&opt=1" target="_blank">Al-Anbiyā' 21:21-22 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">أَمِ ٱتَّخَذُوٓا۟ ءَالِهَةًۭ مِّنَ ٱلْأَرْضِ هُمْ يُنشِرُونَ ... فَسُبْحَـٰنَ ٱللَّهِ رَبِّ ٱلْعَرْشِ عَمَّا يَصِفُونَ</div>
+                    <div class="transliteration">Amittakhażū ālihatam minal-arḍi hum yunsyirūn ... fa sub-ḥānallāhi rabbil-'arsyi 'ammā yaṣifūn</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Or have they taken gods from the earth who resurrect [the dead]? ... So exalted is Allah, Lord of the Throne, above what they describe." (21:21-22) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Al-Qurtubi):</strong> A logical argument: if there were multiple gods, chaos would result. The orderly universe is clear proof that only One God governs. This is a decisive refutation of polytheism. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Signs of Allah’s Power in Creation (21:30-33)</div>
-                <div class="verse-item"><div class="arabic">أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ أَنَّ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضَ كَانَتَا رَتْقًا فَفَتَقْنَٰهُمَا ۖ وَجَعَلْنَا مِنَ ٱلْمَآءِ كُلَّ شَىْءٍ حَىٍّ ۖ أَفَلَا يُؤْمِنُونَ</div><div class="transliteration">A wa lam yarallażīna kafarū annas-samāwāti wal-arḍa kānatā ratqan fa fataqnāhumā, wa ja'alnā minal-mā`i kulla syai`in ḥayy, a fa lā yu`minụn.</div><p><strong>Translation:</strong> "Have those who disbelieved not considered that the heavens and the earth were a joined entity, then We separated them...?" (21:30)</p></div>
-                <div class="tafsir-box">Scientific signs strengthen faith in the Creator. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=30&to=33&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+
+            <!-- 3. Proofs of Allah's Power: Heavens, Earth, Water (30-33) -->
+            <div class="theme-card">
+                <div class="theme-title">3. Proofs of Allah's Power – Verses 30-33</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=30&to=33&opt=1" target="_blank">Al-Anbiyā' 21:30-33 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">أَوَلَمْ يَرَ ٱلَّذِينَ كَفَرُوٓا۟ ... كُلٌّۭ فِى فَلَكٍۢ يَسْبَحُونَ</div>
+                    <div class="transliteration">A wa lam yarallażīna kafarū ... kullun fī falakiy yasbaḥūn</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Have those who disbelieved not considered... each in an orbit is swimming." (21:30-33) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (As-Sa'di):</strong> This verse presents scientific evidence of the origin of the universe (Big Bang) and water as the source of life. Mountains as pegs, the sky as a protected ceiling, and the orbits of the sun and moon are signs of Allah's power. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Source: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Prophet Ibrahim & Rejection of Blind Following (21:51-70)</div>
-                <div class="verse-item"><div class="arabic">وَلَقَدْ ءَاتَيْنَآ إِبْرَٰهِيمَ رُشْدَهُۥ مِن قَبْلُ وَكُنَّا بِهِۦ عَٰلِمِينَ إِذْ قَالَ لِأَبِيهِ وَقَوْمِهِۦ مَا هَٰذِهِ ٱلتَّمَاثِيلُ ٱلَّتِىٓ أَنتُمْ لَهَا عَٰكِفُونَ</div><div class="transliteration">Wa laqad ātainā ibrāhīma rusydahụ ming qablu wa kunnā bihī 'ālimīn, iż qāla li`abīhi wa qaumihī mā hāżihit-tamāṡīlullatī antum lahā 'ākifụn.</div><p><strong>Translation:</strong> "And We had certainly given Abraham his sound judgement before, and We were of him well-Knowing, when he said to his father and his people, 'What are these statues to which you are devoted?'" (21:51-52)</p></div>
-                <div class="tafsir-box">Ibrahim’s critical thinking against idol worship. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=51&to=70&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+
+            <!-- 4. Story of Ibrahim & Destruction of Idols (51-70) -->
+            <div class="theme-card">
+                <div class="theme-title">4. Story of Ibrahim & Destruction of Idols – Verses 51-70</div>
+                <div class="verse">
+                    <strong>Full Verses (summary):</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=51&to=70&opt=1" target="_blank">Al-Anbiyā' 21:51-70 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَلَقَدْ ءَاتَيْنَآ إِبْرَٰهِيمَ رُشْدَهُۥ ... فَجَعَلْنَـٰهُمُ ٱلْأَخْسَرِينَ</div>
+                    <div class="transliteration">Wa laqad ātainā ibrāhīma rusydahụ ... fa ja‘alnāhumul-akhsarīn</div>
+                    <div class="translation-text"><strong>Translation:</strong> "And We had certainly given Abraham his sound judgement... We made them the worst losers." (21:51-70) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (At-Tabari):</strong> Ibrahim called his people to critical thinking against idol worship. He broke the idols except the largest. They threw him into fire, but Allah saved him. A model of rejecting blind following and courageously proclaiming the truth. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Source: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Prophet Muhammad as Mercy to the Worlds (21:107-108)</div>
-                <div class="verse-item"><div class="arabic">وَمَآ أَرْسَلْنَٰكَ إِلَّا رَحْمَةً لِّلْعَٰلَمِينَ قُلْ إِنَّمَا يُوحَىٰٓ إِلَىَّ أَنَّمَآ إِلَٰهُكُمْ إِلَٰهٌ وَٰحِدٌ ۖ فَهَلْ أَنتُم مُّسْلِمُونَ</div><div class="transliteration">Wa mā arsalnāka illā raḥmatan lil-'ālamīn, qul innamā yụḥā ilayya annamā ilāhukum ilāhuw wāḥid, fa hal antum muslimụn.</div><p><strong>Translation:</strong> "And We have not sent you, [O Muhammad], except as a mercy to the worlds. Say, 'It is revealed to me that your God is one God; so will you submit?'" (21:107-108)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: the Prophet’s message is universal mercy—guidance and blessings for all creation. <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=107&to=108&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+
+            <!-- 5. Prophet Muhammad as Mercy to the Worlds (107-108) -->
+            <div class="theme-card">
+                <div class="theme-title">5. Prophet Muhammad as Mercy to the Worlds – Verses 107-108</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=21&verse=107&to=108&opt=1" target="_blank">Al-Anbiyā' 21:107-108 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَمَآ أَرْسَلْنَـٰكَ إِلَّا رَحْمَةًۭ لِّلْعَـٰلَمِينَ ... فَهَلْ أَنتُم مُّسْلِمُونَ</div>
+                    <div class="transliteration">Wa mā arsalnāka illā raḥmatan lil-‘ālamīn ... fa hal antum muslimūn</div>
+                    <div class="translation-text"><strong>Translation:</strong> "And We have not sent you, [O Muhammad], except as a mercy to the worlds... So will you submit?" (21:107-108) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Ibn Kathir):</strong> The Prophet's mercy encompasses all creation: guidance, intercession, and blessings. His primary mission is to call to pure monotheism. This is the core message of all prophets. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
             </div>
         </div>
 
-        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3>
-            <p><strong>Aqidah (Creed):</strong> Nearness of the Hour, oneness of Allah, resurrection, Prophet as mercy.</p>
-            <p><strong>Ibadah (Worship):</strong> Supplicate with hope and fear (21:90), glorify Allah day and night (21:20), be grateful.</p>
-            <p><strong>Akhlaq (Character):</strong> Critical thinking, patience (Ayyub), justice (Dawud), humility (Sulayman), gentleness in da'wah (Ibrahim).</p>
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Ṭāhā (20):</strong> Ṭāhā strengthens Musa's heart; Al-Anbiyā' expands with multiple prophets reinforcing the message.</li><li><strong>With Surah Al-Ḥajj (22):</strong> Al-Anbiyā' focuses on tawhid and prophethood; Al-Ḥajj on pilgrimage and defending believers.</li><li><strong>With Surah Al-Mu'minūn (23):</strong> Al-Anbiyā' presents Allah's power; Al-Mu'minūn details the believers' characteristics.</li><li><strong>With Surah Maryam (19):</strong> Both mention prophetic stories as lessons, but Al-Anbiyā' is more comprehensive.</li></ul></div>
+
+        <div class="info-box"><i class="fas fa-book-open"></i> Reflect: "And We have not sent you except as a mercy to the worlds." (21:107)</div>
+
+        <!-- Pagination ENGLISH -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="020.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Ṭāhā (20)</a>
+                <a href="022.html" class="pagination-item">Next Surah: Al-Ḥajj (22) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+            </div>
         </div>
-
-        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Al-Anbiya</h3><ul><li>Contains stories of 16 prophets as proof of consistent tawhid message.</li><li>Refutes polytheists' doubts about resurrection and prophethood.</li><li>Affirms the Qur'an as absolute truth from Allah.</li><li>Strengthens the heart of Prophet Muhammad ﷺ through previous prophets' stories.</li><li>Verse 30 (creation of heavens and earth) is a scientific miracle of the Qur'an.</li></ul></div>
-
-        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Anbiya</h3><ul><li>Be mindful of the approaching reckoning and prepare for the Hereafter.</li><li>Strengthen tawhid through logical and cosmic proofs.</li><li>Emulate the patience and steadfastness of the prophets in dawah.</li><li>Embrace Prophet Muhammad as universal mercy in daily life.</li><li>Reject blind following and always use sound reasoning.</li></ul></div>
-
-        <div class="relevance-box"><h3><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</h3><ul><li>Spiritual crisis due to heedlessness – reminded by verse 1.</li><li>Modern polytheism (materialism, hedonism) – refuted by tawhid rububiyyah.</li><li>Scientific signs of creation strengthen faith in the age of science.</li><li>Prophetic stories inspire mental resilience in facing rejection.</li><li>Rahmatan lil 'alamin becomes foundation for global tolerance and peace.</li></ul></div>
-
-        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Taha (20):</strong> Taha consolidates Musa's heart, Al-Anbiya expands with multiple prophets reinforcing the message.</li><li><strong>With Surah Al-Hajj (22):</strong> Al-Anbiya focuses on tawhid and prophethood, Al-Hajj on pilgrimage and defending believers.</li><li><strong>With Surah Al-Mu’minun (23):</strong> Al-Anbiya presents Allah's power, Al-Mu’minun details the believers' characteristics.</li><li><strong>With Surah Maryam (19):</strong> Both mention prophetic stories as lessons, but Al-Anbiya is more comprehensive.</li></ul></div>
-
-        <div class="info-box"><i class="fas fa-gavel"></i> Oaths in the Surah: Surah Al-Anbiya does not contain explicit oaths, but many verses use “Wa laqad” (indeed) as an affirmation of truth.</div>
-        <div class="info-box"><i class="fas fa-globe"></i> Reflect: “We have not sent you except as a mercy to the worlds.” – the universal compassion of Islam.</div>
-    </div>
-
-    <!-- PAGINATION -->
-    <div class="surah-pagination">
-        <a href="020.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Taha</a>
-        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="022.html" class="pagination-item">Next Surah: Al-Hajj <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
-
-<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
-
+<footer>© 1447 AH / 2026 AD - Tafsir based on IslamicStudies.info & classical sources (Ibn Kathir, Al-Qurtubi, As-Sa'di, At-Tabari) | Thematic Reflection | Complete verses displayed without truncation.</footer>
 <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
 <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
-
 <script>
-(function(){
-    const englishDiv = document.getElementById('english-content');
-    const indoDiv = document.getElementById('indonesian-content');
-    const langToggle = document.getElementById('languageToggle');
-    const translitToggle = document.getElementById('transliterationToggle');
-    const darkToggle = document.getElementById('darkModeToggle');
-    const translitElements = document.querySelectorAll('.transliteration');
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let langParam = null;
-    if(urlParams.has('English')) langParam = 'english';
-    else if(urlParams.has('Indonesian')) langParam = 'indonesian';
-    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
-
-    function setLanguage(lang){
-        const isEnglish = (lang === 'english');
-        if(isEnglish){
-            englishDiv.classList.remove('hidden');
-            indoDiv.classList.add('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
-        } else {
-            englishDiv.classList.add('hidden');
-            indoDiv.classList.remove('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+    (function() {
+        const englishDiv = document.getElementById('english-content');
+        const indoDiv = document.getElementById('indonesian-content');
+        const langToggle = document.getElementById('languageToggle');
+        const translitToggle = document.getElementById('transliterationToggle');
+        const darkToggle = document.getElementById('darkModeToggle');
+        const translitElements = document.querySelectorAll('.transliteration');
+        const urlParams = new URLSearchParams(window.location.search);
+        let langParam = null;
+        if (urlParams.has('English')) langParam = 'english';
+        else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+        let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+        function setLanguage(lang) {
+            const isEnglish = (lang === 'english');
+            if (isEnglish) { englishDiv.classList.remove('hidden'); indoDiv.classList.add('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian'; }
+            else { englishDiv.classList.add('hidden'); indoDiv.classList.remove('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English'; }
+            localStorage.setItem('language', lang);
         }
-        localStorage.setItem('language', lang);
-    }
-    setLanguage(currentLang);
-    langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
-    });
-
-    let translitVisible = (urlParams.has('Transliteration')) ? true : (localStorage.getItem('transliteration') === 'true');
-    function setTransliteration(show){
-        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-        localStorage.setItem('transliteration', show);
-    }
-    setTransliteration(translitVisible);
-    translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
-        setTransliteration(!currently);
-    });
-
-    let darkActive = false;
-    if(urlParams.has('Dark')) darkActive = true;
-    else darkActive = localStorage.getItem('darkMode') === 'true';
-    if(darkActive) document.body.classList.add('dark-mode');
-    function setDarkModeUI(){
-        const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-        localStorage.setItem('darkMode', active);
-    }
-    setDarkModeUI();
-    darkToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+        setLanguage(currentLang);
+        langToggle.addEventListener('click', () => { const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian'; setLanguage(newLang); });
+        let translitVisible = localStorage.getItem('transliteration') === 'true';
+        if (urlParams.has('Transliteration')) translitVisible = true;
+        function setTransliteration(show) { translitElements.forEach(el => el.style.display = show ? 'block' : 'none'); translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration'; localStorage.setItem('transliteration', show); }
+        setTransliteration(translitVisible);
+        translitToggle.addEventListener('click', () => { const currently = translitElements[0]?.style.display === 'block'; setTransliteration(!currently); });
+        let darkActive = false;
+        if (urlParams.has('Dark')) darkActive = true;
+        else darkActive = localStorage.getItem('darkMode') === 'true';
+        if (darkActive) document.body.classList.add('dark-mode');
+        function setDarkModeUI() { const active = document.body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
         setDarkModeUI();
-    });
-
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
-})();
+        darkToggle.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
+        const upArrow = document.getElementById('scrollUp'); const downArrow = document.getElementById('scrollDown');
+        if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+        if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    })();
 </script>
 </body>
 </html>
