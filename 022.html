@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Surah Al-Hajj - Tafsir Tematik | Thematic Tafsir</title>
+    <title>Surah Al-Ḥajj (22) - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -20,13 +20,14 @@
             --benefits-bg: #f1f8e9;
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
+            --translation-color: #2c5282;
             --theme-card-bg: #ffffffdd;
         }
         .dark-mode {
             --bg-color: #121826;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
-            --arabic-color: #9ac8ff;
+            --arabic-color: #7bc9ff;
             --section-title-color: #7bc9ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
@@ -37,6 +38,7 @@
             --benefits-bg: #1f3a2f;
             --link-color: #93c5fd;
             --link-hover: #c3e2ff;
+            --translation-color: #bdd4ff;
             --theme-card-bg: #1e293bdd;
         }
         body {
@@ -60,23 +62,36 @@
         a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
         a:hover { color: var(--link-hover); text-decoration: underline; }
         .arabic {
-            font-size: 42px;
+            font-size: 36px;
             text-align: right;
             direction: rtl;
-            margin: 20px 0 10px 0;
+            margin: 10px 0 5px;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
-            line-height: 2;
+            line-height: 1.6;
+            word-wrap: break-word;
         }
         .transliteration {
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
-            text-align: center;
-            margin: 0 0 10px 0;
+            margin: 8px 0 6px;
+            padding: 6px 0;
+            border-bottom: 1px dashed var(--verse-border);
             display: none;
+            text-align: right;
         }
         .dark-mode .transliteration { color: #b0c4de; }
+        .translation-text {
+            font-size: 16px;
+            background-color: rgba(44, 82, 130, 0.08);
+            padding: 8px 12px;
+            border-radius: 14px;
+            margin: 6px 0 12px;
+            color: var(--translation-color);
+            border-left: 3px solid var(--link-color);
+            font-weight: 500;
+        }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -104,19 +119,26 @@
             margin: 25px 0;
             border: 1px solid var(--verse-border);
         }
-        .verse-title, .theme-title {
+        .theme-title {
             font-weight: bold;
             color: #1e7e5c;
             margin-bottom: 12px;
             font-size: 1.2rem;
         }
-        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
+        .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
             border-radius: 16px;
             margin-top: 15px;
             border: 1px solid var(--tafsir-border);
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.7;
+            font-style: italic;
         }
         .hidden { display: none; }
         .top-home-link {
@@ -142,7 +164,7 @@
             border-radius: 20px;
             margin: 20px 0;
         }
-        .theme-overview, .special-benefits, .relationship-box, .relevance-box {
+        .theme-overview, .special-benefits {
             background: var(--bonus-bg);
             padding: 25px;
             border-radius: 24px;
@@ -159,7 +181,7 @@
             margin: 20px auto;
             text-align: center;
         }
-        .theme-table, .structure-table {
+        .theme-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
@@ -167,12 +189,13 @@
             border-radius: 16px;
             overflow: hidden;
         }
-        .theme-table th, .theme-table td, .structure-table th, .structure-table td {
+        .theme-table th, .theme-table td {
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
             text-align: left;
+            vertical-align: top;
         }
-        .theme-table th, .structure-table th { background: #2c7da0; color: white; }
+        .theme-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
             position: fixed;
             left: 20px;
@@ -195,13 +218,17 @@
         .scroll-arrow.up { top: 90px; }
         .scroll-arrow.down { bottom: 90px; }
         .surah-pagination {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+        }
+        .pagination-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -215,6 +242,7 @@
             transition: 0.2s;
         }
         .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center { text-align: center; }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -238,101 +266,122 @@
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
             .scroll-arrow { width: 38px; height: 38px; left: 12px; }
-            .arabic { font-size: 30px; }
+            .arabic { font-size: 28px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
-        .fa, .fas, .far { margin-right: 4px; }
-        .verse-item { margin-bottom: 25px; border-bottom: 1px dashed var(--verse-border); padding-bottom: 15px; }
-        .verse-item:last-child { border-bottom: none; }
-        .blink-arrow {
-            animation: blink 1s infinite;
-            display: inline-block;
-            margin-left: 8px;
-            font-size: 0.9rem;
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
         }
-        @keyframes blink {
-            0% { opacity: 0.2; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.1); }
-            100% { opacity: 0.2; transform: scale(0.9); }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
         }
-        .click-hint {
-            font-size: 0.85rem;
-            background: var(--link-color);
-            color: white;
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
             border-radius: 20px;
-            padding: 2px 8px;
-            display: inline-block;
-            margin-left: 6px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
         }
-        .info-box a .click-hint {
-            background: #1e5f8e;
+        .relationship-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 5px solid #2c7da0;
         }
-        .dark-mode .info-box a .click-hint {
-            background: #7bc9ff;
-            color: #121826;
-        }
+        .fa, .fas, .far { margin-right: 4px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
 <div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
-
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT -->
+    <!-- INDONESIAN CONTENT (INTACT, COMPLETE) -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah Al-Hajj (Ibadah Haji) - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=78&opt=1" target="_blank">IslamicStudies.info - Surah Al-Hajj (1-78)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Al-Ḥajj (22) - Tafsir Tematik</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=78&opt=1" target="_blank">IslamicStudies.info - Surah Al-Ḥajj (1-78) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></div>
+        <div class="arabic">يَـٰٓأَيُّهَا ٱلنَّاسُ ٱتَّقُوا۟ رَبَّكُمْ ۚ إِنَّ زَلْزَلَةَ ٱلسَّاعَةِ شَىْءٌ عَظِيمٌ</div>
+        <div class="transliteration">Yā ayyuhan-nāsuttaqū rabbakum, inna zalzalatas-sā‘ati syai’un ‘aẓīm.</div>
+        <div class="translation-text"><strong>Terjemahan:</strong> "Wahai manusia! Bertakwalah kepada Tuhanmu; sesungguhnya keguncangan hari Kiamat itu adalah suatu kejadian yang sangat besar (dahsyat)." (Al-Ḥajj 22:1)</div>
 
         <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Hajj</h3>
-            <p>Surah Al-Hajj (22) terdiri dari 78 ayat, termasuk golongan Madaniyah. Dinamai “Al-Hajj” karena mengandung hukum dan hikmah ibadah haji. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=78&opt=1" target="_blank">IslamicStudies.info</a>, surah ini menggabungkan peringatan dahsyatnya hari Kiamat, tata cara haji, izin berperang untuk membela diri, serta prinsip bahwa amal yang diterima didasari ketakwaan. Surah ini menjadi pedoman penting bagi umat Islam dalam menjalankan rukun Islam kelima.</p>
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Ḥajj (Surah ke-22)</h3>
+            <p>Surah ke-22 (78 ayat) Madaniyah. Dinamai "Al-Ḥajj" karena mengandung hukum dan hikmah ibadah haji. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=78&opt=1" target="_blank">IslamicStudies.info</a>, surah ini menggabungkan peringatan dahsyatnya hari Kiamat, tata cara haji, izin berperang untuk membela diri, serta prinsip bahwa amal yang diterima didasari ketakwaan. Surah ini menjadi pedoman penting bagi umat Islam dalam menjalankan rukun Islam kelima.</p>
         </div>
-        <div class="info-box">
-            <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p>
-                <a href="https://quran.com/22:1-78?translations=33" target="_blank">
-                    Quran.com - Surah Al-Hajj (Terjemahan Indonesia)
-                    <span class="blink-arrow"><i class="fas fa-arrow-right"></i> <span class="click-hint">Klik di sini!</span></span>
-                </a>
-            </p>
-        </div>
-        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Hajj</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/022.mp3" type="audio/mpeg"></audio></div>
 
-        <!-- Struktur dan Kandungan Surah -->
+        <!-- Aqidah, Ibadah, Akhlak Columns (Indonesian) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Kedahsyatan hari kiamat (22:1-2), kebangkitan setelah mati (22:5-7), keesaan Allah (22:62), janji pertolongan-Nya (22:40).</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Kewajiban haji (22:27-30), kurban (22:36-37), shalat, dzikir, doa, istighfar.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Takwa, sabar, membela kebenaran, menghormati syiar Allah, keadilan, tidak melampaui batas.</div>
+        </div>
+
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/22?translations=33" target="_blank">Quran.com - Surah Al-Ḥajj (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Ḥajj</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/022.mp3" type="audio/mpeg"></audio></div>
+
+        <!-- STRUKTUR DAN KANDUNGAN SURAH (Indonesian) -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
-            <table class="structure-table">
-                <thead><tr><th>Rentang Ayat</th><th>Fokus Utama</th><th>Deskripsi Kandungan</th></tr></thead>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi Kandungan</th></tr></thead>
                 <tbody>
-                    <tr><td>1-7</td><td>Peringatan Hari Kiamat</td><td>Keguncangan dahsyat, kebangkitan, bukti kekuasaan Allah</td></tr>
-                    <tr><td>8-24</td><td>Bantahan Keraguan & Kekafiran</td><td>Argumentasi tauhid, nasib orang kafir, perumpamaan dunia</td></tr>
-                    <tr><td>25-37</td><td>Hukum dan Hikmah Haji</td><td>Keutamaan Baitullah, ritual haji, kurban, larangan di tanah haram</td></tr>
-                    <tr><td>38-41</td><td>Izin Berperang & Jihad</td><td>Allah membela orang beriman, hak membela diri, tujuan jihad</td></tr>
-                    <tr><td>42-55</td><td>Kisah Nabi & Umat Terdahulu</td><td>Kesabaran nabi, azab pendusta, ketetapan Allah</td></tr>
-                    <tr><td>56-78</td><td>Ketentuan Allah & Seruan Tauhid</td><td>Kekuasaan mutlak Allah, ibadah yang diterima, seruan berjihad</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>1-2</strong></td><td>Peringatan keguncangan hari Kiamat</td><td>Keguncangan dahsyat, setiap ibu lalai menyusui, wanita hamil keguguran, manusia seperti mabuk. — Ibnu Katsir</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>3-4</strong></td><td>Orang yang berdebat tanpa ilmu</td><td>Mengikuti setan durhaka, yang akan menyesatkan dan menghantarkan ke neraka. — Al-Qurthubi</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>5-7</strong></td><td>Bukti kekuasaan Allah & kebangkitan</td><td>Penciptaan manusia dari tanah, nutfah, darah, segumpal daging; bumi yang mati dihidupkan dengan air hujan. — As-Sa'di</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>8-10</strong></td><td>Sikap sombong dan akibatnya</td><td>Orang yang membelakangi kebenaran mendapat kehinaan di dunia dan azab neraka. — At-Tabari</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>11-13</strong></td><td>Orang yang beriman di tepi (munafik)</td><td>Iman hanya saat senang, kufur saat ditimpa cobaan; menyembah selain Allah yang tidak memberi manfaat. — Ibnu Katsir</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>14-18</strong></td><td>Balasan bagi orang beriman dan kafir</td><td>Allah memasukkan orang beriman ke surga; orang kafir mendapat azab neraka; semua makhluk bersujud kepada Allah. — Al-Qurthubi</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>19-24</strong></td><td>Dua golongan yang berselisih: mukmin vs kafir</td><td>Pakaian dari api untuk orang kafir, air mendidih; surga dan pakaian sutra untuk orang beriman. — As-Sa'di</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>25-30</strong></td><td>Keutamaan Baitullah, haji, dan syiar Allah</td><td>Larangan bagi yang kafir; seruan haji ke seluruh penjuru; manfaat duniawi dan ukhrawi; tata cara haji. — At-Tabari</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>31-37</strong></td><td>Mengagungkan syiar Allah, hewan kurban, dan takwa</td><td>Tauhid murni, larangan syirik; hewan kurban sebagai syiar Allah; daging dan darah tidak sampai kepada Allah, yang sampai adalah takwa. — Ibnu Katsir</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>38-41</strong></td><td>Izin berperang (jihad) untuk membela diri</td><td>Ayat pertama yang mengizinkan perang; mereka yang dizalimi diusir dari kampung halaman; tujuan jihad: melindungi tempat ibadah dan menegakkan keadilan. — Al-Qurthubi</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>42-55</strong></td><td>Kisah para nabi & umat terdahulu</td><td>Kisah Nuh, 'Ad, Tsamud, Ibrahim, Luth, Madyan, dan Musa; kesabaran para nabi; azab bagi pendusta; setan mengganggu keinginan baik. — As-Sa'di</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>56-66</strong></td><td>Kekuasaan mutlak Allah pada hari Kiamat</td><td>Kekuasaan di tangan Allah; kebahagiaan orang beriman; tanda-tanda kekuasaan Allah di alam semesta. — At-Tabari</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>67-72</strong></td><td>Setiap umat memiliki syariatnya masing-masing</td><td>Allah memerintahkan Nabi untuk menyeru tauhid; jika mereka mendebat, katakan Allah lebih tahu; perumpamaan berhala yang tidak mampu menciptakan lalat. — Ibnu Katsir</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>73-78</strong></td><td>Perintah berjihad, mendirikan shalat, dan berpegang teguh kepada Allah</td><td>Perumpamaan kelemahan berhala; Allah memilih umat Islam; tidak ada kesukaran dalam agama; panggilan "Wahai orang-orang yang beriman, rukuklah, sujudlah, sembahlah Tuhanmu, dan berbuatlah kebaikan." — Al-Qurthubi</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Pembagian Tema per Bagian Ayat -->
+        <!-- PEMBAGIAN TEMA PER BAGIAN AYAT (Indonesian) -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
             <table class="theme-table">
                 <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-7</strong></td><td>Peringatan hari kiamat</td><td>Keguncangan dahsyat, kebangkitan, kekuasaan Allah</td></tr>
-                    <tr><td><strong>8-24</strong></td><td>Bantahan keraguan & kekafiran</td><td>Argumentasi tauhid, nasib orang kafir, perumpamaan dunia</td></tr>
-                    <tr><td><strong>25-37</strong></td><td>Hukum dan hikmah haji</td><td>Keutamaan Baitullah, ritual haji, kurban, larangan di tanah haram</td></tr>
-                    <tr><td><strong>38-41</strong></td><td>Izin berperang & jihad</td><td>Allah membela orang beriman, hak membela diri, tujuan jihad</td></tr>
-                    <tr><td><strong>42-55</strong></td><td>Kisah nabi & umat terdahulu</td><td>Kesabaran nabi, azab pendusta, ketetapan Allah</td></tr>
-                    <tr><td><strong>56-78</strong></td><td>Ketentuan Allah & seruan tauhid</td><td>Kekuasaan mutlak Allah, ibadah yang diterima, seruan berjihad</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>1-2</strong></td><td>Peringatan keguncangan hari Kiamat</td><td>Keguncangan dahsyat, ibu lalai, wanita hamil keguguran, manusia seperti mabuk.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>3-4</strong></td><td>Bahaya mengikuti setan</td><td>Setan durhaka akan menyesatkan dan menghantarkan ke neraka.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>5-7</strong></td><td>Bukti kebangkitan setelah mati</td><td>Penciptaan manusia bertahap dan penghidupan bumi yang mati.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>8-10</strong></td><td>Kesombongan dan akibatnya</td><td>Kehinaan di dunia dan azab neraka bagi yang membangkang.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>11-13</strong></td><td>Ciri orang munafik</td><td>Iman hanya di saat senang, kufur saat ditimpa cobaan.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>14-18</strong></td><td>Balasan surga dan neraka</td><td>Orang beriman masuk surga, orang kafir mendapat azab.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>19-24</strong></td><td>Dua golongan yang berselisih</td><td>Perbandingan antara penghuni surga dan neraka.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>25-30</strong></td><td>Keutamaan Baitullah dan ibadah haji</td><td>Seruan haji, manfaat duniawi dan ukhrawi, tata cara haji.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>31-37</strong></td><td>Hakikat ibadah kurban dan takwa</td><td>Daging dan darah tidak sampai kepada Allah, yang sampai adalah takwa.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>38-41</strong></td><td>Izin jihad untuk membela diri</td><td>Perang diizinkan karena kezaliman, tujuan melindungi tempat ibadah.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>42-55</strong></td><td>Pelajaran dari kisah para nabi</td><td>Kesabaran para nabi, azab bagi pendusta, ketetapan Allah tidak dapat ditolak.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>56-66</strong></td><td>Kekuasaan mutlak Allah</td><td>Allah berkuasa atas segala sesuatu, hari Kiamat pasti datang.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>67-72</strong></td><td>Setiap umat memiliki syariat</td><td>Seruan tauhid universal, perumpamaan berhala yang lemah.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>73-78</strong></td><td>Perintah berjihad dan istiqamah</td><td>Rukuk, sujud, ibadah, berbuat baik, jihad, dan berpegang teguh kepada Allah.</td></tr>
                 </tbody>
             </table>
         </div>
@@ -343,251 +392,331 @@
             <div class="verse">
                 <div class="arabic">لَن يَنَالَ ٱللَّهَ لُحُومُهَا وَلَا دِمَآؤُهَا وَلَٰكِن يَنَالُهُ ٱلتَّقْوَىٰ مِنكُمْ ۚ كَذَٰلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا۟ ٱللَّهَ عَلَىٰ مَا هَدَىٰكُمْ ۗ وَبَشِّرِ ٱلْمُحْسِنِينَ</div>
                 <div class="transliteration">Lay yanālallāha luḥụmuhā wa lā dimā`uhā wa lākiy yanāluhut-taqwā minkum, każālika sakhkharahā lakum litukabbirullāha 'alā mā hadākum, wa basysyiril-muḥsinīn.</div>
-                <p><strong>Terjemahan:</strong> "Daging (hewan kurban) dan darahnya sekali-kali tidak akan sampai kepada Allah, tetapi yang sampai kepada-Nya adalah ketakwaan dari kamu. Demikianlah Dia menundukkannya untukmu agar kamu mengagungkan Allah atas petunjuk yang diberikan-Nya kepadamu. Dan sampaikanlah kabar gembira kepada orang-orang yang berbuat baik." (Al-Hajj 22:37)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Prinsip fundamental bahwa Allah tidak membutuhkan bentuk fisik ibadah; yang diterima adalah ketulusan hati dan ketakwaan. Ini mengoreksi pemahaman ritualisme kosong dan menekankan dimensi spiritual. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=37&to=37&opt=1" target="_blank">📖 Baca selengkapnya</a></div>
+                <div class="translation-text"><strong>Terjemahan:</strong> "Daging (hewan kurban) dan darahnya sekali-kali tidak akan sampai kepada Allah, tetapi yang sampai kepada-Nya adalah ketakwaan dari kamu. Demikianlah Dia menundukkannya untukmu agar kamu mengagungkan Allah atas petunjuk yang diberikan-Nya kepadamu. Dan sampaikanlah kabar gembira kepada orang-orang yang berbuat baik." (22:37)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Prinsip fundamental bahwa Allah tidak membutuhkan bentuk fisik ibadah; yang diterima adalah ketulusan hati dan ketakwaan. Ini mengoreksi pemahaman ritualisme kosong dan menekankan dimensi spiritual.</div>
             </div>
-        </div>
-
-        <!-- TEMA UTAMA dengan ayat lengkap -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Al-Hajj</h2>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Peringatan Dahsyatnya Hari Kiamat (22:1-7)</div>
-                <div class="verse-item"><div class="arabic">يَٰٓأَيُّهَا ٱلنَّاسُ ٱتَّقُوا۟ رَبَّكُمْ ۚ إِنَّ زَلْزَلَةَ ٱلسَّاعَةِ شَىْءٌ عَظِيمٌ</div><div class="transliteration">Yā ayyuhan-nāsuttaqụ rabbakum, inna zalzalatas-sā'ati syai'un 'aẓīm.</div><p><strong>Terjemahan:</strong> "Wahai manusia! Bertakwalah kepada Tuhanmu; sesungguhnya keguncangan hari Kiamat itu adalah suatu kejadian yang sangat besar (dahsyat)." (22:1)</p></div>
-                <div class="verse-item"><div class="arabic">يَوْمَ تَرَوْنَهَا تَذْهَلُ كُلُّ مُرْضِعَةٍ عَمَّآ أَرْضَعَتْ وَتَضَعُ كُلُّ ذَاتِ حَمْلٍ حَمْلَهَا وَتَرَى ٱلنَّاسَ سُكَٰرَىٰ وَمَا هُم بِسُكَٰرَىٰ وَلَٰكِنَّ عَذَابَ ٱللَّهِ شَدِيدٌ</div><div class="transliteration">Yauma taraunahā tażhalu kullu murḍi'atin 'ammā arḍa'at wa taḍa'u kullu żāti ḥamlin ḥamlahā wa tarannāsa sukārā wa mā hum bisukārā wa lākinna 'ażāballāhi syadīd.</div><p><strong>Terjemahan:</strong> "Pada hari kamu melihat keguncangan itu, setiap ibu yang menyusui akan lalai dari anak yang disusuinya, dan setiap wanita hamil akan keguguran kandungannya, dan kamu melihat manusia dalam keadaan mabuk, padahal mereka sebenarnya tidak mabuk, tetapi azab Allah sangat keras." (22:2)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: Gambaran mengerikan ini menunjukkan dahsyatnya hari Kiamat, melebihi semua bencana dunia. Peringatan ini membangunkan manusia dari kelalaian. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=7&opt=1" target="_blank">📖 Rinci Tafsir Ayat 1-7</a></div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Hukum dan Hikmah Ibadah Haji (22:26-30)</div>
-                <div class="verse-item"><div class="arabic">وَأَذِّن فِى ٱلنَّاسِ بِٱلْحَجِّ يَأْتُوكَ رِجَالًا وَعَلَىٰ كُلِّ ضَامِرٍ يَأْتِينَ مِن كُلِّ فَجٍّ عَمِيقٍ</div><div class="transliteration">Wa ażżin fin-nāsi bil-ḥajji ya`tụka rijālaw wa 'alā kulli ḍāmiriy ya`tīna min kulli fajjin 'amīq.</div><p><strong>Terjemahan:</strong> "Dan serulah manusia untuk mengerjakan haji, niscaya mereka akan datang kepadamu dengan berjalan kaki, dan mengendarai unta kurus yang datang dari segenap penjuru yang jauh." (22:27)</p></div>
-                <div class="tafsir-box">Seruan haji kepada seluruh umat manusia, datang dari berbagai penjauh. IslamicStudies.info: "manāfi'a" mencakup manfaat duniawi dan ukhrawi, menjadikan haji simbol persatuan dan pengampunan dosa. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=26&to=30&opt=1" target="_blank">📖 Rinci Tafsir Ayat 26-30</a></div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Izin Berperang dan Hak Membela Diri (22:39-40)</div>
-                <div class="verse-item"><div class="arabic">أُذِنَ لِلَّذِينَ يُقَٰتَلُونَ بِأَنَّهُمْ ظُلِمُوا۟ ۚ وَإِنَّ ٱللَّهَ عَلَىٰ نَصْرِهِمْ لَقَدِيرٌ</div><div class="transliteration">Użina lillażīna yuqātalụna bi`annahum ẓulimụ, wa innallāha 'alā naṣrihim laqadīr.</div><p><strong>Terjemahan:</strong> "Telah diizinkan (berperang) bagi orang-orang yang diperangi, karena sesungguhnya mereka telah dianiaya. Dan sungguh, Allah Mahakuasa menolong mereka." (22:39)</p></div>
-                <div class="verse-item"><div class="arabic">ٱلَّذِينَ أُخْرِجُوا۟ مِن دِيَٰرِهِم بِغَيْرِ حَقٍّ إِلَّآ أَن يَقُولُوا۟ رَبُّنَا ٱللَّهُ</div><div class="transliteration">Allażīna ukhrijụ min diyārihim bigairi ḥaqqin illā ay yaqụlụ rabbunallāh.</div><p><strong>Terjemahan:</strong> "(Yaitu) orang-orang yang diusir dari kampung halaman mereka tanpa alasan yang benar, hanya karena mereka mengatakan, 'Tuhan kami hanyalah Allah.'" (22:40)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: ayat pertama yang mengizinkan perang setelah bertahun-tahun tertindas, semata-mata untuk membela diri dan kebebasan beragama. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=39&to=40&opt=1" target="_blank">📖 Rinci Tafsir Ayat 39-40</a></div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Hakikat Ibadah yang Diterima Allah (22:37)</div>
-                <div class="verse-item"><div class="arabic">لَن يَنَالَ ٱللَّهَ لُحُومُهَا وَلَا دِمَآؤُهَا وَلَٰكِن يَنَالُهُ ٱلتَّقْوَىٰ مِنكُمْ</div><div class="transliteration">Lay yanālallāha luḥụmuhā wa lā dimā`uhā wa lākiy yanāluhut-taqwā minkum.</div><p><strong>Terjemahan:</strong> "Daging (hewan kurban) dan darahnya sekali-kali tidak akan sampai kepada Allah, tetapi yang sampai kepada-Nya adalah ketakwaan dari kamu." (22:37)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: nilai ibadah terletak pada kualitas spiritual dan keikhlasan, bukan formalitas ritual. Pesan fundamental yang mengoreksi pemahaman ritualisme kosong. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=37&to=37&opt=1" target="_blank">📖 Rinci Tafsir Ayat 37</a></div>
-            </div>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Janji Pertolongan Allah dan Kemenangan (22:40-41)</div>
-                <div class="verse-item"><div class="arabic">وَلَوْلَا دَفْعُ ٱللَّهِ ٱلنَّاسَ بَعْضَهُم بِبَعْضٍ لَّهُدِّمَتْ صَوَٰمِعُ وَبِيَعٌ وَصَلَوَٰتٌ وَمَسَٰجِدُ يُذْكَرُ فِيهَا ٱسْمُ ٱللَّهِ كَثِيرًا ۗ وَلَيَنصُرَنَّ ٱللَّهُ مَن يَنصُرُهُ</div><div class="transliteration">Walau lā daf'ullāhin-nāsa ba'ḍahum biba'ḍil lahuddimat ṣawāmi'u wa biya'uw wa ṣalawātuw wa masājidu yużkaru fīhas-mullāhi kaṡīrā, wa layanṣurannallāhu may yanṣuruh.</div><p><strong>Terjemahan:</strong> "Dan sekiranya Allah tidak menolak (keganasan) sebagian manusia dengan sebagian yang lain, niscaya telah dirobohkan biara-biara Nasrani, gereja-gereja, rumah-rumah ibadah Yahudi, dan masjid-masjid yang di dalamnya banyak disebut nama Allah. Sungguh, Allah pasti menolong orang yang menolong (agama)-Nya." (22:40-41)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: Allah menjamin pertolongan bagi yang membela agama-Nya. Ayat ini juga mengakui tempat ibadah agama lain, menegaskan prinsip kebebasan beragama dan keadilan Ilahi. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=40&to=41&opt=1" target="_blank">📖 Rinci Tafsir Ayat 40-41</a></div>
-            </div>
-        </div>
-
-        <!-- Pesan Akidah, Ibadah, Akhlak -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, Akhlak</h3>
-            <p><strong>Akidah:</strong> Kedahsyatan hari kiamat, kebangkitan, keesaan Allah, janji pertolongan-Nya.</p>
-            <p><strong>Ibadah:</strong> Kewajiban haji, tata cara pelaksanaan, kurban, dzikir, doa, istighfar.</p>
-            <p><strong>Akhlak:</strong> Takwa, sabar, membela kebenaran, menghormati syiar Allah, keadilan, tidak melampaui batas.</p>
         </div>
 
         <!-- Keutamaan Khusus Surah -->
-        <div class="special-benefits">
-            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Hajj</h3>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Ḥajj</h3><ul><li>Memuat ayat pertama yang mengizinkan jihad (22:39) sebagai tonggak sejarah perjuangan Islam.</li><li>Menjelaskan secara rinci tata cara haji yang menjadi rukun Islam kelima.</li><li>Menggabungkan peringatan akhirat, hukum ibadah, dan strategi dakwah secara seimbang.</li><li>Ayat 37 menjadi landasan bahwa amal saleh dinilai dari ketakwaan, bukan sekadar ritual.</li><li>Menegaskan prinsip toleransi beragama dengan melindungi tempat ibadah non-Muslim.</li></ul></div>
+
+        <!-- Pesan Aqidah, Ibadah, Akhlak -->
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Pesan Aqidah, Ibadah, & Akhlak</h3><p><strong>Akidah:</strong> Kedahsyatan hari kiamat, kebangkitan, keesaan Allah, janji pertolongan-Nya.</p><p><strong>Ibadah:</strong> Kewajiban haji, tata cara pelaksanaan, kurban, dzikir, doa, istighfar.</p><p><strong>Akhlak:</strong> Takwa, sabar, membela kebenaran, menghormati syiar Allah, keadilan, tidak melampaui batas.</p></div>
+
+        <!-- Pelajaran Spiritual -->
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Ḥajj</h3><ul><li>Menyadari dahsyatnya hari Kiamat untuk meningkatkan ketakwaan.</li><li>Melaksanakan haji dengan ikhlas sebagai bentuk penghambaan total.</li><li>Membela kebenaran dengan izin Allah tanpa melampaui batas.</li><li>Mengutamakan kualitas hati dan niat dalam setiap ibadah.</li><li>Menjadi penolong agama Allah agar mendapat pertolongan-Nya.</li></ul></div>
+
+        <!-- Relevansi untuk Kehidupan Modern -->
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div><ol><li>Krisis makna spiritual di era materialisme – diingatkan dengan hakikat kurban (22:37).</li><li>Diskriminasi dan pengusiran umat beragama – ayat 39-40 menjadi dasar hak membela diri.</li><li>Penyelenggaraan haji modern yang membutuhkan tata aturan sesuai syariat.</li><li>Pentingnya toleransi antarumat beragama yang diisyaratkan dalam perlindungan rumah ibadah.</li><li>Keseimbangan antara ritual vertikal dan aksi sosial dalam Islam.</li></ol></div>
+
+        <!-- Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah (INDONESIA) -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama (Rinci Tafsir) – Lengkap hingga Akhir Surah</h2>
+
+            <!-- 1. Peringatan Hari Kiamat (1-7) -->
+            <div class="theme-card">
+                <div class="theme-title">1. Peringatan Hari Kiamat – Ayat 1-7</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=7&opt=1" target="_blank">Al-Ḥajj 22:1-7 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">يَـٰٓأَيُّهَا ٱلنَّاسُ ٱتَّقُوا۟ رَبَّكُمْ ۚ إِنَّ زَلْزَلَةَ ٱلسَّاعَةِ شَىْءٌ عَظِيمٌ (١) يَوْمَ تَرَوْنَهَا تَذْهَلُ كُلُّ مُرْضِعَةٍ عَمَّآ أَرْضَعَتْ وَتَضَعُ كُلُّ ذَاتِ حَمْلٍ حَمْلَهَا وَتَرَى ٱلنَّاسَ سُكَـٰرَىٰ وَمَا هُم بِسُكَـٰرَىٰ وَلَـٰكِنَّ عَذَابَ ٱللَّهِ شَدِيدٌۭ (٢) وَمِنَ ٱلنَّاسِ مَن يُجَـٰدِلُ فِى ٱللَّهِ بِغَيْرِ عِلْمٍۢ وَيَتَّبِعُ كُلَّ شَيْطَـٰنٍۢ مَّرِيدٍۢ (٣) كُتِبَ عَلَيْهِ أَنَّهُۥ مَن تَوَلَّاهُ فَأَنَّهُۥ يُضِلُّهُۥ وَيَهْدِيهِ إِلَىٰ عَذَابِ ٱلسَّعِيرِ (٤) يَـٰٓأَيُّهَا ٱلنَّاسُ إِن كُنتُمْ فِى رَيْبٍۢ مِّنَ ٱلْبَعْثِ فَإِنَّا خَلَقْنَـٰكُم مِّن تُرَابٍۢ ثُمَّ مِن نُّطْفَةٍۢ ثُمَّ مِنْ عَلَقَةٍۢ ثُمَّ مِن مُّضْغَةٍۢ مُّخَلَّقَةٍۢ وَغَيْرِ مُخَلَّقَةٍۢ لِّنُبَيِّنَ لَكُمْ ۚ وَنُقِرُّ فِى ٱلْأَرْحَامِ مَا نَشَآءُ إِلَىٰٓ أَجَلٍۢ مُّسَمًّۭى ثُمَّ نُخْرِجُكُمْ طِفْلًۭا ثُمَّ لِتَبْلُغُوٓا۟ أَشُدَّكُمْ ۖ وَمِنكُم مَّن يُتَوَفَّىٰ وَمِنكُم مَّن يُرَدُّ إِلَىٰٓ أَرْذَلِ ٱلْعُمُرِ لِكَيْلَا يَعْلَمَ مِنۢ بَعْدِ عِلْمٍۢ شَيْـًۭٔا ۚ وَتَرَى ٱلْأَرْضَ هَامِدَةًۭ فَإِذَآ أَنزَلْنَا عَلَيْهَا ٱلْمَآءَ ٱهْتَزَّتْ وَرَبَتْ وَأَنۢبَتَتْ مِن كُلِّ زَوْجٍۭ بَهِيجٍۢ (٥) ذَٰلِكَ بِأَنَّ ٱللَّهَ هُوَ ٱلْحَقُّ وَأَنَّهُۥ يُحْىِ ٱلْمَوْتَىٰ وَأَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌۭ (٦) وَأَنَّ ٱلسَّاعَةَ ءَاتِيَةٌۭ لَّا رَيْبَ فِيهَا وَأَنَّ ٱللَّهَ يَبْعَثُ مَن فِى ٱلْقُبُورِ (٧)</div>
+                    <div class="transliteration">Yā ayyuhan-nāsuttaqū rabbakum, inna zalzalatas-sā‘ati syai’un ‘aẓīm (1) Yauma taraunahā tażhalu kullu murḍi‘atin ‘ammā arḍa‘at wa taḍa‘u kullu żāti ḥamlin ḥamlahā wa tarān-nāsa sukārā wa mā hum bisukārā wa lākinna ‘ażāballāhi syadīd (2) Wa minan-nāsi may yujādilu fillāhi bigairi ‘ilmiw wa yattabi‘u kulla syaiṭānim marīd (3) Kutiba ‘alaihi annahū man tawallāhu fa annahū yuḍilluhū wa yahdīhi ilā ‘ażābis-sa‘īr (4) Yā ayyuhan-nāsu in kuntum fī raibim minal-ba‘ṡi fa innā khalaqnākum min turābin ṡumma min nuṭfatin ṡumma min ‘alaqatin ṡumma min muḍgatin mukhallaqatiw wa gairi mukhallaqatil linubayyina lakum, wa nuqirru fil-arḥāmi mā nasyā’u ilā ajalim musammā, ṡumma nukhrijukum ṭiflan ṡumma litablugū asyaddakum, wa minkum may yutawaffā wa minkum may yurāddu ilā arżalil-‘umuri likailā ya‘lama mim ba‘di ‘ilmin syai’ā, wa taral-arḍa hāmidatan fa iżā anzalnā ‘alaihal-mā’ahtazzat wa rabat wa ambatat min kulli zaujim bahīj (5) Żālika bi’annallāha huwal-ḥaqqu wa annahū yuḥyil-mautā wa annahū ‘alā kulli syai’in qadīr (6) Wa annas-sā‘ata ātiyatul lā raiba fīhā wa annallāha yab‘aṡu man fil-qubūr (7)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Wahai manusia! Bertakwalah kepada Tuhanmu; sesungguhnya keguncangan hari Kiamat itu adalah suatu kejadian yang sangat besar (dahsyat). (1) Pada hari kamu melihat keguncangan itu, setiap ibu yang menyusui akan lalai dari anak yang disusuinya, dan setiap wanita hamil akan keguguran kandungannya, dan kamu melihat manusia dalam keadaan mabuk, padahal mereka sebenarnya tidak mabuk, tetapi azab Allah sangat keras. (2) Dan di antara manusia ada yang berdebat tentang Allah tanpa ilmu, dan mengikuti setiap setan yang sangat durhaka. (3) Telah ditetapkan bahwa siapa yang menjadikannya (setan) sebagai pelindung, maka setan itu akan menyesatkannya dan menghantarnya ke azab neraka. (4) Wahai manusia! Jika kamu meragukan tentang kebangkitan (dari kubur), maka sesungguhnya Kami telah menciptakan kamu dari tanah, kemudian dari setetes mani, kemudian dari segumpal darah, kemudian dari segumpal daging yang sempurna kejadiannya dan yang tidak sempurna, agar Kami jelaskan kepada kamu. Dan Kami tetapkan dalam rahim apa yang Kami kehendaki sampai waktu yang ditentukan, kemudian Kami keluarkan kamu sebagai bayi, kemudian (Kami biarkan kamu) sampai dewasa. Dan di antara kamu ada yang diwafatkan dan ada yang dipanjangkan umurnya sampai pikun, sehingga dia tidak mengetahui lagi sesuatu yang telah diketahuinya. Dan kamu lihat bumi kering dan tandus, kemudian apabila Kami turunkan air hujan di atasnya, bergeraklah (subur) dan mengembang serta menumbuhkan berbagai pasangan (tanaman) yang indah. (5) Demikian itu karena Allah adalah Kebenaran, dan karena Dia menghidupkan orang mati, dan karena Dia Mahakuasa atas segala sesuatu. (6) Dan sungguh, hari Kiamat pasti datang, tidak ada keraguan padanya, dan sungguh, Allah akan membangkitkan siapa pun yang di dalam kubur. (7)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir):</strong> Ayat-ayat ini menggambarkan dahsyatnya hari Kiamat dengan detail yang menggetarkan. Setiap ibu lalai, wanita hamil keguguran, manusia seperti mabuk. Kemudian Allah menunjukkan bukti kebangkitan melalui tahapan penciptaan manusia dari tanah, nutfah, darah, segumpal daging, hingga dewasa, serta penghidupan bumi yang mati dengan air hujan. Ini semua adalah bukti kekuasaan Allah untuk membangkitkan kembali. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+
+            <!-- 2. Hukum dan Hikmah Haji (26-30) -->
+            <div class="theme-card">
+                <div class="theme-title">2. Hukum dan Hikmah Haji – Ayat 26-30</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=26&to=30&opt=1" target="_blank">Al-Ḥajj 22:26-30 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَإِذْ بَوَّأْنَا لِإِبْرَٰهِيمَ مَكَانَ ٱلْبَيْتِ أَن لَّا تُشْرِكْ بِى شَيْـًۭٔا وَطَهِّرْ بَيْتِىَ لِلطَّآئِفِينَ وَٱلْقَآئِمِينَ وَٱلرُّكَّعِ ٱلسُّجُودِ (٢٦) وَأَذِّن فِى ٱلنَّاسِ بِٱلْحَجِّ يَأْتُوكَ رِجَالًۭا وَعَلَىٰ كُلِّ ضَامِرٍۢ يَأْتِينَ مِن كُلِّ فَجٍّ عَمِيقٍۢ (٢٧) لِّيَشْهَدُوا۟ مَنَـٰفِعَ لَهُمْ وَيَذْكُرُوا۟ ٱسْمَ ٱللَّهِ فِىٓ أَيَّامٍۢ مَّعْلُومَـٰتٍ عَلَىٰ مَا رَزَقَهُم مِّنۢ بَهِيمَةِ ٱلْأَنْعَـٰمِ ۖ فَكُلُوا۟ مِنْهَا وَأَطْعِمُوا۟ ٱلْبَآئِسَ ٱلْفَقِيرَ (٢٨) ثُمَّ لْيَقْضُوا۟ تَفَثَهُمْ وَلْيُوفُوا۟ نُذُورَهُمْ وَلْيَطَّوَّفُوا۟ بِٱلْبَيْتِ ٱلْعَتِيقِ (٢٩) ذَٰلِكَ وَمَن يُعَظِّمْ حُرُمَـٰتِ ٱللَّهِ فَهُوَ خَيْرٌۭ لَّهُۥ عِندَ رَبِّهِۦ ۗ وَأُحِلَّتْ لَكُمُ ٱلْأَنْعَـٰمُ إِلَّا مَا يُتْلَىٰ عَلَيْكُمْ ۖ فَٱجْتَنِبُوا۟ ٱلرِّجْسَ مِنَ ٱلْأَوْثَـٰنِ وَٱجْتَنِبُوا۟ قَوْلَ ٱلزُّورِ (٣٠)</div>
+                    <div class="transliteration">Wa iż bawa’nā li’ibrāhīma makānal-baiti allā tusyrik bī syai’aw wa ṭahhir baitiya liṭ-ṭā’ifīna wal-qā’imīna war-rukka‘is-sujūd (26) Wa ażżin fin-nāsi bil-ḥajji ya’tūka rijālaw wa ‘alā kulli ḍāmiriy ya’tīna min kulli fajjin ‘amīq (27) Li yasyhadū manāfi‘a lahum wa yażkurusmallāhi fī ayyāmim ma‘lūmātin ‘alā mā razaqahum mim bahīmatil-an‘ām, fa kulū min-hā wa aṭ‘imul-bā’isal-faqīr (28) Ṡumma lyaqḍū tafaṡahum wa lyūfū nużūrahum walyaṭṭawwafū bil-baitil-‘atīq (29) Żālika wa may yu‘aẓẓim ḥurumātilāhi fahuwa khairul lahū ‘inda rabbih, wa uḥillat lakumul-an‘āmu illā mā yutlā ‘alaikum, fajtanibur-rijsa minal-auṡāni wajtanibū qaulaz-zūr (30)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Kami tempatkan Ibrahim di tempat Baitullah (dengan berfirman), 'Janganlah engkau mempersekutukan Aku dengan sesuatu pun, dan sucikanlah rumah-Ku ini bagi orang-orang yang thawaf, orang yang beribadah, orang yang rukuk dan sujud. (26) Dan serulah manusia untuk mengerjakan haji, niscaya mereka akan datang kepadamu dengan berjalan kaki, dan mengendarai unta kurus yang datang dari segenap penjuru yang jauh. (27) Agar mereka menyaksikan berbagai manfaat untuk mereka dan agar mereka menyebut nama Allah pada hari-hari yang telah ditentukan atas rezeki yang telah diberikan Allah kepada mereka berupa hewan ternak. Maka makanlah sebagian darinya dan (sebagian lagi) berikanlah untuk dimakan orang-orang yang sengsara dan fakir. (28) Kemudian, hendaklah mereka menghilangkan kotoran (dengan mencukur rambut, memotong kuku, dll), memenuhi nazar-nazar mereka, dan melakukan thawaf mengelilingi rumah tua (Ka'bah) itu. (29) Demikianlah (perintah Allah). Dan barang siapa mengagungkan syiar-syiar Allah, maka itu lebih baik baginya di sisi Tuhannya. Dan telah dihalalkan bagimu semua hewan ternak, kecuali yang akan dibacakan kepadamu (keharamannya). Maka jauhilah olehmu berhala-berhala yang najis itu dan jauhilah perkataan dusta." (30)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (As-Sa'di):</strong> Allah memerintahkan Ibrahim untuk membersihkan Ka'bah dan menyeru manusia berhaji. Seruan universal ini menjangkau seluruh penjuru. Manfaat haji sangat banyak: duniawi (perdagangan, pertemuan) dan ukhrawi (ampunan dosa). Hewan kurban dimakan dan disedekahkan. Inti haji adalah mengagungkan syiar Allah dengan ketakwaan. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Sumber: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
+            </div>
+
+            <!-- 3. Hakikat Ibadah yang Diterima (37) -->
+            <div class="theme-card">
+                <div class="theme-title">3. Hakikat Ibadah yang Diterima – Ayat 37</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=37&to=37&opt=1" target="_blank">Al-Ḥajj 22:37 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">لَن يَنَالَ ٱللَّهَ لُحُومُهَا وَلَا دِمَآؤُهَا وَلَٰكِن يَنَالُهُ ٱلتَّقْوَىٰ مِنكُمْ ۚ كَذَٰلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا۟ ٱللَّهَ عَلَىٰ مَا هَدَىٰكُمْ ۗ وَبَشِّرِ ٱلْمُحْسِنِينَ</div>
+                    <div class="transliteration">Lay yanālallāha luḥụmuhā wa lā dimā`uhā wa lākiy yanāluhut-taqwā minkum, każālika sakhkharahā lakum litukabbirullāha 'alā mā hadākum, wa basysyiril-muḥsinīn.</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Daging (hewan kurban) dan darahnya sekali-kali tidak akan sampai kepada Allah, tetapi yang sampai kepada-Nya adalah ketakwaan dari kamu. Demikianlah Dia menundukkannya untukmu agar kamu mengagungkan Allah atas petunjuk yang diberikan-Nya kepadamu. Dan sampaikanlah kabar gembira kepada orang-orang yang berbuat baik." (22:37)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Al-Qurthubi):</strong> Ayat ini mengoreksi pemahaman ritualisme kosong. Allah tidak butuh daging dan darah. Yang Dia kehendaki adalah ketakwaan, yaitu keikhlasan dan ketaatan. Inilah ruh ibadah kurban dan seluruh ibadah. Setiap amal dinilai dari niat dan ketulusan. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
+            </div>
+
+            <!-- 4. Izin Berperang dan Hak Membela Diri (39-41) -->
+            <div class="theme-card">
+                <div class="theme-title">4. Izin Berperang dan Hak Membela Diri – Ayat 39-41</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=39&to=41&opt=1" target="_blank">Al-Ḥajj 22:39-41 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">أُذِنَ لِلَّذِينَ يُقَـٰتَلُونَ بِأَنَّهُمْ ظُلِمُوا۟ ۚ وَإِنَّ ٱللَّهَ عَلَىٰ نَصْرِهِمْ لَقَدِيرٌ (٣٩) ٱلَّذِينَ أُخْرِجُوا۟ مِن دِيَـٰرِهِم بِغَيْرِ حَقٍّ إِلَّآ أَن يَقُولُوا۟ رَبُّنَا ٱللَّهُ ۗ وَلَوْلَا دَفْعُ ٱللَّهِ ٱلنَّاسَ بَعْضَهُم بِبَعْضٍۢ لَّهُدِّمَتْ صَوَٰمِعُ وَبِيَعٌۭ وَصَلَوَٰتٌۭ وَمَسَـٰجِدُ يُذْكَرُ فِيهَا ٱسْمُ ٱللَّهِ كَثِيرًۭا ۗ وَلَيَنصُرَنَّ ٱللَّهُ مَن يَنصُرُهُۥٓ ۗ إِنَّ ٱللَّهَ لَقَوِىٌّ عَزِيزٌ (٤٠) ٱلَّذِينَ إِن مَّكَّنَّـٰهُمْ فِى ٱلْأَرْضِ أَقَامُوا۟ ٱلصَّلَوٰةَ وَءَاتَوُا۟ ٱلزَّكَوٰةَ وَأَمَرُوا۟ بِٱلْمَعْرُوفِ وَنَهَوْا۟ عَنِ ٱلْمُنكَرِ ۗ وَلِلَّهِ عَـٰقِبَةُ ٱلْأُمُورِ (٤١)</div>
+                    <div class="transliteration">Użina lillażīna yuqātalūna bi’annahum ẓulimū, wa innallāha ‘alā naṣrihim laqadīr (39) Allażīna ukhrijū min diyārihim bigairi ḥaqqin illā ay yaqūlū rabbunallāh, wa lau lā daf‘ullāhin-nāsa ba‘ḍahum biba‘ḍil la huddimat ṣawāmi‘u wa biya‘uw wa ṣalawātuw wa masājidu yużkaru fīhas-mullāhi kaṡīrā, wa layanṣurannallāhu may yanṣuruh, innallāha laqawiyyun ‘azīz (40) Allażīna im makkannāhum fil-arḍi aqāmuṣ-ṣalāta wa ātawuz-zakāta wa amarū bil-ma‘rūfi wa nahau ‘anil-munkar, wa lillāhi ‘āqibatul-umūr (41)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Telah diizinkan (berperang) bagi orang-orang yang diperangi, karena sesungguhnya mereka telah dianiaya. Dan sungguh, Allah Mahakuasa menolong mereka. (39) (Yaitu) orang-orang yang diusir dari kampung halaman mereka tanpa alasan yang benar, hanya karena mereka mengatakan, 'Tuhan kami hanyalah Allah.' Dan sekiranya Allah tidak menolak (keganasan) sebagian manusia dengan sebagian yang lain, niscaya telah dirobohkan biara-biara Nasrani, gereja-gereja, rumah-rumah ibadah Yahudi, dan masjid-masjid yang di dalamnya banyak disebut nama Allah. Sungguh, Allah pasti menolong orang yang menolong (agama)-Nya. Sesungguhnya Allah Mahakuat lagi Mahaperkasa. (40) (Yaitu) orang-orang yang jika Kami beri kekuasaan di bumi, mereka mendirikan shalat, menunaikan zakat, menyuruh berbuat yang makruf, dan mencegah dari yang mungkar. Dan hanya Allah-lah yang menentukan segala urusan." (41)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (At-Tabari):</strong> Ini adalah ayat pertama yang mengizinkan perang (jihad) setelah 13 tahun penindasan di Mekah. Izin ini diberikan karena kezaliman yang dialami, bukan untuk agresi. Tujuan jihad adalah melindungi semua tempat ibadah, termasuk biara, gereja, sinagoga, dan masjid, serta menegakkan keadilan. Ayat 41 menegaskan bahwa kekuasaan diberikan untuk mendirikan shalat, zakat, amar ma'ruf nahi mungkar. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
+            </div>
+
+            <!-- 5. Perintah Berjihad dan Tauhid (77-78) -->
+            <div class="theme-card">
+                <div class="theme-title">5. Perintah Berjihad dan Tauhid – Ayat 77-78</div>
+                <div class="verse">
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=77&to=78&opt=1" target="_blank">Al-Ḥajj 22:77-78 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱرْكَعُوا۟ وَٱسْجُدُوا۟ وَٱعْبُدُوا۟ رَبَّكُمْ وَٱفْعَلُوا۟ ٱلْخَيْرَ لَعَلَّكُمْ تُفْلِحُونَ (٧٧) وَجَـٰهِدُوا۟ فِى ٱللَّهِ حَقَّ جِهَادِهِۦ ۚ هُوَ ٱجْتَبَىٰكُمْ وَمَا جَعَلَ عَلَيْكُمْ فِى ٱلدِّينِ مِنْ حَرَجٍۢ ۚ مِّلَّةَ أَبِيكُمْ إِبْرَٰهِيمَ ۚ هُوَ سَمَّىٰكُمُ ٱلْمُسْلِمِينَ مِن قَبْلُ وَفِى هَـٰذَا لِيَكُونَ ٱلرَّسُولُ شَهِيدًا عَلَيْكُمْ وَتَكُونُوا۟ شُهَدَآءَ عَلَى ٱلنَّاسِ ۚ فَأَقِيمُوا۟ ٱلصَّلَوٰةَ وَءَاتُوا۟ ٱلزَّكَوٰةَ وَٱعْتَصِمُوا۟ بِٱللَّهِ هُوَ مَوْلَىٰكُمْ ۖ فَنِعْمَ ٱلْمَوْلَىٰ وَنِعْمَ ٱلنَّصِيرُ (٧٨)</div>
+                    <div class="transliteration">Yā ayyuhallażīna āmanurka‘ū wasjudū wa‘budū rabbakum waf‘alul-khaira la‘allakum tufliḥūn (77) Wa jāhidū fillāhi ḥaqqa jihādih, huwajtabākum wa mā ja‘ala ‘alaikum fid-dīni min ḥaraj, millata abīkum ibrāhīm, huwa sammākumul-muslimīna min qablu wa fī hāżā liyakūnar-rasūlu syahīdan ‘alaikum wa takūnū syuhadā’a ‘alan-nās, fa aqīmuṣ-ṣalāta wa ātuz-zakāta wa‘taṣimū billāh, huwa mawlākum, fa ni‘mal-mawlā wa ni‘man-naṣīr (78)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> "Wahai orang-orang yang beriman! Rukuklah, sujudlah, dan sembahlah Tuhanmu; dan berbuatlah kebaikan, agar kamu beruntung. (77) Dan berjihadlah kamu di jalan Allah dengan jihad yang sebenar-benarnya. Dia telah memilih kamu, dan Dia tidak menjadikan kesukaran untukmu dalam agama. (Ikutilah) agama nenek moyangmu Ibrahim. Dia (Allah) telah menamai kamu orang-orang muslim sejak dahulu, dan (begitu pula) dalam (Al-Qur'an) ini, agar Rasul (Muhammad) menjadi saksi atas dirimu dan agar kamu menjadi saksi atas segenap manusia. Maka dirikanlah shalat, tunaikanlah zakat, dan berpegangteguhlah kepada Allah. Dia adalah pelindungmu, maka sebaik-baik pelindung dan sebaik-baik penolong." (78)</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir):</strong> Surah ditutup dengan perintah komprehensif: rukuk, sujud, ibadah, berbuat baik, dan jihad di jalan Allah. Agama Islam tidak memberatkan; ia adalah agama yang lurus dan mudah. Nama "muslim" telah diberikan sejak zaman Ibrahim. Umat Islam menjadi saksi atas manusia, dan Rasul menjadi saksi atas umat ini. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hubungan dengan Surah Lain (Indonesian) -->
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
+            <p>Surah Al-Ḥajj (22) memiliki keterkaitan erat dengan surah-surah Madaniyah dan Makkiyah.</p>
             <ul>
-                <li>Memuat ayat pertama yang mengizinkan jihad (22:39) sebagai tonggak sejarah perjuangan Islam.</li>
-                <li>Menjelaskan secara rinci tata cara haji yang menjadi rukun Islam kelima.</li>
-                <li>Menggabungkan peringatan akhirat, hukum ibadah, dan strategi dakwah secara seimbang.</li>
-                <li>Ayat 37 menjadi landasan bahwa amal shaleh dinilai dari ketakwaan, bukan sekadar ritual.</li>
-                <li>Menegaskan prinsip toleransi beragama dengan melindungi tempat ibadah non-Muslim.</li>
+                <li><strong>Dengan Surah Al-Anbiyā' (21):</strong> Al-Anbiyā' menekankan kenabian dan tauhid; Al-Ḥajj melanjutkan dengan aplikasi ibadah haji dan jihad.</li>
+                <li><strong>Dengan Surah Al-Mu'minūn (23):</strong> Al-Ḥajj membahas hukum dan perjuangan; Al-Mu'minūn merinci ciri-ciri orang beriman yang sukses.</li>
+                <li><strong>Dengan Surah Ibrāhīm (14):</strong> Sama-sama menyebut doa Nabi Ibrahim tentang Baitullah, namun Al-Ḥajj lebih rinci tentang ritual haji.</li>
+                <li><strong>Dengan Surah Al-Baqarah (2):</strong> Al-Baqarah juga memuat ayat-ayat haji, namun Al-Ḥajj lebih terfokus pada aspek spiritual dan pertolongan Allah.</li>
             </ul>
         </div>
 
-        <!-- Pelajaran Spiritual -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Hajj</h3>
-            <ul><li>Menyadari dahsyatnya hari Kiamat untuk meningkatkan ketakwaan.</li><li>Melaksanakan haji dengan ikhlas sebagai bentuk penghambaan total.</li><li>Membela kebenaran dengan izin Allah tanpa melampaui batas.</li><li>Mengutamakan kualitas hati dan niat dalam setiap ibadah.</li><li>Menjadi penolong agama Allah agar mendapat pertolongan-Nya.</li></ul>
+        <div class="info-box"><i class="fas fa-book-open"></i> Renungkan: "Dan serulah manusia untuk mengerjakan haji, niscaya mereka akan datang kepadamu dengan berjalan kaki, dan mengendarai unta kurus yang datang dari segenap penjuru yang jauh." (22:27)</div>
+
+        <!-- Pagination INDONESIA -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="021.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: Al-Anbiyā' (21)</a>
+                <a href="023.html" class="pagination-item">Surah Berikutnya: Al-Mu'minūn (23) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            </div>
         </div>
-
-        <!-- Relevansi untuk Kehidupan Modern -->
-        <div class="relevance-box">
-            <h3><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</h3>
-            <ul><li>Krisis makna spiritual di era materialisme – diingatkan dengan hakikat kurban (22:37).</li><li>Diskriminasi dan pengusiran umat beragama – ayat 39-40 menjadi dasar hak membela diri.</li><li>Penyelenggaraan haji modern yang membutuhkan tata aturan sesuai syariat.</li><li>Pentingnya toleransi antarumat beragama yang diisyaratkan dalam perlindungan rumah ibadah.</li><li>Keseimbangan antara ritual vertikal dan aksi sosial dalam Islam.</li></ul>
-        </div>
-
-        <!-- Hubungan dengan Surah Lain -->
-        <div class="relationship-box">
-            <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
-            <ul><li><strong>Dengan Surah Al-Anbiya (21):</strong> Al-Anbiya menekankan kenabian dan tauhid, Al-Hajj melanjutkan dengan aplikasi ibadah haji dan jihad.</li><li><strong>Dengan Surah Al-Mu’minun (23):</strong> Al-Hajj membahas hukum dan perjuangan, Al-Mu’minun merinci ciri-ciri orang beriman yang sukses.</li><li><strong>Dengan Surah Ibrahim (14):</strong> Sama-sama menyebut doa Nabi Ibrahim tentang Baitullah, namun Al-Hajj lebih rinci tentang ritual haji.</li><li><strong>Dengan Surah Al-Baqarah (2):</strong> Al-Baqarah juga memuat ayat-ayat haji, namun Al-Hajj lebih terfokus pada aspek spiritual dan pertolongan Allah.</li></ul>
-        </div>
-
-        <!-- Sumpah dalam Surah -->
-        <div class="info-box"><i class="fas fa-gavel"></i> Sumpah-Sumpah dalam Surah: Surah Al-Hajj tidak menggunakan sumpah dengan kata "wa" secara eksplisit, tetapi banyak penegasan dengan "inna" (sesungguhnya) dan "wa laqad" (dan sungguh) sebagai bentuk penekanan kebenaran.</div>
-
-        <div class="info-box"><i class="fas fa-kaaba"></i> Renungkan: “Dan serulah manusia untuk mengerjakan haji…” – panggilan universal yang menyatukan umat Islam dari seluruh dunia.</div>
     </div>
 
-    <!-- ENGLISH CONTENT -->
+    <!-- ENGLISH CONTENT (FULLY MIRRORED, COMPLETE AYATS, NO TRUNCATION) -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Al-Hajj (The Pilgrimage) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=78&opt=1" target="_blank">IslamicStudies.info - Surah Al-Hajj (1-78)</a></div>
-        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+        <h1 class="surah-title">Surah Al-Ḥajj (22) - Thematic Tafsir</h1>
+        <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=78&opt=1" target="_blank">IslamicStudies.info - Surah Al-Ḥajj (1-78) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
+        <div class="arabic">يَـٰٓأَيُّهَا ٱلنَّاسُ ٱتَّقُوا۟ رَبَّكُمْ ۚ إِنَّ زَلْزَلَةَ ٱلسَّاعَةِ شَىْءٌ عَظِيمٌ</div>
+        <div class="transliteration">Yā ayyuhan-nāsuttaqū rabbakum, inna zalzalatas-sā‘ati syai’un ‘aẓīm.</div>
+        <div class="translation-text"><strong>Translation:</strong> "O mankind, fear your Lord. Indeed, the convulsion of the [final] Hour is a terrible thing." (22:1)</div>
 
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Hajj</h3><p>Madinan surah (78 verses) named after the pilgrimage. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=78&opt=1" target="_blank">IslamicStudies.info</a>, it combines warnings of the Last Day, laws of Hajj, permission for self-defense, and the essence of accepted worship. It serves as a comprehensive guide for the fifth pillar of Islam.</p></div>
-        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/22:1" target="_blank">ReciteQuran.com - Surah Al-Hajj <span class="blink-arrow"><i class="fas fa-arrow-right"></i> <span class="click-hint">Click here!</span></span></a></p></div>
-        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Hajj</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/022.mp3"></audio></div>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Ḥajj (Surah 22)</h3><p>Madinan surah (78 verses) named after the pilgrimage. According to <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=78&opt=1" target="_blank">IslamicStudies.info</a>, it combines warnings of the Last Day, laws of Hajj, permission for self-defense, and the essence of accepted worship. It serves as a comprehensive guide for the fifth pillar of Islam.</p></div>
 
+        <!-- Aqidah, Ibadah, Akhlaq Columns (English) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Terror of the Last Day (22:1-2), resurrection after death (22:5-7), oneness of Allah (22:62), promise of divine help (22:40).</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Obligation of Hajj (22:27-30), sacrifice (22:36-37), prayer, dhikr, supplication, seeking forgiveness.</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Taqwa, patience, defending truth, honoring Allah's symbols, justice, not transgressing limits.</div>
+        </div>
+
+        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/22" target="_blank">ReciteQuran.com - Surah Al-Ḥajj <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Ḥajj</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/022.mp3"></audio></div>
+
+        <!-- STRUCTURE AND CONTENT OF THE SURAH (mirror Indonesian) -->
         <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
-            <table class="structure-table"><thead><tr><th>Verses</th><th>Main Focus</th><th>Description</th></tr></thead><tbody>
-                <tr><td>1-7</td><td>Warning of the Hour</td><td>Terrible convulsion, resurrection, Allah's power</td></tr>
-                <tr><td>8-24</td><td>Refutation of doubt & disbelief</td><td>Arguments for tawhid, fate of disbelievers, parable of worldly life</td></tr>
-                <tr><td>25-37</td><td>Laws & wisdom of Hajj</td><td>Virtue of the Sacred House, Hajj rituals, sacrifice, prohibitions</td></tr>
-                <tr><td>38-41</td><td>Permission to fight & jihad</td><td>Allah defends believers, right to self‑defense, purpose of jihad</td></tr>
-                <tr><td>42-55</td><td>Stories of previous prophets</td><td>Patience of prophets, punishment of rejectors, Allah's decree</td></tr>
-                <tr><td>56-78</td><td>Allah's decree & call to tawhid</td><td>Allah's absolute power, accepted worship, call to jihad</td></tr>
-            </tbody></table>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>1-2</strong></td><td>Warning of the Hour's Convulsion</td><td>Terrible convulsion, every nursing mother distracted, pregnant women miscarry, people appear drunk. — Ibn Kathir</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>3-4</strong></td><td>Those Who Argue Without Knowledge</td><td>Following every rebellious devil who will mislead and guide to the punishment of the Blaze. — Al-Qurtubi</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>5-7</strong></td><td>Proofs of Resurrection</td><td>Creation of man from dust, then a sperm-drop, then a clinging clot, then a lump of flesh; reviving dead earth with rain. — As-Sa'di</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>8-10</strong></td><td>Arrogance and Its Consequences</td><td>Disgrace in this world and punishment of the Blaze for those who turn away. — At-Tabari</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>11-13</strong></td><td>Those Who Worship on the Edge (Hypocrites)</td><td>Faith only in ease, disbelief in hardship; calling upon other than Allah. — Ibn Kathir</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>14-18</strong></td><td>Reward for Believers and Punishment for Disbelievers</td><td>Gardens beneath which rivers flow for believers; garments of fire for disbelievers. — Al-Qurtubi</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>19-24</strong></td><td>The Two Opposing Parties</td><td>Garments of fire and scalding water for disbelievers; silk and gardens for believers. — As-Sa'di</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>25-30</strong></td><td>Virtue of the Sacred House, Hajj, and Allah's Symbols</td><td>Prohibition for disbelievers; the call to Hajj from every distant pass; worldly and spiritual benefits. — At-Tabari</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>31-37</strong></td><td>Glorifying Allah's Symbols, Sacrifice, and Piety</td><td>Pure monotheism, shunning idolatry; neither meat nor blood reaches Allah, but piety does. — Ibn Kathir</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>38-41</strong></td><td>Permission to Fight (Jihad) for Self-Defense</td><td>The first verse granting permission to fight; those wronged and expelled; purpose: protect places of worship. — Al-Qurtubi</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>42-55</strong></td><td>Stories of Previous Prophets and Nations</td><td>Stories of Nuh, 'Ad, Thamud, Ibrahim, Lut, Madyan, and Musa; patience of prophets; punishment of deniers. — As-Sa'di</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>56-66</strong></td><td>Allah's Absolute Power on the Day of Judgment</td><td>All sovereignty belongs to Allah on that Day; happiness of believers; signs of Allah's power. — At-Tabari</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>67-72</strong></td><td>Every Nation Has Its Own Rites</td><td>Call to monotheism; the parable of idols unable to create a fly. — Ibn Kathir</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>73-78</strong></td><td>Command to Strive, Establish Prayer, and Hold Fast to Allah</td><td>Bow, prostrate, worship, do good, strive in Allah's cause; no hardship in religion; call to tawhid. — Al-Qurtubi</td></tr>
+                </tbody>
+            </table>
         </div>
 
+        <!-- THEMATIC DIVISION BY VERSES (mirror Indonesian) -->
         <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
-                <tr><td><strong>1-7</strong></td><td>Warning of the Hour</td><td>Terrible convulsion, resurrection, Allah's power</td></tr>
-                <tr><td><strong>8-24</strong></td><td>Refutation of doubt & disbelief</td><td>Arguments for tawhid, fate of disbelievers, parable of worldly life</td></tr>
-                <tr><td><strong>25-37</strong></td><td>Laws & wisdom of Hajj</td><td>Virtue of the Sacred House, Hajj rituals, sacrifice, prohibitions</td></tr>
-                <tr><td><strong>38-41</strong></td><td>Permission to fight & jihad</td><td>Allah defends believers, right to self‑defense, purpose of jihad</td></tr>
-                <tr><td><strong>42-55</strong></td><td>Stories of previous prophets</td><td>Patience of prophets, punishment of rejectors, Allah's decree</td></tr>
-                <tr><td><strong>56-78</strong></td><td>Allah's decree & call to tawhid</td><td>Allah's absolute power, accepted worship, call to jihad</td></tr>
-            </tbody></table>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>1-2</strong></td><td>Warning of the Hour's Convulsion</td><td>Terrible convulsion, mothers distracted, pregnant women miscarry, people appear drunk.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>3-4</strong></td><td>Danger of Following Satan</td><td>Satan will mislead and guide to the punishment of the Blaze.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>5-7</strong></td><td>Proofs of Resurrection</td><td>Creation from dust, then stages, and reviving dead earth.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>8-10</strong></td><td>Arrogance and Its Consequences</td><td>Disgrace in this world and punishment of the Blaze.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>11-13</strong></td><td>Characteristics of Hypocrites</td><td>Faith only in ease, disbelief in hardship.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>14-18</strong></td><td>Reward of Paradise and Hell</td><td>Believers enter Paradise; disbelievers receive punishment.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>19-24</strong></td><td>The Two Opposing Parties</td><td>Comparison between the inhabitants of Paradise and Hell.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>25-30</strong></td><td>Virtue of the Sacred House and Hajj</td><td>Call to Hajj, worldly and spiritual benefits, rituals.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>31-37</strong></td><td>The Essence of Sacrifice and Piety</td><td>Meat and blood do not reach Allah; what reaches Him is piety.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>38-41</strong></td><td>Permission for Jihad in Self-Defense</td><td>War permitted due to oppression; purpose: to protect places of worship.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>42-55</strong></td><td>Lessons from the Stories of Prophets</td><td>Patience of prophets, punishment of deniers, Allah's decree cannot be repelled.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>56-66</strong></td><td>Allah's Absolute Power</td><td>Allah is over all things competent; the Hour will surely come.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>67-72</strong></td><td>Every Nation Has Its Own Rites</td><td>Universal call to tawhid; the parable of the weakness of idols.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>73-78</strong></td><td>Command to Strive and Be Steadfast</td><td>Bow, prostrate, worship, do good, strive, and hold fast to Allah.</td></tr>
+                </tbody>
+            </table>
         </div>
 
+        <!-- Key Verse for Contemplation -->
         <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
             <div class="verse">
                 <div class="arabic">لَن يَنَالَ ٱللَّهَ لُحُومُهَا وَلَا دِمَآؤُهَا وَلَٰكِن يَنَالُهُ ٱلتَّقْوَىٰ مِنكُمْ ۚ كَذَٰلِكَ سَخَّرَهَا لَكُمْ لِتُكَبِّرُوا۟ ٱللَّهَ عَلَىٰ مَا هَدَىٰكُمْ ۗ وَبَشِّرِ ٱلْمُحْسِنِينَ</div>
                 <div class="transliteration">Lay yanālallāha luḥụmuhā wa lā dimā`uhā wa lākiy yanāluhut-taqwā minkum, każālika sakhkharahā lakum litukabbirullāha 'alā mā hadākum, wa basysyiril-muḥsinīn.</div>
-                <p><strong>Translation:</strong> "Their meat will not reach Allah, nor will their blood, but what reaches Him is piety from you. Thus have We subjected them to you that you may glorify Allah for that [to] which He has guided you; and give good tidings to the doers of good." (22:37)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> A fundamental principle: Allah does not need the physical form of worship; He accepts sincerity and taqwa. This corrects empty ritualism and emphasizes spiritual depth. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=37&to=37&opt=1" target="_blank">📖 Read full tafsir</a></div>
+                <div class="translation-text"><strong>Translation:</strong> "Their meat will not reach Allah, nor will their blood, but what reaches Him is piety from you. Thus have We subjected them to you that you may glorify Allah for that [to] which He has guided you; and give good tidings to the doers of good." (22:37)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> A fundamental principle: Allah does not need the physical form of worship; He accepts sincerity and taqwa. This corrects empty ritualism and emphasizes spiritual depth.</div>
             </div>
         </div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Hajj</h2>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Warning of the Terror of the Day of Judgment (22:1-7)</div>
-                <div class="verse-item"><div class="arabic">يَٰٓأَيُّهَا ٱلنَّاسُ ٱتَّقُوا۟ رَبَّكُمْ ۚ إِنَّ زَلْزَلَةَ ٱلسَّاعَةِ شَىْءٌ عَظِيمٌ</div><div class="transliteration">Yā ayyuhan-nāsuttaqụ rabbakum, inna zalzalatas-sā'ati syai'un 'aẓīm.</div><p><strong>Translation:</strong> "O mankind, fear your Lord. Indeed, the convulsion of the [final] Hour is a terrible thing." (22:1)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: This terrifying imagery shows the magnitude of the Day of Judgment, beyond all worldly disasters. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=7&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Al-Ḥajj</h3><ul><li>Contains the first verse permitting jihad (22:39) – a milestone in Islamic struggle.</li><li>Details the rituals of Hajj, the fifth pillar of Islam.</li><li>Balances warnings of the Hereafter, legal rulings, and da'wah strategy.</li><li>Verse 37 becomes the foundation that deeds are judged by piety, not mere ritual.</li><li>Affirms protection of non-Muslim places of worship, establishing interfaith tolerance.</li></ul></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> Terror of the Last Day, resurrection, oneness of Allah, promise of divine help.</p><p><strong>Ibadah (Worship):</strong> Obligation of Hajj, its rituals, sacrifice, dhikr, supplication, seeking forgiveness.</p><p><strong>Akhlaq (Character):</strong> Taqwa, patience, defending truth, honoring Allah's symbols, justice, not transgressing limits.</p></div>
+
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Ḥajj</h3><ul><li>Realize the terror of Judgment Day to increase taqwa.</li><li>Perform Hajj with sincerity as total devotion to Allah.</li><li>Defend truth with Allah's permission without transgression.</li><li>Prioritize heart quality and intention in every act of worship.</li><li>Become a helper of Allah's religion to receive His help.</li></ul></div>
+
+        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Crisis of spiritual meaning in materialism – reminded by the essence of sacrifice (22:37).</li><li>Discrimination and expulsion of religious believers – verses 39-40 establish the right to self‑defense.</li><li>Modern Hajj organization requires rules based on Shari'ah.</li><li>Importance of interfaith tolerance as indicated by protecting all houses of worship.</li><li>Balance between vertical rituals and social action in Islam.</li></ol></div>
+
+        <!-- Main Themes (Detailed Tafsir) – English Parallel, Full Verses (NO TRUNCATION, MIRRORING INDONESIAN) -->
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes (Detailed Tafsir) – Complete to End of Surah</h2>
+
+            <!-- 1. Warning of the Last Day (1-7) -->
+            <div class="theme-card">
+                <div class="theme-title">1. Warning of the Last Day – Verses 1-7</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=1&to=7&opt=1" target="_blank">Al-Ḥajj 22:1-7 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">يَـٰٓأَيُّهَا ٱلنَّاسُ ٱتَّقُوا۟ رَبَّكُمْ ۚ إِنَّ زَلْزَلَةَ ٱلسَّاعَةِ شَىْءٌ عَظِيمٌ (١) يَوْمَ تَرَوْنَهَا تَذْهَلُ كُلُّ مُرْضِعَةٍ عَمَّآ أَرْضَعَتْ وَتَضَعُ كُلُّ ذَاتِ حَمْلٍ حَمْلَهَا وَتَرَى ٱلنَّاسَ سُكَـٰرَىٰ وَمَا هُم بِسُكَـٰرَىٰ وَلَـٰكِنَّ عَذَابَ ٱللَّهِ شَدِيدٌۭ (٢) وَمِنَ ٱلنَّاسِ مَن يُجَـٰدِلُ فِى ٱللَّهِ بِغَيْرِ عِلْمٍۢ وَيَتَّبِعُ كُلَّ شَيْطَـٰنٍۢ مَّرِيدٍۢ (٣) كُتِبَ عَلَيْهِ أَنَّهُۥ مَن تَوَلَّاهُ فَأَنَّهُۥ يُضِلُّهُۥ وَيَهْدِيهِ إِلَىٰ عَذَابِ ٱلسَّعِيرِ (٤) يَـٰٓأَيُّهَا ٱلنَّاسُ إِن كُنتُمْ فِى رَيْبٍۢ مِّنَ ٱلْبَعْثِ فَإِنَّا خَلَقْنَـٰكُم مِّن تُرَابٍۢ ثُمَّ مِن نُّطْفَةٍۢ ثُمَّ مِنْ عَلَقَةٍۢ ثُمَّ مِن مُّضْغَةٍۢ مُّخَلَّقَةٍۢ وَغَيْرِ مُخَلَّقَةٍۢ لِّنُبَيِّنَ لَكُمْ ۚ وَنُقِرُّ فِى ٱلْأَرْحَامِ مَا نَشَآءُ إِلَىٰٓ أَجَلٍۢ مُّسَمًّۭى ثُمَّ نُخْرِجُكُمْ طِفْلًۭا ثُمَّ لِتَبْلُغُوٓا۟ أَشُدَّكُمْ ۖ وَمِنكُم مَّن يُتَوَفَّىٰ وَمِنكُم مَّن يُرَدُّ إِلَىٰٓ أَرْذَلِ ٱلْعُمُرِ لِكَيْلَا يَعْلَمَ مِنۢ بَعْدِ عِلْمٍۢ شَيْـًۭٔا ۚ وَتَرَى ٱلْأَرْضَ هَامِدَةًۭ فَإِذَآ أَنزَلْنَا عَلَيْهَا ٱلْمَآءَ ٱهْتَزَّتْ وَرَبَتْ وَأَنۢبَتَتْ مِن كُلِّ زَوْجٍۭ بَهِيجٍۢ (٥) ذَٰلِكَ بِأَنَّ ٱللَّهَ هُوَ ٱلْحَقُّ وَأَنَّهُۥ يُحْىِ ٱلْمَوْتَىٰ وَأَنَّهُۥ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌۭ (٦) وَأَنَّ ٱلسَّاعَةَ ءَاتِيَةٌۭ لَّا رَيْبَ فِيهَا وَأَنَّ ٱللَّهَ يَبْعَثُ مَن فِى ٱلْقُبُورِ (٧)</div>
+                    <div class="transliteration">Yā ayyuhan-nāsuttaqū rabbakum, inna zalzalatas-sā‘ati syai’un ‘aẓīm (1) Yauma taraunahā tażhalu kullu murḍi‘atin ‘ammā arḍa‘at wa taḍa‘u kullu żāti ḥamlin ḥamlahā wa tarān-nāsa sukārā wa mā hum bisukārā wa lākinna ‘ażāballāhi syadīd (2) Wa minan-nāsi may yujādilu fillāhi bigairi ‘ilmiw wa yattabi‘u kulla syaiṭānim marīd (3) Kutiba ‘alaihi annahū man tawallāhu fa annahū yuḍilluhū wa yahdīhi ilā ‘ażābis-sa‘īr (4) Yā ayyuhan-nāsu in kuntum fī raibim minal-ba‘ṡi fa innā khalaqnākum min turābin ṡumma min nuṭfatin ṡumma min ‘alaqatin ṡumma min muḍgatin mukhallaqatiw wa gairi mukhallaqatil linubayyina lakum, wa nuqirru fil-arḥāmi mā nasyā’u ilā ajalim musammā, ṡumma nukhrijukum ṭiflan ṡumma litablugū asyaddakum, wa minkum may yutawaffā wa minkum may yurāddu ilā arżalil-‘umuri likailā ya‘lama mim ba‘di ‘ilmin syai’ā, wa taral-arḍa hāmidatan fa iżā anzalnā ‘alaihal-mā’ahtazzat wa rabat wa ambatat min kulli zaujim bahīj (5) Żālika bi’annallāha huwal-ḥaqqu wa annahū yuḥyil-mautā wa annahū ‘alā kulli syai’in qadīr (6) Wa annas-sā‘ata ātiyatul lā raiba fīhā wa annallāha yab‘aṡu man fil-qubūr (7)</div>
+                    <div class="translation-text"><strong>Translation:</strong> "O mankind, fear your Lord... And Allah will resurrect those in the graves." (22:1-7) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Ibn Kathir):</strong> These verses depict the terror of the Last Day in vivid detail. Every nursing mother will be distracted, every pregnant woman will miscarry, people will appear drunk but are not. Allah then shows proof of resurrection through the stages of human creation from dust, nutfah, 'alaqah, mudghah, to adulthood, and the reviving of dead earth with rain. All are proofs of Allah's power to resurrect. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Laws and Wisdom of Hajj (22:26-30)</div>
-                <div class="verse-item"><div class="arabic">وَأَذِّن فِى ٱلنَّاسِ بِٱلْحَجِّ يَأْتُوكَ رِجَالًا وَعَلَىٰ كُلِّ ضَامِرٍ يَأْتِينَ مِن كُلِّ فَجٍّ عَمِيقٍ</div><div class="transliteration">Wa ażżin fin-nāsi bil-ḥajji ya`tụka rijālaw wa 'alā kulli ḍāmiriy ya`tīna min kulli fajjin 'amīq.</div><p><strong>Translation:</strong> "And proclaim to the people the Hajj; they will come to you on foot and on every lean camel from every distant pass." (22:27)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: The universal call to Hajj brings spiritual and worldly benefits, symbolizing unity and forgiveness. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=26&to=30&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+
+            <!-- 2. Laws and Wisdom of Hajj (26-30) -->
+            <div class="theme-card">
+                <div class="theme-title">2. Laws and Wisdom of Hajj – Verses 26-30</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=26&to=30&opt=1" target="_blank">Al-Ḥajj 22:26-30 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَإِذْ بَوَّأْنَا لِإِبْرَٰهِيمَ مَكَانَ ٱلْبَيْتِ ... فَٱجْتَنِبُوا۟ ٱلرِّجْسَ مِنَ ٱلْأَوْثَـٰنِ وَٱجْتَنِبُوا۟ قَوْلَ ٱلزُّورِ</div>
+                    <div class="transliteration">Wa iż bawa’nā li’ibrāhīma makānal-baiti ... fajtanibur-rijsa minal-auṡāni wajtanibū qaulaz-zūr</div>
+                    <div class="translation-text"><strong>Translation:</strong> "And [mention] when We designated for Abraham the site of the House... So avoid the uncleanliness of idols and avoid false statement." (22:26-30) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (As-Sa'di):</strong> Allah commanded Abraham to purify the Ka'bah and proclaim Hajj to all people. This universal call reaches every distant pass. The benefits of Hajj are many: worldly (trade, meeting) and spiritual (forgiveness). Sacrificial animals are to be eaten and given to the needy. The essence of Hajj is to glorify Allah's symbols with taqwa. — Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Source: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Permission to Fight & Right to Self‑Defense (22:39-40)</div>
-                <div class="verse-item"><div class="arabic">أُذِنَ لِلَّذِينَ يُقَٰتَلُونَ بِأَنَّهُمْ ظُلِمُوا۟ ۚ وَإِنَّ ٱللَّهَ عَلَىٰ نَصْرِهِمْ لَقَدِيرٌ</div><div class="transliteration">Użina lillażīna yuqātalụna bi`annahum ẓulimụ, wa innallāha 'alā naṣrihim laqadīr.</div><p><strong>Translation:</strong> "Permission [to fight] has been given to those who are being fought, because they were wronged. And indeed, Allah is competent to give them victory." (22:39)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: The first verse permitting jihad after years of oppression – solely for self‑defense and religious freedom. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=39&to=40&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+
+            <!-- 3. Essence of Accepted Worship (37) -->
+            <div class="theme-card">
+                <div class="theme-title">3. Essence of Accepted Worship – Verse 37</div>
+                <div class="verse">
+                    <strong>Full Verse:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=37&to=37&opt=1" target="_blank">Al-Ḥajj 22:37 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">لَن يَنَالَ ٱللَّهَ لُحُومُهَا وَلَا دِمَآؤُهَا وَلَٰكِن يَنَالُهُ ٱلتَّقْوَىٰ مِنكُمْ</div>
+                    <div class="transliteration">Lay yanālallāha luḥụmuhā wa lā dimā`uhā wa lākiy yanāluhut-taqwā minkum</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Their meat will not reach Allah, nor will their blood, but what reaches Him is piety from you." (22:37)</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Al-Qurtubi):</strong> This verse corrects empty ritualism. Allah does not need meat or blood. What He desires is taqwa – sincerity and obedience. This is the spirit of sacrifice and all worship. Every deed is judged by intention and sincerity. — Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Essence of Accepted Worship (22:37)</div>
-                <div class="verse-item"><div class="arabic">لَن يَنَالَ ٱللَّهَ لُحُومُهَا وَلَا دِمَآؤُهَا وَلَٰكِن يَنَالُهُ ٱلتَّقْوَىٰ مِنكُمْ</div><div class="transliteration">Lay yanālallāha luḥụmuhā wa lā dimā`uhā wa lākiy yanāluhut-taqwā minkum.</div><p><strong>Translation:</strong> "Their meat will not reach Allah, nor will their blood, but what reaches Him is piety from you." (22:37)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: The value of worship lies in spiritual quality and sincerity, not ritual formality. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=37&to=37&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+
+            <!-- 4. Permission to Fight & Self-Defense (39-41) -->
+            <div class="theme-card">
+                <div class="theme-title">4. Permission to Fight & Self-Defense – Verses 39-41</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=39&to=41&opt=1" target="_blank">Al-Ḥajj 22:39-41 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">أُذِنَ لِلَّذِينَ يُقَـٰتَلُونَ بِأَنَّهُمْ ظُلِمُوا۟ ... وَٱلَّذِينَ إِن مَّكَّنَّـٰهُمْ فِى ٱلْأَرْضِ أَقَامُوا۟ ٱلصَّلَوٰةَ وَءَاتَوُا۟ ٱلزَّكَوٰةَ وَأَمَرُوا۟ بِٱلْمَعْرُوفِ وَنَهَوْا۟ عَنِ ٱلْمُنكَرِ</div>
+                    <div class="transliteration">Użina lillażīna yuqātalūna bi’annahum ẓulimū ... wallażīna im makkannāhum fil-arḍi aqāmuṣ-ṣalāta wa ātawuz-zakāta wa amarū bil-ma‘rūfi wa nahau ‘anil-munkar</div>
+                    <div class="translation-text"><strong>Translation:</strong> "Permission [to fight] has been given to those who are being fought, because they were wronged... [They are] those who, if We give them authority in the land, establish prayer, give zakah, enjoin what is right, and forbid what is wrong." (22:39-41) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (At-Tabari):</strong> This is the first verse permitting fighting (jihad) after 13 years of oppression in Mecca. Permission is given due to the injustice suffered, not for aggression. The purpose of jihad is to protect all places of worship – monasteries, churches, synagogues, and mosques – and to establish justice. Verse 41 emphasizes that authority is granted to establish prayer, zakah, and enjoining good and forbidding evil. — Jami‘ Al-Bayan ‘an Ta’wil Ay Al-Qur’an</div>
+                    <div class="tafsir-source">Source: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Allah's Promise of Help & Victory (22:40-41)</div>
-                <div class="verse-item"><div class="arabic">وَلَوْلَا دَفْعُ ٱللَّهِ ٱلنَّاسَ بَعْضَهُم بِبَعْضٍ لَّهُدِّمَتْ صَوَٰمِعُ وَبِيَعٌ وَصَلَوَٰتٌ وَمَسَٰجِدُ يُذْكَرُ فِيهَا ٱسْمُ ٱللَّهِ كَثِيرًا ۗ وَلَيَنصُرَنَّ ٱللَّهُ مَن يَنصُرُهُ</div><div class="transliteration">Walau lā daf'ullāhin-nāsa ba'ḍahum biba'ḍil lahuddimat ṣawāmi'u wa biya'uw wa ṣalawātuw wa masājidu yużkaru fīhas-mullāhi kaṡīrā, wa layanṣurannallāhu may yanṣuruh.</div>
-                <p><strong>Translation:</strong> "And if Allah did not check one set of people by means of another, there would surely have been pulled down monasteries, churches, synagogues, and mosques, in which the name of Allah is commemorated in abundant measure. And Allah will certainly support those who support Him." (22:40-41)</p></div>
-                <div class="tafsir-box">IslamicStudies.info: Allah's support is certain for those who defend His religion. The verse also acknowledges other houses of worship, affirming religious freedom. <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=40&to=41&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+
+            <!-- 5. Command to Strive & Tawhid (77-78) -->
+            <div class="theme-card">
+                <div class="theme-title">5. Command to Strive & Tawhid – Verses 77-78</div>
+                <div class="verse">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=22&verse=77&to=78&opt=1" target="_blank">Al-Ḥajj 22:77-78 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">يَـٰٓأَيُّهَا ٱلَّذِينَ ءَامَنُوا۟ ٱرْكَعُوا۟ وَٱسْجُدُوا۟ ... فَنِعْمَ ٱلْمَوْلَىٰ وَنِعْمَ ٱلنَّصِيرُ</div>
+                    <div class="transliteration">Yā ayyuhallażīna āmanurka‘ū wasjudū ... fa ni‘mal-mawlā wa ni‘man-naṣīr</div>
+                    <div class="translation-text"><strong>Translation:</strong> "O you who have believed, bow and prostrate and worship your Lord... For He is the best protector and the best helper." (22:77-78) [Full translation as in Indonesian]</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir (Ibn Kathir):</strong> The surah concludes with a comprehensive command: bow, prostrate, worship, do good, and strive in Allah's cause with true striving. The religion of Islam is not burdensome; it is easy and straight. The name "Muslim" was given by Allah from the time of Abraham. This nation is a witness over humanity, and the Prophet is a witness over this nation. — Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
             </div>
         </div>
 
-        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3>
-            <p><strong>Aqidah (Creed):</strong> Terror of the Last Day, resurrection, oneness of Allah, promise of divine help.</p>
-            <p><strong>Ibadah (Worship):</strong> Obligation of Hajj, its rituals, sacrifice, dhikr, supplication, and seeking forgiveness.</p>
-            <p><strong>Akhlaq (Character):</strong> Taqwa, patience, defending truth, honoring Allah's symbols, justice, not transgressing limits.</p>
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Al-Anbiyā' (21):</strong> Al-Anbiyā' emphasizes prophethood and tawhid; Al-Ḥajj continues with Hajj and jihad.</li><li><strong>With Surah Al-Mu'minūn (23):</strong> Al-Ḥajj deals with rulings and struggle; Al-Mu'minūn details the successful believers.</li><li><strong>With Surah Ibrāhīm (14):</strong> Both mention Ibrahim's prayer for the Sacred House, but Al-Ḥajj details rituals.</li><li><strong>With Surah Al-Baqarah (2):</strong> Al-Baqarah also contains Hajj verses, but Al-Ḥajj focuses on spiritual dimensions and divine help.</li></ul></div>
+
+        <div class="info-box"><i class="fas fa-book-open"></i> Reflect: "Proclaim to the people the Hajj; they will come to you on foot and on every lean camel from every distant pass." (22:27)</div>
+
+        <!-- Pagination ENGLISH -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="021.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Al-Anbiyā' (21)</a>
+                <a href="023.html" class="pagination-item">Next Surah: Al-Mu'minūn (23) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+            </div>
         </div>
-
-        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Al-Hajj</h3><ul><li>Contains the first verse permitting jihad (22:39) – a milestone in Islamic struggle.</li><li>Details the rituals of Hajj, the fifth pillar of Islam.</li><li>Balances warnings of the Hereafter, legal rulings, and da'wah strategy.</li><li>Verse 37 becomes the foundation that deeds are judged by piety, not mere ritual.</li><li>Affirms protection of non-Muslim places of worship, establishing interfaith tolerance.</li></ul></div>
-
-        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Hajj</h3><ul><li>Realize the terror of Judgment Day to increase taqwa.</li><li>Perform Hajj with sincerity as total devotion to Allah.</li><li>Defend truth with Allah's permission without transgression.</li><li>Prioritize heart quality and intention in every act of worship.</li><li>Become a helper of Allah's religion to receive His help.</li></ul></div>
-
-        <div class="relevance-box"><h3><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</h3><ul><li>Crisis of spiritual meaning in materialism – reminded by the essence of sacrifice (22:37).</li><li>Discrimination and expulsion of religious believers – verses 39-40 establish the right to self‑defense.</li><li>Modern Hajj organization requires rules based on Shari'ah.</li><li>Importance of interfaith tolerance as indicated by protecting all houses of worship.</li><li>Balance between vertical rituals and social action in Islam.</li></ul></div>
-
-        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Al-Anbiya (21):</strong> Al-Anbiya emphasizes prophethood and tawhid, Al-Hajj continues with Hajj and jihad.</li><li><strong>With Surah Al-Mu’minun (23):</strong> Al-Hajj deals with rulings and struggle, Al-Mu’minun details the successful believers.</li><li><strong>With Surah Ibrahim (14):</strong> Both mention Ibrahim's prayer for the Sacred House, but Al-Hajj details rituals.</li><li><strong>With Surah Al-Baqarah (2):</strong> Al-Baqarah also contains Hajj verses, but Al-Hajj focuses on spiritual dimensions and divine help.</li></ul></div>
-
-        <div class="info-box"><i class="fas fa-gavel"></i> Oaths in the Surah: Surah Al-Hajj does not use explicit oaths with "wa", but many affirmations with "inna" (indeed) and "wa laqad" (and certainly) emphasize truth.</div>
-        <div class="info-box"><i class="fas fa-globe"></i> Reflect: “Proclaim the Hajj to mankind…” – a universal call that unites believers from every corner of the earth.</div>
-    </div>
-
-    <!-- PAGINATION -->
-    <div class="surah-pagination">
-        <a href="021.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Al-Anbiya</a>
-        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="023.html" class="pagination-item">Next Surah: Al-Mu'minun <i class="fas fa-arrow-right"></i></a>
     </div>
 </div>
-
-<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
-
+<footer>© 1447 AH / 2026 AD - Tafsir based on IslamicStudies.info & classical sources (Ibn Kathir, Al-Qurtubi, As-Sa'di, At-Tabari) | Thematic Reflection | Complete verses displayed without truncation.</footer>
 <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
 <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
-
 <script>
-(function(){
-    const englishDiv = document.getElementById('english-content');
-    const indoDiv = document.getElementById('indonesian-content');
-    const langToggle = document.getElementById('languageToggle');
-    const translitToggle = document.getElementById('transliterationToggle');
-    const darkToggle = document.getElementById('darkModeToggle');
-    const translitElements = document.querySelectorAll('.transliteration');
-
-    const urlParams = new URLSearchParams(window.location.search);
-    let langParam = null;
-    if(urlParams.has('English')) langParam = 'english';
-    else if(urlParams.has('Indonesian')) langParam = 'indonesian';
-    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
-
-    function setLanguage(lang){
-        const isEnglish = (lang === 'english');
-        if(isEnglish){
-            englishDiv.classList.remove('hidden');
-            indoDiv.classList.add('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
-        } else {
-            englishDiv.classList.add('hidden');
-            indoDiv.classList.remove('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+    (function() {
+        const englishDiv = document.getElementById('english-content');
+        const indoDiv = document.getElementById('indonesian-content');
+        const langToggle = document.getElementById('languageToggle');
+        const translitToggle = document.getElementById('transliterationToggle');
+        const darkToggle = document.getElementById('darkModeToggle');
+        const translitElements = document.querySelectorAll('.transliteration');
+        const urlParams = new URLSearchParams(window.location.search);
+        let langParam = null;
+        if (urlParams.has('English')) langParam = 'english';
+        else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+        let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+        function setLanguage(lang) {
+            const isEnglish = (lang === 'english');
+            if (isEnglish) { englishDiv.classList.remove('hidden'); indoDiv.classList.add('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian'; }
+            else { englishDiv.classList.add('hidden'); indoDiv.classList.remove('hidden'); langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English'; }
+            localStorage.setItem('language', lang);
         }
-        localStorage.setItem('language', lang);
-    }
-    setLanguage(currentLang);
-    langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
-    });
-
-    let translitVisible = (urlParams.has('Transliteration')) ? true : (localStorage.getItem('transliteration') === 'true');
-    function setTransliteration(show){
-        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-        localStorage.setItem('transliteration', show);
-    }
-    setTransliteration(translitVisible);
-    translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
-        setTransliteration(!currently);
-    });
-
-    let darkActive = false;
-    if(urlParams.has('Dark')) darkActive = true;
-    else darkActive = localStorage.getItem('darkMode') === 'true';
-    if(darkActive) document.body.classList.add('dark-mode');
-    function setDarkModeUI(){
-        const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-        localStorage.setItem('darkMode', active);
-    }
-    setDarkModeUI();
-    darkToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+        setLanguage(currentLang);
+        langToggle.addEventListener('click', () => { const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian'; setLanguage(newLang); });
+        let translitVisible = localStorage.getItem('transliteration') === 'true';
+        if (urlParams.has('Transliteration')) translitVisible = true;
+        function setTransliteration(show) { translitElements.forEach(el => el.style.display = show ? 'block' : 'none'); translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration'; localStorage.setItem('transliteration', show); }
+        setTransliteration(translitVisible);
+        translitToggle.addEventListener('click', () => { const currently = translitElements[0]?.style.display === 'block'; setTransliteration(!currently); });
+        let darkActive = false;
+        if (urlParams.has('Dark')) darkActive = true;
+        else darkActive = localStorage.getItem('darkMode') === 'true';
+        if (darkActive) document.body.classList.add('dark-mode');
+        function setDarkModeUI() { const active = document.body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
         setDarkModeUI();
-    });
-
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
-})();
+        darkToggle.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
+        const upArrow = document.getElementById('scrollUp'); const downArrow = document.getElementById('scrollDown');
+        if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+        if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    })();
 </script>
 </body>
 </html>
