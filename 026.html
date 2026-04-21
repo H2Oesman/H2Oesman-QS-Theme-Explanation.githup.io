@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Surah Asy-Syu'ara - Tafsir Tematik | Thematic Tafsir</title>
+    <title>Surah Ash-Shu'ara (26) - Tafsir Tematik Lengkap | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -26,7 +26,7 @@
             --bg-color: #121826;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
-            --arabic-color: #7bc9ff;
+            --arabic-color: #9ac8ff;
             --section-title-color: #7bc9ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
@@ -72,7 +72,7 @@
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
-            text-align: center;
+            text-align: right;
             margin: 0 0 10px 0;
             display: none;
         }
@@ -118,6 +118,13 @@
             margin-top: 15px;
             border: 1px solid var(--tafsir-border);
         }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.8;
+            font-style: italic;
+        }
         .hidden { display: none; }
         .top-home-link {
             display: inline-block;
@@ -142,7 +149,7 @@
             border-radius: 20px;
             margin: 20px 0;
         }
-        .theme-overview, .special-benefits {
+        .theme-overview, .special-benefits, .relationship-box, .relevance-box {
             background: var(--bonus-bg);
             padding: 25px;
             border-radius: 24px;
@@ -159,7 +166,7 @@
             margin: 20px auto;
             text-align: center;
         }
-        .theme-table {
+        .theme-table, .structure-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
@@ -167,12 +174,13 @@
             border-radius: 16px;
             overflow: hidden;
         }
-        .theme-table th, .theme-table td {
+        .theme-table th, .theme-table td, .structure-table th, .structure-table td {
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
             text-align: left;
+            vertical-align: top;
         }
-        .theme-table th { background: #2c7da0; color: white; }
+        .theme-table th, .structure-table th { background: #2c7da0; color: white; }
         .scroll-arrow {
             position: fixed;
             left: 20px;
@@ -196,12 +204,17 @@
         .scroll-arrow.down { bottom: 90px; }
         .surah-pagination {
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            flex-direction: column;
+            gap: 15px;
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+        }
+        .pagination-row {
+            display: flex;
+            justify-content: space-between;
             flex-wrap: wrap;
+            gap: 15px;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -215,6 +228,9 @@
             transition: 0.2s;
         }
         .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center {
+            text-align: center;
+        }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -241,42 +257,51 @@
             .arabic { font-size: 30px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
-        .fa, .fas, .far { margin-right: 4px; }
-        .relationship-box, .structure-grid {
-            background: var(--structure-bg);
-            padding: 20px;
-            border-radius: 24px;
-            margin: 30px 0;
-            border-left: 5px solid #2c7da0;
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
         }
-        .structure-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
+        }
+        .three-columns {
+            display: flex;
             gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
         }
         .verse-item {
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             border-bottom: 1px dashed var(--verse-border);
             padding-bottom: 15px;
         }
         .verse-item:last-child { border-bottom: none; }
-        .blink-click {
-            display: inline-block;
-            animation: blinkSoft 1.2s infinite;
+        .verse-number {
             font-weight: bold;
-            background: rgba(0,0,0,0.05);
-            padding: 2px 6px;
-            border-radius: 20px;
-            margin-left: 6px;
-            font-size: 0.85rem;
+            color: var(--section-title-color);
+            margin-bottom: 5px;
+            display: inline-block;
         }
-        @keyframes blinkSoft {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; background: rgba(0,0,0,0.15); }
-            100% { opacity: 0.6; }
-        }
-        .dark-mode .blink-click {
-            background: rgba(255,255,255,0.1);
+        .translation-text {
+            margin-top: 10px;
+            font-style: normal;
+            font-weight: 500;
+            background: var(--bonus-bg);
+            padding: 10px;
+            border-radius: 12px;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
@@ -292,39 +317,44 @@
     <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah Asy-Syu'ara (Para Penyair) - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=227&opt=1" target="_blank">IslamicStudies.info - Surah Asy-Syu'ara (1-227) <span class="blink-click"><i class="fas fa-hand-point-right"></i> Klik Detail</span></a></div>
+        <h1 class="surah-title">Surah Ash-Shu'ara (26) - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir Utama:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=227&opt=1" target="_blank">IslamicStudies.info - Surah Ash-Shu'ara (1-227) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="arabic">طسم تِلْكَ آيَاتُ الْكِتَابِ الْمُبِينِ</div>
-        <div class="transliteration">Ṭā Sīn Mīm. Tilka āyātul-kitābil-mubīn.</div>
-        <p style="text-align: center; font-style: italic;">"Thaa Siin Miim. Ini adalah ayat-ayat Kitab (Al-Qur'an) yang jelas." (Asy-Syu'ara 26:1-2)</p>
 
         <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Asy-Syu'ara</h3>
-            <p>Surah Asy-Syu'ara (26) terdiri dari 227 ayat dan tergolong surah Makkiyah. Dinamai “Asy-Syu'ara” (para penyair) karena ayat terakhirnya berbicara tentang penyair. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=227&opt=1" target="_blank">IslamicStudies.info</a>, surah ini menegaskan kebenaran Al-Qur'an sebagai kitab yang jelas, memaparkan kisah sembilan nabi dengan pola pengulangan yang sarat hikmah, serta membantah tuduhan bahwa Al-Qur'an adalah syair. Surah ini menjadi penguat hati Nabi Muhammad dalam menghadapi penolakan kaum musyrik.</p>
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Ash-Shu'ara (Surah ke-26)</h3>
+            <p>Surah Ash-Shu'ara (26) terdiri dari 227 ayat, termasuk golongan Makkiyah. Dinamai “Ash-Shu'ara” (para penyair) karena ayat terakhirnya berbicara tentang penyair. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=227&opt=1" target="_blank">IslamicStudies.info</a>, surah ini menegaskan kebenaran Al-Qur'an sebagai kitab yang jelas, memaparkan kisah sembilan nabi dengan pola pengulangan yang sarat hikmah, serta membantah tuduhan bahwa Al-Qur'an adalah syair. Surah ini menjadi penguat hati Nabi Muhammad dalam menghadapi penolakan kaum musyrik.</p>
         </div>
+
+        <!-- Tiga Pilar: Akidah, Ibadah, Akhlak -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Al-Qur'an sebagai kitab yang jelas (mubin), keimanan pada semua nabi, keyakinan pada kekuasaan Allah yang mutlak dan azab bagi kaum yang ingkar. (QS 26:1-2, 26:192-196)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Membaca dan mentadabburi Al-Qur'an, berdoa dengan penuh harap, bertawakal kepada Allah dalam dakwah, shalat malam. (26:3, 26:80, 26:217-220)</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Sabar dalam menghadapi penolakan, berkata lemah lembut, tidak sombong (tawadhu'), jujur dalam berdagang (pesan Syu'aib), menjauhi perbuatan keji. (26:105-122, 26:176-191)</div>
+        </div>
+
         <div class="info-box">
             <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p><a href="https://quran.com/26:1-227?translations=33" target="_blank">Quran.com - Surah Asy-Syu'ara (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-mouse-pointer"></i> Klik di sini</span></a></p>
+            <p><a href="https://quran.com/26:1-227?translations=33" target="_blank">Quran.com - Surah Ash-Shu'ara (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p>
         </div>
-        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Asy-Syu'ara</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/026.mp3" type="audio/mpeg"></audio></div>
+        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Ash-Shu'ara</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/026.mp3" type="audio/mpeg"></audio></div>
 
-        <!-- Struktur dan Kandungan Surah -->
+        <!-- Struktur dan Kandungan -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
-            <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
+            <table class="structure-table">
+                <thead><tr><th>Rentang Ayat</th><th>Fokus Utama</th><th>Deskripsi Kandungan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-9</strong></td><td>Pembukaan & Penegasan Al-Qur'an</th><td>Al-Qur'an sebagai kitab yang jelas, penghiburan bagi Nabi, tanda-tanda kekuasaan Allah.</td></tr>
-                    <tr><td><strong>10-68</strong></td><td>Kisah Musa & Fir'aun</th><td>Perjuangan Musa, mukjizat tongkat dan tangan, kehancuran Fir'aun dan bala tentaranya.</td></tr>
-                    <tr><td><strong>69-104</strong></td><td>Kisah Ibrahim & Penghancuran Berhala</th><td>Dakwah tauhid, dialog logis dengan ayah dan kaumnya, selamat dari api.</td></tr>
-                    <tr><td><strong>105-122</strong></td><td>Kisah Nuh & Kaumnya</th><td>Dakwah selama 950 tahun, pembangkangan, azab banjir besar.</td></tr>
-                    <tr><td><strong>123-140</strong></td><td>Kisah Hud & Kaum 'Ad</th><td>Kesombongan kaum 'Ad, azab angin kencang yang menghancurkan.</td></tr>
-                    <tr><td><strong>141-159</strong></td><td>Kisah Shalih & Kaum Tsamud</th><td>Mukjizat unta betina, pembunuhan unta, azab yang menghancurkan.</td></tr>
-                    <tr><td><strong>160-175</strong></td><td>Kisah Luth & Kaum Sodom</th><td>Perbuatan keji kaum Luth, azab hujan batu yang membinasakan.</td></tr>
-                    <tr><td><strong>176-191</strong></td><td>Kisah Syu'aib & Penduduk Aikah</th><td>Kecurangan dalam takaran dan timbangan, azab naungan awan hitam.</td></tr>
-                    <tr><td><strong>192-227</strong></td><td>Penutup & Bantahan Tuduhan Syair</th><td>Al-Qur'an wahyu dari Allah, Ruhul Amin (Jibril) yang turun, bantahan bahwa Nabi adalah penyair.</td></tr>
+                    <tr><td>1-9</td><td>Pembukaan & Penegasan Al-Qur'an</td><td>Al-Qur'an sebagai kitab yang jelas, penghiburan bagi Nabi, tanda-tanda kekuasaan Allah.</td></tr>
+                    <tr><td>10-68</td><td>Kisah Musa & Fir'aun</td><td>Perjuangan Musa, mukjizat tongkat dan tangan, kehancuran Fir'aun dan bala tentaranya.</td></tr>
+                    <tr><td>69-104</td><td>Kisah Ibrahim & Penghancuran Berhala</td><td>Dakwah tauhid, dialog logis dengan ayah dan kaumnya, selamat dari api.</td></tr>
+                    <tr><td>105-122</td><td>Kisah Nuh & Kaumnya</td><td>Dakwah selama 950 tahun, pembangkangan, azab banjir besar.</td></tr>
+                    <tr><td>123-140</td><td>Kisah Hud & Kaum 'Ad</td><td>Kesombongan kaum 'Ad, azab angin kencang yang menghancurkan.</td></tr>
+                    <tr><td>141-159</td><td>Kisah Shalih & Kaum Tsamud</td><td>Mukjizat unta betina, pembunuhan unta, azab yang menghancurkan.</td></tr>
+                    <tr><td>160-175</td><td>Kisah Luth & Kaum Sodom</td><td>Perbuatan keji kaum Luth, azab hujan batu yang membinasakan.</td></tr>
+                    <tr><td>176-191</td><td>Kisah Syu'aib & Penduduk Aikah</td><td>Kecurangan dalam takaran dan timbangan, azab naungan awan hitam.</td></tr>
+                    <tr><td>192-227</td><td>Penutup & Bantahan Tuduhan Syair</td><td>Al-Qur'an wahyu dari Allah, Ruhul Amin (Jibril) yang turun, bantahan bahwa Nabi adalah penyair.</td></tr>
                 </tbody>
             </table>
         </div>
@@ -333,13 +363,13 @@
         <div class="section">
             <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
             <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-9</strong></td><td>Al-Qur'an sebagai kitab yang jelas</th><td>Penegasan kejelasan Al-Qur'an, hiburan bagi Nabi, peringatan bagi yang ingkar.</td></tr>
-                    <tr><td><strong>10-68</strong></td><td>Kisah Nabi Musa dan Fir'aun</th><td>Kebenaran akan menang melawan tirani, kesabaran dalam dakwah, pertolongan Allah pasti datang.</td></tr>
-                    <tr><td><strong>69-104</strong></td><td>Kisah Nabi Ibrahim</th><td>Pendekatan logis dalam dakwah, keberanian menghancurkan berhala, keyakinan pada tauhid.</td></tr>
-                    <tr><td><strong>105-191</strong></td><td>Kisah Nuh, Hud, Shalih, Luth, Syu'aib</th><tr>Pola pengulangan: setiap rasul didustakan, lalu azab menimpa kaum yang ingkar.</td></tr>
-                    <tr><td><strong>192-227</strong></td><td>Kebenaran Al-Qur'an & bantahan tuduhan syair</th><td>Al-Qur'an diturunkan oleh Jibril, bukan dari setan, Nabi bukan penyair, peringatan bagi yang beriman.</td></tr>
+                    <tr><td><strong>1-9</strong></td><td>Al-Qur'an sebagai kitab yang jelas</td><td>Penegasan kejelasan Al-Qur'an, hiburan bagi Nabi, peringatan bagi yang ingkar. (Tafsir Ibnu Katsir)</td></tr>
+                    <tr><td><strong>10-68</strong></td><td>Kisah Nabi Musa dan Fir'aun</td><td>Kebenaran akan menang melawan tirani, kesabaran dalam dakwah, pertolongan Allah pasti datang. (Tafsir Al-Qurthubi)</td></tr>
+                    <tr><td><strong>69-104</strong></td><td>Kisah Nabi Ibrahim</td><td>Pendekatan logis dalam dakwah, keberanian menghancurkan berhala, keyakinan pada tauhid. (Tafsir As-Sa'di)</td></tr>
+                    <tr><td><strong>105-191</strong></td><td>Kisah Nuh, Hud, Shalih, Luth, Syu'aib</td><td>Pola pengulangan: setiap rasul didustakan, lalu azab menimpa kaum yang ingkar. (Tafsir At-Tabari)</td></tr>
+                    <tr><td><strong>192-227</strong></td><td>Kebenaran Al-Qur'an & bantahan tuduhan syair</td><td>Al-Qur'an diturunkan oleh Jibril, bukan dari setan, Nabi bukan penyair, peringatan bagi yang beriman. (Tafsir Ibnu Katsir)</td></tr>
                 </tbody>
             </table>
         </div>
@@ -350,138 +380,305 @@
             <div class="verse">
                 <div class="arabic">وَإِذْ نَادَىٰ رَبُّكَ مُوسَىٰ أَنِ ائْتِ الْقَوْمَ الظَّالِمِينَ قَوْمَ فِرْعَوْنَ أَلَا يَتَّقُونَ</div>
                 <div class="transliteration">Wa iż nādā rabbuka mụsā anitil-qaumaẓ-ẓālimīn, qauma fir'auna alā yattaqụn.</div>
-                <p><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Tuhanmu memanggil Musa, 'Pergilah kepada kaum yang zalim itu, (yaitu) kaum Fir'aun. Mengapa mereka tidak bertakwa?'" (Asy-Syu'ara 26:10-11)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menunjukkan bahwa setiap nabi diutus untuk kaum yang zalim dengan misi utama menyeru takwa. Kesombongan Fir'aun menjadi pelajaran abadi bahwa kekuasaan tanpa iman akan hancur. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=10&to=11&opt=1" target="_blank">📖 Rinci Tafsir 26:10-11</a></div>
+                <div class="translation-text"><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Tuhanmu memanggil Musa, 'Pergilah kepada kaum yang zalim itu, (yaitu) kaum Fir'aun. Mengapa mereka tidak bertakwa?'" (26:10-11)</div>
+                <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir & Al-Qurthubi):</strong> Ayat ini menunjukkan bahwa setiap nabi diutus untuk kaum yang zalim dengan misi utama menyeru takwa. Kesombongan Fir'aun menjadi pelajaran abadi bahwa kekuasaan tanpa iman akan hancur. Allah memilih hamba-Nya yang lemah untuk menghadapi raja yang paling sombong. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=10&to=11&opt=1" target="_blank">📖 Rinci Tafsir 26:10-11 <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Sumber: Ibnu Katsir & Al-Qurthubi</div>
             </div>
         </div>
 
-        <!-- Tema Utama Surah dengan Ayat Lengkap -->
+        <!-- TEMA UTAMA dengan ayat lengkap (full range) - disajikan lengkap untuk Indonesia -->
         <div class="section">
-            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Asy-Syu'ara</h2>
-
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Al-Qur'an sebagai Kitab yang Jelas – 26:1-9</div>
-                <div class="verse-item"><div class="arabic">طسم تِلْكَ آيَاتُ الْكِتَابِ الْمُبِينِ</div><div class="transliteration">Ṭā Sīn Mīm. Tilka āyātul-kitābil-mubīn.</div><p><strong>Terjemahan:</strong> "Thaa Siin Miim. Ini adalah ayat-ayat Kitab (Al-Qur'an) yang jelas."</p><div class="tafsir-box">IslamicStudies.info: Huruf muqaththa'ah sebagai tantangan kemukjizatan Al-Qur'an. Allah menghibur Nabi yang bersedih karena keengganan kaumnya beriman. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=9&opt=1" target="_blank">Rinci Tafsir 26:1-9</a></div></div>
+            <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Ash-Shu'ara (Rinci Tafsir Lengkap)</h2>
+            <!-- 1. Al-Qur'an sebagai Kitab yang Jelas (1-9) -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-1"></i> 1. Al-Qur'an sebagai Kitab yang Jelas – 26:1-9</div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 1-2</div>
+                    <div class="arabic">طسم تِلْكَ آيَاتُ الْكِتَابِ الْمُبِينِ</div>
+                    <div class="transliteration">Ṭā Sīn Mīm. Tilka āyātul-kitābil-mubīn.</div>
+                    <div class="translation-text">Terjemahan: "Thaa Siin Miim. Ini adalah ayat-ayat Kitab (Al-Qur'an) yang jelas."</div>
+                </div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 3</div>
+                    <div class="arabic">لَعَلَّكَ بَاخِعٌ نَّفْسَكَ أَلَّا يَكُونُوا مُؤْمِنِينَ</div>
+                    <div class="transliteration">La'allaka bākhi'un nafsaka allā yakụnụ mu`minīn.</div>
+                    <div class="translation-text">Terjemahan: "Boleh jadi engkau (Muhammad) akan membinasakan dirimu karena kesedihan, karena mereka tidak beriman."</div>
+                </div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 4-5</div>
+                    <div class="arabic">إِن نَّشَأْ نُنَزِّلْ عَلَيْهِم مِّنَ السَّمَاءِ آيَةً فَظَلَّتْ أَعْنَاقُهُمْ لَهَا خَاضِعِينَ وَمَا يَأْتِيهِم مِّن ذِكْرٍ مِّنَ الرَّحْمَٰنِ مُحْدَثٍ إِلَّا كَانُوا عَنْهُ مُعْرِضِينَ</div>
+                    <div class="transliteration">In nasya` nunazzil 'alaihim minas-samā`i āyatan fa ẓallat a'nāquhum lahā khāḍi'īn, wa mā ya`tīhim min żikrim minar-raḥmāni muḥdaṡin illā kānụ 'an-hu mu'riḍīn.</div>
+                    <div class="translation-text">Terjemahan: "Jika Kami kehendaki, niscaya Kami turunkan kepada mereka mukjizat dari langit, sehingga tengkuk mereka tunduk kepadanya. Namun tidaklah datang suatu peringatan baru dari Tuhan Yang Maha Pengasih kepada mereka, melainkan mereka selalu berpaling darinya."</div>
+                </div>
+                <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir & As-Sa'di):</strong> Allah membuka surah dengan huruf muqaththa'ah sebagai tantangan kemukjizatan Al-Qur'an. Allah menghibur Nabi yang bersedih karena keengganan kaumnya beriman. Sekiranya Allah menghendaki, Dia bisa memaksa mereka beriman, tetapi keimanan harus lahir dari kesadaran. Setiap peringatan baru dari Allah selalu mereka tolak. Ini adalah gambaran sifat keras kepala orang kafir. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=9&opt=1" target="_blank">📖 Rinci Tafsir Ayat 1-9 <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Sumber: Ibnu Katsir & As-Sa'di</div>
             </div>
 
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Kisah Musa dan Fir'aun – 26:10-68</div>
-                <div class="verse-item"><div class="arabic">قَالَ رَبِّ إِنِّي أَخَافُ أَنْ يُكَذِّبُونِ وَيَضِيقُ صَدْرِي وَلَا يَنْطَلِقُ لِسَانِي فَأَرْسِلْ إِلَىٰ هَارُونَ</div><div class="transliteration">Qāla rabbi innī akhāfu ay yukażżibụn, wa yaḍīqu ṣadrī wa lā yanṭaliqu lisānī fa arsil ilā hārụn.</div><p><strong>Terjemahan:</strong> "Dia (Musa) berkata, 'Ya Tuhanku, sesungguhnya aku takut mereka akan mendustakan aku, dadaku terasa sempit, dan lidahku tidak lancar, maka utuslah Harun (bersamaku).'"</p><div class="tafsir-box">IslamicStudies.info: Kisah Musa mengajarkan bahwa kekhawatiran seorang rasul adalah wajar, namun Allah selalu memberikan jalan keluar. Fir'aun yang sombong akhirnya tenggelam. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=10&to=68&opt=1" target="_blank">Rinci Tafsir 26:10-68</a></div></div>
+            <!-- 2. Kisah Musa dan Fir'aun (10-68) - cuplikan lengkap -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-2"></i> 2. Kisah Musa dan Fir'aun – 26:10-68</div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 10-11</div>
+                    <div class="arabic">وَإِذْ نَادَىٰ رَبُّكَ مُوسَىٰ أَنِ ائْتِ الْقَوْمَ الظَّالِمِينَ قَوْمَ فِرْعَوْنَ أَلَا يَتَّقُونَ</div>
+                    <div class="transliteration">Wa iż nādā rabbuka mụsā anitil-qaumaẓ-ẓālimīn, qauma fir'auna alā yattaqụn.</div>
+                    <div class="translation-text">Terjemahan: "Dan (ingatlah) ketika Tuhanmu memanggil Musa, 'Pergilah kepada kaum yang zalim itu, (yaitu) kaum Fir'aun. Mengapa mereka tidak bertakwa?'"</div>
+                </div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 12-13</div>
+                    <div class="arabic">قَالَ رَبِّ إِنِّي أَخَافُ أَن يُكَذِّبُونِ وَيَضِيقُ صَدْرِي وَلَا يَنطَلِقُ لِسَانِي فَأَرْسِلْ إِلَىٰ هَارُونَ</div>
+                    <div class="transliteration">Qāla rabbi innī akhāfu ay yukażżibụn, wa yaḍīqu ṣadrī wa lā yanṭaliqu lisānī fa arsil ilā hārụn.</div>
+                    <div class="translation-text">Terjemahan: "Dia (Musa) berkata, 'Ya Tuhanku, sesungguhnya aku takut mereka akan mendustakan aku, dadaku terasa sempit, dan lidahku tidak lancar, maka utuslah Harun (bersamaku).'"</div>
+                </div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 63-66</div>
+                    <div class="arabic">فَأَوْحَيْنَا إِلَىٰ مُوسَىٰ أَنِ اضْرِب بِّعَصَاكَ الْبَحْرَ ۖ فَانفَلَقَ فَكَانَ كُلُّ فِرْقٍ كَالطَّوْدِ الْعَظِيمِ وَأَزْلَفْنَا ثَمَّ الْآخَرِينَ وَأَنجَيْنَا مُوسَىٰ وَمَن مَّعَهُ أَجْمَعِينَ ثُمَّ أَغْرَقْنَا الْآخَرِينَ</div>
+                    <div class="transliteration">Fa aḥyainā ilā mụsā aniḍrib bi'aṣākal-baḥr, fanfalaqa fakāna kullu firqin kaṭ-ṭaudil-'aẓīm, wa azlafnā ṡammal-ākharīn, wa anjainā mụsā wa mam ma'ahū ajma'īn, ṡumma agraqnal-ākharīn.</div>
+                    <div class="translation-text">Terjemahan: "Lalu Kami wahyukan kepada Musa, 'Pukullah lautan itu dengan tongkatmu!' Maka terbelahlah lautan itu, dan setiap belahan seperti gunung yang besar. Dan Kami dekatkan di sana golongan yang lain (Fir'aun dan bala tentaranya), dan Kami selamatkan Musa dan orang-orang yang bersamanya semuanya. Kemudian Kami tenggelamkan golongan yang lain."</div>
+                </div>
+                <div class="tafsir-box"><strong>Tafsir Mendalam (Al-Qurthubi & Ibnu Katsir):</strong> Kisah Musa mengajarkan bahwa kekhawatiran seorang rasul adalah wajar, namun Allah selalu memberikan jalan keluar. Fir'aun yang sombong mengaku tuhan, namun akhirnya tenggelam di laut yang sama yang menjadi jalan keselamatan bagi Musa. Ini adalah bukti bahwa kekuasaan mutlak hanya milik Allah. Kesabaran Musa dan pertolongan Allah menjadi pelajaran abadi bagi para dai. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=10&to=68&opt=1" target="_blank">📖 Rinci Tafsir Ayat 10-68 <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Sumber: Al-Qurthubi & Ibnu Katsir</div>
             </div>
 
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Kisah Ibrahim dan Penghancuran Berhala – 26:69-104</div>
-                <div class="verse-item"><div class="arabic">قَالَ هَلْ يَسْمَعُونَكُمْ إِذْ تَدْعُونَ أَوْ يَنْفَعُونَكُمْ أَوْ يَضُرُّونَ</div><div class="transliteration">Qāla hal yasma'ụnakum iż tad'ụna au yanfa'ụnakum au yaḍurrụn.</div><p><strong>Terjemahan:</strong> "Dia (Ibrahim) berkata, 'Apakah berhala-berhala itu mendengar kamu ketika kamu berdoa (kepadanya)? Atau (dapatkah) mereka memberi manfaat atau mendatangkan mudarat kepada kamu?'"</p><div class="tafsir-box">IslamicStudies.info: Metode dakwah logis Ibrahim menjadi teladan dalam berdialog dengan orang musyrik. Allah menyelamatkannya dari api yang membara. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=69&to=104&opt=1" target="_blank">Rinci Tafsir 26:69-104</a></div></div>
+            <!-- 3. Kisah Ibrahim (69-104) -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-3"></i> 3. Kisah Ibrahim dan Penghancuran Berhala – 26:69-104</div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 70-73</div>
+                    <div class="arabic">إِذْ قَالَ لِأَبِيهِ وَقَوْمِهِ مَا تَعْبُدُونَ قَالُوا نَعْبُدُ أَصْنَامًا فَنَظَلُّ لَهَا عَاكِفِينَ قَالَ هَلْ يَسْمَعُونَكُمْ إِذْ تَدْعُونَ أَوْ يَنفَعُونَكُمْ أَوْ يَضُرُّونَ</div>
+                    <div class="transliteration">Iż qāla li`abīhi wa qaumihī mā ta'budụn, qālụ na'budu aṣnāman fa naẓallu lahā 'ākifīn, qāla hal yasma'ụnakum iż tad'ụna au yanfa'ụnakum au yaḍurrụn.</div>
+                    <div class="translation-text">Terjemahan: "Ketika dia (Ibrahim) berkata kepada ayahnya dan kaumnya, 'Apa yang kamu sembah?' Mereka menjawab, 'Kami menyembah berhala-berhala dan kami senantiasa tekun menyembahnya.' Dia berkata, 'Apakah berhala-berhala itu mendengar kamu ketika kamu berdoa (kepadanya)? Atau (dapatkah) mereka memberi manfaat atau mendatangkan mudarat kepada kamu?'"</div>
+                </div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 78-82</div>
+                    <div class="arabic">الَّذِي خَلَقَنِي فَهُوَ يَهْدِينِ وَالَّذِي هُوَ يُطْعِمُنِي وَيَسْقِينِ وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ وَالَّذِي يُمِيتُنِي ثُمَّ يُحْيِينِ وَالَّذِي أَطْمَعُ أَن يَغْفِرَ لِي خَطِيئَتِي يَوْمَ الدِّينِ</div>
+                    <div class="transliteration">Allażī khalaqanī fa huwa yahdīn, wallażī huwa yuṭ'imunī wa yasqīn, wa iżā mariḍtu fa huwa yasyfīn, wallażī yumītunī ṡumma yuḥyīn, wallażī aṭma'u ay yagfira lī khaṭī`atī yaumad-dīn.</div>
+                    <div class="translation-text">Terjemahan: "(Yaitu Allah) yang menciptakanku, maka Dia memberi petunjuk kepadaku, dan yang memberi makan dan minum kepadaku, dan apabila aku sakit, Dialah yang menyembuhkanku, dan yang akan mematikan aku, kemudian akan menghidupkan aku (kembali), dan yang aku harapkan akan mengampuni kesalahanku pada hari pembalasan."</div>
+                </div>
+                <div class="tafsir-box"><strong>Tafsir Mendalam (As-Sa'di & At-Tabari):</strong> Metode dakwah logis Ibrahim menjadi teladan dalam berdialog dengan orang musyrik. Beliau menggunakan nalar sederhana: berhala tidak bisa mendengar, memberi manfaat, atau menolak mudarat. Kemudian beliau memperkenalkan Allah sebagai Pencipta, Pemberi petunjuk, Pemberi makan dan minum, Penyembuh, Yang mematikan dan menghidupkan, serta Pengampun dosa. Tauhid yang diajarkan Ibrahim adalah fondasi keimanan. Allah menyelamatkannya dari api yang membara. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=69&to=104&opt=1" target="_blank">📖 Rinci Tafsir Ayat 69-104 <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Sumber: As-Sa'di & At-Tabari</div>
             </div>
 
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Pola Pengulangan Kisah Para Nabi – 26:105-191</div>
-                <div class="verse-item"><div class="arabic">كَذَّبَتْ قَوْمُ نُوحٍ الْمُرْسَلِينَ إِذْ قَالَ لَهُمْ أَخُوهُمْ نُوحٌ أَلَا تَتَّقُونَ</div><div class="transliteration">Każżabat qaumu nụḥinil-mursalīn. Iż qāla lahum akhụhum nụḥun alā tattaqụn.</div><p><strong>Terjemahan:</strong> "Kaum Nuh telah mendustakan para rasul. Ketika saudara mereka (Nuh) berkata kepada mereka, 'Mengapa kamu tidak bertakwa?'"</p><div class="tafsir-box">IslamicStudies.info: Setiap kisah memiliki pola: pengutusan rasul, penolakan, ancaman azab, dan kehancuran. Ini menunjukkan konsistensi pesan tauhid sepanjang sejarah. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=105&to=191&opt=1" target="_blank">Rinci Tafsir 26:105-191</a></div></div>
+            <!-- 4. Pola Pengulangan Kisah Para Nabi (105-191) - contoh Nuh -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-4"></i> 4. Pola Pengulangan Kisah Para Nabi – 26:105-191 (Kisah Nuh sebagai contoh)</div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 105-106</div>
+                    <div class="arabic">كَذَّبَتْ قَوْمُ نُوحٍ الْمُرْسَلِينَ إِذْ قَالَ لَهُمْ أَخُوهُمْ نُوحٌ أَلَا تَتَّقُونَ</div>
+                    <div class="transliteration">Każżabat qaumu nụḥinil-mursalīn. Iż qāla lahum akhụhum nụḥun alā tattaqụn.</div>
+                    <div class="translation-text">Terjemahan: "Kaum Nuh telah mendustakan para rasul. Ketika saudara mereka (Nuh) berkata kepada mereka, 'Mengapa kamu tidak bertakwa?'"</div>
+                </div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 119-121</div>
+                    <div class="arabic">فَأَنجَيْنَاهُ وَمَن مَّعَهُ فِي الْفُلْكِ الْمَشْحُونِ ثُمَّ أَغْرَقْنَا بَعْدُ الْبَاقِينَ إِنَّ فِي ذَٰلِكَ لَآيَةً ۖ وَمَا كَانَ أَكْثَرُهُم مُّؤْمِنِينَ</div>
+                    <div class="transliteration">Fa anjaināhu wa mam ma'ahū fil-fulkil-masyḥụn, ṡumma agraqnā ba'dul-bāqīn, inna fī żālika la`āyah, wa mā kāna akṡaruhum mu`minīn.</div>
+                    <div class="translation-text">Terjemahan: "Maka Kami selamatkan dia dan orang-orang yang bersamanya di kapal yang penuh muatan. Kemudian setelah itu Kami tenggelamkan orang-orang yang tersisa. Sungguh, pada yang demikian itu benar-benar terdapat tanda (kekuasaan Allah), tetapi kebanyakan mereka tidak beriman."</div>
+                </div>
+                <div class="tafsir-box"><strong>Tafsir Mendalam (At-Tabari & Ibnu Katsir):</strong> Setiap kisah memiliki pola yang sama: pengutusan rasul dari kalangan mereka sendiri, seruan takwa dan tauhid, penolakan dengan tuduhan gila atau pembohong, ancaman azab, dan akhirnya kehancuran kaum yang ingkar. Pola ini menunjukkan konsistensi pesan tauhid sepanjang sejarah. Kisah Nuh, 'Ad (Hud), Tsamud (Shalih), Luth, dan Syu'aib semuanya mengikuti pola yang sama. Ini menjadi pelajaran bahwa sunnatullah tidak berubah: keimanan membawa keselamatan, kekafiran membawa kebinasaan. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=105&to=191&opt=1" target="_blank">📖 Rinci Tafsir Ayat 105-191 <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Sumber: At-Tabari & Ibnu Katsir</div>
             </div>
 
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Bantahan Tuduhan Al-Qur'an adalah Syair – 26:224-227</div>
-                <div class="verse-item"><div class="arabic">وَالشُّعَرَاءُ يَتَّبِعُهُمُ الْغَاوُونَ أَلَمْ تَرَ أَنَّهُمْ فِي كُلِّ وَادٍ يَهِيمُونَ</div><div class="transliteration">Wasy-syu'arā`u yattabi'uhumul-gāwụn. A lam tara annahum fī kulli wādin yahīmụn.</div><p><strong>Terjemahan:</strong> "Dan penyair-penyair itu diikuti oleh orang-orang yang sesat. Tidakkah engkau melihat bahwa mereka mengembara di semua lembah (khayalan)?"</p><div class="tafsir-box">IslamicStudies.info: Allah membedakan antara penyair sesat yang mengikuti hawa nafsu dengan orang beriman yang berkarya dalam kebaikan. Al-Qur'an bukan syair karena berisi kebenaran mutlak. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=224&to=227&opt=1" target="_blank">Rinci Tafsir 26:224-227</a></div></div>
+            <!-- 5. Bantahan Tuduhan Al-Qur'an adalah Syair (224-227) -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-5"></i> 5. Bantahan Tuduhan Al-Qur'an adalah Syair – 26:224-227</div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 224-226</div>
+                    <div class="arabic">وَالشُّعَرَاءُ يَتَّبِعُهُمُ الْغَاوُونَ أَلَمْ تَرَ أَنَّهُمْ فِي كُلِّ وَادٍ يَهِيمُونَ وَأَنَّهُمْ يَقُولُونَ مَا لَا يَفْعَلُونَ</div>
+                    <div class="transliteration">Wasy-syu'arā`u yattabi'uhumul-gāwụn. A lam tara annahum fī kulli wādin yahīmụn. Wa annahum yaqụlụna mā lā yaf'alụn.</div>
+                    <div class="translation-text">Terjemahan: "Dan penyair-penyair itu diikuti oleh orang-orang yang sesat. Tidakkah engkau melihat bahwa mereka mengembara di semua lembah (khayalan), dan bahwa mereka mengatakan apa yang tidak mereka perbuat?"</div>
+                </div>
+                <div class="verse-item">
+                    <div class="verse-number">Ayat 227</div>
+                    <div class="arabic">إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَذَكَرُوا اللَّهَ كَثِيرًا وَانتَصَرُوا مِن بَعْدِ مَا ظُلِمُوا ۗ وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنقَلَبٍ يَنقَلِبُونَ</div>
+                    <div class="transliteration">Illallażīna āmanụ wa 'amiluṣ-ṣāliḥāti wa żakarullāha kaṡīraw wantaṣarụ mim ba'di mā ẓulimụ, wa saya'lamullażīna ẓalamū ayya munqalabiy yanqalibụn.</div>
+                    <div class="translation-text">Terjemahan: "Kecuali orang-orang yang beriman dan beramal saleh serta mengingat Allah banyak-banyak dan (dapat) membela diri setelah terzalimi. Dan orang-orang yang zalim itu kelak akan mengetahui ke mana mereka akan kembali."</div>
+                </div>
+                <div class="tafsir-box"><strong>Tafsir Mendalam (Ibnu Katsir & Al-Qurthubi):</strong> Allah membedakan antara penyair sesat yang mengikuti hawa nafsu dan para pengikut mereka yang juga sesat, dengan penyair yang beriman dan beramal saleh. Tuduhan kaum musyrik bahwa Al-Qur'an adalah syair adalah kebohongan besar karena Al-Qur'an berisi kebenaran mutlak, janji dan ancaman, hukum dan hikmah, sementara syair para penyair jahiliah penuh dengan kebohongan dan khayalan. Pengecualian bagi penyair yang beriman, seperti Hasan bin Tsabit dan Abdullah bin Rawahah, yang menggunakan syair untuk membela Islam. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=224&to=227&opt=1" target="_blank">📖 Rinci Tafsir Ayat 224-227 <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Sumber: Ibnu Katsir & Al-Qurthubi</div>
             </div>
         </div>
 
-        <!-- Keutamaan Khusus Surah -->
+        <!-- Pesan Akidah, Ibadah, Akhlak -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, Akhlak</h3>
+            <p><strong>Akidah:</strong> Al-Qur'an adalah wahyu Allah yang jelas; keimanan pada semua nabi; keyakinan pada kekuasaan Allah yang mutlak dan azab bagi kaum yang ingkar.</p>
+            <p><strong>Ibadah:</strong> Membaca dan mentadabburi Al-Qur'an; berdoa dengan penuh harap; bertawakal kepada Allah dalam setiap langkah dakwah; shalat malam.</p>
+            <p><strong>Akhlak:</strong> Sabar dalam menghadapi penolakan; berkata lemah lembut; tidak sombong (tawadhu'); jujur dalam berdagang (pesan Syu'aib); menjauhi perbuatan keji.</p>
+        </div>
+
+        <!-- Keutamaan Khusus -->
         <div class="special-benefits">
-            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Asy-Syu'ara</h3>
+            <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Ash-Shu'ara</h3>
             <ul><li><strong>Penegas Al-Qur'an:</strong> Menegaskan bahwa Al-Qur'an adalah kitab yang jelas (mubin) dan bukan dari setan.</li><li><strong>Kisah Sembilan Nabi:</strong> Memberikan teladan kesabaran dan keteguhan dalam dakwah sepanjang masa.</li><li><strong>Bantahan Tuduhan Syair:</strong> Membantah secara tegas tuduhan kaum musyrik bahwa Nabi Muhammad adalah penyair.</li><li><strong>Penghibur Hati Nabi:</strong> Ayat-ayat awal menghibur Nabi yang bersedih karena keengganan kaumnya beriman.</li><li><strong>Peringatan bagi Kaum Zalim:</strong> Kisah Fir'aun, 'Ad, Tsamud, dan lainnya menjadi pelajaran abadi.</li></ul>
         </div>
 
+        <!-- Pelajaran Spiritual -->
         <div class="benefits-list">
-            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, Akhlak</h3>
-            <p><strong>Akidah:</strong> Al-Qur'an adalah wahyu Allah yang jelas; keimanan pada semua nabi; keyakinan pada kekuasaan Allah yang mutlak.</p>
-            <p><strong>Ibadah:</strong> Membaca dan mentadabburi Al-Qur'an; berdoa dengan penuh harap; bertawakal kepada Allah dalam setiap langkah dakwah.</p>
-            <p><strong>Akhlak:</strong> Sabar dalam menghadapi penolakan; berkata lemah lembut; tidak sombong seperti Fir'aun; jujur dalam berdagang (pesan Syu'aib).</p>
-        </div>
-
-        <div class="benefits-list">
-            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Asy-Syu'ara</h3>
+            <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Ash-Shu'ara</h3>
             <ul><li>Kebenaran akan selalu menang melawan kebatilan meskipun tampak lemah.</li><li>Kesabaran adalah kunci keberhasilan dakwah para nabi.</li><li>Mengingat kisah umat terdahulu agar tidak mengulangi kesalahan yang sama.</li><li>Al-Qur'an adalah petunjuk yang membedakan antara yang haq dan batil.</li><li>Jangan menuduh tanpa ilmu, seperti tuduhan syair terhadap Al-Qur'an.</li></ul>
         </div>
 
-        <div class="theme-card">
-            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div>
-            <ol><li>Ujaran kebencian dan hoaks: Surah ini mengajarkan tabayyun dan tidak menuduh tanpa bukti.</li><li>Kesombongan kekuasaan: Kisah Fir'aun menjadi peringatan bagi para penguasa yang zalim.</li><li>Kritik terhadap penyair/artis yang menyesatkan: Ayat 224-227 membedakan antara seniman yang beriman dan yang sesat.</li><li>Konsistensi dakwah di era digital: Pola pengulangan kisah nabi mengajarkan bahwa tantangan dakwah selalu ada, namun metode bisa disesuaikan.</li><li>Pendidikan karakter: Kisah para nabi menjadi kurikulum teladan bagi generasi muda.</li></ol>
+        <!-- Relevansi Modern -->
+        <div class="relevance-box">
+            <h3><i class="fas fa-globe"></i> Relevansi untuk Kehidupan Modern</h3>
+            <ul><li>Ujaran kebencian dan hoaks: Surah ini mengajarkan tabayyun dan tidak menuduh tanpa bukti.</li><li>Kesombongan kekuasaan: Kisah Fir'aun menjadi peringatan bagi para penguasa yang zalim.</li><li>Kritik terhadap penyair/artis yang menyesatkan: Ayat 224-227 membedakan antara seniman yang beriman dan yang sesat.</li><li>Konsistensi dakwah di era digital: Pola pengulangan kisah nabi mengajarkan bahwa tantangan dakwah selalu ada, namun metode bisa disesuaikan.</li><li>Pendidikan karakter: Kisah para nabi menjadi kurikulum teladan bagi generasi muda.</li></ul>
         </div>
 
+        <!-- Hubungan dengan Surah Lain -->
         <div class="relationship-box">
             <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
-            <ul><li><strong>Dengan Surah Al-Furqan (25):</strong> Al-Furqan membahas karakter ibadurrahman, sedangkan Asy-Syu'ara memberikan kisah nyata perjuangan para nabi yang memiliki karakter tersebut.</li><li><strong>Dengan Surah An-Naml (27):</strong> Asy-Syu'ara fokus pada kisah nabi-nabi secara ringkas berulang, sementara An-Naml memberikan kisah lebih detail tentang Nabi Sulaiman dan semut.</li><li><strong>Dengan Surah Al-Qashash (28):</strong> Asy-Syu'ara menceritakan secara ringkas kisah Musa, sedangkan Al-Qashash menguraikannya secara panjang lebar.</li></ul>
+            <ul><li><strong>Dengan Surah Al-Furqan (25):</strong> Al-Furqan membahas karakter ibadurrahman, sedangkan Ash-Shu'ara memberikan kisah nyata perjuangan para nabi yang memiliki karakter tersebut.</li><li><strong>Dengan Surah An-Naml (27):</strong> Ash-Shu'ara fokus pada kisah nabi-nabi secara ringkas berulang, sementara An-Naml memberikan kisah lebih detail tentang Nabi Sulaiman dan semut.</li><li><strong>Dengan Surah Al-Qashash (28):</strong> Ash-Shu'ara menceritakan secara ringkas kisah Musa, sedangkan Al-Qashash menguraikannya secara panjang lebar.</li></ul>
         </div>
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Maka janganlah engkau membinasakan dirimu karena kesedihan mereka.” (26:3) – Allah menghibur hati para dai yang menghadapi penolakan.</div>
+
+        <!-- Pagination Indonesia -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="025.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: Al-Furqan (25)</a>
+                <a href="027.html" class="pagination-item">Surah Berikutnya: An-Naml (27) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            </div>
+        </div>
     </div>
 
-    <!-- ENGLISH CONTENT -->
+    <!-- ENGLISH CONTENT (mirror lengkap dengan full verses) -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Ash-Shu'ara (The Poets) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=227&opt=1" target="_blank">IslamicStudies.info - Surah Ash-Shu'ara (1-227) <span class="blink-click"><i class="fas fa-hand-point-right"></i> Click Details</span></a></div>
+        <h1 class="surah-title">Surah Ash-Shu'ara (26) - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=227&opt=1" target="_blank">IslamicStudies.info - Surah Ash-Shu'ara (1-227) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click here</span></a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="arabic">طسم تِلْكَ آيَاتُ الْكِتَابِ الْمُبِينِ</div>
-        <div class="transliteration">Ṭā Sīn Mīm. Tilka āyātul-kitābil-mubīn.</div>
-        <p style="text-align: center;">"Ta, Seen, Meem. These are the verses of the clear Book." (Ash-Shu'ara 26:1-2)</p>
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Ash-Shu'ara</h3><p>Meccan surah (227 verses) named after "the poets". According to <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=227&opt=1" target="_blank">IslamicStudies.info</a>, it affirms the Qur'an as a clear book, presents the stories of nine prophets with a repetitive pattern full of wisdom, and refutes the accusation that the Qur'an is poetry. It strengthens the Prophet's heart against the rejection of the polytheists.</p></div>
-        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Full Text Access</h3><p><a href="https://recitequran.com/26" target="_blank">ReciteQuran.com - Surah Ash-Shu'ara <span class="blink-click"><i class="fas fa-mouse-pointer"></i> Click Here</span></a></p></div>
+
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Ash-Shu'ara (Surah 26)</h3><p>Meccan surah (227 verses) named after "the poets". According to IslamicStudies.info, it affirms the Qur'an as a clear book, presents the stories of nine prophets with a repetitive pattern full of wisdom, and refutes the accusation that the Qur'an is poetry. It strengthens the Prophet's heart against the rejection of the polytheists.</p></div>
+
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> The Qur'an as a clear book (mubin), belief in all prophets, conviction in Allah's absolute power and punishment for the denying nations. (26:1-2, 26:192-196)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Reading and contemplating the Qur'an, praying with hope and fear, relying on Allah in da'wah, night prayer. (26:3, 26:80, 26:217-220)</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Patience in facing rejection, speaking gently, avoiding arrogance (humility), honesty in trade (Shu'aib's message), refraining from immoral acts. (26:105-122, 26:176-191)</div>
+        </div>
+
+        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/26" target="_blank">ReciteQuran.com - Surah Ash-Shu'ara <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click here</span></a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Ash-Shu'ara</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/026.mp3"></audio></div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead><tbody>
-                <tr><td><strong>1-9</strong></td><td>Opening & Affirmation of the Qur'an</th><td>Qur'an as a clear book, consolation for the Prophet, signs of Allah's power.</td></tr>
-                <tr><td><strong>10-68</strong></td><td>Story of Moses & Pharaoh</th><td>Moses' struggle, miracles of staff and hand, destruction of Pharaoh.</td></tr>
-                <tr><td><strong>69-104</strong></td><td>Story of Abraham & Idol Destruction</th><td>Logical preaching, breaking idols, salvation from fire.</td></tr>
-                <tr><td><strong>105-122</strong></td><td>Story of Noah & His People</th><td>950 years of preaching, rebellion, great flood.</td></tr>
-                <tr><td><strong>123-140</strong></td><td>Story of Hud & 'Ad</th><td>Arrogance of 'Ad, destruction by fierce wind.</td></tr>
-                <tr><td><strong>141-159</strong></td><td>Story of Salih & Thamud</th><td>She-camel miracle, its killing, destruction.</td></tr>
-                <tr><td><strong>160-175</strong></td><td>Story of Lot & Sodom</th><td>Immorality, destruction by stones from the sky.</td></tr>
-                <tr><td><strong>176-191</strong></td><td>Story of Shu'aib & People of Aikah</th><td>Cheating in weights and measures, punishment of a shady cloud.</td></tr>
-                <tr><td><strong>192-227</strong></td><td>Conclusion & Refutation of Poetry Accusation</th><td>Qur'an revealed by Jibril, not from devils, Prophet is not a poet.</td></tr>
-            </tbody></table>
+        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content</h2>
+            <table class="structure-table"><thead><tr><th>Verses</th><th>Main Focus</th><th>Description</th></tr></thead>
+            <tbody>
+                <tr><td>1-9</td><td>Opening & Affirmation of the Qur'an</td><td>Qur'an as a clear book, consolation for the Prophet, signs of Allah's power.</td></tr>
+                <tr><td>10-68</td><td>Story of Moses & Pharaoh</td><td>Moses' struggle, miracles of staff and hand, destruction of Pharaoh and his army.</td></tr>
+                <tr><td>69-104</td><td>Story of Abraham & Idol Destruction</td><td>Logical preaching, breaking idols, salvation from fire.</td></tr>
+                <tr><td>105-122</td><td>Story of Noah & His People</td><td>950 years of preaching, rebellion, great flood.</td></tr>
+                <tr><td>123-140</td><td>Story of Hud & 'Ad</td><td>Arrogance of 'Ad, destruction by fierce wind.</td></tr>
+                <tr><td>141-159</td><td>Story of Salih & Thamud</td><td>She-camel miracle, its killing, destruction.</td></tr>
+                <tr><td>160-175</td><td>Story of Lot & Sodom</td><td>Immorality, destruction by stones from the sky.</td></tr>
+                <tr><td>176-191</td><td>Story of Shu'aib & People of Aikah</td><td>Cheating in weights and measures, punishment of a shady cloud.</td></tr>
+                <tr><td>192-227</td><td>Conclusion & Refutation of Poetry Accusation</td><td>Qur'an revealed by Jibril, not from devils, Prophet is not a poet.</td></tr>
+            </tbody>
+            </table>
         </div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
-                <tr><td><strong>1-9</strong></td><td>Qur'an as a clear book</th><td>Affirmation of clarity, consolation for the Prophet, warning for disbelievers.</td></tr>
-                <tr><td><strong>10-68</strong></td><td>Story of Moses & Pharaoh</th><td>Truth triumphs over tyranny, patience in preaching, Allah's help is certain.</td></tr>
-                <tr><td><strong>69-104</strong></td><td>Story of Abraham</th><td>Logical approach in da'wah, courage to destroy idols, firmness in tawhid.</td></tr>
-                <tr><td><strong>105-191</strong></td><td>Stories of Noah, Hud, Salih, Lot, Shu'aib</th><td>Repetition pattern: every messenger was denied, then punishment struck the disbelievers.</td></tr>
-                <tr><td><strong>192-227</strong></td><td>Truth of the Qur'an & refutation of poetry claim</th><td>Qur'an revealed by Jibril, Prophet is not a poet, warning for believers.</td></tr>
-            </tbody></table>
+            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme</th><th>Core Message & Enhanced Tafsir</th></tr></thead>
+            <tbody>
+                <tr><td><strong>1-9</strong></td><td>Qur'an as a clear book</td><td>Affirmation of clarity, consolation for the Prophet, warning for disbelievers. (Ibn Kathir)</td></tr>
+                <tr><td><strong>10-68</strong></td><td>Story of Moses & Pharaoh</td><td>Truth triumphs over tyranny, patience in preaching, Allah's help is certain. (Al-Qurtubi)</td></tr>
+                <tr><td><strong>69-104</strong></td><td>Story of Abraham</td><td>Logical approach in da'wah, courage to destroy idols, firmness in tawhid. (As-Sa'di)</td></tr>
+                <tr><td><strong>105-191</strong></td><td>Stories of Noah, Hud, Salih, Lot, Shu'aib</td><td>Repetition pattern: every messenger was denied, then punishment struck the disbelievers. (At-Tabari)</td></tr>
+                <tr><td><strong>192-227</strong></td><td>Truth of the Qur'an & refutation of poetry claim</td><td>Qur'an revealed by Jibril, Prophet is not a poet, warning for believers. (Ibn Kathir)</td></tr>
+            </tbody>
+            </table>
         </div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
-            <div class="verse"><div class="arabic">وَإِذْ نَادَىٰ رَبُّكَ مُوسَىٰ أَنِ ائْتِ الْقَوْمَ الظَّالِمِينَ قَوْمَ فِرْعَوْنَ أَلَا يَتَّقُونَ</div><div class="transliteration">Wa iż nādā rabbuka mụsā anitil-qaumaẓ-ẓālimīn, qauma fir'auna alā yattaqụn.</div><p><strong>Translation:</strong> "And [mention] when your Lord called Moses, [saying], 'Go to the wrongdoing people - the people of Pharaoh. Will they not fear Allah?'" (26:10-11)</p><div class="tafsir-box"><strong>IslamicStudies.info:</strong> This verse shows that every prophet was sent to wrongdoers with the primary mission to call to taqwa. Pharaoh's arrogance is an eternal lesson that power without faith is doomed. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=10&to=11&opt=1" target="_blank">📖 Detailed Tafsir 26:10-11</a></div></div>
+            <div class="verse">
+                <div class="arabic">وَإِذْ نَادَىٰ رَبُّكَ مُوسَىٰ أَنِ ائْتِ الْقَوْمَ الظَّالِمِينَ قَوْمَ فِرْعَوْنَ أَلَا يَتَّقُونَ</div>
+                <div class="transliteration">Wa iż nādā rabbuka mụsā anitil-qaumaẓ-ẓālimīn, qauma fir'auna alā yattaqụn.</div>
+                <div class="translation-text"><strong>Translation:</strong> "And [mention] when your Lord called Moses, [saying], 'Go to the wrongdoing people - the people of Pharaoh. Will they not fear Allah?'" (26:10-11)</div>
+                <div class="tafsir-box"><strong>In-depth Tafsir (Ibn Kathir & Al-Qurtubi):</strong> This verse shows that every prophet was sent to wrongdoers with the primary mission to call to taqwa. Pharaoh's arrogance is an eternal lesson that power without faith is doomed. Allah chose a weak servant to confront the most arrogant king. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=10&to=11&opt=1" target="_blank">📖 Detailed Tafsir 26:10-11 <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Source: Ibn Kathir & Al-Qurtubi</div>
+            </div>
         </div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Ash-Shu'ara</h2>
-            <div class="theme-card"><div class="theme-title">1. The Qur'an as a Clear Book (26:1-9)</div><div class="verse-item"><div class="arabic">طسم تِلْكَ آيَاتُ الْكِتَابِ الْمُبِينِ</div><div class="transliteration">Ṭā Sīn Mīm. Tilka āyātul-kitābil-mubīn.</div><p><strong>Translation:</strong> "Ta, Seen, Meem. These are the verses of the clear Book."</p><div class="tafsir-box">IslamicStudies.info: The muqaththa'ah letters challenge the Qur'an's miraculous nature. Allah consoles the Prophet grieved by his people's disbelief. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=9&opt=1">Full Tafsir</a></div></div></div>
-            <div class="theme-card"><div class="theme-title">2. Story of Moses and Pharaoh (26:10-68)</div><div class="verse-item"><div class="arabic">قَالَ رَبِّ إِنِّي أَخَافُ أَنْ يُكَذِّبُونِ</div><div class="transliteration">Qāla rabbi innī akhāfu ay yukażżibụn</div><p><strong>Translation:</strong> "He said, 'My Lord, indeed I fear that they will deny me.'"</p><div class="tafsir-box">IslamicStudies.info: Moses' story teaches that a prophet's fear is natural, but Allah always provides a way. Arrogant Pharaoh eventually drowned. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=10&to=68&opt=1">Details</a></div></div></div>
-            <div class="theme-card"><div class="theme-title">3. Story of Abraham and Idol Destruction (26:69-104)</div><div class="verse-item"><div class="arabic">قَالَ هَلْ يَسْمَعُونَكُمْ إِذْ تَدْعُونَ</div><div class="transliteration">Qāla hal yasma'ụnakum iż tad'ụna</div><p><strong>Translation:</strong> "He said, 'Do they hear you when you supplicate?'"</p><div class="tafsir-box">IslamicStudies.info: Abraham's logical preaching is a model for dialoguing with polytheists. Allah saved him from the blazing fire. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=69&to=104&opt=1">Read more</a></div></div></div>
-            <div class="theme-card"><div class="theme-title">4. Repetition Pattern in Prophets' Stories (26:105-191)</div><div class="verse-item"><div class="arabic">كَذَّبَتْ قَوْمُ نُوحٍ الْمُرْسَلِينَ</div><div class="transliteration">Każżabat qaumu nụḥinil-mursalīn</div><p><strong>Translation:</strong> "The people of Noah denied the messengers."</p><div class="tafsir-box">IslamicStudies.info: Every story follows a pattern: sending a messenger, denial, warning, and destruction. This shows the consistency of the message of tawhid throughout history. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=105&to=191&opt=1">Full Tafsir</a></div></div></div>
-            <div class="theme-card"><div class="theme-title">5. Refutation that the Qur'an is Poetry (26:224-227)</div><div class="verse-item"><div class="arabic">وَالشُّعَرَاءُ يَتَّبِعُهُمُ الْغَاوُونَ</div><div class="transliteration">Wasy-syu'arā`u yattabi'uhumul-gāwụn</div><p><strong>Translation:</strong> "And the poets - [only] the deviators follow them."</p><div class="tafsir-box">IslamicStudies.info: Allah distinguishes between misguided poets who follow whims and believing poets who do good. The Qur'an is not poetry because it contains absolute truth. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=224&to=227&opt=1">Details</a></div></div></div>
+        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes (Full Verses & Deep Tafsir)</h2>
+            <!-- Theme 1 English full -->
+            <div class="theme-card"><div class="theme-title">1. The Qur'an as a Clear Book (26:1-9)</div>
+                <div class="verse-item"><div class="verse-number">Verses 1-2</div><div class="arabic">طسم تِلْكَ آيَاتُ الْكِتَابِ الْمُبِينِ</div><div class="transliteration">Ṭā Sīn Mīm. Tilka āyātul-kitābil-mubīn.</div><div class="translation-text">Translation: "Ta, Seen, Meem. These are the verses of the clear Book."</div></div>
+                <div class="verse-item"><div class="verse-number">Verse 3</div><div class="arabic">لَعَلَّكَ بَاخِعٌ نَّفْسَكَ أَلَّا يَكُونُوا مُؤْمِنِينَ</div><div class="transliteration">La'allaka bākhi'un nafsaka allā yakụnụ mu`minīn.</div><div class="translation-text">Translation: "Perhaps you would kill yourself with grief that they are not believers."</div></div>
+                <div class="verse-item"><div class="verse-number">Verses 4-5</div><div class="arabic">إِن نَّشَأْ نُنَزِّلْ عَلَيْهِم مِّنَ السَّمَاءِ آيَةً فَظَلَّتْ أَعْنَاقُهُمْ لَهَا خَاضِعِينَ وَمَا يَأْتِيهِم مِّن ذِكْرٍ مِّنَ الرَّحْمَٰنِ مُحْدَثٍ إِلَّا كَانُوا عَنْهُ مُعْرِضِينَ</div><div class="transliteration">In nasya` nunazzil 'alaihim minas-samā`i āyatan fa ẓallat a'nāquhum lahā khāḍi'īn, wa mā ya`tīhim min żikrim minar-raḥmāni muḥdaṡin illā kānụ 'an-hu mu'riḍīn.</div><div class="translation-text">Translation: "If We willed, We could send down to them a sign from the sky, so their necks would remain humbled to it. But no reminder comes to them from the Most Merciful that is not a renewal, but they turn away from it."</div></div>
+                <div class="tafsir-box"><strong>Extended Tafsir (Ibn Kathir & As-Sa'di):</strong> Allah opens with muqaththa'ah letters as a challenge to the Qur'an's miraculous nature. Allah consoles the Prophet grieved by his people's disbelief. If Allah willed, He could force them to believe, but faith must come from conscious choice. Every new reminder from Allah they turn away from. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=1&to=9&opt=1" target="_blank">📖 Detailed Tafsir <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Source: Ibn Kathir & As-Sa'di</div></div>
+
+            <!-- Theme 2 English full -->
+            <div class="theme-card"><div class="theme-title">2. Story of Moses and Pharaoh (26:10-68)</div>
+                <div class="verse-item"><div class="verse-number">Verses 10-11</div><div class="arabic">وَإِذْ نَادَىٰ رَبُّكَ مُوسَىٰ أَنِ ائْتِ الْقَوْمَ الظَّالِمِينَ قَوْمَ فِرْعَوْنَ أَلَا يَتَّقُونَ</div><div class="transliteration">Wa iż nādā rabbuka mụsā anitil-qaumaẓ-ẓālimīn, qauma fir'auna alā yattaqụn.</div><div class="translation-text">Translation: "And [mention] when your Lord called Moses, 'Go to the wrongdoing people - the people of Pharaoh. Will they not fear Allah?'"</div></div>
+                <div class="verse-item"><div class="verse-number">Verses 12-13</div><div class="arabic">قَالَ رَبِّ إِنِّي أَخَافُ أَن يُكَذِّبُونِ وَيَضِيقُ صَدْرِي وَلَا يَنطَلِقُ لِسَانِي فَأَرْسِلْ إِلَىٰ هَارُونَ</div><div class="transliteration">Qāla rabbi innī akhāfu ay yukażżibụn, wa yaḍīqu ṣadrī wa lā yanṭaliqu lisānī fa arsil ilā hārụn.</div><div class="translation-text">Translation: "He said, 'My Lord, indeed I fear that they will deny me, my chest is tight, and my tongue is not fluent, so send for Aaron.'"</div></div>
+                <div class="verse-item"><div class="verse-number">Verses 63-66</div><div class="arabic">فَأَوْحَيْنَا إِلَىٰ مُوسَىٰ أَنِ اضْرِب بِّعَصَاكَ الْبَحْرَ ۖ فَانفَلَقَ فَكَانَ كُلُّ فِرْقٍ كَالطَّوْدِ الْعَظِيمِ وَأَزْلَفْنَا ثَمَّ الْآخَرِينَ وَأَنجَيْنَا مُوسَىٰ وَمَن مَّعَهُ أَجْمَعِينَ ثُمَّ أَغْرَقْنَا الْآخَرِينَ</div><div class="transliteration">Fa aḥyainā ilā mụsā aniḍrib bi'aṣākal-baḥr, fanfalaqa fakāna kullu firqin kaṭ-ṭaudil-'aẓīm, wa azlafnā ṡammal-ākharīn, wa anjainā mụsā wa mam ma'ahū ajma'īn, ṡumma agraqnal-ākharīn.</div><div class="translation-text">Translation: "Then We inspired Moses, 'Strike the sea with your staff,' and it parted, and each portion was like a great mountain. And We brought the others near there. And We saved Moses and those with him all together. Then We drowned the others."</div></div>
+                <div class="tafsir-box"><strong>Extended Tafsir (Al-Qurtubi & Ibn Kathir):</strong> Moses' story teaches that a prophet's fear is natural, but Allah always provides a way. Arrogant Pharaoh claimed divinity but drowned in the same sea that saved Moses. Patience and divine help are eternal lessons for all callers to truth. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=10&to=68&opt=1" target="_blank">📖 Detailed Tafsir <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Source: Al-Qurtubi & Ibn Kathir</div></div>
+
+            <!-- Theme 3 English full -->
+            <div class="theme-card"><div class="theme-title">3. Story of Abraham and Idol Destruction (26:69-104)</div>
+                <div class="verse-item"><div class="verse-number">Verses 70-73</div><div class="arabic">إِذْ قَالَ لِأَبِيهِ وَقَوْمِهِ مَا تَعْبُدُونَ قَالُوا نَعْبُدُ أَصْنَامًا فَنَظَلُّ لَهَا عَاكِفِينَ قَالَ هَلْ يَسْمَعُونَكُمْ إِذْ تَدْعُونَ أَوْ يَنفَعُونَكُمْ أَوْ يَضُرُّونَ</div><div class="transliteration">Iż qāla li`abīhi wa qaumihī mā ta'budụn, qālụ na'budu aṣnāman fa naẓallu lahā 'ākifīn, qāla hal yasma'ụnakum iż tad'ụna au yanfa'ụnakum au yaḍurrụn.</div><div class="translation-text">Translation: "When he said to his father and his people, 'What do you worship?' They said, 'We worship idols and we remain devoted to them.' He said, 'Do they hear you when you supplicate? Or do they benefit you or harm you?'"</div></div>
+                <div class="verse-item"><div class="verse-number">Verses 78-82</div><div class="arabic">الَّذِي خَلَقَنِي فَهُوَ يَهْدِينِ وَالَّذِي هُوَ يُطْعِمُنِي وَيَسْقِينِ وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ وَالَّذِي يُمِيتُنِي ثُمَّ يُحْيِينِ وَالَّذِي أَطْمَعُ أَن يَغْفِرَ لِي خَطِيئَتِي يَوْمَ الدِّينِ</div><div class="transliteration">Allażī khalaqanī fa huwa yahdīn, wallażī huwa yuṭ'imunī wa yasqīn, wa iżā mariḍtu fa huwa yasyfīn, wallażī yumītunī ṡumma yuḥyīn, wallażī aṭma'u ay yagfira lī khaṭī`atī yaumad-dīn.</div><div class="translation-text">Translation: "He who created me, and He [it is who] guides me. And it is He who feeds me and gives me drink. And when I am ill, it is He who cures me. And He who will cause me to die and then bring me to life. And He who I aspire that He will forgive me my sin on the Day of Recompense."</div></div>
+                <div class="tafsir-box"><strong>Extended Tafsir (As-Sa'di & At-Tabari):</strong> Abraham's logical preaching is a model for dialoguing with polytheists. He used simple reasoning: idols cannot hear, benefit, or harm. Then he introduced Allah as Creator, Guide, Provider, Healer, the One who causes death and gives life, and Forgiver of sins. Allah saved him from the blazing fire. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=69&to=104&opt=1" target="_blank">📖 Detailed Tafsir <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Source: As-Sa'di & At-Tabari</div></div>
+
+            <!-- Theme 4 English full -->
+            <div class="theme-card"><div class="theme-title">4. Repetition Pattern in Prophets' Stories (26:105-191)</div>
+                <div class="verse-item"><div class="verse-number">Verses 105-106</div><div class="arabic">كَذَّبَتْ قَوْمُ نُوحٍ الْمُرْسَلِينَ إِذْ قَالَ لَهُمْ أَخُوهُمْ نُوحٌ أَلَا تَتَّقُونَ</div><div class="transliteration">Każżabat qaumu nụḥinil-mursalīn. Iż qāla lahum akhụhum nụḥun alā tattaqụn.</div><div class="translation-text">Translation: "The people of Noah denied the messengers when their brother Noah said to them, 'Will you not fear Allah?'"</div></div>
+                <div class="verse-item"><div class="verse-number">Verses 119-121</div><div class="arabic">فَأَنجَيْنَاهُ وَمَن مَّعَهُ فِي الْفُلْكِ الْمَشْحُونِ ثُمَّ أَغْرَقْنَا بَعْدُ الْبَاقِينَ إِنَّ فِي ذَٰلِكَ لَآيَةً ۖ وَمَا كَانَ أَكْثَرُهُم مُّؤْمِنِينَ</div><div class="transliteration">Fa anjaināhu wa mam ma'ahū fil-fulkil-masyḥụn, ṡumma agraqnā ba'dul-bāqīn, inna fī żālika la`āyah, wa mā kāna akṡaruhum mu`minīn.</div><div class="translation-text">Translation: "So We saved him and those with him in the laden ship. Then We drowned the rest thereafter. Indeed in that is a sign, but most of them were not believers."</div></div>
+                <div class="tafsir-box"><strong>Extended Tafsir (At-Tabari & Ibn Kathir):</strong> Every story follows the same pattern: sending a messenger from among them, call to taqwa and tawhid, denial with accusations of madness or lying, warning of punishment, and finally destruction of the disbelieving nation. This shows the consistency of the message of tawhid throughout history. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=105&to=191&opt=1" target="_blank">📖 Detailed Tafsir <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Source: At-Tabari & Ibn Kathir</div></div>
+
+            <!-- Theme 5 English full -->
+            <div class="theme-card"><div class="theme-title">5. Refutation that the Qur'an is Poetry (26:224-227)</div>
+                <div class="verse-item"><div class="verse-number">Verses 224-226</div><div class="arabic">وَالشُّعَرَاءُ يَتَّبِعُهُمُ الْغَاوُونَ أَلَمْ تَرَ أَنَّهُمْ فِي كُلِّ وَادٍ يَهِيمُونَ وَأَنَّهُمْ يَقُولُونَ مَا لَا يَفْعَلُونَ</div><div class="transliteration">Wasy-syu'arā`u yattabi'uhumul-gāwụn. A lam tara annahum fī kulli wādin yahīmụn. Wa annahum yaqụlụna mā lā yaf'alụn.</div><div class="translation-text">Translation: "And the poets - [only] the deviators follow them. Do you not see that they wander in every valley, and that they say what they do not do?"</div></div>
+                <div class="verse-item"><div class="verse-number">Verse 227</div><div class="arabic">إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَذَكَرُوا اللَّهَ كَثِيرًا وَانتَصَرُوا مِن بَعْدِ مَا ظُلِمُوا ۗ وَسَيَعْلَمُ الَّذِينَ ظَلَمُوا أَيَّ مُنقَلَبٍ يَنقَلِبُونَ</div><div class="transliteration">Illallażīna āmanụ wa 'amiluṣ-ṣāliḥāti wa żakarullāha kaṡīraw wantaṣarụ mim ba'di mā ẓulimụ, wa saya'lamullażīna ẓalamū ayya munqalabiy yanqalibụn.</div><div class="translation-text">Translation: "Except those who believe and do righteous deeds and remember Allah much and defend themselves after being wronged. And those who wronged will soon know to what kind of return they will be returned."</div></div>
+                <div class="tafsir-box"><strong>Extended Tafsir (Ibn Kathir & Al-Qurtubi):</strong> Allah distinguishes between misguided poets whom deviators follow and believing poets who do good deeds. The accusation that the Qur'an is poetry is a great lie because the Qur'an contains absolute truth, promises and threats, laws and wisdom, while pre-Islamic poetry is full of falsehood and fantasy. Excepted are believing poets like Hassan ibn Thabit who used poetry to defend Islam. <a href="https://www.islamicstudies.info/tafheem.php?sura=26&verse=224&to=227&opt=1" target="_blank">📖 Detailed Tafsir <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="tafsir-source">Source: Ibn Kathir & Al-Qurtubi</div></div>
         </div>
 
-        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Ash-Shu'ara</h3><ul><li>Affirms the Qur'an as a clear book (mubin) and not from devils.</li><li>Stories of nine prophets provide timeless examples of patience and steadfastness.</li><li>Refutes the accusation that Prophet Muhammad was a poet.</li><li>Consoles the Prophet deeply grieved by his people's rejection.</li><li>Warns tyrants through the fate of Pharaoh, 'Ad, Thamud, and others.</li></ul></div>
-        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> The Qur'an is Allah's clear revelation; faith in all prophets; belief in Allah's absolute power.</p><p><strong>Ibadah (Worship):</strong> Reading and contemplating the Qur'an; praying with hope and fear; relying on Allah in every step of da'wah.</p><p><strong>Akhlaq (Character):</strong> Patience in facing rejection; speaking gently; avoiding arrogance like Pharaoh; honesty in trade (Shu'aib's message).</p></div>
-        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Ash-Shu'ara</h3><ul><li>Truth will always triumph over falsehood even when it appears weak.</li><li>Patience is the key to the success of the prophets' preaching.</li><li>Remembering the stories of past nations prevents repeating the same mistakes.</li><li>The Qur'an is the criterion distinguishing right from wrong.</li><li>Do not accuse without knowledge, like the accusation that the Qur'an is poetry.</li></ul></div>
-        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Hate speech and hoaxes: This surah teaches verification and not accusing without evidence.</li><li>Arrogance of power: The story of Pharaoh is a warning to oppressive rulers.</li><li>Criticism of misleading artists/poets: Verses 224-227 distinguish between believing and misguided artists.</li><li>Consistency of da'wah in the digital age: The repetition pattern shows that challenges are constant, but methods can adapt.</li><li>Character education: The stories of the prophets serve as a curriculum of role models for young generations.</li></ol></div>
-        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li>With Al-Furqan (25): Al-Furqan discusses the characteristics of Ibadurrahman, while Ash-Shu'ara provides real-life stories of prophets who embodied those characteristics.</li><li>With An-Naml (27): Ash-Shu'ara focuses on brief repetitive stories of prophets, while An-Naml gives a detailed account of Solomon and the ant.</li><li>With Al-Qashash (28): Ash-Shu'ara tells Moses' story briefly, while Al-Qashash elaborates it in great detail.</li></ul></div>
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> "Then do not kill yourself with grief over them." (26:3) – Allah consoles those who face rejection in their mission.</div>
-    </div>
+        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+            <p><strong>Aqidah (Creed):</strong> The Qur'an is Allah's clear revelation; faith in all prophets; belief in Allah's absolute power and punishment for denying nations.</p>
+            <p><strong>Ibadah (Worship):</strong> Reading and contemplating the Qur'an; praying with hope and fear; relying on Allah in da'wah; night prayer.</p>
+            <p><strong>Akhlaq (Character):</strong> Patience in facing rejection; speaking gently; avoiding arrogance (humility); honesty in trade (Shu'aib's message); refraining from immoral acts.</p>
+        </div>
 
-    <!-- Pagination -->
-    <div class="surah-pagination">
-        <a href="025.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Al-Furqan</a>
-        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="027.html" class="pagination-item">Next Surah: An-Naml <i class="fas fa-arrow-right"></i></a>
+        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Ash-Shu'ara</h3>
+            <ul><li>Affirms the Qur'an as a clear book (mubin) and not from devils.</li><li>Stories of nine prophets provide timeless examples of patience and steadfastness.</li><li>Refutes the accusation that Prophet Muhammad was a poet.</li><li>Consoles the Prophet deeply grieved by his people's rejection.</li><li>Warns tyrants through the fate of Pharaoh, 'Ad, Thamud, and others.</li></ul>
+        </div>
+
+        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Ash-Shu'ara</h3>
+            <ul><li>Truth will always triumph over falsehood even when it appears weak.</li><li>Patience is the key to the success of the prophets' preaching.</li><li>Remembering the stories of past nations prevents repeating the same mistakes.</li><li>The Qur'an is the criterion distinguishing right from wrong.</li><li>Do not accuse without knowledge, like the accusation that the Qur'an is poetry.</li></ul>
+        </div>
+
+        <div class="relevance-box"><h3><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</h3>
+            <ul><li>Hate speech and hoaxes: This surah teaches verification and not accusing without evidence.</li><li>Arrogance of power: The story of Pharaoh is a warning to oppressive rulers.</li><li>Criticism of misleading artists/poets: Verses 224-227 distinguish between believing and misguided artists.</li><li>Consistency of da'wah in the digital age: The repetition pattern shows that challenges are constant, but methods can adapt.</li><li>Character education: The stories of the prophets serve as a curriculum of role models for young generations.</li></ul>
+        </div>
+
+        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3>
+            <ul><li><strong>With Al-Furqan (25):</strong> Al-Furqan discusses the characteristics of Ibadurrahman, while Ash-Shu'ara provides real-life stories of prophets who embodied those characteristics.</li><li><strong>With An-Naml (27):</strong> Ash-Shu'ara focuses on brief repetitive stories of prophets, while An-Naml gives a detailed account of Solomon and the ant.</li><li><strong>With Al-Qashash (28):</strong> Ash-Shu'ara tells Moses' story briefly, while Al-Qashash elaborates it in great detail.</li></ul>
+        </div>
+
+        <!-- English Pagination -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="025.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: Al-Furqan (25)</a>
+                <a href="027.html" class="pagination-item">Next Surah: An-Naml (27) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+            </div>
+        </div>
     </div>
 </div>
-<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Guidance for Reflection</footer>
+
+<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info & sumber klasik | Thematic Reflection</footer>
 
 <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
 <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <script>
-(function() {
+(function(){
     const englishDiv = document.getElementById('english-content');
     const indoDiv = document.getElementById('indonesian-content');
     const langToggle = document.getElementById('languageToggle');
@@ -491,13 +688,13 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     let langParam = null;
-    if (urlParams.has('English')) langParam = 'english';
-    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+    if(urlParams.has('English')) langParam = 'english';
+    else if(urlParams.has('Indonesian')) langParam = 'indonesian';
     let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
 
-    function setLanguage(lang) {
+    function setLanguage(lang){
         const isEnglish = (lang === 'english');
-        if (isEnglish) {
+        if(isEnglish){
             englishDiv.classList.remove('hidden');
             indoDiv.classList.add('hidden');
             langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
@@ -514,9 +711,8 @@
         setLanguage(newLang);
     });
 
-    let translitVisible = localStorage.getItem('transliteration') === 'true';
-    if (urlParams.has('Transliteration')) translitVisible = true;
-    function setTransliteration(show) {
+    let translitVisible = (urlParams.has('Transliteration')) ? true : (localStorage.getItem('transliteration') === 'true');
+    function setTransliteration(show){
         translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
         translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
         localStorage.setItem('transliteration', show);
@@ -528,12 +724,12 @@
     });
 
     let darkActive = false;
-    if (urlParams.has('Dark')) darkActive = true;
+    if(urlParams.has('Dark')) darkActive = true;
     else darkActive = localStorage.getItem('darkMode') === 'true';
-    if (darkActive) document.body.classList.add('dark-mode');
-    function setDarkModeUI() {
+    if(darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI(){
         const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
+        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
         localStorage.setItem('darkMode', active);
     }
     setDarkModeUI();
@@ -544,8 +740,8 @@
 
     const upArrow = document.getElementById('scrollUp');
     const downArrow = document.getElementById('scrollDown');
-    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
 })();
 </script>
 </body>
