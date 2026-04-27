@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Surah Al-Mulk - Tafsir Tematik | Thematic Tafsir</title>
+    <title>Surah Al-Mulk (67) - Tafsir Tematik | Thematic Tafsir</title>
     <style>
         :root {
             --bg-color: #f5f9fc;
@@ -26,8 +26,8 @@
             --bg-color: #121826;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
-            --arabic-color: #7bc9ff;
-            --section-title-color: #90d0ff;
+            --arabic-color: #9ad0ff;
+            --section-title-color: #7bc9ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
@@ -35,7 +35,7 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #93c5fd;
+            --link-color: #90caf9;
             --link-hover: #c3e2ff;
             --theme-card-bg: #1e293bdd;
         }
@@ -59,38 +59,23 @@
         }
         a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
         a:hover { color: var(--link-hover); text-decoration: underline; }
-        .blink-arrow {
-            animation: blink 1s step-start infinite;
-            display: inline-block;
-            font-weight: bold;
-            background: #ffcc00;
-            color: #000;
-            padding: 2px 6px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            margin-right: 6px;
-        }
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
         .arabic {
-            font-size: 36px;
+            font-size: 42px;
             text-align: right;
             direction: rtl;
             margin: 20px 0 10px 0;
             color: var(--arabic-color);
             font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
-            line-height: 1.8;
+            line-height: 2;
         }
         .transliteration {
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
-            text-align: center;
+            text-align: right;
             margin: 0 0 10px 0;
             display: none;
         }
-        .dark-mode .transliteration { color: #b0c4de; }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -111,7 +96,7 @@
             align-items: center;
             gap: 10px;
         }
-        .verse, .theme-point, .theme-card {
+        .verse, .theme-point {
             background-color: var(--verse-bg);
             padding: 20px;
             border-radius: 20px;
@@ -124,13 +109,19 @@
             margin-bottom: 12px;
             font-size: 1.2rem;
         }
-        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
         .tafsir-box {
             background-color: var(--tafsir-bg);
             padding: 15px;
             border-radius: 16px;
             margin-top: 15px;
             border: 1px solid var(--tafsir-border);
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.7;
+            font-style: italic;
         }
         .hidden { display: none; }
         .top-home-link {
@@ -144,6 +135,9 @@
         .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
         .theme-card {
             background: var(--theme-card-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
             border-left: 6px solid #2c7da0;
             box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
@@ -206,13 +200,17 @@
         .scroll-arrow.up { top: 90px; }
         .scroll-arrow.down { bottom: 90px; }
         .surah-pagination {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
             margin: 40px 0 20px;
             padding-top: 20px;
             border-top: 1px solid var(--verse-border);
+        }
+        .pagination-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         .pagination-item {
             background: var(--verse-bg);
@@ -226,6 +224,7 @@
             transition: 0.2s;
         }
         .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center { text-align: center; }
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -253,138 +252,193 @@
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
         .fa, .fas, .far { margin-right: 4px; }
-        .verse-item { margin-bottom: 20px; border-bottom: 1px dashed var(--verse-border); padding-bottom: 15px; }
-        .verse-item:last-child { border-bottom: none; }
         .relationship-box {
             background: var(--structure-bg);
             padding: 20px;
             border-radius: 24px;
             margin: 30px 0;
+            border-left: 5px solid #2c7da0;
         }
-        .external-arrow { margin-left: 4px; }
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
+        }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
+        }
+        .verse-item {
+            margin-bottom: 25px;
+            border-bottom: 1px dashed var(--verse-border);
+            padding-bottom: 15px;
+        }
+        .verse-item:last-child { border-bottom: none; }
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> <span class="lang-text">🇬🇧 Switch to English</span></div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT -->
+    <!-- INDONESIAN CONTENT (PRESERVED AND ENHANCED WITH FULL VERSE RANGES) -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        <h1 class="surah-title">Surah Al-Mulk (Kerajaan) - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=30&opt=1" target="_blank">IslamicStudies.info - Surah Al-Mulk (1-30)</a></div>
+        <h1 class="surah-title">Surah Al-Mulk (67) - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=30&opt=1" target="_blank">IslamicStudies.info - Surah Al-Mulk (1-30) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
 
         <div class="theme-overview">
-            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Mulk</h3>
-            <p>Surah ke-67 (30 ayat) Makkiyah. Dikenal sebagai <em>Al-Māni‘ah</em> (pencegah azab kubur) dan <em>Al-Munjiyah</em> (penyelamat). Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=30&opt=1" target="_blank">IslamicStudies.info</a>, surah ini menegaskan kekuasaan mutlak Allah, tanda-tanda kebesaran-Nya di alam semesta, serta peringatan tentang hari kiamat dan siksa neraka. Membacanya setiap malam menjadi benteng dari fitnah kubur.</p>
+            <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Mulk (Surah ke-67)</h3>
+            <p>Surah Al-Mulk (67) adalah surah Makkiyah yang terdiri dari 30 ayat. Dinamai “Al-Mulk” (Kerajaan) karena pembukaannya yang menegaskan kekuasaan mutlak Allah. Surah ini dikenal sebagai <em>Al-Māni‘ah</em> (pencegah azab kubur) dan <em>Al-Munjiyah</em> (penyelamat). Surah ini menegaskan kekuasaan mutlak Allah, tanda-tanda kebesaran-Nya di alam semesta, serta peringatan tentang hari kiamat dan siksa neraka.</p>
         </div>
+
+        <!-- Akidah, Ibadah, Akhlak -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Allah adalah satu-satunya Pemilik kerajaan langit dan bumi; Mahakuasa; menciptakan mati dan hidup untuk ujian amal. (67:1-2)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Membaca Surah Al-Mulk setiap malam; merenungkan ayat-ayat kauniyah; bersyukur atas nikmat air, langit, dan bumi. (67:30)</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Tidak sombong dengan kekuasaan duniawi; menyadari kelemahan diri; waspada terhadap azab neraka. (67:6-11, 67:19)</div>
+        </div>
+
         <div class="info-box">
             <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
-            <p><a href="https://quran.com/67?translations=33" target="_blank"><span class="blink-arrow">👉 KLIK DISINI 👈</span> Quran.com - Surah Al-Mulk (Terjemahan Indonesia) <i class="fas fa-external-link-alt external-arrow"></i></a></p>
+            <p><a href="https://quran.com/67?translations=33" target="_blank">Quran.com - Surah Al-Mulk (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p>
         </div>
         <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Mulk</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/067.mp3" type="audio/mpeg"></audio></div>
 
-        <!-- Struktur dan Kandungan -->
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-sitemap"></i> Struktur dan Kandungan Surah</h2>
-            <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Judul Tema</th><th>Deskripsi</th></tr></thead>
-                <tbody>
-                    <tr><td><strong>1-5</strong></td><td>Kedaulatan Allah & Penciptaan Langit</td><td>Allah pemilik kerajaan, menciptakan tujuh langit berlapis tanpa cacat, bintang sebagai pelempar setan.</td></tr>
-                    <tr><td><strong>6-11</strong></td><td>Peringatan Siksa Neraka</td><td>Azab Jahannam bagi pendusta, mereka mengakui kesalahan namun terlambat.</td></tr>
-                    <tr><td><strong>12-14</strong></td><td>Balasan Orang Bertakwa</td><td>Orang yang takut kepada Allah meskipun tersembunyi mendapat ampunan dan pahala besar.</td></tr>
-                    <tr><td><strong>15-18</strong></td><td>Kekuasaan di Bumi</td><td>Bumi dihamparkan, gunung sebagai pasak, rezeki dijamin, namun manusia ingkar.</td></tr>
-                    <tr><td><strong>19-24</strong></td><td>Tanda-tanda Kebesaran</td><td>Burung terbang ditahan Allah, semua makhluk bertasbih, Allah yang memberi rezeki.</td></tr>
-                    <tr><td><strong>25-30</strong></td><td>Kepastian Hari Kiamat</td><td>Orang kafir meminta disegerakan azab, Allah Maha Mengetahui, air sumber kehidupan.</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Pembagian Tema per Bagian Ayat -->
+        <!-- PEMBAGIAN TEMA PER BAGIAN AYAT -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-table"></i> Pembagian Tema per Bagian Ayat</h2>
             <table class="theme-table">
-                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>67:1-2</strong></td><td>Kekuasaan mutlak & tujuan penciptaan</td><td>Allah yang menguasai kerajaan, menciptakan mati dan hidup untuk menguji amal terbaik.</td></tr>
-                    <tr><td><strong>67:3-4</strong></td><td>Kesempurnaan langit</td><td>Tujuh langit berlapis tanpa cacat, pandangan kembali akan kelelahan.</td></tr>
-                    <tr><td><strong>67:5</strong></td><td>Bintang sebagai pelempar setan</td><td>Lampu-lampu di langit untuk menghujani setan yang mencuri berita.</td></tr>
-                    <tr><td><strong>67:6-11</strong></td><td>Azab Jahannam</td><td>Neraka mendidih, penyesalan orang kafir, pengakuan bahwa rasul benar.</td></tr>
-                    <tr><td><strong>67:12</strong></td><td>Orang yang takut kepada Allah</td><td>Mereka mendapat ampunan dan pahala besar.</td></tr>
-                    <tr><td><strong>67:15</strong></td><td>Bumi tunduk pada manusia</td><td>Berjalanlah di penjuru bumi dan makanlah rezeki Allah.</td></tr>
-                    <tr><td><strong>67:19</strong></td><td>Burung terbang dengan kekuasaan Allah</td><td>Tidak ada yang menahan burung selain Allah Yang Maha Melihat.</td></tr>
-                    <tr><td><strong>67:23-24</strong></td><td>Allah pencipta pendengaran, penglihatan, hati</td><td>Sedikit sekali yang bersyukur.</td></tr>
-                    <tr><td><strong>67:30</strong></td><td>Air sumber kehidupan</td><td>Jika air surut, siapa yang akan memberimu air yang mengalir?</td></tr>
+                    <tr><td><strong>1-5</strong></td><td>Kedaulatan Allah & Penciptaan Langit</th><td>Allah pemilik kerajaan, tujuh langit berlapis tanpa cacat, bintang sebagai pelempar setan. — Ibnu Katsir</th></tr>
+                    <tr><td><strong>6-11</strong></td><td>Peringatan Siksa Neraka</th><td>Azab Jahannam bagi pendusta, mereka mengakui kesalahan namun terlambat. — Al-Qurthubi</th></tr>
+                    <tr><td><strong>12-14</strong></td><td>Balasan Orang Bertakwa</th><td>Orang yang takut kepada Allah meskipun tersembunyi mendapat ampunan dan pahala besar. — As-Sa'di</th></td>
+                    <tr><td><strong>15-18</strong></td><td>Kekuasaan di Bumi</th><td>Bumi dihamparkan, gunung sebagai pasak, rezeki dijamin, namun manusia ingkar. — At-Tabari</th></tr>
+                    <tr><td><strong>19-24</strong></td><td>Tanda-tanda Kebesaran</th><td>Burung terbang ditahan Allah, semua makhluk bertasbih, Allah yang memberi rezeki. — Ibnu Katsir</th></tr>
+                    <tr><td><strong>25-30</strong></td><td>Kepastian Hari Kiamat</th><td>Orang kafir meminta disegerakan azab, Allah Maha Mengetahui, air sumber kehidupan. — As-Sa'di</th></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Ayat Kunci untuk Tadabbur -->
+        <!-- AYAT KUNCI UNTUK TADABBUR -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
             <div class="verse">
                 <div class="arabic">ٱلَّذِى خَلَقَ ٱلْمَوْتَ وَٱلْحَيَوٰةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا ۚ وَهُوَ ٱلْعَزِيزُ ٱلْغَفُورُ</div>
                 <div class="transliteration">Alladhī khalaqa al-mawta wal-ḥayāta liyabluwakum ayyukum aḥsanu ‘amalā, wa huwa al-‘azīzu al-ghafūr.</div>
-                <p><strong>Terjemahan:</strong> "Yang menciptakan mati dan hidup untuk menguji kamu, siapa di antara kamu yang lebih baik amalnya. Dan Dia Mahaperkasa, Maha Pengampun." (Al-Mulk 67:2)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Tujuan penciptaan kehidupan dan kematian adalah ujian kualitas amal, bukan kuantitas. “Aḥsanu ‘amalā” (yang terbaik amalnya) menunjukkan bahwa Allah menilai keikhlasan dan kesesuaian dengan syariat. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=2&to=2&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                <div class="translation-text"><strong>Terjemahan:</strong> “Yang menciptakan mati dan hidup untuk menguji kamu, siapa di antara kamu yang lebih baik amalnya. Dan Dia Mahaperkasa, Maha Pengampun.” (Al-Mulk 67:2)</div>
+                <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Tujuan penciptaan kehidupan dan kematian adalah ujian kualitas amal, bukan kuantitas. “Aḥsanu ‘amalā” (yang terbaik amalnya) menunjukkan bahwa Allah menilai keikhlasan dan kesesuaian dengan syariat. Ibnu Katsir berkata: “Ini adalah nikmat yang sangat besar, karena Allah menciptakan kita untuk diuji, bukan untuk disiksa tanpa tujuan.” — Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
             </div>
         </div>
 
-        <!-- Tema Utama dengan ayat lengkap -->
+        <!-- PESAN AKIDAH, IBADAH, AKHLAK (BENEFITS LIST) -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, Akhlak</h3>
+            <p><strong>Akidah:</strong> Meyakini bahwa Allah adalah satu-satunya Pemilik kerajaan langit dan bumi, Mahakuasa atas segala sesuatu. Tujuan hidup adalah beramal saleh.</p>
+            <p><strong>Ibadah:</strong> Membaca Surah Al-Mulk setiap malam, merenungkan ayat-ayat kauniyah (tanda-tanda alam), dan memperbanyak syukur atas nikmat air, langit, dan bumi.</p>
+            <p><strong>Akhlak:</strong> Tidak sombong dengan kekuasaan duniawi, menyadari kelemahan diri di hadapan Allah, serta selalu waspada terhadap azab neraka.</p>
+        </div>
+
+        <!-- TEMA UTAMA SURAH (AYAT LENGKAP) - INDONESIAN (ENHANCED) -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Al-Mulk</h2>
 
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-1"></i> 1. Kedaulatan Mutlak Allah – Ayat 1-2</div>
+            <!-- 1. Kedaulatan Mutlak Allah – Ayat 1-5 -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-1"></i> 1. Kedaulatan Mutlak Allah & Kesempurnaan Langit (Ayat 1-5)</div>
                 <div class="verse-item">
-                    <div class="arabic">تَبَارَكَ ٱلَّذِى بِيَدِهِ ٱلْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌ * ٱلَّذِى خَلَقَ ٱلْمَوْتَ وَٱلْحَيَوٰةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا ۚ وَهُوَ ٱلْعَزِيزُ ٱلْغَفُورُ</div>
-                    <div class="transliteration">Tabārakalladhī biyadihil-mulku wa huwa 'alā kulli shay'in qadīr * alladhī khalaqa al-mawta wal-ḥayāta liyabluwakum ayyukum aḥsanu ‘amalā, wa huwa al-‘azīzu al-ghafūr.</div>
-                    <p><strong>Terjemahan:</strong> "Mahasuci Allah yang di tangan-Nyalah segala kerajaan, dan Dia Mahakuasa atas segala sesuatu. Yang menciptakan mati dan hidup untuk menguji kamu, siapa di antara kamu yang lebih baik amalnya. Dan Dia Mahaperkasa, Maha Pengampun." (67:1-2)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> “Tabārak” mengandung makna kesempurnaan, kelanggengan, dan melimpahnya kebaikan. Seluruh kerajaan langit dan bumi milik Allah. Tujuan hidup adalah ujian kualitas amal. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=2&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=5&opt=1" target="_blank">Al-Mulk 67:1-5 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">تَبَارَكَ ٱلَّذِى بِيَدِهِ ٱلْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌ ﴿١﴾ ٱلَّذِى خَلَقَ ٱلْمَوْتَ وَٱلْحَيَوٰةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًۭا ۚ وَهُوَ ٱلْعَزِيزُ ٱلْغَفُورُ ﴿٢﴾ ٱلَّذِى خَلَقَ سَبْعَ سَمَـٰوَٰتٍۢ طِبَاقًۭا ۖ مَّا تَرَىٰ فِى خَلْقِ ٱلرَّحْمَـٰنِ مِن تَفَـٰوُتٍۢ ۖ فَٱرْجِعِ ٱلْبَصَرَ هَلْ تَرَىٰ مِن فُطُورٍۢ ﴿٣﴾ ثُمَّ ٱرْجِعِ ٱلْبَصَرَ كَرَّتَيْنِ يَنقَلِبْ إِلَيْكَ ٱلْبَصَرُ خَاسِئًۭا وَهُوَ حَسِيرٌۭ ﴿٤﴾ وَلَقَدْ زَيَّنَّا ٱلسَّمَآءَ ٱلدُّنْيَا بِمَصَـٰبِيحَ وَجَعَلْنَـٰهَا رُجُومًۭا لِّلشَّيَـٰطِينِ ۖ وَأَعْتَدْنَا لَهُمْ عَذَابَ ٱلسَّعِيرِ ﴿٥﴾</div>
+                    <div class="transliteration">Tabārakalladhī biyadihil-mulku wa huwa 'alā kulli shay'in qadīr (1) Alladhī khalaqa al-mawta wal-ḥayāta liyabluwakum ayyukum aḥsanu ‘amalā, wa huwa al-‘azīzu al-ghafūr (2) Alladhī khalaqa sab‘a samāwātin ṭibāqā, mā tarā fī khalqir-raḥmāni min tafāwut, farji‘il-baṣara hal tarā min fuṭūr (3) Thumma rji‘il-baṣara karratayni yanqalib ilaykal-baṣaru khāsi’aw wa huwa ḥasīr (4) Wa laqad zayyannā s-samā’a dunyā bimaṣābīḥa wa ja‘alnāhā rujūmal li-sh-shayāṭīni wa a‘tadnā lahum ‘adhāba s-sa‘īr (5)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> “Mahasuci Allah yang di tangan-Nyalah segala kerajaan, dan Dia Mahakuasa atas segala sesuatu. Yang menciptakan mati dan hidup untuk menguji kamu, siapa di antara kamu yang lebih baik amalnya. Dan Dia Mahaperkasa, Maha Pengampun. Yang telah menciptakan tujuh langit berlapis-lapis. Tidak akan kamu lihat pada ciptaan Tuhan Yang Maha Pengasih sesuatu yang tidak seimbang. Maka lihatlah berulang-ulang, adakah kamu lihat sesuatu yang cacat? Kemudian lihatlah sekali lagi (dan sekali lagi) niscaya penglihatanmu akan kembali kepadamu dengan kecewa dan letih. Dan sungguh, Kami telah menghiasi langit yang terdekat dengan lampu-lampu (bintang), dan Kami menjadikannya sebagai pelempar setan-setan. Dan Kami sediakan untuk mereka azab neraka yang menyala-nyala.”</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> “Tabārak” mengandung makna kesempurnaan, kelanggengan, dan melimpahnya kebaikan. Seluruh kerajaan langit dan bumi milik Allah. Tujuan hidup adalah ujian kualitas amal. Langit yang berlapis tidak memiliki cacat atau ketidakseimbangan, ajakan merenungi alam semesta sebagai bukti keesaan Allah. Ibnu Katsir menjelaskan bahwa bintang di langit dunia memiliki dua fungsi: sebagai hiasan dan sebagai pelempar setan yang mencuri berita langit. — Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
                 </div>
             </div>
 
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-2"></i> 2. Kesempurnaan Ciptaan Langit – Ayat 3-4</div>
+            <!-- 2. Peringatan tentang Azab Neraka – Ayat 6-11 -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-2"></i> 2. Peringatan tentang Azab Neraka (Ayat 6-11)</div>
                 <div class="verse-item">
-                    <div class="arabic">ٱلَّذِى خَلَقَ سَبْعَ سَمَـٰوَٰتٍۢ طِبَاقًۭا ۖ مَّا تَرَىٰ فِى خَلْقِ ٱلرَّحْمَـٰنِ مِن تَفَـٰوُتٍۢ ۖ فَٱرْجِعِ ٱلْبَصَرَ هَلْ تَرَىٰ مِن فُطُورٍۢ * ثُمَّ ٱرْجِعِ ٱلْبَصَرَ كَرَّتَيْنِ يَنقَلِبْ إِلَيْكَ ٱلْبَصَرُ خَاسِئًۭا وَهُوَ حَسِيرٌۭ</div>
-                    <div class="transliteration">Alladhī khalaqa sab‘a samāwātin ṭibāqā, mā tarā fī khalqir-raḥmāni min tafāwut, farji‘il-baṣara hal tarā min fuṭūr * thumma rji‘il-baṣara karratayni yanqalib ilaykal-baṣaru khāsi’aw wa huwa ḥasīr.</div>
-                    <p><strong>Terjemahan:</strong> "Yang telah menciptakan tujuh langit berlapis-lapis. Tidak akan kamu lihat pada ciptaan Tuhan Yang Maha Pengasih sesuatu yang tidak seimbang. Maka lihatlah berulang-ulang, adakah kamu lihat sesuatu yang cacat? Kemudian lihatlah sekali lagi (dan sekali lagi) niscaya penglihatanmu akan kembali kepadamu dengan kecewa dan letih." (67:3-4)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Langit yang berlapis tidak memiliki cacat atau ketidakseimbangan. Ajakan merenungi alam semesta sebagai bukti keesaan dan kesempurnaan Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=3&to=4&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=6&to=11&opt=1" target="_blank">Al-Mulk 67:6-11 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <div class="arabic">وَلِلَّذِينَ كَفَرُوا۟ بِرَبِّهِمْ عَذَابُ جَهَنَّمَ ۖ وَبِئْسَ ٱلْمَصِيرُ ﴿٦﴾ إِذَآ أُلْقُوا۟ فِيهَا سَمِعُوا۟ لَهَا شَهِيقًۭا وَهِىَ تَفُورُ ﴿٧﴾ تَكَادُ تَمَيَّزُ مِنَ ٱلْغَيْظِ ۖ كُلَّمَآ أُلْقِىَ فِيهَا فَوْجٌۭ سَأَلَهُمْ خَزَنَتُهَآ أَلَمْ يَأْتِكُمْ نَذِيرٌۭ ﴿٨﴾ قَالُوا۟ بَلَىٰ قَدْ جَآءَنَا نَذِيرٌۭ فَكَذَّبْنَا وَقُلْنَا مَا نَزَّلَ ٱللَّهُ مِن شَىْءٍ إِنْ أَنتُمْ إِلَّا فِى ضَلَـٰلٍۢ كَبِيرٍۢ ﴿٩﴾ وَقَالُوا۟ لَوْ كُنَّا نَسْمَعُ أَوْ نَعْقِلُ مَا كُنَّا فِىٓ أَصْحَـٰبِ ٱلسَّعِيرِ ﴿١٠﴾ فَٱعْتَرَفُوا۟ بِذَنۢبِهِمْ فَسُحْقًۭا لِّأَصْحَـٰبِ ٱلسَّعِيرِ ﴿١١﴾</div>
+                    <div class="transliteration">Wa lilladhīna kafarū birabbihim ‘adhābu jahannam, wa bi’sal-maṣīr (6) Idhā ulqū fīhā sami‘ū lahā shahīqan wahiya tafūr (7) Takādu tamayyazu mina al-ghayẓ, kullamā ulqiya fīhā fawjun sa’alahum khazanatuhā alam ya’tikum nadhīr (8) Qālū balā qad jā’anā nadhīrun fakadhdhabnā wa qulnā mā nazzala llāhu min shay’in in antum illā fī ḍalālin kabīr (9) Wa qālū law kunnā nasma‘u aw na‘qilu mā kunnā fī aṣḥābi s-sa‘īr (10) Fa‘tarafū bidhanbihim fasuḥqan li’aṣḥābi s-sa‘īr (11)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> “Dan bagi orang-orang yang kafir kepada Tuhannya (disediakan) azab Jahanam. Itulah seburuk-buruk tempat kembali. Apabila mereka dilemparkan ke dalamnya, mereka mendengar suara neraka yang mengerikan, sedang neraka itu mendidih. Hampir-hampir neraka itu terpecah-pecah karena marah. Setiap kali dilemparkan ke dalamnya sekumpulan (orang kafir), penjaga-penjaga (neraka) itu bertanya kepada mereka, 'Apakah belum pernah datang kepada kamu seorang pemberi peringatan?' Mereka menjawab, 'Benar, sungguh, seorang pemberi peringatan telah datang kepada kami, tetapi kami mendustakan(nya) dan kami berkata, 'Allah tidak menurunkan sesuatu apa pun; kamu (para rasul) hanyalah dalam kesesatan yang besar.' Dan mereka berkata, 'Sekiranya kami mendengarkan atau memikirkan (peringatan itu) niscaya kami tidak termasuk penghuni neraka yang menyala-nyala.' Maka mereka mengakui dosanya. Maka kebinasaanlah bagi penghuni neraka yang menyala-nyala.”</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Neraka Jahanam mendidih dan bersuara mengerikan, hampir pecah karena kemarahan. Setiap kelompok yang masuk akan ditanya oleh penjaga neraka. Mereka mengakui kesalahan dan menyesal, tetapi penyesalan tidak berguna. Al-Qurthubi menjelaskan bahwa ini adalah peringatan keras agar manusia bertaubat sebelum terlambat. Mereka mengakui bahwa seandainya mereka mendengar atau menggunakan akal, mereka tidak akan masuk neraka. — Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
                 </div>
             </div>
 
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-3"></i> 3. Peringatan tentang Azab Neraka – Ayat 6-11</div>
+            <!-- 3. Balasan Orang Bertakwa – Ayat 12-14 -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-3"></i> 3. Balasan Orang Bertakwa (Ayat 12-14)</div>
                 <div class="verse-item">
-                    <div class="arabic">وَلِلَّذِينَ كَفَرُوا۟ بِرَبِّهِمْ عَذَابُ جَهَنَّمَ ۖ وَبِئْسَ ٱلْمَصِيرُ * إِذَآ أُلْقُوا۟ فِيهَا سَمِعُوا۟ لَهَا شَهِيقًۭا وَهِىَ تَفُورُ * تَكَادُ تَمَيَّزُ مِنَ ٱلْغَيْظِ ۖ كُلَّمَآ أُلْقِىَ فِيهَا فَوْجٌۭ سَأَلَهُمْ خَزَنَتُهَآ أَلَمْ يَأْتِكُمْ نَذِيرٌۭ</div>
-                    <div class="transliteration">Wa lilladhīna kafarū birabbihim ‘adhābu jahannam, wa bi’sal-maṣīr * idhā ulqū fīhā sami‘ū lahā shahīqan wahiya tafūr * takādu tamayyazu mina al-ghayẓ, kullamā ulqiya fīhā fawjun sa’alahum khazanatuhā alam ya’tikum nadhīr.</div>
-                    <p><strong>Terjemahan:</strong> "Dan bagi orang-orang yang kafir kepada Tuhannya (disediakan) azab Jahanam. Itulah seburuk-buruk tempat kembali. Apabila mereka dilemparkan ke dalamnya, mereka mendengar suara neraka yang mengerikan, sedang neraka itu mendidih. Hampir-hampir neraka itu terpecah-pecah karena marah. Setiap kali dilemparkan ke dalamnya sekumpulan (orang kafir), penjaga-penjaga (neraka) itu bertanya kepada mereka, 'Apakah belum pernah datang kepada kamu seorang pemberi peringatan?'" (67:6-8)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Neraka Jahanam mendidih dan bersuara mengerikan, peringatan keras agar manusia bertaubat sebelum terlambat. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=6&to=11&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                    <div class="arabic">إِنَّ ٱلَّذِينَ يَخْشَوْنَ رَبَّهُم بِٱلْغَيْبِ لَهُم مَّغْفِرَةٌۭ وَأَجْرٌۭ كَبِيرٌۭ ﴿١٢﴾ وَأَسِرُّوا۟ قَوْلَكُمْ أَوِ ٱجْهَرُوا۟ بِهِۦٓ ۖ إِنَّهُۥ عَلِيمٌۢ بِذَاتِ ٱلصُّدُورِ ﴿١٣﴾ أَلَا يَعْلَمُ مَنْ خَلَقَ وَهُوَ ٱللَّطِيفُ ٱلْخَبِيرُ ﴿١٤﴾</div>
+                    <div class="transliteration">Inna lladhīna yakhshawna rabbahum bil-ghaybi lahum maghfiratun wa ajrun kabīr (12) Wa asirrū qawlakum awijharū bihī, innahū ‘alīmun bidhāti ṣ-ṣudūr (13) Alā ya‘lamu man khalaqa wa huwa l-laṭīfu l-khabīr (14)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> “Sesungguhnya orang-orang yang takut kepada Tuhannya meskipun tidak melihat (oleh mereka), mereka akan memperoleh ampunan dan pahala yang besar. Dan rahasiakanlah perkataanmu atau nyatakanlah, sesungguhnya Dia Maha Mengetahui segala isi hati. Apakah (pantas) Allah yang menciptakan itu tidak mengetahui? Dan Dia Maha Halus lagi Maha Mengetahui.”</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> As-Sa’di menjelaskan bahwa takwa dalam keadaan gaib (tidak dilihat orang) adalah bukti keimanan sejati. Allah mengetahui rahasia dan yang terang-terangan. Tidak mungkin Pencipta tidak mengetahui ciptaan-Nya. — As-Sa’di, Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Sumber: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
                 </div>
             </div>
 
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-4"></i> 4. Kelemahan Manusia di Hadapan Kekuasaan Allah – Ayat 19</div>
+            <!-- 4. Kekuasaan di Bumi – Ayat 15-18 -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-4"></i> 4. Kekuasaan di Bumi (Ayat 15-18)</div>
                 <div class="verse-item">
-                    <div class="arabic">أَوَلَمْ يَرَوْا۟ إِلَى ٱلطَّيْرِ فَوْقَهُمْ صَـٰٓفَّـٰتٍۢ وَيَقْبِضْنَ ۚ مَا يُمْسِكُهُنَّ إِلَّا ٱلرَّحْمَـٰنُ ۚ إِنَّهُۥ بِكُلِّ شَىْءٍۭ بَصِيرٌ</div>
-                    <div class="transliteration">Awa lam yaraw ilaṭ-ṭayri fawqahum ṣāffātin wayaqbiḍn, mā yumsikuhunna illar-raḥmān, innahū bikulli shay'in baṣīr.</div>
-                    <p><strong>Terjemahan:</strong> "Dan tidakkah mereka memperhatikan burung-burung yang mengembangkan dan menutupkan sayapnya di atas mereka? Tidak ada yang menahannya (di udara) selain Yang Maha Pengasih. Sesungguhnya Dia Maha Melihat segala sesuatu." (67:19)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Burung yang terbang ditahan oleh kekuasaan Allah, mengajarkan manusia akan kelemahan dan ketergantungan mutlak pada-Nya. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=19&to=19&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                    <div class="arabic">هُوَ ٱلَّذِى جَعَلَ لَكُمُ ٱلْأَرْضَ ذَلُولًۭا فَٱمْشُوا۟ فِى مَنَاكِبِهَا وَكُلُوا۟ مِن رِّزْقِهِۦ ۖ وَإِلَيْهِ ٱلنُّشُورُ ﴿١٥﴾ ءَأَمِنتُم مَّن فِى ٱلسَّمَآءِ أَن يَخْسِفَ بِكُمُ ٱلْأَرْضَ فَإِذَا هِىَ تَمُورُ ﴿١٦﴾ أَمْ أَمِنتُم مَّن فِى ٱلسَّمَآءِ أَن يُرْسِلَ عَلَيْكُمْ حَاصِبًۭا ۖ فَسَتَعْلَمُونَ كَيْفَ نَذِيرِ ﴿١٧﴾ وَلَقَدْ كَذَّبَ ٱلَّذِينَ مِن قَبْلِهِمْ فَكَيْفَ كَانَ نَكِيرِ ﴿١٨﴾</div>
+                    <div class="transliteration">Huwa alladhī ja‘ala lakumu l-arḍa dhalūlan famshū fī manākibihā wa kulū min rizqihī wa ilayhi n-nushūr (15) A-amintum man fī s-samā’i an yakhsifa bikum al-arḍa fa-idhā hiya tamūr (16) Am amintum man fī s-samā’i an yursila ‘alaykum ḥāṣiban fasata‘lamūna kayfa nadhīr (17) Wa laqad kadhdhaba lladhīna min qablihim fakayfa kāna nakīr (18)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> “Dialah yang menjadikan bumi untuk kamu yang mudah dijelajahi, maka berjalanlah di penjurunya dan makanlah sebagian dari rezeki-Nya. Dan hanya kepada-Nyalah kamu (kembali setelah) dibangkitkan. Apakah kamu merasa aman terhadap Allah yang di langit bahwa Dia akan membenamkan bumi bersama kamu, sehingga (bumi) itu berguncang? Atau apakah kamu merasa aman terhadap Allah yang di langit bahwa Dia akan mengirimkan badai yang berbatu? Maka kelak kamu akan mengetahui bagaimana (akibat mendustakan) peringatan-Ku. Dan sungguh, orang-orang sebelum mereka telah mendustakan (rasul-rasul-Nya). Maka betapa hebatnya kemurkaan-Ku!”</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> At-Tabari menjelaskan bahwa Allah menjadikan bumi mudah dijelajahi, namun manusia sering lalai. Peringatan keras tentang azab yang bisa datang dari atas atau bawah sebagai pengingat akan kekuasaan Allah. — At-Tabari, Jami‘ Al-Bayan</div>
+                    <div class="tafsir-source">Sumber: At-Tabari, Jami‘ Al-Bayan</div>
                 </div>
             </div>
 
-            <div class="theme-card"><div class="theme-title"><i class="fas fa-5"></i> 5. Air Sumber Kehidupan & Kekuasaan Allah – Ayat 30</div>
+            <!-- 5. Tanda-tanda Kebesaran – Ayat 19-24 -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-5"></i> 5. Tanda-tanda Kebesaran Allah (Ayat 19-24)</div>
                 <div class="verse-item">
-                    <div class="arabic">قُلْ أَرَءَيْتُمْ إِنْ أَصْبَحَ مَآؤُكُمْ غَوْرًۭا فَمَن يَأْتِيكُم بِمَآءٍۢ مَّعِينٍۭ</div>
-                    <div class="transliteration">Qul ara’aytum in aṣbaḥa mā’ukum ghawran faman ya’tīkum bimā’in ma‘īn.</div>
-                    <p><strong>Terjemahan:</strong> "Katakanlah (Muhammad), 'Terangkanlah kepadaku jika sumber air kamu menjadi kering; maka siapa yang akan memberimu air yang mengalir?'" (67:30)</p>
-                    <div class="tafsir-box"><strong>Tafsir:</strong> Air adalah sumber kehidupan. Hanya Allah yang mampu mendatangkan air yang mengalir. Penutup surah ini menegaskan bahwa semua ketergantungan hanya kepada Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=30&to=30&opt=1" target="_blank">📖 Rinci Tafsir</a></div>
+                    <div class="arabic">أَوَلَمْ يَرَوْا۟ إِلَى ٱلطَّيْرِ فَوْقَهُمْ صَـٰٓفَّـٰتٍۢ وَيَقْبِضْنَ ۚ مَا يُمْسِكُهُنَّ إِلَّا ٱلرَّحْمَـٰنُ ۚ إِنَّهُۥ بِكُلِّ شَىْءٍۭ بَصِيرٌ ﴿١٩﴾ أَمَّنْ هَـٰذَا ٱلَّذِى هُوَ جُندٌۭ لَّكُمْ يَنصُرُكُم مِّن دُونِ ٱلرَّحْمَـٰنِ ۚ إِنِ ٱلْكَـٰفِرُونَ إِلَّا فِى غُرُورٍ ﴿٢٠﴾ أَمَّنْ هَـٰذَا ٱلَّذِى يَرْزُقُكُمْ إِنْ أَمْسَكَ رِزْقَهُۥ ۚ بَل لَّجُّوا۟ فِى عُتُوٍّۢ وَنُفُورٍ ﴿٢١﴾ أَفَمَن يَمْشِى مُكِبًّا عَلَىٰ وَجْهِهِۦٓ أَهْدَىٰٓ أَمَّن يَمْشِى سَوِيًّا عَلَىٰ صِرَٰطٍۢ مُّسْتَقِيمٍۢ ﴿٢٢﴾ قُلْ هُوَ ٱلَّذِىٓ أَنشَأَكُمْ وَجَعَلَ لَكُمُ ٱلسَّمْعَ وَٱلْأَبْصَـٰرَ وَٱلْأَفْـِٔدَةَ ۖ قَلِيلًۭا مَّا تَشْكُرُونَ ﴿٢٣﴾ قُلْ هُوَ ٱلَّذِى ذَرَأَكُمْ فِى ٱلْأَرْضِ وَإِلَيْهِ تُحْشَرُونَ ﴿٢٤﴾</div>
+                    <div class="transliteration">Awalam yaraw ilā ṭ-ṭayri fawqahum ṣāffātin wa yaqbiḍn, mā yumsikuhunna illar-raḥmān, innahū bikulli shay'in baṣīr (19) Amman hādhā lladhī huwa jundul lakum yanṣurukum min dūni r-raḥmān, ini l-kāfirūna illā fī ghurūr (20) Amman hādhā lladhī yarzuqukum in amsaka rizqah, bal lajjū fī ‘utuwwin wa nufūr (21) Afaman yamshī mukibban ‘alā wajhihī ahdā amman yamshī sawiyyan ‘alā ṣirāṭin mustaqīm (22) Qul huwalladhī ansha’akum wa ja‘ala lakumu s-sam‘a wa l-abṣāra wa l-af’idah, qalīlan mā tashkurūn (23) Qul huwalladhī dhara’akum fī l-arḍi wa ilayhi tuḥsharūn (24)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> “Tidakkah mereka memperhatikan burung-burung yang mengembangkan dan menutupkan sayapnya di atas mereka? Tidak ada yang menahannya (di udara) selain Yang Maha Pengasih. Sesungguhnya Dia Maha Melihat segala sesuatu. Atau siapakah yang dapat menjadi tentara bagimu yang akan menolongmu selain Allah Yang Maha Pengasih? Orang-orang kafir itu tidak lain dalam keadaan tertipu. Atau siapakah yang dapat memberimu rezeki jika Dia menahan rezeki-Nya? Sebenarnya mereka terus-menerus dalam kesombongan dan menjauhkan diri. Maka apakah orang yang berjalan terjungkal di atas wajahnya lebih terpimpin, ataukah orang yang berjalan tegap di atas jalan yang lurus? Katakanlah, 'Dialah yang menciptakan kamu dan menjadikan pendengaran, penglihatan, dan hati untukmu. (Tetapi) sedikit sekali kamu bersyukur.' Katakanlah, 'Dialah yang menjadikan kamu berkembang biak di bumi, dan hanya kepada-Nyalah kamu akan dikumpulkan.'”</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menekankan bahwa burung terbang di udara hanya dengan kekuasaan Allah. Manusia tidak memiliki kekuatan untuk menolong dirinya sendiri selain Allah. Siapa yang memberi rezeki jika Allah menahannya? Orang yang berjalan dengan benar (mengikuti petunjuk) lebih baik daripada yang tersesat. Allah memberi pendengaran, penglihatan, dan hati, namun sedikit yang bersyukur. — Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+
+            <!-- 6. Kepastian Hari Kiamat & Air Kehidupan – Ayat 25-30 -->
+            <div class="theme-card">
+                <div class="theme-title"><i class="fas fa-6"></i> 6. Kepastian Hari Kiamat & Air Kehidupan (Ayat 25-30)</div>
+                <div class="verse-item">
+                    <div class="arabic">وَيَقُولُونَ مَتَىٰ هَـٰذَا ٱلْوَعْدُ إِن كُنتُمْ صَـٰدِقِينَ ﴿٢٥﴾ قُلْ إِنَّمَا ٱلْعِلْمُ عِندَ ٱللَّهِ وَإِنَّمَآ أَنَا۠ نَذِيرٌۭ مُّبِينٌۭ ﴿٢٦﴾ فَلَمَّا رَأَوْهُ زُلْفَةًۭ سِيٓـَٔتْ وُجُوهُ ٱلَّذِينَ كَفَرُوا۟ وَقِيلَ هَـٰذَا ٱلَّذِى كُنتُم بِهِۦ تَدَّعُونَ ﴿٢٧﴾ قُلْ أَرَءَيْتُمْ إِنْ أَهْلَكَنِىَ ٱللَّهُ وَمَن مَّعِىَ أَوْ رَحِمَنَا فَمَن يُجِيرُ ٱلْكَـٰفِرِينَ مِنْ عَذَابٍ أَلِيمٍۢ ﴿٢٨﴾ قُلْ هُوَ ٱلرَّحْمَـٰنُ ءَامَنَّا بِهِۦ وَعَلَيْهِ تَوَكَّلْنَا ۖ فَسَتَعْلَمُونَ مَنْ هُوَ فِى ضَلَـٰلٍۢ مُّبِينٍۢ ﴿٢٩﴾ قُلْ أَرَءَيْتُمْ إِنْ أَصْبَحَ مَآؤُكُمْ غَوْرًۭا فَمَن يَأْتِيكُم بِمَآءٍۢ مَّعِينٍۭ ﴿٣٠﴾</div>
+                    <div class="transliteration">Wa yaqūlūna matā hādhā l-wa‘du in kuntum ṣādiqīn (25) Qul innamā l-‘ilmu ‘inda llāhi wa innamā anā nadhīrun mubīn (26) Falammā ra’awhu zulfatan sī’at wujūhu lladhīna kafarū wa qīla hādhā lladhī kuntum bihī tadda‘ūn (27) Qul ara’aytum in ahlakanīya llāhu wa man ma‘iya aw raḥimanā faman yujīru l-kāfirīna min ‘adhābin alīm (28) Qul huwa r-raḥmānu āmannā bihī wa ‘alayhi tawakkalnā fasata‘lamūna man huwa fī ḍalālin mubīn (29) Qul ara’aytum in aṣbaḥa mā’ukum ghawran faman ya’tīkum bimā’in ma‘īn (30)</div>
+                    <div class="translation-text"><strong>Terjemahan:</strong> “Dan mereka berkata, 'Kapan (datangnya) janji ini jika kamu orang yang benar?' Katakanlah (Muhammad), 'Sesungguhnya ilmu (tentang hari kiamat) hanya pada Allah, dan aku hanyalah seorang pemberi peringatan yang jelas.' Maka ketika mereka melihat azab itu mendekat, muka orang-orang kafir menjadi muram. Dan dikatakan (kepada mereka), 'Inilah (azab) yang dahulu kamu minta.' Katakanlah, 'Terangkanlah kepadaku jika Allah mematikan aku dan orang-orang yang bersamaku atau memberi rahmat kepada kami, maka siapa yang dapat melindungi orang-orang kafir dari azab yang pedih?' Katakanlah, 'Dialah Yang Maha Pengasih, kami beriman kepada-Nya dan kepada-Nya kami bertawakal. Maka kelak kamu akan mengetahui siapa yang berada dalam kesesatan yang nyata.' Katakanlah, 'Terangkanlah kepadaku jika sumber air kamu menjadi kering; maka siapa yang akan memberimu air yang mengalir?'”</div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Orang kafir menertawakan janji azab. Allah memerintahkan Nabi untuk mengatakan bahwa ilmu hanya di sisi Allah. Ketika azab datang, wajah mereka muram. Pertanyaan tentang air yang menjadi kering adalah penutup yang kuat: hanya Allah yang memberi air kehidupan. As-Sa’di menjelaskan bahwa ayat ini mengajarkan ketergantungan mutlak manusia kepada Allah dalam segala hal, termasuk sumber kehidupan yang paling dasar. — As-Sa’di, Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Sumber: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
                 </div>
             </div>
         </div>
@@ -392,173 +446,247 @@
         <!-- Keutamaan Khusus Surah -->
         <div class="special-benefits">
             <h3><i class="fas fa-award"></i> Keutamaan Khusus Surah Al-Mulk</h3>
-            <ul>
-                <li><strong>Pelindung dari Azab Kubur:</strong> Rasulullah ﷺ bersabda, "Surah Al-Mulk adalah pencegah (azab kubur)." (HR. Tirmidzi, dishahihkan Albani).</li>
-                <li><strong>Memberi syafaat:</strong> Surah ini akan memberi syafaat bagi pembacanya hingga ia diampuni.</li>
-                <li><strong>Dibaca setiap malam:</strong> Membaca Al-Mulk sebelum tidur menjadi benteng dari fitnah kubur.</li>
-                <li><strong>Mengandung 30 ayat penuh keberkahan:</strong> Setiap ayat mengingatkan pada kekuasaan dan rahmat Allah.</li>
-                <li><strong>Menggugah kesadaran tauhid:</strong> Menegaskan bahwa hanya Allah yang memiliki kerajaan mutlak.</li>
-            </ul>
-        </div>
-
-        <!-- Pesan Akidah, Ibadah, Akhlak -->
-        <div class="benefits-list">
-            <h3><i class="fas fa-heart"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
-            <p><strong>Akidah:</strong> Meyakini bahwa Allah adalah satu-satunya Pemilik kerajaan langit dan bumi, Mahakuasa atas segala sesuatu. Tujuan hidup adalah beramal saleh.</p>
-            <p><strong>Ibadah:</strong> Membaca Surah Al-Mulk setiap malam, merenungkan ayat-ayat kauniyah (tanda-tanda alam), dan memperbanyak syukur atas nikmat air, langit, dan bumi.</p>
-            <p><strong>Akhlak:</strong> Tidak sombong dengan kekuasaan duniawi, menyadari kelemahan diri di hadapan Allah, serta selalu waspada terhadap azab neraka.</p>
+            <ul><li><strong>Pelindung dari Azab Kubur:</strong> Rasulullah ﷺ bersabda, "Surah Al-Mulk adalah pencegah (azab kubur)." (HR. Tirmidzi, dishahihkan Albani).</li><li><strong>Memberi syafaat:</strong> Surah ini akan memberi syafaat bagi pembacanya hingga ia diampuni.</li><li><strong>Dibaca setiap malam:</strong> Membaca Al-Mulk sebelum tidur menjadi benteng dari fitnah kubur.</li><li><strong>Mengandung 30 ayat penuh keberkahan:</strong> Setiap ayat mengingatkan pada kekuasaan dan rahmat Allah.</li><li><strong>Menggugah kesadaran tauhid:</strong> Menegaskan bahwa hanya Allah yang memiliki kerajaan mutlak.</li></ul>
         </div>
 
         <!-- Pelajaran Spiritual -->
         <div class="benefits-list">
             <h3><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Mulk</h3>
-            <ul>
-                <li>Hidup dan mati adalah ujian untuk meraih kualitas amal terbaik.</li>
-                <li>Alam semesta dengan segala keteraturannya adalah bukti keesaan dan kesempurnaan Allah.</li>
-                <li>Neraka adalah realitas yang mengerikan; jangan sampai tertipu oleh dunia.</li>
-                <li>Ketergantungan mutlak manusia kepada Allah dalam segala hal, termasuk air dan udara.</li>
-                <li>Membaca Al-Mulk setiap malam adalah investasi akhirat yang ringan namun besar pahalanya.</li>
-            </ul>
+            <ul><li>Hidup dan mati adalah ujian untuk meraih kualitas amal terbaik.</li><li>Alam semesta dengan segala keteraturannya adalah bukti keesaan dan kesempurnaan Allah.</li><li>Neraka adalah realitas yang mengerikan; jangan sampai tertipu oleh dunia.</li><li>Ketergantungan mutlak manusia kepada Allah dalam segala hal, termasuk air dan udara.</li><li>Membaca Al-Mulk setiap malam adalah investasi akhirat yang ringan namun besar pahalanya.</li></ul>
         </div>
 
-        <!-- Relevansi Kehidupan Modern -->
+        <!-- Relevansi untuk Kehidupan Modern -->
         <div class="theme-card">
-            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi Surah untuk Kehidupan Modern</div>
-            <ol>
-                <li><strong>Krisis Lingkungan & Air:</strong> Ayat 30 mengingatkan bahwa air bersih adalah nikmat besar yang hanya Allah jaga. Perubahan iklim membuat manusia semakin sadar akan ketergantungan pada-Nya.</li>
-                <li><strong>Kesombongan Teknologi:</strong> Manusia modern merasa kuat dengan teknologi, namun ayat tentang burung terbang (67:19) mengajarkan bahwa semua makhluk bergantung pada Allah.</li>
-                <li><strong>Kesehatan Mental:</strong> Membaca Al-Mulk setiap malam memberikan ketenangan dan perlindungan spiritual dari kecemasan akan kematian dan kubur.</li>
-                <li><strong>Materialisme:</strong> Ayat 1-2 mengingatkan bahwa kekuasaan sejati hanya milik Allah, sehingga manusia tidak perlu sombong dengan harta atau jabatan.</li>
-                <li><strong>Krisis Iman di Era Sekuler:</strong> Surah ini mengajak merenungi alam sebagai bukti rasional keberadaan Tuhan.</li>
-            </ol>
+            <div class="theme-title"><i class="fas fa-globe"></i> Relevansi untuk Kehidupan Modern</div>
+            <ol><li><strong>Krisis Lingkungan & Air:</strong> Ayat 30 mengingatkan bahwa air bersih adalah nikmat besar yang hanya Allah jaga. Perubahan iklim membuat manusia semakin sadar akan ketergantungan pada-Nya.</li><li><strong>Kesombongan Teknologi:</strong> Manusia modern merasa kuat dengan teknologi, namun ayat tentang burung terbang (67:19) mengajarkan bahwa semua makhluk bergantung pada Allah.</li><li><strong>Kesehatan Mental:</strong> Membaca Al-Mulk setiap malam memberikan ketenangan dan perlindungan spiritual dari kecemasan akan kematian dan kubur.</li><li><strong>Materialisme:</strong> Ayat 1-2 mengingatkan bahwa kekuasaan sejati hanya milik Allah, sehingga manusia tidak perlu sombong dengan harta atau jabatan.</li><li><strong>Krisis Iman di Era Sekuler:</strong> Surah ini mengajak merenungi alam sebagai bukti rasional keberadaan Tuhan.</li></ol>
         </div>
 
         <!-- Hubungan dengan Surah Lain -->
         <div class="relationship-box">
             <h3><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h3>
-            <ul>
-                <li><strong>Dengan Surah Al-Haqqah (69):</strong> Sama-sama Makkiyah dan menggambarkan dahsyatnya hari kiamat serta pembalasan.</li>
-                <li><strong>Dengan Surah Al-Qalam (68):</strong> Al-Mulk membuka dengan pujian kekuasaan Allah, Al-Qalam menekankan kemuliaan akhlak Nabi.</li>
-                <li><strong>Dengan Surah Al-Fatihah (1):</strong> “Maliki yawmid-dīn” (Penguasa hari pembalasan) selaras dengan kekuasaan mutlak Allah di Al-Mulk.</li>
-                <li><strong>Dengan Surah Ar-Rahman (55):</strong> Sama-sama mengajak merenungkan nikmat dan tanda-tanda kebesaran Allah di langit dan bumi.</li>
-            </ul>
+            <ul><li><strong>Dengan Surah Al-Haqqah (69):</strong> Sama-sama Makkiyah dan menggambarkan dahsyatnya hari kiamat serta pembalasan.</li><li><strong>Dengan Surah Al-Qalam (68):</strong> Al-Mulk membuka dengan pujian kekuasaan Allah, Al-Qalam menekankan kemuliaan akhlak Nabi.</li><li><strong>Dengan Surah Al-Fatihah (1):</strong> “Maliki yawmid-dīn” (Penguasa hari pembalasan) selaras dengan kekuasaan mutlak Allah di Al-Mulk.</li><li><strong>Dengan Surah Ar-Rahman (55):</strong> Sama-sama mengajak merenungkan nikmat dan tanda-tanda kebesaran Allah di langit dan bumi.</li></ul>
         </div>
 
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> “Yang menciptakan mati dan hidup untuk menguji kamu, siapa di antara kamu yang lebih baik amalnya.” (67:2)</div>
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> Renungkan: “Yang menciptakan mati dan hidup untuk menguji kamu, siapa di antara kamu yang lebih baik amalnya.” (67:2)</div>
+
+        <!-- Pagination INDONESIA -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="066.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya: At-Tahrim (66)</a>
+                <a href="068.html" class="pagination-item">Surah Berikutnya: Al-Qalam (68) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            </div>
+        </div>
     </div>
 
-    <!-- ENGLISH CONTENT -->
+    <!-- ENGLISH CONTENT (mirror of Indonesian - full ayats, no placeholders, full transliteration copied) -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        <h1 class="surah-title">Surah Al-Mulk (The Sovereignty) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Reliable Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=30&opt=1" target="_blank">IslamicStudies.info - Surah Al-Mulk (1-30)</a></div>
+        <h1 class="surah-title">Surah Al-Mulk (67) - Thematic Tafsir</h1>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Mulk</h3><p>Meccan surah (30 verses). Known as <em>Al-Māni‘ah</em> (The Preventer) and <em>Al-Munjiyah</em> (The Savior). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=30&opt=1" target="_blank">IslamicStudies.info</a>, it emphasizes Allah's absolute sovereignty, signs of His greatness in creation, and warnings of Hell. Reciting it every night protects from the punishment of the grave.</p></div>
-        <div class="info-box"><h3>Full Text</h3><p><a href="https://recitequran.com/67" target="_blank"><span class="blink-arrow">👉 CLICK HERE 👈</span> ReciteQuran.com - Surah Al-Mulk <i class="fas fa-external-link-alt external-arrow"></i></a></p></div>
+        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=30&opt=1" target="_blank">IslamicStudies.info - Surah Al-Mulk (1-30) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Overview of Surah Al-Mulk (Surah 67)</h3>
+            <p>Surah Al-Mulk (67) is a Meccan surah consisting of 30 verses. It is named “Al-Mulk” (The Sovereignty) because its opening affirms Allah's absolute dominion. It is known as <em>Al-Māni‘ah</em> (the preventer of grave punishment) and <em>Al-Munjiyah</em> (the savior). The surah emphasizes Allah's absolute sovereignty, signs of His greatness in creation, and warnings of Hell.</p>
+        </div>
+
+        <!-- Aqidah, Ibadah, Akhlaq (English) -->
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Allah alone owns the heavens and earth; He is All-Powerful; He created death and life to test deeds. (67:1-2)</div>
+            <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Recite Surah Al-Mulk every night; reflect on natural signs; be grateful for water, sky, and earth. (67:30)</div>
+            <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Do not be arrogant with worldly power; recognize human weakness; fear Hell's punishment. (67:6-11, 67:19)</div>
+        </div>
+
+        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/67" target="_blank">ReciteQuran.com - Surah Al-Mulk <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Mulk</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/067.mp3"></audio></div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-sitemap"></i> Structure and Content of the Surah</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Theme Title</th><th>Description</th></tr></thead><tbody>
-                <tr><td><strong>1-5</strong></td><td>Allah's Sovereignty & Creation of Heavens</td><td>Allah owns the kingdom, created seven heavens without flaw, stars as missiles against devils.</td></tr>
-                <tr><td><strong>6-11</strong></td><td>Warning of Hell's Punishment</td><td>Jahannam's dreadful boiling, disbelievers admit their mistake too late.</td></tr>
-                <tr><td><strong>12-14</strong></td><td>Reward for the Righteous</td><td>Those who fear Allah in secret receive forgiveness and great reward.</td></tr>
-                <tr><td><strong>15-18</strong></td><td>Power on Earth</td><td>Earth spread out, mountains as pegs, provision guaranteed, yet humans deny.</td></tr>
-                <tr><td><strong>19-24</strong></td><td>Signs of Greatness</td><td>Birds held aloft by Allah, all creatures glorify Him, Allah provides sustenance.</td></tr>
-                <tr><td><strong>25-30</strong></td><td>Certainty of the Last Day</td><td>Disbelievers ask to hasten punishment; Allah knows best; water as source of life.</td></tr>
-            </tbody></table>
+        <!-- Thematic Division by Verses (English) -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message & Additional Tafsir</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1-5</strong></td><td>Allah's Sovereignty & Creation of Heavens</th><td>Allah owns the kingdom, created seven heavens without flaw, stars as missiles against devils. — Ibn Kathir</th></tr>
+                    <tr><td><strong>6-11</strong></th><td>Warning of Hell's Punishment</th><td>Jahannam's dreadful boiling, disbelievers admit their mistake too late. — Al-Qurtubi</th></tr>
+                    <tr><td><strong>12-14</strong></th><td>Reward for the Righteous</th><td>Those who fear Allah in secret receive forgiveness and great reward. — As-Sa'di</th></tr>
+                    <tr><td><strong>15-18</strong></th><td>Power on Earth</th><td>Earth spread out, mountains as pegs, provision guaranteed, yet humans deny. — At-Tabari</th></tr>
+                    <tr><td><strong>19-24</strong></th><td>Signs of Greatness</th><td>Birds held aloft by Allah, all creatures glorify Him, Allah provides sustenance. — Ibn Kathir</th></tr>
+                    <tr><td><strong>25-30</strong></th><td>Certainty of the Last Day</th><td>Disbelievers ask to hasten punishment; Allah knows best; water as source of life. — As-Sa'di</th></tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
-            <table class="theme-table"><thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
-                <tr><td><strong>67:1-2</strong></td><td>Absolute Sovereignty & Purpose of Creation</td><td>Allah owns the kingdom; created death and life to test who does best deeds.</td></tr>
-                <tr><td><strong>67:3-4</strong></td><td>Perfection of the Heavens</td><td>Seven layered heavens with no flaw; return the gaze, it will come back humbled.</td></tr>
-                <tr><td><strong>67:5</strong></td><td>Stars as Missiles</td><td>Stars to pelt devils who eavesdrop on heavenly news.</td></tr>
-                <tr><td><strong>67:6-11</strong></td><td>Punishment of Hell</td><td>Hell boils with rage; disbelievers admit the messengers were right.</td></tr>
-                <tr><td><strong>67:12</strong></td><td>Those Who Fear Allah</td><td>They receive forgiveness and a great reward.</td></tr>
-                <tr><td><strong>67:15</strong></td><td>Earth Subdued for Mankind</td><td>Walk in its paths and eat of His provision.</td></tr>
-                <tr><td><strong>67:19</strong></td><td>Birds Held by Allah's Power</td><td>None holds them except the Most Merciful, Who sees all things.</td></tr>
-                <tr><td><strong>67:23-24</strong></td><td>Allah Creator of Hearing, Sight, Heart</td><td>Yet few are grateful.</td></tr>
-                <tr><td><strong>67:30</strong></td><td>Water as Source of Life</td><td>If your water sinks away, who can bring you flowing water?</td></tr>
-            </tbody></table>
-        </div>
-
-        <div class="section"><h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
+        <!-- Key Verse for Contemplation (English) -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
             <div class="verse">
                 <div class="arabic">ٱلَّذِى خَلَقَ ٱلْمَوْتَ وَٱلْحَيَوٰةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًا ۚ وَهُوَ ٱلْعَزِيزُ ٱلْغَفُورُ</div>
                 <div class="transliteration">Alladhī khalaqa al-mawta wal-ḥayāta liyabluwakum ayyukum aḥsanu ‘amalā, wa huwa al-‘azīzu al-ghafūr.</div>
-                <p><strong>Translation:</strong> "[He] who created death and life to test you [as to] which of you is best in deed. And He is the Exalted in Might, the Forgiving." (67:2)</p>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The purpose of life and death is to test the quality of deeds – not quantity. “Best in deed” means sincerity and conformity to Shariah. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=2&to=2&opt=1" target="_blank">📖 Detailed Tafsir</a></div>
+                <div class="translation-text"><strong>Translation:</strong> "[He] who created death and life to test you [as to] which of you is best in deed. And He is the Exalted in Might, the Forgiving." (Al-Mulk 67:2)</div>
+                <div class="tafsir-box"><strong>In-depth Tafsir:</strong> The purpose of life and death is to test the quality of deeds – not quantity. “Best in deed” means sincerity and conformity to Shariah. Ibn Kathir said: “This is a great blessing, because Allah created us to be tested, not to be punished without purpose.” — Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
             </div>
         </div>
 
-        <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Mulk</h2>
-            <div class="theme-card"><div class="theme-title">1. Absolute Sovereignty of Allah – Verses 1-2</div>
-                <div class="verse-item"><div class="arabic">تَبَارَكَ ٱلَّذِى بِيَدِهِ ٱلْمُلْكُ ...</div><div class="transliteration">Tabārakalladhī biyadihil-mulku ...</div><p><strong>Translation:</strong> "Blessed is He in whose hand is dominion..." (67:1)</p><div class="tafsir-box">Allah owns all sovereignty; life and death are a test of righteous deeds. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=2&opt=1" target="_blank">Read more</a></div></div>
+        <!-- Message of Aqidah, Worship, & Akhlaq (English) -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+            <p><strong>Aqidah (Creed):</strong> Believe that Allah alone owns the heavens and earth, and that life is a test of righteous deeds.</p>
+            <p><strong>Ibadah (Worship):</strong> Recite Surah Al-Mulk nightly, reflect on natural signs, and be grateful for water, sky, and earth.</p>
+            <p><strong>Akhlaq (Character):</strong> Avoid arrogance over worldly power, recognize human weakness, and fear Hell's punishment.</p>
+        </div>
+
+        <!-- MAIN THEMES (ENGLISH) - FULL MIRROR OF INDONESIAN, WITH FULL TRANSLITERATION -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Mulk (Detailed Tafsir)</h2>
+
+            <!-- Theme 1: Absolute Sovereignty & Perfection of Heavens (1-5) English -->
+            <div class="theme-card">
+                <div class="theme-title">1. Allah's Absolute Sovereignty & Perfection of Heavens (Verses 1-5)</div>
+                <div class="verse-item">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=1&to=5&opt=1" target="_blank">Al-Mulk 67:1-5 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">تَبَارَكَ ٱلَّذِى بِيَدِهِ ٱلْمُلْكُ وَهُوَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌ ﴿١﴾ ٱلَّذِى خَلَقَ ٱلْمَوْتَ وَٱلْحَيَوٰةَ لِيَبْلُوَكُمْ أَيُّكُمْ أَحْسَنُ عَمَلًۭا ۚ وَهُوَ ٱلْعَزِيزُ ٱلْغَفُورُ ﴿٢﴾ ٱلَّذِى خَلَقَ سَبْعَ سَمَـٰوَٰتٍۢ طِبَاقًۭا ۖ مَّا تَرَىٰ فِى خَلْقِ ٱلرَّحْمَـٰنِ مِن تَفَـٰوُتٍۢ ۖ فَٱرْجِعِ ٱلْبَصَرَ هَلْ تَرَىٰ مِن فُطُورٍۢ ﴿٣﴾ ثُمَّ ٱرْجِعِ ٱلْبَصَرَ كَرَّتَيْنِ يَنقَلِبْ إِلَيْكَ ٱلْبَصَرُ خَاسِئًۭا وَهُوَ حَسِيرٌۭ ﴿٤﴾ وَلَقَدْ زَيَّنَّا ٱلسَّمَآءَ ٱلدُّنْيَا بِمَصَـٰبِيحَ وَجَعَلْنَـٰهَا رُجُومًۭا لِّلشَّيَـٰطِينِ ۖ وَأَعْتَدْنَا لَهُمْ عَذَابَ ٱلسَّعِيرِ ﴿٥﴾</div>
+                    <div class="transliteration">Tabārakalladhī biyadihil-mulku wa huwa 'alā kulli shay'in qadīr (1) Alladhī khalaqa al-mawta wal-ḥayāta liyabluwakum ayyukum aḥsanu ‘amalā, wa huwa al-‘azīzu al-ghafūr (2) Alladhī khalaqa sab‘a samāwātin ṭibāqā, mā tarā fī khalqir-raḥmāni min tafāwut, farji‘il-baṣara hal tarā min fuṭūr (3) Thumma rji‘il-baṣara karratayni yanqalib ilaykal-baṣaru khāsi’aw wa huwa ḥasīr (4) Wa laqad zayyannā s-samā’a dunyā bimaṣābīḥa wa ja‘alnāhā rujūmal li-sh-shayāṭīni wa a‘tadnā lahum ‘adhāba s-sa‘īr (5)</div>
+                    <div class="translation-text"><strong>Translation:</strong> “Blessed is He in whose hand is dominion, and He is over all things competent – [He] who created death and life to test you [as to] which of you is best in deed. And He is the Exalted in Might, the Forgiving – [He] who created seven heavens in layers. You do not see in the creation of the Most Merciful any inconsistency. So return [your] vision [to the sky]; do you see any breaks? Then return [your] vision twice again. [Your] vision will return to you humbled while it is fatigued. And We have certainly beautified the nearest heaven with stars and have made [from] them what is thrown at the devils and have prepared for them the punishment of the Blaze.”</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> “Tabārak” conveys perfection, permanence, and abundant goodness. All sovereignty belongs to Allah. Life and death are a test of the best deeds. The layered heavens show no flaw – an invitation to contemplate the universe as proof of Allah's oneness. Ibn Kathir explains that stars in the lowest heaven serve two purposes: adornment and as missiles against devils who eavesdrop on heavenly news. — Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title">2. Perfection of the Heavens – Verses 3-4</div>
-                <div class="verse-item"><div class="arabic">ٱلَّذِى خَلَقَ سَبْعَ سَمَـٰوَٰتٍۢ طِبَاقًۭا ...</div><div class="transliteration">Alladhī khalaqa sab‘a samāwātin ṭibāqā ...</div><p><strong>Translation:</strong> "[He] who created seven heavens in layers..." (67:3)</p><div class="tafsir-box">The cosmos shows no flaw; a call to contemplate the Creator's perfection. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=3&to=4&opt=1" target="_blank">Read more</a></div></div>
+
+            <!-- Theme 2: Warning of Hell's Punishment (6-11) English -->
+            <div class="theme-card">
+                <div class="theme-title">2. Warning of Hell's Punishment (Verses 6-11)</div>
+                <div class="verse-item">
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=6&to=11&opt=1" target="_blank">Al-Mulk 67:6-11 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <div class="arabic">وَلِلَّذِينَ كَفَرُوا۟ بِرَبِّهِمْ عَذَابُ جَهَنَّمَ ۖ وَبِئْسَ ٱلْمَصِيرُ ﴿٦﴾ إِذَآ أُلْقُوا۟ فِيهَا سَمِعُوا۟ لَهَا شَهِيقًۭا وَهِىَ تَفُورُ ﴿٧﴾ تَكَادُ تَمَيَّزُ مِنَ ٱلْغَيْظِ ۖ كُلَّمَآ أُلْقِىَ فِيهَا فَوْجٌۭ سَأَلَهُمْ خَزَنَتُهَآ أَلَمْ يَأْتِكُمْ نَذِيرٌۭ ﴿٨﴾ قَالُوا۟ بَلَىٰ قَدْ جَآءَنَا نَذِيرٌۭ فَكَذَّبْنَا وَقُلْنَا مَا نَزَّلَ ٱللَّهُ مِن شَىْءٍ إِنْ أَنتُمْ إِلَّا فِى ضَلَـٰلٍۢ كَبِيرٍۢ ﴿٩﴾ وَقَالُوا۟ لَوْ كُنَّا نَسْمَعُ أَوْ نَعْقِلُ مَا كُنَّا فِىٓ أَصْحَـٰبِ ٱلسَّعِيرِ ﴿١٠﴾ فَٱعْتَرَفُوا۟ بِذَنۢبِهِمْ فَسُحْقًۭا لِّأَصْحَـٰبِ ٱلسَّعِيرِ ﴿١١﴾</div>
+                    <div class="transliteration">Wa lilladhīna kafarū birabbihim ‘adhābu jahannam, wa bi’sal-maṣīr (6) Idhā ulqū fīhā sami‘ū lahā shahīqan wahiya tafūr (7) Takādu tamayyazu mina al-ghayẓ, kullamā ulqiya fīhā fawjun sa’alahum khazanatuhā alam ya’tikum nadhīr (8) Qālū balā qad jā’anā nadhīrun fakadhdhabnā wa qulnā mā nazzala llāhu min shay’in in antum illā fī ḍalālin kabīr (9) Wa qālū law kunnā nasma‘u aw na‘qilu mā kunnā fī aṣḥābi s-sa‘īr (10) Fa‘tarafū bidhanbihim fasuḥqan li’aṣḥābi s-sa‘īr (11)</div>
+                    <div class="translation-text"><strong>Translation:</strong> “For those who disbelieve in their Lord is the punishment of Hell, and wretched is the destination. When they are thrown into it, they hear from it a [dreadful] inhaling while it boils up. It almost bursts with rage. Every time a company is thrown into it, its keepers ask them, 'Did there not come to you a warner?' They will say, 'Yes, a warner had come to us, but we denied and said, 'Allah has not sent down anything. You are not but in great error.' And they will say, 'If only we had been listening or reasoning, we would not be among the companions of the Blaze.' And they will confess their sin. So [it is] alienation for the companions of the Blaze.”</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Hell boils and nearly bursts with rage. Each group thrown in is asked by the keepers. They admit their error and regret, but regret is useless. Al-Qurtubi explains that this is a stern warning to repent before it is too late. They confess that if they had listened or used reason, they would not be in Hell. — Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                    <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title">3. Warning of Hell's Punishment – Verses 6-11</div>
-                <div class="verse-item"><div class="arabic">وَلِلَّذِينَ كَفَرُوا۟ بِرَبِّهِمْ عَذَابُ جَهَنَّمَ ...</div><div class="transliteration">Wa lilladhīna kafarū birabbihim ‘adhābu jahannam ...</div><p><strong>Translation:</strong> "For those who disbelieve in their Lord is the punishment of Hell..." (67:6)</p><div class="tafsir-box">Hell boils with rage; a stern warning to repent before it is too late. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=6&to=11&opt=1" target="_blank">Read more</a></div></div>
+
+            <!-- Theme 3: Reward for the Righteous (12-14) English -->
+            <div class="theme-card">
+                <div class="theme-title">3. Reward for the Righteous (Verses 12-14)</div>
+                <div class="verse-item">
+                    <div class="arabic">إِنَّ ٱلَّذِينَ يَخْشَوْنَ رَبَّهُم بِٱلْغَيْبِ لَهُم مَّغْفِرَةٌۭ وَأَجْرٌۭ كَبِيرٌۭ ﴿١٢﴾ وَأَسِرُّوا۟ قَوْلَكُمْ أَوِ ٱجْهَرُوا۟ بِهِۦٓ ۖ إِنَّهُۥ عَلِيمٌۢ بِذَاتِ ٱلصُّدُورِ ﴿١٣﴾ أَلَا يَعْلَمُ مَنْ خَلَقَ وَهُوَ ٱللَّطِيفُ ٱلْخَبِيرُ ﴿١٤﴾</div>
+                    <div class="transliteration">Inna lladhīna yakhshawna rabbahum bil-ghaybi lahum maghfiratun wa ajrun kabīr (12) Wa asirrū qawlakum awijharū bihī, innahū ‘alīmun bidhāti ṣ-ṣudūr (13) Alā ya‘lamu man khalaqa wa huwa l-laṭīfu l-khabīr (14)</div>
+                    <div class="translation-text"><strong>Translation:</strong> “Indeed, those who fear their Lord unseen will have forgiveness and great reward. And conceal your speech or publicize it; indeed, He is Knowing of that within the breasts. Does He who created not know, while He is the Subtle, the Acquainted?”</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> As‑Sa‘dī explains that fearing Allah in secrecy (when no one sees) is proof of true faith. Allah knows secrets and what is public. It is unthinkable that the Creator would not know His creation. — As‑Sa‘dī, Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Source: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title">4. Human Weakness Before Allah's Power – Verse 19</div>
-                <div class="verse-item"><div class="arabic">أَوَلَمْ يَرَوْا۟ إِلَى ٱلطَّيْرِ فَوْقَهُمْ ...</div><div class="transliteration">Awa lam yaraw ilaṭ-ṭayri fawqahum ...</div><p><strong>Translation:</strong> "Do they not see the birds above them spreading their wings?" (67:19)</p><div class="tafsir-box">Birds are held only by Allah's power – a lesson in human dependence on Him. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=19&to=19&opt=1" target="_blank">Read more</a></div></div>
+
+            <!-- Theme 4: Power on Earth (15-18) English -->
+            <div class="theme-card">
+                <div class="theme-title">4. Allah's Power on Earth (Verses 15-18)</div>
+                <div class="verse-item">
+                    <div class="arabic">هُوَ ٱلَّذِى جَعَلَ لَكُمُ ٱلْأَرْضَ ذَلُولًۭا فَٱمْشُوا۟ فِى مَنَاكِبِهَا وَكُلُوا۟ مِن رِّزْقِهِۦ ۖ وَإِلَيْهِ ٱلنُّشُورُ ﴿١٥﴾ ءَأَمِنتُم مَّن فِى ٱلسَّمَآءِ أَن يَخْسِفَ بِكُمُ ٱلْأَرْضَ فَإِذَا هِىَ تَمُورُ ﴿١٦﴾ أَمْ أَمِنتُم مَّن فِى ٱلسَّمَآءِ أَن يُرْسِلَ عَلَيْكُمْ حَاصِبًۭا ۖ فَسَتَعْلَمُونَ كَيْفَ نَذِيرِ ﴿١٧﴾ وَلَقَدْ كَذَّبَ ٱلَّذِينَ مِن قَبْلِهِمْ فَكَيْفَ كَانَ نَكِيرِ ﴿١٨﴾</div>
+                    <div class="transliteration">Huwa alladhī ja‘ala lakumu l-arḍa dhalūlan famshū fī manākibihā wa kulū min rizqihī wa ilayhi n-nushūr (15) A-amintum man fī s-samā’i an yakhsifa bikum al-arḍa fa-idhā hiya tamūr (16) Am amintum man fī s-samā’i an yursila ‘alaykum ḥāṣiban fasata‘lamūna kayfa nadhīr (17) Wa laqad kadhdhaba lladhīna min qablihim fakayfa kāna nakīr (18)</div>
+                    <div class="translation-text"><strong>Translation:</strong> “It is He who made the earth tame for you – so walk among its slopes and eat of His provision – and to Him is the resurrection. Do you feel secure that He who is in the heaven would not cause the earth to swallow you and suddenly it would sway? Or do you feel secure that He who is in the heaven would not send against you a storm of stones? Then you would know how [severe] was My warning. And already had those before them denied, and how [terrible] was My rejection.”</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> At‑Ṭabarī explains that Allah made the earth easy to traverse, yet humans are often heedless. Harsh warnings about punishment coming from above or below serve as reminders of Allah's power. — At‑Ṭabarī, Jami‘ Al-Bayan</div>
+                    <div class="tafsir-source">Source: At-Tabari, Jami‘ Al-Bayan</div>
+                </div>
             </div>
-            <div class="theme-card"><div class="theme-title">5. Water as Source of Life – Verse 30</div>
-                <div class="verse-item"><div class="arabic">قُلْ أَرَءَيْتُمْ إِنْ أَصْبَحَ مَآؤُكُمْ غَوْرًۭا ...</div><div class="transliteration">Qul ara’aytum in aṣbaḥa mā’ukum ghawran ...</div><p><strong>Translation:</strong> "Say, 'If your water were to sink away, who then could bring you flowing water?'" (67:30)</p><div class="tafsir-box">Only Allah provides the essential water; all dependence is on Him. <a href="https://www.islamicstudies.info/tafheem.php?sura=67&verse=30&to=30&opt=1" target="_blank">Read more</a></div></div>
+
+            <!-- Theme 5: Signs of Greatness (19-24) English -->
+            <div class="theme-card">
+                <div class="theme-title">5. Signs of Allah's Greatness (Verses 19-24)</div>
+                <div class="verse-item">
+                    <div class="arabic">أَوَلَمْ يَرَوْا۟ إِلَى ٱلطَّيْرِ فَوْقَهُمْ صَـٰٓفَّـٰتٍۢ وَيَقْبِضْنَ ۚ مَا يُمْسِكُهُنَّ إِلَّا ٱلرَّحْمَـٰنُ ۚ إِنَّهُۥ بِكُلِّ شَىْءٍۭ بَصِيرٌ ﴿١٩﴾ أَمَّنْ هَـٰذَا ٱلَّذِى هُوَ جُندٌۭ لَّكُمْ يَنصُرُكُم مِّن دُونِ ٱلرَّحْمَـٰنِ ۚ إِنِ ٱلْكَـٰفِرُونَ إِلَّا فِى غُرُورٍ ﴿٢٠﴾ أَمَّنْ هَـٰذَا ٱلَّذِى يَرْزُقُكُمْ إِنْ أَمْسَكَ رِزْقَهُۥ ۚ بَل لَّجُّوا۟ فِى عُتُوٍّۢ وَنُفُورٍ ﴿٢١﴾ أَفَمَن يَمْشِى مُكِبًّا عَلَىٰ وَجْهِهِۦٓ أَهْدَىٰٓ أَمَّن يَمْشِى سَوِيًّا عَلَىٰ صِرَٰطٍۢ مُّسْتَقِيمٍۢ ﴿٢٢﴾ قُلْ هُوَ ٱلَّذِىٓ أَنشَأَكُمْ وَجَعَلَ لَكُمُ ٱلسَّمْعَ وَٱلْأَبْصَـٰرَ وَٱلْأَفْـِٔدَةَ ۖ قَلِيلًۭا مَّا تَشْكُرُونَ ﴿٢٣﴾ قُلْ هُوَ ٱلَّذِى ذَرَأَكُمْ فِى ٱلْأَرْضِ وَإِلَيْهِ تُحْشَرُونَ ﴿٢٤﴾</div>
+                    <div class="transliteration">Awalam yaraw ilā ṭ-ṭayri fawqahum ṣāffātin wa yaqbiḍn, mā yumsikuhunna illar-raḥmān, innahū bikulli shay'in baṣīr (19) Amman hādhā lladhī huwa jundul lakum yanṣurukum min dūni r-raḥmān, ini l-kāfirūna illā fī ghurūr (20) Amman hādhā lladhī yarzuqukum in amsaka rizqah, bal lajjū fī ‘utuwwin wa nufūr (21) Afaman yamshī mukibban ‘alā wajhihī ahdā amman yamshī sawiyyan ‘alā ṣirāṭin mustaqīm (22) Qul huwalladhī ansha’akum wa ja‘ala lakumu s-sam‘a wa l-abṣāra wa l-af’idah, qalīlan mā tashkurūn (23) Qul huwalladhī dhara’akum fī l-arḍi wa ilayhi tuḥsharūn (24)</div>
+                    <div class="translation-text"><strong>Translation:</strong> “Do they not see the birds above them spreading their wings and folding them? None holds them [aloft] except the Most Merciful. Indeed He is, of all things, Seeing. Or who is it that could be an army for you to aid you other than the Most Merciful? The disbelievers are not but in delusion. Or who is it that could provide for you if He withheld His provision? But they have persisted in insolence and aversion. Then is one who walks fallen on his face better guided or one who walks erect on a straight path? Say, ‘It is He who has produced you and made for you hearing and vision and hearts; little are you grateful.’ Say, ‘It is He who has multiplied you throughout the earth, and to Him you will be gathered.’”</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir emphasizes that birds fly only by Allah's power. Humans have no power to help themselves besides Allah. Who gives provision if Allah withholds it? One who walks upright (guided) is better than one who is lost. Allah gave hearing, sight, and hearts, yet few are grateful. — Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                    <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
+                </div>
+            </div>
+
+            <!-- Theme 6: Certainty of the Last Day & Water of Life (25-30) English -->
+            <div class="theme-card">
+                <div class="theme-title">6. Certainty of the Last Day & Water of Life (Verses 25-30)</div>
+                <div class="verse-item">
+                    <div class="arabic">وَيَقُولُونَ مَتَىٰ هَـٰذَا ٱلْوَعْدُ إِن كُنتُمْ صَـٰدِقِينَ ﴿٢٥﴾ قُلْ إِنَّمَا ٱلْعِلْمُ عِندَ ٱللَّهِ وَإِنَّمَآ أَنَا۠ نَذِيرٌۭ مُّبِينٌۭ ﴿٢٦﴾ فَلَمَّا رَأَوْهُ زُلْفَةًۭ سِيٓـَٔتْ وُجُوهُ ٱلَّذِينَ كَفَرُوا۟ وَقِيلَ هَـٰذَا ٱلَّذِى كُنتُم بِهِۦ تَدَّعُونَ ﴿٢٧﴾ قُلْ أَرَءَيْتُمْ إِنْ أَهْلَكَنِىَ ٱللَّهُ وَمَن مَّعِىَ أَوْ رَحِمَنَا فَمَن يُجِيرُ ٱلْكَـٰفِرِينَ مِنْ عَذَابٍ أَلِيمٍۢ ﴿٢٨﴾ قُلْ هُوَ ٱلرَّحْمَـٰنُ ءَامَنَّا بِهِۦ وَعَلَيْهِ تَوَكَّلْنَا ۖ فَسَتَعْلَمُونَ مَنْ هُوَ فِى ضَلَـٰلٍۢ مُّبِينٍۢ ﴿٢٩﴾ قُلْ أَرَءَيْتُمْ إِنْ أَصْبَحَ مَآؤُكُمْ غَوْرًۭا فَمَن يَأْتِيكُم بِمَآءٍۢ مَّعِينٍۭ ﴿٣٠﴾</div>
+                    <div class="transliteration">Wa yaqūlūna matā hādhā l-wa‘du in kuntum ṣādiqīn (25) Qul innamā l-‘ilmu ‘inda llāhi wa innamā anā nadhīrun mubīn (26) Falammā ra’awhu zulfatan sī’at wujūhu lladhīna kafarū wa qīla hādhā lladhī kuntum bihī tadda‘ūn (27) Qul ara’aytum in ahlakanīya llāhu wa man ma‘iya aw raḥimanā faman yujīru l-kāfirīna min ‘adhābin alīm (28) Qul huwa r-raḥmānu āmannā bihī wa ‘alayhi tawakkalnā fasata‘lamūna man huwa fī ḍalālin mubīn (29) Qul ara’aytum in aṣbaḥa mā’ukum ghawran faman ya’tīkum bimā’in ma‘īn (30)</div>
+                    <div class="translation-text"><strong>Translation:</strong> “And they say, ‘When is this promise, if you should be truthful?’ Say, ‘Knowledge is only with Allah, and I am only a clear warner.’ But when they see it approaching, the faces of those who disbelieve will be distressed, and it will be said, ‘This is that for which you used to call.’ Say, ‘Have you considered: whether Allah should cause my death and those with me or have mercy upon us, who can protect the disbelievers from a painful punishment?’ Say, ‘He is the Most Merciful; we have believed in Him, and upon Him we have relied. And you will come to know who it is that is in clear error.’ Say, ‘Have you considered: if your water were to become sunken [into the earth], then who could bring you flowing water?’”</div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> The disbelievers mock the promise of punishment. Allah instructs the Prophet to say that knowledge is with Allah alone. When the punishment approaches, their faces become gloomy. The final question about water that dries up is a powerful conclusion: only Allah provides flowing water, the source of life. As‑Sa‘dī explains that this verse teaches humanity's absolute dependence on Allah for even the most basic element of life. — As‑Sa‘dī, Taisir Al-Karim Ar-Rahman</div>
+                    <div class="tafsir-source">Source: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
+                </div>
             </div>
         </div>
 
-        <div class="special-benefits"><h3><i class="fas fa-award"></i> Special Significance of Surah Al-Mulk</h3><ul><li>Protection from grave punishment (Hadith, Tirmidhi).</li><li>Intercedes for its reciter until forgiveness.</li><li>Recommended to recite every night before sleep.</li><li>30 verses full of blessings and reminders of Allah's power.</li><li>Strengthens Tawheed and consciousness of the Hereafter.</li></ul></div>
+        <!-- Special Significance (English) -->
+        <div class="special-benefits">
+            <h3><i class="fas fa-award"></i> Special Significance of Surah Al-Mulk</h3>
+            <ul><li>Protection from grave punishment (Hadith, Tirmidhi).</li><li>Intercedes for its reciter until forgiveness.</li><li>Recommended to recite every night before sleep.</li><li>30 verses full of blessings and reminders of Allah's power.</li><li>Strengthens Tawheed and consciousness of the Hereafter.</li></ul>
+        </div>
 
-        <div class="benefits-list"><h3><i class="fas fa-heart"></i> Message of Aqidah, Worship, & Akhlaq</h3><p><strong>Aqidah (Creed):</strong> Believe that Allah alone owns the heavens and earth, and that life is a test of righteous deeds.</p><p><strong>Ibadah (Worship):</strong> Recite Surah Al-Mulk nightly, reflect on natural signs, and be grateful for water, sky, and earth.</p><p><strong>Akhlaq (Character):</strong> Avoid arrogance over worldly power, recognize human weakness, and fear Hell's punishment.</p></div>
+        <!-- Spiritual Lessons (English) -->
+        <div class="benefits-list">
+            <h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Mulk</h3>
+            <ul><li>Life and death are a test for the best deeds, not just any deeds.</li><li>The universe's flawless order proves the Creator's oneness and perfection.</li><li>Hell is a terrifying reality; do not be deceived by worldly life.</li><li>Humans depend utterly on Allah for even air and water.</li><li>Reciting Al-Mulk nightly is a light investment for the grave.</li></ul>
+        </div>
 
-        <div class="benefits-list"><h3><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Mulk</h3><ul><li>Life and death are a test for the best deeds, not just any deeds.</li><li>The universe's flawless order proves the Creator's oneness and perfection.</li><li>Hell is a terrifying reality; do not be deceived by worldly life.</li><li>Humans depend utterly on Allah for even air and water.</li><li>Reciting Al-Mulk nightly is a light investment for the grave.</li></ul></div>
+        <!-- Relevance for Contemporary Muslims (English) -->
+        <div class="theme-card">
+            <div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div>
+            <ol><li>Water crisis & climate change: Verse 30 reminds that only Allah provides flowing water.</li><li>Technological arrogance: Verse 19 shows birds held by Allah – human power is limited.</li><li>Mental health: Reciting Al-Mulk nightly gives peace and protection from fear of death.</li><li>Materialism: Verses 1-2 remind that true sovereignty belongs to Allah alone.</li><li>Faith crisis in secular age: The surah invites rational reflection on nature as proof of God.</li></ol>
+        </div>
 
-        <div class="theme-card"><div class="theme-title"><i class="fas fa-globe"></i> Relevance for Contemporary Muslims</div><ol><li>Water crisis & climate change: Verse 30 reminds that only Allah provides flowing water.</li><li>Technological arrogance: Verse 19 shows birds held by Allah – human power is limited.</li><li>Mental health: Reciting Al-Mulk nightly gives peace and protection from fear of death.</li><li>Materialism: Verses 1-2 remind that true sovereignty belongs to Allah alone.</li><li>Faith crisis in secular age: The surah invites rational reflection on nature as proof of God.</li></ol></div>
+        <!-- Relationship with Other Surahs (English) -->
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3>
+            <ul><li><strong>With Surah Al-Haqqah (69):</strong> Both Meccan, describe the terror of the Last Day and retribution.</li><li><strong>With Surah Al-Qalam (68):</strong> Al-Mulk opens with Allah's sovereignty, Al-Qalam emphasizes noble character of the Prophet.</li><li><strong>With Surah Al-Fatihah (1):</strong> "Master of the Day of Judgment" aligns with Allah's absolute sovereignty in Al-Mulk.</li><li><strong>With Surah Ar-Rahman (55):</strong> Both invite contemplation of divine signs in the heavens and earth.</li></ul>
+        </div>
 
-        <div class="relationship-box"><h3><i class="fas fa-link"></i> Relationship with Other Surahs</h3><ul><li><strong>With Surah Al-Haqqah (69):</strong> Both Meccan, describe the terror of the Last Day and retribution.</li><li><strong>With Surah Al-Qalam (68):</strong> Al-Mulk opens with Allah's sovereignty, Al-Qalam emphasizes noble character of the Prophet.</li><li><strong>With Surah Al-Fatihah (1):</strong> "Master of the Day of Judgment" aligns with Allah's absolute sovereignty in Al-Mulk.</li><li><strong>With Surah Ar-Rahman (55):</strong> Both invite contemplation of divine signs in the heavens and earth.</li></ul></div>
+        <div class="info-box"><i class="fas fa-hourglass-half"></i> Reflect: “[He] who created death and life to test you [as to] which of you is best in deed.” (67:2)</div>
 
-        <div class="info-box"><i class="fas fa-hourglass-half"></i> “[He] who created death and life to test you [as to] which of you is best in deed.” (67:2)</div>
-    </div>
-
-    <!-- PAGINATION -->
-    <div class="surah-pagination">
-        <a href="066.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Surah Sebelumnya / Previous: At-Tahrim</a>
-        <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Menu Utama / Main Menu</a>
-        <a href="068.html" class="pagination-item">Surah Berikutnya / Next: Al-Qalam <i class="fas fa-arrow-right"></i></a>
+        <!-- Pagination ENGLISH -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="066.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Surah: At-Tahrim (66)</a>
+                <a href="068.html" class="pagination-item">Next Surah: Al-Qalam (68) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+            </div>
+        </div>
     </div>
 </div>
-<footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Thematic Reflection</footer>
+
+<footer>© 1447 AH / 2026 AD - Tafsir based on IslamicStudies.info & classical sources | Guidance for Reflection</footer>
+
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <script>
-(function(){
+(function() {
     const englishDiv = document.getElementById('english-content');
     const indoDiv = document.getElementById('indonesian-content');
     const langToggle = document.getElementById('languageToggle');
     const translitToggle = document.getElementById('transliterationToggle');
     const darkToggle = document.getElementById('darkModeToggle');
     const translitElements = document.querySelectorAll('.transliteration');
-    const langSpan = langToggle.querySelector('.lang-text');
 
     const urlParams = new URLSearchParams(window.location.search);
-    let currentLang = localStorage.getItem('language') || 'indonesian';
-    if(urlParams.has('English')) currentLang = 'english';
-    if(urlParams.has('Indonesian')) currentLang = 'indonesian';
-    
-    function setLanguage(lang){
+    let langParam = null;
+    if (urlParams.has('English')) langParam = 'english';
+    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+
+    function setLanguage(lang) {
         const isEnglish = (lang === 'english');
-        if(isEnglish){
+        if (isEnglish) {
             englishDiv.classList.remove('hidden');
             indoDiv.classList.add('hidden');
-            if(langSpan) langSpan.innerHTML = '🇮🇩 Switch to Indonesian';
-            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
         } else {
             englishDiv.classList.add('hidden');
             indoDiv.classList.remove('hidden');
-            if(langSpan) langSpan.innerHTML = '🇬🇧 Switch to English';
-            else langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
         }
         localStorage.setItem('language', lang);
     }
@@ -569,8 +697,8 @@
     });
 
     let translitVisible = localStorage.getItem('transliteration') === 'true';
-    if(urlParams.has('Transliteration')) translitVisible = true;
-    function setTransliteration(show){
+    if (urlParams.has('Transliteration')) translitVisible = true;
+    function setTransliteration(show) {
         translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
         translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
         localStorage.setItem('transliteration', show);
@@ -581,12 +709,13 @@
         setTransliteration(!currently);
     });
 
-    let darkActive = localStorage.getItem('darkMode') === 'true';
-    if(urlParams.has('Dark')) darkActive = true;
-    if(darkActive) document.body.classList.add('dark-mode');
-    function setDarkModeUI(){
+    let darkActive = false;
+    if (urlParams.has('Dark')) darkActive = true;
+    else darkActive = localStorage.getItem('darkMode') === 'true';
+    if (darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI() {
         const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
         localStorage.setItem('darkMode', active);
     }
     setDarkModeUI();
@@ -597,8 +726,8 @@
 
     const upArrow = document.getElementById('scrollUp');
     const downArrow = document.getElementById('scrollDown');
-    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
 })();
 </script>
 </body>
