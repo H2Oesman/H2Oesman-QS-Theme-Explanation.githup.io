@@ -7,7 +7,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* === DARK MODE VARIABLES (same as surah pages) === */
+    /* === DARK MODE VARIABLES === */
     :root {
       --bg-color: #f5f9fc;
       --text-color: #1e2a3e;
@@ -22,6 +22,7 @@
       --instruction-bg: #f5f9fc;
       --meta-color: #666;
       --reference-bg: transparent;
+      --dropdown-hover: #f0f2f5;
     }
 
     .dark-mode {
@@ -38,6 +39,7 @@
       --instruction-bg: #121826;
       --meta-color: #b0c4de;
       --reference-bg: #1e293b;
+      --dropdown-hover: #2d3748;
     }
 
     * {
@@ -224,19 +226,6 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.12);
     }
 
-    .name-box a {
-      text-decoration: none;
-      color: var(--link-color);
-      display: block;
-      font-size: 13px;
-      line-height: 1.3;
-      width: 100%;
-      pointer-events: none;
-    }
-    .name-box a:hover {
-      color: var(--link-hover);
-    }
-
     .arabic {
       font-family: 'Amiri', 'Scheherazade New', serif;
       font-size: 18px;
@@ -392,10 +381,13 @@
       border-radius: 8px;
     }
 
+    /* INTRO LINK STYLES (enhanced for dropdown) */
     .intro-link {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
       margin: 12px 0;
       padding: 0 10px;
     }
@@ -430,7 +422,96 @@
       animation: pulse 1.5s infinite;
     }
 
-    /* Language and dark mode toggles - fixed upper right corner */
+    /* DROPDOWN CUSTOM STYLES */
+    .dropdown-class-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: var(--box-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 8px 15px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--link-color);
+      transition: background 0.2s;
+      position: relative;
+      font-family: inherit;
+    }
+
+    .dropdown-toggle-btn:hover {
+      background-color: var(--box-bg-alt);
+    }
+
+    .dropdown-toggle-btn .new-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #e74c3c;
+      color: white;
+      font-size: 9px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 10px;
+      animation: pulse 1.5s infinite;
+      white-space: nowrap;
+    }
+
+    .dropdown-menu-custom {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 0;
+      background: var(--box-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      min-width: 180px;
+      z-index: 1000;
+      display: none;
+      list-style: none;
+      padding: 6px 0;
+      margin: 0;
+      backdrop-filter: blur(2px);
+    }
+
+    .dropdown-class-wrapper.open .dropdown-menu-custom {
+      display: block;
+      animation: fadeIn 0.15s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dropdown-menu-custom li {
+      margin: 0;
+      padding: 0;
+    }
+
+    .dropdown-menu-custom li a {
+      display: block;
+      padding: 8px 18px;
+      text-decoration: none;
+      color: var(--text-color);
+      font-size: 13px;
+      transition: background 0.2s, color 0.2s;
+      background: transparent;
+      border-radius: 0;
+      white-space: nowrap;
+    }
+
+    .dropdown-menu-custom li a:hover {
+      background-color: var(--dropdown-hover);
+      color: var(--link-hover);
+    }
+
     .language-toggle, .dark-mode-toggle {
       position: fixed;
       right: 20px;
@@ -505,7 +586,6 @@
     @media screen and (max-width: 768px) {
       body { padding: 10px; font-size: 14px; }
       .name-box { padding: 8px 4px; min-height: 90px; }
-      .name-box a { font-size: 12px; }
       .arabic { font-size: 16px; }
       .transliteration { font-size: 12px; }
       .translation { font-size: 11px; }
@@ -515,9 +595,10 @@
       .dark-mode-toggle { top: 60px; right: 12px; }
       .instruction { top: 65px; }
       .scroll-arrow { width: 38px; height: 38px; font-size: 18px; left: 8px; }
+      .dropdown-menu-custom { min-width: 160px; }
+      .dropdown-menu-custom li a { white-space: normal; }
     }
     @media screen and (max-width: 480px) {
-      .name-box a { font-size: 11px; }
       .arabic { font-size: 14px; }
       .transliteration { font-size: 11px; }
       .translation { font-size: 10px; }
@@ -525,6 +606,8 @@
       .name-box { min-height: 85px; padding: 6px 3px; }
       .instruction { top: 60px; font-size: 12px; }
       .name-box.recently-viewed::before { font-size: 7px; top: 2px; left: 2px; }
+      .intro-link { gap: 8px; }
+      .dropdown-toggle-btn { padding: 6px 12px; font-size: 12px; }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Scheherazade+New&display=swap" rel="stylesheet">
@@ -561,6 +644,14 @@
     <div class="intro-link">
       <a href="juz_summary.html">Juz Summary<span class="new-badge">NEW</span></a>
       <a href="Ramadan_Ashras_and_Laylat_al_Qadr_Dua.html">Ramadan Ashras, Laylat al Qadr & Ied Fitr <span class="new-badge">NEW</span></a>
+      <!-- NEW DROPDOWN MENU (Opening/Closing Class) -->
+      <div class="dropdown-class-wrapper" data-lang="en">
+        <button class="dropdown-toggle-btn">Opening/Closing Class <span class="new-badge">NEW</span> <i class="fas fa-caret-down"></i></button>
+        <ul class="dropdown-menu-custom">
+          <li><a href="RangkaianPenutupanMajelis.html">🎓 Opening (Majlis Opening)</a></li>
+          <li><a href="RangkaianPenutupanMajelis.html?Close">🔚 Closing (Majlis Closing)</a></li>
+        </ul>
+      </div>
       <a href="introduction.html">Introduction</a>
     </div>
     <div class="names-container" id="englishNamesContainer"></div>
@@ -585,6 +676,14 @@
     <div class="intro-link">
       <a href="juz_summary.html">Ringkasan Juz<span class="new-badge">BARU</span></a>
       <a href="Ramadan_Ashras_and_Laylat_al_Qadr_Dua.html">Ramadan Ashras, Laylat al Qadr & Idul Fitri<span class="new-badge">BARU</span></a>
+      <!-- NEW DROPDOWN MENU versi Indonesia -->
+      <div class="dropdown-class-wrapper" data-lang="id">
+        <button class="dropdown-toggle-btn">Pembukaan/Penutupan Majelis <span class="new-badge">BARU</span> <i class="fas fa-caret-down"></i></button>
+        <ul class="dropdown-menu-custom">
+          <li><a href="RangkaianPenutupanMajelis.html">📖 Pembukaan Majelis</a></li>
+          <li><a href="RangkaianPenutupanMajelis.html?Close">📌 Penutupan Majelis</a></li>
+        </ul>
+      </div>
       <a href="introduction.html">Intro</a>
     </div>
     <div class="names-container" id="indonesianNamesContainer"></div>
@@ -599,7 +698,7 @@
   </footer>
 
   <script>
-    // ==================== COMPLETE SURAH DATA (1–114) ====================
+    // ==================== FULL SURAH DATA (1–114) ====================
     const namesData = [
       { number: 1, arabic: "ٱلْفَاتِحَة", transliteration: "Al-Fātiḥah", english: "The Opening", indonesian: "Pembukaan", juz: 1, page: 1 },
       { number: 2, arabic: "ٱلْبَقَرَة", transliteration: "Al-Baqarah", english: "The Cow", indonesian: "Sapi Betina", juz: [1,2,3], page: 2 },
@@ -717,7 +816,7 @@
       { number: 114, arabic: "ٱلنَّاس", transliteration: "An-Nās", english: "Mankind", indonesian: "Manusia", juz: 30, page: 604 }
     ];
 
-    // Helper functions (audio, navigation, search, etc.) – same as before
+    // Helper functions
     function formatJuz(juz) { return Array.isArray(juz) ? (juz.length === 2 ? `${juz[0]}-${juz[1]}` : juz.join(', ')) : `${juz}`; }
     let audioPlayer = new Audio(); let currentPlayingBox = null; let currentSurahNumber = null;
     function getAudioUrl(n) { return `https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${n.toString().padStart(3,'0')}.mp3`; }
@@ -850,6 +949,30 @@
         },300);
       }
     }
+    function initDropdowns() {
+      const wrappers = document.querySelectorAll('.dropdown-class-wrapper');
+      wrappers.forEach(wrapper => {
+        const btn = wrapper.querySelector('.dropdown-toggle-btn');
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          document.querySelectorAll('.dropdown-class-wrapper.open').forEach(w => { if(w !== wrapper) w.classList.remove('open'); });
+          wrapper.classList.toggle('open');
+        });
+        const menu = wrapper.querySelector('.dropdown-menu-custom');
+        if(menu) {
+          const links = menu.querySelectorAll('a');
+          links.forEach(link => {
+            link.addEventListener('click', (e) => { e.stopPropagation(); stopAudio(); });
+          });
+        }
+      });
+      document.addEventListener('click', (e) => {
+        if (!e.target.closest('.dropdown-class-wrapper')) {
+          document.querySelectorAll('.dropdown-class-wrapper.open').forEach(w => w.classList.remove('open'));
+        }
+      });
+    }
     audioPlayer.addEventListener('play',()=>{ if(currentPlayingBox){ currentPlayingBox.classList.remove('loading-audio'); currentPlayingBox.classList.add('playing-audio'); const i=currentPlayingBox.querySelector('.audio-indicator'); if(i){ i.classList.remove('loading'); i.classList.add('playing'); } } });
     audioPlayer.addEventListener('pause',()=>{ if(currentPlayingBox){ const i=currentPlayingBox.querySelector('.audio-indicator'); if(i) i.classList.remove('playing'); } });
     audioPlayer.addEventListener('ended',stopAudio);
@@ -858,14 +981,12 @@
     document.addEventListener('DOMContentLoaded',()=>{
       if(new URLSearchParams(window.location.search).has('English')) localStorage.setItem('language','english');
       else if(new URLSearchParams(window.location.search).has('Indonesian')) localStorage.setItem('language','indonesian');
-      setInitialLanguage(); populateNames();
+      setInitialLanguage(); populateNames(); initDropdowns();
       document.getElementById('languageToggle').addEventListener('click',toggleLanguage);
       document.getElementById('playPauseBtn').addEventListener('click',togglePlayPause);
       document.getElementById('stopBtn').addEventListener('click',stopAudio);
       document.getElementById('scrollUp').addEventListener('click',scrollUpScreen);
       document.getElementById('scrollDown').addEventListener('click',scrollDownScreen);
-      
-      // Default dark mode if no preference
       let darkModePref = localStorage.getItem('darkMode');
       if (darkModePref === null) {
         localStorage.setItem('darkMode', 'true');
@@ -874,7 +995,6 @@
         document.body.classList.add('dark-mode');
       }
       setDarkModeUI();
-      
       document.getElementById('darkModeToggle').addEventListener('click',()=>{ document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
       setTimeout(highlightLastSurah,500);
     });
