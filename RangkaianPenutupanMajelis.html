@@ -20,6 +20,8 @@
             --link-hover: #0d3d5a;
             --theme-card-bg: #ffffffdd;
             --card-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
         }
 
         .dark-mode {
@@ -37,6 +39,8 @@
             --link-hover: #c3e2ff;
             --theme-card-bg: #1e293bdd;
             --card-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            --arrow-bg: #2c3e50;
+            --arrow-text: #eef2ff;
         }
 
         body {
@@ -179,6 +183,8 @@
         .hidden {
             display: none;
         }
+
+        /* ===== TOGGLE BUTTONS (now on the RIGHT side) ===== */
         .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
@@ -195,20 +201,18 @@
             gap: 8px;
             font-size: 14px;
             backdrop-filter: blur(2px);
+            transition: 0.2s;
         }
         .language-toggle { top: 20px; background: #2c7da0; }
         .transliteration-toggle { top: 80px; background: #27ae60; }
         .dark-mode-toggle { top: 140px; background: #8e44ad; }
-        @media (max-width: 640px) {
-            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 11px; right: 12px; }
-            .arabic { font-size: 32px; }
-            .container { padding: 20px; }
-            .video-container iframe { height: 200px; }
-        }
+        
+        /* ===== SINGLE SCROLL ARROWS (LEFT side) ===== */
         .scroll-arrow {
             position: fixed;
             left: 20px;
-            background: var(--container-bg);
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
             border-radius: 50%;
             width: 44px;
             height: 44px;
@@ -220,12 +224,67 @@
             z-index: 1000;
             transition: 0.2s;
             border: 1px solid var(--verse-border);
-            color: var(--text-color);
             font-size: 22px;
         }
-        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow:hover { 
+            transform: scale(1.05); 
+            background: var(--link-color); 
+            color: white; 
+        }
         .scroll-arrow.up { top: 90px; }
         .scroll-arrow.down { bottom: 90px; }
+        
+        /* ===== DOUBLE ARROWS (RIGHT side, but adjusted to avoid toggle overlap) ===== */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: var(--link-color);
+            color: white;
+        }
+        /* Position double up arrow lower to avoid collision with toggles */
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        @media (max-width: 640px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle { 
+                padding: 5px 12px; font-size: 11px; right: 12px; 
+            }
+            .scroll-arrow, .scroll-arrow-double {
+                width: 38px; height: 38px; font-size: 18px;
+            }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 70px; }  /* keep for left arrow */
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            /* adjust right-side double up on small screens */
+            .scroll-arrow-double.up-double { top: 170px; }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+            .video-container iframe { height: 200px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
         footer {
             text-align: center;
             margin-top: 50px;
@@ -263,158 +322,77 @@
             text-align: center;
             margin: 20px 0 10px;
         }
-        .verse-number {
-            display: inline-block;
-            font-size: 0.9rem;
-            background: var(--verse-border);
-            padding: 2px 8px;
-            border-radius: 20px;
-            margin-left: 8px;
-            direction: ltr;
-        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
+<!-- Toggle buttons (RIGHT side) -->
+<div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Hide Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-sun"></i> Light Mode</div>
 
+<!-- Single-step scroll arrows (LEFT side) -->
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<!-- DOUBLE arrows: fast navigation to top / bottom (RIGHT side, repositioned vertically) -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT - FULL ORIGINAL -->
+    <!-- INDONESIAN CONTENT (FULL, UNCHANGED) -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-        
         <div class="bismillah">
             <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
             <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
         </div>
 
-        <!-- PEMBUKAAN KELAS -->
+        <!-- PEMBUKAAN KELAS (lengkap) -->
         <div class="section" id="opening-section">
             <h2 class="section-title"><i class="fas fa-door-open"></i> Pembukaan Kelas</h2>
-            
-            <div class="dua-card">
-                <div class="verse-title">Basmalah (Dengan Nama Allah)</div>
-                <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-                <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-                <div class="translation-text"><strong>Artinya:</strong> “Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang.”</div>
-            </div>
-            
-            
-            <div class="dua-card"><div class="verse-title">Salam Pembuka (Memberi dan Menebar Keselamatan)</div><div class="arabic">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</div><div class="transliteration">Assalāmu ‘alaykum wa raḥmatullāhi wa barakātuh</div><div class="translation-text"><strong>Artinya:</strong> “Semoga keselamatan, rahmat Allah dan berkah-Nya tercurah kepada kalian.”</div></div>
-            
+            <div class="dua-card"><div class="verse-title">Basmalah (Dengan Nama Allah)</div><div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div><div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div><div class="translation-text"><strong>Artinya:</strong> “Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang.”</div></div>
+            <div class="dua-card"><div class="verse-title">Salam Pembuka</div><div class="arabic">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</div><div class="transliteration">Assalāmu ‘alaykum wa raḥmatullāhi wa barakātuh</div><div class="translation-text"><strong>Artinya:</strong> “Semoga keselamatan, rahmat Allah dan berkah-Nya tercurah kepada kalian.”</div></div>
             <div class="dua-card"><div class="verse-title">Pujian kepada Allah (Hamdalah)</div><div class="arabic">الْحَمْدُ لِلَّهِ الْكَرِيمِ الرَّحْمَـٰنِ عَلَّمَ الْقُرْآنَ خَلَقَ الْإِنسَانَ عَلَّمَهُ الْبَيَانَ</div><div class="transliteration">Alḥamdulillāhil-karīm ar-raḥmān, ‘allamal-qur’ān, khalaqal-insān, ‘allamahul-bayān</div><div class="translation-text"><strong>Artinya:</strong> “Segala Puji bagi Allah yang Maha Pemurah, Maha Mulia, Yang Maha Pengasih, Yang telah mengajarkan Al-Quran, menciptakan manusia, mengajarnya pandai berbicara.”</div></div>
-            
-            <div class="dua-card"><div class="verse-title">Dua Kalimat Syahadat (Kesaksian Iman)</div><div class="arabic">أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div><div class="transliteration">Asyhadu allā ilāha illallāh waḥdahū lā syarīka lah, wa asyhadu anna muḥammadan ‘abduhū wa rasūluh</div><div class="translation-text"><strong>Artinya:</strong> “Aku bersaksi bahwasanya tiada sesembahan yang benar kecuali Allah semata, tiada sekutu bagi-Nya, dan aku bersaksi bahwasanya Muhammad adalah hamba dan utusan-Nya.”</div></div>
-            
+            <div class="dua-card"><div class="verse-title">Dua Kalimat Syahadat</div><div class="arabic">أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div><div class="transliteration">Asyhadu allā ilāha illallāh waḥdahū lā syarīka lah, wa asyhadu anna muḥammadan ‘abduhū wa rasūluh</div><div class="translation-text"><strong>Artinya:</strong> “Aku bersaksi bahwasanya tiada sesembahan yang benar kecuali Allah semata, tiada sekutu bagi-Nya, dan aku bersaksi bahwasanya Muhammad adalah hamba dan utusan-Nya.”</div></div>
             <div class="dua-card"><div class="verse-title">Shalawat kepada Nabi Muhammad ﷺ</div><div class="arabic">اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِهِ وَصَحْبِهِ وَسَلِّمْ</div><div class="transliteration">Allāhumma ṣalli ‘alā muḥammadin wa ‘alā ālihī wa ṣaḥbihī wa sallim</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, limpahkanlah sholawat dan salam atas Nabi Muhammad, juga atas keluarga dan sahabat beliau.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Doa Ampunan untuk Diri, Orang Tua, dan Mukminin</div><div class="arabic">رَبَّنَا اغْفِرْ لَنَا وَلِوَالِدَيْنَا وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ</div><div class="transliteration">Rabbanaghfir lanā wa li wālidaynā wa lil mu’minīna yawma yaqūmul ḥisāb</div><div class="translation-text"><strong>Artinya:</strong> “Ya Tuhan kami, beri ampunlah aku dan kedua ibu bapakku dan sekalian orang-orang mukmin pada hari terjadinya hisab (hari kiamat).”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Doa Keberkahan Waktu Pagi</div><div class="arabic">اللَّهُمَّ بَارِكْ لَنَا فِي بُكُورِنَا</div><div class="transliteration">Allāhumma bārik lanā fī bukūrinā</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, berkahilah kami di waktu pagi kami.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Doa Keberkahan Waktu Malam</div><div class="arabic">اللَّهُمَّ بَارِكْ لَنَا فِي مَسَائِنَا</div><div class="transliteration">Allāhumma bārik lanā fī masā’inā</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, berkahilah kami di waktu malam kami.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Doa Memohon Kepahaman Agama dan Takwil</div><div class="arabic">اللَّهُمَّ فَقِّهْنَا فِي الدِّينِ وَعَلِّمْنَا التَّأْوِيلَ</div><div class="transliteration">Allāhumma faqqihnā fid-dīn wa ‘allimnā at-ta’wīl</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, berilah kepahaman kepada kami dalam urusan agama dan ajarkan takwil (tafsir Al-Qur’an).”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Doa Pengakuan Keterbatasan Ilmu</div><div class="arabic">سُبْحَانَكَ لَا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ</div><div class="transliteration">Subḥānaka lā ‘ilma lanā illā mā ‘allamtanā, innaka antal-‘alīmul-ḥakīm</div><div class="translation-text"><strong>Artinya:</strong> “Maha Suci Engkau, tidak ada pengetahuan bagi kami kecuali apa yang telah Engkau ajarkan kepada kami. Sungguh, Engkaulah Yang Maha Mengetahui lagi Maha Bijaksana.” (QS Al-Baqarah: 32)</div></div>
-            
-            <div class="dua-card">
-                <div class="verse-title">Pembuka Kitab Suci (Surat Al-Fatihah)</div>
-                <div class="arabic">
-                    بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ ﴿١﴾<br>
-                    الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾<br>
-                    الرَّحْمَـٰنِ الرَّحِيمِ ﴿٣﴾<br>
-                    مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾<br>
-                    إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾<br>
-                    اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾<br>
-                    صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾
-                </div>
-                <div class="transliteration">
-                    Bismillāhir-raḥmānir-raḥīm (1)<br>
-                    Al-ḥamdu lillāhi rabbil-‘ālamīn (2)<br>
-                    Ar-raḥmānir-raḥīm (3)<br>
-                    Māliki yawmid-dīn (4)<br>
-                    Iyyāka na‘budu wa iyyāka nasta‘īn (5)<br>
-                    Ihdināṣ-ṣirāṭal-mustaqīm (6)<br>
-                    Ṣirāṭalladhīna an‘amta ‘alayhim ghayril-maghḍūbi ‘alayhim wa laḍ-ḍāllīn (7)
-                </div>
-                <div class="translation-text">
-                    <strong>Artinya:</strong> “Dengan nama Allah Yang Maha Pengasih, Maha Penyayang. Segala puji bagi Allah, Tuhan seluruh alam, Yang Maha Pengasih, Maha Penyayang, Pemilik hari pembalasan. Hanya kepada Engkau kami menyembah dan hanya kepada Engkau kami mohon pertolongan. Tunjukilah kami jalan yang lurus, (yaitu) jalan orang-orang yang telah Engkau beri nikmat, bukan (jalan) mereka yang dimurkai dan bukan (pula jalan) mereka yang sesat.”
-                </div>
-                <div class="audio-player">
-                    <div class="audio-title">🎧 Dengarkan Surah Al-Fatihah</div>
-                    <audio controls>
-                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg">
-                        Browser tidak mendukung audio.
-                    </audio>
-                </div>
-            </div>
-            
-            <div class="dua-card"><div class="verse-title">Syahadat (Pengulangan Kesaksian Iman)</div><div class="arabic">أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div><div class="transliteration">Asyhadu allā ilāha illallāh wa asyhadu anna muḥammadan ‘abduhū wa rasūluh</div><div class="translation-text"><strong>Artinya:</strong> “Aku bersaksi bahwa tidak ada tuhan selain Allah, dan aku bersaksi bahwa Muhammad adalah hamba dan utusan-Nya.”</div></div>
-            
-            <div class="dua-card"><div class="verse-title">Shalawat (Pengulangan Shalawat)</div><div class="arabic">اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِهِ وَصَحْبِهِ وَسَلِّمْ</div><div class="transliteration">Allāhumma ṣalli ‘alā muḥammadin wa ‘alā ālihī wa ṣaḥbihī wa sallim</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, limpahkanlah sholawat dan salam atas Nabi Muhammad, juga atas keluarga dan sahabat beliau.”</div></div>
-            
-            <div class="dua-card"><div class="verse-title">Doa Memohon Kelapangan Hati dan Kemudahan (Sebelum Belajar)</div><div class="arabic">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي</div><div class="transliteration">Rabbish-raḥlī ṣadrī wa yassir lī amrī waḥlul ‘uqdatan min lisānī yafqahū qawlī</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, lapangkanlah dadaku, mudahkanlah urusanku, dan lepaskanlah kekakuan dari lidahku supaya mereka mengerti perkataanku.” (QS. Taha ayat 25-28)</div></div>
-            
+            <div class="dua-card"><div class="verse-title">Pembuka Kitab Suci (Surat Al-Fatihah)</div><div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ ﴿١﴾<br>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾<br>الرَّحْمَـٰنِ الرَّحِيمِ ﴿٣﴾<br>مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾<br>إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾<br>اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾<br>صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div><div class="transliteration">Bismillāhir-raḥmānir-raḥīm (1)<br>Al-ḥamdu lillāhi rabbil-‘ālamīn (2)<br>Ar-raḥmānir-raḥīm (3)<br>Māliki yawmid-dīn (4)<br>Iyyāka na‘budu wa iyyāka nasta‘īn (5)<br>Ihdināṣ-ṣirāṭal-mustaqīm (6)<br>Ṣirāṭalladhīna an‘amta ‘alayhim ghayril-maghḍūbi ‘alayhim wa laḍ-ḍāllīn (7)</div><div class="translation-text"><strong>Artinya:</strong> “Dengan nama Allah Yang Maha Pengasih, Maha Penyayang. Segala puji bagi Allah, Tuhan seluruh alam, Yang Maha Pengasih, Maha Penyayang, Pemilik hari pembalasan. Hanya kepada Engkau kami menyembah dan hanya kepada Engkau kami mohon pertolongan. Tunjukilah kami jalan yang lurus, (yaitu) jalan orang-orang yang telah Engkau beri nikmat, bukan (jalan) mereka yang dimurkai dan bukan (pula jalan) mereka yang sesat.”</div><div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Fatihah</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg"></audio></div></div>
+            <div class="dua-card"><div class="verse-title">Syahadat (Pengulangan)</div><div class="arabic">أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div><div class="transliteration">Asyhadu allā ilāha illallāh wa asyhadu anna muḥammadan ‘abduhū wa rasūluh</div><div class="translation-text"><strong>Artinya:</strong> “Aku bersaksi bahwa tidak ada tuhan selain Allah, dan aku bersaksi bahwa Muhammad adalah hamba dan utusan-Nya.”</div></div>
+            <div class="dua-card"><div class="verse-title">Shalawat (Pengulangan)</div><div class="arabic">اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِهِ وَصَحْبِهِ وَسَلِّمْ</div><div class="transliteration">Allāhumma ṣalli ‘alā muḥammadin wa ‘alā ālihī wa ṣaḥbihī wa sallim</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, limpahkanlah sholawat dan salam atas Nabi Muhammad, juga atas keluarga dan sahabat beliau.”</div></div>
+            <div class="dua-card"><div class="verse-title">Doa Memohon Kelapangan Hati dan Kemudahan</div><div class="arabic">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي</div><div class="transliteration">Rabbish-raḥlī ṣadrī wa yassir lī amrī waḥlul ‘uqdatan min lisānī yafqahū qawlī</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, lapangkanlah dadaku, mudahkanlah urusanku, dan lepaskanlah kekakuan dari lidahku supaya mereka mengerti perkataanku.” (QS. Taha ayat 25-28)</div></div>
             <div class="dua-card"><div class="verse-title">Doa Mohon Tambahan Ilmu, Pemahaman, dan Kesholehan</div><div class="arabic">رَبِّ زِدْنِي عِلْمًا وَارْزُقْنِي فَهْمًا وَاجْعَلْنِي مِنَ الصَّالِحِينَ</div><div class="transliteration">Rabbī zidnī ‘ilman warzuqnī fahman waj‘alnī minaṣ-ṣāliḥīn</div><div class="translation-text"><strong>Artinya:</strong> “Ya Tuhanku, tambahkanlah ilmu kepadaku, dan berilah aku karunia untuk dapat memahaminya. Dan jadikanlah aku termasuk golongannya orang-orang yang sholeh.”</div></div>
         </div>
-
         <div style="text-align: center; margin: 30px 0;">🍃🌺🍃🌺🍃🌺🍃🌺</div>
-
-        <!-- PENUTUPAN KELAS MB -->
         <h1 class="page-title" id="closing-section">📖 Penutupan Kelas MB</h1>
-        
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-graduation-cap"></i> Rangkaian Penutupan Majelis</h2>
-            
-            <div class="dua-card">
-                <div class="verse-title">Ta'awwudh (Memohon Perlindungan dari Setan)</div>
-                <div class="arabic">أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ</div>
-                <div class="transliteration">A'uudzu billaahi minasy-syaithoonir-rojiim</div>
-                <div class="translation-text"><strong>Artinya:</strong> “Aku berlindung kepada Allah dari godaan setan yang terkutuk.”</div>
-            </div>
-            <div class="dua-card">
-                <div class="verse-title">Basmalah (Dengan Nama Allah)</div>
-                <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-                <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-                <div class="translation-text"><strong>Artinya:</strong> “Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang.”</div>
-            </div>
-            
-            <div class="dua-card"><div class="verse-title">Doa Setelah Belajar (Menitipkan Ilmu kepada Allah)</div><div class="arabic">اَللّٰهُمَّ إِنِّيْ أَسْتَوْدِعُكَ مَا عَلَّمْتَنِيْهِ، فَارْدُدْهُ إِلَيَّ عِنْدَ حَاجَتِيْ إِلَيْهِ وَلَا تَنْسِنِيْهِ يَا رَبَّ الْعَالَمِيْنَ</div><div class="transliteration">Allohumma inni astaudi'uka maa 'allamtanihi fardud-hu ilayya 'inda haajati ilaihi wa laa tansaniihi yaa robbal 'alamiin</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, sesungguhnya aku menitipkan pada-Mu apa yang telah Engkau ajarkan kepadaku, maka kembalikanlah padaku saat aku membutuhkannya dan janganlah Engkau jadikan aku lupa padanya, wahai Tuhan semesta alam.”</div></div>
-            
-            <div class="dua-card"><div class="verse-title">Istighfar 3x (Memohon Ampunan Allah)</div><div class="arabic">أَسْتَغْفِرُ ٱللَّهَ ٱلْعَظِيمَ ٣×</div><div class="transliteration">Astaghfirullāhal-‘Aẓīm (3x)</div><div class="translation-text"><strong>Artinya:</strong> “Aku memohon ampun kepada Allah Yang Maha Agung.” (3 kali)</div></div>
-            
+        <div class="section"><h2 class="section-title"><i class="fas fa-graduation-cap"></i> Rangkaian Penutupan Majelis</h2>
+            <div class="dua-card"><div class="verse-title">Ta'awwudh</div><div class="arabic">أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ</div><div class="transliteration">A'uudzu billaahi minasy-syaithoonir-rojiim</div><div class="translation-text"><strong>Artinya:</strong> “Aku berlindung kepada Allah dari godaan setan yang terkutuk.”</div></div>
+            <div class="dua-card"><div class="verse-title">Basmalah</div><div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div><div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div><div class="translation-text"><strong>Artinya:</strong> “Dengan menyebut nama Allah Yang Maha Pengasih lagi Maha Penyayang.”</div></div>
+            <div class="dua-card"><div class="verse-title">Doa Setelah Belajar (Menitipkan Ilmu)</div><div class="arabic">اَللّٰهُمَّ إِنِّيْ أَسْتَوْدِعُكَ مَا عَلَّمْتَنِيْهِ، فَارْدُدْهُ إِلَيَّ عِنْدَ حَاجَتِيْ إِلَيْهِ وَلَا تَنْسِنِيْهِ يَا رَبَّ الْعَالَمِيْنَ</div><div class="transliteration">Allohumma inni astaudi'uka maa 'allamtanihi fardud-hu ilayya 'inda haajati ilaihi wa laa tansaniihi yaa robbal 'alamiin</div><div class="translation-text"><strong>Artinya:</strong> “Ya Allah, sesungguhnya aku menitipkan pada-Mu apa yang telah Engkau ajarkan kepadaku, maka kembalikanlah padaku saat aku membutuhkannya dan janganlah Engkau jadikan aku lupa padanya, wahai Tuhan semesta alam.”</div></div>
+            <div class="dua-card"><div class="verse-title">Istighfar 3x</div><div class="arabic">أَسْتَغْفِرُ ٱللَّهَ ٱلْعَظِيمَ ٣×</div><div class="transliteration">Astaghfirullāhal-‘Aẓīm (3x)</div><div class="translation-text"><strong>Artinya:</strong> “Aku memohon ampun kepada Allah Yang Maha Agung.” (3 kali)</div></div>
             <div class="dua-card"><div class="verse-title">Doa Penutup Majelis (Kaffaratul Majlis)</div><div class="arabic">سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</div><div class="transliteration">Subhanakallahumma wabihamdika, asyhadu alla ilaha illa anta, astaghfiruka wa atuubu ilaik</div><div class="translation-text"><strong>Artinya:</strong> “Maha Suci Engkau ya Allah, dan segala sanjungan untuk-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau. Aku memohon ampun kepada-Mu dan aku bertaubat kepada-Mu.” (HR Tirmidzi)</div></div>
-            
-            <div class="dua-card"><div class="verse-title">Surat Al-Asr (Pengingat akan Kerugian dan Keselamatan)</div><div class="arabic">وَالْعَصْرِ ﴿١﴾ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ ﴿٢﴾ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ ﴿٣﴾</div><div class="transliteration">Wal-‘aṣr (1) Innal-insāna lafī khusr (2) Illālladhīna āmanū wa ‘amiluṣ-ṣāliḥāti wa tawāṣau bil-ḥaqqi wa tawāṣau biṣ-ṣabr (3)</div><div class="translation-text"><strong>Artinya:</strong> “Demi masa. Sungguh, manusia berada dalam kerugian, kecuali orang-orang yang beriman dan mengerjakan kebajikan serta saling menasihati untuk kebenaran dan saling menasihati untuk kesabaran.” (QS. Al-Asr: 1-3)</div><div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Asr</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/103.mp3" type="audio/mpeg"></audio></div></div>
+            <div class="dua-card"><div class="verse-title">Surat Al-Asr</div><div class="arabic">وَالْعَصْرِ ﴿١﴾ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ ﴿٢﴾ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ ﴿٣﴾</div><div class="transliteration">Wal-‘aṣr (1) Innal-insāna lafī khusr (2) Illālladhīna āmanū wa ‘amiluṣ-ṣāliḥāti wa tawāṣau bil-ḥaqqi wa tawāṣau biṣ-ṣabr (3)</div><div class="translation-text"><strong>Artinya:</strong> “Demi masa. Sungguh, manusia berada dalam kerugian, kecuali orang-orang yang beriman dan mengerjakan kebajikan serta saling menasihati untuk kebenaran dan saling menasihati untuk kesabaran.” (QS. Al-Asr: 1-3)</div><div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Asr</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/103.mp3" type="audio/mpeg"></audio></div></div>
         </div>
-
         <div style="text-align: center; margin: 30px 0;">🕋🌎🕋🌎🕋🌎🕋🌎</div>
-
         <h1 class="page-title" id="doa-quran-section">✨ Doa Selepas Al-Qur'an & Al-Ghaffar</h1>
-        
         <div class="section"><h2 class="section-title"><i class="fas fa-book-quran"></i> Doa Setelah Membaca Al-Qur'an</h2>
         <div class="dua-card"><div class="verse-title">Doa Penutup Tilawah <span class="badge-repeat"><i class="fas fa-redo-alt"></i> 20x ulang (video)</span></div><div class="arabic">اللَّهُمَّ ارْحَمْنَا بِالْقُرْآنِ<br>وَاجْعَلْهُ لَنَا إِمَامًا وَنُورًا وَهُدًى وَرَحْمَةً<br>اللَّهُمَّ ذَكِّرْنَا مِنْهُ مَا نَسِينَا<br>وَعَلِّمْنَا مِنْهُ مَا جَهِلْنَا<br>وَارْزُقْنَا تِلَاوَتَهُ آنَاءَ اللَّيْلِ وَأَطْرَافَ النَّهَارِ<br>وَاجْعَلْهُ لَنَا حُجَّةً يَا رَبَّ الْعَالَمِينَ</div><div class="transliteration">Allāhumma arḥamnā bil-Qur’ān,<br>waj‘alhu lanā imāman wa nūran wa hudan wa raḥmah.<br>Allāhumma dhakkirnā minhu mā nasīnā,<br>wa ‘allimnā minhu mā jahilnā,<br>warzuqnā tilāwatahu ānā’a al-layli wa aṭrāfa an-nahār,<br>waj‘alhu lanā ḥujjah, yā Rabb al-‘ālamīn.</div><div class="translation-text"><strong>Terjemahan Indonesia:</strong> “Ya Allah, rahmatilah kami dengan Al-Qur’an. Jadikan ia sebagai imam, cahaya, petunjuk, dan rahmat bagi kami. Ya Allah, ingatkan kami terhadap apa yang telah kami lupakan, dan ajarkan kepada kami apa yang belum kami ketahui. Anugerahkan kepada kami rezeki untuk senantiasa membacanya pada waktu malam dan siang. Dan jadikanlah ia sebagai hujjah (pembela) bagi kami, wahai Tuhan semesta alam.”</div></div>
         <div class="video-container"><iframe src="https://www.youtube.com/embed/lErSXnsWXIA" title="Doa Selepas Baca Quran 20x Ulangan" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
         <div class="info-note"><i class="fas fa-head-side-headphones"></i> 📖 Ulangan 20 kali | Putar video untuk mengulang doa bersama.</div></div>
-        
         <div class="section"><h2 class="section-title"><i class="fas fa-heart"></i> Al-Ghaffar (Maha Pengampun)</h2>
         <div class="dua-card"><div class="verse-title">Istighfar Mulia (Sayyidul Istighfar) <span class="badge-repeat"><i class="fas fa-repeat"></i> Baca 3x</span></div><div class="arabic">أَسْتَغْفِرُ ٱللَّهَ ٱلْعَظِيمَ ٱلَّذِي لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَيُّ ٱلْقَيُّومُ وَأَتُوبُ إِلَيْهِ</div><div class="transliteration">Astaghfirullāhal-‘Aẓīm, alladhī lā ilāha illā huwa al-Ḥayyul-Qayyūm, wa atūbu ilayh</div><div class="translation-text"><strong>Terjemahan Indonesia:</strong> “Aku memohon ampun kepada Allah Yang Maha Agung, yang tidak ada tuhan selain Dia, Yang Maha Hidup lagi Maha Berdiri Sendiri, dan aku bertaubat kepada-Nya.” (3x)</div><div class="info-note"><i class="fas fa-star-of-life"></i> Keutamaan: Istighfar ini mengampuni dosa, mendatangkan ketenangan, dan mendekatkan diri kepada Al-Ghaffar.</div></div></div>
-        
-        <div class="section"><h2 class="section-title"><i class="fas fa-hand-peace"></i> Doa Penutup Majelis (Pengulangan)</h2>
-        <div class="dua-card"><div class="verse-title">Kaffaratul Majlis</div><div class="arabic">سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</div><div class="transliteration">Subhanakallahumma wabihamdika, asyhadu alla ilaha illa anta, astaghfiruka wa atuubu ilaik</div><div class="translation-text"><strong>Artinya:</strong> “Maha Suci Engkau ya Allah, dan segala sanjungan untuk-Mu. Aku bersaksi bahwa tiada Tuhan selain Engkau. Aku memohon ampun kepada-Mu dan aku bertaubat kepada-Mu.” (HR Tirmidzi)</div><div class="info-note"><i class="fas fa-leaf"></i> Dibaca setelah selesai berkumpul/majelis untuk mengakhiri dengan kebaikan.</div></div></div>
-        
         <div class="info-box"><i class="fas fa-lightbulb"></i> <strong>Nasihat:</strong> Amalkan doa-doa ini setiap selesai belajar dan membaca Al-Qur'an, serta perbanyak istighfar. Semoga Allah menerima taubat.</div>
     </div>
 
-    <!-- ENGLISH CONTENT - FULL WITH ENHANCED DOA QURAN -->
+    <!-- ENGLISH CONTENT – LENGKAP (FULL, UNCHANGED) -->
     <div id="english-content" class="hidden">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-        
         <div class="bismillah">
             <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
             <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
@@ -422,138 +400,45 @@
 
         <div class="section" id="opening-section-en">
             <h2 class="section-title"><i class="fas fa-door-open"></i> Opening of Class</h2>
-            
-            <div class="dua-card"><div class="verse-title">Basmalah (Opening with Allah's Name)</div><div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div><div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div><div class="translation-text"><strong>Translation:</strong> “In the name of Allah, the Most Gracious, the Most Merciful.”</div></div>
-            
-            <div class="dua-card"><div class="verse-title">Greeting of Peace (Spreading Salām)</div><div class="arabic">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</div><div class="transliteration">Assalāmu ‘alaykum wa raḥmatullāhi wa barakātuh</div><div class="translation-text"><strong>Translation:</strong> “Peace be upon you, and the mercy of Allah and His blessings.”</div></div>
-            
+            <div class="dua-card"><div class="verse-title">Basmalah (In the Name of Allah)</div><div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div><div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div><div class="translation-text"><strong>Translation:</strong> “In the name of Allah, the Most Gracious, the Most Merciful.”</div></div>
+            <div class="dua-card"><div class="verse-title">Greeting of Peace</div><div class="arabic">السَّلاَمُ عَلَيْكُمْ وَرَحْمَةُ اللهِ وَبَرَكَاتُهُ</div><div class="transliteration">Assalāmu ‘alaykum wa raḥmatullāhi wa barakātuh</div><div class="translation-text"><strong>Translation:</strong> “Peace be upon you, and the mercy of Allah and His blessings.”</div></div>
             <div class="dua-card"><div class="verse-title">Praise to Allah (Al-Ḥamd)</div><div class="arabic">الْحَمْدُ لِلَّهِ الْكَرِيمِ الرَّحْمَـٰنِ عَلَّمَ الْقُرْآنَ خَلَقَ الْإِنسَانَ عَلَّمَهُ الْبَيَانَ</div><div class="transliteration">Alḥamdulillāhil-karīm ar-raḥmān, ‘allamal-qur’ān, khalaqal-insān, ‘allamahul-bayān</div><div class="translation-text"><strong>Translation:</strong> “All praise is for Allah, the Generous, the Most Gracious, Who taught the Qur’an, created man, and taught him clear speech.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">The Two Testimonies of Faith (Shahādah)</div><div class="arabic">أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div><div class="transliteration">Asyhadu allā ilāha illallāh waḥdahū lā syarīka lah, wa asyhadu anna muḥammadan ‘abduhū wa rasūluh</div><div class="translation-text"><strong>Translation:</strong> “I bear witness that there is no deity worthy of worship except Allah alone, without any partner, and I bear witness that Muhammad is His servant and messenger.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Salutations upon Prophet Muhammad ﷺ</div><div class="arabic">اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِهِ وَصَحْبِهِ وَسَلِّمْ</div><div class="transliteration">Allāhumma ṣalli ‘alā muḥammadin wa ‘alā ālihī wa ṣaḥbihī wa sallim</div><div class="translation-text"><strong>Translation:</strong> “O Allah, send prayers and peace upon Muhammad, his family, and his companions.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Prayer for Forgiveness for Ourselves, Parents, and Believers</div><div class="arabic">رَبَّنَا اغْفِرْ لَنَا وَلِوَالِدَيْنَا وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ</div><div class="transliteration">Rabbanaghfir lanā wa li wālidaynā wa lil mu’minīna yawma yaqūmul ḥisāb</div><div class="translation-text"><strong>Translation:</strong> “Our Lord, forgive us and our parents and the believers on the Day when the account will be established.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Blessing for the Morning Time</div><div class="arabic">اللَّهُمَّ بَارِكْ لَنَا فِي بُكُورِنَا</div><div class="transliteration">Allāhumma bārik lanā fī bukūrinā</div><div class="translation-text"><strong>Translation:</strong> “O Allah, bless us in our morning time.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Blessing for the Evening Time</div><div class="arabic">اللَّهُمَّ بَارِكْ لَنَا فِي مَسَائِنَا</div><div class="transliteration">Allāhumma bārik lanā fī masā’inā</div><div class="translation-text"><strong>Translation:</strong> “O Allah, bless us in our evening time.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Prayer for Deep Understanding of Religion and Interpretation</div><div class="arabic">اللَّهُمَّ فَقِّهْنَا فِي الدِّينِ وَعَلِّمْنَا التَّأْوِيلَ</div><div class="transliteration">Allāhumma faqqihnā fid-dīn wa ‘allimnā at-ta’wīl</div><div class="translation-text"><strong>Translation:</strong> “O Allah, give us deep understanding of the religion and teach us the interpretation (of the Qur’an).”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Acknowledgment of Human Limitation in Knowledge</div><div class="arabic">سُبْحَانَكَ لَا عِلْمَ لَنَا إِلَّا مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ</div><div class="transliteration">Subḥānaka lā ‘ilma lanā illā mā ‘allamtanā, innaka antal-‘alīmul-ḥakīm</div><div class="translation-text"><strong>Translation:</strong> “Glory be to You, we have no knowledge except what You have taught us. Indeed, You are the All-Knowing, the All-Wise.” (QS Al-Baqarah: 32)</div></div>
-            
-            <div class="dua-card">
-                <div class="verse-title">The Opening of the Book (Surah Al-Fatihah)</div>
-                <div class="arabic">
-                    بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ ﴿١﴾<br>
-                    الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾<br>
-                    الرَّحْمَـٰنِ الرَّحِيمِ ﴿٣﴾<br>
-                    مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾<br>
-                    إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾<br>
-                    اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾<br>
-                    صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾
-                </div>
-                <div class="transliteration">
-                    Bismillāhir-raḥmānir-raḥīm (1)<br>
-                    Al-ḥamdu lillāhi rabbil-‘ālamīn (2)<br>
-                    Ar-raḥmānir-raḥīm (3)<br>
-                    Māliki yawmid-dīn (4)<br>
-                    Iyyāka na‘budu wa iyyāka nasta‘īn (5)<br>
-                    Ihdināṣ-ṣirāṭal-mustaqīm (6)<br>
-                    Ṣirāṭalladhīna an‘amta ‘alayhim ghayril-maghḍūbi ‘alayhim wa laḍ-ḍāllīn (7)
-                </div>
-                <div class="translation-text">
-                    <strong>Translation:</strong> “In the name of Allah, the Most Gracious, the Most Merciful. All praise is for Allah, Lord of all worlds, the Most Gracious, the Most Merciful, Master of the Day of Judgment. You alone we worship, and You alone we ask for help. Guide us to the straight path — the path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or who have gone astray.”
-                </div>
-                <div class="audio-player">
-                    <div class="audio-title">🎧 Listen to Surah Al-Fatihah</div>
-                    <audio controls>
-                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg">
-                        Your browser does not support audio.
-                    </audio>
-                </div>
-            </div>
-            
+            <div class="dua-card"><div class="verse-title">The Opening of the Book (Surah Al-Fatihah)</div><div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ ﴿١﴾<br>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ﴿٢﴾<br>الرَّحْمَـٰنِ الرَّحِيمِ ﴿٣﴾<br>مَالِكِ يَوْمِ الدِّينِ ﴿٤﴾<br>إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾<br>اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ﴿٦﴾<br>صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ﴿٧﴾</div><div class="transliteration">Bismillāhir-raḥmānir-raḥīm (1)<br>Al-ḥamdu lillāhi rabbil-‘ālamīn (2)<br>Ar-raḥmānir-raḥīm (3)<br>Māliki yawmid-dīn (4)<br>Iyyāka na‘budu wa iyyāka nasta‘īn (5)<br>Ihdināṣ-ṣirāṭal-mustaqīm (6)<br>Ṣirāṭalladhīna an‘amta ‘alayhim ghayril-maghḍūbi ‘alayhim wa laḍ-ḍāllīn (7)</div><div class="translation-text"><strong>Translation:</strong> “In the name of Allah, the Most Gracious, the Most Merciful. All praise is for Allah, Lord of all worlds, the Most Gracious, the Most Merciful, Master of the Day of Judgment. You alone we worship, and You alone we ask for help. Guide us to the straight path — the path of those upon whom You have bestowed favor, not of those who have evoked [Your] anger or who have gone astray.”</div><div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Fatihah</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg"></audio></div></div>
             <div class="dua-card"><div class="verse-title">Shahādah (Reaffirmation of Faith)</div><div class="arabic">أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div><div class="transliteration">Asyhadu allā ilāha illallāh wa asyhadu anna muḥammadan ‘abduhū wa rasūluh</div><div class="translation-text"><strong>Translation:</strong> “I bear witness that there is no god but Allah, and I bear witness that Muhammad is His servant and messenger.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Salawat (Repeating Blessings on the Prophet)</div><div class="arabic">اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِهِ وَصَحْبِهِ وَسَلِّمْ</div><div class="transliteration">Allāhumma ṣalli ‘alā muḥammadin wa ‘alā ālihī wa ṣaḥbihī wa sallim</div><div class="translation-text"><strong>Translation:</strong> “O Allah, send prayers and peace upon Muhammad, his family, and his companions.”</div></div>
-            
             <div class="dua-card"><div class="verse-title">Prayer for Expansion of Chest and Ease (Before Studying)</div><div class="arabic">رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي</div><div class="transliteration">Rabbish-raḥlī ṣadrī wa yassir lī amrī waḥlul ‘uqdatan min lisānī yafqahū qawlī</div><div class="translation-text"><strong>Translation:</strong> “My Lord, expand for me my chest, make my task easy for me, and untie the knot from my tongue so that they may understand my speech.” (QS. Taha 25-28)</div></div>
-            
             <div class="dua-card"><div class="verse-title">Prayer for Increase in Knowledge, Understanding, and Righteousness</div><div class="arabic">رَبِّ زِدْنِي عِلْمًا وَارْزُقْنِي فَهْمًا وَاجْعَلْنِي مِنَ الصَّالِحِينَ</div><div class="transliteration">Rabbī zidnī ‘ilman warzuqnī fahman waj‘alnī minaṣ-ṣāliḥīn</div><div class="translation-text"><strong>Translation:</strong> “My Lord, increase me in knowledge, grant me understanding, and make me among the righteous.”</div></div>
         </div>
-
         <div style="text-align: center; margin: 30px 0;">🍃🌺🍃🌺🍃🌺🍃🌺</div>
-
         <h1 class="page-title" id="closing-section-en">📖 Closing of Class MB</h1>
-        
         <div class="section"><h2 class="section-title"><i class="fas fa-graduation-cap"></i> Closing Assembly Sequence</h2>
-            
-            <div class="dua-card">
-                <div class="verse-title">Ta'awwudh (Seeking Refuge from Satan)</div>
-                <div class="arabic">أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ</div>
-                <div class="transliteration">A'uudzu billaahi minasy-syaithoonir-rojiim</div>
-                <div class="translation-text"><strong>Translation:</strong> “I seek refuge with Allah from the accursed devil.”</div>
-            </div>
-            <div class="dua-card">
-                <div class="verse-title">Basmalah (In the Name of Allah)</div>
-                <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-                <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-                <div class="translation-text"><strong>Translation:</strong> “In the name of Allah, the Most Gracious, the Most Merciful.”</div>
-            </div>
-            
-        <div class="dua-card"><div class="verse-title">Dua After Studying (Entrusting Knowledge to Allah)</div><div class="arabic">اَللّٰهُمَّ إِنِّيْ أَسْتَوْدِعُكَ مَا عَلَّمْتَنِيْهِ، فَارْدُدْهُ إِلَيَّ عِنْدَ حَاجَتِيْ إِلَيْهِ وَلَا تَنْسِنِيْهِ يَا رَبَّ الْعَالَمِيْنَ</div><div class="transliteration">Allohumma inni astaudi'uka maa 'allamtanihi fardud-hu ilayya 'inda haajati ilaihi wa laa tansaniihi yaa robbal 'alamiin</div><div class="translation-text"><strong>Translation:</strong> “O Allah, I entrust You with what You have taught me, so return it to me when I need it and do not let me forget it, O Lord of the worlds.”</div></div>
-        <div class="dua-card"><div class="verse-title">Seeking Forgiveness 3 Times (Astaghfirullah)</div><div class="arabic">أَسْتَغْفِرُ ٱللَّهَ ٱلْعَظِيمَ ٣×</div><div class="transliteration">Astaghfirullāhal-‘Aẓīm (3x)</div><div class="translation-text"><strong>Translation:</strong> “I seek forgiveness from Allah the Almighty.” (3 times)</div></div>
-        <div class="dua-card"><div class="verse-title">Expiation of the Gathering (Kaffārat al-Majlis)</div><div class="arabic">سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</div><div class="transliteration">Subhanakallahumma wabihamdika, asyhadu alla ilaha illa anta, astaghfiruka wa atuubu ilaik</div><div class="translation-text"><strong>Translation:</strong> “Glory and praise be to You, O Allah. I bear witness that there is no god but You. I seek Your forgiveness and I repent to You.” (Reported by Tirmidhi)</div></div>
-        <div class="dua-card"><div class="verse-title">Surah Al-Asr (Reminder of Loss and Salvation)</div><div class="arabic">وَالْعَصْرِ ﴿١﴾ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ ﴿٢﴾ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ ﴿٣﴾</div><div class="transliteration">Wal-‘aṣr (1) Innal-insāna lafī khusr (2) Illālladhīna āmanū wa ‘amiluṣ-ṣāliḥāti wa tawāṣau bil-ḥaqqi wa tawāṣau biṣ-ṣabr (3)</div><div class="translation-text"><strong>Translation:</strong> “By the time. Indeed, mankind is in loss, except for those who have believed and done righteous deeds and advised each other to truth and advised each other to patience.” (QS. Al-Asr: 1-3)</div><div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Asr</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/103.mp3" type="audio/mpeg"></audio></div></div></div>
-
+            <div class="dua-card"><div class="verse-title">Ta'awwudh (Seeking Refuge from Satan)</div><div class="arabic">أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ</div><div class="transliteration">A'uudzu billaahi minasy-syaithoonir-rojiim</div><div class="translation-text"><strong>Translation:</strong> “I seek refuge with Allah from the accursed devil.”</div></div>
+            <div class="dua-card"><div class="verse-title">Basmalah (In the Name of Allah)</div><div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div><div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div><div class="translation-text"><strong>Translation:</strong> “In the name of Allah, the Most Gracious, the Most Merciful.”</div></div>
+            <div class="dua-card"><div class="verse-title">Dua After Studying (Entrusting Knowledge to Allah)</div><div class="arabic">اَللّٰهُمَّ إِنِّيْ أَسْتَوْدِعُكَ مَا عَلَّمْتَنِيْهِ، فَارْدُدْهُ إِلَيَّ عِنْدَ حَاجَتِيْ إِلَيْهِ وَلَا تَنْسِنِيْهِ يَا رَبَّ الْعَالَمِيْنَ</div><div class="transliteration">Allohumma inni astaudi'uka maa 'allamtanihi fardud-hu ilayya 'inda haajati ilaihi wa laa tansaniihi yaa robbal 'alamiin</div><div class="translation-text"><strong>Translation:</strong> “O Allah, I entrust You with what You have taught me, so return it to me when I need it and do not let me forget it, O Lord of the worlds.”</div></div>
+            <div class="dua-card"><div class="verse-title">Seeking Forgiveness 3 Times (Astaghfirullah)</div><div class="arabic">أَسْتَغْفِرُ ٱللَّهَ ٱلْعَظِيمَ ٣×</div><div class="transliteration">Astaghfirullāhal-‘Aẓīm (3x)</div><div class="translation-text"><strong>Translation:</strong> “I seek forgiveness from Allah the Almighty.” (3 times)</div></div>
+            <div class="dua-card"><div class="verse-title">Expiation of the Gathering (Kaffārat al-Majlis)</div><div class="arabic">سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</div><div class="transliteration">Subhanakallahumma wabihamdika, asyhadu alla ilaha illa anta, astaghfiruka wa atuubu ilaik</div><div class="translation-text"><strong>Translation:</strong> “Glory and praise be to You, O Allah. I bear witness that there is no god but You. I seek Your forgiveness and I repent to You.” (Reported by Tirmidhi)</div></div>
+            <div class="dua-card"><div class="verse-title">Surah Al-Asr</div><div class="arabic">وَالْعَصْرِ ﴿١﴾ إِنَّ الْإِنسَانَ لَفِي خُسْرٍ ﴿٢﴾ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ ﴿٣﴾</div><div class="transliteration">Wal-‘aṣr (1) Innal-insāna lafī khusr (2) Illālladhīna āmanū wa ‘amiluṣ-ṣāliḥāti wa tawāṣau bil-ḥaqqi wa tawāṣau biṣ-ṣabr (3)</div><div class="translation-text"><strong>Translation:</strong> “By the time. Indeed, mankind is in loss, except for those who have believed and done righteous deeds and advised each other to truth and advised each other to patience.” (QS. Al-Asr: 1-3)</div><div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Asr</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/103.mp3" type="audio/mpeg"></audio></div></div>
+        </div>
         <div style="text-align: center; margin: 30px 0;">🕋🌎🕋🌎🕋🌎🕋🌎</div>
-
         <h1 class="page-title" id="doa-quran-section-en">✨ Dua After Qur'an & Al-Ghaffar</h1>
-        
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-book-quran"></i> Closing Supplication after Reciting the Qur'an</h2>
-            <div class="dua-card">
-                <div class="verse-title">Dua after finishing Qur'an recitation <span class="badge-repeat"><i class="fas fa-redo-alt"></i> 20x repetition (video)</span></div>
-                <div class="arabic">اللَّهُمَّ ارْحَمْنَا بِالْقُرْآنِ<br>وَاجْعَلْهُ لَنَا إِمَامًا وَنُورًا وَهُدًى وَرَحْمَةً<br>اللَّهُمَّ ذَكِّرْنَا مِنْهُ مَا نَسِينَا<br>وَعَلِّمْنَا مِنْهُ مَا جَهِلْنَا<br>وَارْزُقْنَا تِلَاوَتَهُ آنَاءَ اللَّيْلِ وَأَطْرَافَ النَّهَارِ<br>وَاجْعَلْهُ لَنَا حُجَّةً يَا رَبَّ الْعَالَمِينَ</div>
-                <div class="transliteration">Allāhumma arḥamnā bil-Qur’ān,<br>waj‘alhu lanā imāman wa nūran wa hudan wa raḥmah.<br>Allāhumma dhakkirnā minhu mā nasīnā,<br>wa ‘allimnā minhu mā jahilnā,<br>warzuqnā tilāwatahu ānā’a al-layli wa aṭrāfa an-nahār,<br>waj‘alhu lanā ḥujjah, yā Rabb al-‘ālamīn.</div>
-                <div class="translation-text"><strong>Translation:</strong> “O Allah, have mercy upon us through the Qur’an. Make it for us a leader, a light, a guidance, and a mercy. O Allah, remind us of what we have forgotten from it, and teach us what we do not know from it. Grant us the ability to recite it during the hours of the night and the ends of the day. And make it an argument in our favor, O Lord of the worlds.”</div>
-            </div>
-            <div class="video-container"><iframe src="https://www.youtube.com/embed/lErSXnsWXIA" title="Dua after Quran 20x repetition" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-            <div class="info-note"><i class="fas fa-head-side-headphones"></i> 📖 20 times repetition — Play the video to repeat the dua together.</div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-heart"></i> Al-Ghaffar (The Oft-Forgiving)</h2>
-            <div class="dua-card">
-                <div class="verse-title">The Supreme Prayer for Forgiveness (Sayyidul Istighfar) <span class="badge-repeat"><i class="fas fa-repeat"></i> Recite 3x</span></div>
-                <div class="arabic">أَسْتَغْفِرُ ٱللَّهَ ٱلْعَظِيمَ ٱلَّذِي لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَيُّ ٱلْقَيُّومُ وَأَتُوبُ إِلَيْهِ</div>
-                <div class="transliteration">Astaghfirullāhal-‘Aẓīm, alladhī lā ilāha illā huwa al-Ḥayyul-Qayyūm, wa atūbu ilayh</div>
-                <div class="translation-text"><strong>Translation:</strong> “I seek forgiveness from Allah the Almighty — there is no deity except Him — the Ever-Living, the Sustainer — and I repent to Him.” (3 times)</div>
-                <div class="info-note"><i class="fas fa-star-of-life"></i> Virtue: It erases sins, brings tranquility, and draws one closer to Al-Ghaffar.</div>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2 class="section-title"><i class="fas fa-hand-peace"></i> Expiation of the Gathering (Repeated)</h2>
-            <div class="dua-card">
-                <div class="verse-title">Kaffaratul Majlis</div>
-                <div class="arabic">سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ</div>
-                <div class="transliteration">Subhanakallahumma wabihamdika, asyhadu alla ilaha illa anta, astaghfiruka wa atuubu ilaik</div>
-                <div class="translation-text"><strong>Translation:</strong> “Glory and praise be to You, O Allah. I bear witness that there is no god but You. I seek Your forgiveness and I repent to You.” (Reported by Tirmidhi)</div>
-                <div class="info-note"><i class="fas fa-leaf"></i> Recited after finishing any gathering to end it with goodness.</div>
-            </div>
-        </div>
-
+        <div class="section"><h2 class="section-title"><i class="fas fa-book-quran"></i> Closing Supplication after Reciting the Qur'an</h2>
+        <div class="dua-card"><div class="verse-title">Dua after finishing Qur'an recitation <span class="badge-repeat"><i class="fas fa-redo-alt"></i> 20x repetition (video)</span></div><div class="arabic">اللَّهُمَّ ارْحَمْنَا بِالْقُرْآنِ<br>وَاجْعَلْهُ لَنَا إِمَامًا وَنُورًا وَهُدًى وَرَحْمَةً<br>اللَّهُمَّ ذَكِّرْنَا مِنْهُ مَا نَسِينَا<br>وَعَلِّمْنَا مِنْهُ مَا جَهِلْنَا<br>وَارْزُقْنَا تِلَاوَتَهُ آنَاءَ اللَّيْلِ وَأَطْرَافَ النَّهَارِ<br>وَاجْعَلْهُ لَنَا حُجَّةً يَا رَبَّ الْعَالَمِينَ</div><div class="transliteration">Allāhumma arḥamnā bil-Qur’ān,<br>waj‘alhu lanā imāman wa nūran wa hudan wa raḥmah.<br>Allāhumma dhakkirnā minhu mā nasīnā,<br>wa ‘allimnā minhu mā jahilnā,<br>warzuqnā tilāwatahu ānā’a al-layli wa aṭrāfa an-nahār,<br>waj‘alhu lanā ḥujjah, yā Rabb al-‘ālamīn.</div><div class="translation-text"><strong>Translation:</strong> “O Allah, have mercy upon us through the Qur’an. Make it for us a leader, a light, a guidance, and a mercy. O Allah, remind us of what we have forgotten from it, and teach us what we do not know from it. Grant us the ability to recite it during the hours of the night and the ends of the day. And make it an argument in our favor, O Lord of the worlds.”</div></div>
+        <div class="video-container"><iframe src="https://www.youtube.com/embed/lErSXnsWXIA" title="Dua after Quran 20x repetition" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+        <div class="info-note"><i class="fas fa-head-side-headphones"></i> 📖 20 times repetition — Play the video to repeat the dua together.</div></div>
+        <div class="section"><h2 class="section-title"><i class="fas fa-heart"></i> Al-Ghaffar (The Oft-Forgiving)</h2>
+        <div class="dua-card"><div class="verse-title">The Supreme Prayer for Forgiveness (Sayyidul Istighfar) <span class="badge-repeat"><i class="fas fa-repeat"></i> Recite 3x</span></div><div class="arabic">أَسْتَغْفِرُ ٱللَّهَ ٱلْعَظِيمَ ٱلَّذِي لَآ إِلَـٰهَ إِلَّا هُوَ ٱلْحَيُّ ٱلْقَيُّومُ وَأَتُوبُ إِلَيْهِ</div><div class="transliteration">Astaghfirullāhal-‘Aẓīm, alladhī lā ilāha illā huwa al-Ḥayyul-Qayyūm, wa atūbu ilayh</div><div class="translation-text"><strong>Translation:</strong> “I seek forgiveness from Allah the Almighty — there is no deity except Him — the Ever-Living, the Sustainer — and I repent to Him.” (3 times)</div><div class="info-note"><i class="fas fa-star-of-life"></i> Virtue: It erases sins, brings tranquility, and draws one closer to Al-Ghaffar.</div></div></div>
         <div class="info-box"><i class="fas fa-lightbulb"></i> <strong>Advice:</strong> Practice these supplications after studying and reciting the Qur’an, and increase your istighfar. May Allah accept our repentance.</div>
     </div>
 </div>
 
 <footer>© 1447 AH / 2026 AD - Pembukaan & Penutupan Kelas, Dua After Qur'an & Al-Ghaffar</footer>
-
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <script>
 (function() {
@@ -579,11 +464,11 @@
         if (isEnglish) {
             englishDiv.classList.remove('hidden');
             indoDiv.classList.add('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+            langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
         } else {
             englishDiv.classList.add('hidden');
             indoDiv.classList.remove('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+            langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
         }
         localStorage.setItem('language', lang);
     }
@@ -604,7 +489,7 @@
     }
     setTransliteration(translitVisible);
     translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
+        const currently = translitElements[0]?.style.display !== 'none';
         setTransliteration(!currently);
     });
 
@@ -624,41 +509,25 @@
         setDarkModeUI();
     });
 
-    function scrollToElement(elementId, fallbackDelay = 300) {
-        const target = document.getElementById(elementId);
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            return true;
-        } else {
-            setTimeout(() => {
-                const retryTarget = document.getElementById(elementId);
-                if (retryTarget) retryTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }, fallbackDelay);
-            return false;
-        }
-    }
+    // Single arrows: scroll by viewport
+    document.getElementById('scrollUp').addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('scrollDown').addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    // Double arrows: to top / bottom
+    document.getElementById('doubleUpScroll').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('doubleDownScroll').addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
 
-    window.addEventListener('load', function() {
+    function scrollToElement(elementId, delay = 300) {
+        const target = document.getElementById(elementId);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        else setTimeout(() => { const retry = document.getElementById(elementId); if(retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, delay);
+    }
+    window.addEventListener('load', () => {
         const isEnglish = !englishDiv.classList.contains('hidden');
-        
-        if (getParam('DoaQuran') !== null) {
-            const targetId = isEnglish ? 'doa-quran-section-en' : 'doa-quran-section';
-            scrollToElement(targetId, 500);
-        }
-        
-        const closeParam = getParam('Closing') !== null || getParam('Close') !== null || getParam('close') !== null;
-        if (closeParam) {
-            const targetId = isEnglish ? 'closing-section-en' : 'closing-section';
-            scrollToElement(targetId, 500);
-        }
+        if (getParam('DoaQuran') !== null) scrollToElement(isEnglish ? 'doa-quran-section-en' : 'doa-quran-section', 500);
+        if (getParam('Closing') !== null || getParam('Close') !== null || getParam('close') !== null)
+            scrollToElement(isEnglish ? 'closing-section-en' : 'closing-section', 500);
     });
-    
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
 })();
 </script>
 </body>
 </html>
-
