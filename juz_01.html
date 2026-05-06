@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juz 1 - Thematic Analysis (no back-to-top links)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Juz 1 - Thematic Analysis | with Navigation & Modes</title>
     <style>
-        /* ===== STYLES FROM JUZ_30 ===== */
+        /* ===== BASE STYLES (enhanced for dark mode & links) ===== */
         :root {
             --bg-color: #f5f9fc;
-            --text-color: #333;
+            --text-color: #1e2a3e;
             --container-bg: white;
             --arabic-color: #1a5276;
             --section-title-color: #2980b9;
@@ -25,29 +25,35 @@
             --table-header-color: white;
             --table-row-even: #f9f9f9;
             --table-row-odd: #ffffff;
-            --link-color: #2980b9;
+            --link-color: #1e5f8e;
+            --link-hover: #0d3d5a;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
         }
 
         .dark-mode {
-            --bg-color: #1a1a2e;
-            --text-color: #e6e6e6;
-            --container-bg: #16213e;
-            --arabic-color: #4cc9f0;
-            --section-title-color: #3498db;
-            --verse-bg: #2d3748;
+            --bg-color: #24263b;      /* lighter dark base */
+            --text-color: #eef2ff;
+            --container-bg: #1e1f32;
+            --arabic-color: #9ad0ff;
+            --section-title-color: #7bc9ff;
+            --verse-bg: #2d3348;
             --verse-border: #4a5568;
             --bonus-bg: #1e3a5f;
             --tafsir-bg: #2d3748;
             --tafsir-border: #4a5568;
             --structure-bg: #1e3a5f;
-            --benefits-bg: #1b3c1b;
+            --benefits-bg: #1f3a2f;
             --praise-bg: #3a1f1f;
             --guidance-bg: #1f3a1f;
             --table-header-bg: #2c3e50;
             --table-header-color: #ecf0f1;
-            --table-row-even: #2d3748;
-            --table-row-odd: #1a202c;
-            --link-color: #4cc9f0;
+            --table-row-even: #2d3348;
+            --table-row-odd: #1e1f32;
+            --link-color: #7ac7e7;     /* bright, visible link */
+            --link-hover: #c3e2ff;
+            --arrow-bg: #3a4a6e;
+            --arrow-text: #f0f3ff;
         }
 
         body {
@@ -65,8 +71,8 @@
             margin: 0 auto;
             background: var(--container-bg);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
         .arabic {
@@ -86,6 +92,9 @@
             margin: -15px 0 20px;
             display: none;
         }
+        .dark-mode .transliteration {
+            color: #b0c4de;
+        }
         .surah-title {
             font-size: 36px;
             color: var(--text-color);
@@ -95,8 +104,8 @@
             margin-bottom: 25px;
             background: linear-gradient(90deg, #3498db, #2c3e50);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .section {
             margin: 30px 0;
@@ -110,10 +119,6 @@
             padding-left: 15px;
             display: flex;
             align-items: center;
-        }
-        .section-title-icon {
-            margin-right: 10px;
-            font-size: 20px;
         }
         .verse, .theme-point {
             background-color: var(--verse-bg);
@@ -129,133 +134,6 @@
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-        }
-        .verse-title-icon {
-            margin-right: 8px;
-        }
-        /* .back-to-top class kept but not used anywhere in the page */
-        .back-to-top {
-            display: block;
-            text-align: center;
-            margin: 30px 0;
-            color: var(--link-color);
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 20px;
-            border: 1px solid var(--link-color);
-            border-radius: 20px;
-            transition: all 0.3s ease;
-        }
-        .back-to-top:hover {
-            background-color: var(--link-color);
-            color: white;
-        }
-        /* fixed toggles (right side) */
-        .language-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #3498db;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .transliteration-toggle {
-            position: fixed;
-            top: 60px;
-            right: 20px;
-            background: #2ecc71;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .dark-mode-toggle {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: #9b59b6;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            z-index: 100;
-            font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        /* navigation arrow buttons (fixed) */
-        .nav-button {
-            position: fixed;
-            background: var(--link-color);
-            color: white;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 90;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: background 0.3s, transform 0.2s;
-            border: none;
-        }
-        .nav-button:hover {
-            background: #1f5a8a;
-            transform: scale(1.05);
-        }
-        .nav-button.top-left {
-            top: 20px;
-            left: 20px;
-        }
-        .nav-button.bottom-right {
-            bottom: 20px;
-            right: 20px;
-        }
-        .hidden {
-            display: none;
-        }
-        .surah-source {
-            text-align: center;
-            margin-top: -15px;
-            margin-bottom: 20px;
-            color: #7f8c8d;
-            font-size: 16px;
-        }
-        .main-menu {
-            text-align: center;
-            margin: 15px 0;
-        }
-        .top-home-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: var(--link-color);
-            text-decoration: none;
-            font-weight: bold;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-            border: 1px solid var(--link-color);
-        }
-        .top-home-link:hover {
-            background-color: var(--link-color);
-            color: white;
-        }
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 14px;
-            border-top: 1px solid var(--verse-border);
         }
         .theme-table {
             width: 100%;
@@ -287,26 +165,12 @@
             border-radius: 8px;
             border: 1px solid var(--verse-border);
         }
-        .audio-player h3 {
-            margin-top: 0;
-            color: var(--section-title-color);
-        }
         .message-box {
             background: var(--structure-bg);
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
             border-left: 4px solid #3498db;
-        }
-        .message-box h3 {
-            margin-top: 0;
-            color: #2980b9;
-        }
-        .message-box ul {
-            padding-left: 20px;
-        }
-        .message-box li {
-            margin-bottom: 10px;
         }
         .access-link {
             display: inline-block;
@@ -321,6 +185,21 @@
             background: var(--verse-bg);
         }
         .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 40px;
+            transition: background-color 0.3s;
+            border: 1px solid var(--link-color);
+        }
+        .top-home-link:hover {
             background-color: var(--link-color);
             color: white;
         }
@@ -352,387 +231,464 @@
             margin: 50px 0;
             border-radius: 2px;
         }
-        .overview-box {
+        .juz-overview, .overview-box {
             background: var(--structure-bg);
-            padding: 25px;
-            border-radius: 10px;
-            margin: 25px 0;
-            border-left: 5px solid #2c3e50;
-        }
-        .juz-overview {
-            background: linear-gradient(135deg, #e8f4fc 0%, #f0f7ff 100%);
             padding: 25px;
             border-radius: 10px;
             margin: 25px 0;
             border-left: 5px solid #3498db;
         }
-        .dark-mode .juz-overview {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2d3748 100%);
-        }
-        .dark-mode .overview-box {
+        .dark-mode .juz-overview, .dark-mode .overview-box {
             background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
         }
-        /* ---- Ensure English version has no italic text (except transliteration) ---- */
-        #english-content, #english-content * {
-            font-style: normal !important;
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
         }
-        #english-content .transliteration {
-            font-style: italic !important;
+
+        /* ===== FLOATING ARROWS (single left + double right) ===== */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 22px;
         }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: var(--link-color);
+            color: white;
+        }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: var(--link-color);
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+
+        /* right side toggles (language, translit, dark) */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .hidden { display: none; }
 
         @media (max-width: 768px) {
             .arabic { font-size: 32px; }
             .surah-title { font-size: 28px; }
             .language-toggle, .transliteration-toggle, .dark-mode-toggle {
-                position: static;
-                margin: 10px 0;
-                display: inline-block;
+                padding: 5px 12px; font-size: 11px; right: 12px;
             }
-            .nav-button.top-left {
-                top: 10px;
-                left: 10px;
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
+            .scroll-arrow, .scroll-arrow-double {
+                width: 38px; height: 38px; font-size: 18px;
             }
-            .nav-button.bottom-right {
-                bottom: 10px;
-                right: 10px;
-                width: 40px;
-                height: 40px;
-                font-size: 18px;
-            }
-            .top-home-link { margin-bottom: 15px; }
-            .theme-table { display: block; overflow-x: auto; }
-            .pagination { flex-direction: column; gap: 15px; text-align: center; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 70px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
             .container { padding: 15px; }
+            .theme-table { display: block; overflow-x: auto; }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- navigation arrows -->
-    <div id="go-to-bottom" class="nav-button top-left" title="Go to bottom"><i class="fas fa-arrow-down"></i></div>
-    <div id="go-to-top" class="nav-button bottom-right" title="Go to top"><i class="fas fa-arrow-up"></i></div>
 
-    <div class="container">
-        <!-- fixed toggles (right side) -->
-        <div class="language-toggle" id="languageToggle">Switch to English</div>
-        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
-        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+<!-- ========== FLOATING NAVIGATION ARROWS ========== -->
+<!-- Left side: single step up/down -->
+<div id="scrollUpSingle" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDownSingle" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+<!-- Right side: double arrows top/bottom -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
 
-        <!-- ================= INDONESIAN CONTENT (DEFAULT) ================= -->
-        <div id="indonesian-content">
-            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
-            <h1 class="surah-title">Juz 1 - Analisis Tematik</h1>
-            <div class="surah-source"><strong>Sumber:</strong> <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a></div>
+<!-- Right side toggles -->
+<div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> Switch to English</div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
 
-            <!-- Gambaran Umum Juz 1 -->
-            <div class="juz-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Juz 1</h3>
-                <p><strong>Juz 1</strong> mencakup halaman 1-21 Al-Qur'an. Berisi <strong>Surah Al-Fatihah (1–7)</strong> dan awal <strong>Surah Al-Baqarah (1–141)</strong>. Juz ini sering disebut "Alif Lam Meem" berdasarkan huruf muqatta'ah yang membuka Surah Al-Baqarah.</p>
-                <p><strong>Halaman:</strong> 1-21 | <strong>Hizb:</strong> 1</p>
-                <p style="margin-top: 10px;">
-                    <a href="https://quran.com/juz/1?translations=33" target="_blank" class="access-link">
-                        <i class="fas fa-book-open"></i> Akses Teks Lengkap Juz 1 di Quran.com
-                    </a>
-                </p>
-            </div>
+<div class="container">
+    <!-- ================= INDONESIAN CONTENT (FULL) ================= -->
+    <div id="indonesian-content">
+        <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Juz Summary List</a>
+        <h1 class="surah-title">Juz 1 - Analisis Tematik</h1>
+        <div class="surah-source"><strong>Sumber:</strong> <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a></div>
 
-            <!-- Surah Al-Fatihah -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fatihah (Pembukaan) - Ayat 1-7</h2>
-                <div class="overview-box">
-                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Fatihah</h3>
-                    <p>Surah Al-Fatihah adalah surah pertama Al-Qur'an, terdiri dari 7 ayat. Dikenal juga sebagai <strong>Umm al-Kitab</strong> (Induk Al-Kitab) dan <strong>Al-Sab' al-Mathani</strong> (Tujuh Ayat yang Diulang). Surah ini dibaca dalam setiap rakaat shalat. Menegaskan tauhid, hubungan hamba dengan Pencipta, dan permohonan petunjuk ke jalan yang lurus.</p>
-                </div>
-                <div class="audio-player">
-                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Fatihah</h3>
-                    <audio controls style="width: 100%;">
-                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg">
-                        Browser Anda tidak mendukung elemen audio.
-                    </audio>
-                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
-                        <i class="fas fa-external-link-alt"></i> Teks Lengkap:
-                        <a href="https://quran.com/1:1-7?translations=33" target="_blank" class="access-link">Quran.com - Surah Al-Fatihah</a>
-                    </p>
-                </div>
-                <div class="section">
-                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
-                    <table class="theme-table">
-                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
-                        <tbody>
-                            <tr><td>Ayat 1</td><td>Pujian dan Pengakuan</td><td>Segala puji bagi Allah, Tuhan semesta alam</td></tr>
-                            <tr><td>Ayat 2-3</td><td>Sifat-sifat Ilahi</td><td>Maha Pengasih, Maha Penyayang, Penguasa Hari Pembalasan</td></tr>
-                            <tr><td>Ayat 4</td><td>Ibadah dan Ketergantungan</td><td>Hanya kepada-Mu kami menyembah dan memohon pertolongan</td></tr>
-                            <tr><td>Ayat 5-7</td><td>Doa dan Petunjuk</td><td>Tunjukilah kami jalan yang lurus, bukan jalan orang yang dimurkai atau sesat</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="message-box">
-                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
-                    <ul>
-                        <li><strong>Akidah:</strong> Keesaan Allah, kekuasaan mutlak-Nya, keniscayaan hari akhir.</li>
-                        <li><strong>Ibadah:</strong> Shalat hanya untuk Allah, memohon pertolongan hanya kepada-Nya.</li>
-                        <li><strong>Akhlak:</strong> Syukur, rendah hati, menjauhi kesesatan dan kemurkaan.</li>
-                    </ul>
-                </div>
-                <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank" class="access-link"><i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info</a>
-                </p>
-            </div>
-            <div class="surah-divider"></div>
-
-            <!-- Surah Al-Baqarah (1-141) -->
-            <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Baqarah (Sapi Betina) - Ayat 1-141</h2>
-                <div class="overview-box">
-                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Baqarah (Bagian Awal)</h3>
-                    <p>Bagian pertama surah terpanjang ini (ayat 1–141) mengklasifikasikan manusia menjadi mukmin, kafir, dan munafik. Menceritakan penciptaan Adam, kisah Bani Israel, serta menetapkan kiblat (Ka'bah) dan fondasi syariat.</p>
-                </div>
-                <div class="audio-player">
-                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Baqarah (1-141)</h3>
-                    <audio controls style="width: 100%;">
-                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3" type="audio/mpeg">
-                        Browser Anda tidak mendukung elemen audio.
-                    </audio>
-                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
-                        <i class="fas fa-external-link-alt"></i> Teks Lengkap:
-                        <a href="https://quran.com/2:1-141?translations=33" target="_blank" class="access-link">Quran.com - Surah Al-Baqarah (1-141)</a>
-                    </p>
-                </div>
-                <div class="section">
-                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
-                    <table class="theme-table">
-                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
-                        <tbody>
-                            <tr><td>Ayat 1-20</td><td>Klasifikasi Manusia</td><td>Mukmin, kafir, munafik – ciri dan balasan masing-masing</td></tr>
-                            <tr><td>Ayat 21-39</td><td>Tauhid dan Tujuan Hidup</td><td>Seruan menyembah Allah, kisah Adam dan tipu daya setan</td></tr>
-                            <tr><td>Ayat 40-86</td><td>Bani Israel</td><td>Perjanjian, nikmat, dan pelanggaran mereka</td></tr>
-                            <tr><td>Ayat 87-141</td><td>Kenabian & Perubahan Kiblat</td><td>Kesinambungan risalah, perintah menghadap Masjidil Haram</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="message-box">
-                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
-                    <ul>
-                        <li><strong>Akidah:</strong> Iman kepada yang gaib, kitab, rasul, dan hari akhir.</li>
-                        <li><strong>Ibadah:</strong> Tauhid dalam ibadah, shalat, dan kepatuhan pada perintah Allah.</li>
-                        <li><strong>Akhlak:</strong> Kejujuran, menepati janji, tidak munafik, dan sabar.</li>
-                    </ul>
-                </div>
-                <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=2" target="_blank" class="access-link"><i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info</a>
-                </p>
-            </div>
-
-            <div class="pagination">
-                <a href="javascript:void(0)"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
-                <span style="color: var(--text-color); font-weight: bold;">Juz 1</span>
-                <a href="juz_02.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
-            </div>
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
-            <!-- Kembali ke Atas link removed -->
+        <!-- Gambaran Umum Juz 1 -->
+        <div class="juz-overview">
+            <h3 style="margin-top: 0; color: var(--section-title-color);"><i class="fas fa-info-circle"></i> Gambaran Umum Juz 1</h3>
+            <p><strong>Juz 1</strong> mencakup halaman 1-21 Al-Qur'an. Berisi <strong>Surah Al-Fatihah (1–7)</strong> dan awal <strong>Surah Al-Baqarah (1–141)</strong>. Juz ini sering disebut "Alif Lam Meem" berdasarkan huruf muqatta'ah yang membuka Surah Al-Baqarah.</p>
+            <p><strong>Halaman:</strong> 1-21 | <strong>Hizb:</strong> 1</p>
+            <p style="margin-top: 10px;">
+                <a href="https://quran.com/juz/1?translations=33" target="_blank" class="access-link">
+                    <i class="fas fa-book-open"></i> Akses Teks Lengkap Juz 1 di Quran.com
+                </a>
+            </p>
         </div>
 
-        <!-- ================= ENGLISH CONTENT (HIDDEN) ================= -->
-        <div id="english-content" class="hidden">
-            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
-            <h1 class="surah-title">Juz 1 - Thematic Analysis</h1>
-            <div class="surah-source"><strong>Sources:</strong> <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a></div>
-
-            <!-- Overview English -->
-            <div class="juz-overview">
-                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Juz 1</h3>
-                <p><strong>Juz 1</strong> covers pages 1-21. It contains <strong>Surah Al-Fatihah (1–7)</strong> and the first part of <strong>Surah Al-Baqarah (1–141)</strong>. This juz is also known as "Alif Lam Meem" after the muqatta'at letters opening Al-Baqarah.</p>
-                <p><strong>Pages:</strong> 1-21 | <strong>Hizb:</strong> 1</p>
-                <p style="margin-top: 10px;">
-                    <a href="https://quran.com/juz/1?translations=131" target="_blank" class="access-link">
-                        <i class="fas fa-book-open"></i> Access Complete Text of Juz 1 on Quran.com
-                    </a>
+        <!-- Surah Al-Fatihah -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fatihah (Pembukaan) - Ayat 1-7</h2>
+            <div class="overview-box">
+                <h3 style="margin-top: 0; color: var(--section-title-color);"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Fatihah</h3>
+                <p>Surah Al-Fatihah adalah surah pertama Al-Qur'an, terdiri dari 7 ayat. Dikenal juga sebagai <strong>Umm al-Kitab</strong> (Induk Al-Kitab) dan <strong>Al-Sab' al-Mathani</strong> (Tujuh Ayat yang Diulang). Surah ini dibaca dalam setiap rakaat shalat. Menegaskan tauhid, hubungan hamba dengan Pencipta, dan permohonan petunjuk ke jalan yang lurus.</p>
+            </div>
+            <div class="audio-player">
+                <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Fatihah</h3>
+                <audio controls style="width: 100%;">
+                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+                <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                    <i class="fas fa-external-link-alt"></i> Teks Lengkap:
+                    <a href="https://quran.com/1:1-7?translations=33" target="_blank" class="access-link">Quran.com - Surah Al-Fatihah</a>
                 </p>
             </div>
-
-            <!-- Surah Al-Fatihah English -->
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fatihah (The Opening) - Verses 1-7</h2>
-                <div class="overview-box">
-                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Fatihah</h3>
-                    <p>The first chapter of the Quran, 7 verses. Known as <strong>Umm al-Kitab</strong> (Mother of the Book) and <strong>Al-Sab' al-Mathani</strong> (The Seven Oft-Repeated Verses). It establishes the core relationship between the Creator and the servant, emphasizing monotheism, divine mercy, and guidance.</p>
-                </div>
-                <div class="audio-player">
-                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Fatihah</h3>
-                    <audio controls style="width: 100%;">
-                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
-                        <i class="fas fa-external-link-alt"></i> Complete Text:
-                        <a href="https://recitequran.com/1" target="_blank" class="access-link">reciteQuran.com - Surah Al-Fatihah</a>
-                    </p>
-                </div>
-                <div class="section">
-                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
-                    <table class="theme-table">
-                        <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
-                        <tbody>
-                            <tr><td>Verse 1</td><td>Praise & Recognition</td><td>All praise is due to Allah, Lord of the worlds</td></tr>
-                            <tr><td>Verses 2-3</td><td>Divine Attributes</td><td>Most Gracious, Most Merciful, Master of the Day of Judgment</td></tr>
-                            <tr><td>Verse 4</td><td>Worship & Dependence</td><td>You alone we worship, and You alone we ask for help</td></tr>
-                            <tr><td>Verses 5-7</td><td>Supplication & Guidance</td><td>Guide us to the straight path, not of those who earned anger or went astray</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="message-box">
-                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
-                    <ul>
-                        <li><strong>Aqidah:</strong> Allah's oneness, lordship, mercy, and sovereignty on Judgment Day.</li>
-                        <li><strong>Worship:</strong> Prayer and absolute reliance on Allah alone.</li>
-                        <li><strong>Akhlak:</strong> Gratitude, humility, and seeking guidance while avoiding deviance.</li>
-                    </ul>
-                </div>
-                <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info</a>
+                <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                <table class="theme-table">
+                    <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ayat 1</td><td>Pujian dan Pengakuan</td><td>Segala puji bagi Allah, Tuhan semesta alam</td></tr>
+                        <tr><td>Ayat 2-3</td><td>Sifat-sifat Ilahi</td><td>Maha Pengasih, Maha Penyayang, Penguasa Hari Pembalasan</td></tr>
+                        <tr><td>Ayat 4</td><td>Ibadah dan Ketergantungan</td><td>Hanya kepada-Mu kami menyembah dan memohon pertolongan</td></tr>
+                        <tr><td>Ayat 5-7</td><td>Doa dan Petunjuk</td><td>Tunjukilah kami jalan yang lurus, bukan jalan orang yang dimurkai atau sesat</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="message-box">
+                <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                <ul>
+                    <li><strong>Akidah:</strong> Keesaan Allah, kekuasaan mutlak-Nya, keniscayaan hari akhir.</li>
+                    <li><strong>Ibadah:</strong> Shalat hanya untuk Allah, memohon pertolongan hanya kepada-Nya.</li>
+                    <li><strong>Akhlak:</strong> Syukur, rendah hati, menjauhi kesesatan dan kemurkaan.</li>
+                </ul>
+            </div>
+            <p style="text-align: center; margin: 20px 0;">
+                <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank" class="access-link"><i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info</a>
+            </p>
+        </div>
+        <div class="surah-divider"></div>
+
+        <!-- Surah Al-Baqarah (1-141) -->
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Baqarah (Sapi Betina) - Ayat 1-141</h2>
+            <div class="overview-box">
+                <h3 style="margin-top: 0; color: var(--section-title-color);"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Baqarah (Bagian Awal)</h3>
+                <p>Bagian pertama surah terpanjang ini (ayat 1–141) mengklasifikasikan manusia menjadi mukmin, kafir, dan munafik. Menceritakan penciptaan Adam, kisah Bani Israel, serta menetapkan kiblat (Ka'bah) dan fondasi syariat.</p>
+            </div>
+            <div class="audio-player">
+                <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Baqarah (1-141)</h3>
+                <audio controls style="width: 100%;">
+                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+                <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                    <i class="fas fa-external-link-alt"></i> Teks Lengkap:
+                    <a href="https://quran.com/2:1-141?translations=33" target="_blank" class="access-link">Quran.com - Surah Al-Baqarah (1-141)</a>
                 </p>
             </div>
-            <div class="surah-divider"></div>
-
-            <!-- Surah Al-Baqarah English -->
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Baqarah (The Cow) - Verses 1-141</h2>
-                <div class="overview-box">
-                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Baqarah (Part 1)</h3>
-                    <p>This opening portion of the longest surah classifies people into believers, disbelievers, and hypocrites. It recounts the creation of Adam, the stories of the Children of Israel, and establishes the direction of prayer (Qibla) towards the Ka'bah.</p>
-                </div>
-                <div class="audio-player">
-                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Baqarah (1-141)</h3>
-                    <audio controls style="width: 100%;">
-                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
-                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
-                        <i class="fas fa-external-link-alt"></i> Complete Text:
-                        <a href="https://recitequran.com/2" target="_blank" class="access-link">reciteQuran.com - Surah Al-Baqarah</a>
-                    </p>
-                </div>
-                <div class="section">
-                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
-                    <table class="theme-table">
-                        <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
-                        <tbody>
-                            <tr><td>Verses 1-20</td><td>Classification of Humanity</td><td>Believers, disbelievers, hypocrites – their traits and fate</td></tr>
-                            <tr><td>Verses 21-39</td><td>Monotheism & Human Purpose</td><td>Worship Allah alone; story of Adam and Iblis</td></tr>
-                            <tr><td>Verses 40-86</td><td>Children of Israel</td><td>Covenants, blessings, and their violations</td></tr>
-                            <tr><td>Verses 87-141</td><td>Prophethood & Qibla</td><td>Continuity of revelation, change of prayer direction</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="message-box">
-                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
-                    <ul>
-                        <li><strong>Aqidah:</strong> Belief in the unseen, angels, scriptures, messengers, and the Last Day.</li>
-                        <li><strong>Worship:</strong> Pure monotheism, prayer, and obedience to divine commands.</li>
-                        <li><strong>Akhlak:</strong> Honesty, fulfilling covenants, avoiding hypocrisy, and patience.</li>
-                    </ul>
-                </div>
-                <p style="text-align: center; margin: 20px 0;">
-                    <a href="https://www.islamicstudies.info/tafheem.php?sura=2" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info</a>
-                </p>
+                <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                <table class="theme-table">
+                    <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ayat 1-20</td><td>Klasifikasi Manusia</td><td>Mukmin, kafir, munafik – ciri dan balasan masing-masing</td></tr>
+                        <tr><td>Ayat 21-39</td><td>Tauhid dan Tujuan Hidup</td><td>Seruan menyembah Allah, kisah Adam dan tipu daya setan</td></tr>
+                        <tr><td>Ayat 40-86</td><td>Bani Israel</td><td>Perjanjian, nikmat, dan pelanggaran mereka</td></tr>
+                        <tr><td>Ayat 87-141</td><td>Kenabian & Perubahan Kiblat</td><td>Kesinambungan risalah, perintah menghadap Masjidil Haram</td></tr>
+                    </tbody>
+                </table>
             </div>
-
-            <div class="pagination">
-                <a href="javascript:void(0)"><i class="fas fa-arrow-left"></i> Previous Juz</a>
-                <span style="color: var(--text-color); font-weight: bold;">Juz 1</span>
-                <a href="juz_02.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            <div class="message-box">
+                <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                <ul>
+                    <li><strong>Akidah:</strong> Iman kepada yang gaib, kitab, rasul, dan hari akhir.</li>
+                    <li><strong>Ibadah:</strong> Tauhid dalam ibadah, shalat, dan kepatuhan pada perintah Allah.</li>
+                    <li><strong>Akhlak:</strong> Kejujuran, menepati janji, tidak munafik, dan sabar.</li>
+                </ul>
             </div>
-            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
-            <!-- Back To Top link removed -->
+            <p style="text-align: center; margin: 20px 0;">
+                <a href="https://www.islamicstudies.info/tafheem.php?sura=2" target="_blank" class="access-link"><i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info</a>
+            </p>
         </div>
 
-        <footer>
-            <p>&copy; (2026 AD) 1447 AH - Juz 1 Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
-        </footer>
+        <div class="pagination">
+            <a href="javascript:void(0)"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+            <span style="color: var(--text-color); font-weight: bold;">Juz 1</span>
+            <a href="juz_02.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
+        </div>
+        <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
     </div>
 
-    <script>
-        (function() {
-            // ----- navigation arrows -----
-            document.getElementById('go-to-top').addEventListener('click', function() {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-            document.getElementById('go-to-bottom').addEventListener('click', function() {
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            });
+    <!-- ================= ENGLISH CONTENT (FULL) ================= -->
+    <div id="english-content" class="hidden">
+        <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Juz Summary List</a>
+        <h1 class="surah-title">Juz 1 - Thematic Analysis</h1>
+        <div class="surah-source"><strong>Sources:</strong> <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a></div>
 
-            // ----- language toggle -----
-            const englishContent = document.getElementById('english-content');
-            const indonesianContent = document.getElementById('indonesian-content');
-            const langToggle = document.getElementById('languageToggle');
-            const transToggle = document.getElementById('transliterationToggle');
-            const darkToggle = document.getElementById('darkModeToggle');
-            const transEls = document.querySelectorAll('.transliteration');
+        <div class="juz-overview">
+            <h3 style="margin-top: 0; color: var(--section-title-color);"><i class="fas fa-info-circle"></i> Overview of Juz 1</h3>
+            <p><strong>Juz 1</strong> covers pages 1-21. It contains <strong>Surah Al-Fatihah (1–7)</strong> and the first part of <strong>Surah Al-Baqarah (1–141)</strong>. This juz is also known as "Alif Lam Meem" after the muqatta'at letters opening Al-Baqarah.</p>
+            <p><strong>Pages:</strong> 1-21 | <strong>Hizb:</strong> 1</p>
+            <p style="margin-top: 10px;">
+                <a href="https://quran.com/juz/1?translations=131" target="_blank" class="access-link">
+                    <i class="fas fa-book-open"></i> Access Complete Text of Juz 1 on Quran.com
+                </a>
+            </p>
+        </div>
 
-            const savedLang = localStorage.getItem('language') || 'indonesian';
-            if (savedLang === 'english') {
-                englishContent.classList.remove('hidden');
-                indonesianContent.classList.add('hidden');
-                langToggle.textContent = 'Switch to Indonesian';
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fatihah (The Opening) - Verses 1-7</h2>
+            <div class="overview-box">
+                <h3 style="margin-top: 0; color: var(--section-title-color);"><i class="fas fa-info-circle"></i> Overview of Surah Al-Fatihah</h3>
+                <p>The first chapter of the Quran, 7 verses. Known as <strong>Umm al-Kitab</strong> (Mother of the Book) and <strong>Al-Sab' al-Mathani</strong> (The Seven Oft-Repeated Verses). It establishes the core relationship between the Creator and the servant, emphasizing monotheism, divine mercy, and guidance.</p>
+            </div>
+            <div class="audio-player">
+                <h3><i class="fas fa-music"></i> Listen to Surah Al-Fatihah</h3>
+                <audio controls style="width: 100%;">
+                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/001.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                    <i class="fas fa-external-link-alt"></i> Complete Text:
+                    <a href="https://recitequran.com/1" target="_blank" class="access-link">reciteQuran.com - Surah Al-Fatihah</a>
+                </p>
+            </div>
+            <div class="section">
+                <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                <table class="theme-table">
+                    <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                    <tbody>
+                        <tr><td>Verse 1</td><td>Praise & Recognition</td><td>All praise is due to Allah, Lord of the worlds</td></tr>
+                        <tr><td>Verses 2-3</td><td>Divine Attributes</td><td>Most Gracious, Most Merciful, Master of the Day of Judgment</td></tr>
+                        <tr><td>Verse 4</td><td>Worship & Dependence</td><td>You alone we worship, and You alone we ask for help</td></tr>
+                        <tr><td>Verses 5-7</td><td>Supplication & Guidance</td><td>Guide us to the straight path, not of those who earned anger or went astray</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="message-box">
+                <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                <ul>
+                    <li><strong>Aqidah:</strong> Allah's oneness, lordship, mercy, and sovereignty on Judgment Day.</li>
+                    <li><strong>Worship:</strong> Prayer and absolute reliance on Allah alone.</li>
+                    <li><strong>Akhlak:</strong> Gratitude, humility, and seeking guidance while avoiding deviance.</li>
+                </ul>
+            </div>
+            <p style="text-align: center; margin: 20px 0;">
+                <a href="https://www.islamicstudies.info/tafheem.php?sura=1" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info</a>
+            </p>
+        </div>
+        <div class="surah-divider"></div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Baqarah (The Cow) - Verses 1-141</h2>
+            <div class="overview-box">
+                <h3 style="margin-top: 0; color: var(--section-title-color);"><i class="fas fa-info-circle"></i> Overview of Surah Al-Baqarah (Part 1)</h3>
+                <p>This opening portion of the longest surah classifies people into believers, disbelievers, and hypocrites. It recounts the creation of Adam, the stories of the Children of Israel, and establishes the direction of prayer (Qibla) towards the Ka'bah.</p>
+            </div>
+            <div class="audio-player">
+                <h3><i class="fas fa-music"></i> Listen to Surah Al-Baqarah (1-141)</h3>
+                <audio controls style="width: 100%;">
+                    <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                    <i class="fas fa-external-link-alt"></i> Complete Text:
+                    <a href="https://recitequran.com/2" target="_blank" class="access-link">reciteQuran.com - Surah Al-Baqarah</a>
+                </p>
+            </div>
+            <div class="section">
+                <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses</h3>
+                <table class="theme-table">
+                    <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                    <tbody>
+                        <tr><td>Verses 1-20</td><td>Classification of Humanity</td><td>Believers, disbelievers, hypocrites – their traits and fate</td></tr>
+                        <tr><td>Verses 21-39</td><td>Monotheism & Human Purpose</td><td>Worship Allah alone; story of Adam and Iblis</td></tr>
+                        <tr><td>Verses 40-86</td><td>Children of Israel</td><td>Covenants, blessings, and their violations</td></tr>
+                        <tr><td>Verses 87-141</td><td>Prophethood & Qibla</td><td>Continuity of revelation, change of prayer direction</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="message-box">
+                <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                <ul>
+                    <li><strong>Aqidah:</strong> Belief in the unseen, angels, scriptures, messengers, and the Last Day.</li>
+                    <li><strong>Worship:</strong> Pure monotheism, prayer, and obedience to divine commands.</li>
+                    <li><strong>Akhlak:</strong> Honesty, fulfilling covenants, avoiding hypocrisy, and patience.</li>
+                </ul>
+            </div>
+            <p style="text-align: center; margin: 20px 0;">
+                <a href="https://www.islamicstudies.info/tafheem.php?sura=2" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info</a>
+            </p>
+        </div>
+
+        <div class="pagination">
+            <a href="javascript:void(0)"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+            <span style="color: var(--text-color); font-weight: bold;">Juz 1</span>
+            <a href="juz_02.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+        </div>
+        <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Juz 1 Thematic Analysis | Based on <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a> | Curated by Hermansjah</p>
+    </footer>
+</div>
+
+<script>
+    (function() {
+        // ----- helper: get URL params
+        function getParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Override initial settings if URL parameters exist
+        let langOverride = null;
+        if (getParam('English') !== null) langOverride = 'english';
+        else if (getParam('Indonesian') !== null) langOverride = 'indonesian';
+        
+        let translitOverride = (getParam('Transliteration') !== null);
+        let darkOverride = (getParam('Dark') !== null);
+        
+        // load from localStorage or defaults
+        let savedLang = localStorage.getItem('language') || 'indonesian';
+        let savedTrans = localStorage.getItem('transliteration');
+        let savedDark = localStorage.getItem('darkMode');
+        
+        if (langOverride) savedLang = langOverride;
+        if (translitOverride) savedTrans = 'true';
+        if (darkOverride) savedDark = 'true';
+        
+        // apply language
+        const englishDiv = document.getElementById('english-content');
+        const indoDiv = document.getElementById('indonesian-content');
+        const langToggleBtn = document.getElementById('languageToggle');
+        
+        function applyLanguage(lang) {
+            const isEnglish = (lang === 'english');
+            if (isEnglish) {
+                englishDiv.classList.remove('hidden');
+                indoDiv.classList.add('hidden');
+                langToggleBtn.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
             } else {
-                englishContent.classList.add('hidden');
-                indonesianContent.classList.remove('hidden');
-                langToggle.textContent = 'Switch to English';
+                englishDiv.classList.add('hidden');
+                indoDiv.classList.remove('hidden');
+                langToggleBtn.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
             }
-
-            langToggle.addEventListener('click', function() {
-                if (englishContent.classList.contains('hidden')) {
-                    englishContent.classList.remove('hidden');
-                    indonesianContent.classList.add('hidden');
-                    langToggle.textContent = 'Switch to Indonesian';
-                    localStorage.setItem('language', 'english');
-                } else {
-                    englishContent.classList.add('hidden');
-                    indonesianContent.classList.remove('hidden');
-                    langToggle.textContent = 'Switch to English';
-                    localStorage.setItem('language', 'indonesian');
-                }
-            });
-
-            // ----- transliteration -----
-            const transVisible = localStorage.getItem('transliteration') === 'true';
-            if (transVisible) {
-                transEls.forEach(el => el.style.display = 'block');
-                transToggle.textContent = 'Hide Transliteration';
-            }
-            transToggle.addEventListener('click', function() {
-                if (transEls.length > 0 && (transEls[0].style.display === 'none' || transEls[0].style.display === '')) {
-                    transEls.forEach(el => el.style.display = 'block');
-                    transToggle.textContent = 'Hide Transliteration';
-                    localStorage.setItem('transliteration', 'true');
-                } else {
-                    transEls.forEach(el => el.style.display = 'none');
-                    transToggle.textContent = 'Show Transliteration';
-                    localStorage.setItem('transliteration', 'false');
-                }
-            });
-
-            // ----- dark mode -----
-            const dark = localStorage.getItem('darkMode') === 'true';
-            if (dark) {
-                document.body.classList.add('dark-mode');
-                darkToggle.textContent = 'Light Mode';
-            }
-            darkToggle.addEventListener('click', function() {
-                document.body.classList.toggle('dark-mode');
-                if (document.body.classList.contains('dark-mode')) {
-                    darkToggle.textContent = 'Light Mode';
-                    localStorage.setItem('darkMode', 'true');
-                } else {
-                    darkToggle.textContent = 'Dark Mode';
-                    localStorage.setItem('darkMode', 'false');
-                }
-            });
-        })();
-    </script>
+            localStorage.setItem('language', lang);
+        }
+        applyLanguage(savedLang);
+        
+        langToggleBtn.addEventListener('click', () => {
+            const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+            applyLanguage(newLang);
+        });
+        
+        // transliteration
+        const translitElements = document.querySelectorAll('.transliteration');
+        const translitToggleBtn = document.getElementById('transliterationToggle');
+        let translitVisible = (savedTrans === 'true');
+        function applyTransliteration(show) {
+            translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+            translitToggleBtn.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+            localStorage.setItem('transliteration', show);
+        }
+        applyTransliteration(translitVisible);
+        translitToggleBtn.addEventListener('click', () => {
+            const currently = translitElements[0]?.style.display !== 'none';
+            applyTransliteration(!currently);
+        });
+        
+        // dark mode
+        const darkToggleBtn = document.getElementById('darkModeToggle');
+        let darkActive = (savedDark === 'true');
+        if (darkActive) document.body.classList.add('dark-mode');
+        function setDarkModeUI() {
+            const active = document.body.classList.contains('dark-mode');
+            darkToggleBtn.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+            localStorage.setItem('darkMode', active);
+        }
+        setDarkModeUI();
+        darkToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            setDarkModeUI();
+        });
+        
+        // ----- Navigation arrows (single & double) -----
+        // single: scroll by viewport height
+        document.getElementById('scrollUpSingle').addEventListener('click', () => {
+            window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+        });
+        document.getElementById('scrollDownSingle').addEventListener('click', () => {
+            window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+        });
+        // double: go to top / bottom
+        document.getElementById('doubleUpScroll').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        document.getElementById('doubleDownScroll').addEventListener('click', () => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+        
+        // optional: smooth initial scroll if fragment exists (but not needed)
+    })();
+</script>
 </body>
 </html>
