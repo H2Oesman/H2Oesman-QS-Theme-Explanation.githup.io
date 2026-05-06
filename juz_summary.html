@@ -3,14 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Al-Quran Juz Division - Surah Breakdown</title>
+  <title>Al-Quran Juz Division – Juz Summary</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
+    /* === DARK MODE VARIABLES === */
     :root {
       --bg-color: #f5f9fc;
       --text-color: #1e2a3e;
@@ -22,14 +19,14 @@
       --box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       --border-color: #e0e0e0;
       --header-bg: white;
-      --instruction-bg: #f5f9fc;
       --meta-color: #666;
       --juz-card-bg: white;
       --juz-card-alt: #f8f9fa;
       --other-names-bg: #e8f6f3;
       --surah-item-bg: #f8f9fa;
+      --dropdown-hover: #f0f2f5;
     }
-    
+
     .dark-mode {
       --bg-color: #121826;
       --text-color: #eef2ff;
@@ -41,54 +38,31 @@
       --box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       --border-color: #4a5568;
       --header-bg: #1e293b;
-      --instruction-bg: #121826;
       --meta-color: #b0c4de;
       --juz-card-bg: #1e293b;
       --juz-card-alt: #2d3748;
       --other-names-bg: #1e3a5f;
       --surah-item-bg: #2d3748;
+      --dropdown-hover: #2d3748;
     }
-    
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
       background-color: var(--bg-color);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: var(--text-color);
-      padding: 20px;
-      line-height: 1.6;
-      transition: all 0.3s ease;
+      padding: 12px;
+      font-size: 15px;
+      line-height: 1.5;
+      transition: background-color 0.3s, color 0.3s;
     }
-    
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-      padding: 20px;
-      background-color: var(--header-bg);
-      border-radius: 10px;
-      box-shadow: var(--box-shadow);
-      transition: all 0.3s ease;
-    }
-    
-    .bismillah {
-      font-family: 'Amiri', serif;
-      font-size: 24px;
-      direction: rtl;
-      margin-bottom: 10px;
-      color: var(--text-color);
-    }
-    
-    .title {
-      font-size: 28px;
-      color: var(--link-color);
-      margin-bottom: 10px;
-    }
-    
-    .subtitle {
-      font-size: 16px;
-      color: var(--meta-color);
-      margin-bottom: 20px;
-    }
-    
-    /* Toggle Buttons – fixed upper right corner, same as surah pages */
+
+    /* Fixed toggles (same as index) */
     .language-toggle, .dark-mode-toggle {
       position: fixed;
       right: 20px;
@@ -109,233 +83,8 @@
     }
     .language-toggle { top: 20px; background: #2c7da0; }
     .dark-mode-toggle { top: 80px; background: #8e44ad; }
-    
-    .nav-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .nav-button, .back-to-main {
-      background-color: transparent;
-      color: var(--link-color);
-      border: 1px solid var(--link-color);
-      padding: 10px 20px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s;
-      text-decoration: none;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .nav-button:hover, .back-to-main:hover {
-      background-color: var(--link-color);
-      color: white;
-    }
-    
-    .juz-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
-      margin: 0 auto;
-      max-width: 1400px;
-    }
-    
-    .juz-card {
-      background-color: var(--juz-card-bg);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: var(--box-shadow);
-      transition: transform 0.3s, box-shadow 0.3s;
-      cursor: pointer;
-      position: relative;
-      border: 1px solid var(--border-color);
-    }
-    
-    .juz-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    }
-    
-    .juz-card:active {
-      transform: translateY(-2px);
-    }
-    
-    .juz-number {
-      font-size: 22px;
-      font-weight: bold;
-      color: var(--link-color);
-      margin-bottom: 10px;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .juz-name-arabic {
-      font-family: 'Amiri', 'Scheherazade New', serif;
-      font-size: 20px;
-      direction: rtl;
-      color: var(--text-color);
-    }
-    
-    .juz-other-names {
-      background-color: var(--other-names-bg);
-      padding: 8px 12px;
-      border-radius: 6px;
-      margin: 8px 0;
-      font-size: 14px;
-      color: var(--text-color);
-    }
-    
-    .juz-other-names .arabic-name {
-      font-family: 'Amiri', 'Scheherazade New', serif;
-      direction: rtl;
-      color: #27ae60;
-      font-weight: bold;
-      margin-right: 5px;
-    }
-    
-    .juz-other-names .latin-name {
-      color: #16a085;
-      font-style: italic;
-    }
-    
-    .juz-info {
-      display: flex;
-      justify-content: space-between;
-      background-color: var(--surah-item-bg);
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      font-size: 14px;
-      color: var(--text-color);
-    }
-    
-    .surah-list {
-      list-style-type: none;
-    }
-    
-    .surah-item {
-      padding: 10px;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .surah-item:last-child {
-      border-bottom: none;
-    }
-    
-    .surah-item:nth-child(even) {
-      background-color: var(--surah-item-bg);
-    }
-    
-    .surah-arabic {
-      font-family: 'Amiri', 'Scheherazade New', serif;
-      font-size: 18px;
-      direction: rtl;
-      color: var(--text-color);
-      flex-grow: 1;
-      text-align: right;
-      margin-left: 10px;
-    }
-    
-    .surah-info {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      min-width: 120px;
-    }
-    
-    .surah-name {
-      font-weight: bold;
-      color: var(--link-color);
-      margin-bottom: 3px;
-    }
-    
-    .surah-meaning {
-      font-size: 13px;
-      color: var(--meta-color);
-    }
-    
-    .surah-meta {
-      font-size: 12px;
-      color: var(--meta-color);
-      margin-top: 3px;
-    }
-    
-    .page-range {
-      background-color: var(--other-names-bg);
-      color: var(--link-color);
-      padding: 4px 10px;
-      border-radius: 15px;
-      font-size: 12px;
-      font-weight: bold;
-      margin-top: 5px;
-      display: inline-block;
-    }
-    
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      padding: 20px;
-      color: var(--meta-color);
-      font-size: 14px;
-      border-top: 1px solid var(--border-color);
-    }
-    
-    .highlighted {
-      background-color: #fff9e6 !important;
-      border: 2px solid #f39c12 !important;
-    }
-    
-    .dark-mode .highlighted {
-      background-color: #332616 !important;
-      border: 2px solid #f39c12 !important;
-    }
-    
-    .juz-30-special {
-      animation: pulse-glow 2s ease-in-out infinite;
-    }
-    
-    @keyframes pulse-glow {
-      0% { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-      50% { box-shadow: 0 8px 20px rgba(243, 156, 18, 0.3); }
-      100% { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-    }
-    
-    .hidden {
-      display: none;
-    }
-    
-    .click-hint {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #3498db;
-      color: white;
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 10px;
-      font-weight: bold;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    
-    .juz-card:hover .click-hint {
-      opacity: 1;
-    }
-    
-    /* Scroll arrows – left side, same as surah pages */
+
+    /* Scroll arrows left side */
     .scroll-arrow {
       position: fixed;
       left: 15px;
@@ -361,1108 +110,510 @@
     .scroll-arrow:active {
       transform: scale(0.95);
     }
-    .scroll-arrow.up {
-      top: 15px;
+    .scroll-arrow.up { top: 15px; }
+    .scroll-arrow.down { bottom: 15px; }
+
+    /* Header area */
+    .header {
+      text-align: center;
+      margin-bottom: 15px;
+      padding: 12px;
+      background-color: var(--header-bg);
+      border-radius: 8px;
+      box-shadow: var(--box-shadow);
+      transition: background-color 0.3s;
     }
-    .scroll-arrow.down {
-      bottom: 15px;
+    .bismillah {
+      font-family: 'Amiri', serif;
+      font-size: 20px;
+      direction: rtl;
+      margin-bottom: 8px;
     }
-    
-    @media (max-width: 768px) {
-      body {
-        padding: 10px;
-      }
-      
-      .language-toggle, .dark-mode-toggle {
-        position: static;
-        margin: 10px 0;
-        display: inline-block;
-        width: calc(100% - 40px);
-        text-align: center;
-      }
-      
+    .page-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--link-color);
+      margin-top: 5px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: var(--meta-color);
+      margin-top: 4px;
+    }
+
+    /* Sticky intro-link: Surah List left, Introduction right */
+    .intro-link {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 12px 0;
+      padding: 8px 10px;
+      background-color: var(--bg-color);
+      position: sticky;
+      top: 110px;
+      z-index: 9;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+    }
+    /* Push the Introduction link to the far right */
+    .intro-link .intro-link-right {
+      margin-left: auto;
+    }
+    .intro-link a, .dropdown-toggle-btn {
+      color: var(--link-color);
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 15px;
+      background-color: var(--box-bg);
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color 0.2s;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .intro-link a:hover, .dropdown-toggle-btn:hover {
+      background-color: var(--box-bg-alt);
+    }
+    .dropdown-class-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-toggle-btn .new-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #e74c3c;
+      color: white;
+      font-size: 9px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 10px;
+      animation: pulse 1.5s infinite;
+      white-space: nowrap;
+    }
+    .dropdown-menu-custom {
+      position: absolute;
+      top: calc(100% + 5px);
+      left: 0;
+      background: var(--box-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      min-width: 200px;
+      z-index: 1000;
+      display: none;
+      list-style: none;
+      padding: 6px 0;
+      margin: 0;
+    }
+    .dropdown-class-wrapper.open .dropdown-menu-custom {
+      display: block;
+      animation: fadeIn 0.15s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dropdown-menu-custom li a {
+      display: block;
+      padding: 8px 18px;
+      text-decoration: none;
+      color: var(--text-color);
+      font-size: 13px;
+      transition: background 0.2s;
+      background: transparent;
+      white-space: nowrap;
+    }
+    .dropdown-menu-custom li a:hover {
+      background-color: var(--dropdown-hover);
+      color: var(--link-hover);
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.2); opacity: 0.7; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Juz grid – exactly 3 columns like index.html .names-container */
+    .juz-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+    .juz-card {
+      background-color: var(--juz-card-bg);
+      border-radius: 12px;
+      padding: 12px 10px;
+      box-shadow: var(--box-shadow);
+      transition: transform 0.2s, box-shadow 0.2s, background-color 0.3s;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+    }
+    .juz-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    .juz-number {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--link-color);
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .juz-name-arabic {
+      font-family: 'Amiri', 'Scheherazade New', serif;
+      font-size: 16px;
+      direction: rtl;
+    }
+    .juz-other-names {
+      background-color: var(--other-names-bg);
+      padding: 5px 8px;
+      border-radius: 6px;
+      margin: 6px 0;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .juz-info {
+      display: flex;
+      justify-content: space-between;
+      background-color: var(--surah-item-bg);
+      padding: 6px 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 12px;
+    }
+    .surah-list {
+      list-style: none;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 200px;
+      margin-top: 5px;
+    }
+    .surah-item {
+      padding: 6px 4px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .surah-arabic {
+      font-family: 'Amiri', 'Scheherazade New', serif;
+      font-size: 15px;
+      direction: rtl;
+      flex: 1;
+      text-align: right;
+    }
+    .surah-info {
+      flex: 2;
+      min-width: 0;
+    }
+    .surah-name {
+      font-weight: bold;
+      color: var(--link-color);
+      font-size: 12px;
+    }
+    .surah-meaning, .surah-meta {
+      font-size: 10px;
+      color: var(--meta-color);
+    }
+    .page-range {
+      display: inline-block;
+      background-color: var(--other-names-bg);
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      margin-top: 8px;
+      text-align: center;
+    }
+    .click-hint {
+      font-size: 9px;
+      color: var(--meta-color);
+      text-align: right;
+      margin-bottom: 5px;
+    }
+
+    /* Reference and footer */
+    .reference {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 13px;
+      background-color: transparent;
+      padding: 15px;
+      border-top: 1px solid var(--border-color);
+    }
+    .reference a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      color: var(--meta-color);
+      font-size: 12px;
+    }
+    .hidden {
+      display: none;
+    }
+
+    /* Responsive: on mobile, switch to 1 column like index */
+    @media screen and (max-width: 768px) {
+      body { padding: 10px; }
+      .language-toggle, .dark-mode-toggle { padding: 6px 12px; font-size: 12px; }
+      .language-toggle { top: 12px; right: 12px; }
+      .dark-mode-toggle { top: 60px; right: 12px; }
+      .intro-link { top: 100px; gap: 8px; }
+      .scroll-arrow { width: 38px; height: 38px; font-size: 18px; left: 8px; }
       .juz-container {
         grid-template-columns: 1fr;
+        gap: 12px;
       }
-      
       .juz-card {
-        padding: 15px;
+        padding: 12px;
       }
-      
       .surah-item {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
       }
-      
       .surah-arabic {
-        text-align: right;
-        margin-left: 0;
-        margin-bottom: 8px;
+        text-align: left;
         width: 100%;
       }
-      
       .surah-info {
         width: 100%;
       }
-      
-      .nav-buttons {
-        flex-wrap: wrap;
-      }
-      
-      .juz-other-names {
-        font-size: 13px;
-      }
-      
       .click-hint {
-        opacity: 1;
-        font-size: 9px;
-        top: 5px;
-        right: 5px;
+        font-size: 8px;
       }
-      
-      .scroll-arrow {
-        width: 38px;
-        height: 38px;
-        font-size: 18px;
-        left: 8px;
-      }
+    }
+    @media screen and (max-width: 480px) {
+      .juz-number { font-size: 16px; }
+      .surah-name { font-size: 11px; }
     }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Scheherazade+New&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <!-- Scroll arrows (left side) -->
+  <!-- Fixed toggles -->
+  <button class="language-toggle" id="languageToggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</button>
+  <button class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</button>
+
+  <!-- Scroll arrows -->
   <div class="scroll-arrow up" id="scrollUp"><i class="fas fa-arrow-up"></i></div>
   <div class="scroll-arrow down" id="scrollDown"><i class="fas fa-arrow-down"></i></div>
 
-  <!-- Toggle Buttons (fixed upper right, with flags) -->
-  <button class="language-toggle" id="languageToggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</button>
-  <button class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</button>
-  
-  <!-- Indonesian Content (Default) -->
+  <!-- INDONESIAN CONTENT (default) -->
   <div id="indonesian-content">
     <div class="header">
       <div class="bismillah">﷽</div>
-      <h1 class="title">Pembagian Juz Al-Quran</h1>
-      <p class="subtitle">Rincian lengkap 30 Juz dengan Surah-surah yang terkait (Mushaf 604 halaman)</p>
-      
-      <div class="nav-buttons">
-        <a href="index.html" class="nav-button"><i class="fas fa-list"></i> Daftar Surah</a>
-        <a href="juz_summary.html" class="nav-button"><i class="fas fa-table"></i> Ringkasan Juz</a>
-        <a href="introduction.html" class="nav-button"><i class="fas fa-book"></i> Pengantar</a>
-      </div>
-      
-      <a href="index.html" class="back-to-main"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+      <div class="page-title">Pembagian Juz Al-Qur'an</div>
+      <div class="subtitle">30 Juz lengkap dengan rincian surah & halaman (Mushaf 604 halaman)</div>
     </div>
-    
+
+    <div class="intro-link">
+      <!-- Surah List (left) -->
+      <a href="index.html" class="surah-list-link"><i class="fas fa-list"></i> 📖 Daftar Surah</a>
+      <!-- Dropdown (Opening/Closing Class) -->
+      <div class="dropdown-class-wrapper" data-lang="id">
+        <button class="dropdown-toggle-btn">Pembukaan/Penutupan Majelis <span class="new-badge">BARU</span> <i class="fas fa-caret-down"></i></button>
+        <ul class="dropdown-menu-custom">
+          <li><a href="RangkaianPenutupanMajelis.html">📖 Pembukaan Majelis</a></li>
+          <li><a href="RangkaianPenutupanMajelis.html?Close">📌 Penutupan Majelis</a></li>
+          <li><a href="RangkaianPenutupanMajelis.html?DoaQuran">🤲 Doa Qur'an</a></li>
+        </ul>
+      </div>
+      <!-- Introduction (right) -->
+      <a href="introduction.html" class="intro-link-right"><i class="fas fa-book"></i> 📘 Pengantar</a>
+    </div>
+
     <div class="juz-container" id="juzContainer"></div>
-    
-    <div style="text-align: center; margin: 30px 0;">
-      <div class="nav-buttons">
-        <a href="index.html" class="nav-button"><i class="fas fa-list"></i> Daftar Surah</a>
-        <a href="juz_summary.html" class="nav-button"><i class="fas fa-table"></i> Ringkasan Juz</a>
-        <a href="introduction.html" class="nav-button"><i class="fas fa-book"></i> Pengantar</a>
-      </div>
-      <a href="index.html" class="back-to-main" style="margin-top: 15px; display: inline-block;">
-        <i class="fas fa-home"></i> Kembali ke Menu Utama
-      </a>
+
+    <div class="reference">
+      <a href="ref.html">📚 Referensi & Sumber</a> &nbsp;|&nbsp;
+      <a href="index.html">🏠 Kembali ke Beranda</a>
     </div>
-    
-    <div class="footer">
-      <p>&copy; (2026 AD) 1447 AH - Created and Maintained by Hermansjah. All rights reserved.</p>
-      <p style="font-size: 12px; margin-top: 10px;">Berdasarkan pembagian standar 30 Juz Al-Quran dengan nama-nama tradisional</p>
-      <p style="font-size: 11px; margin-top: 5px; color: var(--link-color);"><i class="fas fa-mouse-pointer"></i> Klik pada kotak Juz untuk melihat detail lengkap</p>
-    </div>
+    <footer>
+      <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Juz Summary | Curated by Hermansjah</p>
+      <p style="font-size: 11px;">Berdasarkan pembagian standar 30 Juz Al-Qur'an</p>
+    </footer>
   </div>
-  
-  <!-- English Content (Hidden by Default) -->
+
+  <!-- ENGLISH CONTENT (hidden initially) -->
   <div id="english-content" class="hidden">
     <div class="header">
       <div class="bismillah">﷽</div>
-      <h1 class="title">Al-Quran Juz Division</h1>
-      <p class="subtitle">Complete breakdown of all 30 Juz with corresponding Surahs (604-page Mushaf)</p>
-      
-      <div class="nav-buttons">
-        <a href="index.html" class="nav-button"><i class="fas fa-list"></i> Surah List</a>
-        <a href="juz_summary.html" class="nav-button"><i class="fas fa-table"></i> Juz Summary</a>
-        <a href="introduction.html" class="nav-button"><i class="fas fa-book"></i> Introduction</a>
-      </div>
-      
-      <a href="index.html" class="back-to-main"><i class="fas fa-home"></i> Back to Main Menu</a>
+      <div class="page-title">Juz Division of the Holy Quran</div>
+      <div class="subtitle">Complete 30 Juz with surah breakdown & page numbers (604-page Mushaf)</div>
     </div>
-    
+
+    <div class="intro-link">
+      <!-- Surah List (left) -->
+      <a href="index.html" class="surah-list-link"><i class="fas fa-list"></i> 📜 Surah List</a>
+      <!-- Dropdown (Opening/Closing Class) -->
+      <div class="dropdown-class-wrapper" data-lang="en">
+        <button class="dropdown-toggle-btn">Opening/Closing Class <span class="new-badge">NEW</span> <i class="fas fa-caret-down"></i></button>
+        <ul class="dropdown-menu-custom">
+          <li><a href="RangkaianPenutupanMajelis.html">🎓 Majlis Opening</a></li>
+          <li><a href="RangkaianPenutupanMajelis.html?Close">🔚 Majlis Closing</a></li>
+          <li><a href="RangkaianPenutupanMajelis.html?DoaQuran">📖 Quran Supplication</a></li>
+        </ul>
+      </div>
+      <!-- Introduction (right) -->
+      <a href="introduction.html" class="intro-link-right"><i class="fas fa-book"></i> 📖 Introduction</a>
+    </div>
+
     <div class="juz-container" id="englishJuzContainer"></div>
-    
-    <div style="text-align: center; margin: 30px 0;">
-      <div class="nav-buttons">
-        <a href="index.html" class="nav-button"><i class="fas fa-list"></i> Surah List</a>
-        <a href="juz_summary.html" class="nav-button"><i class="fas fa-table"></i> Juz Summary</a>
-        <a href="introduction.html" class="nav-button"><i class="fas fa-book"></i> Introduction</a>
-      </div>
-      <a href="index.html" class="back-to-main" style="margin-top: 15px; display: inline-block;">
-        <i class="fas fa-home"></i> Back to Main Menu
-      </a>
+
+    <div class="reference">
+      <a href="ref.html">📚 References & Sources</a> &nbsp;|&nbsp;
+      <a href="index.html">🏠 Back to Main</a>
     </div>
-    
-    <div class="footer">
-      <p>&copy; (2026 AD) 1447 AH - Created and Maintained by Hermansjah. All rights reserved.</p>
-      <p style="font-size: 12px; margin-top: 10px;">Based on the standard 30 Juz division of the Quran with traditional names</p>
-      <p style="font-size: 11px; margin-top: 5px; color: var(--link-color);"><i class="fas fa-mouse-pointer"></i> Click on Juz box to view complete details</p>
-    </div>
+    <footer>
+      <p>&copy; (2026 AD) 1447 AH - Surah Thematic Analysis | Juz Summary | Curated by Hermansjah</p>
+      <p style="font-size: 11px;">Based on the standard 30 Juz division of the Quran</p>
+    </footer>
   </div>
 
   <script>
-    // ==================== COMPLETE JUZ DATA (INDONESIAN) ====================
+    // ==================== JUZ DATA (INDONESIAN) ====================
     const juzData = [
-      {
-        number: 1,
-        nameArabic: "الجزء الأول",
-        otherNames: [{ arabic: "آلم", description: "Alif Lam Meem" }],
-        pageRange: "1-21",
-        surahs: [
-          { number: 1, arabic: "الفاتحة", latin: "Al-Fatihah", meaning: "Pembukaan", verses: "1-7" },
-          { number: 2, arabic: "البقرة", latin: "Al-Baqarah", meaning: "Sapi Betina", verses: "1-141" }
-        ]
-      },
-      {
-        number: 2,
-        nameArabic: "الجزء الثاني",
-        otherNames: [{ arabic: "سيقول السفهاء", description: "Sayaqool" }],
-        pageRange: "22-41",
-        surahs: [{ number: 2, arabic: "البقرة", latin: "Al-Baqarah", meaning: "Sapi Betina", verses: "142-252" }]
-      },
-      {
-        number: 3,
-        nameArabic: "الجزء الثالث",
-        otherNames: [{ arabic: "تلك الرسل", description: "Tilkal Rusul" }],
-        pageRange: "42-62",
-        surahs: [
-          { number: 2, arabic: "البقرة", latin: "Al-Baqarah", meaning: "Sapi Betina", verses: "253-286" },
-          { number: 3, arabic: "آل عمران", latin: "Al-Imran", meaning: "Keluarga Imran", verses: "1-92" }
-        ]
-      },
-      {
-        number: 4,
-        nameArabic: "الجزء الرابع",
-        otherNames: [{ arabic: "لن تنالوا البر", description: "Lan Tana Loo" }],
-        pageRange: "63-82",
-        surahs: [
-          { number: 3, arabic: "آل عمران", latin: "Al-Imran", meaning: "Keluarga Imran", verses: "93-200" },
-          { number: 4, arabic: "النساء", latin: "An-Nisa", meaning: "Wanita", verses: "1-23" }
-        ]
-      },
-      {
-        number: 5,
-        nameArabic: "الجزء الخامس",
-        otherNames: [{ arabic: "والمحصنت", description: "Wal Mohsanat" }],
-        pageRange: "83-101",
-        surahs: [{ number: 4, arabic: "النساء", latin: "An-Nisa", meaning: "Wanita", verses: "24-147" }]
-      },
-      {
-        number: 6,
-        nameArabic: "الجزء السادس",
-        otherNames: [{ arabic: "لا يحب الله", description: "La Yuhibbullah" }],
-        pageRange: "102-121",
-        surahs: [
-          { number: 4, arabic: "النساء", latin: "An-Nisa", meaning: "Wanita", verses: "148-176" },
-          { number: 5, arabic: "المائدة", latin: "Al-Ma'idah", meaning: "Hidangan", verses: "1-81" }
-        ]
-      },
-      {
-        number: 7,
-        nameArabic: "الجزء السابع",
-        otherNames: [{ arabic: "وإذا سمعوا", description: "Wa Iza Samiu" }],
-        pageRange: "122-141",
-        surahs: [
-          { number: 5, arabic: "المائدة", latin: "Al-Ma'idah", meaning: "Hidangan", verses: "82-120" },
-          { number: 6, arabic: "الأنعام", latin: "Al-An'am", meaning: "Hewan Ternak", verses: "1-110" }
-        ]
-      },
-      {
-        number: 8,
-        nameArabic: "الجزء الثامن",
-        otherNames: [{ arabic: "ولو أننا نزلنا", description: "Wa Lau Annana" }],
-        pageRange: "142-161",
-        surahs: [
-          { number: 6, arabic: "الأنعام", latin: "Al-An'am", meaning: "Hewan Ternak", verses: "111-165" },
-          { number: 7, arabic: "الأعراف", latin: "Al-A'raf", meaning: "Tempat Tertinggi", verses: "1-87" }
-        ]
-      },
-      {
-        number: 9,
-        nameArabic: "الجزء التاسع",
-        otherNames: [{ arabic: "قال الملأ", description: "Qalal Malao" }],
-        pageRange: "162-181",
-        surahs: [
-          { number: 7, arabic: "الأعراف", latin: "Al-A'raf", meaning: "Tempat Tertinggi", verses: "88-206" },
-          { number: 8, arabic: "الأنفال", latin: "Al-Anfal", meaning: "Harta Rampasan", verses: "1-40" }
-        ]
-      },
-      {
-        number: 10,
-        nameArabic: "الجزء العاشر",
-        otherNames: [{ arabic: "واعلموا", description: "Wa A'lamu" }],
-        pageRange: "182-201",
-        surahs: [
-          { number: 8, arabic: "الأنفال", latin: "Al-Anfal", meaning: "Harta Rampasan", verses: "41-75" },
-          { number: 9, arabic: "التوبة", latin: "At-Tawbah", meaning: "Pengampunan", verses: "1-92" }
-        ]
-      },
-      {
-        number: 11,
-        nameArabic: "الجزء الحادي عشر",
-        otherNames: [{ arabic: "يعتذرون", description: "Yatazeroon" }],
-        pageRange: "202-221",
-        surahs: [
-          { number: 9, arabic: "التوبة", latin: "At-Tawbah", meaning: "Pengampunan", verses: "93-129" },
-          { number: 10, arabic: "يونس", latin: "Yunus", meaning: "Yunus", verses: "1-109" },
-          { number: 11, arabic: "هود", latin: "Hud", meaning: "Hud", verses: "1-5" }
-        ]
-      },
-      {
-        number: 12,
-        nameArabic: "الجزء الثاني عشر",
-        otherNames: [{ arabic: "وما من دابة", description: "Wa Mamin Da'abat" }],
-        pageRange: "222-241",
-        surahs: [
-          { number: 11, arabic: "هود", latin: "Hud", meaning: "Hud", verses: "6-123" },
-          { number: 12, arabic: "يوسف", latin: "Yusuf", meaning: "Yusuf", verses: "1-52" }
-        ]
-      },
-      {
-        number: 13,
-        nameArabic: "الجزء الثالث عشر",
-        otherNames: [{ arabic: "وما أبرئ نفسي", description: "Wa Ma Ubrioo" }],
-        pageRange: "242-261",
-        surahs: [
-          { number: 12, arabic: "يوسف", latin: "Yusuf", meaning: "Yusuf", verses: "53-111" },
-          { number: 13, arabic: "الرعد", latin: "Ar-Ra'd", meaning: "Guruh", verses: "1-43" },
-          { number: 14, arabic: "ابراهيم", latin: "Ibrahim", meaning: "Ibrahim", verses: "1-52" }
-        ]
-      },
-      {
-        number: 14,
-        nameArabic: "الجزء الرابع عشر",
-        otherNames: [{ arabic: "رُبَمَا", description: "Rubama" }],
-        pageRange: "262-281",
-        surahs: [
-          { number: 15, arabic: "الحجر", latin: "Al-Hijr", meaning: "Daerah Berbatu", verses: "1-99" },
-          { number: 16, arabic: "النحل", latin: "An-Nahl", meaning: "Lebah", verses: "1-128" }
-        ]
-      },
-      {
-        number: 15,
-        nameArabic: "الجزء الخامس عشر",
-        otherNames: [{ arabic: "سبحان الذي", description: "Subhanallazi" }],
-        pageRange: "282-301",
-        surahs: [
-          { number: 17, arabic: "الإسراء", latin: "Al-Isra", meaning: "Perjalanan Malam", verses: "1-111" },
-          { number: 18, arabic: "الكهف", latin: "Al-Kahf", meaning: "Gua", verses: "1-74" }
-        ]
-      },
-      {
-        number: 16,
-        nameArabic: "الجزء السادس عشر",
-        otherNames: [{ arabic: "قال ألم", description: "Qal Alam" }],
-        pageRange: "302-321",
-        surahs: [
-          { number: 18, arabic: "الكهف", latin: "Al-Kahf", meaning: "Gua", verses: "75-110" },
-          { number: 19, arabic: "مريم", latin: "Maryam", meaning: "Maryam", verses: "1-98" },
-          { number: 20, arabic: "طه", latin: "Taha", meaning: "Tha Ha", verses: "1-135" }
-        ]
-      },
-      {
-        number: 17,
-        nameArabic: "الجزء السابع عشر",
-        otherNames: [{ arabic: "اقترب للناس", description: "Aqtarabo" }],
-        pageRange: "322-341",
-        surahs: [
-          { number: 21, arabic: "الأنبياء", latin: "Al-Anbiya", meaning: "Para Nabi", verses: "1-112" },
-          { number: 22, arabic: "الحج", latin: "Al-Hajj", meaning: "Haji", verses: "1-78" }
-        ]
-      },
-      {
-        number: 18,
-        nameArabic: "الجزء الثامن عشر",
-        otherNames: [{ arabic: "قد أفلح المؤمنون", description: "Qadd Aflaha" }],
-        pageRange: "342-361",
-        surahs: [
-          { number: 23, arabic: "المؤمنون", latin: "Al-Mu'minun", meaning: "Orang-Orang Beriman", verses: "1-118" },
-          { number: 24, arabic: "النور", latin: "An-Nur", meaning: "Cahaya", verses: "1-64" },
-          { number: 25, arabic: "الفرقان", latin: "Al-Furqan", meaning: "Pembeda", verses: "1-20" }
-        ]
-      },
-      {
-        number: 19,
-        nameArabic: "الجزء التاسع عشر",
-        otherNames: [{ arabic: "وقال الذين لا يرجون", description: "Wa Qalallazina" }],
-        pageRange: "362-381",
-        surahs: [
-          { number: 25, arabic: "الفرقان", latin: "Al-Furqan", meaning: "Pembeda", verses: "21-77" },
-          { number: 26, arabic: "الشعراء", latin: "Ash-Shu'ara", meaning: "Penyair", verses: "1-227" },
-          { number: 27, arabic: "النمل", latin: "An-Naml", meaning: "Semut", verses: "1-55" }
-        ]
-      },
-      {
-        number: 20,
-        nameArabic: "الجزء العشرون",
-        otherNames: [{ arabic: "أمَّن خلق", description: "A'man Khalaq" }],
-        pageRange: "382-401",
-        surahs: [
-          { number: 27, arabic: "النمل", latin: "An-Naml", meaning: "Semut", verses: "56-93" },
-          { number: 28, arabic: "القصص", latin: "Al-Qasas", meaning: "Kisah-Kisah", verses: "1-88" },
-          { number: 29, arabic: "العنكبوت", latin: "Al-'Ankabut", meaning: "Laba-Laba", verses: "1-45" }
-        ]
-      },
-      {
-        number: 21,
-        nameArabic: "الجزء الحادي والعشرون",
-        otherNames: [{ arabic: "اتل ما أوحي", description: "Utlu Ma Oohi" }],
-        pageRange: "402-421",
-        surahs: [
-          { number: 29, arabic: "العنكبوت", latin: "Al-'Ankabut", meaning: "Laba-Laba", verses: "46-69" },
-          { number: 30, arabic: "الروم", latin: "Ar-Rum", meaning: "Bangsa Romawi", verses: "1-60" },
-          { number: 31, arabic: "لقمان", latin: "Luqman", meaning: "Luqman", verses: "1-34" },
-          { number: 32, arabic: "السجدة", latin: "As-Sajdah", meaning: "Sujud", verses: "1-30" },
-          { number: 33, arabic: "الأحزاب", latin: "Al-Ahzab", meaning: "Golongan yang Bersekutu", verses: "1-30" }
-        ]
-      },
-      {
-        number: 22,
-        nameArabic: "الجزء الثاني والعشرون",
-        otherNames: [{ arabic: "ومن يقنت منكن", description: "Wa Manyaqnut" }],
-        pageRange: "422-441",
-        surahs: [
-          { number: 33, arabic: "الأحزاب", latin: "Al-Ahzab", meaning: "Golongan yang Bersekutu", verses: "31-73" },
-          { number: 34, arabic: "سبإ", latin: "Saba", meaning: "Saba'", verses: "1-54" },
-          { number: 35, arabic: "فاطر", latin: "Fatir", meaning: "Pencipta", verses: "1-45" },
-          { number: 36, arabic: "يس", latin: "Ya-Sin", meaning: "Yasin", verses: "1-21" }
-        ]
-      },
-      {
-        number: 23,
-        nameArabic: "الجزء الثالث والعشرون",
-        otherNames: [{ arabic: "وما لي", description: "Wa Mali" }],
-        pageRange: "442-461",
-        surahs: [
-          { number: 36, arabic: "يس", latin: "Ya-Sin", meaning: "Yasin", verses: "22-83" },
-          { number: 37, arabic: "الصافات", latin: "As-Saffat", meaning: "Barisan", verses: "1-182" },
-          { number: 38, arabic: "ص", latin: "Sad", meaning: "Shad", verses: "1-88" },
-          { number: 39, arabic: "الزمر", latin: "Az-Zumar", meaning: "Rombongan", verses: "1-31" }
-        ]
-      },
-      {
-        number: 24,
-        nameArabic: "الجزء الرابع والعشرون",
-        otherNames: [{ arabic: "فمن أظلم ممن", description: "Faman Azlam" }],
-        pageRange: "462-481",
-        surahs: [
-          { number: 39, arabic: "الزمر", latin: "Az-Zumar", meaning: "Rombongan", verses: "32-75" },
-          { number: 40, arabic: "غافر", latin: "Ghafir", meaning: "Maha Pengampun", verses: "1-85" },
-          { number: 41, arabic: "فصلت", latin: "Fussilat", meaning: "Dijelaskan", verses: "1-46" },
-          { number: 42, arabic: "الشورى", latin: "Ash-Shura", meaning: "Musyawarah", verses: "1-31" }
-        ]
-      },
-      {
-        number: 25,
-        nameArabic: "الجزء الخامس والعشرون",
-        otherNames: [{ arabic: "إليه يرد", description: "Elahe Yuruddo" }],
-        pageRange: "482-501",
-        surahs: [
-          { number: 42, arabic: "الشورى", latin: "Ash-Shura", meaning: "Musyawarah", verses: "32-53" },
-          { number: 43, arabic: "الزخرف", latin: "Az-Zukhruf", meaning: "Perhiasan", verses: "1-89" },
-          { number: 44, arabic: "الدخان", latin: "Ad-Dukhan", meaning: "Kabut", verses: "1-59" },
-          { number: 45, arabic: "الجاثية", latin: "Al-Jathiyah", meaning: "Berlutut", verses: "1-37" },
-          { number: 46, arabic: "الأحقاف", latin: "Al-Ahqaf", meaning: "Bukit Pasir", verses: "1-26" }
-        ]
-      },
-      {
-        number: 26,
-        nameArabic: "الجزء السادس والعشرون",
-        otherNames: [{ arabic: "حم", description: "Ha'a Meem" }],
-        pageRange: "502-521",
-        surahs: [
-          { number: 46, arabic: "الأحقاف", latin: "Al-Ahqaf", meaning: "Bukit Pasir", verses: "27-35" },
-          { number: 47, arabic: "محمد", latin: "Muhammad", meaning: "Muhammad", verses: "1-38" },
-          { number: 48, arabic: "الفتح", latin: "Al-Fath", meaning: "Kemenangan", verses: "1-29" },
-          { number: 49, arabic: "الحجرات", latin: "Al-Hujurat", meaning: "Kamar-Kamar", verses: "1-18" },
-          { number: 50, arabic: "ق", latin: "Qaf", meaning: "Qaf", verses: "1-45" },
-          { number: 51, arabic: "الذاريات", latin: "Adh-Dhariyat", meaning: "Angin yang Menerbangkan", verses: "1-30" }
-        ]
-      },
-      {
-        number: 27,
-        nameArabic: "الجزء السابع والعشرون",
-        otherNames: [{ arabic: "قال فما خطبكم", description: "Qala Fama Khatbukum" }],
-        pageRange: "522-541",
-        surahs: [
-          { number: 51, arabic: "الذاريات", latin: "Adh-Dhariyat", meaning: "Angin yang Menerbangkan", verses: "31-60" },
-          { number: 52, arabic: "الطور", latin: "At-Tur", meaning: "Gunung", verses: "1-49" },
-          { number: 53, arabic: "النجم", latin: "An-Najm", meaning: "Bintang", verses: "1-62" },
-          { number: 54, arabic: "القمر", latin: "Al-Qamar", meaning: "Bulan", verses: "1-55" },
-          { number: 55, arabic: "الرحمن", latin: "Ar-Rahman", meaning: "Maha Pengasih", verses: "1-78" },
-          { number: 56, arabic: "الواقعة", latin: "Al-Waqi'ah", meaning: "Hari Kiamat", verses: "1-96" },
-          { number: 57, arabic: "الحديد", latin: "Al-Hadid", meaning: "Besi", verses: "1-29" }
-        ]
-      },
-      {
-        number: 28,
-        nameArabic: "الجزء الثامن والعشرون",
-        otherNames: [{ arabic: "قد سمع الله", description: "Qadd Sami Allah" }],
-        pageRange: "542-561",
-        surahs: [
-          { number: 58, arabic: "المجادلة", latin: "Al-Mujadilah", meaning: "Wanita yang Menggugat", verses: "1-22" },
-          { number: 59, arabic: "الحشر", latin: "Al-Hashr", meaning: "Pengusiran", verses: "1-24" },
-          { number: 60, arabic: "الممتحنة", latin: "Al-Mumtahanah", meaning: "Wanita yang Diuji", verses: "1-13" },
-          { number: 61, arabic: "الصف", latin: "As-Saff", meaning: "Barisan", verses: "1-14" },
-          { number: 62, arabic: "الجمعة", latin: "Al-Jumu'ah", meaning: "Jumat", verses: "1-11" },
-          { number: 63, arabic: "المنافقون", latin: "Al-Munafiqun", meaning: "Orang-Orang Munafik", verses: "1-11" },
-          { number: 64, arabic: "التغابن", latin: "At-Taghabun", meaning: "Pengungkapan Kesalahan", verses: "1-18" },
-          { number: 65, arabic: "الطلاق", latin: "At-Talaq", meaning: "Talak", verses: "1-12" },
-          { number: 66, arabic: "التحريم", latin: "At-Tahrim", meaning: "Mengharamkan", verses: "1-12" }
-        ]
-      },
-      {
-        number: 29,
-        nameArabic: "الجزء التاسع والعشرون",
-        otherNames: [{ arabic: "تبارك الذي", description: "Tabarakallazi" }],
-        pageRange: "562-581",
-        surahs: [
-          { number: 67, arabic: "الملك", latin: "Al-Mulk", meaning: "Kerajaan", verses: "1-30" },
-          { number: 68, arabic: "القلم", latin: "Al-Qalam", meaning: "Pena", verses: "1-52" },
-          { number: 69, arabic: "الحاقة", latin: "Al-Haqqah", meaning: "Hari Kiamat", verses: "1-52" },
-          { number: 70, arabic: "المعارج", latin: "Al-Ma'arij", meaning: "Tempat Naik", verses: "1-44" },
-          { number: 71, arabic: "نوح", latin: "Nuh", meaning: "Nuh", verses: "1-28" },
-          { number: 72, arabic: "الجن", latin: "Al-Jinn", meaning: "Jin", verses: "1-28" },
-          { number: 73, arabic: "المزمل", latin: "Al-Muzzammil", meaning: "Orang yang Berselimut", verses: "1-20" },
-          { number: 74, arabic: "المدثر", latin: "Al-Muddaththir", meaning: "Orang yang Berkemul", verses: "1-56" },
-          { number: 75, arabic: "القيامة", latin: "Al-Qiyamah", meaning: "Kebangkitan", verses: "1-40" },
-          { number: 76, arabic: "الانسان", latin: "Al-Insan", meaning: "Manusia", verses: "1-31" },
-          { number: 77, arabic: "المرسلات", latin: "Al-Mursalat", meaning: "Malaikat yang Diutus", verses: "1-50" }
-        ]
-      },
-      {
-        number: 30,
-        nameArabic: "الجزء الثلاثون",
-        otherNames: [
-          { arabic: "عمَّ يتساءلون", description: "Amma Yatasa'aloon" },
-          { arabic: "جزء عمَّ", description: "Juz 'Amma" }
-        ],
-        pageRange: "582-604",
-        surahs: [
-          { number: 78, arabic: "النبأ", latin: "An-Naba", meaning: "Berita Besar", verses: "1-40" },
-          { number: 79, arabic: "النازعات", latin: "An-Nazi'at", meaning: "Malaikat yang Mencabut", verses: "1-46" },
-          { number: 80, arabic: "عبس", latin: "'Abasa", meaning: "Bermuka Masam", verses: "1-42" },
-          { number: 81, arabic: "التكوير", latin: "At-Takwir", meaning: "Menggulung", verses: "1-29" },
-          { number: 82, arabic: "الإنفطار", latin: "Al-Infitar", meaning: "Terbelah", verses: "1-19" },
-          { number: 83, arabic: "المطففين", latin: "Al-Mutaffifin", meaning: "Orang Curang", verses: "1-36" },
-          { number: 84, arabic: "الإنشقاق", latin: "Al-Inshiqaq", meaning: "Terbelah", verses: "1-25" },
-          { number: 85, arabic: "البروج", latin: "Al-Buruj", meaning: "Gugusan Bintang", verses: "1-22" },
-          { number: 86, arabic: "الطارق", latin: "At-Tariq", meaning: "Yang Datang di Malam Hari", verses: "1-17" },
-          { number: 87, arabic: "الأعلى", latin: "Al-A'la", meaning: "Yang Maha Tinggi", verses: "1-19" },
-          { number: 88, arabic: "الغاشية", latin: "Al-Ghashiyah", meaning: "Hari Kiamat", verses: "1-26" },
-          { number: 89, arabic: "الفجر", latin: "Al-Fajr", meaning: "Fajar", verses: "1-30" },
-          { number: 90, arabic: "البلد", latin: "Al-Balad", meaning: "Negeri", verses: "1-20" },
-          { number: 91, arabic: "الشمس", latin: "Ash-Shams", meaning: "Matahari", verses: "1-15" },
-          { number: 92, arabic: "الليل", latin: "Al-Layl", meaning: "Malam", verses: "1-21" },
-          { number: 93, arabic: "الضحى", latin: "Ad-Duha", meaning: "Waktu Dhuha", verses: "1-11" },
-          { number: 94, arabic: "الشرح", latin: "Ash-Sharh", meaning: "Kelapangan", verses: "1-8" },
-          { number: 95, arabic: "التين", latin: "At-Tin", meaning: "Buah Tin", verses: "1-8" },
-          { number: 96, arabic: "العلق", latin: "Al-'Alaq", meaning: "Segumpal Darah", verses: "1-19" },
-          { number: 97, arabic: "القدر", latin: "Al-Qadr", meaning: "Kemuliaan", verses: "1-5" },
-          { number: 98, arabic: "البينة", latin: "Al-Bayyinah", meaning: "Bukti Nyata", verses: "1-8" },
-          { number: 99, arabic: "الزلزلة", latin: "Az-Zalzalah", meaning: "Guncangan", verses: "1-8" },
-          { number: 100, arabic: "العاديات", latin: "Al-'Adiyat", meaning: "Kuda Perang", verses: "1-11" },
-          { number: 101, arabic: "القارعة", latin: "Al-Qari'ah", meaning: "Hari Kiamat", verses: "1-11" },
-          { number: 102, arabic: "التكاثر", latin: "At-Takathur", meaning: "Bermegah-Megahan", verses: "1-8" },
-          { number: 103, arabic: "العصر", latin: "Al-'Asr", meaning: "Masa", verses: "1-3" },
-          { number: 104, arabic: "الهمزة", latin: "Al-Humazah", meaning: "Pengumpat", verses: "1-9" },
-          { number: 105, arabic: "الفيل", latin: "Al-Fil", meaning: "Gajah", verses: "1-5" },
-          { number: 106, arabic: "قريش", latin: "Quraysh", meaning: "Quraisy", verses: "1-4" },
-          { number: 107, arabic: "الماعون", latin: "Al-Ma'un", meaning: "Barang yang Berguna", verses: "1-7" },
-          { number: 108, arabic: "الكوثر", latin: "Al-Kawthar", meaning: "Nikmat yang Banyak", verses: "1-3" },
-          { number: 109, arabic: "الكافرون", latin: "Al-Kafirun", meaning: "Orang-Orang Kafir", verses: "1-6" },
-          { number: 110, arabic: "النصر", latin: "An-Nasr", meaning: "Pertolongan", verses: "1-3" },
-          { number: 111, arabic: "المسد", latin: "Al-Masad", meaning: "Api yang Bergejolak", verses: "1-5" },
-          { number: 112, arabic: "الإخلاص", latin: "Al-Ikhlas", meaning: "Ikhlas", verses: "1-4" },
-          { number: 113, arabic: "الفلق", latin: "Al-Falaq", meaning: "Subuh", verses: "1-5" },
-          { number: 114, arabic: "الناس", latin: "An-Nas", meaning: "Manusia", verses: "1-6" }
-        ]
-      }
+      { number:1, nameArabic:"الجزء الأول", otherNames:[{arabic:"آلم",description:"Alif Lam Meem"}], pageRange:"1-21", surahs:[{number:1,arabic:"الفاتحة",latin:"Al-Fatihah",meaning:"Pembukaan",verses:"1-7"},{number:2,arabic:"البقرة",latin:"Al-Baqarah",meaning:"Sapi Betina",verses:"1-141"}] },
+      { number:2, nameArabic:"الجزء الثاني", otherNames:[{arabic:"سيقول السفهاء",description:"Sayaqool"}], pageRange:"22-41", surahs:[{number:2,arabic:"البقرة",latin:"Al-Baqarah",meaning:"Sapi Betina",verses:"142-252"}] },
+      { number:3, nameArabic:"الجزء الثالث", otherNames:[{arabic:"تلك الرسل",description:"Tilkal Rusul"}], pageRange:"42-62", surahs:[{number:2,arabic:"البقرة",latin:"Al-Baqarah",meaning:"Sapi Betina",verses:"253-286"},{number:3,arabic:"آل عمران",latin:"Al-Imran",meaning:"Keluarga Imran",verses:"1-92"}] },
+      { number:4, nameArabic:"الجزء الرابع", otherNames:[{arabic:"لن تنالوا البر",description:"Lan Tana Loo"}], pageRange:"63-82", surahs:[{number:3,arabic:"آل عمران",latin:"Al-Imran",meaning:"Keluarga Imran",verses:"93-200"},{number:4,arabic:"النساء",latin:"An-Nisa",meaning:"Wanita",verses:"1-23"}] },
+      { number:5, nameArabic:"الجزء الخامس", otherNames:[{arabic:"والمحصنت",description:"Wal Mohsanat"}], pageRange:"83-101", surahs:[{number:4,arabic:"النساء",latin:"An-Nisa",meaning:"Wanita",verses:"24-147"}] },
+      { number:6, nameArabic:"الجزء السادس", otherNames:[{arabic:"لا يحب الله",description:"La Yuhibbullah"}], pageRange:"102-121", surahs:[{number:4,arabic:"النساء",latin:"An-Nisa",meaning:"Wanita",verses:"148-176"},{number:5,arabic:"المائدة",latin:"Al-Ma'idah",meaning:"Hidangan",verses:"1-81"}] },
+      { number:7, nameArabic:"الجزء السابع", otherNames:[{arabic:"وإذا سمعوا",description:"Wa Iza Samiu"}], pageRange:"122-141", surahs:[{number:5,arabic:"المائدة",latin:"Al-Ma'idah",meaning:"Hidangan",verses:"82-120"},{number:6,arabic:"الأنعام",latin:"Al-An'am",meaning:"Hewan Ternak",verses:"1-110"}] },
+      { number:8, nameArabic:"الجزء الثامن", otherNames:[{arabic:"ولو أننا نزلنا",description:"Wa Lau Annana"}], pageRange:"142-161", surahs:[{number:6,arabic:"الأنعام",latin:"Al-An'am",meaning:"Hewan Ternak",verses:"111-165"},{number:7,arabic:"الأعراف",latin:"Al-A'raf",meaning:"Tempat Tertinggi",verses:"1-87"}] },
+      { number:9, nameArabic:"الجزء التاسع", otherNames:[{arabic:"قال الملأ",description:"Qalal Malao"}], pageRange:"162-181", surahs:[{number:7,arabic:"الأعراف",latin:"Al-A'raf",meaning:"Tempat Tertinggi",verses:"88-206"},{number:8,arabic:"الأنفال",latin:"Al-Anfal",meaning:"Harta Rampasan",verses:"1-40"}] },
+      { number:10, nameArabic:"الجزء العاشر", otherNames:[{arabic:"واعلموا",description:"Wa A'lamu"}], pageRange:"182-201", surahs:[{number:8,arabic:"الأنفال",latin:"Al-Anfal",meaning:"Harta Rampasan",verses:"41-75"},{number:9,arabic:"التوبة",latin:"At-Tawbah",meaning:"Pengampunan",verses:"1-92"}] },
+      { number:11, nameArabic:"الجزء الحادي عشر", otherNames:[{arabic:"يعتذرون",description:"Yatazeroon"}], pageRange:"202-221", surahs:[{number:9,arabic:"التوبة",latin:"At-Tawbah",meaning:"Pengampunan",verses:"93-129"},{number:10,arabic:"يونس",latin:"Yunus",meaning:"Yunus",verses:"1-109"},{number:11,arabic:"هود",latin:"Hud",meaning:"Hud",verses:"1-5"}] },
+      { number:12, nameArabic:"الجزء الثاني عشر", otherNames:[{arabic:"وما من دابة",description:"Wa Mamin Da'abat"}], pageRange:"222-241", surahs:[{number:11,arabic:"هود",latin:"Hud",meaning:"Hud",verses:"6-123"},{number:12,arabic:"يوسف",latin:"Yusuf",meaning:"Yusuf",verses:"1-52"}] },
+      { number:13, nameArabic:"الجزء الثالث عشر", otherNames:[{arabic:"وما أبرئ نفسي",description:"Wa Ma Ubrioo"}], pageRange:"242-261", surahs:[{number:12,arabic:"يوسف",latin:"Yusuf",meaning:"Yusuf",verses:"53-111"},{number:13,arabic:"الرعد",latin:"Ar-Ra'd",meaning:"Guruh",verses:"1-43"},{number:14,arabic:"ابراهيم",latin:"Ibrahim",meaning:"Ibrahim",verses:"1-52"}] },
+      { number:14, nameArabic:"الجزء الرابع عشر", otherNames:[{arabic:"رُبَمَا",description:"Rubama"}], pageRange:"262-281", surahs:[{number:15,arabic:"الحجر",latin:"Al-Hijr",meaning:"Daerah Berbatu",verses:"1-99"},{number:16,arabic:"النحل",latin:"An-Nahl",meaning:"Lebah",verses:"1-128"}] },
+      { number:15, nameArabic:"الجزء الخامس عشر", otherNames:[{arabic:"سبحان الذي",description:"Subhanallazi"}], pageRange:"282-301", surahs:[{number:17,arabic:"الإسراء",latin:"Al-Isra",meaning:"Perjalanan Malam",verses:"1-111"},{number:18,arabic:"الكهف",latin:"Al-Kahf",meaning:"Gua",verses:"1-74"}] },
+      { number:16, nameArabic:"الجزء السادس عشر", otherNames:[{arabic:"قال ألم",description:"Qal Alam"}], pageRange:"302-321", surahs:[{number:18,arabic:"الكهف",latin:"Al-Kahf",meaning:"Gua",verses:"75-110"},{number:19,arabic:"مريم",latin:"Maryam",meaning:"Maryam",verses:"1-98"},{number:20,arabic:"طه",latin:"Taha",meaning:"Tha Ha",verses:"1-135"}] },
+      { number:17, nameArabic:"الجزء السابع عشر", otherNames:[{arabic:"اقترب للناس",description:"Aqtarabo"}], pageRange:"322-341", surahs:[{number:21,arabic:"الأنبياء",latin:"Al-Anbiya",meaning:"Para Nabi",verses:"1-112"},{number:22,arabic:"الحج",latin:"Al-Hajj",meaning:"Haji",verses:"1-78"}] },
+      { number:18, nameArabic:"الجزء الثامن عشر", otherNames:[{arabic:"قد أفلح المؤمنون",description:"Qadd Aflaha"}], pageRange:"342-361", surahs:[{number:23,arabic:"المؤمنون",latin:"Al-Mu'minun",meaning:"Orang-Orang Beriman",verses:"1-118"},{number:24,arabic:"النور",latin:"An-Nur",meaning:"Cahaya",verses:"1-64"},{number:25,arabic:"الفرقان",latin:"Al-Furqan",meaning:"Pembeda",verses:"1-20"}] },
+      { number:19, nameArabic:"الجزء التاسع عشر", otherNames:[{arabic:"وقال الذين لا يرجون",description:"Wa Qalallazina"}], pageRange:"362-381", surahs:[{number:25,arabic:"الفرقان",latin:"Al-Furqan",meaning:"Pembeda",verses:"21-77"},{number:26,arabic:"الشعراء",latin:"Ash-Shu'ara",meaning:"Penyair",verses:"1-227"},{number:27,arabic:"النمل",latin:"An-Naml",meaning:"Semut",verses:"1-55"}] },
+      { number:20, nameArabic:"الجزء العشرون", otherNames:[{arabic:"أمَّن خلق",description:"A'man Khalaq"}], pageRange:"382-401", surahs:[{number:27,arabic:"النمل",latin:"An-Naml",meaning:"Semut",verses:"56-93"},{number:28,arabic:"القصص",latin:"Al-Qasas",meaning:"Kisah-Kisah",verses:"1-88"},{number:29,arabic:"العنكبوت",latin:"Al-'Ankabut",meaning:"Laba-Laba",verses:"1-45"}] },
+      { number:21, nameArabic:"الجزء الحادي والعشرون", otherNames:[{arabic:"اتل ما أوحي",description:"Utlu Ma Oohi"}], pageRange:"402-421", surahs:[{number:29,arabic:"العنكبوت",latin:"Al-'Ankabut",meaning:"Laba-Laba",verses:"46-69"},{number:30,arabic:"الروم",latin:"Ar-Rum",meaning:"Bangsa Romawi",verses:"1-60"},{number:31,arabic:"لقمان",latin:"Luqman",meaning:"Luqman",verses:"1-34"},{number:32,arabic:"السجدة",latin:"As-Sajdah",meaning:"Sujud",verses:"1-30"},{number:33,arabic:"الأحزاب",latin:"Al-Ahzab",meaning:"Golongan yang Bersekutu",verses:"1-30"}] },
+      { number:22, nameArabic:"الجزء الثاني والعشرون", otherNames:[{arabic:"ومن يقنت منكن",description:"Wa Manyaqnut"}], pageRange:"422-441", surahs:[{number:33,arabic:"الأحزاب",latin:"Al-Ahzab",meaning:"Golongan yang Bersekutu",verses:"31-73"},{number:34,arabic:"سبإ",latin:"Saba",meaning:"Saba'",verses:"1-54"},{number:35,arabic:"فاطر",latin:"Fatir",meaning:"Pencipta",verses:"1-45"},{number:36,arabic:"يس",latin:"Ya-Sin",meaning:"Yasin",verses:"1-21"}] },
+      { number:23, nameArabic:"الجزء الثالث والعشرون", otherNames:[{arabic:"وما لي",description:"Wa Mali"}], pageRange:"442-461", surahs:[{number:36,arabic:"يس",latin:"Ya-Sin",meaning:"Yasin",verses:"22-83"},{number:37,arabic:"الصافات",latin:"As-Saffat",meaning:"Barisan",verses:"1-182"},{number:38,arabic:"ص",latin:"Sad",meaning:"Shad",verses:"1-88"},{number:39,arabic:"الزمر",latin:"Az-Zumar",meaning:"Rombongan",verses:"1-31"}] },
+      { number:24, nameArabic:"الجزء الرابع والعشرون", otherNames:[{arabic:"فمن أظلم ممن",description:"Faman Azlam"}], pageRange:"462-481", surahs:[{number:39,arabic:"الزمر",latin:"Az-Zumar",meaning:"Rombongan",verses:"32-75"},{number:40,arabic:"غافر",latin:"Ghafir",meaning:"Maha Pengampun",verses:"1-85"},{number:41,arabic:"فصلت",latin:"Fussilat",meaning:"Dijelaskan",verses:"1-46"},{number:42,arabic:"الشورى",latin:"Ash-Shura",meaning:"Musyawarah",verses:"1-31"}] },
+      { number:25, nameArabic:"الجزء الخامس والعشرون", otherNames:[{arabic:"إليه يرد",description:"Elahe Yuruddo"}], pageRange:"482-501", surahs:[{number:42,arabic:"الشورى",latin:"Ash-Shura",meaning:"Musyawarah",verses:"32-53"},{number:43,arabic:"الزخرف",latin:"Az-Zukhruf",meaning:"Perhiasan",verses:"1-89"},{number:44,arabic:"الدخان",latin:"Ad-Dukhan",meaning:"Kabut",verses:"1-59"},{number:45,arabic:"الجاثية",latin:"Al-Jathiyah",meaning:"Berlutut",verses:"1-37"},{number:46,arabic:"الأحقاف",latin:"Al-Ahqaf",meaning:"Bukit Pasir",verses:"1-26"}] },
+      { number:26, nameArabic:"الجزء السادس والعشرون", otherNames:[{arabic:"حم",description:"Ha'a Meem"}], pageRange:"502-521", surahs:[{number:46,arabic:"الأحقاف",latin:"Al-Ahqaf",meaning:"Bukit Pasir",verses:"27-35"},{number:47,arabic:"محمد",latin:"Muhammad",meaning:"Muhammad",verses:"1-38"},{number:48,arabic:"الفتح",latin:"Al-Fath",meaning:"Kemenangan",verses:"1-29"},{number:49,arabic:"الحجرات",latin:"Al-Hujurat",meaning:"Kamar-Kamar",verses:"1-18"},{number:50,arabic:"ق",latin:"Qaf",meaning:"Qaf",verses:"1-45"},{number:51,arabic:"الذاريات",latin:"Adh-Dhariyat",meaning:"Angin yang Menerbangkan",verses:"1-30"}] },
+      { number:27, nameArabic:"الجزء السابع والعشرون", otherNames:[{arabic:"قال فما خطبكم",description:"Qala Fama Khatbukum"}], pageRange:"522-541", surahs:[{number:51,arabic:"الذاريات",latin:"Adh-Dhariyat",meaning:"Angin yang Menerbangkan",verses:"31-60"},{number:52,arabic:"الطور",latin:"At-Tur",meaning:"Gunung",verses:"1-49"},{number:53,arabic:"النجم",latin:"An-Najm",meaning:"Bintang",verses:"1-62"},{number:54,arabic:"القمر",latin:"Al-Qamar",meaning:"Bulan",verses:"1-55"},{number:55,arabic:"الرحمن",latin:"Ar-Rahman",meaning:"Maha Pengasih",verses:"1-78"},{number:56,arabic:"الواقعة",latin:"Al-Waqi'ah",meaning:"Hari Kiamat",verses:"1-96"},{number:57,arabic:"الحديد",latin:"Al-Hadid",meaning:"Besi",verses:"1-29"}] },
+      { number:28, nameArabic:"الجزء الثامن والعشرون", otherNames:[{arabic:"قد سمع الله",description:"Qadd Sami Allah"}], pageRange:"542-561", surahs:[{number:58,arabic:"المجادلة",latin:"Al-Mujadilah",meaning:"Wanita yang Menggugat",verses:"1-22"},{number:59,arabic:"الحشر",latin:"Al-Hashr",meaning:"Pengusiran",verses:"1-24"},{number:60,arabic:"الممتحنة",latin:"Al-Mumtahanah",meaning:"Wanita yang Diuji",verses:"1-13"},{number:61,arabic:"الصف",latin:"As-Saff",meaning:"Barisan",verses:"1-14"},{number:62,arabic:"الجمعة",latin:"Al-Jumu'ah",meaning:"Jumat",verses:"1-11"},{number:63,arabic:"المنافقون",latin:"Al-Munafiqun",meaning:"Orang-Orang Munafik",verses:"1-11"},{number:64,arabic:"التغابن",latin:"At-Taghabun",meaning:"Pengungkapan Kesalahan",verses:"1-18"},{number:65,arabic:"الطلاق",latin:"At-Talaq",meaning:"Talak",verses:"1-12"},{number:66,arabic:"التحريم",latin:"At-Tahrim",meaning:"Mengharamkan",verses:"1-12"}] },
+      { number:29, nameArabic:"الجزء التاسع والعشرون", otherNames:[{arabic:"تبارك الذي",description:"Tabarakallazi"}], pageRange:"562-581", surahs:[{number:67,arabic:"الملك",latin:"Al-Mulk",meaning:"Kerajaan",verses:"1-30"},{number:68,arabic:"القلم",latin:"Al-Qalam",meaning:"Pena",verses:"1-52"},{number:69,arabic:"الحاقة",latin:"Al-Haqqah",meaning:"Hari Kiamat",verses:"1-52"},{number:70,arabic:"المعارج",latin:"Al-Ma'arij",meaning:"Tempat Naik",verses:"1-44"},{number:71,arabic:"نوح",latin:"Nuh",meaning:"Nuh",verses:"1-28"},{number:72,arabic:"الجن",latin:"Al-Jinn",meaning:"Jin",verses:"1-28"},{number:73,arabic:"المزمل",latin:"Al-Muzzammil",meaning:"Orang yang Berselimut",verses:"1-20"},{number:74,arabic:"المدثر",latin:"Al-Muddaththir",meaning:"Orang yang Berkemul",verses:"1-56"},{number:75,arabic:"القيامة",latin:"Al-Qiyamah",meaning:"Kebangkitan",verses:"1-40"},{number:76,arabic:"الانسان",latin:"Al-Insan",meaning:"Manusia",verses:"1-31"},{number:77,arabic:"المرسلات",latin:"Al-Mursalat",meaning:"Malaikat yang Diutus",verses:"1-50"}] },
+      { number:30, nameArabic:"الجزء الثلاثون", otherNames:[{arabic:"عمَّ يتساءلون",description:"Amma Yatasa'aloon"},{arabic:"جزء عمَّ",description:"Juz 'Amma"}], pageRange:"582-604", surahs:[{number:78,arabic:"النبأ",latin:"An-Naba",meaning:"Berita Besar",verses:"1-40"},{number:79,arabic:"النازعات",latin:"An-Nazi'at",meaning:"Malaikat yang Mencabut",verses:"1-46"},{number:80,arabic:"عبس",latin:"'Abasa",meaning:"Bermuka Masam",verses:"1-42"},{number:81,arabic:"التكوير",latin:"At-Takwir",meaning:"Menggulung",verses:"1-29"},{number:82,arabic:"الإنفطار",latin:"Al-Infitar",meaning:"Terbelah",verses:"1-19"},{number:83,arabic:"المطففين",latin:"Al-Mutaffifin",meaning:"Orang Curang",verses:"1-36"},{number:84,arabic:"الإنشقاق",latin:"Al-Inshiqaq",meaning:"Terbelah",verses:"1-25"},{number:85,arabic:"البروج",latin:"Al-Buruj",meaning:"Gugusan Bintang",verses:"1-22"},{number:86,arabic:"الطارق",latin:"At-Tariq",meaning:"Yang Datang di Malam Hari",verses:"1-17"},{number:87,arabic:"الأعلى",latin:"Al-A'la",meaning:"Yang Maha Tinggi",verses:"1-19"},{number:88,arabic:"الغاشية",latin:"Al-Ghashiyah",meaning:"Hari Kiamat",verses:"1-26"},{number:89,arabic:"الفجر",latin:"Al-Fajr",meaning:"Fajar",verses:"1-30"},{number:90,arabic:"البلد",latin:"Al-Balad",meaning:"Negeri",verses:"1-20"},{number:91,arabic:"الشمس",latin:"Ash-Shams",meaning:"Matahari",verses:"1-15"},{number:92,arabic:"الليل",latin:"Al-Layl",meaning:"Malam",verses:"1-21"},{number:93,arabic:"الضحى",latin:"Ad-Duha",meaning:"Waktu Dhuha",verses:"1-11"},{number:94,arabic:"الشرح",latin:"Ash-Sharh",meaning:"Kelapangan",verses:"1-8"},{number:95,arabic:"التين",latin:"At-Tin",meaning:"Buah Tin",verses:"1-8"},{number:96,arabic:"العلق",latin:"Al-'Alaq",meaning:"Segumpal Darah",verses:"1-19"},{number:97,arabic:"القدر",latin:"Al-Qadr",meaning:"Kemuliaan",verses:"1-5"},{number:98,arabic:"البينة",latin:"Al-Bayyinah",meaning:"Bukti Nyata",verses:"1-8"},{number:99,arabic:"الزلزلة",latin:"Az-Zalzalah",meaning:"Guncangan",verses:"1-8"},{number:100,arabic:"العاديات",latin:"Al-'Adiyat",meaning:"Kuda Perang",verses:"1-11"},{number:101,arabic:"القارعة",latin:"Al-Qari'ah",meaning:"Hari Kiamat",verses:"1-11"},{number:102,arabic:"التكاثر",latin:"At-Takathur",meaning:"Bermegah-Megahan",verses:"1-8"},{number:103,arabic:"العصر",latin:"Al-'Asr",meaning:"Masa",verses:"1-3"},{number:104,arabic:"الهمزة",latin:"Al-Humazah",meaning:"Pengumpat",verses:"1-9"},{number:105,arabic:"الفيل",latin:"Al-Fil",meaning:"Gajah",verses:"1-5"},{number:106,arabic:"قريش",latin:"Quraysh",meaning:"Quraisy",verses:"1-4"},{number:107,arabic:"الماعون",latin:"Al-Ma'un",meaning:"Barang yang Berguna",verses:"1-7"},{number:108,arabic:"الكوثر",latin:"Al-Kawthar",meaning:"Nikmat yang Banyak",verses:"1-3"},{number:109,arabic:"الكافرون",latin:"Al-Kafirun",meaning:"Orang-Orang Kafir",verses:"1-6"},{number:110,arabic:"النصر",latin:"An-Nasr",meaning:"Pertolongan",verses:"1-3"},{number:111,arabic:"المسد",latin:"Al-Masad",meaning:"Api yang Bergejolak",verses:"1-5"},{number:112,arabic:"الإخلاص",latin:"Al-Ikhlas",meaning:"Ikhlas",verses:"1-4"},{number:113,arabic:"الفلق",latin:"Al-Falaq",meaning:"Subuh",verses:"1-5"},{number:114,arabic:"الناس",latin:"An-Nas",meaning:"Manusia",verses:"1-6"}] }
     ];
 
-    // ==================== COMPLETE JUZ DATA (ENGLISH) ====================
-    const juzDataEnglish = [
-      {
-        number: 1,
-        nameArabic: "الجزء الأول",
-        otherNames: [{ arabic: "آلم", description: "Alif Lam Meem" }],
-        pageRange: "1-21",
-        surahs: [
-          { number: 1, arabic: "الفاتحة", latin: "Al-Fatihah", meaning: "The Opening", verses: "1-7" },
-          { number: 2, arabic: "البقرة", latin: "Al-Baqarah", meaning: "The Cow", verses: "1-141" }
-        ]
-      },
-      {
-        number: 2,
-        nameArabic: "الجزء الثاني",
-        otherNames: [{ arabic: "سيقول السفهاء", description: "Sayaqool" }],
-        pageRange: "22-41",
-        surahs: [{ number: 2, arabic: "البقرة", latin: "Al-Baqarah", meaning: "The Cow", verses: "142-252" }]
-      },
-      {
-        number: 3,
-        nameArabic: "الجزء الثالث",
-        otherNames: [{ arabic: "تلك الرسل", description: "Tilkal Rusul" }],
-        pageRange: "42-62",
-        surahs: [
-          { number: 2, arabic: "البقرة", latin: "Al-Baqarah", meaning: "The Cow", verses: "253-286" },
-          { number: 3, arabic: "آل عمران", latin: "Al-Imran", meaning: "Family of Imran", verses: "1-92" }
-        ]
-      },
-      {
-        number: 4,
-        nameArabic: "الجزء الرابع",
-        otherNames: [{ arabic: "لن تنالوا البر", description: "Lan Tana Loo" }],
-        pageRange: "63-82",
-        surahs: [
-          { number: 3, arabic: "آل عمران", latin: "Al-Imran", meaning: "Family of Imran", verses: "93-200" },
-          { number: 4, arabic: "النساء", latin: "An-Nisa", meaning: "The Women", verses: "1-23" }
-        ]
-      },
-      {
-        number: 5,
-        nameArabic: "الجزء الخامس",
-        otherNames: [{ arabic: "والمحصنت", description: "Wal Mohsanat" }],
-        pageRange: "83-101",
-        surahs: [{ number: 4, arabic: "النساء", latin: "An-Nisa", meaning: "The Women", verses: "24-147" }]
-      },
-      {
-        number: 6,
-        nameArabic: "الجزء السادس",
-        otherNames: [{ arabic: "لا يحب الله", description: "La Yuhibbullah" }],
-        pageRange: "102-121",
-        surahs: [
-          { number: 4, arabic: "النساء", latin: "An-Nisa", meaning: "The Women", verses: "148-176" },
-          { number: 5, arabic: "المائدة", latin: "Al-Ma'idah", meaning: "The Table Spread", verses: "1-81" }
-        ]
-      },
-      {
-        number: 7,
-        nameArabic: "الجزء السابع",
-        otherNames: [{ arabic: "وإذا سمعوا", description: "Wa Iza Samiu" }],
-        pageRange: "122-141",
-        surahs: [
-          { number: 5, arabic: "المائدة", latin: "Al-Ma'idah", meaning: "The Table Spread", verses: "82-120" },
-          { number: 6, arabic: "الأنعام", latin: "Al-An'am", meaning: "The Cattle", verses: "1-110" }
-        ]
-      },
-      {
-        number: 8,
-        nameArabic: "الجزء الثامن",
-        otherNames: [{ arabic: "ولو أننا نزلنا", description: "Wa Lau Annana" }],
-        pageRange: "142-161",
-        surahs: [
-          { number: 6, arabic: "الأنعام", latin: "Al-An'am", meaning: "The Cattle", verses: "111-165" },
-          { number: 7, arabic: "الأعراف", latin: "Al-A'raf", meaning: "The Heights", verses: "1-87" }
-        ]
-      },
-      {
-        number: 9,
-        nameArabic: "الجزء التاسع",
-        otherNames: [{ arabic: "قال الملأ", description: "Qalal Malao" }],
-        pageRange: "162-181",
-        surahs: [
-          { number: 7, arabic: "الأعراف", latin: "Al-A'raf", meaning: "The Heights", verses: "88-206" },
-          { number: 8, arabic: "الأنفال", latin: "Al-Anfal", meaning: "The Spoils of War", verses: "1-40" }
-        ]
-      },
-      {
-        number: 10,
-        nameArabic: "الجزء العاشر",
-        otherNames: [{ arabic: "واعلموا", description: "Wa A'lamu" }],
-        pageRange: "182-201",
-        surahs: [
-          { number: 8, arabic: "الأنفال", latin: "Al-Anfal", meaning: "The Spoils of War", verses: "41-75" },
-          { number: 9, arabic: "التوبة", latin: "At-Tawbah", meaning: "Repentance", verses: "1-92" }
-        ]
-      },
-      {
-        number: 11,
-        nameArabic: "الجزء الحادي عشر",
-        otherNames: [{ arabic: "يعتذرون", description: "Yatazeroon" }],
-        pageRange: "202-221",
-        surahs: [
-          { number: 9, arabic: "التوبة", latin: "At-Tawbah", meaning: "Repentance", verses: "93-129" },
-          { number: 10, arabic: "يونس", latin: "Yunus", meaning: "Jonah", verses: "1-109" },
-          { number: 11, arabic: "هود", latin: "Hud", meaning: "Hud", verses: "1-5" }
-        ]
-      },
-      {
-        number: 12,
-        nameArabic: "الجزء الثاني عشر",
-        otherNames: [{ arabic: "وما من دابة", description: "Wa Mamin Da'abat" }],
-        pageRange: "222-241",
-        surahs: [
-          { number: 11, arabic: "هود", latin: "Hud", meaning: "Hud", verses: "6-123" },
-          { number: 12, arabic: "يوسف", latin: "Yusuf", meaning: "Joseph", verses: "1-52" }
-        ]
-      },
-      {
-        number: 13,
-        nameArabic: "الجزء الثالث عشر",
-        otherNames: [{ arabic: "وما أبرئ نفسي", description: "Wa Ma Ubrioo" }],
-        pageRange: "242-261",
-        surahs: [
-          { number: 12, arabic: "يوسف", latin: "Yusuf", meaning: "Joseph", verses: "53-111" },
-          { number: 13, arabic: "الرعد", latin: "Ar-Ra'd", meaning: "The Thunder", verses: "1-43" },
-          { number: 14, arabic: "ابراهيم", latin: "Ibrahim", meaning: "Abraham", verses: "1-52" }
-        ]
-      },
-      {
-        number: 14,
-        nameArabic: "الجزء الرابع عشر",
-        otherNames: [{ arabic: "رُبَمَا", description: "Rubama" }],
-        pageRange: "262-281",
-        surahs: [
-          { number: 15, arabic: "الحجر", latin: "Al-Hijr", meaning: "The Rocky Tract", verses: "1-99" },
-          { number: 16, arabic: "النحل", latin: "An-Nahl", meaning: "The Bee", verses: "1-128" }
-        ]
-      },
-      {
-        number: 15,
-        nameArabic: "الجزء الخامس عشر",
-        otherNames: [{ arabic: "سبحان الذي", description: "Subhanallazi" }],
-        pageRange: "282-301",
-        surahs: [
-          { number: 17, arabic: "الإسراء", latin: "Al-Isra", meaning: "The Night Journey", verses: "1-111" },
-          { number: 18, arabic: "الكهف", latin: "Al-Kahf", meaning: "The Cave", verses: "1-74" }
-        ]
-      },
-      {
-        number: 16,
-        nameArabic: "الجزء السادس عشر",
-        otherNames: [{ arabic: "قال ألم", description: "Qal Alam" }],
-        pageRange: "302-321",
-        surahs: [
-          { number: 18, arabic: "الكهف", latin: "Al-Kahf", meaning: "The Cave", verses: "75-110" },
-          { number: 19, arabic: "مريم", latin: "Maryam", meaning: "Mary", verses: "1-98" },
-          { number: 20, arabic: "طه", latin: "Taha", meaning: "Ta-Ha", verses: "1-135" }
-        ]
-      },
-      {
-        number: 17,
-        nameArabic: "الجزء السابع عشر",
-        otherNames: [{ arabic: "اقترب للناس", description: "Aqtarabo" }],
-        pageRange: "322-341",
-        surahs: [
-          { number: 21, arabic: "الأنبياء", latin: "Al-Anbiya", meaning: "The Prophets", verses: "1-112" },
-          { number: 22, arabic: "الحج", latin: "Al-Hajj", meaning: "The Pilgrimage", verses: "1-78" }
-        ]
-      },
-      {
-        number: 18,
-        nameArabic: "الجزء الثامن عشر",
-        otherNames: [{ arabic: "قد أفلح المؤمنون", description: "Qadd Aflaha" }],
-        pageRange: "342-361",
-        surahs: [
-          { number: 23, arabic: "المؤمنون", latin: "Al-Mu'minun", meaning: "The Believers", verses: "1-118" },
-          { number: 24, arabic: "النور", latin: "An-Nur", meaning: "The Light", verses: "1-64" },
-          { number: 25, arabic: "الفرقان", latin: "Al-Furqan", meaning: "The Criterion", verses: "1-20" }
-        ]
-      },
-      {
-        number: 19,
-        nameArabic: "الجزء التاسع عشر",
-        otherNames: [{ arabic: "وقال الذين لا يرجون", description: "Wa Qalallazina" }],
-        pageRange: "362-381",
-        surahs: [
-          { number: 25, arabic: "الفرقان", latin: "Al-Furqan", meaning: "The Criterion", verses: "21-77" },
-          { number: 26, arabic: "الشعراء", latin: "Ash-Shu'ara", meaning: "The Poets", verses: "1-227" },
-          { number: 27, arabic: "النمل", latin: "An-Naml", meaning: "The Ant", verses: "1-55" }
-        ]
-      },
-      {
-        number: 20,
-        nameArabic: "الجزء العشرون",
-        otherNames: [{ arabic: "أمَّن خلق", description: "A'man Khalaq" }],
-        pageRange: "382-401",
-        surahs: [
-          { number: 27, arabic: "النمل", latin: "An-Naml", meaning: "The Ant", verses: "56-93" },
-          { number: 28, arabic: "القصص", latin: "Al-Qasas", meaning: "The Stories", verses: "1-88" },
-          { number: 29, arabic: "العنكبوت", latin: "Al-'Ankabut", meaning: "The Spider", verses: "1-45" }
-        ]
-      },
-      {
-        number: 21,
-        nameArabic: "الجزء الحادي والعشرون",
-        otherNames: [{ arabic: "اتل ما أوحي", description: "Utlu Ma Oohi" }],
-        pageRange: "402-421",
-        surahs: [
-          { number: 29, arabic: "العنكبوت", latin: "Al-'Ankabut", meaning: "The Spider", verses: "46-69" },
-          { number: 30, arabic: "الروم", latin: "Ar-Rum", meaning: "The Romans", verses: "1-60" },
-          { number: 31, arabic: "لقمان", latin: "Luqman", meaning: "Luqman", verses: "1-34" },
-          { number: 32, arabic: "السجدة", latin: "As-Sajdah", meaning: "The Prostration", verses: "1-30" },
-          { number: 33, arabic: "الأحزاب", latin: "Al-Ahzab", meaning: "The Confederates", verses: "1-30" }
-        ]
-      },
-      {
-        number: 22,
-        nameArabic: "الجزء الثاني والعشرون",
-        otherNames: [{ arabic: "ومن يقنت منكن", description: "Wa Manyaqnut" }],
-        pageRange: "422-441",
-        surahs: [
-          { number: 33, arabic: "الأحزاب", latin: "Al-Ahzab", meaning: "The Confederates", verses: "31-73" },
-          { number: 34, arabic: "سبإ", latin: "Saba", meaning: "Sheba", verses: "1-54" },
-          { number: 35, arabic: "فاطر", latin: "Fatir", meaning: "The Originator", verses: "1-45" },
-          { number: 36, arabic: "يس", latin: "Ya-Sin", meaning: "Ya-Sin", verses: "1-21" }
-        ]
-      },
-      {
-        number: 23,
-        nameArabic: "الجزء الثالث والعشرون",
-        otherNames: [{ arabic: "وما لي", description: "Wa Mali" }],
-        pageRange: "442-461",
-        surahs: [
-          { number: 36, arabic: "يس", latin: "Ya-Sin", meaning: "Ya-Sin", verses: "22-83" },
-          { number: 37, arabic: "الصافات", latin: "As-Saffat", meaning: "Those Who Set the Ranks", verses: "1-182" },
-          { number: 38, arabic: "ص", latin: "Sad", meaning: "Sad", verses: "1-88" },
-          { number: 39, arabic: "الزمر", latin: "Az-Zumar", meaning: "The Groups", verses: "1-31" }
-        ]
-      },
-      {
-        number: 24,
-        nameArabic: "الجزء الرابع والعشرون",
-        otherNames: [{ arabic: "فمن أظلم ممن", description: "Faman Azlam" }],
-        pageRange: "462-481",
-        surahs: [
-          { number: 39, arabic: "الزمر", latin: "Az-Zumar", meaning: "The Groups", verses: "32-75" },
-          { number: 40, arabic: "غافر", latin: "Ghafir", meaning: "The Forgiver", verses: "1-85" },
-          { number: 41, arabic: "فصلت", latin: "Fussilat", meaning: "Explained in Detail", verses: "1-46" },
-          { number: 42, arabic: "الشورى", latin: "Ash-Shura", meaning: "The Consultation", verses: "1-31" }
-        ]
-      },
-      {
-        number: 25,
-        nameArabic: "الجزء الخامس والعشرون",
-        otherNames: [{ arabic: "إليه يرد", description: "Elahe Yuruddo" }],
-        pageRange: "482-501",
-        surahs: [
-          { number: 42, arabic: "الشورى", latin: "Ash-Shura", meaning: "The Consultation", verses: "32-53" },
-          { number: 43, arabic: "الزخرف", latin: "Az-Zukhruf", meaning: "The Ornaments of Gold", verses: "1-89" },
-          { number: 44, arabic: "الدخان", latin: "Ad-Dukhan", meaning: "The Smoke", verses: "1-59" },
-          { number: 45, arabic: "الجاثية", latin: "Al-Jathiyah", meaning: "The Kneeling", verses: "1-37" },
-          { number: 46, arabic: "الأحقاف", latin: "Al-Ahqaf", meaning: "The Wind-Curved Sandhills", verses: "1-26" }
-        ]
-      },
-      {
-        number: 26,
-        nameArabic: "الجزء السادس والعشرون",
-        otherNames: [{ arabic: "حم", description: "Ha'a Meem" }],
-        pageRange: "502-521",
-        surahs: [
-          { number: 46, arabic: "الأحقاف", latin: "Al-Ahqaf", meaning: "The Wind-Curved Sandhills", verses: "27-35" },
-          { number: 47, arabic: "محمد", latin: "Muhammad", meaning: "Muhammad", verses: "1-38" },
-          { number: 48, arabic: "الفتح", latin: "Al-Fath", meaning: "The Victory", verses: "1-29" },
-          { number: 49, arabic: "الحجرات", latin: "Al-Hujurat", meaning: "The Rooms", verses: "1-18" },
-          { number: 50, arabic: "ق", latin: "Qaf", meaning: "Qaf", verses: "1-45" },
-          { number: 51, arabic: "الذاريات", latin: "Adh-Dhariyat", meaning: "The Winnowing Winds", verses: "1-30" }
-        ]
-      },
-      {
-        number: 27,
-        nameArabic: "الجزء السابع والعشرون",
-        otherNames: [{ arabic: "قال فما خطبكم", description: "Qala Fama Khatbukum" }],
-        pageRange: "522-541",
-        surahs: [
-          { number: 51, arabic: "الذاريات", latin: "Adh-Dhariyat", meaning: "The Winnowing Winds", verses: "31-60" },
-          { number: 52, arabic: "الطور", latin: "At-Tur", meaning: "The Mount", verses: "1-49" },
-          { number: 53, arabic: "النجم", latin: "An-Najm", meaning: "The Star", verses: "1-62" },
-          { number: 54, arabic: "القمر", latin: "Al-Qamar", meaning: "The Moon", verses: "1-55" },
-          { number: 55, arabic: "الرحمن", latin: "Ar-Rahman", meaning: "The Most Merciful", verses: "1-78" },
-          { number: 56, arabic: "الواقعة", latin: "Al-Waqi'ah", meaning: "The Inevitable", verses: "1-96" },
-          { number: 57, arabic: "الحديد", latin: "Al-Hadid", meaning: "The Iron", verses: "1-29" }
-        ]
-      },
-      {
-        number: 28,
-        nameArabic: "الجزء الثامن والعشرون",
-        otherNames: [{ arabic: "قد سمع الله", description: "Qadd Sami Allah" }],
-        pageRange: "542-561",
-        surahs: [
-          { number: 58, arabic: "المجادلة", latin: "Al-Mujadilah", meaning: "The Pleading Woman", verses: "1-22" },
-          { number: 59, arabic: "الحشر", latin: "Al-Hashr", meaning: "The Exile", verses: "1-24" },
-          { number: 60, arabic: "الممتحنة", latin: "Al-Mumtahanah", meaning: "The Examined Woman", verses: "1-13" },
-          { number: 61, arabic: "الصف", latin: "As-Saff", meaning: "The Ranks", verses: "1-14" },
-          { number: 62, arabic: "الجمعة", latin: "Al-Jumu'ah", meaning: "The Friday", verses: "1-11" },
-          { number: 63, arabic: "المنافقون", latin: "Al-Munafiqun", meaning: "The Hypocrites", verses: "1-11" },
-          { number: 64, arabic: "التغابن", latin: "At-Taghabun", meaning: "Mutual Disillusion", verses: "1-18" },
-          { number: 65, arabic: "الطلاق", latin: "At-Talaq", meaning: "Divorce", verses: "1-12" },
-          { number: 66, arabic: "التحريم", latin: "At-Tahrim", meaning: "The Prohibition", verses: "1-12" }
-        ]
-      },
-      {
-        number: 29,
-        nameArabic: "الجزء التاسع والعشرون",
-        otherNames: [{ arabic: "تبارك الذي", description: "Tabarakallazi" }],
-        pageRange: "562-581",
-        surahs: [
-          { number: 67, arabic: "الملك", latin: "Al-Mulk", meaning: "The Sovereignty", verses: "1-30" },
-          { number: 68, arabic: "القلم", latin: "Al-Qalam", meaning: "The Pen", verses: "1-52" },
-          { number: 69, arabic: "الحاقة", latin: "Al-Haqqah", meaning: "The Reality", verses: "1-52" },
-          { number: 70, arabic: "المعارج", latin: "Al-Ma'arij", meaning: "The Ascending Stairways", verses: "1-44" },
-          { number: 71, arabic: "نوح", latin: "Nuh", meaning: "Noah", verses: "1-28" },
-          { number: 72, arabic: "الجن", latin: "Al-Jinn", meaning: "The Jinn", verses: "1-28" },
-          { number: 73, arabic: "المزمل", latin: "Al-Muzzammil", meaning: "The Enshrouded One", verses: "1-20" },
-          { number: 74, arabic: "المدثر", latin: "Al-Muddaththir", meaning: "The Cloaked One", verses: "1-56" },
-          { number: 75, arabic: "القيامة", latin: "Al-Qiyamah", meaning: "The Resurrection", verses: "1-40" },
-          { number: 76, arabic: "الانسان", latin: "Al-Insan", meaning: "The Human", verses: "1-31" },
-          { number: 77, arabic: "المرسلات", latin: "Al-Mursalat", meaning: "The Emissaries", verses: "1-50" }
-        ]
-      },
-      {
-        number: 30,
-        nameArabic: "الجزء الثلاثون",
-        otherNames: [
-          { arabic: "عمَّ يتساءلون", description: "Amma Yatasa'aloon" },
-          { arabic: "جزء عمَّ", description: "The 'Amma Juz" }
-        ],
-        pageRange: "582-604",
-        surahs: [
-          { number: 78, arabic: "النبأ", latin: "An-Naba", meaning: "The Announcement", verses: "1-40" },
-          { number: 79, arabic: "النازعات", latin: "An-Nazi'at", meaning: "Those Who Pull Out", verses: "1-46" },
-          { number: 80, arabic: "عبس", latin: "'Abasa", meaning: "He Frowned", verses: "1-42" },
-          { number: 81, arabic: "التكوير", latin: "At-Takwir", meaning: "The Overthrowing", verses: "1-29" },
-          { number: 82, arabic: "الإنفطار", latin: "Al-Infitar", meaning: "The Cleaving", verses: "1-19" },
-          { number: 83, arabic: "المطففين", latin: "Al-Mutaffifin", meaning: "Defrauding", verses: "1-36" },
-          { number: 84, arabic: "الإنشقاق", latin: "Al-Inshiqaq", meaning: "The Splitting Open", verses: "1-25" },
-          { number: 85, arabic: "البروج", latin: "Al-Buruj", meaning: "The Constellations", verses: "1-22" },
-          { number: 86, arabic: "الطارق", latin: "At-Tariq", meaning: "The Night-Comer", verses: "1-17" },
-          { number: 87, arabic: "الأعلى", latin: "Al-A'la", meaning: "The Most High", verses: "1-19" },
-          { number: 88, arabic: "الغاشية", latin: "Al-Ghashiyah", meaning: "The Overwhelming", verses: "1-26" },
-          { number: 89, arabic: "الفجر", latin: "Al-Fajr", meaning: "The Dawn", verses: "1-30" },
-          { number: 90, arabic: "البلد", latin: "Al-Balad", meaning: "The City", verses: "1-20" },
-          { number: 91, arabic: "الشمس", latin: "Ash-Shams", meaning: "The Sun", verses: "1-15" },
-          { number: 92, arabic: "الليل", latin: "Al-Layl", meaning: "The Night", verses: "1-21" },
-          { number: 93, arabic: "الضحى", latin: "Ad-Duha", meaning: "The Morning Brightness", verses: "1-11" },
-          { number: 94, arabic: "الشرح", latin: "Ash-Sharh", meaning: "The Relief", verses: "1-8" },
-          { number: 95, arabic: "التين", latin: "At-Tin", meaning: "The Fig", verses: "1-8" },
-          { number: 96, arabic: "العلق", latin: "Al-'Alaq", meaning: "The Clot", verses: "1-19" },
-          { number: 97, arabic: "القدر", latin: "Al-Qadr", meaning: "The Decree", verses: "1-5" },
-          { number: 98, arabic: "البينة", latin: "Al-Bayyinah", meaning: "The Clear Proof", verses: "1-8" },
-          { number: 99, arabic: "الزلزلة", latin: "Az-Zalzalah", meaning: "The Earthquake", verses: "1-8" },
-          { number: 100, arabic: "العاديات", latin: "Al-'Adiyat", meaning: "The Chargers", verses: "1-11" },
-          { number: 101, arabic: "القارعة", latin: "Al-Qari'ah", meaning: "The Striking Calamity", verses: "1-11" },
-          { number: 102, arabic: "التكاثر", latin: "At-Takathur", meaning: "Competition", verses: "1-8" },
-          { number: 103, arabic: "العصر", latin: "Al-'Asr", meaning: "The Declining Day", verses: "1-3" },
-          { number: 104, arabic: "الهمزة", latin: "Al-Humazah", meaning: "The Slanderer", verses: "1-9" },
-          { number: 105, arabic: "الفيل", latin: "Al-Fil", meaning: "The Elephant", verses: "1-5" },
-          { number: 106, arabic: "قريش", latin: "Quraysh", meaning: "Quraysh", verses: "1-4" },
-          { number: 107, arabic: "الماعون", latin: "Al-Ma'un", meaning: "Small Kindness", verses: "1-7" },
-          { number: 108, arabic: "الكوثر", latin: "Al-Kawthar", meaning: "Abundance", verses: "1-3" },
-          { number: 109, arabic: "الكافرون", latin: "Al-Kafirun", meaning: "The Disbelievers", verses: "1-6" },
-          { number: 110, arabic: "النصر", latin: "An-Nasr", meaning: "The Divine Support", verses: "1-3" },
-          { number: 111, arabic: "المسد", latin: "Al-Masad", meaning: "Palm Fiber", verses: "1-5" },
-          { number: 112, arabic: "الإخلاص", latin: "Al-Ikhlas", meaning: "Sincerity", verses: "1-4" },
-          { number: 113, arabic: "الفلق", latin: "Al-Falaq", meaning: "The Daybreak", verses: "1-5" },
-          { number: 114, arabic: "الناس", latin: "An-Nas", meaning: "Mankind", verses: "1-6" }
-        ]
-      }
-    ];
+    // Build English version with English meanings from a map
+    const englishMeanings = {1:"The Opening",2:"The Cow",3:"Family of Imran",4:"The Women",5:"The Table Spread",6:"The Cattle",7:"The Heights",8:"The Spoils of War",9:"Repentance",10:"Jonah",11:"Hud",12:"Joseph",13:"The Thunder",14:"Abraham",15:"The Rocky Tract",16:"The Bee",17:"The Night Journey",18:"The Cave",19:"Mary",20:"Ta-Ha",21:"The Prophets",22:"The Pilgrimage",23:"The Believers",24:"The Light",25:"The Criterion",26:"The Poets",27:"The Ant",28:"The Stories",29:"The Spider",30:"The Romans",31:"Luqman",32:"The Prostration",33:"The Confederates",34:"Sheba",35:"The Originator",36:"Ya-Sin",37:"Those Who Set the Ranks",38:"Sad",39:"The Groups",40:"The Forgiver",41:"Explained in Detail",42:"The Consultation",43:"The Ornaments of Gold",44:"The Smoke",45:"The Kneeling",46:"The Wind-Curved Sandhills",47:"Muhammad",48:"The Victory",49:"The Rooms",50:"Qaf",51:"The Winnowing Winds",52:"The Mount",53:"The Star",54:"The Moon",55:"The Most Merciful",56:"The Inevitable",57:"The Iron",58:"The Pleading Woman",59:"The Exile",60:"The Examined Woman",61:"The Ranks",62:"The Friday",63:"The Hypocrites",64:"Mutual Disillusion",65:"Divorce",66:"The Prohibition",67:"The Sovereignty",68:"The Pen",69:"The Reality",70:"The Ascending Stairways",71:"Noah",72:"The Jinn",73:"The Enshrouded One",74:"The Cloaked One",75:"The Resurrection",76:"The Human",77:"The Emissaries",78:"The Announcement",79:"Those Who Pull Out",80:"He Frowned",81:"The Overthrowing",82:"The Cleaving",83:"Defrauding",84:"The Splitting Open",85:"The Constellations",86:"The Night-Comer",87:"The Most High",88:"The Overwhelming",89:"The Dawn",90:"The City",91:"The Sun",92:"The Night",93:"The Morning Brightness",94:"The Relief",95:"The Fig",96:"The Clot",97:"The Decree",98:"The Clear Proof",99:"The Earthquake",100:"The Chargers",101:"The Striking Calamity",102:"Competition",103:"The Declining Day",104:"The Slanderer",105:"The Elephant",106:"Quraysh",107:"Small Kindness",108:"Abundance",109:"The Disbelievers",110:"The Divine Support",111:"Palm Fiber",112:"Sincerity",113:"The Daybreak",114:"Mankind"};
+    const juzDataEnglish = JSON.parse(JSON.stringify(juzData));
+    juzDataEnglish.forEach(juz => {
+      juz.surahs.forEach(s => { if(englishMeanings[s.number]) s.meaning = englishMeanings[s.number]; });
+      if(juz.otherNames) juz.otherNames.forEach(on => { if(on.description === "Juz 'Amma") on.description = "The 'Amma Juz"; });
+    });
 
     function renderJuzCards() {
-      const indonesianContainer = document.getElementById('juzContainer');
-      const englishContainer = document.getElementById('englishJuzContainer');
-      
-      indonesianContainer.innerHTML = '';
-      englishContainer.innerHTML = '';
-      
-      // Render Indonesian version
-      juzData.forEach(juz => {
-        const indoCard = createJuzCard(juz, 'indonesian');
-        indonesianContainer.appendChild(indoCard);
-      });
-      
-      // Render English version
-      juzDataEnglish.forEach(juz => {
-        const engCard = createJuzCard(juz, 'english');
-        englishContainer.appendChild(engCard);
-      });
+      const indoContainer = document.getElementById('juzContainer');
+      const engContainer = document.getElementById('englishJuzContainer');
+      indoContainer.innerHTML = '';
+      engContainer.innerHTML = '';
+      juzData.forEach(j => indoContainer.appendChild(createJuzCard(j, 'id')));
+      juzDataEnglish.forEach(j => engContainer.appendChild(createJuzCard(j, 'en')));
     }
-    
-    function createJuzCard(juz, language) {
+
+    function createJuzCard(juz, lang) {
       const card = document.createElement('div');
       card.className = 'juz-card';
       card.dataset.juzNumber = juz.number;
-      
-      if (juz.number === 30) {
-        card.classList.add('juz-30-special');
+      let otherHTML = '';
+      if(juz.otherNames && juz.otherNames.length) {
+        otherHTML = `<div class="juz-other-names">${juz.otherNames.map(o => `<span class="arabic-name">${o.arabic}</span> <span style="color:var(--meta-color)">- ${o.description}</span>`).join('<br>')}</div>`;
       }
-      
-      // Create other names HTML
-      let otherNamesHTML = '';
-      if (juz.otherNames && juz.otherNames.length > 0) {
-        otherNamesHTML = `<div class="juz-other-names">`;
-        juz.otherNames.forEach((name, index) => {
-          otherNamesHTML += `<span class="arabic-name">${name.arabic}</span>`;
-          if (name.description) {
-            otherNamesHTML += `<span style="color: var(--meta-color); margin-left: 5px;">- ${name.description}</span>`;
-          }
-          if (index < juz.otherNames.length - 1) {
-            otherNamesHTML += '<br>';
-          }
-        });
-        otherNamesHTML += `</div>`;
-      }
-      
-      const surahListHTML = juz.surahs.map(surah => {
-        const meaningLabel = language === 'indonesian' ? 'Artinya:' : 'Meaning:';
-        const versesLabel = language === 'indonesian' ? 'Ayat:' : 'Verses:';
-          
-        return `
-          <li class="surah-item">
-            <span class="surah-arabic">${surah.arabic}</span>
-            <div class="surah-info">
-              <span class="surah-name">${surah.number}. ${surah.latin}</span>
-              <span class="surah-meaning">${meaningLabel} ${surah.meaning}</span>
-              <span class="surah-meta">${versesLabel} ${surah.verses}</span>
-            </div>
-          </li>
-        `;
-      }).join('');
-      
-      const pageRangeText = language === 'indonesian' 
-        ? `Halaman ${juz.pageRange}`
-        : `Pages ${juz.pageRange}`;
-        
-      const surahCountText = language === 'indonesian'
-        ? `${juz.surahs.length} Surah`
-        : `${juz.surahs.length} Surah${juz.surahs.length > 1 ? 's' : ''}`;
-      
-      const clickHint = language === 'indonesian' 
-        ? 'Klik untuk detail'
-        : 'Click for details';
-      
+      const surahItems = juz.surahs.map(s => `
+        <li class="surah-item">
+          <span class="surah-arabic">${s.arabic}</span>
+          <div class="surah-info">
+            <span class="surah-name">${s.number}. ${s.latin}</span>
+            <div class="surah-meaning">${lang === 'id' ? 'Artinya:' : 'Meaning:'} ${s.meaning}</div>
+            <div class="surah-meta">${lang === 'id' ? 'Ayat:' : 'Verses:'} ${s.verses}</div>
+          </div>
+        </li>`).join('');
+      const pageLabel = lang === 'id' ? 'Halaman' : 'Pages';
       card.innerHTML = `
-        <div class="click-hint">${clickHint}</div>
-        <div class="juz-number">
-          <span>Juz ${juz.number}</span>
-          <span class="juz-name-arabic">${juz.nameArabic}</span>
-        </div>
-        ${otherNamesHTML}
-        <div class="juz-info">
-          <span>${pageRangeText}</span>
-          <span>${surahCountText}</span>
-        </div>
-        <ul class="surah-list">
-          ${surahListHTML}
-        </ul>
-        <div class="page-range">${pageRangeText}</div>
+        <div class="click-hint"><i class="fas fa-mouse-pointer"></i> ${lang === 'id' ? 'Klik untuk lihat juz' : 'Click for juz detail'}</div>
+        <div class="juz-number"><span>Juz ${juz.number}</span><span class="juz-name-arabic">${juz.nameArabic}</span></div>
+        ${otherHTML}
+        <div class="juz-info"><span>${pageLabel} ${juz.pageRange}</span><span>${juz.surahs.length} ${lang === 'id' ? 'Surah' : (juz.surahs.length > 1 ? 'Surahs' : 'Surah')}</span></div>
+        <ul class="surah-list">${surahItems}</ul>
+        <div class="page-range">${pageLabel} ${juz.pageRange}</div>
       `;
-      
-      // Add click event listener to navigate to juz_#.html
-      card.addEventListener('click', function(e) {
-        e.preventDefault();
-        const juzNumber = this.dataset.juzNumber;
-        const paddedNumber = juzNumber.toString().padStart(2, '0');
-        window.location.href = `juz_${paddedNumber}.html`;
-      });
-      
+      card.addEventListener('click', () => window.location.href = `juz_${juz.number.toString().padStart(2, '0')}.html`);
       return card;
     }
 
-    // Scroll functions
-    function scrollUpScreen() {
-      window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
-    }
-    function scrollDownScreen() {
-      window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+    function initDropdowns() {
+      document.querySelectorAll('.dropdown-class-wrapper').forEach(w => {
+        const btn = w.querySelector('.dropdown-toggle-btn');
+        if(btn) btn.addEventListener('click', (e) => { e.stopPropagation(); document.querySelectorAll('.dropdown-class-wrapper.open').forEach(o => { if(o !== w) o.classList.remove('open'); }); w.classList.toggle('open'); });
+      });
+      document.addEventListener('click', (e) => { if(!e.target.closest('.dropdown-class-wrapper')) document.querySelectorAll('.dropdown-class-wrapper.open').forEach(w => w.classList.remove('open')); });
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      // Check for ?English query parameter to force English
-      const urlParams = new URLSearchParams(window.location.search);
-      const keys = [...urlParams.keys()].map(k => k.toLowerCase());
-      if (keys.includes('english')) {
-        localStorage.setItem('language', 'english');
-      } else if (keys.includes('indonesian')) {
-        localStorage.setItem('language', 'indonesian');
-      }
+    function setLanguage() {
+      const lang = localStorage.getItem('language') || 'indonesian';
+      const engDiv = document.getElementById('english-content'), indoDiv = document.getElementById('indonesian-content');
+      const toggle = document.getElementById('languageToggle');
+      if(lang === 'english') { engDiv.classList.remove('hidden'); indoDiv.classList.add('hidden'); toggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian'; }
+      else { engDiv.classList.add('hidden'); indoDiv.classList.remove('hidden'); toggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English'; }
+    }
 
+    function toggleLanguage() {
+      const isEng = !document.getElementById('english-content').classList.contains('hidden');
+      if(isEng) localStorage.setItem('language', 'indonesian');
+      else localStorage.setItem('language', 'english');
+      setLanguage();
+    }
+
+    function setDarkModeUI() {
+      const dark = document.body.classList.contains('dark-mode');
+      document.getElementById('darkModeToggle').innerHTML = dark ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
+      localStorage.setItem('darkMode', dark);
+    }
+
+    function scrollUpScreen() { window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }); }
+    function scrollDownScreen() { window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }); }
+
+    document.addEventListener('DOMContentLoaded', () => {
       renderJuzCards();
-      
-      // Language toggle
-      const englishContent = document.getElementById('english-content');
-      const indonesianContent = document.getElementById('indonesian-content');
-      const languageToggle = document.getElementById('languageToggle');
-      
-      const savedLanguage = localStorage.getItem('language') || 'indonesian';
-      if (savedLanguage === 'english') {
-        englishContent.classList.remove('hidden');
-        indonesianContent.classList.add('hidden');
-        languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
-      } else {
-        englishContent.classList.add('hidden');
-        indonesianContent.classList.remove('hidden');
-        languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
-      }
-      
-      languageToggle.addEventListener('click', function() {
-        if (englishContent.classList.contains('hidden')) {
-          englishContent.classList.remove('hidden');
-          indonesianContent.classList.add('hidden');
-          languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
-          localStorage.setItem('language', 'english');
-        } else {
-          englishContent.classList.add('hidden');
-          indonesianContent.classList.remove('hidden');
-          languageToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
-          localStorage.setItem('language', 'indonesian');
-        }
-      });
-      
-      // Dark mode toggle – default to dark
-      const darkModeToggle = document.getElementById('darkModeToggle');
-      let darkModePref = localStorage.getItem('darkMode');
-      if (darkModePref === null) {
-        localStorage.setItem('darkMode', 'true');
-        document.body.classList.add('dark-mode');
-        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Light Mode';
-      } else if (darkModePref === 'true') {
-        document.body.classList.add('dark-mode');
-        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Light Mode';
-      } else {
-        darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Dark Mode';
-      }
-      
-      darkModeToggle.addEventListener('click', function() {
-        document.body.classList.toggle('dark-mode');
-        if (document.body.classList.contains('dark-mode')) {
-          darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> Light Mode';
-          localStorage.setItem('darkMode', 'true');
-        } else {
-          darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> Dark Mode';
-          localStorage.setItem('darkMode', 'false');
-        }
-      });
-      
-      // Scroll arrows
-      const scrollUp = document.getElementById('scrollUp');
-      const scrollDown = document.getElementById('scrollDown');
-      if (scrollUp) scrollUp.addEventListener('click', scrollUpScreen);
-      if (scrollDown) scrollDown.addEventListener('click', scrollDownScreen);
-      
-      // Highlight Juz 30 on load
-      setTimeout(() => {
-        const juz30Card = document.querySelector('.juz-30-special');
-        if (juz30Card) {
-          juz30Card.classList.add('highlighted');
-          setTimeout(() => {
-            juz30Card.classList.remove('highlighted');
-          }, 3000);
-        }
-      }, 500);
+      initDropdowns();
+      setLanguage();
+      document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+      document.getElementById('scrollUp').addEventListener('click', scrollUpScreen);
+      document.getElementById('scrollDown').addEventListener('click', scrollDownScreen);
+      let darkPref = localStorage.getItem('darkMode');
+      if(darkPref === null) { localStorage.setItem('darkMode', 'true'); document.body.classList.add('dark-mode'); }
+      else if(darkPref === 'true') document.body.classList.add('dark-mode');
+      setDarkModeUI();
+      document.getElementById('darkModeToggle').addEventListener('click', () => { document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
     });
   </script>
 </body>
