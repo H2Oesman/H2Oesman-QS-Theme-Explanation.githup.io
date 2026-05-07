@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Asmaul Husna - 99 Names of Allah</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* GLOBAL BASE */
+    body {
+      background-color: #f5f9fc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #1e2a3e;
+      padding: 12px;
+      font-size: 15px;
+      line-height: 1.5;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    
+    /* DARK MODE */
+    body.dark-mode {
+      background-color: #121826;
+      color: #eef2ff;
+    }
+    
+    body.dark-mode .header,
+    body.dark-mode .search-box input,
+    body.dark-mode .name-box,
+    body.dark-mode .intro-link a,
+    body.dark-mode .reference a,
+    body.dark-mode .search-info {
+      background-color: #1e293b;
+      color: #eef2ff;
+      border-color: #334155;
+    }
+    
+    body.dark-mode .header {
+      background-color: #1e2a3a;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    
+    body.dark-mode .search-container {
+      background-color: #121826;
+    }
+    
+    body.dark-mode .name-box {
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      background-color: #1e293b;
+    }
+    
+    body.dark-mode .name-box:nth-child(even) {
+      background-color: #172032;
+    }
+    
+    /* LINK COLORS - VISIBLE IN DARK MODE */
+    body.dark-mode .name-box a,
+    body.dark-mode .intro-link a,
+    body.dark-mode .reference a {
+      color: #7bc9ff;
+    }
+    
+    body.dark-mode .name-box a:hover,
+    body.dark-mode .intro-link a:hover,
+    body.dark-mode .reference a:hover {
+      color: #b3e2ff;
+      text-decoration: underline;
+    }
+    
+    body.dark-mode .search-info {
+      color: #b0c4de;
+    }
+    
+    body.dark-mode .instruction {
+      background-color: #1e3a5f;
+      color: #eef2ff;
+    }
+    
+    body.dark-mode input[type="text"] {
+      background-color: #1e293b;
+      color: white;
+      border-color: #475569;
+    }
+    
+    body.dark-mode input[type="text"]::placeholder {
+      color: #94a3b8;
+    }
+    
+    body.dark-mode footer {
+      border-top-color: #2d3748;
+      color: #9ca3af;
+    }
+    
+    /* HEADER & LAYOUT (original style extended) */
+    .header {
+      font-size: 16px;
+      text-align: center;
+      margin-bottom: 15px;
+      padding: 12px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .header div {
+      margin: 4px 0;
+    }
+    
+    .search-container {
+      text-align: center;
+      margin-bottom: 15px;
+      position: sticky;
+      top: 0;
+      background-color: #f5f9fc;
+      padding: 12px 0;
+      z-index: 10;
+    }
+    
+    body.dark-mode .search-container {
+      background-color: #121826;
+    }
+    
+    .search-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    
+    input[type="text"] {
+      width: 90%;
+      max-width: 500px;
+      padding: 10px 12px;
+      font-size: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: background 0.2s;
+    }
+    
+    .search-info {
+      font-size: 13px;
+      color: #2c3e50;
+      margin-top: 5px;
+    }
+    
+    .names-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+    
+    .name-box {
+      background-color: #fff;
+      padding: 10px 6px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-align: center;
+      min-height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .name-box:nth-child(even) {
+      background-color: #f8f9fa;
+    }
+    
+    .name-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+    }
+    
+    .name-box a {
+      text-decoration: none;
+      color: #1a5276;
+      display: block;
+      font-size: 13px;
+      line-height: 1.3;
+      font-weight: 500;
+    }
+    
+    .name-box a:hover {
+      color: #2980b9;
+      text-decoration: underline;
+    }
+    
+    .arabic {
+      font-family: 'Amiri', 'Scheherazade New', serif;
+      font-size: 18px;
+      direction: rtl;
+      margin-bottom: 4px;
+    }
+    
+    .reference {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 13px;
+    }
+    
+    .instruction {
+      text-align: center;
+      font-size: 16px;
+      margin: 15px 0;
+      font-style: italic;
+      color: #2c3e50;
+      padding: 10px;
+      background-color: #e8f4fc;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 25px;
+      padding: 15px 0;
+      font-size: 13px;
+      color: #7f8c8d;
+      border-top: 1px solid #e0e0e0;
+    }
+    
+    .intro-link {
+      text-align: center;
+      margin: 12px 0;
+    }
+    
+    .intro-link a {
+      color: #2980b9;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px 15px;
+      background-color: #e8f4fc;
+      border-radius: 20px;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    
+    .intro-link a:hover {
+      background-color: #d4eaf3;
+    }
+    
+    /* TOGGLE BUTTONS (right side) */
+    .language-toggle, .dark-mode-toggle {
+      position: fixed;
+      right: 20px;
+      background: #2c3e50;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 40px;
+      cursor: pointer;
+      z-index: 1100;
+      font-weight: bold;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      backdrop-filter: blur(2px);
+      transition: 0.2s;
+      border: none;
+      font-family: inherit;
+    }
+    .language-toggle { top: 20px; background: #2c7da0; }
+    .dark-mode-toggle { top: 90px; background: #8e44ad; }
+    .language-toggle:hover, .dark-mode-toggle:hover {
+      transform: scale(1.02);
+      opacity: 0.95;
+    }
+    
+    /* SCROLL ARROWS (LEFT side single) */
+    .scroll-arrow {
+      position: fixed;
+      left: 20px;
+      background: #2c3e50;
+      color: white;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      cursor: pointer;
+      z-index: 1000;
+      transition: 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 22px;
+    }
+    .scroll-arrow:hover {
+      transform: scale(1.05);
+      background: #2c7da0;
+    }
+    .scroll-arrow.up { top: 90px; }
+    .scroll-arrow.down { bottom: 90px; }
+    
+    /* DOUBLE ARROWS (RIGHT side) */
+    .scroll-arrow-double {
+      position: fixed;
+      right: 20px;
+      background: #2c3e50;
+      color: white;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 1000;
+      transition: 0.2s;
+      border: 1px solid rgba(255,255,255,0.2);
+      font-size: 20px;
+      backdrop-filter: blur(2px);
+    }
+    .scroll-arrow-double:hover {
+      transform: scale(1.08);
+      background: #2c7da0;
+    }
+    .scroll-arrow-double.up-double { top: 160px; }
+    .scroll-arrow-double.down-double { bottom: 90px; }
+    
+    /* Dark mode arrow adapt */
+    body.dark-mode .scroll-arrow,
+    body.dark-mode .scroll-arrow-double {
+      background: #1e293b;
+      color: #eef2ff;
+      border-color: #475569;
+    }
+    body.dark-mode .scroll-arrow:hover,
+    body.dark-mode .scroll-arrow-double:hover {
+      background: #2c7da0;
+      color: white;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 20px;
+      font-style: italic;
+      color: #666;
+    }
+    body.dark-mode .no-results {
+      color: #cbd5e1;
+    }
+    
+    /* Responsive fixes */
+    @media screen and (max-width: 768px) {
+      body { padding: 10px; font-size: 14px; }
+      .name-box { padding: 8px 4px; min-height: 85px; }
+      .name-box a { font-size: 12px; }
+      .arabic { font-size: 16px; }
+      .language-toggle, .dark-mode-toggle { padding: 6px 12px; font-size: 12px; right: 12px; }
+      .language-toggle { top: 12px; }
+      .dark-mode-toggle { top: 68px; }
+      .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+      .scroll-arrow.up { top: 70px; }
+      .scroll-arrow-double.up-double { top: 130px; }
+      .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+    }
+    @media screen and (max-width: 480px) {
+      .name-box a { font-size: 11px; }
+      .arabic { font-size: 14px; }
+      .names-container { gap: 8px; }
+      .scroll-arrow-double { right: 12px; }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Scheherazade+New&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+  <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+  <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+  <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+  <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+  <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+  <!-- Language & Dark Mode toggles (right side) -->
+  <button class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</button>
+  <button class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</button>
+
+  <!-- ENGLISH CONTENT (original structure) -->
+  <div id="english-content" class="hidden">
+    <div class="header">
+      <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 20px;">﷽</div>
+      <div><strong>Bismillāhir-Raḥmānir-Raḥīm</strong> — In the name of Allah, the Most Gracious, the Most Merciful</div>
+    </div>
+
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" id="searchInput" onkeyup="searchNames()" placeholder="Search by number, Arabic, or English name...">
+      </div>
+      <div class="search-info">Search by number (1-99), Arabic name, transliteration, or English meaning</div>
+    </div>
+
+    <div class="intro-link">
+      <a href="introduction.html">Introduction</a>
+    </div>
+
+    <div class="instruction">Click on one of the Names</div>
+
+    <div class="names-container" id="englishNamesContainer">
+      <!-- dynamic names -->
+    </div>
+
+    <div class="reference">
+      <a href="ref.html">Reference</a>
+    </div>
+  </div>
+
+  <!-- INDONESIAN CONTENT (Original, shown by default) -->
+  <div id="indonesian-content">
+    <div class="header">
+      <div style="font-family: 'Amiri', serif; direction: rtl; font-size: 20px;">﷽</div>
+      <div><strong>Bismillāhir-Raḥmānir-Raḥīm</strong></div>
+    </div>
+
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" id="searchInputIndo" onkeyup="searchNamesIndo()" placeholder="Cari berdasarkan nomor, Arab, atau nama Indonesia...">
+      </div>
+      <div class="search-info">Cari berdasarkan nomor (1-99), nama Arab, transliterasi, atau arti Indonesia</div>
+    </div>
+
+    <div class="intro-link">
+      <a href="introduction.html">Pengantar</a>
+    </div>
+
+    <div class="instruction">Klik salah satu Nama</div>
+
+    <div class="names-container" id="indonesianNamesContainer">
+      <!-- dynamic names -->
+    </div>
+
+    <div class="reference">
+      <a href="ref.html">Referensi</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // ======================== ASMAUL HUSNA DATA (99 Names) ========================
+    const namesData = [
+      { number: 1, arabic: "ٱلرَّحْمَٰنُ", transliteration: "Ar-Rahmān", english: "The Beneficent", indonesian: "Maha Pengasih" },
+      { number: 2, arabic: "ٱلرَّحِيمُ", transliteration: "Ar-Rahīm", english: "The Merciful", indonesian: "Maha Penyayang" },
+      { number: 3, arabic: "ٱلْمَلِكُ", transliteration: "Al-Malik", english: "The King", indonesian: "Maha Merajai" },
+      { number: 4, arabic: "ٱلْقُدُّوسُ", transliteration: "Al-Quddūs", english: "The Pure", indonesian: "Maha Suci" },
+      { number: 5, arabic: "ٱلسَّلَامُ", transliteration: "As-Salām", english: "Source of Peace", indonesian: "Pemberi Kesejahteraan" },
+      { number: 6, arabic: "ٱلْمُؤْمِنُ", transliteration: "Al-Mu'min", english: "Giver of Security", indonesian: "Pemberi Keamanan" },
+      { number: 7, arabic: "ٱلْمُهَيْمِنُ", transliteration: "Al-Muhaymin", english: "The Guardian", indonesian: "Maha Memelihara" },
+      { number: 8, arabic: "ٱلْعَزِيزُ", transliteration: "Al-ʿAzīz", english: "The Almighty", indonesian: "Maha Perkasa" },
+      { number: 9, arabic: "ٱلْجَبَّارُ", transliteration: "Al-Jabbār", english: "The Compeller", indonesian: "Pemilik Kegagahan" },
+      { number: 10, arabic: "ٱلْمُتَكَبِّرُ", transliteration: "Al-Mutakabbir", english: "The Majestic", indonesian: "Maha Megah" },
+      { number: 11, arabic: "ٱلْخَالِقُ", transliteration: "Al-Khaaliq", english: "The Creator", indonesian: "Maha Pencipta" },
+      { number: 12, arabic: "ٱلْبَارِئُ", transliteration: "Al-Baari", english: "The Evolver", indonesian: "Maha Melepaskan" },
+      { number: 13, arabic: "ٱلْمُصَوِّرُ", transliteration: "Al-Musawwir", english: "The Fashioner", indonesian: "Maha Membentuk" },
+      { number: 14, arabic: "ٱلْغَفَّارُ", transliteration: "Al-Ghaffar", english: "The Forgiver", indonesian: "Maha Pengampun" },
+      { number: 15, arabic: "ٱلْقَهَّارُ", transliteration: "Al-Qahhaar", english: "The Subduer", indonesian: "Maha Memaksa" },
+      { number: 16, arabic: "ٱلْوَهَّابُ", transliteration: "Al-Wahhaab", english: "The Bestower", indonesian: "Pemberi Karunia" },
+      { number: 17, arabic: "ٱلرَّزَّاقُ", transliteration: "Ar-Razzaaq", english: "The Provider", indonesian: "Pemberi Rezeki" },
+      { number: 18, arabic: "ٱلْفَتَّاحُ", transliteration: "Al-Fattaah", english: "The Opener", indonesian: "Pembuka Rahmat" },
+      { number: 19, arabic: "ٱلْعَلِيمُ", transliteration: "Al-`Aleem", english: "All-Knowing", indonesian: "Maha Mengetahui" },
+      { number: 20, arabic: "ٱلْقَابِضُ", transliteration: "Al-Qaabid", english: "The Withholder", indonesian: "Maha Menyempitkan" },
+      { number: 21, arabic: "ٱلْبَاسِطُ", transliteration: "Al-Baasit", english: "The Extender", indonesian: "Maha Melapangkan" },
+      { number: 22, arabic: "ٱلْخَافِضُ", transliteration: "Al-Khaafid", english: "The Reducer", indonesian: "Maha Merendahkan" },
+      { number: 23, arabic: "ٱلرَّافِعُ", transliteration: "Ar-Raafi`", english: "The Exalter", indonesian: "Maha Meninggikan" },
+      { number: 24, arabic: "ٱلْمُعِزُّ", transliteration: "Al-Mu`izz", english: "The Honourer", indonesian: "Maha Memuliakan" },
+      { number: 25, arabic: "ٱلْمُذِلُّ", transliteration: "Al-Mudhill", english: "The Dishonourer", indonesian: "Maha Menghinakan" },
+      { number: 26, arabic: "ٱلسَّمِيعُ", transliteration: "As-Samee`", english: "All-Hearing", indonesian: "Maha Mendengar" },
+      { number: 27, arabic: "ٱلْبَصِيرُ", transliteration: "Al-Baseer", english: "All-Seeing", indonesian: "Maha Melihat" },
+      { number: 28, arabic: "ٱلْحَكَمُ", transliteration: "Al-Hakam", english: "The Judge", indonesian: "Maha Menetapkan" },
+      { number: 29, arabic: "ٱلْعَدْلُ", transliteration: "Al-`Adl", english: "The Just", indonesian: "Maha Adil" },
+      { number: 30, arabic: "ٱللَّطِيفُ", transliteration: "Al-Lateef", english: "The Gentle", indonesian: "Maha Lembut" },
+      { number: 31, arabic: "ٱلْخَبِيرُ", transliteration: "Al-Khabeer", english: "All-Aware", indonesian: "Maha Mengenal" },
+      { number: 32, arabic: "ٱلْحَلِيمُ", transliteration: "Al-Haleem", english: "The Forbearing", indonesian: "Maha Penyantun" },
+      { number: 33, arabic: "ٱلْعَظِيمُ", transliteration: "Al-`Azeem", english: "The Magnificent", indonesian: "Maha Agung" },
+      { number: 34, arabic: "ٱلْغَفُور", transliteration: "Al-Ghafoor", english: "Great Forgiver", indonesian: "Maha Pengampun" },
+      { number: 35, arabic: "ٱلشَّكُورُ", transliteration: "Ash-Shakoor", english: "Appreciative", indonesian: "Pembalas Budi" },
+      { number: 36, arabic: "ٱلْعَلِيُّ", transliteration: "Al-`Aliyy", english: "The Exalted", indonesian: "Maha Tinggi" },
+      { number: 37, arabic: "ٱلْكَبِيرُ", transliteration: "Al-Kabeer", english: "The Most Great", indonesian: "Maha Besar" },
+      { number: 38, arabic: "ٱلْحَفِيظُ", transliteration: "Al-Hafeedh", english: "The Preserver", indonesian: "Maha Memelihara" },
+      { number: 39, arabic: "ٱلْمُقِيت", transliteration: "Al-Muqeet", english: "The Sustainer", indonesian: "Pemberi Kecukupan" },
+      { number: 40, arabic: "ٱلْحسِيبُ", transliteration: "Al-Haseeb", english: "The Reckoner", indonesian: "Pembuat Perhitungan" },
+      { number: 41, arabic: "ٱلْجَلِيلُ", transliteration: "Al-Jaleel", english: "The Majestic", indonesian: "Maha Luhur" },
+      { number: 42, arabic: "ٱلْكَرِيمُ", transliteration: "Al-Kareem", english: "The Generous", indonesian: "Maha Pemurah" },
+      { number: 43, arabic: "ٱلرَّقِيبُ", transliteration: "Ar-Raqeeb", english: "The Watchful", indonesian: "Maha Mengawasi" },
+      { number: 44, arabic: "ٱلْمُجِيبُ", transliteration: "Al-Mujeeb", english: "The Responsive", indonesian: "Maha Mengabulkan" },
+      { number: 45, arabic: "ٱلْوَاسِعُ", transliteration: "Al-Waasi`", english: "The All-Encompassing", indonesian: "Maha Luas" },
+      { number: 46, arabic: "ٱلْحَكِيمُ", transliteration: "Al-Hakeem", english: "The All-Wise", indonesian: "Maha Bijaksana" },
+      { number: 47, arabic: "ٱلْوَدُودُ", transliteration: "Al-Wadud", english: "The Most Loving", indonesian: "Maha Mengasihi" },
+      { number: 48, arabic: "ٱلْمَجِيدُ", transliteration: "Al-Majeed", english: "The Glorious", indonesian: "Maha Mulia" },
+      { number: 49, arabic: "ٱلْبَاعِثُ", transliteration: "Al-Ba'ith", english: "The Infuser of Life", indonesian: "Maha Membangkitkan" },
+      { number: 50, arabic: "ٱلشَّهِيدُ", transliteration: "Ash-Shaheed", english: "The Witnessing", indonesian: "Maha Menyaksikan" },
+      { number: 51, arabic: "ٱلْحَقُ", transliteration: "Al-Haqq", english: "The Truth", indonesian: "Maha Benar" },
+      { number: 52, arabic: "ٱلْوَكِيلُ", transliteration: "Al-Wakeel", english: "The Trustee", indonesian: "Maha Memelihara" },
+      { number: 53, arabic: "ٱلْقَوِي", transliteration: "Al-Qawiyy", english: "The All-Strong", indonesian: "Maha Kuat" },
+      { number: 54, arabic: "ٱلْمَتِينُ", transliteration: "Al-Mateen", english: "The Firm", indonesian: "Maha Kokoh" },
+      { number: 55, arabic: "ٱلْوَلِيُّ", transliteration: "Al-Waliyy", english: "The Sole Provider", indonesian: "Maha Melindungi" },
+      { number: 56, arabic: "ٱلْحَمِيدُ", transliteration: "Al-Hameed", english: "The Praiseworthy", indonesian: "Maha Terpuji" },
+      { number: 57, arabic: "ٱلْمُحْصِي", transliteration: "Al-Muhsee", english: "The Counter", indonesian: "Maha Menghitung" },
+      { number: 58, arabic: "ٱلْمُبْدِئُ", transliteration: "Al-Mubdi'", english: "The Originator", indonesian: "Maha Memulai" },
+      { number: 59, arabic: "ٱلْمُعِيدُ", transliteration: "Al-Mueed", english: "The Restorer", indonesian: "Mengembalikan Kehidupan" },
+      { number: 60, arabic: "ٱلْمُحْيِي", transliteration: "Al-Muhyi", english: "Giver of Life", indonesian: "Maha Menghidupkan" },
+      { number: 61, arabic: "ٱلْمُمِيتُ", transliteration: "Al-Mumeet", english: "Creator of Death", indonesian: "Maha Mematikan" },
+      { number: 62, arabic: "ٱلْحَيُّ", transliteration: "Al-Hayy", english: "The Ever-Living", indonesian: "Maha Hidup" },
+      { number: 63, arabic: "ٱلْقَيُّومُ", transliteration: "Al-Qayyoom", english: "The Sustainer", indonesian: "Maha Mandiri" },
+      { number: 64, arabic: "ٱلْوَاجِدُ", transliteration: "Al-Waajid", english: "The Perceiver", indonesian: "Maha Penemu" },
+      { number: 65, arabic: "ٱلْمَاجِدُ", transliteration: "Al-Maajid", english: "The Glorious", indonesian: "Maha Mulia" },
+      { number: 66, arabic: "ٱلْواحِدُ", transliteration: "Al-Waahid", english: "The Only One", indonesian: "Maha Tunggal" },
+      { number: 67, arabic: "ٱلْأَحَدُ", transliteration: "Al-Ahad", english: "The Absolute", indonesian: "Maha Esa" },
+      { number: 68, arabic: "ٱلصَّمَدُ", transliteration: "As-Samad", english: "The Self-Sufficient", indonesian: "Maha Dibutuhkan" },
+      { number: 69, arabic: "ٱلْقَادِرُ", transliteration: "Al-Qaadir", english: "The Omnipotent", indonesian: "Maha Menentukan" },
+      { number: 70, arabic: "ٱلْمُقْتَدِرُ", transliteration: "Al-Muqtadir", english: "Creator of Power", indonesian: "Maha Berkuasa" },
+      { number: 71, arabic: "ٱلْمُقَدِّمُ", transliteration: "Al-Muqaddim", english: "The Expediter", indonesian: "Maha Mendahulukan" },
+      { number: 72, arabic: "ٱلْمُؤَخِّرُ", transliteration: "Al-Mu'akhkhir", english: "The Delayer", indonesian: "Maha Mengakhirkan" },
+      { number: 73, arabic: "ٱلأَوَّلُ", transliteration: "Al-Awwal", english: "The First", indonesian: "Maha Awal" },
+      { number: 74, arabic: "ٱلآخِرُ", transliteration: "Al-Aakhir", english: "The Last", indonesian: "Maha Akhir" },
+      { number: 75, arabic: "ٱلظَّاهِرُ", transliteration: "Az-Zaahir", english: "The Manifest", indonesian: "Maha Nyata" },
+      { number: 76, arabic: "ٱلْبَاطِنُ", transliteration: "Al-Baatin", english: "The Hidden", indonesian: "Maha Ghaib" },
+      { number: 77, arabic: "ٱلْوَالِي", transliteration: "Al-Waali", english: "The Governor", indonesian: "Maha Memerintah" },
+      { number: 78, arabic: "ٱلْمُتَعَالِي", transliteration: "Al-Muta`aali", english: "The Self Exalted", indonesian: "Maha Tinggi" },
+      { number: 79, arabic: "ٱلْبَارُّ", transliteration: "Al-Barr", english: "Source of Goodness", indonesian: "Maha Penderma" },
+      { number: 80, arabic: "ٱلتَّوَابُ", transliteration: "At-Tawwaab", english: "Accepter of Repentance", indonesian: "Penerima Tobat" },
+      { number: 81, arabic: "ٱلْمُنْتَقِمُ", transliteration: "Al-Muntaqim", english: "The Avenger", indonesian: "Penuntut Balas" },
+      { number: 82, arabic: "ٱلْعَفُو", transliteration: "Al-`Afuww", english: "The Pardoner", indonesian: "Maha Pemaaf" },
+      { number: 83, arabic: "ٱلرَّؤُوفُ", transliteration: "Ar-Ra'oof", english: "The Most Kind", indonesian: "Maha Pengasuh" },
+      { number: 84, arabic: "ٱلْمَالِكُ ٱلْمُلْكُ", transliteration: "Maalik-ul-Mulk", english: "Master of Kingdom", indonesian: "Penguasa Kerajaan" },
+      { number: 85, arabic: "ذُوالْجَلاَلِ وَالإكْرَامِ", transliteration: "Dhul-Jalaali", english: "Lord of Majesty", indonesian: "Pemilik Kebesaran" },
+      { number: 86, arabic: "ٱلْمُقْسِطُ", transliteration: "Al-Muqsit", english: "The Just", indonesian: "Maha Adil" },
+      { number: 87, arabic: "ٱلْجَامِعُ", transliteration: "Al-Jaami`", english: "The Gatherer", indonesian: "Maha Mengumpulkan" },
+      { number: 88, arabic: "ٱلْغَنيُ", transliteration: "Al-Ghaniyy", english: "The Self-Sufficient", indonesian: "Maha Kaya" },
+      { number: 89, arabic: "ٱلْمُغْنِي", transliteration: "Al-Mughni", english: "The Enricher", indonesian: "Pemberi Kekayaan" },
+      { number: 90, arabic: "ٱلْمَانِعُ", transliteration: "Al-Maani`", english: "The Withholder", indonesian: "Maha Mencegah" },
+      { number: 91, arabic: "ٱلضَّارَ", transliteration: "Ad-Daarr", english: "The Distresser", indonesian: "Pemberi Derita" },
+      { number: 92, arabic: "ٱلنَّافِعُ", transliteration: "An-Naafi`", english: "The Benefactor", indonesian: "Pemberi Manfaat" },
+      { number: 93, arabic: "ٱلنُّورُ", transliteration: "An-Noor", english: "The Light", indonesian: "Maha Bercahaya" },
+      { number: 94, arabic: "ٱلْهَادِي", transliteration: "Al-Haadi", english: "The Guide", indonesian: "Pemberi Petunjuk" },
+      { number: 95, arabic: "ٱلْبَدِيعُ", transliteration: "Al-Badee`", english: "The Originator", indonesian: "Maha Pencipta" },
+      { number: 96, arabic: "ٱلْبَاقِي", transliteration: "Al-Baaqi", english: "The Everlasting", indonesian: "Maha Kekal" },
+      { number: 97, arabic: "ٱلْوَارِثُ", transliteration: "Al-Waarith", english: "The Inheritor", indonesian: "Maha Pewaris" },
+      { number: 98, arabic: "ٱلْرَّشِيدُ", transliteration: "Ar-Rasheed", english: "The Guide", indonesian: "Maha Pandai" },
+      { number: 99, arabic: "ٱلصَّبُورُ", transliteration: "Aṣ-Ṣabūr", english: "The Patient", indonesian: "Maha Sabar" }
+    ];
+    
+    // Populate both languages
+    function populateNames() {
+      const englishContainer = document.getElementById('englishNamesContainer');
+      const indonesianContainer = document.getElementById('indonesianNamesContainer');
+      englishContainer.innerHTML = '';
+      indonesianContainer.innerHTML = '';
+      namesData.forEach(name => {
+        const englishBox = document.createElement('div');
+        englishBox.className = 'name-box';
+        englishBox.setAttribute('data-number', name.number);
+        englishBox.setAttribute('data-arabic', name.arabic);
+        englishBox.setAttribute('data-transliteration', name.transliteration);
+        englishBox.setAttribute('data-english', name.english);
+        englishBox.innerHTML = `<a href="${name.number.toString().padStart(2, '0')}.html"><span class="arabic">${name.arabic}</span><br>${name.number}. ${name.transliteration}<br>${name.english}</a>`;
+        englishContainer.appendChild(englishBox);
+        
+        const indonesianBox = document.createElement('div');
+        indonesianBox.className = 'name-box';
+        indonesianBox.setAttribute('data-number', name.number);
+        indonesianBox.setAttribute('data-arabic', name.arabic);
+        indonesianBox.setAttribute('data-transliteration', name.transliteration);
+        indonesianBox.setAttribute('data-indonesian', name.indonesian);
+        indonesianBox.innerHTML = `<a href="${name.number.toString().padStart(2, '0')}.html"><span class="arabic">${name.arabic}</span><br>${name.number}. ${name.transliteration}<br>${name.indonesian}</a>`;
+        indonesianContainer.appendChild(indonesianBox);
+      });
+    }
+    
+    // SEARCH functions (original)
+    window.searchNames = function() {
+      const input = document.getElementById("searchInput").value.trim().toLowerCase();
+      const boxes = document.querySelectorAll("#english-content .name-box");
+      let hasResults = false;
+      if (input === '') { boxes.forEach(b => b.style.display = "flex"); document.querySelector('#englishNamesContainer .no-results')?.remove(); return; }
+      boxes.forEach(box => {
+        const number = box.getAttribute('data-number');
+        const arabic = box.getAttribute('data-arabic');
+        const translit = box.getAttribute('data-transliteration').toLowerCase();
+        const eng = box.getAttribute('data-english').toLowerCase();
+        const match = number === input || number.padStart(2,'0') === input.padStart(2,'0') || arabic.includes(input) || translit.includes(input) || eng.includes(input);
+        if (match) { box.style.display = "flex"; hasResults = true; } else { box.style.display = "none"; }
+      });
+      const container = document.getElementById('englishNamesContainer');
+      const existing = container.querySelector('.no-results');
+      if (!hasResults && !existing) { const msg = document.createElement('div'); msg.className = 'no-results'; msg.textContent = 'No matching names found. Try number (1-99), Arabic, transliteration, or English.'; container.appendChild(msg); }
+      else if (hasResults && existing) existing.remove();
+    };
+    
+    window.searchNamesIndo = function() {
+      const input = document.getElementById("searchInputIndo").value.trim().toLowerCase();
+      const boxes = document.querySelectorAll("#indonesian-content .name-box");
+      let hasResults = false;
+      if (input === '') { boxes.forEach(b => b.style.display = "flex"); document.querySelector('#indonesianNamesContainer .no-results')?.remove(); return; }
+      boxes.forEach(box => {
+        const number = box.getAttribute('data-number');
+        const arabic = box.getAttribute('data-arabic');
+        const translit = box.getAttribute('data-transliteration').toLowerCase();
+        const indo = box.getAttribute('data-indonesian').toLowerCase();
+        const match = number === input || number.padStart(2,'0') === input.padStart(2,'0') || arabic.includes(input) || translit.includes(input) || indo.includes(input);
+        if (match) { box.style.display = "flex"; hasResults = true; } else { box.style.display = "none"; }
+      });
+      const container = document.getElementById('indonesianNamesContainer');
+      const existing = container.querySelector('.no-results');
+      if (!hasResults && !existing) { const msg = document.createElement('div'); msg.className = 'no-results'; msg.textContent = 'Tidak ada nama yang cocok. Coba nomor (1-99), Arab, transliterasi, atau arti Indonesia.'; container.appendChild(msg); }
+      else if (hasResults && existing) existing.remove();
+    };
+    
+    // URL Parameter handling + language/dark mode override
+    function getUrlParam(param) { const urlParams = new URLSearchParams(window.location.search); return urlParams.get(param); }
+    
+    let langOverride = null;
+    if (getUrlParam('English') !== null) langOverride = 'english';
+    else if (getUrlParam('Indonesian') !== null) langOverride = 'indonesian';
+    
+    let darkOverride = (getUrlParam('Dark') !== null);
+    
+    function setLanguage(lang) {
+      const englishDiv = document.getElementById('english-content');
+      const indoDiv = document.getElementById('indonesian-content');
+      const toggleBtn = document.getElementById('languageToggle');
+      if (lang === 'english') {
+        englishDiv.classList.remove('hidden');
+        indoDiv.classList.add('hidden');
+        toggleBtn.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+        localStorage.setItem('language', 'english');
+      } else {
+        englishDiv.classList.add('hidden');
+        indoDiv.classList.remove('hidden');
+        toggleBtn.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+        localStorage.setItem('language', 'indonesian');
+      }
+    }
+    
+    function initLanguage() {
+      let savedLang = localStorage.getItem('language');
+      let finalLang = 'indonesian';
+      if (langOverride) finalLang = langOverride;
+      else if (savedLang) finalLang = savedLang;
+      setLanguage(finalLang);
+    }
+    
+    // Dark Mode + background adjustment
+    function setDarkMode(enable) {
+      if (enable) {
+        document.body.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        document.body.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'false');
+      }
+      const toggleBtn = document.getElementById('darkModeToggle');
+      if (enable) toggleBtn.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+      else toggleBtn.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+    }
+    
+    function initDarkMode() {
+      let darkEnabled = false;
+      if (darkOverride) darkEnabled = true;
+      else {
+        const stored = localStorage.getItem('darkMode');
+        if (stored !== null) darkEnabled = (stored === 'true');
+        else darkEnabled = false;
+      }
+      setDarkMode(darkEnabled);
+    }
+    
+    // Scroll arrows
+    function bindScrollArrows() {
+      document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+      document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+      document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+      document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+    }
+    
+    // Event listeners toggles
+    document.addEventListener('DOMContentLoaded', () => {
+      populateNames();
+      initLanguage();
+      initDarkMode();
+      bindScrollArrows();
+      const langToggleBtn = document.getElementById('languageToggle');
+      const darkToggleBtn = document.getElementById('darkModeToggle');
+      if (langToggleBtn) langToggleBtn.addEventListener('click', () => {
+        const isEnglish = !document.getElementById('english-content').classList.contains('hidden');
+        setLanguage(isEnglish ? 'indonesian' : 'english');
+      });
+      if (darkToggleBtn) darkToggleBtn.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-mode');
+        setDarkMode(!isDark);
+      });
+    });
+  </script>
+</body>
+</html>
+
+
