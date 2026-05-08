@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>99 Asmaul Husna - Ar-Rahman (1)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --dua-bg: #f8f9fa;
+            --dua-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --arabic-color: #90caf9;
+            --section-title-color: #7bc9ff;
+            --dua-bg: #1e2a3e;
+            --dua-border: #4b5563;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #1e2a3e;
+            --tafsir-border: #4b5563;
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--text-color);
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--dua-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--dua-border);
+            transition: all 0.3s ease;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--dua-border);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--dua-border);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 70px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: #ebf5fb;
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+            transition: all 0.3s ease;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--dua-border);
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid var(--tafsir-border);
+            transition: all 0.3s ease;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+        .new-badge {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - Bonus section removed -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">1. Ar-Rahman (Yang Maha Pengasih)</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/ar-rahman/" target="_blank">myislam.org</a> dan Kementerian Agama RI</div>
+
+            <div class="arabic">الرَّحْمَـٰنُ</div>
+            <div class="transliteration">Transliterasi: Ar-Rahman</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/1.%20ar-rahman.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <!-- BONUS SECTION REMOVED (INDONESIAN VERSION) -->
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Ar-Rahman merupakan nama pertama Allah yang disebutkan dalam Al-Quran (<a href="https://quran.com/1/1?translations=33" target="_blank">1:1</a>) dan muncul sebanyak 57 kali dalam wahyu. Menurut Kementerian Agama Republik Indonesia, nama ini mengandung makna:</p>
+                <ul>
+                    <li><strong>Yang Maha Pengasih Universal:</strong> Kasih sayang-Nya meliputi seluruh ciptaan tanpa diskriminasi, baik muslim maupun non-muslim</li>
+                    <li><strong>Sumber Segala Kasih Sayang:</strong> Sumber dari mana semua rahmat mengalir kepada seluruh makhluk</li>
+                    <li><strong>Pemberi Nikmat yang Terus Menerus:</strong> Senantiasa memberikan rahmat tanpa memandang amal perbuatan di dunia ini</li>
+                </ul>
+                <p>Menurut tafsir yang dikembangkan oleh Kementerian Agama RI, Ibnu Abbas menjelaskan: "Ar-Rahman adalah Dzat yang rahmat-Nya meliputi mukmin dan kafir di dunia ini, dan khusus untuk mukmin di akhirat." Nama ini begitu penting sehingga terdapat satu Surah khusus (<a href="https://quran.com/55?translations=33" target="_blank">55</a>) yang dinamakan dengan-Nya, dimana Allah berulang kali bertanya: "Maka nikmat Tuhanmu yang manakah yang kamu dustakan?"</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong> 
+                    <a href="https://quran.com/1/1?translations=33" target="_blank">Surah Al-Fatihah 1:1</a>
+                    <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+                    <div class="transliteration">Bismi llāhi r-Raḥmāni r-Raḥīm</div>
+                    <p>"Dengan nama Allah Yang Maha Pengasih, Maha Penyayang."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat pembaku ini menetapkan Ar-Rahman sebagai sifat utama Allah. Urutan menunjukkan bahwa seluruh keberadaan dimulai dengan rahmat ilahi (Ar-Rahman) sebelum rahmat khusus (Ar-Raheem). Menurut pandangan Kementerian Agama RI, Ibnu Abbas mencatat bahwa Ar-Rahman menggambarkan rahmat Allah yang meliputi segala sesuatu di dunia, sementara Ar-Raheem merujuk pada rahmat khusus-Nya untuk orang beriman di akhirat.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/55/1-2?translations=33" target="_blank">Surah Ar-Rahman 55:1-2</a>
+                    <div class="arabic">الرَّحْمَـٰنُ ﴿١﴾ عَلَّمَ الْقُرْآنَ ﴿٢﴾</div>
+                    <div class="transliteration">Ar-Raḥmānu. 'Allama l-Qur'ān</div>
+                    <p>"Yang Maha Pengasih. Yang mengajarkan Al-Quran."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Allah memulai Surah ini dengan menyandingkan nama-Nya Ar-Rahman dengan pengajaran Al-Quran, menunjukkan bahwa wahyu itu sendiri merupakan bentuk rahmat ilahi. Ayat-ayat berikutnya menyebutkan berbagai nikmat - dari matahari dan bulan hingga buah-buahan dan kapal - semua merupakan manifestasi rahmat Ar-Rahman.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/17/110?translations=33" target="_blank">Surah Al-Isra 17:110</a>
+                    <div class="arabic">قُلِ ادْعُوا اللَّهَ أَوِ ادْعُوا الرَّحْمَـٰنَ ۖ أَيًّا مَّا تَدْعُوا فَلَهُ الْأَسْمَاءُ الْحُسْنَىٰ</div>
+                    <div class="transliteration">Quli d'ū llāha awi d'ū r-Raḥmān ayyam mā tad'ū fa lahū l-asmā'u l-ḥusnā</div>
+                    <p>"Katakanlah: 'Serulah Allah atau serulah Ar-Rahman. Dengan nama apa pun kamu menyeru, Dia memiliki Asmaul Husna (nama-nama yang terbaik).'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan kesetaraan antara "Allah" dan "Ar-Rahman" dalam berdoa, menegaskan sentralitas sifat pengasih dalam hakikat ketuhanan. Orang-orang musyrik Makkah dahulu keberatan dengan penggunaan "Ar-Rahman", sehingga turunlah ayat ini untuk menegaskan kebenarannya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/bukhari:3194" target="_blank">Sahih Bukhari 3194</a>
+                    <div class="arabic">إِنَّ لِلَّهِ مِائَةَ رَحْمَةٍ أَنْزَلَ مِنْهَا رَحْمَةً وَاحِدَةً بَيْنَ الْجِنِّ وَالْإِنْسِ وَالْبَهَائِمِ وَالْهَوَامِّ فَبِهَا يَتَعَاطَفُونَ وَبِهَا يَتَرَاحَمُونَ وَبِهَا تَعْطِفُ الْوَحْشُ عَلَى وَلَدِهَا وَأَخَّرَ اللَّهُ تِسْعًا وَتِسْعِينَ رَحْمَةً يَرْحَمُ بِهَا عِبَادَهُ يَوْمَ الْقِيَامَةِ</div>
+                    <div class="transliteration">Inna li-llāhi mi'ata raḥmatin anzala minhā raḥmatan wāḥidatan bayna l-jinni wa l-insi wa l-bahā'imi wa l-hawāmmi fa bihā yata'āṭafūna wa bihā yatarāḥamūna wa bihā ta'ṭifu l-waḥshu 'alā waladihā wa akhkharu llāhu tis'an wa tis'īna raḥmatan yarḥamu bihā 'ibādahu yawma l-qiyāmah</div>
+                    <p>"Sesungguhnya Allah memiliki seratus rahmat. Darinya, Dia menurunkan satu rahmat kepada jin, manusia, hewan ternak dan serangga, yang dengan rahmat itu mereka saling berbuat baik dan menyayangi; dan dengannya pula binatang buas menyayangi anaknya. Dan Allah menyimpan sembilan puluh sembilan rahmat untuk menyayangi hamba-hamba-Nya pada Hari Kiamat."</p>
+                    <div class="tafsir-box">
+                        <strong>Konteks:</strong> Hadits Qudsi yang masyhur ini menggambarkan keluasan rahmat Ar-Rahman - yang kita alami di dunia hanyalah 1% dari total rahmat-Nya, sedangkan 99% disimpan untuk akhirat. Menurut penjelasan Kementerian Agama RI, ini menunjukkan bahwa semua bentuk kasih sayang di alam semesta bersumber dari sifat ilahi ini.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Rahmat dan Ampunan</div>
+                    <div class="arabic">يَا رَحْمَانُ ارْحَمْنِي رَحْمَةً تُغْنِينِي بِهَا عَنْ رَحْمَةِ مَنْ سِوَاكَ</div>
+                    <div class="transliteration">Yā Raḥmānu rḥamnī raḥmatan tughnīnī bihā 'an raḥmati man siwāk</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Pengasih, limpahkanlah kepadaku rahmat yang membuatku tidak memerlukan rahmat selain dari-Mu."</p>
+                    <p><strong>Keutamaan:</strong> Nabi (ﷺ) menganjurkan doa ini untuk mencapai ketergantungan penuh pada rahmat Allah. Dianjurkan dibaca setelah shalat Subuh dan Maghrib untuk mencapai kemandirian spiritual (Ibnu Majah).</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Perlindungan Melalui Rahmat</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ الرَّحْمَـٰنِ اجْعَلْ قُلُوبَنَا مُتَّصِلَةً بِرَحْمَتِكَ وَأَرْزُقْنَا مِنْ حَيْثُ لَا نَحْتَسِبُ</div>
+                    <div class="transliteration">Allāhumma bi-ḥaqqi r-Raḥmāni j'al qulūbanā muttaṣilatan bi-raḥmatika wa arzuqnā min ḥaythu lā naḥtasib</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, demi hak Ar-Rahman, sambungkanlah hati kami dengan rahmat-Mu dan berilah kami rezeki dari arah yang tidak kami sangka."</p>
+                    <p><strong>Sumber:</strong> Doa ini menggabungkan penyebutan nama Ar-Rahman dengan janji Allah dalam Al-Quran tentang pemberian rezeki dari arah yang tidak terduga (<a href="https://quran.com/65/3?translations=33" target="_blank">65:3</a>). Nabi (ﷺ) mengajarkan bahwa berdoa dengan menyebut nama-nama Allah akan dikabulkan (Tirmidhi).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Praktik Perenungan Rahmat</div>
+                    <p>Rutinitas pagi untuk mengembangkan kesadaran akan rahmat ilahi sesuai anjuran Kementerian Agama:</p>
+                    <ol>
+                        <li>Saat bangun tidur, baca "Ar-Rahman" 11 kali sambil merenungkan maknanya</li>
+                        <li>Identifikasi tiga nikmat baru yang diterima hari itu</li>
+                        <li>Ucapkan syukur untuk setiap nikmat dengan "Alhamdulillah"</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Praktik ini:</p>
+                    <ul>
+                        <li>Meningkatkan kesadaran akan nikmat ilahi</li>
+                        <li>Mengembangkan kesadaran berketuhanan yang terus menerus</li>
+                        <li>Mengikuti sunnah Nabi (ﷺ) dalam berzikir di waktu pagi</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Ritual Penyebaran Rahmat</div>
+                    <p>Amalan mingguan untuk mewujudkan sifat Ar-Rahman sesuai panduan Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Setiap hari Jumat, lakukan satu perbuatan penuh rahmat untuk:</li>
+                        <ul>
+                            <li>Anggota keluarga</li>
+                            <li>Orang asing</li>
+                            <li>Hewan</li>
+                        </ul>
+                        <li>Sebelum berbuat, ucapkan "Bismillah Ar-Rahman Ar-Raheem"</li>
+                        <li>Jaga amalan ini sebagai rahasia antara diri dan Allah</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Nabi (ﷺ) bersabda: "Orang yang penyayang akan disayangi oleh Ar-Rahman. Sayangilah yang ada di bumi, niscaya Yang di langit akan menyayangimu" (Tirmidhi). Praktik ini mengubah pemahaman tentang rahmat menjadi tindakan nyata.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir menjelaskan Ar-Rahman melalui empat dimensi rahmat:</p>
+                <ol>
+                    <li><strong>Rahmat Penciptaan:</strong>
+                        <ul>
+                            <li>Desain sempurna alam semesta (<a href="https://quran.com/67/3-4?translations=33" target="_blank">67:3-4</a>)</li>
+                            <li>Keseimbangan presisi di alam (<a href="https://quran.com/55/5-9?translations=33" target="_blank">55:5-9</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Rahmat Pemeliharaan:</strong>
+                        <ul>
+                            <li>Penyediaan terus menerus untuk semua makhluk (<a href="https://quran.com/11/6?translations=33" target="_blank">11:6</a>)</li>
+                            <li>Penyesuaian dengan kebutuhan manusia (<a href="https://quran.com/14/34?translations=33" target="_blank">14:34</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Rahmat Petunjuk:</strong>
+                        <ul>
+                            <li>Wahyu sebagai petunjuk ilahi (<a href="https://quran.com/2/185?translations=33" target="_blank">2:185</a>)</li>
+                            <li>Para nabi sebagai rahmat bagi semesta (<a href="https://quran.com/21/107?translations=33" target="_blank">21:107</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Rahmat Pengampunan:</strong>
+                        <ul>
+                            <li>Penerimaan taubat (<a href="https://quran.com/39/53?translations=33" target="_blank">39:53</a>)</li>
+                            <li>Perubahan dosa menjadi kebaikan (<a href="https://quran.com/25/70?translations=33" target="_blank">25:70</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam Surah Maryam (<a href="https://quran.com/19/18?translations=33" target="_blank">19:18</a>), Maryam memohon perlindungan dengan menyebut Ar-Rahman, menunjukkan kekuatan nama ini dalam situasi sulit. Pengulangan nama "Ar-Rahman" dalam Al-Quran (57 kali) menegaskan sentralitasnya dalam sifat ketuhanan.</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">1. Ar-Rahman (The Most Gracious)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/ar-rahman/" target="_blank">myislam.org/99-names-of-allah/ar-rahman/</a></div>
+
+            <div class="arabic">الرَّحْمَـٰنُ</div>
+            <div class="transliteration">Transliteration: Ar-Rahman</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/1.%20ar-rahman.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="bonus">
+                <div class="audio-title">Bonus: Listen to the beautiful explanation of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_02_03RahmanRaheem.mp3?_=4" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="https://qfatima.com/a99-audio" target="_blank">More audio explanations at qfatima.com</a>
+                </p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Ar-Rahman is the first of Allah's names mentioned in the Quran (<a href="https://quran.com/1/1?translations=131" target="_blank">1:1</a>) and appears 57 times throughout the revelation. It signifies:</p>
+                <ul>
+                    <li><strong>The Universally Merciful:</strong> His mercy encompasses all creation without discrimination</li>
+                    <li><strong>The Source of All Compassion:</strong> The fountainhead from which all mercy flows</li>
+                    <li><strong>The Constant Bestower:</strong> Continuously providing mercy regardless of deeds</li>
+                </ul>
+                <p>Ibn Abbas explained: "Ar-Rahman is the One whose mercy extends to believers and disbelievers in this life, and exclusively to believers in the Hereafter." This name is so significant that an entire Surah (<a href="https://quran.com/55?translations=131" target="_blank">55</a>) is named after it, where Allah repeatedly asks: "Which of the favors of your Lord would you deny?"</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong> 
+                    <a href="https://quran.com/1/1?translations=131" target="_blank">Surah Al-Fatihah 1:1</a>
+                    <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
+                    <div class="transliteration">Bismi llāhi r-Raḥmāni r-Raḥīm</div>
+                    <p>"In the name of Allah, the Entirely Merciful, the Especially Merciful."</p>
+                    <div class="tafsir-box">
+                        <strong><a href="https://www.alim.org/quran/tafsir/ibn-kathir/surah/1/1/" target="_blank">Tafsir Ibn Kathir</a>:</strong> This opening verse establishes Ar-Rahman as Allah's primary attribute. The sequence shows that all existence begins with divine mercy (Ar-Rahman) before specific mercy (Ar-Raheem). Ibn Abbas noted that Ar-Rahman describes Allah's all-encompassing mercy in this world, while Ar-Raheem refers to His special mercy for believers in the Hereafter.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/55/1-2?translations=131" target="_blank">Surah Ar-Rahman 55:1-2</a>
+                    <div class="arabic">الرَّحْمَـٰنُ ﴿١﴾ عَلَّمَ الْقُرْآنَ ﴿٢﴾</div>
+                    <div class="transliteration">Ar-Raḥmānu. 'Allama l-Qur'ān</div>
+                    <p>"The Most Merciful. Taught the Quran."</p>
+                    <div class="tafsir-box">
+                        <strong><a href="https://www.alim.org/quran/tafsir/ibn-kathir/surah/55/1/" target="_blank">Tafsir Ibn Kathir</a>:</strong> Allah begins this Surah by pairing His name Ar-Rahman with the teaching of the Quran, showing that revelation itself is an act of divine mercy. The subsequent verses enumerate countless blessings - from the sun and moon to fruits and ships - all manifestations of Ar-Rahman's mercy.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/17/110?translations=131" target="_blank">Surah Al-Isra 17:110</a>
+                    <div class="arabic">قُلِ ادْعُوا اللَّهَ أَوِ ادْعُوا الرَّحْمَـٰنَ ۖ أَيًّا مَّا تَدْعُوا فَلَهُ الْأَسْمَاءُ الْحُسْنَىٰ</div>
+                    <div class="transliteration">Quli d'ū llāha awi d'ū r-Raḥmān ayyam mā tad'ū fa lahū l-asmā'u l-ḥusnā</div>
+                    <p>"Say, 'Call upon Allah or call upon the Most Merciful. Whichever [name] you call - to Him belong the best names.'"</p>
+                    <div class="tafsir-box">
+                        <strong><a href="https://www.alim.org/quran/tafsir/ibn-kathir/surah/17/110/" target="_blank">Tafsir Ibn Kathir</a>:</strong> This verse indicates the interchangeability of "Allah" and "Ar-Rahman" in invocation, showing the centrality of mercy in divine nature. The Makkan pagans objected to "Ar-Rahman," prompting this revelation affirming its validity.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/bukhari:3194" target="_blank">Sahih Bukhari 3194</a>
+                    <div class="arabic">إِنَّ لِلَّهِ مِائَةَ رَحْمَةٍ أَنْزَلَ مِنْهَا رَحْمَةً وَاحِدَةً بَيْنَ الْجِنِّ وَالْإِنْسِ وَالْبَهَائِمِ وَالْهَوَامِّ فَبِهَا يَتَعَاطَفُونَ وَبِهَا يَتَرَاحَمُونَ وَبِهَا تَعْطِفُ الْوَحْشُ عَلَى وَلَدِهَا وَأَخَّرَ اللَّهُ تِسْعًا وَتِسْعِينَ رَحْمَةً يَرْحَمُ بِهَا عِبَادَهُ يَوْمَ الْقِيَامَةِ</div>
+                    <div class="transliteration">Inna li-llāhi mi'ata raḥmatin anzala minhā raḥmatan wāḥidatan bayna l-jinni wa l-insi wa l-bahā'imi wa l-hawāmmi fa bihā yata'āṭafūna wa bihā yatarāḥamūna wa bihā ta'ṭifu l-waḥshu 'alā waladihā wa akhkharu llāhu tis'an wa tis'īna raḥmatan yarḥamu bihā 'ibādahu yawma l-qiyāmah</div>
+                    <p>"Allah has one hundred mercies, out of which He has sent down one mercy between jinn, mankind, animals and insects, by means of which they show kindness to one another and have compassion for one another; and by means of which wild animals care for their young. Allah has retained ninety-nine mercies to deal mercifully with His slaves on the Day of Resurrection."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This famous Hadith Qudsi illustrates the vastness of Ar-Rahman's mercy - what we experience in this world is merely 1% of His total mercy, with 99% reserved for the Hereafter. It shows that all compassion in creation stems from this divine attribute.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Mercy and Forgiveness</div>
+                    <div class="arabic">يَا رَحْمَانُ ارْحَمْنِي رَحْمَةً تُغْنِينِي بِهَا عَنْ رَحْمَةِ مَنْ سِوَاكَ</div>
+                    <div class="transliteration">Yā Raḥmānu rḥamnī raḥmatan tughnīnī bihā 'an raḥmati man siwāk</div>
+                    <p><strong>Translation:</strong> "O Most Gracious, bestow upon me such mercy that makes me independent of the mercy of anyone besides You."</p>
+                    <p><strong>Benefits:</strong> The Prophet (ﷺ) recommended this dua for complete reliance on Allah's mercy. Recite after Fajr and Maghrib prayers for spiritual independence (Ibn Majah).</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Protection Through Mercy</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ الرَّحْمَـٰنِ اجْعَلْ قُلُوبَنَا مُتَّصِلَةً بِرَحْمَتِكَ وَأَرْزُقْنَا مِنْ حَيْثُ لَا نَحْتَسِبُ</div>
+                    <div class="transliteration">Allāhumma bi-ḥaqqi r-Raḥmāni j'al qulūbanā muttaṣilatan bi-raḥmatika wa arzuqnā min ḥaythu lā naḥtasib</div>
+                    <p><strong>Translation:</strong> "O Allah, by the right of Ar-Rahman, connect our hearts to Your mercy and provide for us from where we do not expect."</p>
+                    <p><strong>Source:</strong> This dua combines invoking Ar-Rahman with the Quranic promise of provision from unexpected sources (<a href="https://quran.com/65/3?translations=131" target="_blank">65:3</a>). The Prophet (ﷺ) taught that invoking Allah by His names guarantees response (Tirmidhi).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Mercy Reflection Practice</div>
+                    <p>Daily morning routine to cultivate awareness of divine mercy:</p>
+                    <ol>
+                        <li>Upon waking, recite "Ar-Rahman" 11 times while reflecting on its meaning</li>
+                        <li>Identify three new mercies you're experiencing that day</li>
+                        <li>Express gratitude for each with "Alhamdulillah"</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice:</p>
+                    <ul>
+                        <li>Increases recognition of divine blessings</li>
+                        <li>Develops constant God-consciousness</li>
+                        <li>Follows the Prophet's (ﷺ) sunnah of morning remembrance</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Mercy Distribution Ritual</div>
+                    <p>Weekly practice to embody Ar-Rahman's attribute:</p>
+                    <ol>
+                        <li>Every Friday, perform one act of mercy for:</li>
+                        <ul>
+                            <li>A family member</li>
+                            <li>A stranger</li>
+                            <li>An animal</li>
+                        </ul>
+                        <li>Before each act, say "Bismillah Ar-Rahman Ar-Raheem"</li>
+                        <li>Keep the deeds secret except from Allah</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Prophet (ﷺ) said: "The merciful will be shown mercy by Ar-Rahman. Be merciful to those on earth, and He who is in heaven will have mercy upon you" (Tirmidhi). This practice transforms understanding of mercy into action.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains Ar-Rahman through four dimensions of mercy:</p>
+                <ol>
+                    <li><strong>Creative Mercy:</strong>
+                        <ul>
+                            <li>Perfect design of the universe (<a href="https://quran.com/67/3-4?translations=131" target="_blank">67:3-4</a>)</li>
+                            <li>Precise balance in nature (<a href="https://quran.com/55/5-9?translations=131" target="_blank">55:5-9</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Sustaining Mercy:</strong>
+                        <ul>
+                            <li>Continuous provision for all creatures (<a href="https://quran.com/11/6?translations=131" target="_blank">11:6</a>)</li>
+                            <li>Adaptation to human needs (<a href="https://quran.com/14/34?translations=131" target="_blank">14:34</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Guiding Mercy:</strong>
+                        <ul>
+                            <li>Revelation of divine guidance (<a href="https://quran.com/2/185?translations=131" target="_blank">2:185</a>)</li>
+                            <li>Prophets as mercy to worlds (<a href="https://quran.com/21/107?translations=131" target="_blank">21:107</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Forgiving Mercy:</strong>
+                        <ul>
+                            <li>Acceptance of repentance (<a href="https://quran.com/39/53?translations=131" target="_blank">39:53</a>)</li>
+                            <li>Transformation of sins into good deeds (<a href="https://quran.com/25/70?translations=131" target="_blank">25:70</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In Surah Maryam (<a href="https://quran.com/19/18?translations=131" target="_blank">19:18</a>), Maryam invokes Ar-Rahman for protection, showing this name's power in difficult situations. The constant repetition of "Ar-Rahman" in the Quran (57 times) emphasizes its centrality to divine nature.</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
