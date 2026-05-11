@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>99 Asmaul Husna - Al-Bari' (12)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --name-title-color: #2c3e50;
+            --section-title-color: #2980b9;
+            --border-color: #3498db;
+            --dua-bg: #f8f9fa;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --arabic-color: #90caf9;
+            --name-title-color: #e2e8f0;
+            --section-title-color: #7bc9ff;
+            --border-color: #7bc9ff;
+            --dua-bg: #1e2a3e;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #1e2a3e;
+            --tafsir-border: #4b5563;
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            font-weight: normal;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+
+        .name-title {
+            font-size: 32px;
+            color: var(--name-title-color);
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid var(--border-color);
+            padding-left: 15px;
+        }
+
+        .dua, .amalan {
+            background-color: var(--dua-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--tafsir-border);
+        }
+
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--tafsir-border);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--tafsir-border);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 70px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--border-color);
+        }
+
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--tafsir-border);
+        }
+
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid var(--tafsir-border);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">12. Al-Bari' (Yang Maha Mengadakan)</h1>
+            <div class="name-source"><strong>Sumber:</strong> Kementerian Agama Republik Indonesia</div>
+
+            <div class="arabic">ٱلْبَارِئُ</div>
+            <div class="transliteration">Transliterasi: Al-Bari'</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/12.%20al-bari.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Bari' berarti Yang Maha Mengadakan, Yang Menciptakan dari ketiadaan. Dialah yang mewujudkan segala sesuatu dari tidak ada menjadi ada, memberikan setiap ciptaan bentuk dan fungsi yang sempurna.</p>
+                <p>Berdasarkan sumber Kementerian Agama Republik Indonesia, nama ini mengandung makna:</p>
+                <ul>
+                    <li><strong>Pencipta dari Ketiadaan:</strong> Allah mengadakan segala sesuatu tanpa bahan baku sebelumnya</li>
+                    <li><strong>Penyempurna Fungsi:</strong> Setiap ciptaan-Nya memiliki tujuan dan fungsi yang sempurna</li>
+                    <li><strong>Pengembang Kehidupan:</strong> Allah mengembangkan ciptaan-Nya melalui tahapan yang terukur</li>
+                </ul>
+                <p>Dalam Tafsir Kementerian Agama RI dijelaskan bahwa Al-Bari' adalah Dzat yang mengadakan segala sesuatu sesuai dengan ilmu dan hikmah-Nya yang sempurna.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong> 
+                    <a href="https://quran.com/59/24?translations=33" target="_blank">Surah Al-Hasyr 59:24</a>
+                    <div class="arabic">هُوَ ٱللَّهُ ٱلْخَـٰلِقُ ٱلْبَارِئُ ٱلْمُصَوِّرُ ۖ لَهُ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ ۚ يُسَبِّحُ لَهُۥ مَا فِى ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ ۖ وَهُوَ ٱلْعَزِيزُ ٱلْحَكِيمُ</div>
+                    <div class="transliteration">Huwa Allāhu al-Khāliqu al-Bāri'u al-Muṣawwiru, lahu al-asmā'u al-ḥusnā, yusabbiḥu lahu mā fī as-samāwāti wal-arḍ, wa huwa al-'Azīzu al-Ḥakīm</div>
+                    <p>"Dialah Allah, Yang Menciptakan, Yang Mengadakan, Yang Membentuk Rupa, Dia memiliki nama-nama yang indah. Apa yang di langit dan di bumi bertasbih kepada-Nya. Dan Dialah Yang Maha Perkasa, Maha Bijaksana."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Al-Bari' secara khusus merujuk pada Allah yang mewujudkan ciptaan dari ketiadaan, berbeda dengan Al-Khaliq (Yang menetapkan penciptaan) dan Al-Musawwir (Yang membentuk).
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/2/54?translations=33" target="_blank">Surah Al-Baqarah 2:54</a>
+                    <div class="arabic">وَإِذْ قَالَ مُوسَىٰ لِقَوْمِهِۦ يَـٰقَوْمِ إِنَّكُمْ ظَلَمْتُمْ أَنفُسَكُم بِٱتِّخَاذِكُمُ ٱلْعِجْلَ فَتُوبُوٓا۟ إِلَىٰ بَارِئِكُمْ فَٱقْتُلُوٓا۟ أَنفُسَكُمْ</div>
+                    <div class="transliteration">Wa idh qāla Mūsā liqawmihī yā qawmi innakum ẓalamtum anfusakum bittikhādhikumu al-'ijla fatūbū ilā bāri'ikum faqtulū anfusakum</div>
+                    <p>"Dan (ingatlah) ketika Musa berkata kepada kaumnya, 'Wahai kaumku, sesungguhnya kamu telah menzalimi dirimu sendiri karena kamu telah menyembah anak sapi (lembu), maka bertaubatlah kepada Penciptamu dan bunuhlah dirimu.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Konteks:</strong> Di sini Musa (AS) menyebut Allah sebagai "Bari'" ketika menyeru kaumnya untuk bertaubat, menghubungkan penciptaan dengan hak untuk membuat hukum. Menurut Kementerian Agama RI, ini menunjukkan hubungan antara penciptaan dan hak untuk disembah.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/23/12-14?translations=33" target="_blank">Surah Al-Mu'minun 23:12-14</a>
+                    <div class="arabic">وَلَقَدْ خَلَقْنَا ٱلْإِنسَـٰنَ مِن سُلَـٰلَةٍۢ مِّن طِينٍۢ ۝ ثُمَّ جَعَلْنَـٰهُ نُطْفَةًۭ فِى قَرَارٍۢ مَّكِينٍۢ ۝ ثُمَّ خَلَقْنَا ٱلنُّطْفَةَ عَلَقَةًۭ فَخَلَقْنَا ٱلْعَلَقَةَ مُضْغَةًۭ فَخَلَقْنَا ٱلْمُضْغَةَ عِظَـٰمًۭا فَكَسَوْنَا ٱلْعِظَـٰمَ لَحْمًۭا ثُمَّ أَنشَأْنَـٰهُ خَلْقًۭا ءَاخَرَ ۚ فَتَبَارَكَ ٱللَّهُ أَحْسَنُ ٱلْخَـٰلِقِينَ ۝</div>
+                    <div class="transliteration">Wa laqad khalaqnā al-insāna min sulālatin min ṭīn. Thumma ja'alnāhu nuṭfatan fī qarārin makīn. Thumma khalaqnā an-nuṭfata 'alaqatan fa khalaqnā al-'alaqata muḍghatan fa khalaqnā al-muḍghata 'iẓāman fa kasawnā al-'iẓāma laḥman thumma ansha'nāhu khalqan ākhar. Fa tabāraka Allāhu aḥsanu al-khāliqīn</div>
+                    <p>"Dan sungguh, Kami telah menciptakan manusia dari saripati tanah. Kemudian Kami menjadikannya air mani (yang disimpan) dalam tempat yang kokoh (rahim). Kemudian air mani itu Kami jadikan segumpal darah, lalu segumpal darah itu Kami jadikan segumpal daging, dan segumpal daging itu Kami jadikan tulang belulang, lalu tulang belulang itu Kami bungkus dengan daging. Kemudian Kami menjadikannya makhluk yang (berbentuk) lain. Mahasuci Allah, Pencipta yang paling baik."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan:</strong> Deskripsi rinci tentang penciptaan manusia ini menyoroti sifat Allah sebagai Al-Bari' yang mengembangkan ciptaan melalui tahapan sempurna. Menurut Kementerian Agama RI, ini menunjukkan kebijaksanaan Allah dalam penciptaan.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/muslim:2653" target="_blank">Sahih Muslim 2653</a>
+                    <div class="arabic">كَتَبَ اللَّهُ مَقَادِيرَ الْخَلَائِقِ قَبْلَ أَنْ يَخْلُقَ السَّمَاوَاتِ وَالْأَرْضَ بِخَمْسِينَ أَلْفَ سَنَةٍ</div>
+                    <div class="transliteration">Kataba Allāhu maqādīra al-khalā'iq qabla an yakhluqa as-samāwāti wal-arḍa bikhamsīna alfa sanah</div>
+                    <p>"Allah telah mencatat takdir semua makhluk lima puluh ribu tahun sebelum menciptakan langit dan bumi."</p>
+                    <div class="tafsir-box">
+                        <strong>Konteks:</strong> Hadits ini menunjukkan bahwa Allah sebagai Al-Bari' telah menetapkan segala takdir sebelum menciptakan alam semesta, membuktikan ilmu-Nya yang Maha Luas dan kekuasaan-Nya yang Maha Sempurna. Menurut penjelasan Kementerian Agama RI, ini menunjukkan bahwa segala sesuatu telah ditetapkan dalam ilmu Allah sebelum diciptakan.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Penciptaan yang Baik dalam Urusan</div>
+                    <div class="arabic">يَا بَارِئُ، أَبْدِعْ فِي أَمْرِي مَا تُحِبُّ وَتَرْضَىٰ وَأَصْلِحْ لِي ذَاتَ بَيْنِي</div>
+                    <div class="transliteration">Yā Bāri'u, abdi' fī amrī mā tuḥibbu wa tarḍā wa aṣliḥ lī dhāta baynī</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Mengadakan, ciptakanlah dalam urusanku apa yang Engkau cintai dan ridhai, dan perbaiki hubungan-hubunganku."</p>
+                    <p><strong>Waktu Membaca:</strong></p>
+                    <ul>
+                        <li>Ketika mencari penyelesaian dalam hubungan yang tegang</li>
+                        <li>Setelah shalat Isya (7 kali)</li>
+                        <li>Di saat konflik sosial atau kebuntuan pribadi</li>
+                    </ul>
+                    <p><strong>Keutamaan:</strong> Doa ini diajarkan oleh Kementerian Agama RI sebagai permohonan agar Allah menciptakan keadaan yang baik dalam hidup kita.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Pengakuan atas Kekuasaan Penciptaan</div>
+                    <div class="arabic">سُبْحَانَ ٱلْبَارِئِ ٱلَّذِى أَحْسَنَ كُلَّ شَىْءٍ خَلَقَهُ</div>
+                    <div class="transliteration">Subḥāna al-Bāri' alladhī aḥsana kulla shay'in khalaqah</div>
+                    <p><strong>Terjemahan:</strong> "Maha Suci Yang Mengadakan yang menyempurnakan segala sesuatu yang Dia ciptakan."</p>
+                    <p><strong>Keutamaan:</strong> Dzikir ini dianjurkan oleh Kementerian Agama RI untuk dibaca 33 kali saat melihat ciptaan Allah, sebagai bentuk pengakuan atas kekuasaan-Nya.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Refleksi Ciptaan Allah</div>
+                    <p>Amalan harian untuk meningkatkan keimanan terhadap kekuasaan Allah sesuai panduan Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Setiap pagi setelah shalat Subuh, baca "Subhanal-Bari'" 33 kali</li>
+                        <li>Renungkan tiga ciptaan Allah yang berbeda setiap hari</li>
+                        <li>Ucapkan syukur dengan membaca "Alhamdulillah" untuk setiap ciptaan yang direnungkan</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Amalan ini:</p>
+                    <ul>
+                        <li>Memperkuat keyakinan akan kekuasaan Allah</li>
+                        <li>Meningkatkan kesadaran akan kebesaran penciptaan</li>
+                        <li>Mengikuti sunnah Nabi (ﷺ) dalam berdzikir di waktu pagi</li>
+                    </ul>
+                    <p>Menurut Kementerian Agama RI, amalan ini membantu mengembangkan sikap tafakkur (merenungkan ciptaan Allah) yang sangat dianjurkan dalam Islam.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Pemecahan Masalah dengan Kekuasaan Penciptaan</div>
+                    <p>Amalan mingguan untuk memohon solusi ilahi sesuai anjuran Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Setiap Jumat pagi, tuliskan masalah yang dihadapi</li>
+                        <li>Baca "Yā Bāri'" 11 kali sambil merenungkan masalah tersebut</li>
+                        <li>Percayalah bahwa Allah akan menciptakan jalan keluar</li>
+                        <li>Lakukan shalat Dhuha 2 rakaat setelahnya</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Berdasarkan firman Allah: "Allah menciptakan segala sesuatu dan Dia memelihara segala sesuatu" (<a href="https://quran.com/39/62?translations=33" target="_blank">39:62</a>). Amalan ini mengajarkan kita untuk bersandar sepenuhnya pada kekuasaan penciptaan Allah. Menurut Kementerian Agama RI, amalan ini membantu mengembangkan tawakkal yang benar kepada Allah.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Kementerian Agama RI menjelaskan Al-Bari' melalui beberapa dimensi:</p>
+                <ol>
+                    <li><strong>Tiga Tahap Penciptaan:</strong>
+                        <ul>
+                            <li>Al-Khaliq: Yang menetapkan penciptaan dalam ilmu-Nya</li>
+                            <li>Al-Bari': Yang mewujudkan dari ketiadaan</li>
+                            <li>Al-Musawwir: Yang memberikan bentuk sempurna</li>
+                        </ul>
+                    </li>
+                    <li><strong>Penciptaan Manusia:</strong>
+                        <ul>
+                            <li>Proses penciptaan manusia dari tanah (<a href="https://quran.com/23/12?translations=33" target="_blank">23:12</a>)</li>
+                            <li>Penciptaan dalam rahim ibu (<a href="https://quran.com/39/6?translations=33" target="_blank">39:6</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Penciptaan Alam Semesta:</strong>
+                        <ul>
+                            <li>Penciptaan langit dan bumi (<a href="https://quran.com/21/30?translations=33" target="_blank">21:30</a>)</li>
+                            <li>Keseimbangan alam semesta (<a href="https://quran.com/67/3?translations=33" target="_blank">67:3</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Penciptaan yang Berkelanjutan:</strong>
+                        <ul>
+                            <li>Allah terus menciptakan (<a href="https://quran.com/29/19?translations=33" target="_blank">29:19</a>)</li>
+                            <li>Penciptaan yang baru setiap saat (<a href="https://quran.com/55/29?translations=33" target="_blank">55:29</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam penjelasannya, Kementerian Agama RI menekankan bahwa nama Al-Bari' mengingatkan kita bahwa Allah adalah sumber segala penciptaan dan hanya Dialah yang mampu menciptakan dari ketiadaan.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Poin Refleksi</h2>
+                <ol>
+                    <li>Bagaimana pengakuan Allah sebagai Al-Bari' mengubah perspektif kita tentang teori ilmiah modern mengenai asal-usul?</li>
+                    <li>Pelajaran apa yang bisa kita ambil dari mengamati fungsionalitas sempurna dalam ciptaan Allah?</li>
+                    <li>Bagaimana kita bisa menyeimbangkan antara mengambil langkah praktis dan bersandar pada kekuatan kreatif Allah dalam urusan kita?</li>
+                    <li>Dalam hal apa kompleksitas ciptaan menjadi bukti kebijaksanaan dan kekuasaan Allah?</li>
+                </ol>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">12. Al-Bari' (The Evolver, The Maker from Nothing)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-bari/" target="_blank">myislam.org/99-names-of-allah/al-bari/</a></div>
+
+            <div class="bonus">
+                <div class="audio-title">Bonus: Listen to the beautiful explanation of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_13Baari.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="https://qfatima.com/a99-audio" target="_blank">More audio explanations at qfatima.com</a>
+                </p>
+            </div>
+
+            <div class="arabic">ٱلْبَارِئُ</div>
+            <div class="transliteration">Transliteration: Al-Bari'</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/12.%20al-bari.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Bari' means The Evolver, The Maker from Nothing. The One who brings into existence from non-existence, giving each creation its perfect form and function.</p>
+                <p><strong>Benefits:</strong> Reciting this name strengthens faith in Allah's creative power, helps appreciate the perfection in creation, and fosters reliance on Allah as the ultimate source of all existence.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong> 
+                    <a href="https://quran.com/59/24?translations=131" target="_blank">Surah Al-Hashr 59:24</a>
+                    <div class="arabic">هُوَ ٱللَّهُ ٱلْخَـٰلِقُ ٱلْبَارِئُ ٱلْمُصَوِّرُ ۖ لَهُ ٱلْأَسْمَآءُ ٱلْحُسْنَىٰ ۚ يُسَبِّحُ لَهُۥ مَا فِى ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضِ ۖ وَهُوَ ٱلْعَزِيزُ ٱلْحَكِيمُ</div>
+                    <div class="transliteration">Huwa Allāhu al-Khāliqu al-Bāri'u al-Muṣawwiru, lahu al-asmā'u al-ḥusnā, yusabbiḥu lahu mā fī as-samāwāti wal-arḍ, wa huwa al-'Azīzu al-Ḥakīm</div>
+                    <p>"He is Allah, the Creator, the Inventor, the Fashioner; to Him belong the best names. Whatever is in the heavens and earth is exalting Him. And He is the Exalted in Might, the Wise."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir:</strong> Al-Bari' specifically refers to Allah bringing creations into existence from nothingness, distinct from Al-Khaliq (The Creator who decrees) and Al-Musawwir (The Fashioner who forms).
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/2/54?translations=131" target="_blank">Surah Al-Baqarah 2:54</a>
+                    <div class="arabic">وَإِذْ قَالَ مُوسَىٰ لِقَوْمِهِۦ يَـٰقَوْمِ إِنَّكُمْ ظَلَمْتُمْ أَنفُسَكُم بِٱتِّخَاذِكُمُ ٱلْعِجْلَ فَتُوبُوٓا۟ إِلَىٰ بَارِئِكُمْ فَٱقْتُلُوٓا۟ أَنفُسَكُمْ</div>
+                    <div class="transliteration">Wa idh qāla Mūsā liqawmihī yā qawmi innakum ẓalamtum anfusakum bittikhādhikumu al-'ijla fatūbū ilā bāri'ikum faqtulū anfusakum</div>
+                    <p>"And [recall] when Moses said to his people, 'O my people, indeed you have wronged yourselves by your taking of the calf [for worship]. So repent to your Creator and kill yourselves.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> Here Musa (AS) refers to Allah as "Bari'" when calling his people to repentance, connecting creation with the right to legislate.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/23/12-14?translations=131" target="_blank">Surah Al-Mu'minun 23:12-14</a>
+                    <div class="arabic">وَلَقَدْ خَلَقْنَا ٱلْإِنسَـٰنَ مِن سُلَـٰلَةٍۢ مِّن طِينٍۢ ۝ ثُمَّ جَعَلْنَـٰهُ نُطْفَةًۭ فِى قَرَارٍۢ مَّكِينٍۢ ۝ ثُمَّ خَلَقْنَا ٱلنُّطْفَةَ عَلَقَةًۭ فَخَلَقْنَا ٱلْعَلَقَةَ مُضْغَةًۭ فَخَلَقْنَا ٱلْمُضْغَةَ عِظَـٰمًۭا فَكَسَوْنَا ٱلْعِظَـٰمَ لَحْمًۭا ثُمَّ أَنشَأْنَـٰهُ خَلْقًۭا ءَاخَرَ ۚ فَتَبَارَكَ ٱللَّهُ أَحْسَنُ ٱلْخَـٰلِقِينَ ۝</div>
+                    <div class="transliteration">Wa laqad khalaqnā al-insāna min sulālatin min ṭīn. Thumma ja'alnāhu nuṭfatan fī qarārin makīn. Thumma khalaqnā an-nuṭfata 'alaqatan fa khalaqnā al-'alaqata muḍghatan fa khalaqnā al-muḍghata 'iẓāman fa kasawnā al-'iẓāma laḥman thumma ansha'nāhu khalqan ākhar. Fa tabāraka Allāhu aḥsanu al-khāliqīn</div>
+                    <p>"And certainly did We create man from an extract of clay. Then We placed him as a sperm-drop in a firm lodging. Then We made the sperm-drop into a clinging clot, and We made the clot into a lump [of flesh], and We made [from] the lump, bones, and We covered the bones with flesh; then We developed him into another creation. So blessed is Allah, the best of creators."</p>
+                    <div class="tafsir-box">
+                        <strong>Explanation:</strong> This detailed description of human creation highlights Allah's attribute as Al-Bari' who evolves creation through perfect stages.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Divine Innovation in Affairs</div>
+                    <div class="arabic">يَا بَارِئُ، أَبْدِعْ فِي أَمْرِي مَا تُحِبُّ وَتَرْضَىٰ وَأَصْلِحْ لِي ذَاتَ بَيْنِي</div>
+                    <div class="transliteration">Yā Bāri'u, abdi' fī amrī mā tuḥibbu wa tarḍā wa aṣliḥ lī dhāta baynī</div>
+                    <p><strong>Translation:</strong> "O Evolver, innovate in my affairs what You love and are pleased with, and rectify my relationships."</p>
+                    <p><strong>When to Recite:</strong></p>
+                    <ul>
+                        <li>When seeking resolution in strained relationships</li>
+                        <li>After Isha prayer (7 times)</li>
+                        <li>During times of social conflict or personal stagnation</li>
+                    </ul>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Creation Appreciation</div>
+                    <div class="arabic">سُبْحَانَ ٱلْبَارِئِ ٱلَّذِى أَحْسَنَ كُلَّ شَىْءٍ خَلَقَهُ</div>
+                    <div class="transliteration">Subḥāna al-Bāri' alladhī aḥsana kulla shay'in khalaqah</div>
+                    <p><strong>Translation:</strong> "Glory be to the Evolver who perfected everything He created."</p>
+                    <p><strong>Benefits:</strong> Recite 33 times while observing creation to increase appreciation of Allah's perfect design.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Creation Appreciation Dhikr</div>
+                    <p>To strengthen appreciation of Allah's perfect creation:</p>
+                    <ol>
+                        <li>Recite "Subhanal-Bari'" 33 times while observing any creation</li>
+                        <li>Reflect on three aspects of its perfect design each time</li>
+                        <li>Perform before sunrise (during Tahajjud time)</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice strengthens iman and helps recognize Allah's perfect design in all creation.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Problem-Solving Innovation</div>
+                    <p>For seeking divine inspiration in solving problems:</p>
+                    <ol>
+                        <li>Write "Bismillahil-Bari'" on paper before brainstorming</li>
+                        <li>Recite "Yā Bāri'" 11 times while contemplating the issue</li>
+                        <li>Trust that Allah will inspire innovative solutions</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> Early Muslims would combine this name with practical problem-solving, following the Quranic principle about Allah creating solutions after difficulties.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir (Deep Dive)</h2>
+                <p>Islamic scholars explain Al-Bari' through several dimensions:</p>
+                <ol>
+                    <li><strong>Creative Process:</strong>
+                        <ul>
+                            <li>Al-Bari' specifically refers to Allah bringing creations into existence from nothingness</li>
+                            <li>Distinct from Al-Khaliq (The Creator who decrees) and Al-Musawwir (The Fashioner who forms)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Perfect Functionality:</strong> Allah creates things with perfect functionality - every organ, ecosystem and natural law works in precise harmony (<a href="https://quran.com/67/3?translations=131" target="_blank">67:3-4</a>)</li>
+                    <li><strong>Developmental Creation:</strong> Many verses describe Allah's gradual creation (e.g., human embryo in <a href="https://quran.com/23/12?translations=131" target="_blank">23:12-14</a>) showing His wisdom</li>
+                    <li><strong>Continuous Innovation:</strong> Allah continually brings forth new creations and situations (<a href="https://quran.com/29/19?translations=131" target="_blank">29:19-20</a>)</li>
+                </ol>
+                <p>The name Al-Bari' reminds us that Allah is the ultimate source of all existence and innovation in the universe.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Reflection Points</h2>
+                <ol>
+                    <li>How does recognizing Allah as Al-Bari' change our perspective on modern scientific theories of origins?</li>
+                    <li>What lessons can we draw from observing the perfect functionality in Allah's creations?</li>
+                    <li>How can we balance between taking practical steps and relying on Allah's creative power in our affairs?</li>
+                    <li>In what ways does the complexity of creation testify to Allah's wisdom and power?</li>
+                </ol>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
