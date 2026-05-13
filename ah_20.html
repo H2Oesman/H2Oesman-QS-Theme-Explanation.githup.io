@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>99 Asmaul Husna - Al-Qabid (Maha Menyempitkan)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --name-title-color: #2c3e50;
+            --section-title-color: #2980b9;
+            --border-color: #3498db;
+            --dua-bg: #f8f9fa;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --arabic-color: #90caf9;
+            --name-title-color: #e2e8f0;
+            --section-title-color: #7bc9ff;
+            --border-color: #7bc9ff;
+            --dua-bg: #1e2a3e;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #1e2a3e;
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            font-weight: normal;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--name-title-color);
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid var(--border-color);
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--dua-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid #e0e0e0;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 70px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--border-color);
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ffe082;
+        }
+        .dark-mode .tafsir-box {
+            border-color: #4b5563;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+        .official-ref {
+            background-color: #e8f8f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 3px solid #1abc9c;
+            font-size: 14px;
+        }
+        .dark-mode .official-ref {
+            background-color: #2a3a3a;
+            border-left-color: #1abc9c;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">20. Al-Qabid (Maha Menyempitkan)</h1>
+            <div class="name-source">
+                <strong>Sumber:</strong> <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a>
+            </div>
+
+            <div class="arabic">الْقَابِضُ</div>
+            <div class="transliteration">Transliterasi: Al-Qabid</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/20.%20al-qabid.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="official-ref">
+                <strong>Penjelasan Kementerian Agama RI:</strong> Al-Qabid artinya Yang Maha Menyempitkan. Allah menyempitkan rezeki bagi siapa saja yang dikehendaki-Nya sebagai ujian atau hikmah tertentu.
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Menurut <a href="https://kemenag.go.id" target="_blank">Kementerian Agama RI</a>, Al-Qabid merupakan salah satu dari 99 Asmaul Husna yang mengandung makna:</p>
+                <ul>
+                    <li><strong>Maha Menyempitkan Rezeki:</strong> Allah membatasi rezeki hamba-Nya sesuai hikmah-Nya (<a href="https://quran.com/13/26?translations=33" target="_blank">QS. Ar-Ra'd: 26</a>)</li>
+                    <li><strong>Maha Mengambil Nyawa:</strong> Allah menentukan saat kematian setiap makhluk (<a href="https://quran.com/15/23?translations=33" target="_blank">QS. Al-Hijr: 23</a>)</li>
+                    <li><strong>Maha Menahan Rahmat:</strong> Allah mungkin menunda pemberian tertentu untuk hikmah yang lebih besar</li>
+                </ul>
+                
+                <div class="official-ref">
+                    <strong>Penjelasan Kementerian Agama RI:</strong> Dalam Tafsir Al-Qur'an Tematik, Kementerian Agama RI menjelaskan bahwa Al-Qabid adalah Dzat yang mengambil jiwa ketika tiba ajalnya dan menyempitkan rezeki sesuai hikmah-Nya.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/13/26?translations=33" target="_blank">Surah Ar-Ra'd 13:26</a>
+                    <div class="arabic">اللَّهُ يَبْسُطُ الرِّزْقَ لِمَنْ يَشَاءُ وَيَقْدِرُ ۚ وَفَرِحُوا بِالْحَيَاةِ الدُّنْيَا وَمَا الْحَيَاةُ الدُّنْيَا فِي الْآخِرَةِ إِلَّا مَتَاعٌ</div>
+                    <div class="transliteration">Allahu yabsutu alrrizqa liman yashao wayaqdiru wafarihoo bialhayati alddunya wama alhayatu alddunya fee alakhirati illa mataAAun</div>
+                    <p>"Allah meluaskan rezeki bagi siapa yang Dia kehendaki dan menyempitkannya. Dan mereka bergembira dengan kehidupan dunia, padahal kehidupan dunia hanyalah kesenangan yang sedikit dibanding akhirat."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menunjukkan kekuasaan mutlak Allah dalam mengatur rezeki makhluk-Nya. Penyempitan rezeki bisa menjadi ujian atau perlindungan dari bahaya yang tidak diketahui hamba.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/15/23?translations=33" target="_blank">Surah Al-Hijr 15:23</a>
+                    <div class="arabic">إِنَّا نَحْنُ نُحْيِي وَنُمِيتُ وَنَحْنُ الْوَارِثُونَ</div>
+                    <div class="transliteration">Inna nahnu nuhyee wanumeetu wanahnu alwarithoona</div>
+                    <p>"Sesungguhnya Kami yang menghidupkan dan mematikan dan Kami yang mewarisi."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menunjukkan kekuasaan Allah sebagai Al-Qabid dalam menentukan ajal setiap makhluk. Kematian adalah pengambilan jiwa oleh Allah pada waktu yang telah ditentukan.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> 
+                    <a href="https://sunnah.com/muslim:2999" target="_blank">Sahih Muslim 2999</a>
+                    <div class="arabic">إِنَّ اللَّهَ هُوَ الْمُسَعِّرُ الْقَابِضُ الْبَاسِطُ الرَّازِقُ</div>
+                    <div class="transliteration">Inna Allaha huwa almusaAAiru alqabidu albasitu alrraziqu</div>
+                    <p>"Sesungguhnya Allah adalah Yang Menetapkan Harga, Yang Menyempitkan, Yang Melapangkan, dan Yang Memberi Rezeki."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kementerian Agama RI:</strong> Hadits ini menjadi dasar bahwa Allah SWT memiliki kendali penuh atas rezeki dan ekonomi manusia. Sebagai umat Islam, kita dianjurkan untuk bertawakal kepada Allah dalam urusan rezeki.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Doa Memohon Pengambilan Jiwa yang Baik</div>
+                    <div class="arabic">اللَّهُمَّ اقْبِضْنِي إِلَيْكَ قَبْضًا رَحِيمًا</div>
+                    <div class="transliteration">Allahumma iqbidhnee ilayka qabdan raheema</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, ambillah aku kepada-Mu dengan pengambilan yang penuh rahmat."</p>
+                    <p><strong>Referensi Kementerian Agama RI:</strong> Doa ini diajarkan dalam berbagai majelis ilmu dan tercantum dalam banyak kitab doa ahlussunnah wal jama'ah.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Doa Perlindungan dari Ujian</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ فِعْلَ الْخَيْرَاتِ وَتَرْكَ الْمُنْكَرَاتِ وَحُبَّ الْمَسَاكِينِ وَأَنْ تَغْفِرَ لِي وَتَرْحَمَنِي وَإِذَا أَرَدْتَ فِتْنَةَ قَوْمٍ فَتَوَفَّنِي غَيْرَ مَفْتُونٍ</div>
+                    <div class="transliteration">Allahumma innee asaluka fiAAla alkhayrati watarka almunkarati wahubba almasakeeni waan taghfira lee watarhamanee waitha aradta fitnata qawmin fatawaffanee ghayra maftoonin</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, aku memohon kepada-Mu kemampuan untuk melakukan kebaikan dan meninggalkan kemungkaran, dan mencintai orang-orang miskin, dan agar Engkau mengampuniku dan merahmatiku, dan ketika Engkau menghendaki ujian bagi suatu kaum, maka wafatkanlah aku tanpa terkena ujian tersebut."</p>
+                    <p><strong>Sumber:</strong> Sunan At-Tirmidzi. Dianjurkan oleh Kementerian Agama RI sebagai doa perlindungan dari fitnah.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                
+                <div class="official-ref">
+                    <strong>Panduan Kementerian Agama RI:</strong> Berikut amalan yang terkait dengan nama Al-Qabid yang sesuai dengan ajaran Ahlussunnah wal Jama'ah:
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">1. Bersabar dalam Kesempitan</div>
+                    <p>Berdasarkan hadits riwayat Muslim dan penjelasan Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Membaca istighfar ketika menghadapi kesempitan rezeki</li>
+                        <li>Memperbanyak shalawat sebagai wasilah kelapangan</li>
+                        <li>Mengucapkan "Alhamdulillah 'ala kulli hal" dalam segala kondisi</li>
+                    </ol>
+                    <p><strong>Referensi Kementerian Agama RI:</strong> Dalam Tafsir Tematik, Kementerian Agama RI menjelaskan keutamaan sabar ketika Allah menyempitkan rezeki.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">2. Dzikir Al-Qabid</div>
+                    <p>Amalan yang diajarkan para ulama Ahlussunnah:</p>
+                    <ol>
+                        <li>Membaca "Ya Qabidu" sebanyak 10 kali setelah shalat Subuh</li>
+                        <li>Diikuti dengan doa memohon perlindungan dari kesempitan yang buruk</li>
+                        <li>Diamalkan secara istiqomah selama 40 hari</li>
+                    </ol>
+                    <p><strong>Catatan Kementerian Agama RI:</strong> Amalan ini berdasarkan ijma ulama tentang keutamaan berdzikir dengan Asmaul Husna, bukan bid'ah.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Pandangan Kementerian Agama RI</h2>
+                <p>Menurut penjelasan <a href="https://kemenag.go.id" target="_blank">Kementerian Agama RI</a>:</p>
+                <ol>
+                    <li><strong>Hikmah Penyempitan:</strong>
+                        <ul>
+                            <li>Ujian untuk meningkatkan derajat (<a href="https://quran.com/2/155?translations=33" target="_blank">QS. Al-Baqarah: 155</a>)</li>
+                            <li>Perlindungan dari bahaya yang tidak diketahui</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kematian:</strong>
+                        <ul>
+                            <li>Allah menentukan waktu dan cara kematian setiap makhluk</li>
+                            <li>Muslim dianjurkan mempersiapkan diri untuk kematian</li>
+                        </ul>
+                    </li>
+                    <li><strong>Bimbingan:</strong>
+                        <ul>
+                            <li>Menghindari sikap putus asa ketika menghadapi kesempitan</li>
+                            <li>Menjauhi praktik-praktik syirik dalam mencari rezeki</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <div class="official-ref">
+                    <strong>Rekomendasi Kementerian Agama RI:</strong> Dalam menghadapi kesempitan rezeki, umat Islam dianjurkan untuk:
+                    <ol>
+                        <li>Memperbanyak istighfar</li>
+                        <li>Mempererat silaturahmi</li>
+                        <li>Bersedekah sesuai kemampuan</li>
+                        <li>Berdoa dengan menyebut nama Al-Qabid dan Al-Basit</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">20. Al-Qabid (The Withholder)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-qabid/" target="_blank">myislam.org/99-names-of-allah/al-qabid/</a></div>
+            
+            <!-- Bonus section only in English -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_21Qaabidh22Baasit.mp3?_=22" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">الْقَابِضُ</div>
+            <div class="transliteration">Transliteration: Al-Qabid</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/20.%20al-qabid.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Qabid is one of Allah's names that demonstrates His absolute power over all things. It signifies that Allah has the power to withhold or constrict anything He wills - whether it be provisions, mercy, or even the souls of living beings at the time of death.</p>
+                <p>This name appears in conjunction with Al-Basit (The Expander) in Islamic theology, showing the perfect balance in Allah's attributes. He withholds when it is wise to withhold and expands when it is wise to expand, all according to His perfect knowledge and wisdom.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong> 
+                    <a href="https://quran.com/13/26?translations=131" target="_blank">Surah Ar-Ra'd 13:26</a>
+                    <div class="arabic">اللَّهُ يَبْسُطُ الرِّزْقَ لِمَنْ يَشَاءُ وَيَقْدِرُ ۚ وَفَرِحُوا بِالْحَيَاةِ الدُّنْيَا وَمَا الْحَيَاةُ الدُّنْيَا فِي الْآخِرَةِ إِلَّا مَتَاعٌ</div>
+                    <div class="transliteration">Allahu yabsutu alrrizqa liman yashao wayaqdiru wafarihoo bialhayati alddunya wama alhayatu alddunya fee alakhirati illa mataAAun</div>
+                    <p>"Allah extends provision for whom He wills and restricts [it]. And they rejoice in the worldly life, while the worldly life is not, compared to the Hereafter, except [brief] enjoyment."</p>
+                    <div class="tafsir-box">
+                        <strong><a href="https://www.alim.org/quran/tafsir/ibn-kathir/surah/13/26/" target="_blank">Tafsir Ibn Kathir</a>:</strong> Ibn Kathir explains that Allah alone has the power to expand or restrict provisions according to His wisdom. Sometimes He withholds from His beloved servants as a test, and sometimes He gives abundantly to those He wishes to test with wealth. The true believer accepts both conditions with gratitude and patience.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/15/23?translations=131" target="_blank">Surah Al-Hijr 15:23</a>
+                    <div class="arabic">إِنَّا نَحْنُ نُحْيِي وَنُمِيتُ وَنَحْنُ الْوَارِثُونَ</div>
+                    <div class="transliteration">Inna nahnu nuhyee wanumeetu wanahnu alwarithoona</div>
+                    <p>"Indeed, it is We who give life and cause death, and We are the Inheritor."</p>
+                    <div class="tafsir-box">
+                        <strong><a href="https://www.alim.org/quran/tafsir/ibn-kathir/surah/15/23/" target="_blank">Tafsir Ibn Kathir</a>:</strong> Ibn Kathir comments that Allah's attribute as Al-Qabid is manifested in His taking of souls. He decides the exact moment when each creature's life will end, demonstrating His complete control over life and death.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/muslim:2999" target="_blank">Sahih Muslim 2999</a>
+                    <div class="arabic">إِنَّ اللَّهَ هُوَ الْمُسَعِّرُ الْقَابِضُ الْبَاسِطُ الرَّازِقُ</div>
+                    <div class="transliteration">Inna Allaha huwa almusaAAiru alqabidu albasitu alrraziqu</div>
+                    <p>"Indeed, Allah is the One Who sets prices, the Withholder, the Extender, and the Provider."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> The Prophet (ﷺ) mentioned this in the context of rising prices, reminding people that Allah controls all provision and economic conditions. This hadith directly connects Allah's name Al-Qabid with His control over worldly provisions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For a Merciful Taking</div>
+                    <div class="arabic">اللَّهُمَّ اقْبِضْنِي إِلَيْكَ قَبْضًا رَحِيمًا</div>
+                    <div class="transliteration">Allahumma iqbidhnee ilayka qabdan raheema</div>
+                    <p><strong>Translation:</strong> "O Allah, take me to You in a merciful taking."</p>
+                    <p><strong>Benefits:</strong> This du'a asks Allah to take one's soul in a state of mercy when the time comes. It acknowledges Allah as Al-Qabid while seeking His gentleness in that taking.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Protection from Trials</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ فِعْلَ الْخَيْرَاتِ وَتَرْكَ الْمُنْكَرَاتِ وَحُبَّ الْمَسَاكِينِ وَأَنْ تَغْفِرَ لِي وَتَرْحَمَنِي وَإِذَا أَرَدْتَ فِتْنَةَ قَوْمٍ فَتَوَفَّنِي غَيْرَ مَفْتُونٍ</div>
+                    <div class="transliteration">Allahumma innee asaluka fiAAla alkhayrati watarka almunkarati wahubba almasakeeni waan taghfira lee watarhamanee waitha aradta fitnata qawmin fatawaffanee ghayra maftoonin</div>
+                    <p><strong>Translation:</strong> "O Allah, I ask You to enable me to do good deeds and abandon bad deeds, and to love the poor, and to forgive me and have mercy on me, and when You will trial for a people, take me to You without being afflicted by the trial."</p>
+                    <p><strong>Source:</strong> Sunan At-Tirmidhi. This comprehensive supplication includes asking Allah (Al-Qabid) to take one's soul before being afflicted by trials, showing trust in Allah's perfect timing.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Contentment with Allah's Decree</div>
+                    <p>The Prophet Muhammad (ﷺ) said: "How wonderful is the affair of the believer, for all his affairs are good. If something good happens to him, he is thankful, and that is good for him. If something bad happens to him, he bears it with patience, and that is good for him." (Sahih Muslim)</p>
+                    <p><strong>Practice:</strong></p>
+                    <ol>
+                        <li>When facing restrictions in provisions or circumstances, remember Allah as Al-Qabid</li>
+                        <li>Practice gratitude when provisions are abundant</li>
+                        <li>Develop patience when facing constraints</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice cultivates complete trust in Allah's wisdom as the Withholder and Expander of all provision.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Giving Charity in Times of Constriction</div>
+                    <p>Allah says: "The example of those who spend their wealth in the way of Allah is like a seed which grows seven spikes; in each spike is a hundred grains. And Allah multiplies for whom He wills." (<a href="https://quran.com/2/261?translations=131" target="_blank">2:261</a>)</p>
+                    <p><strong>Practice:</strong></p>
+                    <ol>
+                        <li>Increase charity when experiencing financial difficulty</li>
+                        <li>Give from what you love, even if it's small</li>
+                        <li>Trust that Allah will replace what you give</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The companions would often give more charity when facing hardship, knowing that Allah as Al-Qabid could transform their situation through their trust in Him.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir (Deep Dive)</h2>
+                <p>Ibn Kathir explains Al-Qabid through three key manifestations:</p>
+                <ol>
+                    <li><strong>Provision:</strong>
+                        <ul>
+                            <li>Controls all sustenance and wealth (<a href="https://quran.com/13/26?translations=131" target="_blank">13:26</a>)</li>
+                            <li>Tests people through both abundance and scarcity</li>
+                        </ul>
+                    </li>
+                    <li><strong>Souls:</strong>
+                        <ul>
+                            <li>Takes lives at their appointed times (<a href="https://quran.com/15/23?translations=131" target="_blank">15:23</a>)</li>
+                            <li>Decides the manner of each person's death</li>
+                        </ul>
+                    </li>
+                    <li><strong>Mercy:</strong>
+                        <ul>
+                            <li>May withhold certain blessings for greater wisdom (<a href="https://quran.com/2/216?translations=131" target="_blank">2:216</a>)</li>
+                            <li>Sometimes restricts to protect from greater harm</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In Surah Al-Baqarah (<a href="https://quran.com/2/245?translations=131" target="_blank">2:245</a>), Allah reminds us that He both withholds and gives abundantly, encouraging believers to spend in His cause without fear of poverty. This name teaches us that apparent restrictions often contain hidden blessings.</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+
+        <footer>
+            © (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
