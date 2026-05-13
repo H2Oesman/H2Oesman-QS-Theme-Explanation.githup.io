@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>99 Asmaul Husna - Al-Fattah (18)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --name-title-color: #2c3e50;
+            --section-title-color: #2980b9;
+            --border-color: #3498db;
+            --dua-bg: #f8f9fa;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --arabic-color: #90caf9;
+            --name-title-color: #e2e8f0;
+            --section-title-color: #7bc9ff;
+            --border-color: #7bc9ff;
+            --dua-bg: #1e2a3e;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #1e2a3e;
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+            font-weight: normal;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--name-title-color);
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid var(--border-color);
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--dua-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid #e0e0e0;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 70px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--border-color);
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ffe082;
+        }
+        .dark-mode .tafsir-box {
+            border-color: #4b5563;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No separate bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">18. Al-Fattah (Maha Pembuka Rahmat)</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-fattah/" target="_blank">myislam.org</a>, <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْفَتَّاحُ</div>
+            <div class="transliteration">Transliterasi: Al-Fattah</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/18.%20al-fattah.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Fattah berasal dari akar kata f-t-h (ف-ت-ح) yang berarti "membuka", "menganugerahkan", atau "menetapkan". Menurut Kementerian Agama RI, nama ini menunjukkan bahwa Allah SWT adalah Dzat yang Maha Membuka segala yang tertutup, baik berupa pintu rezeki, ilmu, kemenangan, maupun solusi dari segala kesulitan.</p>
+                <p>Kementerian Agama RI menjelaskan: "Al-Fattah adalah Dzat yang membuka yang tertutup, memecahkan yang rumit, dan menjelaskan yang samar. Dia membuka pintu rahmat, rezeki, dan ilmu untuk hamba-hamba-Nya ketika mereka paling membutuhkan."</p>
+                <p>Dalam kitab <em>Al-Maqshad al-Asna fi Syarh Asma' Allah al-Husna</em> karya Imam Al-Ghazali dijelaskan bahwa Al-Fattah mengandung makna:</p>
+                <ul>
+                    <li><strong>Pembuka Segala Kesulitan:</strong> Membuka jalan keluar dari berbagai masalah</li>
+                    <li><strong>Pemberi Keputusan:</strong> Menetapkan keputusan yang adil dan bijaksana</li>
+                    <li><strong>Pembuka Hati:</strong> Membuka hati untuk menerima hidayah dan petunjuk</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong> 
+                    <a href="https://quran.com/34/26?translations=33" target="_blank">Surah Saba 34:26</a>
+                    <div class="arabic">قُلْ يَجْمَعُ بَيْنَنَا رَبُّنَا ثُمَّ يَفْتَحُ بَيْنَنَا بِٱلْحَقِّ وَهُوَ ٱلْفَتَّاحُ ٱلْعَلِيمُ</div>
+                    <div class="transliteration">Qul yajma'u baynanā rabbunā thumma yaftaḥu baynanā bil-ḥaqqi wa huwa l-Fattāḥu l-'Alīm</div>
+                    <p>"Katakanlah, 'Tuhan kita akan mengumpulkan kita semua, kemudian Dia memberi keputusan antara kita dengan benar. Dan Dialah Maha Pemberi Keputusan lagi Maha Mengetahui.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa Allah sebagai Al-Fattah akan memberikan keputusan yang adil di antara manusia di hari akhir. Nama Al-Fattah di sini dikaitkan dengan sifat Maha Mengetahui, menunjukkan bahwa keputusan-Nya didasarkan pada ilmu yang sempurna.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/48/1?translations=33" target="_blank">Surah Al-Fath 48:1</a>
+                    <div class="arabic">إِنَّا فَتَحْنَا لَكَ فَتْحًۭا مُّبِينًۭا</div>
+                    <div class="transliteration">Innā fataḥnā laka fatḥan mubīnā</div>
+                    <p>"Sesungguhnya Kami telah memberikan kepadamu kemenangan yang nyata."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini turun berkenaan dengan Perjanjian Hudaibiyah yang merupakan pembukaan (fath) menuju kemenangan besar. Allah sebagai Al-Fattah memberikan berbagai macam pembukaan, baik berupa kemenangan fisik seperti penaklukan Makkah, maupun pembukaan spiritual berupa hidayah dan petunjuk.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/7/89?translations=33" target="_blank">Surah Al-A'raf 7:89</a>
+                    <div class="arabic">رَبَّنَا ٱفْتَحْ بَيْنَنَا وَبَيْنَ قَوْمِنَا بِٱلْحَقِّ وَأَنتَ خَيْرُ ٱلْفَاتِحِينَ</div>
+                    <div class="transliteration">Rabbana iftaḥ baynanā wa bayna qawminā bil-ḥaqqi wa anta khayrul-fātiḥīn</div>
+                    <p>"Ya Tuhan kami, berilah keputusan antara kami dan kaum kami dengan hak (adil). Dan Engkaulah Pemberi keputusan yang sebaik-baiknya."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Doa ini diajarkan dalam Al-Quran sebagai contoh bagaimana memohon kepada Allah sebagai Al-Fattah untuk memberikan keputusan yang adil dalam perselisihan.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/muslim:2658" target="_blank">Sahih Muslim 2658</a>
+                    <div class="arabic">إِنَّ فِي الْجَنَّةِ بَابًا يُقَالُ لَهُ الصَّلَاةُ فَيُفْتَحُ لِأَهْلِ الصَّلَاةِ</div>
+                    <div class="transliteration">Inna fil-jannati bāban yuqālu lahu ṣ-ṣalātu fayuftaḥu li-ahli ṣ-ṣalāti</div>
+                    <p>"Sesungguhnya di Surga ada pintu yang disebut 'Shalat' yang akan dibuka untuk mereka yang rajin shalat."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan:</strong> Hadits ini menunjukkan bahwa Allah sebagai Al-Fattah akan membuka pintu-pintu khusus di Surga bagi ahli ibadah tertentu. Ini menunjukkan hubungan erat antara amal shaleh dengan pembukaan-pembukaan ilahi di akhirat.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Pembukaan Pintu Rahmat</div>
+                    <div class="arabic">يَا فَتَّاحُ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ وَارْزُقْنِي مِنْ فَضْلِكَ وَانْشُرْ عَلَيَّ مِنْ بَرَكَاتِكَ</div>
+                    <div class="transliteration">Yā Fattāḥu iftaḥ lī abwāba raḥmatika warzuqnī min faḍlika wan-shur 'alayya min barakātik</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Membuka, bukakanlah untukku pintu-pintu rahmat-Mu, berilah aku dari karunia-Mu, dan tebarkanlah atasku dari berkah-Mu."</p>
+                    <p><strong>Keutamaan:</strong> Doa komprehensif ini mencakup semua aspek pembukaan ilahi - rahmat, rezeki, dan berkah. Kementerian Agama RI menganjurkan doa ini dibaca ketika menghadapi kesulitan atau membutuhkan solusi dari Allah.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Petunjuk dalam Pengambilan Keputusan</div>
+                    <div class="arabic">اللَّهُمَّ اخْتَرْ لِي وَاخْتَرْنِي وَافْتَحْ لِي مَا هُوَ خَيْرٌ لِي فِي دِينِي وَدُنْيَايَ</div>
+                    <div class="transliteration">Allāhumma khtur lī wakhturnī waftaḥ lī mā huwa khayrun lī fī dīnī wa dunyāy</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, pilihlah untukku dan pilihlah aku, dan bukakanlah untukku apa yang baik bagiku dalam agamaku dan duniaku."</p>
+                    <p><strong>Sumber:</strong> <a href="https://quran.com/7/89?translations=33" target="_blank">Surah Al-A'raf 7:89</a>. Doa ini diajarkan dalam Al-Quran untuk memohon petunjuk dalam mengambil keputusan penting.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Doa Pembukaan Pagi Hari</div>
+                    <p>Nabi ﷺ mengajarkan: "Barangsiapa mengucapkan di pagi hari: 'Allahumma inni as'aluka min fadlika' (Ya Allah, aku meminta kepada-Mu dari karunia-Mu), Allah akan membukakan untuknya pintu rezeki dan rahmat." (HR. Ibnu Majah)</p>
+                    <p><strong>Amalan:</strong></p>
+                    <ol>
+                        <li>Baca doa ini setelah Subuh</li>
+                        <li>Gabungkan dengan nama Al-Fattah</li>
+                        <li>Miliki keyakinan kuat bahwa Allah akan membuka pintu terbaik</li>
+                    </ol>
+                    <p><strong>Manfaat:</strong> Amalan ini membantu membuka pintu rezeki dan rahmat, sebagaimana diajarkan oleh para ulama.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Istighfar untuk Pembukaan</div>
+                    <p>Al-Quran menyatakan: "Mohonlah ampun kepada Tuhanmu dan bertaubatlah kepada-Nya, niscaya Dia akan menurunkan hujan yang lebat dari langit dan menguatkanmu" (<a href="https://quran.com/11/52?translations=33" target="_blank">11:52</a>).</p>
+                    <p><strong>Amalan:</strong></p>
+                    <ol>
+                        <li>Baca "Astaghfirullah" 100 kali sehari</li>
+                        <li>Ikuti dengan "Yā Fattāḥu iftaḥ lanā" (Wahai Yang Maha Membuka, bukakanlah untuk kami)</li>
+                        <li>Amati bagaimana Allah membuka solusi tak terduga</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Istighfar merupakan kunci pembuka pintu rezeki dan solusi masalah, sebagaimana dijelaskan dalam berbagai kitab tafsir.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut tafsir Kementerian Agama RI, nama Al-Fattah mengandung tiga dimensi utama:</p>
+                <ol>
+                    <li><strong>Pembukaan Fisik:</strong>
+                        <ul>
+                            <li>Kemenangan dan penaklukan (<a href="https://quran.com/48/1?translations=33" target="_blank">48:1</a>)</li>
+                            <li>Solusi untuk masalah duniawi</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pembukaan Spiritual:</strong>
+                        <ul>
+                            <li>Pencerahan dan pemahaman (<a href="https://quran.com/6/125?translations=33" target="_blank">6:125</a>)</li>
+                            <li>Penerimaan doa</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pembukaan Yudisial:</strong>
+                        <ul>
+                            <li>Keputusan ilahi antara manusia</li>
+                            <li>Penyelesaian perselisihan (<a href="https://quran.com/34/26?translations=33" target="_blank">34:26</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam kitab <em>Asmaul Husna untuk Anak</em> yang diterbitkan Kemenag RI dijelaskan bahwa mengimani nama Al-Fattah berarti:</p>
+                <ul>
+                    <li>Meyakini Allah dapat membuka segala kesulitan</li>
+                    <li>Selalu memohon kepada Allah ketika menghadapi masalah</li>
+                    <li>Percaya bahwa Allah akan memberikan solusi terbaik</li>
+                    <li>Bersyukur atas setiap pembukaan yang diberikan</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Refleksi</h2>
+                <div class="amalan">
+                    <p><strong>1. Sumber Segala Solusi:</strong> Al-Fattah mengingatkan kita bahwa hanya Allah yang dapat membuka segala kesulitan dan memberikan solusi terbaik.</p>
+                    <p><strong>2. Kekuatan Doa:</strong> Sebagai Maha Pembuka, Allah senantiasa mendengar dan mengabulkan doa hamba-Nya yang beriman.</p>
+                    <p><strong>3. Pendidikan Anak:</strong> Mengajarkan anak tentang Al-Fattah membantu mereka mengembangkan ketergantungan kepada Allah dalam menghadapi masalah.</p>
+                    <p><strong>4. Keterbukaan:</strong> Meneladani sifat Al-Fattah dengan menjadi pribadi yang terbuka dan selalu mencari solusi terbaik.</p>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">18. Al-Fattah (The Opener, The Judge)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-fattah/" target="_blank">myislam.org</a>, <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْفَتَّاحُ</div>
+            <div class="transliteration">Transliteration: Al-Fattah</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/18.%20al-fattah.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="bonus">
+                <div class="audio-title">Bonus: Listen to the beautiful explanation of Al Asma Ul Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_19Fattaah.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="https://qfatima.com/a99-audio" target="_blank">More audio explanations at qfatima.com</a>
+                </p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Fattah comes from the root f-t-h (ف-ت-ح) meaning "to open", "to grant", or "to judge". According to the Indonesian Ministry of Religious Affairs, this name shows that Allah SWT is the One Who Opens everything that is closed, whether it be doors of provision, knowledge, victory, or solutions to all difficulties.</p>
+                <p>Indonesian Ministry of Religious Affairs explains: "Al-Fattah is the Being who opens what is closed, solves what is complex, and clarifies what is obscure. He opens doors of mercy, provision, and knowledge to His servants when they are most in need."</p>
+                <p>In the book <em>Al-Maqshad al-Asna fi Syarh Asma' Allah al-Husna</em> by Imam Al-Ghazali, it is explained that Al-Fattah contains the meaning:</p>
+                <ul>
+                    <li><strong>Opener of All Difficulties:</strong> Opens ways out from various problems</li>
+                    <li><strong>The Judge:</strong> Establishes just and wise decisions</li>
+                    <li><strong>Opener of Hearts:</strong> Opens hearts to receive guidance and direction</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong> 
+                    <a href="https://quran.com/34/26?translations=131" target="_blank">Surah Saba 34:26</a>
+                    <div class="arabic">قُلْ يَجْمَعُ بَيْنَنَا رَبُّنَا ثُمَّ يَفْتَحُ بَيْنَنَا بِٱلْحَقِّ وَهُوَ ٱلْفَتَّاحُ ٱلْعَلِيمُ</div>
+                    <div class="transliteration">Qul yajma'u baynanā rabbunā thumma yaftaḥu baynanā bil-ḥaqqi wa huwa l-Fattāḥu l-'Alīm</div>
+                    <p>"Say, 'Our Lord will bring us together; then He will judge between us in truth. And He is the Knowing Judge.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> This verse shows that Allah as Al-Fattah will give just decisions among people on the Day of Judgment. The name Al-Fattah here is connected with His attribute of All-Knowing, showing that His decisions are based on perfect knowledge.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/48/1?translations=131" target="_blank">Surah Al-Fath 48:1</a>
+                    <div class="arabic">إِنَّا فَتَحْنَا لَكَ فَتْحًۭا مُّبِينًۭا</div>
+                    <div class="transliteration">Innā fataḥnā laka fatḥan mubīnā</div>
+                    <p>"Indeed, We have granted you a clear victory."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> This verse was revealed concerning the Treaty of Hudaybiyyah which was an opening (fath) toward great victory. Allah as Al-Fattah gives various kinds of openings, both physical victories like the conquest of Makkah, and spiritual openings like guidance and direction.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/7/89?translations=131" target="_blank">Surah Al-A'raf 7:89</a>
+                    <div class="arabic">رَبَّنَا ٱفْتَحْ بَيْنَنَا وَبَيْنَ قَوْمِنَا بِٱلْحَقِّ وَأَنتَ خَيْرُ ٱلْفَاتِحِينَ</div>
+                    <div class="transliteration">Rabbana iftaḥ baynanā wa bayna qawminā bil-ḥaqqi wa anta khayrul-fātiḥīn</div>
+                    <p>"Our Lord, decide between us and our people in truth, and You are the best of those who give decision."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> This prayer is taught in the Quran as an example of how to ask Allah as Al-Fattah to give just decisions in disputes.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/muslim:2658" target="_blank">Sahih Muslim 2658</a>
+                    <div class="arabic">إِنَّ فِي الْجَنَّةِ بَابًا يُقَالُ لَهُ الصَّلَاةُ فَيُفْتَحُ لِأَهْلِ الصَّلَاةِ</div>
+                    <div class="transliteration">Inna fil-jannati bāban yuqālu lahu ṣ-ṣalātu fayuftaḥu li-ahli ṣ-ṣalāti</div>
+                    <p>"Indeed in Paradise there is a gate called 'Prayer' which will be opened for those who are regular in prayer."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith shows that Allah as Al-Fattah will open special gates in Paradise for certain types of worshippers. This shows the close relationship between righteous deeds and divine openings in the Hereafter.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Opening of Doors of Mercy</div>
+                    <div class="arabic">يَا فَتَّاحُ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ وَارْزُقْنِي مِنْ فَضْلِكَ وَانْشُرْ عَلَيَّ مِنْ بَرَكَاتِكَ</div>
+                    <div class="transliteration">Yā Fattāḥu iftaḥ lī abwāba raḥmatika warzuqnī min faḍlika wan-shur 'alayya min barakātik</div>
+                    <p><strong>Translation:</strong> "O Opener, open for me the doors of Your mercy, provide me from Your bounty, and spread over me from Your blessings."</p>
+                    <p><strong>Benefits:</strong> This comprehensive du'a covers all aspects of divine openings - mercy, provision, and blessings. Indonesian Ministry of Religious Affairs recommends reciting it when facing difficulties or needing solutions from Allah.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Guidance in Decision Making</div>
+                    <div class="arabic">اللَّهُمَّ اخْتَرْ لِي وَاخْتَرْنِي وَافْتَحْ لِي مَا هُوَ خَيْرٌ لِي فِي دِينِي وَدُنْيَايَ</div>
+                    <div class="transliteration">Allāhumma khtur lī wakhturnī waftaḥ lī mā huwa khayrun lī fī dīnī wa dunyāy</div>
+                    <p><strong>Translation:</strong> "O Allah, choose for me and choose me, and open for me what is good for me in my religion and my worldly life."</p>
+                    <p><strong>Source:</strong> <a href="https://quran.com/7/89?translations=131" target="_blank">Surah Al-A'raf 7:89</a>. This prayer is taught in the Quran to ask for guidance in making important decisions.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Morning Opening Prayer</div>
+                    <p>The Prophet ﷺ taught: "Whoever says in the morning: 'Allahumma inni as'aluka min fadlika' (O Allah, I ask You from Your bounty), Allah will open for him doors of provision and mercy." (Ibn Majah)</p>
+                    <p><strong>Practice:</strong></p>
+                    <ol>
+                        <li>Recite this du'a after Fajr</li>
+                        <li>Combine it with the name Al-Fattah</li>
+                        <li>Have firm conviction that Allah will open the best doors</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice helps open doors of provision and mercy, as taught by scholars.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Istighfar for Openings</div>
+                    <p>The Quran states: "Ask forgiveness of your Lord and repent to Him, He will send [rain from] the sky upon you in showers and increase you in strength" (<a href="https://quran.com/11/52?translations=131" target="_blank">11:52</a>).</p>
+                    <p><strong>Practice:</strong></p>
+                    <ol>
+                        <li>Recite "Astaghfirullah" 100 times daily</li>
+                        <li>Follow with "Yā Fattāḥu iftaḥ lanā" (O Opener, open for us)</li>
+                        <li>Observe how Allah opens unexpected solutions</li>
+                    </ol>
+                    <p><strong>Islamic Basis:</strong> Istighfar is a key to opening doors of provision and solutions to problems, as explained in various tafsir books.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>According to the tafsir of the Indonesian Ministry of Religious Affairs, the name Al-Fattah has three main dimensions:</p>
+                <ol>
+                    <li><strong>Physical Opening:</strong>
+                        <ul>
+                            <li>Victories and conquests (<a href="https://quran.com/48/1?translations=131" target="_blank">48:1</a>)</li>
+                            <li>Solutions to worldly problems</li>
+                        </ul>
+                    </li>
+                    <li><strong>Spiritual Opening:</strong>
+                        <ul>
+                            <li>Enlightenment and understanding (<a href="https://quran.com/6/125?translations=131" target="_blank">6:125</a>)</li>
+                            <li>Acceptance of supplications</li>
+                        </ul>
+                    </li>
+                    <li><strong>Judicial Opening:</strong>
+                        <ul>
+                            <li>Divine judgment between people</li>
+                            <li>Resolution of disputes (<a href="https://quran.com/34/26?translations=131" target="_blank">34:26</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In the book <em>Asmaul Husna for Children</em> published by the Indonesian Ministry of Religious Affairs, it is explained that believing in the name Al-Fattah means:</p>
+                <ul>
+                    <li>Believing Allah can open all difficulties</li>
+                    <li>Always asking Allah when facing problems</li>
+                    <li>Trusting that Allah will give the best solutions</li>
+                    <li>Being grateful for every opening given</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Reflection</h2>
+                <div class="amalan">
+                    <p><strong>1. Source of All Solutions:</strong> Al-Fattah reminds us that only Allah can open all difficulties and give the best solutions.</p>
+                    <p><strong>2. Power of Prayer:</strong> As the Supreme Opener, Allah always hears and answers the prayers of His faithful servants.</p>
+                    <p><strong>3. Children's Education:</strong> Teaching children about Al-Fattah helps them develop dependence on Allah when facing problems.</p>
+                    <p><strong>4. Openness:</strong> Emulating the attribute of Al-Fattah by becoming a person who is open and always seeks the best solutions.</p>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back to Top</a>
+        </div>
+
+        <footer>
+            © (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
