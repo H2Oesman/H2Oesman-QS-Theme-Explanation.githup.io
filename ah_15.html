@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>99 Asmaul Husna - Al-Qahhar (15)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --shadow-color: rgba(0,0,0,0.1);
+            --primary-color: #3498db;
+            --secondary-color: #1a5276;
+            --accent-color: #2980b9;
+            --section-bg: #f8f9fa;
+            --border-color: #e0e0e0;
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --shadow-color: rgba(0,0,0,0.3);
+            --primary-color: #5dade2;
+            --secondary-color: #90caf9;
+            --accent-color: #7bc9ff;
+            --section-bg: #1e2a3e;
+            --border-color: #4b5563;
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px var(--shadow-color);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--secondary-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--text-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--section-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 70px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary-color);
+        }
+        .dark-mode .bonus {
+            background-color: #1e3a5f;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .tafsir-box {
+            background-color: #fffde7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ffe082;
+        }
+        .dark-mode .tafsir-box {
+            background-color: #1e2a3e;
+            border-color: #4b5563;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">15. Al-Qahhar (Maha Memaksa/Maha Menundukkan)</h1>
+            <div class="name-source">
+                <strong>Sumber:</strong> 
+                <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a> dan
+                <a href="https://myislam.org/99-names-of-allah/al-qahhar/" target="_blank">myislam.org</a>
+            </div>
+
+            <div class="arabic">ٱلْقَهَّارُ</div>
+            <div class="transliteration">Transliterasi: Al-Qahhar</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/15.%20al-qahhar.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Qahhar berasal dari akar kata q-h-r (ق-ه-ر) yang berarti "menundukkan" atau "memaksa". Menurut Kementerian Agama RI, nama ini menunjukkan bahwa Allah SWT memiliki kekuasaan mutlak untuk menundukkan semua makhluk dan segala sesuatu di alam semesta.</p>
+                <p>Kementerian Agama RI menjelaskan: "Al-Qahhar adalah Dzat yang menundukkan segala sesuatu dengan kekuasaan-Nya. Tidak ada yang dapat menghalangi kehendak-Nya dan semua makhluk tunduk di bawah kekuasaan-Nya."</p>
+                <p>Dalam kitab <em>Al-Maqshad al-Asna fi Syarh Asma' Allah al-Husna</em> karya Imam Al-Ghazali dijelaskan bahwa Al-Qahhar mengandung makna:</p>
+                <ul>
+                    <li><strong>Maha Memaksa:</strong> Kekuasaan-Nya mengatasi segala sesuatu</li>
+                    <li><strong>Maha Menundukkan:</strong> Segala makhluk tunduk pada kehendak-Nya</li>
+                    <li><strong>Maha Mengalahkan:</strong> Tidak ada yang mampu melawan ketetapan-Nya</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong> 
+                    <a href="https://quran.com/39/4?translations=33" target="_blank">Surah Az-Zumar 39:4</a>
+                    <div class="arabic">هُوَ ٱللَّهُ ٱلْوَٰحِدُ ٱلْقَهَّارُ</div>
+                    <div class="transliteration">Huwa Allāhul-wāḥidul-qahhār</div>
+                    <p>"Dia-lah Allah Yang Maha Esa, Maha Menundukkan."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menegaskan keesaan Allah dan kekuasaan mutlak-Nya untuk menundukkan segala sesuatu. Tidak ada yang setara dengan-Nya dalam kekuasaan dan pengaturan alam semesta.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/14/48?translations=33" target="_blank">Surah Ibrahim 14:48</a>
+                    <div class="arabic">يَوْمَ تُبَدَّلُ ٱلْأَرْضُ غَيْرَ ٱلْأَرْضِ وَٱلسَّمَـٰوَٰتُ ۖ وَبَرَزُوا۟ لِلَّهِ ٱلْوَٰحِدِ ٱلْقَهَّارِ</div>
+                    <div class="transliteration">Yawma tubaddalu al-arḍu ghayra al-arḍi was-samāwāt, wa barazū lillāhi al-wāḥidi al-qahhār</div>
+                    <p>"Pada hari ketika bumi diganti dengan bumi yang lain dan (demikian pula) langit, dan mereka semua berkumpul menghadap Allah Yang Maha Esa, Maha Menundukkan."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menggambarkan kekuasaan Allah yang mutlak pada hari kiamat, dimana seluruh makhluk akan menyaksikan penundukan total alam semesta kepada kehendak-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/6/18?translations=33" target="_blank">Surah Al-An'am 6:18</a>
+                    <div class="arabic">وَهُوَ ٱلْقَاهِرُ فَوْقَ عِبَادِهِۦ ۖ وَهُوَ ٱلْحَكِيمُ ٱلْخَبِيرُ</div>
+                    <div class="transliteration">Wa huwa al-qāhiru fawqa 'ibādih, wa huwa al-ḥakīmu al-khabīr</div>
+                    <p>"Dan Dialah yang berkuasa atas hamba-hamba-Nya. Dan Dialah Yang Maha Bijaksana, Maha Mengetahui."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kemenag RI:</strong> Ayat ini menunjukkan bahwa kekuasaan Allah (Al-Qahhar) selalu disertai dengan hikmah dan pengetahuan yang sempurna.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/abudawud:5065" target="_blank">Sunan Abu Dawud 5065</a>
+                    <div class="arabic">اَللّٰهُمَّ أَنْتَ الْقَهَّارُ، ذَلَّتْ لِقُدْرَتِكَ الصِّعَابُ، اِجْعَلْنِي مِنَ الْعَابِدِينَ لَكَ وَحْدَكَ</div>
+                    <div class="transliteration">Allāhumma anta al-qahhār, dhāllat li-qudratika aṣ-ṣi'āb, ij'alnī min al-'ābidīna laka waḥdak</div>
+                    <p>"Ya Allah, Engkau adalah Al-Qahhar, semua kesulitan tunduk pada kekuasaan-Mu, jadikan aku termasuk hamba yang hanya menyembah-Mu."</p>
+                    <div class="tafsir-box">
+                        <strong>Konteks Kemenag RI:</strong> Doa ini diajarkan oleh Nabi Muhammad SAW untuk memohon perlindungan dengan menyebut nama Allah Al-Qahhar, menunjukkan kekuatan nama ini dalam menghadapi kesulitan.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Kekuatan dan Perlindungan</div>
+                    <div class="arabic">اَللّٰهُمَّ أَنْتَ الْقَهَّارُ، ذَلَّتْ لِقُدْرَتِكَ الصِّعَابُ، اِجْعَلْنِي مِنَ الْعَابِدِينَ لَكَ وَحْدَكَ</div>
+                    <div class="transliteration">Allāhumma anta al-qahhār, dhāllat li-qudratika aṣ-ṣi'āb, ij'alnī min al-'ābidīna laka waḥdak</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, Engkau adalah Al-Qahhar, semua kesulitan tunduk pada kekuasaan-Mu, jadikan aku termasuk hamba yang hanya menyembah-Mu."</p>
+                    <p><strong>Keutamaan:</strong> Doa ini diajarkan dalam Sunan Abu Dawud untuk menghadapi kesulitan dengan mengingat kekuasaan mutlak Allah. Dianjurkan dibaca pagi dan petang.</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Perlindungan dari Kezaliman</div>
+                    <div class="arabic">حَسْبِيَ اللَّهُ لَا إِلَـٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ ٱلْعَرْشِ ٱلْعَظِيمِ</div>
+                    <div class="transliteration">Ḥasbiya Allāhu lā ilāha illā huwa, 'alayhi tawakkaltu, wa huwa rabbu al-'arshi al-'aẓīm</div>
+                    <p><strong>Terjemahan:</strong> "Cukuplah Allah bagiku; tidak ada tuhan selain Dia. Hanya kepada-Nya aku bertawakal, dan Dia adalah Tuhan pemilik 'Arsy yang agung."</p>
+                    <p><strong>Sumber:</strong> <a href="https://quran.com/9/129?translations=33" target="_blank">Surah At-Tawbah 9:129</a>. Doa ini diajarkan Nabi SAW untuk menghadapi kesulitan dengan bertawakal kepada Allah Al-Qahhar.</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Dzikir Pagi dan Petang</div>
+                    <p>Berdasarkan hadits riwayat Abu Dawud, Nabi SAW bersabda: "Barangsiapa mengucapkan di pagi dan petang: 'Hasbiyallahu la ilaha illa huwa, 'alayhi tawakkaltu wa huwa rabbul-'arshil-'azim' tujuh kali, Allah akan mencukupinya terhadap apa pun yang mengkhawatirkannya."</p>
+                    <p><strong>Praktik:</strong></p>
+                    <ol>
+                        <li>Baca dzikir ini setiap pagi dan petang</li>
+                        <li>Renungkan makna Al-Qahhar saat membacanya</li>
+                        <li>Yakini bahwa hanya Allah yang memiliki kekuasaan mutlak</li>
+                    </ol>
+                    <p><strong>Manfaat:</strong> Amalan ini membantu menghadapi kesulitan dengan mengingat kekuasaan Allah yang menundukkan segala sesuatu.</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Menghadapi Kezaliman</div>
+                    <p>Ketika menghadapi kezaliman, Nabi SAW mengajarkan doa khusus dengan menyebut nama Al-Qahhar:</p>
+                    <ol>
+                        <li>Hadapi situasi dengan sabar dan tawakal</li>
+                        <li>Baca doa: "Allahumma inni a'udhu bika min zulmi al-'abid" (Ya Allah, aku berlindung kepada-Mu dari kezaliman para penguasa)</li>
+                        <li>Yakini bahwa Allah akan menundukkan para zalim pada waktunya</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Nabi SAW bersabda: "Allah akan menolong hamba-Nya selama hamba itu menolong saudaranya." (HR. Muslim). Amalan ini mengajarkan kita untuk bersandar pada kekuasaan Allah dalam menghadapi kezaliman.</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut tafsir Kementerian Agama RI, nama Al-Qahhar mengandung tiga dimensi utama:</p>
+                <ol>
+                    <li><strong>Kekuasaan Mutlak:</strong>
+                        <ul>
+                            <li>Allah berkuasa menundukkan alam semesta (<a href="https://quran.com/22/65?translations=33" target="_blank">22:65</a>)</li>
+                            <li>Kekuasaan-Nya mengatasi segala makhluk (<a href="https://quran.com/48/7?translations=33" target="_blank">48:7</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Keadilan Ilahi:</strong>
+                        <ul>
+                            <li>Penundukan Allah selalu berdasarkan hikmah (<a href="https://quran.com/67/1?translations=33" target="_blank">67:1</a>)</li>
+                            <li>Tidak ada yang dizalimi dalam ketetapan-Nya (<a href="https://quran.com/4/40?translations=33" target="_blank">4:40</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Manifestasi Kekuasaan:</strong>
+                        <ul>
+                            <li>Melalui hukum alam yang tunduk pada-Nya (<a href="https://quran.com/30/25?translations=33" target="_blank">30:25</a>)</li>
+                            <li>Melalui kehancuran orang-orang zalim (<a href="https://quran.com/17/68?translations=33" target="_blank">17:68</a>)</li>
+                            <li>Melalui pertolongan kepada orang beriman (<a href="https://quran.com/40/51?translations=33" target="_blank">40:51</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam kitab <em>Asmaul Husna untuk Anak</em> yang diterbitkan Kemenag RI dijelaskan bahwa mengimani nama Al-Qahhar berarti meyakini bahwa:</p>
+                <ul>
+                    <li>Allah berkuasa menundukkan semua makhluk</li>
+                    <li>Kita harus tunduk hanya kepada Allah</li>
+                    <li>Tidak boleh takut kepada selain Allah</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Refleksi</h2>
+                <div class="amalan">
+                    <p><strong>1. Ketundukan kepada Allah:</strong> Mengimani Al-Qahhar mengajarkan kita untuk tunduk hanya kepada Allah, bukan kepada makhluk atau kekuatan duniawi.</p>
+                    <p><strong>2. Ketenangan Hati:</strong> Meyakini kekuasaan Allah yang mutlak memberikan ketenangan bahwa semua urusan ada dalam kendali-Nya.</p>
+                    <p><strong>3. Perlindungan dari Kezaliman:</strong> Dengan nama Al-Qahhar, kita yakin bahwa Allah akan menundukkan para zalim pada waktunya.</p>
+                    <p><strong>4. Keseimbangan Alam:</strong> Hukum alam yang teratur menunjukkan penundukan alam semesta kepada kehendak Al-Qahhar.</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI</p>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">15. Al-Qahhar (The Subduer)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-qahhar/" target="_blank">myislam.org/99-names-of-allah/al-qahhar/</a></div>
+
+            <div class="bonus">
+                <div class="audio-title">Bonus: Listen to the beautiful explanation of Al Asma Ul Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_16Qahhaar.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="https://qfatima.com/a99-audio" target="_blank">More audio explanations at qfatima.com</a>
+                </p>
+            </div>
+
+            <div class="arabic">ٱلْقَهَّارُ</div>
+            <div class="transliteration">Transliteration: Al-Qahhar</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/15.%20al-qahhar.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Qahhar comes from the root q-h-r (ق-ه-ر) meaning "to subdue", "to dominate", or "to overpower". This name appears six times in the Quran, emphasizing Allah's absolute power to subdue all creation and overcome all opposition.</p>
+                <p>Ibn Qayyim explains: "Al-Qahhar is the One before whom all creatures submit in humility, whose domination is complete over all things, and who compels everything according to His wisdom."</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong> 
+                    <a href="https://quran.com/39/4?translations=131" target="_blank">Surah Az-Zumar 39:4</a>
+                    <div class="arabic">هُوَ ٱللَّهُ ٱلْوَٰحِدُ ٱلْقَهَّارُ</div>
+                    <div class="transliteration">Huwa Allāhul-wāḥidul-qahhār</div>
+                    <p>"He is Allah, the One, the Subduer."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse connects Allah's oneness with His absolute power over creation, showing that true domination belongs only to the One God.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/14/48?translations=131" target="_blank">Surah Ibrahim 14:48</a>
+                    <div class="arabic">يَوْمَ تُبَدَّلُ ٱلْأَرْضُ غَيْرَ ٱلْأَرْضِ وَٱلسَّمَـٰوَٰتُ ۖ وَبَرَزُوا۟ لِلَّهِ ٱلْوَٰحِدِ ٱلْقَهَّارِ</div>
+                    <div class="transliteration">Yawma tubaddalu al-arḍu ghayra al-arḍi was-samāwāt, wa barazū lillāhi al-wāḥidi al-qahhār</div>
+                    <p>"The Day the earth will be replaced by another earth, and the heavens [as well], and all creatures will come out before Allah, the One, the Subduer."</p>
+                    <div class="tafsir-box">
+                        <strong>Reflection:</strong> This verse describes the Day of Judgment when Allah's complete domination will be manifest as He transforms creation itself.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/6/18?translations=131" target="_blank">Surah Al-An'am 6:18</a>
+                    <div class="arabic">وَهُوَ ٱلْقَاهِرُ فَوْقَ عِبَادِهِۦ ۖ وَهُوَ ٱلْحَكِيمُ ٱلْخَبِيرُ</div>
+                    <div class="transliteration">Wa huwa al-qāhiru fawqa 'ibādih, wa huwa al-ḥakīmu al-khabīr</div>
+                    <p>"And He is the Subduer over His servants. And He is the Wise, the Acquainted."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This verse shows that Allah's power (Al-Qahhar) is always accompanied by perfect wisdom and knowledge.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/abudawud:5065" target="_blank">Sunan Abu Dawud 5065</a>
+                    <div class="arabic">اَللّٰهُمَّ أَنْتَ الْقَهَّارُ، ذَلَّتْ لِقُدْرَتِكَ الصِّعَابُ، اِجْعَلْنِي مِنَ الْعَابِدِينَ لَكَ وَحْدَكَ</div>
+                    <div class="transliteration">Allāhumma anta al-qahhār, dhāllat li-qudratika aṣ-ṣi'āb, ij'alnī min al-'ābidīna laka waḥdak</div>
+                    <p>"O Allah, You are the Subduer, all difficulties submit to Your power, make me among those who worship You alone."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This dua was taught by Prophet Muhammad ﷺ to seek protection by invoking Allah's name Al-Qahhar, showing the power of this name in facing difficulties.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Divine Power and Protection</div>
+                    <div class="arabic">اَللّٰهُمَّ أَنْتَ الْقَهَّارُ، ذَلَّتْ لِقُدْرَتِكَ الصِّعَابُ، اِجْعَلْنِي مِنَ الْعَابِدِينَ لَكَ وَحْدَكَ</div>
+                    <div class="transliteration">Allāhumma anta al-qahhār, dhāllat li-qudratika aṣ-ṣi'āb, ij'alnī min al-'ābidīna laka waḥdak</div>
+                    <p><strong>Translation:</strong> "O Allah, You are the Subduer, all difficulties submit to Your power, make me among those who worship You alone."</p>
+                    <p><strong>Benefits:</strong> This dua helps in overcoming challenges by recognizing Allah's supreme power over all things.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Reliance on Allah</div>
+                    <div class="arabic">حَسْبِيَ اللَّهُ لَا إِلَـٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ ٱلْعَرْشِ ٱلْعَظِيمِ</div>
+                    <div class="transliteration">Ḥasbiya Allāhu lā ilāha illā huwa, 'alayhi tawakkaltu, wa huwa rabbu al-'arshi al-'aẓīm</div>
+                    <p><strong>Translation:</strong> "Sufficient for me is Allah; there is no deity except Him. On Him I have relied, and He is the Lord of the Great Throne."</p>
+                    <p><strong>Source:</strong> <a href="https://quran.com/9/129?translations=131" target="_blank">Surah At-Tawbah 9:129</a></p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Morning and Evening Remembrance</div>
+                    <p>The Prophet ﷺ said: "Whoever says in the morning and evening: 'Hasbiyallahu la ilaha illa huwa, 'alayhi tawakkaltu wa huwa rabbul-'arshil-'azim' seven times, Allah will suffice him against whatever worries him." (<a href="https://sunnah.com/abudawud:5065" target="_blank">Abu Dawud</a>)</p>
+                    <p><strong>Practice:</strong></p>
+                    <ol>
+                        <li>Recite this dhikr daily in the morning and evening</li>
+                        <li>Reflect on how Allah's power subdues all difficulties</li>
+                        <li>Combine with sincere trust in Allah's plan</li>
+                    </ol>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Overcoming Challenges</div>
+                    <p>When facing oppression or difficulty, the Prophet ﷺ would seek refuge in Allah's power. He taught: "When you see injustice, say: 'Allahumma inni a'udhu bika min zulmi al-'abid'" (O Allah, I seek refuge in You from the oppression of tyrants).</p>
+                    <p><strong>Practice:</strong></p>
+                    <ol>
+                        <li>Combine this du'a with the name Al-Qahhar when facing injustice</li>
+                        <li>Recite it with conviction in Allah's power to subdue oppressors</li>
+                        <li>Maintain patience and trust in divine justice</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir (Deep Dive)</h2>
+                <p>Ibn Kathir explains Al-Qahhar through three dimensions:</p>
+                <ol>
+                    <li><strong>Absolute Power:</strong>
+                        <ul>
+                            <li>Allah's ability to compel all things according to His will</li>
+                            <li>No one can resist His decree</li>
+                        </ul>
+                    </li>
+                    <li><strong>Divine Justice:</strong>
+                        <ul>
+                            <li>His subduing is always coupled with perfect wisdom</li>
+                            <li>Maintains perfect balance in all affairs</li>
+                        </ul>
+                    </li>
+                    <li><strong>Manifestations of Power:</strong>
+                        <ul>
+                            <li>Subduing the arrogant through punishment</li>
+                            <li>Subduing creation through natural laws</li>
+                            <li>Subduing hearts through divine attraction</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Al-Sa'di notes that Allah's attribute as Al-Qahhar has these three key manifestations, showing the comprehensive nature of His power.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Contemporary Reflections</h2>
+                <div class="amalan">
+                    <p><strong>1. Divine Justice:</strong> Al-Qahhar reminds us that while oppressors may seem powerful now, ultimate justice belongs to Allah who will subdue all wrongdoers.</p>
+                    <p><strong>2. Submission to Natural Laws:</strong> The laws of physics and nature demonstrate Allah's subduing power over creation - gravity, tides, and planetary motion all submit to His will.</p>
+                    <p><strong>3. Spiritual Liberation:</strong> Recognizing Allah as Al-Qahhar frees us from fear of worldly powers, knowing only He has true control over all affairs.</p>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
