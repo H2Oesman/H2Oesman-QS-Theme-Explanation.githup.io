@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>99 Asmaul Husna - Ar-Razzaq (17)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --name-title-color: #2c3e50;
+            --section-title-color: #2980b9;
+            --border-color: #3498db;
+            --dua-bg: #f8f9fa;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --arabic-color: #90caf9;
+            --name-title-color: #e2e8f0;
+            --section-title-color: #7bc9ff;
+            --border-color: #7bc9ff;
+            --dua-bg: #1e2a3e;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #1e2a3e;
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+            font-weight: normal;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--name-title-color);
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid var(--border-color);
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--dua-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid #e0e0e0;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 70px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--border-color);
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ffe082;
+        }
+        .dark-mode .tafsir-box {
+            border-color: #4b5563;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No separate bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">17. Ar-Razzaq (Maha Pemberi Rezeki)</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/ar-razzaq/" target="_blank">myislam.org</a>, <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلرَّزَّاقُ</div>
+            <div class="transliteration">Transliterasi: Ar-Razzaq</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/17.%20ar-razzaq.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Ar-Razzaq berasal dari akar kata r-z-q (ر-ز-ق) yang berarti "memberi rezeki". Menurut Kementerian Agama RI, nama ini menunjukkan bahwa Allah adalah satu-satunya pemberi rezeki yang mencukupi semua kebutuhan makhluk-Nya, baik jasmani maupun rohani.</p>
+                <p>Kementerian Agama RI menjelaskan: "Ar-Razzaq adalah Dzat yang memberikan segala kebutuhan makhluk-Nya, baik yang diminta maupun tidak. Rezeki-Nya meliputi segala sesuatu, dari makanan, kesehatan, hingga ilmu dan petunjuk."</p>
+                <p>Dalam kitab <em>Al-Maqshad al-Asna fi Syarh Asma' Allah al-Husna</em> karya Imam Al-Ghazali dijelaskan bahwa Ar-Razzaq mengandung makna:</p>
+                <ul>
+                    <li><strong>Pemberi Rezeki yang Maha Kuasa:</strong> Allah memberikan rezeki kepada semua makhluk tanpa terkecuali</li>
+                    <li><strong>Penyedia Kebutuhan:</strong> Tidak hanya makanan, tetapi juga ilmu, kesehatan, dan segala bentuk kebaikan</li>
+                    <li><strong>Pemberi yang Berkelanjutan:</strong> Rezeki diberikan secara terus menerus sesuai dengan hikmah-Nya</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong> 
+                    <a href="https://quran.com/51/58?translations=33" target="_blank">Surah Adh-Dhariyat 51:58</a>
+                    <div class="arabic">إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ</div>
+                    <div class="transliteration">Inna Allāha huwa ar-razzāqu dhū al-quwwati al-matīn</div>
+                    <p>"Sesungguhnya Allah Dialah Maha Pemberi rezeki Yang mempunyai kekuatan lagi sangat kokoh."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menegaskan bahwa Allah adalah satu-satunya pemberi rezeki yang hakiki. Kekuatan-Nya yang kokoh menunjukkan bahwa tidak ada yang dapat menghalangi rezeki yang telah ditetapkan-Nya. Rezeki mencakup segala kebutuhan hidup manusia, baik material maupun spiritual.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/11/6?translations=33" target="_blank">Surah Hud 11:6</a>
+                    <div class="arabic">وَمَا مِن دَآبَّةٍۢ فِى ٱلْأَرْضِ إِلَّا عَلَى ٱللَّهِ رِزْقُهَا وَيَعْلَمُ مُسْتَقَرَّهَا وَمُسْتَوْدَعَهَا ۚ كُلٌّۭ فِى كِتَـٰبٍۢ مُّبِينٍۢ</div>
+                    <div class="transliteration">Wa mā min dābbatin fil-arḍi illā 'alā Allāhi rizquhā, wa ya'lamu mustaqarrahā wa mustawda'ahā, kullun fī kitābin mubīn</div>
+                    <p>"Dan tidak ada suatu binatang melata pun di bumi melainkan Allah-lah yang memberi rezekinya, dan Dia mengetahui tempat berdiam binatang itu dan tempat penyimpanannya. Semuanya tertulis dalam kitab yang nyata."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan jaminan Allah terhadap rezeki semua makhluk. Ini termasuk rezeki yang sesuai dengan kondisi dan kebutuhan masing-masing makhluk, yang telah ditetapkan dalam Lauh Mahfuz sebelum penciptaan alam semesta.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/67/21?translations=33" target="_blank">Surah Al-Mulk 67:21</a>
+                    <div class="arabic">أَمَّنْ هَـٰذَا ٱلَّذِى يَرْزُقُكُمْ إِنْ أَمْسَكَ رِزْقَهُ ۚ بَل لَّجُّوا۟ فِى عُتُوٍّۢ وَنُفُورٍ</div>
+                    <div class="transliteration">Amman hādhā alladhī yarzuqukum in amsaka rizqah, bal lajjū fī 'utuwwin wa nufūr</div>
+                    <p>"Atau siapakah dia yang memberi kamu rezeki jika Allah menahan rezeki-Nya? Sebenarnya mereka terus-menerus dalam kesombongan dan menjauhkan diri."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini mengingatkan manusia bahwa hanya Allah yang memberikan rezeki, dan jika Dia menahan rezeki-Nya, tidak ada seorang pun yang dapat memberikannya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/bukhari:7406" target="_blank">Sahih Bukhari 7406</a>
+                    <div class="arabic">الْمُؤْمِنُ مَنْ أَمِنَهُ النَّاسُ عَلَى دِمَائِهِمْ وَأَمْوَالِهِمْ</div>
+                    <div class="transliteration">Al-mu'minu man amina-hu n-nāsu 'alā dimā'ihim wa amwālihim</div>
+                    <p>"Seorang mukmin adalah orang yang membuat orang lain merasa aman terhadap darah dan harta mereka."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan:</strong> Hadits ini menunjukkan bahwa seorang yang beriman akan menjadi saluran rezeki dan keamanan bagi orang lain, mencerminkan sifat Ar-Razzaq dalam perilaku sehari-hari. Menurut penjelasan Kementerian Agama RI, ini termasuk dalam konsep tawakal dan usaha halal dalam mencari rezeki.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Rezeki yang Halal dan Berkah</div>
+                    <div class="arabic">اللَّهُمَّ ارْزُقْنَا رِزْقًا حَلَالًا طَيِّبًا وَاسِعًا بِغَيْرِ تَعَبٍ وَلَا مَشَقَّةٍ وَلَا حَسَدٍ</div>
+                    <div class="transliteration">Allāhumma urzuqnā rizqan ḥalālan ṭayyiban wāsi'an bighayri ta'abin wa lā mashaqqatin wa lā ḥasadin</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, berilah kami rezeki yang halal, baik, melimpah tanpa kesulitan, kesusahan, atau iri dengki."</p>
+                    <p><strong>Keutamaan:</strong> Doa ini diajarkan oleh Kementerian Agama RI untuk memohon rezeki yang halal dan berkah. Dianjurkan dibaca setiap pagi dan petang.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Kecukupan dengan Tawakal</div>
+                    <div class="arabic">حَسْبُنَا ٱللَّهُ وَنِعْمَ ٱلْوَكِيلُ</div>
+                    <div class="transliteration">Hasbunā llāhu wa ni'ma l-wakīl</div>
+                    <p><strong>Terjemahan:</strong> "Cukuplah Allah bagi kami, dan Dia sebaik-baik Pelindung."</p>
+                    <p><strong>Sumber:</strong> <a href="https://quran.com/3/173?translations=33" target="_blank">Surah Al-Imran 3:173</a>. Doa ini diajarkan dalam Al-Quran untuk memperkuat tawakal kepada Ar-Razzaq.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Dzikir Pagi untuk Rezeki</div>
+                    <p>Berdasarkan hadits riwayat Abu Dawud, Nabi ﷺ mengajarkan:</p>
+                    <div class="arabic">حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ</div>
+                    <div class="transliteration">Hasbiya Allāhu lā ilāha illā huwa 'alayhi tawakkaltu wa huwa rabbul-'arshil-'azīm</div>
+                    <p><strong>Amalan:</strong></p>
+                    <ol>
+                        <li>Baca dzikir ini 7 kali setelah shalat Subuh</li>
+                        <li>Renungkan makna Ar-Razzaq sebagai pemberi rezeki</li>
+                        <li>Gabungkan dengan usaha halal mencari nafkah</li>
+                    </ol>
+                    <p><strong>Manfaat:</strong> Amalan ini membantu membersihkan rezeki dan meningkatkan keberkahan, sebagaimana diajarkan oleh para ulama.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Sedekah untuk Melapangkan Rezeki</div>
+                    <p>Al-Quran menyatakan dalam <a href="https://quran.com/2/261?translations=33" target="_blank">Surah Al-Baqarah 2:261</a>:</p>
+                    <div class="arabic">مَّثَلُ ٱلَّذِينَ يُنفِقُونَ أَمْوَٰلَهُمْ فِى سَبِيلِ ٱللَّهِ كَمَثَلِ حَبَّةٍ أَنۢبَتَتْ سَبْعَ سَنَابِلَ فِى كُلِّ سُنۢبُلَةٍۢ مِّا۟ئَةُ حَبَّةٍۢ ۗ وَٱللَّهُ يُضَٰعِفُ لِمَن يَشَآءُ ۗ وَٱللَّهُ وَٰسِعٌ عَلِيمٌ</div>
+                    <div class="transliteration">Mathalu alladhīna yunfiqūna amwālahum fī sabīli Allāhi kamathali ḥabbatin ambatat sab'a sanābil, fī kulli sunbulatim mi'atu ḥabbah, wa Allāhu yuḍā'ifu liman yashā', wa Allāhu wāsi'un 'alīm</div>
+                    <p><strong>Amalan:</strong></p>
+                    <ol>
+                        <li>Bersedekah secara rutin meski sedikit</li>
+                        <li>Niatkan untuk mencari ridha Ar-Razzaq</li>
+                        <li>Perhatikan bagaimana Allah mengganti dengan yang lebih baik</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Sedekah tidak mengurangi harta, justru membersihkan dan melipatgandakan rezeki, sebagaimana janji Allah dalam ayat ini.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut tafsir Kementerian Agama RI, nama Ar-Razzaq memiliki tiga dimensi utama:</p>
+                <ol>
+                    <li><strong>Rezeki Jasmani:</strong>
+                        <ul>
+                            <li>Makanan, minuman, dan kebutuhan fisik (<a href="https://quran.com/11/6?translations=33" target="_blank">11:6</a>)</li>
+                            <li>Kesehatan dan kekuatan tubuh</li>
+                        </ul>
+                    </li>
+                    <li><strong>Rezeki Rohani:</strong>
+                        <ul>
+                            <li>Ilmu dan pemahaman agama (<a href="https://quran.com/2/269?translations=33" target="_blank">2:269</a>)</li>
+                            <li>Ketenteraman hati dan kebahagiaan</li>
+                        </ul>
+                    </li>
+                    <li><strong>Rezeki Ukhrawi:</strong>
+                        <ul>
+                            <li>Pahala dan amal shaleh (<a href="https://quran.com/3/185?translations=33" target="_blank">3:185</a>)</li>
+                            <li>Syurga dan kenikmatan abadi</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam kitab <em>Asmaul Husna untuk Anak</em> yang diterbitkan Kemenag RI dijelaskan bahwa mengimani nama Ar-Razzaq berarti:</p>
+                <ul>
+                    <li>Meyakini semua rezeki berasal dari Allah</li>
+                    <li>Selalu bersyukur atas segala pemberian-Nya</li>
+                    <li>Berusaha mencari rezeki dengan cara yang halal</li>
+                    <li>Bersedekah untuk membersihkan dan melapangkan rezeki</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Refleksi</h2>
+                <div class="amalan">
+                    <p><strong>1. Sumber Segala Rezeki:</strong> Ar-Razzaq mengingatkan kita bahwa semua yang kita miliki berasal dari Allah, bukan semata hasil usaha kita.</p>
+                    <p><strong>2. Kekuatan Tawakal:</strong> Sebagai Maha Pemberi Rezeki, Allah menjamin rezeki semua makhluk-Nya, sehingga kita harus bertawakal sepenuhnya kepada-Nya.</p>
+                    <p><strong>3. Pendidikan Anak:</strong> Mengajarkan anak tentang Ar-Razzaq membantu mereka mengembangkan rasa syukur dan tawakal sejak dini.</p>
+                    <p><strong>4. Kedermawanan:</strong> Meneladani sifat Ar-Razzaq dengan menjadi pribadi yang suka memberi dan membantu sesama.</p>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">17. Ar-Razzaq (The Provider)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/ar-razzaq/" target="_blank">myislam.org</a>, <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلرَّزَّاقُ</div>
+            <div class="transliteration">Transliteration: Ar-Razzaq</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/17.%20ar-razzaq.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="bonus">
+                <div class="audio-title">Bonus: Listen to the beautiful explanation of Al Asma Ul Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_18Razzaaq.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                <p style="text-align: center; margin-top: 10px;">
+                    <a href="https://qfatima.com/a99-audio" target="_blank">More audio explanations at qfatima.com</a>
+                </p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Ar-Razzaq comes from the root r-z-q (ر-ز-ق) meaning "to provide", "to sustain", or "to bestow provision". According to the Indonesian Ministry of Religious Affairs, this name shows that Allah is the only provider who fulfills all the needs of His creatures, both physical and spiritual.</p>
+                <p>Indonesian Ministry of Religious Affairs explains: "Ar-Razzaq is the Being who provides all the needs of His creatures, both requested and unrequested. His provision encompasses everything, from food, health, to knowledge and guidance."</p>
+                <p>In the book <em>Al-Maqshad al-Asna fi Syarh Asma' Allah al-Husna</em> by Imam Al-Ghazali, it is explained that Ar-Razzaq contains the meaning:</p>
+                <ul>
+                    <li><strong>The All-Powerful Provider:</strong> Allah provides sustenance to all creatures without exception</li>
+                    <li><strong>The Supplier of Needs:</strong> Not only food, but also knowledge, health, and all forms of goodness</li>
+                    <li><strong>The Continuous Giver:</strong> Sustenance is given continuously according to His wisdom</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong> 
+                    <a href="https://quran.com/51/58?translations=131" target="_blank">Surah Adh-Dhariyat 51:58</a>
+                    <div class="arabic">إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ</div>
+                    <div class="transliteration">Inna Allāha huwa ar-razzāqu dhū al-quwwati al-matīn</div>
+                    <p>"Indeed, it is Allah who is the [continual] Provider, the firm possessor of strength."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> This verse affirms that Allah is the only true provider. His firm strength shows that nothing can prevent the provision He has decreed. Provision includes all human needs, both material and spiritual.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/11/6?translations=131" target="_blank">Surah Hud 11:6</a>
+                    <div class="arabic">وَمَا مِن دَآبَّةٍۢ فِى ٱلْأَرْضِ إِلَّا عَلَى ٱللَّهِ رِزْقُهَا وَيَعْلَمُ مُسْتَقَرَّهَا وَمُسْتَوْدَعَهَا ۚ كُلٌّۭ فِى كِتَـٰبٍۢ مُّبِينٍۢ</div>
+                    <div class="transliteration">Wa mā min dābbatin fil-arḍi illā 'alā Allāhi rizquhā, wa ya'lamu mustaqarrahā wa mustawda'ahā, kullun fī kitābin mubīn</div>
+                    <p>"And there is no creature on earth but that upon Allah is its provision, and He knows its place of dwelling and place of storage. All is in a clear register."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> This verse shows Allah's guarantee of provision for all creatures. This includes provision suitable for the condition and needs of each creature, which has been decreed in the Preserved Tablet before the creation of the universe.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/67/21?translations=131" target="_blank">Surah Al-Mulk 67:21</a>
+                    <div class="arabic">أَمَّنْ هَـٰذَا ٱلَّذِى يَرْزُقُكُمْ إِنْ أَمْسَكَ رِزْقَهُ ۚ بَل لَّجُّوا۟ فِى عُتُوٍّۢ وَنُفُورٍ</div>
+                    <div class="transliteration">Amman hādhā alladhī yarzuqukum in amsaka rizqah, bal lajjū fī 'utuwwin wa nufūr</div>
+                    <p>"Or who is it that could provide for you if He withheld His provision? But they have persisted in insolence and aversion."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> This verse reminds humans that only Allah provides sustenance, and if He withholds His provision, no one can provide it.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/bukhari:7406" target="_blank">Sahih Bukhari 7406</a>
+                    <div class="arabic">الْمُؤْمِنُ مَنْ أَمِنَهُ النَّاسُ عَلَى دِمَائِهِمْ وَأَمْوَالِهِمْ</div>
+                    <div class="transliteration">Al-mu'minu man amina-hu n-nāsu 'alā dimā'ihim wa amwālihim</div>
+                    <p>"The believer is one from whom people are secure regarding their lives and property."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith shows that a believer becomes a channel of provision and security for others, reflecting the attribute of Ar-Razzaq in daily behavior. According to Indonesian Ministry of Religious Affairs explanation, this includes the concept of tawakkal and halal effort in seeking provision.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Abundant Provision</div>
+                    <div class="arabic">اللَّهُمَّ ارْزُقْنَا رِزْقًا حَلَالًا طَيِّبًا وَاسِعًا بِغَيْرِ تَعَبٍ وَلَا مَشَقَّةٍ وَلَا حَسَدٍ</div>
+                    <div class="transliteration">Allāhumma urzuqnā rizqan ḥalālan ṭayyiban wāsi'an bighayri ta'abin wa lā mashaqqatin wa lā ḥasadin</div>
+                    <p><strong>Translation:</strong> "O Allah, provide us with lawful, pure, abundant provision without difficulty, hardship, or envy."</p>
+                    <p><strong>Benefits:</strong> This dua is taught by Indonesian Ministry of Religious Affairs to ask for halal and blessed provision. Recommended to be recited every morning and evening.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Trust in Provision</div>
+                    <div class="arabic">حَسْبُنَا ٱللَّهُ وَنِعْمَ ٱلْوَكِيلُ</div>
+                    <div class="transliteration">Hasbunā llāhu wa ni'ma l-wakīl</div>
+                    <p><strong>Translation:</strong> "Sufficient for us is Allah, and [He is] the best Disposer of affairs."</p>
+                    <p><strong>Source:</strong> <a href="https://quran.com/3/173?translations=131" target="_blank">Surah Al-Imran 3:173</a>. This prayer is taught in the Quran to strengthen tawakkal to Ar-Razzaq.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Morning Provision Prayer</div>
+                    <p>Based on a hadith narrated by Abu Dawud, the Prophet ﷺ taught:</p>
+                    <div class="arabic">حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ</div>
+                    <div class="transliteration">Hasbiya Allāhu lā ilāha illā huwa 'alayhi tawakkaltu wa huwa rabbul-'arshil-'azīm</div>
+                    <p><strong>Practice:</strong></p>
+                    <ol>
+                        <li>Recite this dhikr 7 times after Fajr prayer</li>
+                        <li>Reflect on the meaning of Ar-Razzaq as the provider</li>
+                        <li>Combine it with halal efforts to seek livelihood</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice helps purify provision and increase blessings, as taught by scholars.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Charity to Expand Provision</div>
+                    <p>The Quran states in <a href="https://quran.com/2/261?translations=131" target="_blank">Surah Al-Baqarah 2:261</a>:</p>
+                    <div class="arabic">مَّثَلُ ٱلَّذِينَ يُنفِقُونَ أَمْوَٰلَهُمْ فِى سَبِيلِ ٱللَّهِ كَمَثَلِ حَبَّةٍ أَنۢبَتَتْ سَبْعَ سَنَابِلَ فِى كُلِّ سُنۢبُلَةٍۢ مِّا۟ئَةُ حَبَّةٍۢ ۗ وَٱللَّهُ يُضَٰعِفُ لِمَن يَشَآءُ ۗ وَٱللَّهُ وَٰسِعٌ عَلِيمٌ</div>
+                    <div class="transliteration">Mathalu alladhīna yunfiqūna amwālahum fī sabīli Allāhi kamathali ḥabbatin ambatat sab'a sanābil, fī kulli sunbulatim mi'atu ḥabbah, wa Allāhu yuḍā'ifu liman yashā', wa Allāhu wāsi'un 'alīm</div>
+                    <p><strong>Practice:</strong></p>
+                    <ol>
+                        <li>Give charity regularly even in small amounts</li>
+                        <li>Intention to seek the pleasure of Ar-Razzaq</li>
+                        <li>Observe how Allah replaces it with something better</li>
+                    </ol>
+                    <p><strong>Islamic Basis:</strong> Charity does not decrease wealth, rather it purifies and multiplies provision, as promised by Allah in this verse.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>According to the tafsir of the Indonesian Ministry of Religious Affairs, the name Ar-Razzaq has three main dimensions:</p>
+                <ol>
+                    <li><strong>Physical Provision:</strong>
+                        <ul>
+                            <li>Food, drink, and physical needs (<a href="https://quran.com/11/6?translations=131" target="_blank">11:6</a>)</li>
+                            <li>Health and physical strength</li>
+                        </ul>
+                    </li>
+                    <li><strong>Spiritual Provision:</strong>
+                        <ul>
+                            <li>Knowledge and understanding of religion (<a href="https://quran.com/2/269?translations=131" target="_blank">2:269</a>)</li>
+                            <li>Heart tranquility and happiness</li>
+                        </ul>
+                    </li>
+                    <li><strong>Hereafter Provision:</strong>
+                        <ul>
+                            <li>Reward and righteous deeds (<a href="https://quran.com/3/185?translations=131" target="_blank">3:185</a>)</li>
+                            <li>Paradise and eternal bliss</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In the book <em>Asmaul Husna for Children</em> published by the Indonesian Ministry of Religious Affairs, it is explained that believing in the name Ar-Razzaq means:</p>
+                <ul>
+                    <li>Believing all provision comes from Allah</li>
+                    <li>Always being grateful for His gifts</li>
+                    <li>Seeking provision through halal means</li>
+                    <li>Giving charity to purify and expand provision</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Reflection</h2>
+                <div class="amalan">
+                    <p><strong>1. Source of All Provision:</strong> Ar-Razzaq reminds us that everything we have comes from Allah, not merely the result of our efforts.</p>
+                    <p><strong>2. Power of Trust:</strong> As the Supreme Provider, Allah guarantees provision for all His creatures, so we must place complete trust in Him.</p>
+                    <p><strong>3. Children's Education:</strong> Teaching children about Ar-Razzaq helps them develop gratitude and trust from an early age.</p>
+                    <p><strong>4. Generosity:</strong> Emulating the attribute of Ar-Razzaq by becoming a person who gives and helps others.</p>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back to Top</a>
+        </div>
+
+        <footer>
+            © (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
