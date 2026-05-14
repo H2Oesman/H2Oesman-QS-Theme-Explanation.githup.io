@@ -360,9 +360,9 @@
 
     <div class="container">
         <div class="toggle-group">
-            <button class="toggle-btn" id="langToggle"><i class="fas fa-globe"></i> <span id="langFlagSpan"></span> English Version</button>
-            <button class="toggle-btn" id="translitToggle"><i class="fas fa-language"></i> Sembunyikan Transliterasi</button>
-            <button class="toggle-btn" id="darkToggle"><i class="fas fa-moon"></i> Mode Gelap</button>
+            <button class="toggle-btn" id="langToggle"></button>
+            <button class="toggle-btn" id="translitToggle"></button>
+            <button class="toggle-btn" id="darkToggle"></button>
         </div>
 
         <!-- ================= INDONESIAN VERSION (LENGKAP) ================= -->
@@ -658,6 +658,7 @@
 
     <script>
         (function() {
+            // Helper: get URL parameters
             function getParam(param) {
                 const urlParams = new URLSearchParams(window.location.search);
                 return urlParams.get(param);
@@ -674,16 +675,32 @@
             const darkBtn = document.getElementById('darkToggle');
             const translitEls = document.querySelectorAll('.transliteration');
 
+            // Load from localStorage or defaults
             let currentLang = localStorage.getItem('morningDhikrLang') || 'indonesian';
             if (urlEnglish) currentLang = 'english';
             else if (urlIndonesian) currentLang = 'indonesian';
+            // Save override to localStorage
+            localStorage.setItem('morningDhikrLang', currentLang);
+
+            let transVisible = localStorage.getItem('showTranslitDzikir');
+            if (transVisible === null) transVisible = true;
+            else transVisible = (transVisible === 'true');
+            if (urlTranslit) transVisible = true;
+            localStorage.setItem('showTranslitDzikir', transVisible);
+
+            let darkActive = localStorage.getItem('darkModeDzikir') === 'true';
+            if (urlDark) darkActive = true;
+            if (darkActive) document.body.classList.add('dark-mode');
+            localStorage.setItem('darkModeDzikir', darkActive);
 
             function updateToggleTexts(lang) {
                 const isIndo = (lang === 'indonesian');
                 if (isIndo) {
-                    langBtn.innerHTML = '<i class="fas fa-globe"></i> English Version';
+                    // In Indonesian mode, button shows English Version with UK flag
+                    langBtn.innerHTML = '🇬🇧 English Version';
                 } else {
-                    langBtn.innerHTML = '<i class="fas fa-globe"></i> Bahasa Indonesia';
+                    // In English mode, button shows Bahasa Indonesia with Indonesian flag
+                    langBtn.innerHTML = '🇮🇩 Bahasa Indonesia';
                 }
                 const translitVisible = translitEls[0]?.style.display !== 'none';
                 if (isIndo) {
@@ -715,11 +732,6 @@
                 setLanguage(newLang);
             });
 
-            let transVisible = localStorage.getItem('showTranslitDzikir');
-            if (transVisible === null) transVisible = true;
-            else transVisible = (transVisible === 'true');
-            if (urlTranslit) transVisible = true;
-
             function setTransliteration(show) {
                 translitEls.forEach(el => el.style.display = show ? 'block' : 'none');
                 updateToggleTexts(currentLang);
@@ -731,17 +743,16 @@
                 setTransliteration(!currently);
             });
 
-            let darkActive = localStorage.getItem('darkModeDzikir') === 'true';
-            if (urlDark) darkActive = true;
-            if (darkActive) document.body.classList.add('dark-mode');
-            function setDarkButton() {
+            function setDarkMode(active) {
+                if (active) document.body.classList.add('dark-mode');
+                else document.body.classList.remove('dark-mode');
                 updateToggleTexts(currentLang);
-                localStorage.setItem('darkModeDzikir', document.body.classList.contains('dark-mode'));
+                localStorage.setItem('darkModeDzikir', active);
             }
-            setDarkButton();
+            setDarkMode(darkActive);
             darkBtn.addEventListener('click', () => {
-                document.body.classList.toggle('dark-mode');
-                setDarkButton();
+                const newActive = !document.body.classList.contains('dark-mode');
+                setDarkMode(newActive);
             });
 
             // Click-to-listen functionality
