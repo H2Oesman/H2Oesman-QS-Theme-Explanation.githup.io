@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>99 Asmaul Husna - Ar-Rafi (Yang Maha Meninggikan)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --name-title-color: #2c3e50;
+            --section-title-color: #2980b9;
+            --border-color: #3498db;
+            --dua-bg: #f8f9fa;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --arabic-color: #90caf9;
+            --name-title-color: #e2e8f0;
+            --section-title-color: #7bc9ff;
+            --border-color: #7bc9ff;
+            --dua-bg: #1e2a3e;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #1e2a3e;
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            font-weight: normal;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--name-title-color);
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid var(--border-color);
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--dua-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 70px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ffe082;
+            transition: all 0.3s ease;
+        }
+        .dark-mode .tafsir-box {
+            border-color: #4b5563;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+        .official-ref {
+            background-color: #e8f8f5;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 3px solid #1abc9c;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        .dark-mode .official-ref {
+            background-color: #2a3a3a;
+            border-left-color: #1abc9c;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">23. Ar-Rafi (Yang Maha Meninggikan)</h1>
+            <div class="name-source">
+                <strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/" target="_blank">myislam.org/99-names-of-allah/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a>
+            </div>
+
+            <div class="arabic">الرَّافِعُ</div>
+            <div class="transliteration">Transliterasi: Ar-Rafi</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/23.%20ar-rafi.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="official-ref">
+                <strong>Penjelasan Kementerian Agama RI:</strong> Ar-Rafi artinya Yang Maha Meninggikan. Allah berkuasa mengangkat derajat siapa pun yang beriman dan beramal saleh sesuai dengan hikmah-Nya.
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Menurut <a href="https://kemenag.go.id" target="_blank">Kementerian Agama RI</a>, Ar-Rafi merupakan salah satu dari 99 Asmaul Husna yang mengandung makna:</p>
+                <ul>
+                    <li><strong>Maha Meninggikan Derajat:</strong> Allah berkuasa mengangkat siapa pun yang beriman dan beramal saleh (<a href="https://quran.com/58/11?translations=33" target="_blank">QS. Al-Mujadila 58:11</a>)</li>
+                    <li><strong>Pemilik Kekuasaan Absolut:</strong> Segala kedudukan dan kemuliaan berasal dari kehendak-Nya</li>
+                    <li><strong>Pemberi Kemuliaan:</strong> Allah mengangkat derajat orang-orang yang menuntut ilmu dan mengamalkannya</li>
+                </ul>
+                
+                <div class="official-ref">
+                    <strong>Penjelasan Kementerian Agama RI:</strong> Dalam Tafsir Al-Qur'an Tematik, Kementerian Agama RI menjelaskan bahwa Ar-Rafi adalah Dzat yang mengangkat orang-orang yang beriman dan berilmu di dunia maupun di akhirat.
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/58/11?translations=33" target="_blank">Surah Al-Mujadila 58:11</a>
+                    <div class="arabic">يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ</div>
+                    <div class="transliteration">YarfaAAi Allahu allatheena amanoo minkum waallatheena ootoo alAAilma darajatin</div>
+                    <p>"Allah akan meninggikan orang-orang yang beriman di antaramu dan orang-orang yang diberi ilmu pengetahuan beberapa derajat."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menunjukkan kekuasaan Allah dalam mengatur derajat manusia. Allah berkuasa mengangkat orang-orang yang beriman dan berilmu sesuai dengan hikmah-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/94/4?translations=33" target="_blank">Surah Ash-Sharh 94:4</a>
+                    <div class="arabic">وَرَفَعْنَا لَكَ ذِكْرَكَ</div>
+                    <div class="transliteration">WarafaAAna laka thikrak</div>
+                    <p>"Dan Kami tinggikan sebutan (nama)mu."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menunjukkan pengangkatan nama Nabi Muhammad SAW oleh Allah. Pengangkatan ini terwujud dalam syahadat, shalat, dan penyebutan nama beliau dalam khutbah dan doa-doa.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/35/10?translations=33" target="_blank">Surah Fatir 35:10</a>
+                    <div class="arabic">إِلَيْهِ يَصْعَدُ الْكَلِمُ الطَّيِّبُ وَالْعَمَلُ الصَّالِحُ يَرْفَعُهُ</div>
+                    <div class="transliteration">Ilayhi yasAAadu alkalimu alttayyibu waalAAamalu alssalihu yarfaAAuhu</div>
+                    <p>"Kepada-Nyalah naik perkataan-perkataan yang baik dan amal yang saleh dinaikkan-Nya."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menjelaskan mekanisme pengangkatan di sisi Allah. Perkataan baik seperti zikir dan doa akan naik kepada Allah, kemudian amal saleh akan mengangkatnya lebih tinggi.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> 
+                    <a href="https://sunnah.com/muslim:2699" target="_blank">Sahih Muslim 2699</a>
+                    <div class="arabic">مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ</div>
+                    <div class="transliteration">Man salaka tareeqan yaltamisu feehi AAilman sahhala Allahu lahu bihi tareeqan ila aljannati</div>
+                    <p>"Barangsiapa menempuh suatu jalan dalam rangka menuntut ilmu, Allah akan mudahkan baginya jalan menuju surga."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kementerian Agama RI:</strong> Hadits ini mengajarkan bahwa menuntut ilmu adalah salah satu jalan utama untuk mendapatkan pengangkatan derajat di sisi Allah. Ilmu yang dimaksud mencakup ilmu agama yang membawa manfaat dunia dan akhirat.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Pengangkatan Derajat</div>
+                    <div class="arabic">اللَّهُمَّ ارْفَعْ ذِكْرِي وَاغْفِرْ لِي ذَنْبِي</div>
+                    <div class="transliteration">Allahumma irfaAA thikree waghfir lee thanbee</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, tinggikan sebutanku dan ampunilah dosaku."</p>
+                    <p><strong>Referensi Kementerian Agama RI:</strong> Doa ini diajarkan oleh ulama sebagai permohonan pengangkatan derajat disertai permohonan ampun. Dianjurkan dibaca setiap selesai shalat lima waktu.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Ilmu yang Bermanfaat</div>
+                    <div class="arabic">اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي وَعَلِّمْنِي مَا يَنْفَعُنِي وَزِدْنِي عِلْمًا</div>
+                    <div class="transliteration">Allahumma infaAAnee bima AAallamtanee waAAallimnee ma yanfaAAunee wa zidnee AAilman</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, berilah manfaat dengan apa yang Engkau ajarkan kepadaku, ajarkanlah aku apa yang bermanfaat bagiku, dan tambahkanlah ilmuku."</p>
+                    <p><strong>Sumber Kementerian Agama RI:</strong> Doa ini diajarkan oleh para ulama sebagai permohonan ilmu yang bermanfaat. Dianjurkan dibaca setiap selesai belajar atau mengajar sebagai bentuk tawakal kepada Allah Ar-Rafi.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                
+                <div class="official-ref">
+                    <strong>Panduan Kementerian Agama RI:</strong> Berikut amalan yang terkait dengan nama Ar-Rafi yang sesuai dengan ajaran Ahlussunnah wal Jama'ah:
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">1. Praktik Menuntut Ilmu</div>
+                    <p>Berdasarkan hadits riwayat Muslim dan penjelasan Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Setiap hari, luangkan waktu untuk mempelajari ilmu agama</li>
+                        <li>Mulai dengan membaca basmalah dan doa memohon ilmu yang bermanfaat</li>
+                        <li>Fokus pada pemahaman dan pengamalan ilmu</li>
+                        <li>Akhiri dengan hamdalah dan doa kafaratul majlis</li>
+                    </ol>
+                    <p><strong>Referensi Kementerian Agama RI:</strong> Dalam Tafsir Tematik, Kementerian Agama RI menjelaskan bahwa menuntut ilmu adalah jalan utama untuk mendapatkan pengangkatan derajat dari Allah.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">2. Ritual Pengamalan Ilmu</div>
+                    <p>Amalan yang diajarkan para ulama Ahlussunnah:</p>
+                    <ol>
+                        <li>Setiap pekan, pilih satu ilmu yang telah dipelajari untuk diamalkan</li>
+                        <li>Lakukan amalan tersebut dengan ikhlas karena Allah</li>
+                        <li>Catat hikmah dan perubahan yang dirasakan</li>
+                        <li>Bersyukur atas taufik dari Allah</li>
+                    </ol>
+                    <p><strong>Catatan Kementerian Agama RI:</strong> Amalan ini berdasarkan ijma ulama tentang keutamaan mengamalkan ilmu, bukan bid'ah.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Pandangan Kementerian Agama RI</h2>
+                <p>Menurut penjelasan <a href="https://kemenag.go.id" target="_blank">Kementerian Agama RI</a>:</p>
+                <ol>
+                    <li><strong>Keadilan Ilahi:</strong>
+                        <ul>
+                            <li>Allah mengangkat orang-orang beriman (<a href="https://quran.com/58/11?translations=33" target="_blank">QS. Al-Mujadila 58:11</a>)</li>
+                            <li>Allah meninggikan para nabi dan rasul (<a href="https://quran.com/6/86?translations=33" target="_blank">QS. Al-An'am 6:86</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Penyucian Jiwa:</strong>
+                        <ul>
+                            <li>Meningkatkan ketakwaan melalui ilmu (<a href="https://quran.com/35/28?translations=33" target="_blank">QS. Fatir 35:28</a>)</li>
+                            <li>Mengangkat derajat melalui amal saleh (<a href="https://quran.com/35/10?translations=33" target="_blank">QS. Fatir 35:10</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Bimbingan:</strong>
+                        <ul>
+                            <li>Mendorong untuk menuntut ilmu</li>
+                            <li>Mengembangkan sifat rendah hati dalam menuntut ilmu</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <div class="official-ref">
+                    <strong>Rekomendasi Kementerian Agama RI:</strong> Dalam meraih pengangkatan derajat, umat Islam dianjurkan untuk:
+                    <ol>
+                        <li>Memperbanyak menuntut ilmu agama</li>
+                        <li>Mengingat kekuasaan Allah sebagai Ar-Rafi</li>
+                        <li>Berdoa dengan menyebut nama Ar-Rafi</li>
+                        <li>Mengamalkan ilmu yang telah dipelajari</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">23. Ar-Rafi (The Exalter)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/ar-rafi/" target="_blank">myislam.org/99-names-of-allah/ar-rafi/</a></div>
+            
+            <!-- Bonus section only in English -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_23Khaafidh24Raafi.mp3?_=23" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">الرَّافِعُ</div>
+            <div class="transliteration">Transliteration: Ar-Rafi</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/23.%20ar-rafi.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Ar-Rafi is the complementary name to Al-Khafid (The Abaser). It signifies Allah's attribute of elevating, raising, and honoring whoever He wills - whether it be in rank, status, knowledge, or spiritual station.</p>
+                
+                <p>This name demonstrates Allah's perfect justice and mercy. He raises the sincere believers, the martyrs, the scholars, and the righteous. The Quran mentions how Allah elevates whole nations when they follow His guidance and lowers them when they turn away. True elevation comes only from Allah, not from worldly power or possessions.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/58/11?translations=131" target="_blank">Surah Al-Mujadila 58:11</a>
+                    <div class="arabic">يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ</div>
+                    <div class="transliteration">YarfaAAi Allahu allatheena amanoo minkum waallatheena ootoo alAAilma darajatin</div>
+                    <p>"Allah will raise those who have believed among you and those who were given knowledge by degrees."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir:</strong> This verse establishes the connection between faith, knowledge, and divine elevation. Scholars explain that Allah elevates believers in multiple ways - in their ranks in Paradise, in their status in this world, and in their honor among people. Those with both faith and knowledge are elevated above other believers.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/94/4?translations=131" target="_blank">Surah Ash-Sharh 94:4</a>
+                    <div class="arabic">وَرَفَعْنَا لَكَ ذِكْرَكَ</div>
+                    <div class="transliteration">WarafaAAna laka thikrak</div>
+                    <p>"And raised high for you your repute."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir:</strong> This refers to how Allah elevated the mention of Prophet Muhammad (peace be upon him) by making the Shahadah and prayers connected to his name, and by making him the final prophet sent to all mankind. The elevation of the Prophet's mention is an eternal mercy for the ummah.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/35/10?translations=131" target="_blank">Surah Fatir 35:10</a>
+                    <div class="arabic">إِلَيْهِ يَصْعَدُ الْكَلِمُ الطَّيِّبُ وَالْعَمَلُ الصَّالِحُ يَرْفَعُهُ</div>
+                    <div class="transliteration">Ilayhi yasAAadu alkalimu alttayyibu waalAAamalu alssalihu yarfaAAuhu</div>
+                    <p>"To Him ascends good speech, and righteous work raises it."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir:</strong> This verse shows the mechanism of divine elevation - good words (like dhikr and dua) ascend to Allah, and righteous deeds elevate these words. It's a beautiful interplay between speech and action in achieving spiritual elevation.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/muslim:2699" target="_blank">Sahih Muslim 2699</a>
+                    <div class="arabic">مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ</div>
+                    <div class="transliteration">Man salaka tareeqan yaltamisu feehi AAilman sahhala Allahu lahu bihi tareeqan ila aljannati</div>
+                    <p>"Whoever takes a path in pursuit of knowledge, Allah will make easy for him a path to Paradise."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith emphasizes that the pursuit of knowledge is one of the primary means by which Allah elevates His servants. The path to knowledge becomes a path to Paradise, showing the ultimate form of divine elevation.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Elevation and Forgiveness</div>
+                    <div class="arabic">اللَّهُمَّ ارْفَعْ ذِكْرِي وَاغْفِرْ لِي ذَنْبِي</div>
+                    <div class="transliteration">Allahumma irfaAA thikree waghfir lee thanbee</div>
+                    <p><strong>Translation:</strong> "O Allah, elevate my mention and forgive my sin."</p>
+                    <p><strong>Benefits:</strong> This comprehensive du'a asks Allah Ar-Rafi for both spiritual elevation and forgiveness, recognizing that true honor comes with purity. The Prophet (ﷺ) taught that combining requests for worldly and spiritual needs is a sign of comprehensive faith.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Righteous Conduct</div>
+                    <div class="arabic">اللَّهُمَّ اجْعَلْنِي مِنَ الَّذِينَ إِذَا أَحْسَنُوا اسْتَبْشَرُوا وَإِذَا أَسَاءُوا اسْتَغْفَرُوا</div>
+                    <div class="transliteration">Allahumma ijAAalnee mina allatheena itha ahsanoo istabsharoo waitha asaoo istaghfaro</div>
+                    <p><strong>Translation:</strong> "O Allah, make me among those who when they do good are happy, and when they do wrong seek forgiveness."</p>
+                    <p><strong>Source:</strong> This du'a seeks to be among those whom Allah elevates through their positive attitude and repentance, showing the connection between conduct and divine elevation. The Prophet (ﷺ) emphasized the importance of both doing good and properly responding to mistakes.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Seeking Beneficial Knowledge</div>
+                    <p>Daily practice to attain divine elevation through knowledge:</p>
+                    <ol>
+                        <li>Dedicate at least 30 minutes daily to study Islamic knowledge</li>
+                        <li>Begin each study session with "Bismillah" and the dua for knowledge</li>
+                        <li>Focus on understanding rather than mere memorization</li>
+                        <li>Implement at least one new learning each day</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice:</p>
+                    <ul>
+                        <li>Follows the Prophet's command to seek knowledge</li>
+                        <li>Aligns with the Quranic promise of elevation for those with knowledge</li>
+                        <li>Creates a sustainable habit of learning</li>
+                        <li>Ensures practical application of knowledge</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Performing Righteous Deeds Sincerely</div>
+                    <p>Weekly practice to embody the attribute of Ar-Rafi:</p>
+                    <ol>
+                        <li>Each week, perform one extra act of worship beyond obligations</li>
+                        <li>Choose a different category each week (prayer, charity, kindness, etc.)</li>
+                        <li>Keep the deeds between you and Allah</li>
+                        <li>Reflect on how the deed elevates your spiritual state</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Prophet (ﷺ) said: "Allah says: 'I am as My servant thinks I am, and I am with him when he remembers Me. If he remembers Me to himself, I remember him to Myself. If he remembers Me in a gathering, I remember him in a better gathering'" (Bukhari). This practice transforms understanding of divine elevation into action.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Scholarly Perspectives</h2>
+                <p>Islamic scholars explain that Ar-Rafi manifests in four primary ways:</p>
+                <ol>
+                    <li><strong>Divine Justice:</strong>
+                        <ul>
+                            <li>Allah elevates believers and people of knowledge (<a href="https://quran.com/58/11?translations=131" target="_blank">QS. Al-Mujadila 58:11</a>)</li>
+                            <li>Allah raises prophets and righteous people (<a href="https://quran.com/6/86?translations=131" target="_blank">QS. Al-An'am 6:86</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Spiritual Purification:</strong>
+                        <ul>
+                            <li>Elevating through knowledge and piety (<a href="https://quran.com/35/28?translations=131" target="_blank">QS. Fatir 35:28</a>)</li>
+                            <li>Raising spiritual stations through good deeds (<a href="https://quran.com/35/10?translations=131" target="_blank">QS. Fatir 35:10</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Guidance:</strong>
+                        <ul>
+                            <li>Encouraging the pursuit of knowledge</li>
+                            <li>Developing humility in seeking knowledge</li>
+                        </ul>
+                    </li>
+                </ol>
+                
+                <div class="bonus">
+                    <p><strong>Contemporary Application:</strong> In today's world where knowledge is easily accessible, remembering Ar-Rafi helps Muslims prioritize beneficial knowledge that leads to divine elevation. All knowledge should be sought with the intention of drawing closer to Allah and serving humanity.</p>
+                </div>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back to Top</a>
+        </div>
+
+        <footer>
+            © (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
