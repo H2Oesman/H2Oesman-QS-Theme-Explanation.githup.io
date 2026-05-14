@@ -19,6 +19,9 @@
             --arrow-bg: #2c3e50;
             --arrow-text: white;
             --link-color: #2980b9;
+            --click-color: #2c7da0;
+            --info-bg: #e8f0fe;
+            --info-border: #a0c4ff;
         }
 
         .dark-mode {
@@ -35,6 +38,9 @@
             --arrow-bg: #1e293b;
             --arrow-text: #eef2ff;
             --link-color: #7bc9ff;
+            --click-color: #7dd3fc;
+            --info-bg: #0f2c3d;
+            --info-border: #2c5282;
         }
 
         * {
@@ -63,7 +69,38 @@
             transition: all 0.3s ease;
         }
 
-        /* Scroll arrows */
+        /* Fixed toggles (remain visible while scrolling) */
+        .toggle-group {
+            position: sticky;
+            top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-bottom: 20px;
+            z-index: 1100;
+            background: transparent;
+        }
+        .toggle-btn {
+            background: #2c7da0;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .toggle-btn:hover {
+            opacity: 0.85;
+            transform: scale(0.97);
+        }
+
         .scroll-arrow {
             position: fixed;
             left: 20px;
@@ -122,6 +159,7 @@
             .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
             .scroll-arrow-double.up-double { top: 70px; }
             .container { padding: 20px; }
+            .toggle-group { top: 10px; }
         }
 
         .arabic {
@@ -135,7 +173,6 @@
             font-weight: 500;
         }
 
-        /* Right-aligned transliteration as requested */
         .transliteration {
             font-style: italic;
             color: #5f7f9e;
@@ -205,32 +242,6 @@
             color: #cbd5e1;
         }
 
-        .toggle-group {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        .toggle-btn {
-            background: #2c7da0;
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .toggle-btn:hover {
-            opacity: 0.85;
-            transform: scale(0.97);
-        }
-
         .hidden { display: none; }
         .back-link {
             display: inline-block;
@@ -268,6 +279,73 @@
         }
         a { color: var(--link-color); text-decoration: none; }
         a:hover { text-decoration: underline; }
+
+        .audio-player {
+            margin: 15px 0 5px;
+            text-align: center;
+        }
+        .audio-player audio {
+            width: 100%;
+            max-width: 380px;
+            border-radius: 30px;
+        }
+        .click-listen {
+            text-align: center;
+            margin-top: 6px;
+            cursor: pointer;
+            display: inline-block;
+            background: var(--badge-bg);
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--click-color);
+            transition: 0.2s;
+            user-select: none;
+        }
+        .click-listen:hover {
+            background: var(--link-color);
+            color: white;
+            transform: scale(1.02);
+        }
+        .audio-wrapper {
+            text-align: center;
+        }
+
+        /* New info box styles */
+        .info-box {
+            background: var(--info-bg);
+            border-left: 5px solid #2c7da0;
+            border-radius: 20px;
+            padding: 16px 22px;
+            margin: 30px 0 20px;
+            transition: all 0.2s;
+        }
+        .info-box h3 {
+            margin-bottom: 10px;
+            color: var(--section-title-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .blink-click {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #2c7da0;
+            color: white;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        .dark-mode .blink-click {
+            background: #1e5a6e;
+            color: #eef2ff;
+        }
+        .info-box a:hover .blink-click {
+            background: #1a5a75;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -283,146 +361,165 @@
     <div class="container">
         <div class="toggle-group">
             <button class="toggle-btn" id="langToggle"><i class="fas fa-globe"></i> <span id="langFlagSpan"></span> English Version</button>
-            <button class="toggle-btn" id="translitToggle"><i class="fas fa-language"></i> Hide Transliteration</button>
-            <button class="toggle-btn" id="darkToggle"><i class="fas fa-moon"></i> Dark Mode</button>
+            <button class="toggle-btn" id="translitToggle"><i class="fas fa-language"></i> Sembunyikan Transliterasi</button>
+            <button class="toggle-btn" id="darkToggle"><i class="fas fa-moon"></i> Mode Gelap</button>
         </div>
 
-        <!-- ================= INDONESIAN VERSION ================= -->
+        <!-- ================= INDONESIAN VERSION (LENGKAP) ================= -->
         <div id="indoVersion">
             <div style="margin-bottom: 10px;">
                 <a href="index.html" class="back-link"><i class="fas fa-home"></i> ← Kembali ke Menu Utama</a>
             </div>
             <h1 class="page-title">🌿 DZIKIR PAGI 🌿</h1>
              <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-             <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+             <div class="transliteration">Bismillaahir-rahmaanir-rahiim</div>
 
             <!-- Ta'awwudz -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">Ta'awwudz</span><span class="recite-count">1x</span></div>
             <div class="arabic">أَعُوْذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ</div>
-            <div class="transliteration">A'uudzu billaahi minasy-syaithoonir-rojiim</div>
+            <div class="transliteration">A'uudzu billaahi minasy-syaithaanir-rajiim</div>
             <p><strong>Artinya:</strong> “Aku berlindung kepada Allah dari godaan syaitan yang terkutuk.”</p></div>
 
-            <!-- 1. Ayat Kursi (full) -->
+            <!-- 1. Ayat Kursi -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">1. Ayat Kursi</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ</div>
-            <div class="transliteration">Allāhu lā ilāha illā huw(a), al-ḥayyul-qayyūm(u), lā ta’khudhuhū sinatuw wa lā nawm(un), lahū mā fis-samāwāti wa mā fil-arḍ(i), man dhal-ladhī yashfa‘u ‘indahū illā bi-idhnih, ya‘lamu mā bayna aydīhim wa mā khalfahum, wa lā yuḥīṭūna bishay’im min ‘ilmihī illā bimā shā’, wasi‘a kursiyyuhus-samāwāti wal-arḍ(a), wa lā ya’ūduhū hifẓuhumā, wa huwal-‘aliyyul-‘aẓīm(u).</div>
-            <p><strong>Artinya:</strong> “Allah, tidak ada Ilah yang berhak diibadahi kecuali Dia Yang Hidup kekal lagi terus menerus mengurus (makhluk-Nya); tidak mengantuk dan tidak tidur. Kepunyaan-Nya apa yang ada di langit dan di bumi. Tiada yang dapat memberi syafa’at di sisi Allah tanpa izin-Nya. Allah mengetahui apa-apa yang di hadapan mereka dan di belakang mereka, dan mereka tidak mengetahui sesuatu apa pun tentang ilmu Allah melainkan apa yang dikehendaki-Nya. Kursi Allah meliputi langit dan bumi. Dan Allah tidak merasa berat memelihara keduanya, dan Allah Maha Tinggi lagi Maha Besar.” (Al-Baqarah: 255)</p></div>
+            <div class="transliteration">Allaahu laa ilaaha illaa huwa, al-hayyul-qayyuum, laa ta'khudzuhuu sinatuw wa laa nawm, lahuu maa fis-samaawaati wa maa fil-ardh, man dzal-ladzii yasyfa'u 'indahuu illaa bi-idznih, ya'lamu maa bayna aydiihim wa maa khalfahum, wa laa yuhiithuuna bisyay-im min 'ilmihii illaa bimaa syaa'a, wasi'a kursiyyuhus-samaawaati wal-ardh, wa laa ya-uuduhuu hifzhuhumaa, wa huwal-'aliyyul-'azhiim.</div>
+            <p><strong>Artinya:</strong> “Allah, tidak ada Ilah yang berhak diibadahi kecuali Dia Yang Hidup kekal lagi terus menerus mengurus (makhluk-Nya); tidak mengantuk dan tidak tidur. Kepunyaan-Nya apa yang ada di langit dan di bumi. Tiada yang dapat memberi syafa’at di sisi Allah tanpa izin-Nya. Allah mengetahui apa-apa yang di hadapan mereka dan di belakang mereka, dan mereka tidak mengetahui sesuatu apa pun tentang ilmu Allah melainkan apa yang dikehendaki-Nya. Kursi Allah meliputi langit dan bumi. Dan Allah tidak merasa berat memelihara keduanya, dan Allah Maha Tinggi lagi Maha Besar.” (Al-Baqarah: 255)</p>
+            <div class="audio-wrapper"><div class="audio-player"><audio controls><source src="https://dn711306.ca.archive.org/0/items/LeCorpsDunEnfant/RaadMuhammadAlKurdi_ak.mp3" type="audio/mpeg"></audio></div><div class="click-listen" data-audio="0">🎧 Klik untuk Mendengarkan</div></div>
+            </div>
 
-            <!-- 2. Al-Ikhlas 3x -->
+            <!-- 2. Al-Ikhlas -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">2. Surah Al-Ikhlas</span><span class="recite-count">3x</span></div>
             <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ قُلْ هُوَ اللَّهُ أَحَدٌ، اللَّهُ الصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ</div>
-            <div class="transliteration">Bismillaahir rahmaanir rahiim. Qul huwallāhu aḥad, Allāhuṣ-ṣamad, lam yalid wa lam yūlad, wa lam yakul lahu kufuwan aḥad.</div>
-            <p><strong>Artinya:</strong> “Katakanlah, Dialah Allah Yang Maha Esa. Allah adalah Tuhan yang bergantung kepada-Nya segala sesuatu. Dia tidak beranak dan tidak diperanakkan. Dan tidak ada seorang pun yang setara dengan-Nya.”</p></div>
+            <div class="transliteration">Bismillaahir rahmaanir rahiim. Qul huwallaahu ahad, Allaahush-shamad, lam yalid wa lam yuulad, wa lam yakul lahu kufuwan ahad.</div>
+            <p><strong>Artinya:</strong> “Katakanlah, Dialah Allah Yang Maha Esa. Allah adalah Tuhan yang bergantung kepada-Nya segala sesuatu. Dia tidak beranak dan tidak diperanakkan. Dan tidak ada seorang pun yang setara dengan-Nya.”</p>
+            <div class="audio-wrapper"><div class="audio-player"><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/112.mp3" type="audio/mpeg"></audio></div><div class="click-listen" data-audio="1">🎧 Klik untuk Mendengarkan</div></div>
+            </div>
 
-            <!-- 3. Al-Falaq 3x -->
+            <!-- 3. Al-Falaq -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">3. Surah Al-Falaq</span><span class="recite-count">3x</span></div>
             <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، مِنْ شَرِّ مَا خَلَقَ، وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ، وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ</div>
-            <div class="transliteration">Bismillaahir rahmaanir rahiim. Qul a'udzu birabbil-falaq, min sharri mā khalaq, wa min sharri ghāsiqin idhā waqab, wa min sharrin-naffāthāti fil-'uqad, wa min sharri hāsidin idhā hasad.</div>
-            <p><strong>Artinya:</strong> “Katakanlah, Aku berlindung kepada Tuhan yang menguasai subuh (fajar), dari kejahatan (makhluk yang) Dia ciptakan, dan dari kejahatan malam apabila telah gelap gulita, dari kejahatan (perempuan-perempuan) penyihir yang meniup pada buhul-buhul, dan dari kejahatan orang yang dengki apabila ia dengki.”</p></div>
+            <div class="transliteration">Bismillaahir rahmaanir rahiim. Qul a'udzu birabbil-falaq, min sharri maa khalaq, wa min sharri ghaasiqin idzaa waqab, wa min sharrin-naffaatsaati fil 'uqad, wa min sharri haasidin idzaa hasad.</div>
+            <p><strong>Artinya:</strong> “Katakanlah, Aku berlindung kepada Tuhan yang menguasai subuh (fajar), dari kejahatan (makhluk yang) Dia ciptakan, dan dari kejahatan malam apabila telah gelap gulita, dari kejahatan (perempuan-perempuan) penyihir yang meniup pada buhul-buhul, dan dari kejahatan orang yang dengki apabila ia dengki.”</p>
+            <div class="audio-wrapper"><div class="audio-player"><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/113.mp3" type="audio/mpeg"></audio></div><div class="click-listen" data-audio="2">🎧 Klik untuk Mendengarkan</div></div>
+            </div>
 
-            <!-- 4. An-Naas 3x -->
+            <!-- 4. An-Naas -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">4. Surah An-Naas</span><span class="recite-count">3x</span></div>
             <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ قُلْ أَعُوذُ بِرَبِّ النَّاسِ، مَلِكِ النَّاسِ، إِلَهِ النَّاسِ، مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ، الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ، مِنَ الْجِنَّةِ وَالنَّاسِ</div>
-            <div class="transliteration">Bismillaahir rahmaanir rahiim. Qul a'udzu birabbin-naas, malikin-naas, ilaahin-naas, min sharril waswaasil khannaas, alladzii yuwaswisu fii suduurin-naas, minal jinnati wannaas.</div>
-            <p><strong>Artinya:</strong> “Katakanlah, 'Aku berlindung kepada Tuhan (yang memelihara dan menguasai) manusia. Raja manusia. Sembahan manusia. Dari kejahatan (bisikan) syaitan yang biasa bersembunyi. Yang membisikkan (kejahatan) ke dalam dada manusia. Dari golongan jin dan manusia.”</p></div>
+            <div class="transliteration">Bismillaahir rahmaanir rahiim. Qul a'udzu birabbin-naas, malikin-naas, ilaahin-naas, min sharril waswaasil khannaas, alladzii yuwaswisu fii shuduurin-naas, minal jinnati wannaas.</div>
+            <p><strong>Artinya:</strong> “Katakanlah, 'Aku berlindung kepada Tuhan (yang memelihara dan menguasai) manusia. Raja manusia. Sembahan manusia. Dari kejahatan (bisikan) syaitan yang biasa bersembunyi. Yang membisikkan (kejahatan) ke dalam dada manusia. Dari golongan jin dan manusia.”</p>
+            <div class="audio-wrapper"><div class="audio-player"><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/114.mp3" type="audio/mpeg"></audio></div><div class="click-listen" data-audio="3">🎧 Klik untuk Mendengarkan</div></div>
+            </div>
 
             <!-- 5. Doa pagi utama -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">5. Doa Pagi (Ashbahnaa)</span><span class="recite-count">1x</span></div>
             <div class="arabic">أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.</div>
-            <div class="transliteration">Ash-bahnaa wa ash-bahal mulku lillah walhamdulillah, laa ilaaha illallah wahdahu laa syarika lah, lahul mulku walahul hamdu wa huwa ‘ala kulli syai-in qodir. Robbi as-aluka khoiro maa fii hadzal yaum wa khoiro maa ba’dahu, wa a’udzu bika min syarri maa fii hadzal yaum wa syarri maa ba’dahu. Robbi a’udzu bika minal kasali wa su-il kibar. Robbi a’udzu bika min ‘adzabin fin naari wa ‘adzabin fil qobri.</div>
+            <div class="transliteration">Ashbahnaa wa ashbahal mulku lillaah walhamdulillaah, laa ilaaha illallaah wahdahu laa syarika lah, lahul mulku walahul hamdu wa huwa 'alaa kulli syai-in qodiir. Robbi as-aluka khoiro maa fii hadzal yaum wa khoiro maa ba'dahu, wa a'udzu bika min syarri maa fii hadzal yaum wa syarri maa ba'dahu. Robbi a'udzu bika minal kasali wa suu'il kibar. Robbi a'udzu bika min 'adzaabin fin naari wa 'adzaabin fil qobri.</div>
             <p><strong>Artinya:</strong> “Kami telah memasuki waktu pagi dan kerajaan hanya milik Allah, segala puji bagi Allah. Tidak ada ilah yang berhak diibadahi dengan benar kecuali Allah semata, tiada sekutu bagi-Nya. Bagi-Nya kerajaan dan pujian. Dia Mahakuasa atas segala sesuatu. Ya Rabb, aku mohon kebaikan hari ini dan sesudahnya, aku berlindung dari kejahatan hari ini dan sesudahnya. Ya Rabb, aku berlindung dari kemalasan dan kejelekan di hari tua. Ya Rabb, aku berlindung dari siksa neraka dan siksa kubur.”</p></div>
 
-            <!-- 6 -->
+            <!-- 6. Doa Pagi & Petang -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">6. Doa Pagi & Petang</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ</div>
-            <div class="transliteration">Allahumma bika ash-bahnaa wa bika amsaynaa wa bika nahyaa wa bika namuutu wa ilaikan nusyuur.</div>
+            <div class="transliteration">Allahumma bika ashbahnaa wa bika amsainaa wa bika nahyaa wa bika namuutu wa ilaikan nusyuur.</div>
             <p><strong>Artinya:</strong> “Ya Allah, dengan rahmat dan pertolongan-Mu kami memasuki waktu pagi, dan dengan-Mu kami memasuki waktu sore, dengan-Mu kami hidup dan dengan-Mu kami mati, dan kepada-Mu kebangkitan.”</p></div>
 
-            <!-- 7 Sayyidul Istighfar -->
+            <!-- 7. Sayyidul Istighfar -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">7. Sayyidul Istighfar</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ</div>
-            <div class="transliteration">Allahumma anta robbii laa ilaaha illa anta, kholaqtanii wa ana ‘abduka, wa ana ‘ala ‘ahdika wa wa’dika mas-tatho’tu. A’udzu bika min syarri maa shona’tu, abuu-u laka bini’matika ‘alayya wa abuu-u bi dzambii, faghfirlii fa innahu laa yaghfirudz dzunuuba illaa anta.</div>
+            <div class="transliteration">Allahumma anta robbii laa ilaaha illaa anta, khalaqtanii wa ana 'abduka, wa ana 'alaa 'ahdika wa wa'dika mas-tatha'tu. A'udzu bika min syarri maa shana'tu, abuu-u laka bini'matika 'alayya wa abuu-u bi dzambii, faghfirlii fa innahu laa yaghfirudz dzunuuba illaa anta.</div>
             <p><strong>Artinya:</strong> “Ya Allah, Engkau adalah Rabb-ku, tidak ada Ilah (yang berhak diibadahi) selain Engkau. Engkau menciptakanku, aku adalah hamba-Mu, dan aku akan setia pada perjanjian-Mu semampuku. Aku berlindung kepada-Mu dari kejelekan yang kuperbuat. Aku mengakui nikmat-Mu kepadaku dan aku mengakui dosaku, maka ampunilah aku. Sesungguhnya tidak ada yang mengampuni dosa kecuali Engkau.”</p></div>
 
-            <!-- 8 -->
+            <!-- 8. Keselamatan Badan & Indera -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">8. Keselamatan Badan & Indera</span><span class="recite-count">3x</span></div>
             <div class="arabic">اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَهَ إِلَّا أَنْتَ</div>
-            <div class="transliteration">Allahumma ‘aafinii fii badanii, Allahumma ‘aafinii fii sam’ii, Allahumma ‘aafinii fii bashorii, laa ilaaha illaa anta. Allahumma innii a’udzu bika minal kufri wal faqr, wa a’udzu bika min ‘adzaabil qobri, laa ilaaha illaa anta.</div>
+            <div class="transliteration">Allahumma 'aafinii fii badanii, Allahumma 'aafinii fii sam'ii, Allahumma 'aafinii fii bashorii, laa ilaaha illaa anta. Allahumma innii a'udzu bika minal kufri wal faqr, wa a'udzu bika min 'adzaabil qobri, laa ilaaha illaa anta.</div>
             <p><strong>Artinya:</strong> “Ya Allah, sehatkanlah tubuhku, sehatkanlah pendengaranku, sehatkanlah penglihatanku, tiada ilah selain Engkau. Ya Allah, aku berlindung kepada-Mu dari kekufuran dan kefakiran, dan aku berlindung kepada-Mu dari siksa kubur, tiada ilah selain Engkau.”</p></div>
 
-            <!-- 9 -->
+            <!-- 9. Mohon Keafiatan & Penjagaan -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">9. Mohon Keafiatan & Penjagaan</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِنْ فَوْقِي وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي</div>
-            <div class="transliteration">Allahumma innii as-alukal ‘afwa wal ‘aafiyah fid dunyaa wal aakhirah, Allahumma innii as-alukal ‘afwa wal ‘aafiyah fii diinii wa dun-yaaya wa ahlii wa maalii, Allahummas-tur ‘awraatii wa aamin raw’aati, wahfazhnii min bayni yadayya wa min khalfii wa ‘an yamiinii wa ‘an shimaalii wa min fawqii wa a’udzu bi ‘azhamatika an ughtaala min tahtii.</div>
+            <div class="transliteration">Allahumma innii as-alukal 'afwa wal 'aafiyah fid dunyaa wal aakhirah, Allahumma innii as-alukal 'afwa wal 'aafiyah fii diinii wa dun-yaaya wa ahlii wa maalii, Allahummas-tur 'awraatii wa aamin raw'aati, wahfazhnii min bayni yadayya wa min khalfii wa 'an yamiinii wa 'an shimaalii wa min fawqii wa a'udzu bi 'azhamatika an ughtaala min tahtii.</div>
             <p><strong>Artinya:</strong> “Ya Allah, aku mohon ampunan dan keselamatan di dunia dan akhirat, dalam agama, dunia, keluarga, dan hartaku. Tutupilah auratku, tentramkanlah aku dari rasa takut. Peliharalah aku dari depan, belakang, kanan, kiri, dan atas. Aku berlindung dengan kebesaran-Mu agar tidak disambar dari bawahku.”</p></div>
 
-            <!-- 10 -->
+            <!-- 10. Perlindungan dari Kejahatan Diri & Syetan -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">10. Perlindungan dari Kejahatan Diri & Syetan</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَشَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءًا أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ</div>
-            <div class="transliteration">Allahumma ‘aalimal ghaybi wash-shahaadati faatiras-samaawaati wal-ard, rabba kulli shay-in wa malikah, asyhadu alla ilaaha illa anta, a’udzu bika min sharri nafsii wa min sharrish-shaytaani wa syirkih, wa an aqtarifa ‘alaa nafsii suu’an aw ajurrahu ilaa muslim.</div>
+            <div class="transliteration">Allahumma 'aalimal ghaybi wash-shahaadati faatiras-samaawaati wal-ardh, rabba kulli syay-in wa malikah, asyhadu allaa ilaaha illaa anta, a'udzu bika min sharri nafsii wa min sharrish-syaytaani wa syirkihi, wa an aqtarifa 'alaa nafsii suu'an aw ajurrahu ilaa muslim.</div>
             <p><strong>Artinya:</strong> “Ya Allah, Yang Maha Mengetahui yang ghaib dan yang nyata, Pencipta langit dan bumi, Rabb segala sesuatu dan Yang Merajainya. Aku bersaksi tiada ilah selain Engkau. Aku berlindung kepada-Mu dari kejahatan diriku, syaitan dan sekutunya, dan dari berbuat kejelekan atas diriku atau mendorong seorang muslim kepadanya.”</p></div>
 
-            <!-- 11 -->
+            <!-- 11. Bismillah Perlindungan -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">11. Bismillah Perlindungan</span><span class="recite-count">3x</span></div>
             <div class="arabic">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ</div>
-            <div class="transliteration">Bismillahilladzii laa yadhurru ma’asmihi syai-un fil ardhi wa laa fis samaa’ wa huwas samii’ul ‘aliim.</div>
+            <div class="transliteration">Bismillaahilladzii laa yadhurru ma'asmihi syai-un fil ardhi wa laa fis samaa'i wa huwas samii'ul 'aliim.</div>
             <p><strong>Artinya:</strong> “Dengan nama Allah yang bersama nama-Nya tidak ada satupun yang membahayakan di bumi maupun di langit, Dia Maha Mendengar lagi Maha Mengetahui.”</p></div>
 
-            <!-- 12 -->
+            <!-- 12. Keridhaan -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">12. Keridhaan</span><span class="recite-count">3x</span></div>
             <div class="arabic">رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا</div>
-            <div class="transliteration">Rodhiitu billaahi rabbaa, wa bil-islaami diinaa, wa bi-muhammadin shallallaahu ‘alaihi wa sallama nabiyya.</div>
+            <div class="transliteration">Radhiitu billaahi rabbaa, wa bil-islaami diinaa, wa bi-muhammadin shallallaahu 'alaihi wa sallama nabiyya.</div>
             <p><strong>Artinya:</strong> “Aku rela (ridha) Allah sebagai Rabb-ku, Islam sebagai agamaku, dan Muhammad ﷺ sebagai Nabi.”</p></div>
 
-            <!-- 13 -->
+            <!-- 13. Ya Hayyu Ya Qayyum -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">13. Ya Hayyu Ya Qayyum</span><span class="recite-count">1x</span></div>
             <div class="arabic">يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ</div>
-            <div class="transliteration">Yaa Hayyu Yaa Qayyum, bi-rahmatika as-taghiits, wa aslih lii sha’nii kullahu wa laa takilnii ilaa nafsii tharfata ‘aynin.</div>
+            <div class="transliteration">Yaa Hayyu Yaa Qayyum, bi-rahmatika as-taghiits, wa aslih lii sha'nii kullahu wa laa takilnii ilaa nafsii tharfata 'aynin.</div>
             <p><strong>Artinya:</strong> “Wahai Yang Maha Hidup, Wahai Yang Maha Berdiri Sendiri, dengan rahmat-Mu aku minta pertolongan, perbaikilah segala urusanku, dan jangan Engkau serahkan kepadaku meski sekejap mata.”</p></div>
 
-            <!-- 14 -->
+            <!-- 14. Fitrah Islam -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">14. Fitrah Islam</span><span class="recite-count">1x</span></div>
             <div class="arabic">أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ وَعَلَى كَلِمَةِ الْإِخْلَاصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ</div>
-            <div class="transliteration">Ashbahnaa ‘alaa fithratil islaami wa ‘alaa kalimatil ikhlaas, wa ‘alaa diini nabiyyinaa Muhammadin shalallaahu ‘alaihi wasallam, wa ‘alaa millati abiina Ibraahiima haniifan musliman wa maa kaana minal musyrikiin.</div>
+            <div class="transliteration">Ashbahnaa 'alaa fithratil islaami wa 'alaa kalimatil ikhlaas, wa 'alaa diini nabiyyinaa Muhammadin shalallaahu 'alaihi wasallam, wa 'alaa millati abiina Ibraahiima haniifan musliman wa maa kaana minal musyrikiin.</div>
             <p><strong>Artinya:</strong> “Di waktu pagi kami berada di atas fitrah Islam, kalimat ikhlas, agama Nabi Muhammad ﷺ, dan millah Ibrahim yang lurus, seorang muslim dan bukan termasuk orang-orang musyrik.”</p></div>
 
-            <!-- 15 -->
+            <!-- 15. Kalimat Tauhid -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">15. Kalimat Tauhid</span><span class="recite-count">1x/10x/100x</span></div>
             <div class="arabic">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
-            <div class="transliteration">Laa ilaaha illallaah wahdahu laa syarika lah, lahul mulku wa lahul hamdu wa huwa ‘alaa kulli shay-in qodiir.</div>
+            <div class="transliteration">Laa ilaaha illallaah wahdahu laa syarika lah, lahul mulku wa lahul hamdu wa huwa 'alaa kulli syay-in qodiir.</div>
             <p><strong>Artinya:</strong> “Tidak ada ilah yang berhak diibadahi selain Allah semata, tiada sekutu bagi-Nya. Milik-Nya kerajaan dan bagi-Nya pujian, Dia Mahakuasa atas segala sesuatu.”</p></div>
 
-            <!-- 16 -->
+            <!-- 16. Tasbih dengan hitungan -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">16. Tasbih dengan hitungan</span><span class="recite-count">3x</span></div>
             <div class="arabic">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ</div>
-            <div class="transliteration">Subhaanallaahi wa bihamdihi ‘adada khalqihi, wa ridhaa nafsihi, wa zinata ‘arsyihi, wa midaada kalimaatih.</div>
+            <div class="transliteration">Subhaanallaahi wa bihamdihi 'adada khalqihi, wa ridhaa nafsihi, wa zinata 'arsyihi, wa midaada kalimaatih.</div>
             <p><strong>Artinya:</strong> “Mahasuci Allah dan aku memuji-Nya sebanyak bilangan makhluk-Nya, sebanyak keridhaan-Nya, seberat timbangan ‘Arsy-Nya, dan sebanyak tinta kalimat-kalimat-Nya.”</p></div>
 
-            <!-- 17 -->
+            <!-- 17. Mohon Ilmu Bermanfaat -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">17. Mohon Ilmu Bermanfaat</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا</div>
-            <div class="transliteration">Allahumma innii as-aluka ‘ilman naafi’a, wa rizqan thayyibaa, wa ‘amalan mutaqabbalaa.</div>
+            <div class="transliteration">Allahumma innii as-aluka 'ilman naafi'a, wa rizqan thayyibaa, wa 'amalan mutaqabbalaa.</div>
             <p><strong>Artinya:</strong> “Ya Allah, sesungguhnya aku memohon kepada-Mu ilmu yang bermanfaat, rezeki yang halal, dan amalan yang diterima.”</p></div>
 
-            <!-- 18 -->
+            <!-- 18. Tasbih Ringan -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">18. Tasbih Ringan</span><span class="recite-count">100x</span></div>
             <div class="arabic">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</div>
             <div class="transliteration">Subhaanallaahi wa bihamdih.</div>
             <p><strong>Artinya:</strong> “Maha Suci Allah dan dengan memuji-Nya.”</p></div>
 
-            <!-- 19 -->
+            <!-- 19. Istighfar -->
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">19. Istighfar</span><span class="recite-count">100x (pagi/sore)</span></div>
             <div class="arabic">أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ</div>
             <div class="transliteration">Astaghfirullaaha wa atuubu ilaih.</div>
             <p><strong>Artinya:</strong> “Aku memohon ampunan kepada Allah dan bertaubat kepada-Nya.”</p></div>
 
             <div class="source-note">📖 Dinukil dari buku Doa Dan Wirid halaman 133-155 yang disusun oleh Ustadz Yazid bin Abdul Qadir Jawas, Penerbit Pustaka Imam Asy-Syafi’i.</div>
+            
+            <!-- NEW INFO BOX AND AUDIO FOR SURAH AL-KAHF (INDONESIAN) -->
+            <div class="info-box">
+                <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
+                <p><a href="https://quran.com/18?translations=33" target="_blank">Quran.com - Surah Al-Kahf (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p>
+            </div>
+            <div class="audio-player">
+                <div class="audio-title">🎧 Dengarkan Surah Al-Kahf</div>
+                <audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/018.mp3" type="audio/mpeg"></audio>
+            </div>
+
             <div class="footer-links">
                 <a href="index.html" class="back-link"><i class="fas fa-home"></i> ← Kembali ke Menu Utama</a>
             </div>
         </div>
 
-        <!-- ================= ENGLISH VERSION (complete, no truncation) ================= -->
+        <!-- ================= ENGLISH VERSION (LENGKAP) ================= -->
         <div id="engVersion" class="hidden">
             <div style="margin-bottom: 10px;">
                 <a href="index.html" class="back-link"><i class="fas fa-home"></i> ← Back to Main Menu</a>
@@ -439,99 +536,118 @@
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">1. Throne Verse (Ayat-ul-Kursi)</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ</div>
             <div class="transliteration">Allāhu lā ilāha illā huw(a), al-ḥayyul-qayyūm(u), lā ta’khudhuhū sinatuw wa lā nawm(un), lahū mā fis-samāwāti wa mā fil-arḍ(i), man dhal-ladhī yashfa‘u ‘indahū illā bi-idhnih, ya‘lamu mā bayna aydīhim wa mā khalfahum, wa lā yuḥīṭūna bishay’im min ‘ilmihī illā bimā shā’, wasi‘a kursiyyuhus-samāwāti wal-arḍ(a), wa lā ya’ūduhū hifẓuhumā, wa huwal-‘aliyyul-‘aẓīm(u).</div>
-            <p><strong>Translation:</strong> “Allah — none has the right to be worshipped but He, the Ever-Living, the Sustainer. Neither drowsiness nor sleep overtakes Him. To Him belongs whatever is in the heavens and whatever is on the earth. Who could intercede with Him without His permission? He knows what is before them and what will be after them, and they encompass nothing of His knowledge except what He wills. His Kursī extends over the heavens and the earth, and their preservation does not burden Him. He is the Most High, the Magnificent.” (Al-Baqarah: 255)</p></div>
+            <p><strong>Translation:</strong> “Allah — none has the right to be worshipped but He, the Ever-Living, the Sustainer. Neither drowsiness nor sleep overtakes Him. To Him belongs whatever is in the heavens and whatever is on the earth. Who could intercede with Him without His permission? He knows what is before them and what will be after them, and they encompass nothing of His knowledge except what He wills. His Kursī extends over the heavens and the earth, and their preservation does not burden Him. He is the Most High, the Magnificent.” (Al-Baqarah: 255)</p>
+            <div class="audio-wrapper"><div class="audio-player"><audio controls><source src="https://dn711306.ca.archive.org/0/items/LeCorpsDunEnfant/RaadMuhammadAlKurdi_ak.mp3" type="audio/mpeg"></audio></div><div class="click-listen" data-audio="0">🎧 Click to Listen</div></div>
+            </div>
 
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">2. Surah Al-Ikhlas</span><span class="recite-count">3x</span></div>
             <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ قُلْ هُوَ اللَّهُ أَحَدٌ، اللَّهُ الصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ</div>
             <div class="transliteration">Bismillaahir rahmaanir rahiim. Qul huwallāhu aḥad, Allāhuṣ-ṣamad, lam yalid wa lam yūlad, wa lam yakul lahu kufuwan aḥad.</div>
-            <p><strong>Translation:</strong> “Say: He is Allah, the One. Allah, the Eternal, Absolute. He neither begets nor is born, nor is there to Him any equivalent.”</p></div>
+            <p><strong>Translation:</strong> “Say: He is Allah, the One. Allah, the Eternal, Absolute. He neither begets nor is born, nor is there to Him any equivalent.”</p>
+            <div class="audio-wrapper"><div class="audio-player"><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/112.mp3" type="audio/mpeg"></audio></div><div class="click-listen" data-audio="1">🎧 Click to Listen</div></div>
+            </div>
 
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">3. Surah Al-Falaq</span><span class="recite-count">3x</span></div>
             <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، مِنْ شَرِّ مَا خَلَقَ، وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ، وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ</div>
             <div class="transliteration">Bismillaahir rahmaanir rahiim. Qul a'udzu birabbil-falaq, min sharri mā khalaq, wa min sharri ghāsiqin idhā waqab, wa min sharrin-naffāthāti fil-'uqad, wa min sharri hāsidin idhā hasad.</div>
-            <p><strong>Translation:</strong> “Say: I seek refuge in the Lord of daybreak, from the evil of that which He created, and from the evil of darkness when it settles, and from the evil of the blowers in knots, and from the evil of an envier when he envies.”</p></div>
+            <p><strong>Translation:</strong> “Say: I seek refuge in the Lord of daybreak, from the evil of that which He created, and from the evil of darkness when it settles, and from the evil of the blowers in knots, and from the evil of an envier when he envies.”</p>
+            <div class="audio-wrapper"><div class="audio-player"><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/113.mp3" type="audio/mpeg"></audio></div><div class="click-listen" data-audio="2">🎧 Click to Listen</div></div>
+            </div>
 
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">4. Surah An-Naas</span><span class="recite-count">3x</span></div>
             <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ قُلْ أَعُوذُ بِرَبِّ النَّاسِ، مَلِكِ النَّاسِ، إِلَهِ النَّاسِ، مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ، الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ، مِنَ الْجِنَّةِ وَالنَّاسِ</div>
             <div class="transliteration">Bismillaahir rahmaanir rahiim. Qul a'udzu birabbin-naas, malikin-naas, ilaahin-naas, min sharril waswaasil khannaas, alladzii yuwaswisu fii suduurin-naas, minal jinnati wannaas.</div>
-            <p><strong>Translation:</strong> “Say: I seek refuge in the Lord of mankind, the Sovereign of mankind, the God of mankind, from the evil of the whisperer who withdraws, who whispers into the hearts of mankind, from among jinn and mankind.”</p></div>
+            <p><strong>Translation:</strong> “Say: I seek refuge in the Lord of mankind, the Sovereign of mankind, the God of mankind, from the evil of the whisperer who withdraws, who whispers into the hearts of mankind, from among jinn and mankind.”</p>
+            <div class="audio-wrapper"><div class="audio-player"><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/114.mp3" type="audio/mpeg"></audio></div><div class="click-listen" data-audio="3">🎧 Click to Listen</div></div>
+            </div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">5. Morning Supplication</span><span class="recite-count">1x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">5. Morning Supplication (Ashbahnaa)</span><span class="recite-count">1x</span></div>
             <div class="arabic">أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ. رَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذَا الْيَوْمِ وَشَرِّ مَا بَعْدَهُ، رَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ.</div>
             <div class="transliteration">Ash-bahnaa wa ash-bahal mulku lillah walhamdulillah, laa ilaaha illallah wahdahu laa syarika lah, lahul mulku walahul hamdu wa huwa ‘ala kulli syai-in qodir. Robbi as-aluka khoiro maa fii hadzal yaum wa khoiro maa ba’dahu, wa a’udzu bika min syarri maa fii hadzal yaum wa syarri maa ba’dahu. Robbi a’udzu bika minal kasali wa su-il kibar. Robbi a’udzu bika min ‘adzabin fin naari wa ‘adzabin fil qobri.</div>
             <p><strong>Translation:</strong> “We have entered the morning and the whole kingdom belongs to Allah, all praise is for Allah. None has the right to be worshipped except Allah alone, without partner. To Him belongs the dominion, and to Him belongs praise, and He is over all things competent. My Lord, I ask You for the goodness of this day and the goodness of what follows it, and I seek refuge in You from the evil of this day and the evil of what follows it. My Lord, I seek refuge in You from laziness and the evil of old age. My Lord, I seek refuge in You from punishment in the Fire and punishment in the grave.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">6. Morning/Evening Dua</span><span class="recite-count">1x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">6. Morning & Evening Dua</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ</div>
-            <div class="transliteration">Allahumma bika ash-bahnaa wa bika amsaynaa wa bika nahyaa wa bika namuutu wa ilaikan nusyuur.</div>
-            <p><strong>Translation:</strong> “O Allah, by You we enter the morning, by You we enter the evening, by You we live, by You we die, and to You is the resurrection.”</p></div>
+            <div class="transliteration">Allahumma bika ashbahnaa wa bika amsainaa wa bika nahyaa wa bika namuutu wa ilaikan nusyuur.</div>
+            <p><strong>Translation:</strong> “O Allah, with Your grace we enter the morning, and with Your grace we enter the evening, with You we live, with You we die, and to You is the resurrection.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">7. Sayyidul Istighfar (Master of Forgiveness)</span><span class="recite-count">1x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">7. Sayyidul Istighfar</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ</div>
-            <div class="transliteration">Allahumma anta robbii laa ilaaha illa anta, kholaqtanii wa ana ‘abduka, wa ana ‘ala ‘ahdika wa wa’dika mas-tatho’tu. A’udzu bika min syarri maa shona’tu, abuu-u laka bini’matika ‘alayya wa abuu-u bi dzambii, faghfirlii fa innahu laa yaghfirudz dzunuuba illaa anta.</div>
-            <p><strong>Translation:</strong> “O Allah, You are my Lord, none has the right to be worshipped except You. You created me and I am Your servant, and I abide by Your covenant and promise as best I can. I seek refuge in You from the evil of what I have done. I acknowledge Your favor upon me and I confess my sin, so forgive me, for none forgives sins except You.”</p></div>
+            <div class="transliteration">Allahumma anta robbii laa ilaaha illaa anta, khalaqtanii wa ana 'abduka, wa ana 'alaa 'ahdika wa wa'dika mas-tatha'tu. A'udzu bika min syarri maa shana'tu, abuu-u laka bini'matika 'alayya wa abuu-u bi dzambii, faghfirlii fa innahu laa yaghfirudz dzunuuba illaa anta.</div>
+            <p><strong>Translation:</strong> “O Allah, You are my Lord, none has the right to be worshipped except You. You created me, and I am Your servant, and I abide by Your covenant and promise as best as I can. I seek refuge in You from the evil of what I have done. I acknowledge Your favor upon me, and I acknowledge my sin, so forgive me, for none forgives sins except You.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">8. Well-being for Body & Senses</span><span class="recite-count">3x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">8. Health & Senses</span><span class="recite-count">3x</span></div>
             <div class="arabic">اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ. اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَهَ إِلَّا أَنْتَ</div>
-            <div class="transliteration">Allahumma ‘aafinii fii badanii, Allahumma ‘aafinii fii sam’ii, Allahumma ‘aafinii fii bashorii, laa ilaaha illaa anta. Allahumma innii a’udzu bika minal kufri wal faqr, wa a’udzu bika min ‘adzaabil qobri, laa ilaaha illaa anta.</div>
-            <p><strong>Translation:</strong> “O Allah, grant my body health, O Allah, grant my hearing health, O Allah, grant my sight health, none has the right to be worshipped except You. O Allah, I seek refuge in You from disbelief and poverty, and I seek refuge in You from the punishment of the grave, none has the right to be worshipped except You.”</p></div>
+            <div class="transliteration">Allahumma 'aafinii fii badanii, Allahumma 'aafinii fii sam'ii, Allahumma 'aafinii fii bashorii, laa ilaaha illaa anta. Allahumma innii a'udzu bika minal kufri wal faqr, wa a'udzu bika min 'adzaabil qobri, laa ilaaha illaa anta.</div>
+            <p><strong>Translation:</strong> “O Allah, grant my body health, grant my hearing health, grant my sight health, none has the right to be worshipped except You. O Allah, I seek refuge in You from disbelief and poverty, and I seek refuge in You from the punishment of the grave, none has the right to be worshipped except You.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">9. Pardon & Protection</span><span class="recite-count">1x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">9. Seeking Pardon & Protection</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِنْ فَوْقِي وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي</div>
-            <div class="transliteration">Allahumma innii as-alukal ‘afwa wal ‘aafiyah fid dunyaa wal aakhirah, Allahumma innii as-alukal ‘afwa wal ‘aafiyah fii diinii wa dun-yaaya wa ahlii wa maalii, Allahummas-tur ‘awraatii wa aamin raw’aati, wahfazhnii min bayni yadayya wa min khalfii wa ‘an yamiinii wa ‘an shimaalii wa min fawqii wa a’udzu bi ‘azhamatika an ughtaala min tahtii.</div>
-            <p><strong>Translation:</strong> “O Allah, I ask You for forgiveness and well-being in this world and the Hereafter, in my religion, my worldly affairs, my family, and my wealth. Conceal my faults, calm my fears, protect me from front, behind, right, left, above, and I seek refuge in Your greatness from being swallowed up from beneath me.”</p></div>
+            <div class="transliteration">Allahumma innii as-alukal 'afwa wal 'aafiyah fid dunyaa wal aakhirah, Allahumma innii as-alukal 'afwa wal 'aafiyah fii diinii wa dun-yaaya wa ahlii wa maalii, Allahummas-tur 'awraatii wa aamin raw'aati, wahfazhnii min bayni yadayya wa min khalfii wa 'an yamiinii wa 'an shimaalii wa min fawqii wa a'udzu bi 'azhamatika an ughtaala min tahtii.</div>
+            <p><strong>Translation:</strong> “O Allah, I ask You for pardon and well-being in this world and the Hereafter. O Allah, I ask You for pardon and well-being in my religion, my worldly affairs, my family, and my wealth. O Allah, cover my faults, calm my fears, protect me from before me, behind me, on my right, on my left, and from above me, and I seek refuge in Your greatness from being taken unaware from beneath me.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">10. Refuge from Self & Shaytan</span><span class="recite-count">1x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">10. Protection from Evil of Self & Devil</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ عَالِمَ الْغَيْبِ وَالشَّهَادَةِ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَشْهَدُ أَنْ لَا إِلَهَ إِلَّا أَنْتَ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَشَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَى نَفْسِي سُوءًا أَوْ أَجُرَّهُ إِلَى مُسْلِمٍ</div>
-            <div class="transliteration">Allahumma ‘aalimal ghaybi wash-shahaadati faatiras-samaawaati wal-ard, rabba kulli shay-in wa malikah, asyhadu alla ilaaha illa anta, a’udzu bika min sharri nafsii wa min sharrish-shaytaani wa syirkih, wa an aqtarifa ‘alaa nafsii suu’an aw ajurrahu ilaa muslim.</div>
-            <p><strong>Translation:</strong> “O Knower of the unseen and the seen, Creator of the heavens and the earth, Lord of all things and their Sovereign. I bear witness that none has the right to be worshipped except You. I seek refuge in You from the evil of myself, the evil of Shaytan and his associates, and from committing evil against myself or bringing it upon a Muslim.”</p></div>
+            <div class="transliteration">Allahumma 'aalimal ghaybi wash-shahaadati faatiras-samaawaati wal-ardh, rabba kulli syay-in wa malikah, asyhadu allaa ilaaha illaa anta, a'udzu bika min sharri nafsii wa min sharrish-syaytaani wa syirkihi, wa an aqtarifa 'alaa nafsii suu'an aw ajurrahu ilaa muslim.</div>
+            <p><strong>Translation:</strong> “O Allah, Knower of the unseen and the seen, Creator of the heavens and the earth, Lord of all things and their Sovereign. I bear witness that none has the right to be worshipped except You. I seek refuge in You from the evil of myself, from the evil of Satan and his associates, and from committing evil against myself or bringing it upon a Muslim.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">11. Bismillah Protection</span><span class="recite-count">3x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">11. Bismillah for Protection</span><span class="recite-count">3x</span></div>
             <div class="arabic">بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ</div>
-            <div class="transliteration">Bismillahilladzii laa yadhurru ma’asmihi syai-un fil ardhi wa laa fis samaa’ wa huwas samii’ul ‘aliim.</div>
-            <p><strong>Translation:</strong> “In the name of Allah, with whose name nothing is harmed on earth nor in heaven, and He is the All-Hearing, All-Knowing.”</p></div>
+            <div class="transliteration">Bismillaahilladzii laa yadhurru ma'asmihi syai-un fil ardhi wa laa fis samaa'i wa huwas samii'ul 'aliim.</div>
+            <p><strong>Translation:</strong> “In the name of Allah, with Whose name nothing on earth or in heaven can cause harm, and He is the All-Hearing, the All-Knowing.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">12. Expression of Contentment</span><span class="recite-count">3x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">12. Acceptance (Ridha)</span><span class="recite-count">3x</span></div>
             <div class="arabic">رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا</div>
-            <div class="transliteration">Rodhiitu billaahi rabbaa, wa bil-islaami diinaa, wa bi-muhammadin shallallaahu ‘alaihi wa sallama nabiyya.</div>
-            <p><strong>Translation:</strong> “I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad (peace be upon him) as my Prophet.”</p></div>
+            <div class="transliteration">Radhiitu billaahi rabbaa, wa bil-islaami diinaa, wa bi-muhammadin shallallaahu 'alaihi wa sallama nabiyya.</div>
+            <p><strong>Translation:</strong> “I am content with Allah as my Lord, with Islam as my religion, and with Muhammad ﷺ as my Prophet.”</p></div>
 
             <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">13. Ya Hayyu Ya Qayyum</span><span class="recite-count">1x</span></div>
             <div class="arabic">يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ</div>
-            <div class="transliteration">Yaa Hayyu Yaa Qayyum, bi-rahmatika as-taghiits, wa aslih lii sha’nii kullahu wa laa takilnii ilaa nafsii tharfata ‘aynin.</div>
-            <p><strong>Translation:</strong> “O Ever-Living, O Self-Sustaining, by Your mercy I seek help, set right all my affairs, and do not leave me to myself for the blink of an eye.”</p></div>
+            <div class="transliteration">Yaa Hayyu Yaa Qayyum, bi-rahmatika as-taghiits, wa aslih lii sha'nii kullahu wa laa takilnii ilaa nafsii tharfata 'aynin.</div>
+            <p><strong>Translation:</strong> “O Ever-Living, O Self-Sustaining, by Your mercy I seek help, set right all my affairs, and do not leave me to myself even for the blink of an eye.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">14. Upon the Fitrah of Islam</span><span class="recite-count">1x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">14. Fitrah of Islam</span><span class="recite-count">1x</span></div>
             <div class="arabic">أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ وَعَلَى كَلِمَةِ الْإِخْلَاصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ</div>
-            <div class="transliteration">Ashbahnaa ‘alaa fithratil islaami wa ‘alaa kalimatil ikhlaas, wa ‘alaa diini nabiyyinaa Muhammadin shalallaahu ‘alaihi wasallam, wa ‘alaa millati abiina Ibraahiima haniifan musliman wa maa kaana minal musyrikiin.</div>
-            <p><strong>Translation:</strong> “We have entered the morning upon the natural disposition of Islam, the word of sincerity, the religion of our Prophet Muhammad, and the creed of our father Ibrahim, a true monotheist Muslim, and he was not of the polytheists.”</p></div>
+            <div class="transliteration">Ashbahnaa 'alaa fithratil islaami wa 'alaa kalimatil ikhlaas, wa 'alaa diini nabiyyinaa Muhammadin shalallaahu 'alaihi wasallam, wa 'alaa millati abiina Ibraahiima haniifan musliman wa maa kaana minal musyrikiin.</div>
+            <p><strong>Translation:</strong> “We have entered the morning upon the natural disposition of Islam, the word of sincerity, the religion of our Prophet Muhammad ﷺ, and the creed of our father Ibrahim, who was upright and a Muslim, and he was not of the polytheists.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">15. Tahlīl (Laa ilaha illallah)</span><span class="recite-count">1/10/100x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">15. Word of Tawheed</span><span class="recite-count">1x/10x/100x</span></div>
             <div class="arabic">لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ</div>
-            <div class="transliteration">Laa ilaaha illallaah wahdahu laa syarika lah, lahul mulku wa lahul hamdu wa huwa ‘alaa kulli shay-in qodiir.</div>
-            <p><strong>Translation:</strong> “None has the right to be worshipped except Allah alone, without partner. To Him belongs the dominion and to Him belongs praise, and He is over all things Competent.”</p></div>
+            <div class="transliteration">Laa ilaaha illallaah wahdahu laa syarika lah, lahul mulku wa lahul hamdu wa huwa 'alaa kulli syay-in qodiir.</div>
+            <p><strong>Translation:</strong> “None has the right to be worshipped except Allah alone, without partner. To Him belongs the dominion, to Him belongs praise, and He is over all things competent.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">16. Glorification of Allah</span><span class="recite-count">3x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">16. Tasbih with count</span><span class="recite-count">3x</span></div>
             <div class="arabic">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ</div>
-            <div class="transliteration">Subhaanallaahi wa bihamdihi ‘adada khalqihi, wa ridhaa nafsihi, wa zinata ‘arsyihi, wa midaada kalimaatih.</div>
-            <p><strong>Translation:</strong> “Glory be to Allah and praise Him, as many times as the number of His creation, as much as pleases Him, as the weight of His Throne, and as the ink for His words.”</p></div>
+            <div class="transliteration">Subhaanallaahi wa bihamdihi 'adada khalqihi, wa ridhaa nafsihi, wa zinata 'arsyihi, wa midaada kalimaatih.</div>
+            <p><strong>Translation:</strong> “Glory and praise be to Allah as many times as His creation, as much as pleases Him, as the weight of His Throne, and as the ink of His words.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">17. Beneficial Knowledge & Provision</span><span class="recite-count">1x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">17. Beneficial Knowledge</span><span class="recite-count">1x</span></div>
             <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا</div>
-            <div class="transliteration">Allahumma innii as-aluka ‘ilman naafi’a, wa rizqan thayyibaa, wa ‘amalan mutaqabbalaa.</div>
+            <div class="transliteration">Allahumma innii as-aluka 'ilman naafi'a, wa rizqan thayyibaa, wa 'amalan mutaqabbalaa.</div>
             <p><strong>Translation:</strong> “O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">18. Short Tasbih</span><span class="recite-count">100x</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">18. Simple Tasbih</span><span class="recite-count">100x</span></div>
             <div class="arabic">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</div>
             <div class="transliteration">Subhaanallaahi wa bihamdih.</div>
-            <p><strong>Translation:</strong> “Glory be to Allah and praise Him.”</p></div>
+            <p><strong>Translation:</strong> “Glory and praise be to Allah.”</p></div>
 
-            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">19. Seeking Forgiveness</span><span class="recite-count">100x (morning/evening)</span></div>
+            <div class="dhikr-item"><div class="dhikr-header"><span class="dhikr-number">19. Istighfar</span><span class="recite-count">100x (morning/evening)</span></div>
             <div class="arabic">أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ</div>
             <div class="transliteration">Astaghfirullaaha wa atuubu ilaih.</div>
             <p><strong>Translation:</strong> “I seek forgiveness from Allah and repent to Him.”</p></div>
 
             <div class="source-note">📖 Source: Compiled from the book "Doa Dan Wirid" pages 133-155 by Ustadz Yazid bin Abdul Qadir Jawas, Published by Pustaka Imam Asy-Syafi’i.</div>
+            
+            <!-- NEW INFO BOX AND AUDIO FOR SURAH AL-KAHF (ENGLISH) -->
+            <div class="info-box">
+                <h3>Full Text Access</h3>
+                <p><a href="https://recitequran.com/18" target="_blank">ReciteQuran.com - Surah Al-Kahf <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p>
+            </div>
+            <div class="audio-player">
+                <div class="audio-title">🎧 Listen to Surah Al-Kahf</div>
+                <audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/018.mp3" type="audio/mpeg"></audio>
+            </div>
+
             <div class="footer-links">
                 <a href="index.html" class="back-link"><i class="fas fa-home"></i> ← Back to Main Menu</a>
             </div>
@@ -562,20 +678,35 @@
             if (urlEnglish) currentLang = 'english';
             else if (urlIndonesian) currentLang = 'indonesian';
 
+            function updateToggleTexts(lang) {
+                const isIndo = (lang === 'indonesian');
+                if (isIndo) {
+                    langBtn.innerHTML = '<i class="fas fa-globe"></i> English Version';
+                } else {
+                    langBtn.innerHTML = '<i class="fas fa-globe"></i> Bahasa Indonesia';
+                }
+                const translitVisible = translitEls[0]?.style.display !== 'none';
+                if (isIndo) {
+                    translitBtn.innerHTML = translitVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' : '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                    darkBtn.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fas fa-sun"></i> Mode Terang' : '<i class="fas fa-moon"></i> Mode Gelap';
+                } else {
+                    translitBtn.innerHTML = translitVisible ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                    darkBtn.innerHTML = document.body.classList.contains('dark-mode') ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                }
+            }
+
             function setLanguage(lang) {
                 const isEng = (lang === 'english');
                 if (isEng) {
                     engDiv.classList.remove('hidden');
                     indoDiv.classList.add('hidden');
-                    // Show Indonesian flag (target language: Indonesian) when English version is active
-                    langBtn.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Indonesian Version';
                 } else {
                     engDiv.classList.add('hidden');
                     indoDiv.classList.remove('hidden');
-                    // Show Union Jack (target language: English) when Indonesian version is active
-                    langBtn.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English Version';
                 }
                 localStorage.setItem('morningDhikrLang', lang);
+                currentLang = lang;
+                updateToggleTexts(lang);
             }
             setLanguage(currentLang);
 
@@ -591,7 +722,7 @@
 
             function setTransliteration(show) {
                 translitEls.forEach(el => el.style.display = show ? 'block' : 'none');
-                translitBtn.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                updateToggleTexts(currentLang);
                 localStorage.setItem('showTranslitDzikir', show);
             }
             setTransliteration(transVisible);
@@ -604,14 +735,24 @@
             if (urlDark) darkActive = true;
             if (darkActive) document.body.classList.add('dark-mode');
             function setDarkButton() {
-                const isDark = document.body.classList.contains('dark-mode');
-                darkBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-                localStorage.setItem('darkModeDzikir', isDark);
+                updateToggleTexts(currentLang);
+                localStorage.setItem('darkModeDzikir', document.body.classList.contains('dark-mode'));
             }
             setDarkButton();
             darkBtn.addEventListener('click', () => {
                 document.body.classList.toggle('dark-mode');
                 setDarkButton();
+            });
+
+            // Click-to-listen functionality
+            document.querySelectorAll('.click-listen').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const wrapper = this.closest('.audio-wrapper');
+                    if (wrapper) {
+                        const audio = wrapper.querySelector('audio');
+                        if (audio) audio.play().catch(e => console.log("Playback prevented:", e));
+                    }
+                });
             });
 
             const scrollUp = document.getElementById('scrollUp');
