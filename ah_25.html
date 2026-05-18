@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>99 Asmaul Husna - Al-Mudhill (Yang Maha Menghinakan)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --title-color: #2c3e50;
+            --section-title-color: #2980b9;
+            --dua-bg: #f8f9fa;
+            --dua-border: #e0e0e0;
+            --shadow: 0 0 15px rgba(0,0,0,0.1);
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --arabic-color: #90caf9;
+            --title-color: #e2e8f0;
+            --section-title-color: #7bc9ff;
+            --dua-bg: #1e2a3e;
+            --dua-border: #4b5563;
+            --shadow: 0 0 15px rgba(0,0,0,0.3);
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            font-weight: normal;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--title-color);
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--dua-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--dua-border);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) - upper arrow aligned with right double arrow */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--dua-border);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 200px; }  /* Adjusted to match right double arrow level */
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--dua-border);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 170px; }  /* Responsive alignment with right double arrow */
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+        .dark-mode .bonus {
+            background-color: #1e3a5f;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--dua-border);
+        }
+        .tafsir-box {
+            background-color: #fffde7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ffe082;
+        }
+        .dark-mode .tafsir-box {
+            background-color: #1e2a3e;
+            border-color: #4b5563;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">25. Al-Mudhill (Yang Maha Menghinakan)</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://kemenag.go.id" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">المُذِلُّ</div>
+            <div class="transliteration">Transliterasi: Al-Mudhill</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/25.%20al-mudhill.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Mudhill adalah salah satu dari 99 Asmaul Husna Allah yang menunjukkan kekuasaan-Nya untuk menghinakan dan merendahkan siapa saja yang Dia kehendaki. Menurut referensi dari Kementerian Agama RI:</p>
+                <ul>
+                    <li><strong>Pemberi Kehinaan:</strong> Allah yang merendahkan orang-orang yang sombong dan melampaui batas</li>
+                    <li><strong>Pemilik Segala Kekuasaan:</strong> Hanya Allah yang memiliki hak mutlak untuk menghinakan makhluk-Nya</li>
+                    <li><strong>Pemberi Pelajaran:</strong> Kehinaan dari Allah selalu mengandung hikmah dan pelajaran</li>
+                </ul>
+                <p>Dalam kitab "Al-Maqshad al-Asna fi Syarh Asma' Allah al-Husna" karya Imam Al-Ghazali dijelaskan bahwa kehinaan dari Allah bersifat adil dan hanya diberikan kepada mereka yang pantas menerimanya karena kesombongan atau kezaliman mereka. Nama ini sering disebutkan bersama Al-Mu'izz (Yang Memuliakan) dalam Al-Quran untuk menunjukkan keseimbangan keadilan Allah.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong> 
+                    <a href="https://quran.com/3/26?translations=33" target="_blank">Surah Ali Imran 3:26</a>
+                    <div class="arabic">قُلِ اللَّهُمَّ مَالِكَ الْمُلْكِ تُؤْتِي الْمُلْكَ مَن تَشَاءُ وَتَنزِعُ الْمُلْكَ مِمَّن تَشَاءُ وَتُعِزُّ مَن تَشَاءُ وَتُذِلُّ مَن تَشَاءُ ۖ بِيَدِكَ الْخَيْرُ ۖ إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</div>
+                    <div class="transliteration">Quli Allahumma malika almulki tu/tee almulka man tashao watanziAAu almulka mimman tashao watuAAizzu man tashao watuthillu man tashao biyadika alkhayru innaka AAala kulli shayin qadeerun</div>
+                    <p>"Katakanlah: 'Wahai Tuhan Pemilik kerajaan, Engkau berikan kerajaan kepada orang yang Engkau kehendaki dan Engkau cabut kerajaan dari orang yang Engkau kehendaki. Engkau muliakan orang yang Engkau kehendaki dan Engkau hinakan orang yang Engkau kehendaki. Di tangan Engkaulah segala kebajikan. Sesungguhnya Engkau Maha Kuasa atas segala sesuatu.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menunjukkan kekuasaan mutlak Allah dalam memberikan kehinaan dan kerendahan. Penghinaan dari Allah selalu mengandung hikmah dan keadilan. Ayat ini mengajarkan manusia untuk tidak sombong karena segala kemuliaan dan kehinaan berasal dari Allah.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/3/140?translations=33" target="_blank">Surah Ali Imran 3:140</a>
+                    <div class="arabic">وَتِلْكَ الْأَيَّامُ نُدَاوِلُهَا بَيْنَ النَّاسِ</div>
+                    <div class="transliteration">Watilka al-ayyamu nudaawiluha bayna alnnasi</div>
+                    <p>"Dan masa (kejayaan dan kehancuran) itu Kami pergilirkan di antara manusia."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menjelaskan sunnatullah tentang pergantian zaman antara kejayaan dan kehancuran. Contoh nyata adalah kehancuran Fir'aun setelah kesombongannya (<a href="https://quran.com/10/92?translations=33" target="_blank">10:92</a>) dan azab yang menimpa kaum Nabi Luth (<a href="https://quran.com/15/73-74?translations=33" target="_blank">15:73-74</a>). Semua ini menjadi pelajaran bagi umat manusia.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/muslim:91" target="_blank">Sahih Muslim 91</a>
+                    <div class="arabic">مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً مِنْ كُرَبِ الدُّنْيَا نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ الْقِيَامَةِ</div>
+                    <div class="transliteration">Man nafassa AAan mu/minin kurbatan min kurabi alddunya nafassa Allahu AAanhu kurbatan min kurabi yawmi alqiyamati</div>
+                    <p>"Barangsiapa menghilangkan kesusahan seorang mukmin di dunia, Allah akan menghilangkan kesusahannya pada hari Kiamat."</p>
+                    <div class="tafsir-box">
+                        <strong>Konteks:</strong> Hadits ini mengajarkan bahwa membantu sesama muslim dari kesulitan akan melindungi kita dari kehinaan di akhirat. Kementerian Agama RI menjelaskan bahwa hadits ini menunjukkan pentingnya tolong-menolong antar muslim untuk menghindari kehinaan dunia dan akhirat.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Perlindungan dari Kehinaan</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَقْرِ، وَالْقِلَّةِ، وَالذِّلَّةِ، وَأَعُوذُ بِكَ مِنْ أَنْ أَظْلِمَ أَوْ أُظْلَمَ</div>
+                    <div class="transliteration">Allahumma innee aAAoothu bika mina alfaqri, waalqillati, waalththillati, wa aAAoothu bika an athlima aw uthlam</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, aku berlindung kepada-Mu dari kemiskinan, kekurangan, dan kehinaan, dan aku berlindung kepada-Mu dari menindas atau ditindas."</p>
+                    <p><strong>Keutamaan:</strong> Doa ini diajarkan oleh ulama untuk memohon perlindungan dari segala bentuk kehinaan. Kementerian Agama RI menjelaskan bahwa doa ini mencakup perlindungan dari kehinaan materi dan spiritual.</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Perlindungan Menyeluruh</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ</div>
+                    <div class="transliteration">Allahumma innee aAAoothu bika mina alhami waalhazani waalAAajzi waalkasali waalbukhli waaljubni wadalaAAi aldayni waghalabati alrrijali</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, aku berlindung kepada-Mu dari kegundahan dan kesedihan, dari kelemahan dan kemalasan, dari kekikiran dan sifat pengecut, dari beban hutang dan penindasan orang."</p>
+                    <p><strong>Sumber:</strong> Doa ini diriwayatkan dalam Sahih Bukhari dan sangat dianjurkan oleh para ulama. Menurut Kementerian Agama RI, doa ini mencakup perlindungan dari berbagai bentuk kehinaan duniawi dan ujian hidup.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Menjauhi Kesombongan</div>
+                    <p>Praktik harian untuk menghindari kehinaan:</p>
+                    <ol>
+                        <li>Membaca zikir pagi dan petang sesuai sunnah</li>
+                        <li>Mengintrospeksi diri setiap hari</li>
+                        <li>Menjauhi sifat takabur dan ujub</li>
+                        <li>Memperbanyak istighfar dan taubat</li>
+                    </ol>
+                    <p><strong>Manfaat:</strong> Praktik ini:</p>
+                    <ul>
+                        <li>Melindungi dari sifat sombong penyebab kehinaan</li>
+                        <li>Mendekatkan diri kepada Allah sebagai pelindung</li>
+                        <li>Mengikuti ajaran Rasulullah SAW</li>
+                        <li>Membangun karakter mulia</li>
+                    </ul>
+                    <p><strong>Sumber:</strong> Panduan Kementerian Agama RI</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Memperkuat Perlindungan Diri</div>
+                    <p>Amalan mingguan untuk perlindungan spiritual:</p>
+                    <ol>
+                        <li>Memperbanyak membaca doa perlindungan</li>
+                        <li>Mempelajari kisah-kisah umat terdahulu yang dihinakan</li>
+                        <li>Menjaga silaturahmi dan membantu sesama</li>
+                        <li>Memperbanyak sedekah</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Rasulullah SAW bersabda: "Sedekah dapat memadamkan kesalahan sebagaimana air memadamkan api" (HR. Tirmidzi). Amalan ini didukung oleh Kementerian Agama RI sebagai bentuk perlindungan dari kehinaan dunia dan akhirat.</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Kementerian Agama RI</h2>
+                <p>Kementerian Agama RI menjelaskan Al-Mudhill melalui beberapa dimensi:</p>
+                <ol>
+                    <li><strong>Kehinaan Individu:</strong>
+                        <ul>
+                            <li>Fir'aun yang ditenggelamkan (<a href="https://quran.com/10/92?translations=33" target="_blank">10:92</a>)</li>
+                            <li>Qarun yang ditelan bumi (<a href="https://quran.com/28/81?translations=33" target="_blank">28:81</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kehinaan Kaum:</strong>
+                        <ul>
+                            <li>Kaum Nabi Luth yang dihancurkan (<a href="https://quran.com/15/73-74?translations=33" target="_blank">15:73-74</a>)</li>
+                            <li>Kaum Tsamud yang dibinasakan (<a href="https://quran.com/7/78?translations=33" target="_blank">7:78</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pelajaran Sejarah:</strong>
+                        <ul>
+                            <li>Pergantian zaman sebagai sunnatullah (<a href="https://quran.com/3/140?translations=33" target="_blank">3:140</a>)</li>
+                            <li>Kehancuran peradaban sombong (<a href="https://quran.com/6/6?translations=33" target="_blank">6:6</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kehinaan Akhirat:</strong>
+                        <ul>
+                            <li>Orang kafir pada hari Kiamat (<a href="https://quran.com/40/60?translations=33" target="_blank">40:60</a>)</li>
+                            <li>Orang munafik di neraka (<a href="https://quran.com/4/145?translations=33" target="_blank">4:145</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam kitab-kitab tafsir mu'tabarah dijelaskan bahwa kehinaan dari Allah selalu mengandung hikmah dan pelajaran. Surah Al-Hajj (<a href="https://quran.com/22/18?translations=33" target="_blank">22:18</a>) menegaskan bahwa semua makhluk akan tunduk kepada Allah, baik secara sukarela maupun terpaksa.</p>
+                <p><strong>Sumber:</strong> Tafsir Kementerian Agama RI</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">25. Al-Mudhill (The Dishonorer, The Humiliator)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-muzil/" target="_blank">myislam.org/99-names-of-allah/al-muzil/</a></div>
+            
+            <!-- Bonus section only in English -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_25Muizz26Muzill.mp3?_=24" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">المُذِلُّ</div>
+            <div class="transliteration">Transliteration: Al-Mudhill</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/25.%20al-mudhill.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Mudhill is the complementary name to Al-Mu'izz (The Honourer). It signifies Allah's attribute of humbling, lowering, and disgracing whoever He wills - whether individuals, nations, or civilizations - when they become arrogant, oppressive, or reject His guidance.</p>
+                
+                <p>This name demonstrates Allah's perfect justice in dealing with the arrogant and oppressive. Throughout the Quran, we see examples of mighty civilizations that were humbled when they transgressed. Allah's humiliation is always just and serves as a warning to others.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/3/26?translations=131" target="_blank">Surah Al-Imran 3:26</a>
+                    <div class="arabic">قُلِ اللَّهُمَّ مَالِكَ الْمُلْكِ تُؤْتِي الْمُلْكَ مَن تَشَاءُ وَتَنزِعُ الْمُلْكَ مِمَّن تَشَاءُ وَتُعِزُّ مَن تَشَاءُ وَتُذِلُّ مَن تَشَاءُ ۖ بِيَدِكَ الْخَيْرُ ۖ إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</div>
+                    <div class="transliteration">Quli Allahumma malika almulki tu/tee almulka man tashao watanziAAu almulka mimman tashao watuAAizzu man tashao watuthillu man tashao biyadika alkhayru innaka AAala kulli shayin qadeerun</div>
+                    <p>"Say, 'O Allah, Owner of Sovereignty, You give sovereignty to whom You will and You take sovereignty away from whom You will. You honor whom You will and You humble whom You will. In Your hand is [all] good. Indeed, You are over all things competent.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir:</strong> This foundational verse establishes Allah's absolute authority over honor and sovereignty. Scholars explain that Allah's humiliation is always just and serves specific purposes: to punish the arrogant, to test the believers, and to serve as a lesson for future generations. The pairing with Al-Mu'izz shows the perfection of divine justice.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/3/140?translations=131" target="_blank">Surah Al-Imran 3:140</a>
+                    <div class="arabic">وَتِلْكَ الْأَيَّامُ نُدَاوِلُهَا بَيْنَ النَّاسِ</div>
+                    <div class="transliteration">Watilka al-ayyamu nudaawiluha bayna alnnasi</div>
+                    <p>"And these days [of varying conditions] We alternate among the people."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir:</strong> This verse refers to Allah's divine law of alternating periods of honor and humiliation among nations. Historical examples like Pharaoh's humiliation after his arrogance (10:92) and the punishment of the people of Lut (15:73-74) demonstrate this principle. The alternation serves as a test and a reminder of Allah's ultimate authority.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/muslim:91" target="_blank">Sahih Muslim 91</a>
+                    <div class="arabic">مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً مِنْ كُرَبِ الدُّنْيَا نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ الْقِيَامَةِ</div>
+                    <div class="transliteration">Man nafassa AAan mu/minin kurbatan min kurabi alddunya nafassa Allahu AAanhu kurbatan min kurabi yawmi alqiyamati</div>
+                    <p>"Whoever relieves a believer of distress in this world, Allah will relieve him of distress on the Day of Resurrection."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith complements the understanding of Al-Mudhill by showing that protecting others from humiliation leads to protection from divine humiliation. It establishes the principle that how we treat others in matters of honor and disgrace affects our own standing with Allah.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Protection from Humiliation</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَقْرِ، وَالْقِلَّةِ، وَالذِّلَّةِ، وَأَعُوذُ بِكَ مِنْ أَنْ أَظْلِمَ أَوْ أُظْلَمَ</div>
+                    <div class="transliteration">Allahumma innee aAAoothu bika mina alfaqri, waalqillati, waalththillati, wa aAAoothu bika an athlima aw uthlam</div>
+                    <p><strong>Translation:</strong> "O Allah, I seek refuge in You from poverty, scarcity, and humiliation, and I seek refuge in You from oppressing or being oppressed."</p>
+                    <p><strong>Benefits:</strong> This comprehensive du'a seeks protection from Allah Al-Mudhill from all forms of humiliation while also asking to be saved from causing humiliation to others. The Prophet (ﷺ) taught that seeking refuge from oppression includes both being oppressed and being an oppressor (Sunan Abu Dawud).</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Comprehensive Protection</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْبُخْلِ وَالْجُبْنِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ</div>
+                    <div class="transliteration">Allahumma innee aAAoothu bika mina alhami waalhazani waalAAajzi waalkasali waalbukhli waaljubni wadalaAAi aldayni waghalabati alrrijali</div>
+                    <p><strong>Translation:</strong> "O Allah, I seek refuge in You from grief and sadness, from weakness and laziness, from miserliness and cowardice, from being overcome by debt and overpowered by men."</p>
+                    <p><strong>Source:</strong> This well-known du'a from Sahih Bukhari includes seeking protection from being humiliated by others, showing reliance on Allah as the ultimate source of protection from disgrace. The Prophet (ﷺ) recommended this dua for comprehensive protection from life's trials.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Avoiding Arrogance and Oppression</div>
+                    <p>Daily practice to protect oneself from divine humiliation:</p>
+                    <ol>
+                        <li>Daily self-reflection on intentions and actions</li>
+                        <li>Consciously practice humility in interactions</li>
+                        <li>Stand against oppression in all forms</li>
+                        <li>Seek forgiveness for any arrogant thoughts or actions</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice:</p>
+                    <ul>
+                        <li>Aligns with the Quranic warning against arrogance</li>
+                        <li>Develops constant awareness of potential kibr (arrogance)</li>
+                        <li>Follows the Prophetic example of humility</li>
+                        <li>Creates protection from Allah's humiliation</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Seeking Protection Through Remembrance</div>
+                    <p>Weekly practice to strengthen spiritual protection:</p>
+                    <ol>
+                        <li>Memorize and recite daily protection duas</li>
+                        <li>Establish consistent morning and evening adhkar</li>
+                        <li>Reflect on Quranic verses about divine justice</li>
+                        <li>Study stories of humiliated nations for lessons</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Prophet (ﷺ) said: "Whoever recites 'La ilaha illallah' sincerely will enter Paradise" (Ahmad). This practice transforms understanding of divine protection into action through consistent remembrance and reflection.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir (Deep Dive)</h2>
+                <p>Ibn Kathir explains Al-Mudhill through four dimensions of divine justice:</p>
+                <ol>
+                    <li><strong>Individual Humiliation:</strong>
+                        <ul>
+                            <li>Pharaoh's ultimate humiliation after his arrogance (<a href="https://quran.com/10/92?translations=131" target="_blank">10:92</a>)</li>
+                            <li>Qarun's destruction despite his wealth (<a href="https://quran.com/28/81?translations=131" target="_blank">28:81</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>National Humiliation:</strong>
+                        <ul>
+                            <li>Destruction of the people of Lut (<a href="https://quran.com/15/73-74?translations=131" target="_blank">15:73-74</a>)</li>
+                            <li>Punishment of the people of Thamud (<a href="https://quran.com/7/78?translations=131" target="_blank">7:78</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Historical Lessons:</strong>
+                        <ul>
+                            <li>Divine law of alternating periods (<a href="https://quran.com/3/140?translations=131" target="_blank">3:140</a>)</li>
+                            <li>Destruction of arrogant civilizations (<a href="https://quran.com/6/6?translations=131" target="_blank">6:6</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Eschatological Humiliation:</strong>
+                        <ul>
+                            <li>Disbelievers on Judgment Day (<a href="https://quran.com/40/60?translations=131" target="_blank">40:60</a>)</li>
+                            <li>Hypocrites in Hellfire (<a href="https://quran.com/4/145?translations=131" target="_blank">4:145</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In classical tafsir works, scholars emphasize that Allah's humiliation is always preceded by human transgression. Surah Al-Hajj (<a href="https://quran.com/22/18?translations=131" target="_blank">22:18</a>) reminds us that all creation submits to Allah willingly or unwillingly, and those who refuse voluntary submission will face compelled submission through humiliation.</p>
+                <p><strong>Source:</strong> Tafsir Ibn Kathir, Al-Muyassar, and classical tafsir works</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back to Top</a>
+        </div>
+
+        <footer>
+            © (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
