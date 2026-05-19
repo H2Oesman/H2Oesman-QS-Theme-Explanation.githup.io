@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>35. Ash-Shakoor (Yang Maha Menghargai) - 99 Asmaul Husna</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --title-color: #2c3e50;
+            --section-title-color: #2980b9;
+            --dua-bg: #f8f9fa;
+            --dua-border: #e0e0e0;
+            --shadow: 0 0 15px rgba(0,0,0,0.1);
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --arabic-color: #90caf9;
+            --title-color: #e2e8f0;
+            --section-title-color: #7bc9ff;
+            --dua-bg: #1e2a3e;
+            --dua-border: #4b5563;
+            --shadow: 0 0 15px rgba(0,0,0,0.3);
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            font-weight: normal;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--title-color);
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--dua-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--dua-border);
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--dua-border);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 200px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--dua-border);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+        .dark-mode .bonus {
+            background-color: #1e3a5f;
+            border-left-color: #7bc9ff;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--dua-border);
+        }
+        .tafsir-box {
+            background-color: #fffde7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ffe082;
+        }
+        .dark-mode .tafsir-box {
+            background-color: #1e2a3e;
+            border-color: #4b5563;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">35. Ash-Shakoor (Yang Maha Menghargai)</h1>
+            <div class="name-source"><strong>Sumber Resmi:</strong> 
+                <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a>
+            </div>
+
+            <div class="arabic">الشَّكُورُ</div>
+            <div class="transliteration">Transliterasi: Ash-Shakoor</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/35.%20ash-shakur.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Ash-Shakoor adalah salah satu dari 99 Asmaul Husna Allah yang disebutkan dalam Al-Quran. Menurut Kementerian Agama RI, nama ini mengandung makna:</p>
+                <ul>
+                    <li><strong>Yang Maha Menghargai:</strong> Allah memberikan balasan berlipat ganda atas amal kebaikan hamba-Nya</li>
+                    <li><strong>Yang Maha Membalas:</strong> Allah tidak menyia-nyiakan sedikitpun amal kebaikan hamba-Nya</li>
+                    <li><strong>Yang Maha Mensyukuri:</strong> Allah menerima dan mengembangkan amal shaleh hamba-Nya</li>
+                </ul>
+                <p>Menurut Tafsir Kementerian Agama RI, Ash-Shakoor adalah Dzat yang membalas kebaikan hamba-Nya dengan pahala berlipat ganda, baik di dunia maupun akhirat. Allah akan melipatgandakan pahala satu kebaikan hingga 700 kali lipat atau lebih.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/35/30?translations=33" target="_blank">Surah Fatir 35:30</a>
+                    <div class="arabic">لِيُوَفِّيَهُمْ أُجُورَهُمْ وَيَزِيدَهُم مِّن فَضْلِهِ ۚ إِنَّهُ غَفُورٌ شَكُورٌ</div>
+                    <div class="transliteration">Li-yuwaffiyahum ujoorahum wa yazeedahum min fadlih, innahu Ghafoorun Shakoor</div>
+                    <p>"Supaya Allah memberikan balasan kepada mereka dengan balasan yang lebih baik dari apa yang telah mereka kerjakan, dan supaya Allah menambah karunia-Nya kepada mereka. Sesungguhnya Allah Maha Pengampun lagi Maha Mensyukuri."</p>
+                    <div class="tafsir-box">
+                        <strong>Kementerian Agama RI:</strong> Ayat ini menunjukkan bagaimana Allah sebagai Ash-Shakoor tidak hanya membalas amal baik secara sempurna tetapi menambahkan karunia-Nya. Menurut Tafsir Kementerian Agama RI, ini menunjukkan sifat Allah yang sangat menghargai amal hamba-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/42/23?translations=33" target="_blank">Surah Ash-Shura 42:23</a>
+                    <div class="arabic">ذَٰلِكَ الَّذِي يُبَشِّرُ اللَّهُ عِبَادَهُ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ ۗ قُل لَّا أَسْأَلُكُمْ عَلَيْهِ أَجْرًا إِلَّا الْمَوَدَّةَ فِي الْقُرْبَىٰ ۗ وَمَن يَقْتَرِفْ حَسَنَةً نَّزِدْ لَهُ فِيهَا حُسْنًا ۚ إِنَّ اللَّهَ غَفُورٌ شَكُورٌ</div>
+                    <div class="transliteration">Dhalika alladhi yubashshirullahu 'ibadahu alladhina amanu wa 'amilus-salihat, qul la as'alukum 'alayhi ajran illal-mawaddata fil-qurba, wa man yaqtarif hasanatan nazid lahu fiha husna, innallaha Ghafoorun Shakoor</div>
+                    <p>"Itulah (karunia) yang (dengan itu) Allah menggembirakan hamba-hamba-Nya yang beriman dan mengerjakan amal saleh. Katakanlah: 'Aku tidak meminta kepadamu sesuatu upah pun atas seruanku kecuali kasih sayang dalam kekeluargaan.' Dan siapa yang mengerjakan kebaikan akan Kami tambahkan baginya kebaikan pada kebaikannya itu. Sesungguhnya Allah Maha Pengampun lagi Maha Mensyukuri."</p>
+                    <div class="tafsir-box">
+                        <strong>Kementerian Agama RI:</strong> Ayat ini menunjukkan janji Allah untuk menambah kebaikan bagi yang berbuat baik. Allah sebagai Ash-Shakoor akan melipatgandakan pahala kebaikan melebihi apa yang pantas diterima oleh amal itu sendiri.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/muslim:1017" target="_blank">Sahih Muslim 1017</a>
+                    <div class="arabic">إِنَّ اللَّهَ لَيَرْضَى عَنِ الْعَبْدِ أَنْ يَأْكُلَ الْأَكْلَةَ فَيَحْمَدَهُ عَلَيْهَا أَوْ يَشْرَبَ الشَّرْبَةَ فَيَحْمَدَهُ عَلَيْهَا</div>
+                    <div class="transliteration">Innallaha layarda 'anil-'abdi an ya'kula al-aklata fa yahmadahu 'alayha aw yashraba ash-sharbata fa yahmadahu 'alayha</div>
+                    <p>"Sesungguhnya Allah sangat ridha terhadap seorang hamba yang makan sesuap makanan lalu memuji-Nya atas makanan itu, atau minum seteguk minuman lalu memuji-Nya atas minuman itu."</p>
+                    <div class="tafsir-box">
+                        <strong>Kementerian Agama RI:</strong> Hadits ini menunjukkan betapa Allah sebagai Ash-Shakoor menghargai rasa syukur hamba-Nya meskipun dalam hal kecil. Ini adalah bentuk penghargaan Allah yang sangat besar terhadap syukur hamba-Nya.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Doa Menjadi Hamba yang Bersyukur</div>
+                    <div class="arabic">اللَّهُمَّ اجْعَلْنِي مِنَ الشَّاكِرِينَ</div>
+                    <div class="transliteration">Allahummaj'alni minash-shakirin</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, jadikan aku termasuk orang-orang yang bersyukur." (<a href="https://quran.com/46/15?translations=33" target="_blank">QS. Al-Ahqaf 46:15</a>)</p>
+                    <p><strong>Keutamaan:</strong> Doa ini diajarkan oleh Kementerian Agama RI dalam panduan doa sehari-hari. Doa ini mencakup permohonan untuk menjadi hamba yang mensyukuri nikmat Allah dengan sebenar-benarnya.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Doa Syukur atas Nikmat</div>
+                    <div class="arabic">اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ</div>
+                    <div class="transliteration">Allahumma ma asbaha bi min ni'matin aw bi-ahadin min khalqika fa minka wahdaka la sharika laka fa lakal-hamdu wa lakash-shukru</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, nikmat yang kuterima atau yang diterima oleh seseorang di antara makhluk-Mu di pagi ini, semuanya dari-Mu semata, tiada sekutu bagi-Mu. Maka bagi-Mu segala puji dan syukur."</p>
+                    <p><strong>Sumber:</strong> Hadits riwayat Abu Daud. Doa ini sangat dianjurkan untuk dibaca pagi dan petang sebagai bentuk pengakuan bahwa Allah adalah Ash-Shakoor yang memberikan semua nikmat.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Wirid Syukur Harian</div>
+                    <p>Amalan harian berdasarkan ajaran Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Setiap selesai shalat fardhu, baca "Alhamdulillah" 33 kali</li>
+                        <li>Setiap pagi dan petang, baca doa syukur di atas</li>
+                        <li>Sebelum tidur, renungkan 3 nikmat yang diterima hari itu dan ucapkan syukur</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Amalan ini:</p>
+                    <ul>
+                        <li>Mendatangkan ridha Allah sebagai Ash-Shakoor</li>
+                        <li>Menambah nikmat dan pahala</li>
+                        <li>Dianjurkan dalam panduan ibadah Kementerian Agama RI</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Amalan Malam Jumat</div>
+                    <p>Amalan khusus malam Jumat berdasarkan panduan Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Shalat sunnah 2 rakaat dengan niat syukur</li>
+                        <li>Baca Surah Al-Waqi'ah dan Al-Mulk</li>
+                        <li>Baca istighfar 100 kali dan shalawat 100 kali</li>
+                        <li>Baca doa syukur dengan khusyuk</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Nabi (ﷺ) bersabda: "Barangsiapa bersyukur kepada Allah, Allah akan menambah nikmatnya." (HR. Ahmad). Amalan ini dianjurkan dalam panduan ibadah Kementerian Agama RI untuk meningkatkan rasa syukur kepada Allah Ash-Shakoor.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Kementerian Agama RI menjelaskan Ash-Shakoor melalui beberapa dimensi:</p>
+                <ol>
+                    <li><strong>Pembalas yang Sempurna:</strong>
+                        <ul>
+                            <li>Allah membalas kebaikan dengan sempurna (<a href="https://quran.com/35/30?translations=33" target="_blank">35:30</a>)</li>
+                            <li>Allah menambah dari karunia-Nya (<a href="https://quran.com/14/7?translations=33" target="_blank">14:7</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pelipatganda Pahala:</strong>
+                        <ul>
+                            <li>Allah melipatgandakan pahala kebaikan (<a href="https://quran.com/2/261?translations=33" target="_blank">2:261</a>)</li>
+                            <li>Allah menerima amal kecil sebagai besar (<a href="https://quran.com/4/40?translations=33" target="_blank">4:40</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Penerima Syukur:</strong>
+                        <ul>
+                            <li>Allah ridha terhadap syukur hamba-Nya (<a href="https://quran.com/39/7?translations=33" target="_blank">39:7</a>)</li>
+                            <li>Allah membalas syukur dengan tambahan nikmat (<a href="https://quran.com/14/7?translations=33" target="_blank">14:7</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Menurut panduan Kementerian Agama RI, sifat Ash-Shakoor Allah sangat terkait dengan rahmat-Nya. Allah tidak hanya membalas kebaikan tetapi melipatgandakannya sebagai bentuk penghargaan dan kasih sayang-Nya kepada hamba yang beriman.</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">35. Ash-Shakoor (The Most Appreciative)</h1>
+            <div class="name-source"><strong>Source:</strong> 
+                <a href="https://myislam.org/99-names-of-allah/ash-shakur/" target="_blank">myislam.org</a>
+            </div>
+
+            <!-- Bonus section only in English -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_36Shakoor.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">الشَّكُورُ</div>
+            <div class="transliteration">Transliteration: Ash-Shakoor</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/35.%20ash-shakur.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Ash-Shakoor is one of Allah's 99 Names mentioned in the Quran. It signifies:</p>
+                <ul>
+                    <li><strong>The Most Appreciative:</strong> Allah gives multiplied rewards for small good deeds</li>
+                    <li><strong>The Most Rewarding:</strong> Allah never lets any good deed go to waste</li>
+                    <li><strong>The Most Grateful:</strong> Allah accepts and increases righteous deeds</li>
+                </ul>
+                <p>In Islamic theology, Ash-Shakoor is the One who rewards good deeds with multiplied recompense, both in this world and the Hereafter. Allah will multiply the reward of one good deed up to 700 times or more.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (From Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/35/30?translations=131" target="_blank">Surah Fatir 35:30</a>
+                    <div class="arabic">لِيُوَفِّيَهُمْ أُجُورَهُمْ وَيَزِيدَهُم مِّن فَضْلِهِ ۚ إِنَّهُ غَفُورٌ شَكُورٌ</div>
+                    <div class="transliteration">Li-yuwaffiyahum ujoorahum wa yazeedahum min fadlih, innahu Ghafoorun Shakoor</div>
+                    <p>"That He may pay them their wages in full and give them more out of His grace. Indeed, He is Forgiving and Appreciative."</p>
+                    <div class="tafsir-box">
+                        <strong>Explanation:</strong> This verse shows how Allah as Ash-Shakoor not only rewards good deeds perfectly but adds from His bounty. It demonstrates Allah's attribute of greatly appreciating His servants' deeds.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/42/23?translations=131" target="_blank">Surah Ash-Shura 42:23</a>
+                    <div class="arabic">ذَٰلِكَ الَّذِي يُبَشِّرُ اللَّهُ عِبَادَهُ الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ ۗ قُل لَّا أَسْأَلُكُمْ عَلَيْهِ أَجْرًا إِلَّا الْمَوَدَّةَ فِي الْقُرْبَىٰ ۗ وَمَن يَقْتَرِفْ حَسَنَةً نَّزِدْ لَهُ فِيهَا حُسْنًا ۚ إِنَّ اللَّهَ غَفُورٌ شَكُورٌ</div>
+                    <div class="transliteration">Dhalika alladhi yubashshirullahu 'ibadahu alladhina amanu wa 'amilus-salihat, qul la as'alukum 'alayhi ajran illal-mawaddata fil-qurba, wa man yaqtarif hasanatan nazid lahu fiha husna, innallaha Ghafoorun Shakoor</div>
+                    <p>"That is of which Allah gives good tidings to His servants who believe and do righteous deeds. Say, [O Muhammad], 'I do not ask you for it any payment - only that whoever wills might take to his Lord a way.' And whoever does a good deed - We will increase for him good therein. Indeed, Allah is Forgiving and Appreciative."</p>
+                    <div class="tafsir-box">
+                        <strong>Explanation:</strong> This verse shows Allah's promise to increase good for those who do good. It demonstrates that Allah as Ash-Shakoor will multiply the reward of good deeds beyond what the deed itself merits.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/muslim:1017" target="_blank">Sahih Muslim 1017</a>
+                    <div class="arabic">إِنَّ اللَّهَ لَيَرْضَى عَنِ الْعَبْدِ أَنْ يَأْكُلَ الْأَكْلَةَ فَيَحْمَدَهُ عَلَيْهَا أَوْ يَشْرَبَ الشَّرْبَةَ فَيَحْمَدَهُ عَلَيْهَا</div>
+                    <div class="transliteration">Innallaha layarda 'anil-'abdi an ya'kula al-aklata fa yahmadahu 'alayha aw yashraba ash-sharbata fa yahmadahu 'alayha</div>
+                    <p>"Indeed, Allah is pleased with His servant who eats a morsel and praises Him for it, or drinks a sip and praises Him for it."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith shows how Allah as Ash-Shakoor appreciates the gratitude of His servant even in small matters. It demonstrates the great value Allah places on His servants' thankfulness.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">To Be Among the Grateful</div>
+                    <div class="arabic">اللَّهُمَّ اجْعَلْنِي مِنَ الشَّاكِرِينَ</div>
+                    <div class="transliteration">Allahummaj'alni minash-shakirin</div>
+                    <p><strong>Translation:</strong> "O Allah, make me among the grateful ones." (<a href="https://quran.com/46/15?translations=131" target="_blank">Quran 46:15</a>)</p>
+                    <p><strong>Benefits:</strong> This comprehensive dua asks Allah to include us among those who are truly grateful. It can be recited regularly, especially after prayers, acknowledging that true gratitude comes from Allah's grace.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Thanksgiving for Blessings</div>
+                    <div class="arabic">اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ أَوْ بِأَحَدٍ مِنْ خَلْقِكَ فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ</div>
+                    <div class="transliteration">Allahumma ma asbaha bi min ni'matin aw bi-ahadin min khalqika fa minka wahdaka la sharika laka fa lakal-hamdu wa lakash-shukru</div>
+                    <p><strong>Translation:</strong> "O Allah, whatever blessing has been received by me or anyone in Your creation is from You alone, without partner. So for You is all praise and unto You all thanks."</p>
+                    <p><strong>Source:</strong> Hadith from Abu Dawud. This dua is highly recommended to be recited morning and evening as an acknowledgment that Allah is Ash-Shakoor who provides all blessings.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Daily Gratitude Practice</div>
+                    <p>Daily routine based on authentic traditions:</p>
+                    <ol>
+                        <li>After each obligatory prayer, say "Alhamdulillah" 33 times</li>
+                        <li>Every morning and evening, recite the thanksgiving dua above</li>
+                        <li>Before sleeping, reflect on 3 blessings received that day and give thanks</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice:</p>
+                    <ul>
+                        <li>Brings Allah's pleasure as Ash-Shakoor</li>
+                        <li>Increases blessings and rewards</li>
+                        <li>Was practiced by the Prophet (ﷺ) and early Muslims</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Thursday Night Practice</div>
+                    <p>Special practice for Thursday nights:</p>
+                    <ol>
+                        <li>Pray 2 rakahs of gratitude prayer</li>
+                        <li>Recite Surah Al-Waqi'ah and Al-Mulk</li>
+                        <li>Recite istighfar 100 times and salawat 100 times</li>
+                        <li>Recite the thanksgiving dua with devotion</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Prophet (ﷺ) said: "Whoever is grateful to Allah, Allah will increase him." (Ahmad). This practice transforms understanding of gratitude into action towards Allah Ash-Shakoor.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains Ash-Shakoor through several dimensions:</p>
+                <ol>
+                    <li><strong>Perfect Rewarder:</strong>
+                        <ul>
+                            <li>Allah rewards good deeds perfectly (<a href="https://quran.com/35/30?translations=131" target="_blank">35:30</a>)</li>
+                            <li>Allah adds from His bounty (<a href="https://quran.com/14/7?translations=131" target="_blank">14:7</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Multiplier of Rewards:</strong>
+                        <ul>
+                            <li>Allah multiplies rewards for good deeds (<a href="https://quran.com/2/261?translations=131" target="_blank">2:261</a>)</li>
+                            <li>Allah accepts small deeds as great (<a href="https://quran.com/4/40?translations=131" target="_blank">4:40</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Accepter of Gratitude:</strong>
+                        <ul>
+                            <li>Allah is pleased with His servants' gratitude (<a href="https://quran.com/39/7?translations=131" target="_blank">39:7</a>)</li>
+                            <li>Allah rewards gratitude with increased blessings (<a href="https://quran.com/14/7?translations=131" target="_blank">14:7</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In Islamic theology, Allah's attribute as Ash-Shakoor is closely related to His mercy. Allah not only rewards good deeds but multiplies them as an expression of His appreciation and love for His believing servants.</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
