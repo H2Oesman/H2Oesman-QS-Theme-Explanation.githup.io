@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>33. Al-Azeem (Yang Maha Agung) - 99 Asmaul Husna</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --title-color: #2c3e50;
+            --section-title-color: #2980b9;
+            --dua-bg: #f8f9fa;
+            --dua-border: #e0e0e0;
+            --shadow: 0 0 15px rgba(0,0,0,0.1);
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --arabic-color: #90caf9;
+            --title-color: #e2e8f0;
+            --section-title-color: #7bc9ff;
+            --dua-bg: #1e2a3e;
+            --dua-border: #4b5563;
+            --shadow: 0 0 15px rgba(0,0,0,0.3);
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            font-weight: normal;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--title-color);
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--dua-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--dua-border);
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--dua-border);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 200px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--dua-border);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+        .dark-mode .bonus {
+            background-color: #1e3a5f;
+            border-left-color: #7bc9ff;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--dua-border);
+        }
+        .tafsir-box {
+            background-color: #fffde7;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid #ffe082;
+        }
+        .dark-mode .tafsir-box {
+            background-color: #1e2a3e;
+            border-color: #4b5563;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">33. Al-Azeem (Yang Maha Agung)</h1>
+            <div class="name-source"><strong>Sumber Resmi:</strong> 
+                <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a>
+            </div>
+
+            <div class="arabic">العَظِيمُ</div>
+            <div class="transliteration">Transliterasi: Al-Azeem</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/33.%20al-azeem.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Azeem adalah salah satu dari 99 Asmaul Husna Allah yang berarti Yang Maha Agung, Yang Maha Besar. Menurut Kementerian Agama RI, nama ini menunjukkan sifat Allah yang keagungan-Nya melampaui segala sesuatu, tidak ada yang setara dengan-Nya dalam kebesaran dan kemuliaan.</p>
+                <p>Berdasarkan penjelasan Kementerian Agama RI, Al-Azeem menggambarkan:</p>
+                <ul>
+                    <li><strong>Keagungan Mutlak:</strong> Kebesaran Allah tidak terbatas dan tidak ada bandingannya</li>
+                    <li><strong>Kesempurnaan Tanpa Batas:</strong> Segala kesempurnaan ada pada Allah dalam tingkat yang tak terhingga</li>
+                    <li><strong>Kemuliaan Tertinggi:</strong> Allah memiliki kedudukan yang paling tinggi di atas segala sesuatu</li>
+                </ul>
+                <p>Kementerian Agama RI menjelaskan bahwa Al-Azeem adalah Dzat yang keagungan-Nya meliputi segala sesuatu, baik dalam zat, sifat, maupun perbuatan-Nya.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong> 
+                    <a href="https://quran.com/2/255?translations=33" target="_blank">Surah Al-Baqarah 2:255 (Ayat Kursi)</a>
+                    <div class="arabic">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ</div>
+                    <div class="transliteration">Allahu la ilaha illa huwa al-Hayy al-Qayyum, la ta'khudhuhu sinatun wa la nawm, lahu ma fis-samawati wa ma fil-ard, man dha alladhi yashfa'u 'indahu illa bi-idhnih, ya'lamu ma bayna aydihim wa ma khalfahum, wa la yuhituna bi-shay'in min 'ilmihi illa bima sha'a, wasi'a kursiyyuhus-samawati wal-ard, wa la ya'uduhu hifdhuhuma, wa huwa al-'Aliyy al-Azeem</div>
+                    <p>"Allah, tidak ada Tuhan melainkan Dia Yang Hidup kekal lagi terus menerus mengurus (makhluk-Nya); tidak mengantuk dan tidak tidur. Kepunyaan-Nya apa yang di langit dan di bumi. Tiada yang dapat memberi syafaat di sisi Allah tanpa izin-Nya. Allah mengetahui apa-apa yang di hadapan mereka dan di belakang mereka, dan mereka tidak mengetahui apa-apa dari ilmu Allah melainkan apa yang dikehendaki-Nya. Kursi Allah meliputi langit dan bumi. Dan Allah tidak merasa berat memelihara keduanya, dan Allah Maha Tinggi lagi Maha Besar."</p>
+                    <div class="tafsir-box">
+                        <strong>Kementerian Agama RI:</strong> Ayat Kursi yang agung ini diakhiri dengan dua nama Allah - Al-Aliyy (Yang Maha Tinggi) dan Al-Azeem (Yang Maha Agung). Ini menunjukkan bahwa kebesaran Allah meliputi segala aspek, baik dalam kekuasaan, ilmu, maupun kekuatan-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/56/96?translations=33" target="_blank">Surah Al-Waqi'ah 56:96</a>
+                    <div class="arabic">فَسَبِّحْ بِاسْمِ رَبِّكَ الْعَظِيمِ</div>
+                    <div class="transliteration">Fasabbih bismi rabbika al-Azeem</div>
+                    <p>"Maka bertasbihlah dengan (menyebut) nama Tuhanmu Yang Maha Besar."</p>
+                    <div class="tafsir-box">
+                        <strong>Kementerian Agama RI:</strong> Perintah untuk bertasbih dengan menyebut nama Al-Azeem menunjukkan pentingnya mengagungkan Allah dalam segala aspek kehidupan. Ini adalah perintah langsung dari Allah untuk senantiasa mengingat kebesaran-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/42/4?translations=33" target="_blank">Surah Ash-Shura 42:4</a>
+                    <div class="arabic">لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۖ وَهُوَ الْعَلِيُّ الْعَظِيمُ</div>
+                    <div class="transliteration">Lahu ma fis-samawati wa ma fil-ard, wa huwa al-Aliyy al-Azeem</div>
+                    <p>"Kepunyaan-Nya-lah apa yang di langit dan apa yang di bumi. Dan Dialah Yang Maha Tinggi lagi Maha Besar."</p>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/muslim:811" target="_blank">Sahih Muslim 811</a>
+                    <div class="arabic">مَنْ قَرَأَ آيَةَ الْكُرْسِيِّ دُبُرَ كُلِّ صَلَاةٍ مَكْتُوبَةٍ لَمْ يَمْنَعْهُ مِنْ دُخُولِ الْجَنَّةِ إِلَّا أَنْ يَمُوتَ</div>
+                    <div class="transliteration">Man qara'a ayat al-kursi dubura kulli salatin maktubatin lam yamna'hu min dukhuli al-jannati illa an yamut</div>
+                    <p>"Barangsiapa membaca ayat Kursi setelah setiap shalat wajib, tidak ada yang menghalanginya masuk surga kecuali kematian."</p>
+                    <div class="tafsir-box">
+                        <strong>Kementerian Agama RI:</strong> Hadits ini menunjukkan keutamaan besar dari ayat yang mengandung nama Al-Azeem. Membacanya secara rutin dapat menjadi wasilah untuk meraih surga.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Dzikir Ruku'</div>
+                    <div class="arabic">سُبْحَانَ رَبِّيَ الْعَظِيمِ</div>
+                    <div class="transliteration">Subhana Rabbi al-Azeem</div>
+                    <p><strong>Terjemahan:</strong> "Maha Suci Tuhanku Yang Maha Agung."</p>
+                    <p><strong>Keutamaan:</strong> Dzikir ini dibaca saat ruku' dalam shalat. Nabi (ﷺ) bersabda: "Barangsiapa mengucapkan 'Subhana Rabbi al-Azeem' ketika ruku', maka ditulis untuknya dua puluh kebaikan." (HR. Ibnu Majah). Dianjurkan juga untuk membacanya di luar shalat sebagai bentuk pengagungan kepada Allah.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Doa Pengagungan</div>
+                    <div class="arabic">اللَّهُمَّ أَنْتَ الْعَظِيمُ وَأَنَا عَبْدُكَ الضَّعِيفُ فَارْحَمْنِي بِعَظَمَتِكَ</div>
+                    <div class="transliteration">Allahumma Anta al-Azeem wa ana 'abduka ad-da'if farhamni bi-'azamatik</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, Engkau Yang Maha Agung dan aku adalah hamba-Mu yang lemah, maka rahmatilah aku dengan keagungan-Mu."</p>
+                    <p><strong>Sumber:</strong> Doa ini direkomendasikan oleh Kementerian Agama RI untuk dibaca setelah shalat tahajud sebagai bentuk pengakuan akan keagungan Allah dan kerendahan diri hamba.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Wirid Ayat Kursi</div>
+                    <p>Rutinitas harian untuk mengagungkan Allah:</p>
+                    <ol>
+                        <li>Baca Ayat Kursi setelah setiap shalat wajib</li>
+                        <li>Renungkan makna kebesaran Allah dalam ayat tersebut</li>
+                        <li>Baca "Subhana Rabbi al-Azeem" 33 kali setelahnya</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Berdasarkan hadits tentang keutamaan Ayat Kursi (HR. Muslim) dan anjuran Kementerian Agama RI untuk memperbanyak dzikir dengan Asmaul Husna.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Praktik Pengagungan Harian</div>
+                    <p>Cara meneladani sifat Al-Azeem dalam kehidupan:</p>
+                    <ol>
+                        <li>Setiap melihat sesuatu yang besar/agung, ucapkan "Allahu Akbar"</li>
+                        <li>Saat menghadapi masalah, ingatlah kebesaran Allah yang mengatasi segala sesuatu</li>
+                        <li>Biasakan membaca "Subhanallah wa bihamdih" 100 kali pagi dan petang</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Kementerian Agama RI menjelaskan bahwa amalan ini membantu seorang muslim untuk senantiasa mengingat kebesaran Allah dalam kehidupan sehari-hari.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Kementerian Agama RI menjelaskan Al-Azeem melalui beberapa dimensi:</p>
+                <ol>
+                    <li><strong>Keagungan Zat:</strong>
+                        <ul>
+                            <li>Allah Maha Besar dalam Dzat-Nya yang tidak bisa dibayangkan (<a href="https://quran.com/42/11?translations=33" target="_blank">42:11</a>)</li>
+                            <li>Tidak ada yang serupa dengan-Nya (<a href="https://quran.com/112/4?translations=33" target="_blank">112:4</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Keagungan Sifat:</strong>
+                        <ul>
+                            <li>Semua sifat Allah sempurna dan agung (<a href="https://quran.com/16/60?translations=33" target="_blank">16:60</a>)</li>
+                            <li>Kekuasaan-Nya meliputi segala sesuatu (<a href="https://quran.com/3/26?translations=33" target="_blank">3:26</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Keagungan Perbuatan:</strong>
+                        <ul>
+                            <li>Penciptaan langit dan bumi menunjukkan kebesaran-Nya (<a href="https://quran.com/39/67?translations=33" target="_blank">39:67</a>)</li>
+                            <li>Kekuasaan-Nya atas hari kebangkitan (<a href="https://quran.com/22/6?translations=33" target="_blank">22:6</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Kementerian Agama RI menekankan bahwa nama Al-Azeem menunjukkan kebesaran Allah yang mutlak, yang meliputi segala aspek keberadaan, baik yang kita ketahui maupun yang tidak kita ketahui.</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">33. Al-Azeem (The Magnificent, The Supreme)</h1>
+            <div class="name-source"><strong>Source:</strong> 
+                <a href="https://myislam.org/99-names-of-allah/al-azeem/" target="_blank">myislam.org</a>
+            </div>
+
+            <!-- Bonus section only in English -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_34Azheem.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">العَظِيمُ</div>
+            <div class="transliteration">Transliteration: Al-Azeem</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/33.%20al-azeem.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Azeem is the One whose greatness is beyond measure, whose dignity is beyond comprehension. His attributes are perfect and His essence is magnificent beyond human understanding. Everything in creation is insignificant compared to His greatness.</p>
+                <p>Ibn Kathir explains in his Tafsir that Al-Azeem is the One who possesses all attributes of perfection and greatness. His magnificence is absolute and incomparable to anything in creation. All greatness in the universe is but a reflection of His absolute greatness.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong> 
+                    <a href="https://quran.com/2/255?translations=131" target="_blank">Surah Al-Baqarah 2:255 (Ayat al-Kursi)</a>
+                    <div class="arabic">اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ</div>
+                    <div class="transliteration">Allahu la ilaha illa huwa al-Hayy al-Qayyum, la ta'khudhuhu sinatun wa la nawm, lahu ma fis-samawati wa ma fil-ard, man dha alladhi yashfa'u 'indahu illa bi-idhnih, ya'lamu ma bayna aydihim wa ma khalfahum, wa la yuhituna bi-shay'in min 'ilmihi illa bima sha'a, wasi'a kursiyyuhus-samawati wal-ard, wa la ya'uduhu hifdhuhuma, wa huwa al-'Aliyy al-Azeem</div>
+                    <p>"Allah - there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great."</p>
+                    <div class="tafsir-box">
+                        <strong>Explanation:</strong> This greatest verse of the Quran concludes with two of Allah's names - Al-Aliyy (The Most High) and Al-Azeem (The Most Great). Ibn Kathir explains that these names signify Allah's absolute supremacy and magnificence above all creation.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/56/96?translations=131" target="_blank">Surah Al-Waqi'ah 56:96</a>
+                    <div class="arabic">فَسَبِّحْ بِاسْمِ رَبِّكَ الْعَظِيمِ</div>
+                    <div class="transliteration">Fasabbih bismi rabbika al-Azeem</div>
+                    <p>"Then exalt with the name of your Lord, the Most Great."</p>
+                    <div class="tafsir-box">
+                        <strong>Explanation:</strong> This command to glorify Allah by His magnificent name comes at the conclusion of Surah Al-Waqi'ah. Ibn Kathir comments that this instruction reminds believers to recognize Allah's supreme greatness in all matters.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Benefits and Reflections</h2>
+                <ol>
+                    <li>Recognizing Allah as Al-Azeem increases our humility and awe before His majesty.</li>
+                    <li>It puts worldly matters into perspective, reminding us that all greatness belongs to Allah alone.</li>
+                    <li>We should strive to magnify Allah in our hearts above all else.</li>
+                    <li>Understanding this name brings comfort, knowing that the Most Great is in control of all affairs.</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">Dhikr from Prayer</div>
+                    <div class="arabic">سُبْحَانَ رَبِّيَ الْعَظِيمِ</div>
+                    <div class="transliteration">Subhana Rabbi al-Azeem</div>
+                    <p><strong>Translation:</strong> "Glory be to my Lord, the Most Great."</p>
+                    <p><strong>Usage:</strong> This dhikr is recited during ruku' (bowing) in prayer. The Prophet (peace be upon him) emphasized its importance, saying whoever says it will have it written for him twenty good deeds. It can also be recited at any time to remember Allah's greatness.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Reciting Ayat al-Kursi</div>
+                    <p>Make it a daily practice to recite Ayat al-Kursi (2:255) after each obligatory prayer, reflecting on Allah's greatness expressed in this magnificent verse.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Magnifying Allah in Daily Life</div>
+                    <p>When facing any difficulty or witnessing any wonder, consciously say "Allahu Akbar" (Allah is the Greatest) to affirm Allah's supreme greatness over all things.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir (Deep Dive)</h2>
+                <p>In his commentary on Ayat al-Kursi (2:255), Ibn Kathir explains that Allah's attribute of being Al-Azeem refers to His absolute greatness that encompasses all aspects of perfection. His greatness is beyond human comprehension and comparison.</p>
+                <p>Regarding Surah Al-Waqi'ah 56:96, Ibn Kathir states that the command to glorify Allah by His magnificent name reminds believers that true greatness belongs to Allah alone, and all other greatness in creation is insignificant compared to His.</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
