@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>37. Al-Kabeer (Yang Maha Besar) - 99 Asmaul Husna</title>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #1e2a3e;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #1e5f8e;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --link-color: #1e5f8e;
+            --link-hover: #0d3d5a;
+            --translit-bg: rgba(0,0,0,0.02);
+        }
+        body.dark-mode {
+            --bg-color: #121826;
+            --text-color: #eef2ff;
+            --container-bg: #1e293b;
+            --arabic-color: #9ad0ff;
+            --section-title-color: #7bc9ff;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #5dade2;
+            --link-color: #90caf9;
+            --link-hover: #c3e2ff;
+            --translit-bg: #2d3748;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+            background: var(--translit-bg);
+            padding: 8px;
+            border-radius: 16px;
+        }
+        body.dark-mode .transliteration {
+            color: #b0c4de;
+            background: rgba(255,255,255,0.08);
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--section-title-color);
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .dua, .amalan {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        body.dark-mode .dua-title, body.dark-mode .amalan-title {
+            color: #1abc9c;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .bonus {
+            background-color: var(--bonus-bg);
+            padding: 15px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--verse-border);
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 16px;
+            margin-top: 10px;
+            border: 1px solid var(--tafsir-border);
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+        .audio-player {
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+        /* Scroll arrows */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--container-bg);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            color: var(--text-color);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        /* Pagination styles */
+        .surah-pagination {
+            margin: 40px 0 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .pagination-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .pagination-item {
+            background: var(--verse-bg);
+            padding: 10px 24px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+            transition: 0.2s;
+        }
+        .pagination-item:hover {
+            background: var(--link-color);
+            color: white;
+            text-decoration: none;
+        }
+        .pagination-center {
+            text-align: center;
+        }
+        /* Dual menu links */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+            justify-content: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        .translation-text {
+            margin-top: 10px;
+            font-style: normal;
+            font-weight: 500;
+            background: var(--bonus-bg);
+            padding: 10px;
+            border-radius: 12px;
+        }
+        @media (max-width: 640px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
+            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
+            .arabic { font-size: 30px; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> Switch to English</div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<div class="container" id="mainContainer">
+    <!-- INDONESIAN CONTENT (DEFAULT) -->
+    <div id="indonesian-content">
+        <div class="menu-links">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+        </div>
+        <h1 class="name-title">37. Al-Kabeer (Yang Maha Besar)</h1>
+        <div class="name-source"><strong>Sumber:</strong> 
+            <a href="https://kemenag.go.id" target="_blank">Kementerian Agama RI</a>
+        </div>
+        <div class="arabic">الكَبِيرُ</div>
+        <div class="transliteration">Transliterasi: Al-Kabeer</div>
+        <div class="audio-player">
+            <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+            <audio controls style="width: 100%;">
+                <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/37.%20al-kabir.mp3" type="audio/mpeg">
+                Browser Anda tidak mendukung elemen audio.
+            </audio>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> Makna</h2>
+            <p>Al-Kabeer merupakan salah satu dari 99 Asmaul Husna Allah yang disebutkan dalam Al-Quran. Menurut Kementerian Agama RI, nama ini mengandung makna:</p>
+            <ul>
+                <li><strong>Yang Maha Besar:</strong> Allah memiliki kebesaran mutlak yang meliputi segala sesuatu</li>
+                <li><strong>Yang Maha Agung:</strong> Keagungan-Nya melampaui segala batas pemahaman makhluk</li>
+                <li><strong>Yang Maha Sempurna:</strong> Kesempurnaan-Nya tidak ada bandingannya</li>
+            </ul>
+            <p>Menurut Kementerian Agama RI, Al-Kabeer menunjukkan bahwa Allah Maha Besar dalam zat, sifat, dan perbuatan-Nya. Kebesaran-Nya meliputi segala sesuatu dan tidak ada yang dapat menandingi-Nya.</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-quran"></i> Dalil (Dari Al-Quran & Hadits)</h2>
+            <div class="dalil-item">
+                <strong>Referensi Utama Al-Quran:</strong> 
+                <a href="https://quran.com/31/30?translations=33" target="_blank">Surah Luqman 31:30</a>
+                <div class="arabic">ذَٰلِكَ بِأَنَّ اللَّهَ هُوَ الْحَقُّ وَأَنَّ مَا يَدْعُونَ مِن دُونِهِ الْبَاطِلُ وَأَنَّ اللَّهَ هُوَ الْعَلِيُّ الْكَبِيرُ</div>
+                <div class="transliteration">Dhalika bi-anna Allaha huwa al-Haqq wa anna ma yad'una min dunihi al-batilu wa anna Allaha huwa al-'Aliyy al-Kabeer</div>
+                <div class="translation-text">"Demikianlah, karena sesungguhnya Allah, Dialah Yang Hak dan sesungguhnya apa saja yang mereka seru selain dari Allah, itulah yang batil, dan sesungguhnya Allah, Dialah Yang Maha Tinggi lagi Maha Besar."</div>
+                <div class="tafsir-box"><strong>Tafsir Kemenag RI:</strong> Ayat ini menegaskan kebesaran mutlak Allah yang bertentangan dengan kebatilan semua objek penyembahan selain-Nya. Menurut Kementerian Agama RI, kebesaran Allah ini mencakup segala aspek keberadaan dan kekuasaan-Nya.</div>
+            </div>
+            <div class="dalil-item">
+                <strong>Referensi Al-Quran:</strong> 
+                <a href="https://quran.com/22/62?translations=33" target="_blank">Surah Al-Hajj 22:62</a>
+                <div class="arabic">ذَٰلِكَ بِأَنَّ اللَّهَ هُوَ الْحَقُّ وَأَنَّ مَا يَدْعُونَ مِن دُونِهِ هُوَ الْبَاطِلُ وَأَنَّ اللَّهَ هُوَ الْعَلِيُّ الْكَبِيرُ</div>
+                <div class="transliteration">Dhalika bi-anna Allaha huwa al-Haqq wa anna ma yad'una min dunihi huwa al-batilu wa anna Allaha huwa al-'Aliyy al-Kabeer</div>
+                <div class="translation-text">"Demikianlah, karena sesungguhnya Allah, Dialah Yang Hak dan sesungguhnya apa saja yang mereka seru selain dari Allah, itulah yang batil, dan sesungguhnya Allah, Dialah Yang Maha Tinggi lagi Maha Besar."</div>
+                <div class="tafsir-box"><strong>Penjelasan Kemenag RI:</strong> Menurut Kementerian Agama RI, pengulangan penyebutan nama Al-Kabeer dalam ayat ini menunjukkan pentingnya menyadari kebesaran Allah dalam kehidupan sehari-hari.</div>
+            </div>
+            <div class="dalil-item">
+                <strong>Referensi Al-Quran:</strong> 
+                <a href="https://quran.com/13/9?translations=33" target="_blank">Surah Ar-Ra'd 13:9</a>
+                <div class="arabic">عَالِمُ الْغَيْبِ وَالشَّهَادَةِ الْكَبِيرُ الْمُتَعَالِ</div>
+                <div class="transliteration">'Alimul-ghaybi wash-shahadati al-Kabeeru al-Muta'al</div>
+                <div class="translation-text">"Yang mengetahui semua yang ghaib dan yang nyata, Yang Maha Besar, Maha Tinggi."</div>
+                <div class="tafsir-box"><strong>Keterangan Kemenag RI:</strong> Menurut Kementerian Agama RI, ayat ini menunjukkan bahwa kebesaran Allah mencakup pengetahuan-Nya atas segala yang tersembunyi dan yang tampak.</div>
+            </div>
+            <div class="dalil-item">
+                <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/muslim:2694" target="_blank">Sahih Muslim 2694</a>
+                <div class="arabic">إِنَّ اللَّهَ عَزَّ وَجَلَّ كَتَبَ كِتَابًا قَبْلَ أَنْ يَخْلُقَ السَّمَوَاتِ وَالأَرْضَ بِأَلْفَىْ عَامٍ وَهُوَ مَنْزِلٌ عِنْدَهُ فَوْقَ الْعَرْشِ إِنَّ رَحْمَتِي سَبَقَتْ غَضَبِي</div>
+                <div class="transliteration">Inna Allaha 'azza wa jalla kataba kitaban qabla an yakhluqa as-samawati wal-arda bi-alfay 'am wa huwa manzilun 'indahu fawqa al-'arshi inna rahmati sabaqat ghadabi</div>
+                <div class="translation-text">"Sesungguhnya Allah 'Azza wa Jalla telah menulis suatu kitab sebelum menciptakan langit dan bumi dua ribu tahun, dan kitab itu berada di sisi-Nya di atas 'Arsy, (yang berbunyi): 'Sesungguhnya rahmat-Ku mendahului kemurkaan-Ku.'"</div>
+                <div class="tafsir-box"><strong>Konteks Kemenag RI:</strong> Hadits Qudsi ini menunjukkan kebesaran Allah dalam pengaturan segala urusan. Menurut Kementerian Agama RI, meskipun Allah Maha Besar, rahmat-Nya sangat dekat dengan hamba-Nya yang beriman.</div>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-hands-praying"></i> Doa</h2>
+            <div class="dua">
+                <div class="dua-title">Memohon Perlindungan dengan Kebesaran Allah</div>
+                <div class="arabic">اللَّهُمَّ بِحَقِّ الْكَبِيرِ أَعُوذُ بِكَ مِنْ شَرِّ مَا خَلَقْتَ وَذَرَأْتَ وَبَرَأْتَ</div>
+                <div class="transliteration">Allahumma bi-haqqi al-Kabeeri a'udhu bika min sharri ma khalaqta wa dhara'ta wa bara'ta</div>
+                <div class="translation-text"><strong>Terjemahan:</strong> "Ya Allah, demi hak Al-Kabeer, aku berlindung kepada-Mu dari kejahatan apa yang Engkau ciptakan, tumbuhkan, dan bentuk."</div>
+                <p><strong>Sumber:</strong> Doa ini berdasarkan referensi dari Kementerian Agama RI.</p>
+                <p><strong>Keutamaan:</strong> Doa ini diajarkan oleh para ulama untuk memohon perlindungan dengan menyebut kebesaran Allah. Dianjurkan dibaca pagi dan petang.</p>
+            </div>
+            <div class="dua">
+                <div class="dua-title">Dzikir Pengagungan</div>
+                <div class="arabic">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ</div>
+                <div class="transliteration">Subhanallahi wa bihamdihi, Subhanallahil-'Azeem</div>
+                <div class="translation-text"><strong>Terjemahan:</strong> "Maha Suci Allah dan segala puji bagi-Nya, Maha Suci Allah Yang Maha Agung."</div>
+                <p><strong>Sumber:</strong> Dzikir ini berdasarkan hadits riwayat Muslim yang diajarkan Nabi Muhammad SAW. Menurut Kementerian Agama RI, dzikir ini mengingatkan kita akan kebesaran Allah di atas segala sesuatu.</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Amalan</h2>
+            <div class="amalan">
+                <div class="amalan-title">Praktik Mengingat Kebesaran Allah</div>
+                <p>Rutinitas harian untuk mengembangkan kesadaran akan kebesaran Allah menurut panduan Kementerian Agama RI:</p>
+                <ol>
+                    <li>Setiap pagi dan petang, baca "Ya Kabeer" 11 kali sambil merenungkan maknanya</li>
+                    <li>Perbanyak mengucapkan "Allahu Akbar" dalam aktivitas sehari-hari</li>
+                    <li>Amalkan doa memohon perlindungan dengan kebesaran Allah</li>
+                </ol>
+                <p><strong>Keutamaan:</strong> Praktik ini meningkatkan kesadaran akan keagungan Allah, mengembangkan sikap tawadhu', mengikuti sunnah Nabi Muhammad SAW dalam berdzikir.</p>
+            </div>
+            <div class="amalan">
+                <div class="amalan-title">Merenungkan Kebesaran Allah</div>
+                <p>Amalan mingguan untuk mewujudkan pemahaman akan sifat Al-Kabeer:</p>
+                <ol>
+                    <li>Setiap hari Jumat, renungkan satu tanda kebesaran Allah: di alam semesta, dalam diri manusia, dalam kehidupan sehari-hari.</li>
+                    <li>Ucapkan syukur dengan "Alhamdulillah" atas setiap nikmat</li>
+                    <li>Tuliskan pelajaran yang didapat dari perenungan tersebut</li>
+                </ol>
+                <p><strong>Dasar Syar'i:</strong> Nabi Muhammad SAW bersabda: "Bertafakkurlah tentang ciptaan Allah dan janganlah kalian bertafakkur tentang Dzat Allah." (HR. Abu Nu'aim).</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-chalkboard-user"></i> Tafsir Ibn Kathir</h2>
+            <p>Ibn Kathir menjelaskan Al-Kabeer melalui beberapa dimensi:</p>
+            <ol>
+                <li><strong>Kebesaran Zat:</strong> Allah Maha Besar dalam Dzat-Nya (QS 2:255), tidak ada yang menyerupai-Nya (QS 42:11).</li>
+                <li><strong>Kebesaran Sifat:</strong> Sifat-sifat-Nya sempurna tanpa kekurangan (QS 59:23), Maha Besar dalam ilmu, kekuasaan, dan hikmah-Nya (QS 6:18).</li>
+                <li><strong>Kebesaran Kekuasaan:</strong> Maha Kuasa atas segala sesuatu (QS 2:20), segala sesuatu tunduk kepada-Nya (QS 13:15).</li>
+            </ol>
+            <p>Dalam Surah Saba' (34:23), Allah menegaskan bahwa syafaat di sisi-Nya tidak bermanfaat kecuali bagi yang diizinkan-Nya. Ini menunjukkan kebesaran kekuasaan Allah.</p>
+        </div>
+
+        <!-- PAGINATION INDONESIA -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="036.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Nama Sebelumnya: 36. Al-Aliyy (Maha Tinggi)</a>
+                <a href="038.html" class="pagination-item">Nama Berikutnya: 38. Al-Hafiz (Maha Memelihara) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            </div>
+        </div>
+        <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+    </div>
+
+    <!-- ENGLISH CONTENT (HIDDEN BY DEFAULT) -->
+    <div id="english-content" class="hidden">
+        <div class="menu-links">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+        </div>
+        <h1 class="name-title">37. Al-Kabeer (The All-Great)</h1>
+        <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-kabeer/" target="_blank">myislam.org/99-names-of-allah/al-kabeer/</a></div>
+        <div class="bonus">
+            <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+            <div class="audio-player">
+                <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_38Kabeer.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+        <div class="arabic">الكَبِيرُ</div>
+        <div class="transliteration">Transliteration: Al-Kabeer</div>
+        <div class="audio-player">
+            <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+            <audio controls style="width: 100%;">
+                <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/37.%20al-kabir.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> Meaning</h2>
+            <p>Al-Kabeer is one of the 99 Names of Allah mentioned in the Quran. This name signifies:</p>
+            <ul>
+                <li><strong>The All-Great:</strong> Allah possesses absolute greatness encompassing all things</li>
+                <li><strong>The Most Grand:</strong> His grandeur transcends all limits of creation's understanding</li>
+                <li><strong>The Perfect:</strong> His perfection is incomparable</li>
+            </ul>
+            <p>Islamic scholars explain that Al-Kabeer shows Allah is Great in His essence, attributes, and actions. His greatness encompasses everything and nothing can rival Him.</p>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-quran"></i> Evidence (From Quran & Hadith)</h2>
+            <div class="dalil-item">
+                <strong>Primary Quranic Reference:</strong> <a href="https://quran.com/31/30?translations=131" target="_blank">Surah Luqman 31:30</a>
+                <div class="arabic">ذَٰلِكَ بِأَنَّ اللَّهَ هُوَ الْحَقُّ وَأَنَّ مَا يَدْعُونَ مِن دُونِهِ الْبَاطِلُ وَأَنَّ اللَّهَ هُوَ الْعَلِيُّ الْكَبِيرُ</div>
+                <div class="transliteration">Dhalika bi-anna Allaha huwa al-Haqq wa anna ma yad'una min dunihi al-batilu wa anna Allaha huwa al-'Aliyy al-Kabeer</div>
+                <div class="translation-text">"That is because Allah is the Truth, and that which they call upon other than Him is falsehood, and because Allah is the Most High, the Grand."</div>
+                <div class="tafsir-box"><strong>Explanation:</strong> This verse establishes Allah's absolute greatness in contrast to the falsehood of all other objects of worship. Scholars explain that Allah's greatness encompasses all aspects of existence and dominion.</div>
+            </div>
+            <div class="dalil-item">
+                <strong>Quranic Reference:</strong> <a href="https://quran.com/22/62?translations=131" target="_blank">Surah Al-Hajj 22:62</a>
+                <div class="arabic">ذَٰلِكَ بِأَنَّ اللَّهَ هُوَ الْحَقُّ وَأَنَّ مَا يَدْعُونَ مِن دُونِهِ هُوَ الْبَاطِلُ وَأَنَّ اللَّهَ هُوَ الْعَلِيُّ الْكَبِيرُ</div>
+                <div class="transliteration">Dhalika bi-anna Allaha huwa al-Haqq wa anna ma yad'una min dunihi huwa al-batilu wa anna Allaha huwa al-'Aliyy al-Kabeer</div>
+                <div class="translation-text">"That is because Allah is the Truth, and that which they call upon other than Him is falsehood, and because Allah is the Most High, the Grand."</div>
+                <div class="tafsir-box"><strong>Explanation:</strong> The repetition of the name Al-Kabeer in this verse shows the importance of recognizing Allah's greatness in daily life.</div>
+            </div>
+            <div class="dalil-item">
+                <strong>Quranic Reference:</strong> <a href="https://quran.com/13/9?translations=131" target="_blank">Surah Ar-Ra'd 13:9</a>
+                <div class="arabic">عَالِمُ الْغَيْبِ وَالشَّهَادَةِ الْكَبِيرُ الْمُتَعَالِ</div>
+                <div class="transliteration">'Alimul-ghaybi wash-shahadati al-Kabeeru al-Muta'al</div>
+                <div class="translation-text">"Knower of the unseen and the witnessed, the Grand, the Exalted."</div>
+            </div>
+            <div class="dalil-item">
+                <strong>Hadith Reference:</strong> <a href="https://sunnah.com/muslim:2694" target="_blank">Sahih Muslim 2694</a>
+                <div class="arabic">إِنَّ اللَّهَ عَزَّ وَجَلَّ كَتَبَ كِتَابًا قَبْلَ أَنْ يَخْلُقَ السَّمَوَاتِ وَالأَرْضَ بِأَلْفَىْ عَامٍ وَهُوَ مَنْزِلٌ عِنْدَهُ فَوْقَ الْعَرْشِ إِنَّ رَحْمَتِي سَبَقَتْ غَضَبِي</div>
+                <div class="transliteration">Inna Allaha 'azza wa jalla kataba kitaban qabla an yakhluqa as-samawati wal-arda bi-alfay 'am wa huwa manzilun 'indahu fawqa al-'arshi inna rahmati sabaqat ghadabi</div>
+                <div class="translation-text">"Indeed, Allah the Mighty and Majestic wrote a book before creating the heavens and the earth by two thousand years, and it is with Him above the Throne: 'Indeed My mercy prevails over My wrath.'"</div>
+                <div class="tafsir-box"><strong>Context:</strong> This Hadith Qudsi shows Allah's greatness in arranging all matters. Though Allah is All-Great, His mercy is very close to His believing servants.</div>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-hands-praying"></i> Du'a (Supplications)</h2>
+            <div class="dua">
+                <div class="dua-title">For Protection Through Allah's Greatness</div>
+                <div class="arabic">اللَّهُمَّ بِحَقِّ الْكَبِيرِ أَعُوذُ بِكَ مِنْ شَرِّ مَا خَلَقْتَ وَذَرَأْتَ وَبَرَأْتَ</div>
+                <div class="transliteration">Allahumma bi-haqqi al-Kabeeri a'udhu bika min sharri ma khalaqta wa dhara'ta wa bara'ta</div>
+                <div class="translation-text"><strong>Translation:</strong> "O Allah, by the right of Al-Kabeer, I seek refuge in You from the evil of what You have created, propagated, and formed."</div>
+                <p><strong>Benefits:</strong> This dua is taught by scholars to seek protection by invoking Allah's greatness. Recommended in the morning and evening.</p>
+            </div>
+            <div class="dua">
+                <div class="dua-title">Glorification Dhikr</div>
+                <div class="arabic">سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ</div>
+                <div class="transliteration">Subhanallahi wa bihamdihi, Subhanallahil-'Azeem</div>
+                <div class="translation-text"><strong>Translation:</strong> "Glory be to Allah and all praise is due to Him, Glory be to Allah the Almighty."</div>
+                <p><strong>Source:</strong> This dhikr is based on a hadith in Sahih Muslim taught by Prophet Muhammad (peace be upon him).</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-calendar-alt"></i> Practices</h2>
+            <div class="amalan">
+                <div class="amalan-title">Remembrance of Allah's Greatness</div>
+                <p>Daily routine to cultivate awareness of Allah's greatness:</p>
+                <ol>
+                    <li>Every morning and evening, recite "Ya Kabeer" 11 times while reflecting on its meaning</li>
+                    <li>Frequently say "Allahu Akbar" in daily activities</li>
+                    <li>Practice dua seeking protection through Allah's greatness</li>
+                </ol>
+                <p><strong>Benefits:</strong> Increases awareness of Allah's grandeur, develops humility (tawadhu'), follows the Sunnah.</p>
+            </div>
+            <div class="amalan">
+                <div class="amalan-title">Reflecting on Allah's Greatness</div>
+                <p>Weekly practice to embody understanding of Al-Kabeer:</p>
+                <ol>
+                    <li>Every Friday, reflect on one sign of Allah's greatness: universe, human creation, daily provisions.</li>
+                    <li>Express gratitude with "Alhamdulillah" for each blessing</li>
+                    <li>Write down lessons learned from the reflection</li>
+                </ol>
+                <p><strong>Historical Basis:</strong> The Prophet (peace be upon him) said: "Reflect on the creation of Allah but do not reflect on His Essence." (Abu Nu'aim).</p>
+            </div>
+        </div>
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-chalkboard-user"></i> Tafsir Ibn Kathir</h2>
+            <p>Ibn Kathir explains Al-Kabeer through several dimensions:</p>
+            <ol>
+                <li><strong>Greatness of Essence:</strong> Allah is Great in His Essence (2:255), nothing resembles Him (42:11).</li>
+                <li><strong>Greatness of Attributes:</strong> His attributes are perfect without deficiency (59:23), Great in knowledge, power, and wisdom (6:18).</li>
+                <li><strong>Greatness of Dominion:</strong> All-Powerful over all things (2:20), everything submits to Him (13:15).</li>
+            </ol>
+            <p>In Surah Saba (34:23), Allah affirms that intercession with Him is of no benefit except for whom He permits. This shows the greatness of Allah's authority.</p>
+        </div>
+
+        <!-- PAGINATION ENGLISH -->
+        <div class="surah-pagination">
+            <div class="pagination-row">
+                <a href="036.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Name: 36. Al-Aliyy (The Most High)</a>
+                <a href="038.html" class="pagination-item">Next Name: 38. Al-Hafiz (The All-Preserver) <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="pagination-center">
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+            </div>
+        </div>
+        <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+    </div>
+
+    <footer>
+        © (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.
+    </footer>
+</div>
+
+<script>
+(function() {
+    const indoDiv = document.getElementById('indonesian-content');
+    const engDiv = document.getElementById('english-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
+    const translitElements = document.querySelectorAll('.transliteration');
+
+    // URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentLang = 'indonesian';
+    if (urlParams.has('English')) currentLang = 'english';
+    else if (urlParams.has('Indonesian')) currentLang = 'indonesian';
+    else currentLang = localStorage.getItem('language') || 'indonesian';
+
+    function setLanguage(lang) {
+        const isEnglish = (lang === 'english');
+        if (isEnglish) {
+            engDiv.classList.remove('hidden');
+            indoDiv.classList.add('hidden');
+            langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+        } else {
+            engDiv.classList.add('hidden');
+            indoDiv.classList.remove('hidden');
+            langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+        }
+        localStorage.setItem('language', lang);
+    }
+    setLanguage(currentLang);
+    langToggle.addEventListener('click', () => {
+        const newLang = engDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang);
+    });
+
+    // Transliteration toggle
+    let translitVisible = localStorage.getItem('transliteration') === 'true';
+    if (urlParams.has('Transliteration')) translitVisible = true;
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        localStorage.setItem('transliteration', show);
+    }
+    setTransliteration(translitVisible);
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
+
+    // Dark mode
+    let darkActive = false;
+    if (urlParams.has('Dark')) darkActive = true;
+    else darkActive = localStorage.getItem('darkMode') === 'true';
+    if (darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI() {
+        const active = document.body.classList.contains('dark-mode');
+        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        localStorage.setItem('darkMode', active);
+    }
+    setDarkModeUI();
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        setDarkModeUI();
+    });
+
+    // Scroll arrows
+    const upArrow = document.getElementById('scrollUp');
+    const downArrow = document.getElementById('scrollDown');
+    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+})();
+</script>
+</body>
+</html>
