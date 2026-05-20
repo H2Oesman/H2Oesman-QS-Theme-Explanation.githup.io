@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>39. Al-Muqeet (Yang Maha Pemberi Rezeki) - 99 Nama Allah</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --shadow-color: rgba(0,0,0,0.1);
+            --primary-color: #3498db;
+            --secondary-color: #2980b9;
+            --accent-color: #16a085;
+            --arabic-color: #1a5276;
+            --section-bg: #f8f9fa;
+            --border-color: #e0e0e0;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --shadow-color: rgba(0,0,0,0.3);
+            --primary-color: #5dade2;
+            --secondary-color: #3498db;
+            --accent-color: #1abc9c;
+            --arabic-color: #90caf9;
+            --section-bg: #1e2a3e;
+            --border-color: #4b5563;
+            --tafsir-bg: #1e2a3e;
+            --tafsir-border: #4b5563;
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px var(--shadow-color);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 40px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            font-weight: normal;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--text-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            border-left: 5px solid var(--primary-color);
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--section-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 200px; }  /* aligned with right double arrow */
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--primary-color);
+        }
+        .dark-mode .bonus {
+            background-color: #1e3a5f;
+            border-left-color: #7bc9ff;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid var(--tafsir-border);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        .audio-player {
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .audio-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--arabic-color);
+        }
+        /* Pagination styles */
+        .surah-pagination {
+            margin: 40px 0 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        .pagination-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .pagination-item {
+            background: var(--section-bg);
+            padding: 10px 24px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+            transition: 0.2s;
+        }
+        .pagination-item:hover {
+            background: var(--link-color);
+            color: white;
+            text-decoration: none;
+        }
+        .pagination-center {
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            .pagination-row {
+                justify-content: center;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) - No bonus section -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+            
+            <h1 class="name-title">39. Al-Muqeet (Yang Maha Pemberi Rezeki)</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-muqeet/" target="_blank">myislam.org/99-names-of-allah/al-muqeet/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">المُقِيتُ</div>
+            <div class="transliteration">Transliterasi: Al-Muqeet</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/39.%20al-muqit.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Muqeet merupakan salah satu dari 99 Nama Allah yang indah (Asmaul Husna). Menurut Kementerian Agama RI, nama ini mengandung makna:</p>
+                <ul>
+                    <li><strong>Yang Maha Pemberi Rezeki:</strong> Allah yang memberikan dan mencukupkan rezeki kepada seluruh makhluk-Nya</li>
+                    <li><strong>Yang Maha Memelihara:</strong> Allah yang menjaga dan mengatur segala kebutuhan makhluk-Nya</li>
+                    <li><strong>Yang Maha Mengetahui:</strong> Allah yang mengetahui keadaan dan kebutuhan setiap makhluk</li>
+                </ul>
+                <p>Menurut Kementerian Agama RI, Al-Muqeet adalah Dzat yang memberikan rezeki kepada semua makhluk-Nya, baik yang beriman maupun yang kafir. Rezeki yang diberikan mencakup kebutuhan jasmani dan rohani.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/4/85?translations=33" target="_blank">Surah An-Nisa 4:85</a>
+                    <div class="arabic">مَّن يَشْفَعْ شَفَاعَةً حَسَنَةً يَكُن لَّهُ نَصِيبٌ مِّنْهَا ۖ وَمَن يَشْفَعْ شَفَاعَةً سَيِّئَةً يَكُن لَّهُ كِفْلٌ مِّنْهَا ۗ وَكَانَ اللَّهُ عَلَىٰ كُلِّ شَيْءٍ مُّقِيتًا</div>
+                    <div class="transliteration">Man yashfa' shafa'atan hasanatan yakun lahu nasibun minha, wa man yashfa' shafa'atan sayyi'atan yakun lahu kiflun minha, wa kana Allahu 'ala kulli shay'in Muqeeta</div>
+                    <p>"Barangsiapa yang memberikan syafa'at yang baik, niscaya ia akan memperoleh bahagian (pahala) daripadanya. Dan barangsiapa yang memberi syafa'at yang buruk, niscaya ia akan memikul bahagian (dosa) daripadanya. Allah Maha Kuasa atas segala sesuatu."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa Allah sebagai Al-Muqeet memiliki kekuasaan penuh atas segala sesuatu. Dia yang mengatur dan memelihara seluruh urusan makhluk-Nya, termasuk memberikan balasan atas setiap perbuatan manusia.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/11/6?translations=33" target="_blank">Surah Hud 11:6</a>
+                    <div class="arabic">وَمَا مِن دَابَّةٍ فِي الْأَرْضِ إِلَّا عَلَى اللَّهِ رِزْقُهَا وَيَعْلَمُ مُسْتَقَرَّهَا وَمُسْتَوْدَعَهَا ۚ كُلٌّ فِي كِتَابٍ مُّبِينٍ</div>
+                    <div class="transliteration">Wa ma min dabbatin fil-ardi illa 'alallahi rizquha wa ya'lamu mustaqarraha wa mustawda'aha, kullun fi kitabin mubin</div>
+                    <p>"Dan tidak ada suatu binatang melata pun di bumi melainkan Allah-lah yang memberi rezekinya, dan Dia mengetahui tempat berdiam binatang itu dan tempat penyimpanannya. Semuanya tertulis dalam Kitab yang nyata (Lauh Mahfuzh)."</p>
+                    <div class="tafsir-box">
+                        <strong>Keterangan Kemenag RI:</strong> Ayat ini menegaskan bahwa Allah sebagai Al-Muqeet mengetahui segala kebutuhan makhluk-Nya dan menjamin rezeki mereka. Segala sesuatu telah tercatat dalam Lauh Mahfuzh dengan ketentuan yang sempurna.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.com/51/58?translations=33" target="_blank">Surah Adz-Dzariyat 51:58</a>
+                    <div class="arabic">إِنَّ اللَّهَ هُوَ الرَّزَّاقُ ذُو الْقُوَّةِ الْمَتِينُ</div>
+                    <div class="transliteration">Innallaha huwa ar-Razzaqu dhu al-quwwati al-Mateen</div>
+                    <p>"Sesungguhnya Allah Dialah Maha Pemberi rezeki Yang mempunyai Kekuatan lagi Sangat Kokoh."</p>
+                    <div class="tafsir-box">
+                        <strong>Keterangan:</strong> Menurut Kementerian Agama RI, ayat ini menunjukkan bahwa Allah sebagai pemberi rezeki memiliki kekuatan yang sempurna untuk memenuhi kebutuhan semua makhluk-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/bukhari:3194" target="_blank">Sahih Bukhari 3194</a>
+                    <div class="arabic">إِنَّ لِلَّهِ مِائَةَ رَحْمَةٍ أَنْزَلَ مِنْهَا رَحْمَةً وَاحِدَةً بَيْنَ الْجِنِّ وَالْإِنْسِ وَالْبَهَائِمِ وَالْهَوَامِّ فَبِهَا يَتَعَاطَفُونَ وَبِهَا يَتَرَاحَمُونَ وَبِهَا تَعْطِفُ الْوَحْشُ عَلَى وَلَدِهَا وَأَخَّرَ اللَّهُ تِسْعًا وَتِسْعِينَ رَحْمَةً يَرْحَمُ بِهَا عِبَادَهُ يَوْمَ الْقِيَامَةِ</div>
+                    <div class="transliteration">Inna li-llāhi mi'ata raḥmatin anzala minhā raḥmatan wāḥidatan bayna l-jinni wa l-insi wa l-bahā'imi wa l-hawāmmi fa bihā yata'āṭafūna wa bihā yatarāḥamūna wa bihā ta'ṭifu l-waḥshu 'alā waladihā wa akhkharu llāhu tis'an wa tis'īna raḥmatan yarḥamu bihā 'ibādahu yawma l-qiyāmah</div>
+                    <p>"Sesungguhnya Allah memiliki seratus rahmat. Darinya, Dia menurunkan satu rahmat kepada jin, manusia, hewan ternak dan serangga, yang dengan rahmat itu mereka saling berbuat baik dan menyayangi; dan dengannya pula binatang buas menyayangi anaknya. Dan Allah menyimpan sembilan puluh sembilan rahmat untuk menyayangi hamba-hamba-Nya pada Hari Kiamat."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kemenag RI:</strong> Hadits ini menunjukkan keluasan rahmat Allah sebagai Al-Muqeet yang mencakup semua makhluk. Rahmat Allah di dunia ini hanyalah sebagian kecil dari rahmat-Nya yang luas.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Rezeki yang Halal dan Baik</div>
+                    <div class="arabic">اللَّهُمَّ ارْزُقْنَا رِزْقًا حَلَالًا طَيِّبًا وَاسِعًا مِنْ غَيْرِ تَعَبٍ وَلَا مَشَقَّةٍ وَلَا ضَيْرٍ وَلَا نَصَبٍ</div>
+                    <div class="transliteration">Allahummarzuqna rizqan halalan tayyiban wasi'an min ghayri ta'abin wa la mashaqqatin wa la dayrin wa la nasab</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, berilah kami rezeki yang halal, baik, melimpah tanpa kesulitan, kesusahan, bahaya atau kelelahan."</p>
+                    <p><strong>Sumber:</strong> Doa ini berdasarkan referensi dari Kementerian Agama RI.</p>
+                    <p><strong>Keutamaan:</strong> Doa ini diajarkan untuk memohon rezeki yang berkah. Dianjurkan dibaca setelah shalat lima waktu.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Kecukupan Rezeki</div>
+                    <div class="arabic">اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ</div>
+                    <div class="transliteration">Allahummakfini bihalalika 'an haramika wa aghnini bifadlika 'amman siwaka</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, cukupkanlah aku dengan rezeki-Mu yang halal sehingga aku tidak memerlukan yang haram, dan kayakanlah aku dengan karunia-Mu sehingga aku tidak memerlukan selain-Mu."</p>
+                    <p><strong>Sumber:</strong> Doa dari hadits riwayat Tirmidzi yang dianjurkan oleh Kementerian Agama RI untuk diamalkan setiap pagi dan petang.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Praktik Syukur atas Rezeki</div>
+                    <p>Rutinitas harian untuk meningkatkan kesyukuran menurut panduan Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Setiap selesai shalat, ucapkan "Alhamdulillah" 3 kali</li>
+                        <li>Setiap menerima rezeki, baca doa: "Allahumma barik lana fima razaqtana wa qina 'adzaban nar"</li>
+                        <li>Sebelum tidur, renungkan 3 nikmat yang diterima hari itu</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Amalan ini diajarkan untuk:</p>
+                    <ul>
+                        <li>Meningkatkan rasa syukur</li>
+                        <li>Mendatangkan keberkahan rezeki</li>
+                        <li>Mendekatkan diri kepada Allah</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Amalan Sedekah</div>
+                    <p>Praktik mingguan untuk mendapatkan rezeki yang melimpah menurut panduan Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Setiap Jumat, sisihkan sebagian rezeki untuk sedekah</li>
+                        <li>Baca basmalah sebelum memberi sedekah</li>
+                        <li>Berikan sedekah secara diam-diam</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Rasulullah SAW bersabda: "Sedekah tidak akan mengurangi harta" (HR Muslim). Amalan ini dianjurkan oleh Kementerian Agama RI dalam panduan ibadah harian.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir menjelaskan Al-Muqeet melalui beberapa dimensi:</p>
+                <ol>
+                    <li><strong>Pemberi Rezeki:</strong>
+                        <ul>
+                            <li>Allah yang memberikan rezeki kepada semua makhluk (<a href="https://quran.com/11/6?translations=33" target="_blank">11:6</a>)</li>
+                            <li>Rezeki yang diberikan sesuai dengan kebutuhan (<a href="https://quran.com/17/30?translations=33" target="_blank">17:30</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pemelihara Kehidupan:</strong>
+                        <ul>
+                            <li>Allah yang menjaga kelangsungan hidup makhluk (<a href="https://quran.com/35/3?translations=33" target="_blank">35:3</a>)</li>
+                            <li>Allah yang mengetahui segala kebutuhan (<a href="https://quran.com/67/14?translations=33" target="_blank">67:14</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pengatur Segala Urusan:</strong>
+                        <ul>
+                            <li>Allah yang mengatur segala sesuatu dengan sempurna (<a href="https://quran.com/10/31?translations=33" target="_blank">10:31</a>)</li>
+                            <li>Allah yang mencatat segala perbuatan (<a href="https://quran.com/78/29?translations=33" target="_blank">78:29</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam tafsirnya, Ibn Kathir menekankan bahwa Al-Muqeet adalah Dzat yang tidak hanya memberikan rezeki tetapi juga menjaga dan memelihara seluruh ciptaan-Nya dengan sempurna.</p>
+            </div>
+
+            <!-- Pagination Indonesia -->
+            <div class="surah-pagination">
+                <div class="pagination-row">
+                    <a href="038.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Nama Sebelumnya: 38. Al-Hafeez (Maha Memelihara)</a>
+                    <a href="040.html" class="pagination-item">Nama Berikutnya: 40. Al-Haseeb (Maha Pembuat Perhitungan) <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="pagination-center">
+                    <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+                </div>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - Bonus retained -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+            
+            <h1 class="name-title">39. Al-Muqeet (The All-Sustainer)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-muqeet/" target="_blank">myislam.org/99-names-of-allah/al-muqeet/</a></div>
+
+            <!-- Bonus section only in English -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_40Muqeet.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">المُقِيتُ</div>
+            <div class="transliteration">Transliteration: Al-Muqeet</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/39.%20al-muqit.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Muqeet is the One who sustains all living beings by providing their nourishment and all they need for survival. He maintains the entire creation, ensuring everything receives its provision at the proper time and in the proper measure.</p>
+                <p>Ibn Kathir explains in his Tafsir that Al-Muqeet is the One who provides sustenance to all creatures, from the smallest microorganism to the largest creations. His sustenance encompasses both physical nourishment and spiritual provision.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/4/85?translations=131" target="_blank">Surah An-Nisa 4:85</a>
+                    <div class="arabic">مَّن يَشْفَعْ شَفَاعَةً حَسَنَةً يَكُن لَّهُ نَصِيبٌ مِّنْهَا ۖ وَمَن يَشْفَعْ شَفَاعَةً سَيِّئَةً يَكُن لَّهُ كِفْلٌ مِّنْهَا ۗ وَكَانَ اللَّهُ عَلَىٰ كُلِّ شَيْءٍ مُّقِيتًا</div>
+                    <div class="transliteration">Man yashfa' shafa'atan hasanatan yakun lahu nasibun minha, wa man yashfa' shafa'atan sayyi'atan yakun lahu kiflun minha, wa kana Allahu 'ala kulli shay'in Muqeeta</div>
+                    <p>"Whoever intercedes for a good cause will have a share in its reward, and whoever intercedes for an evil cause will have a share of its burden. And Allah is Maintainer of all things."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse shows Allah's all-encompassing sustenance that includes both physical provision and the consequences of human actions. Ibn Kathir explains that Allah's attribute as Al-Muqeet here refers to His perfect maintenance of all affairs.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/11/6?translations=131" target="_blank">Surah Hud 11:6</a>
+                    <div class="arabic">وَمَا مِن دَابَّةٍ فِي الْأَرْضِ إِلَّا عَلَى اللَّهِ رِزْقُهَا وَيَعْلَمُ مُسْتَقَرَّهَا وَمُسْتَوْدَعَهَا ۚ كُلٌّ فِي كِتَابٍ مُّبِينٍ</div>
+                    <div class="transliteration">Wa ma min dabbatin fil-ardi illa 'alallahi rizquha wa ya'lamu mustaqarraha wa mustawda'aha, kullun fi kitabin mubin</div>
+                    <p>"And there is no creature on earth but that upon Allah is its provision, and He knows its place of dwelling and place of storage. All is in a clear register."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse affirms that Allah provides for all creatures and knows exactly where they live and what they need. Ibn Kathir comments that Allah's sustenance is perfectly measured and timed for each creature's needs.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/51/58?translations=131" target="_blank">Surah Adz-Dzariyat 51:58</a>
+                    <div class="arabic">إِنَّ اللَّهَ هُوَ الرَّزَّاقُ ذُو الْقُوَّةِ الْمَتِينُ</div>
+                    <div class="transliteration">Innallaha huwa ar-Razzaqu dhu al-quwwati al-Mateen</div>
+                    <p>"Indeed, it is Allah who is the [continual] Provider, the firm possessor of strength."</p>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/bukhari:3194" target="_blank">Sahih Bukhari 3194</a>
+                    <div class="arabic">إِنَّ لِلَّهِ مِائَةَ رَحْمَةٍ أَنْزَلَ مِنْهَا رَحْمَةً وَاحِدَةً بَيْنَ الْجِنِّ وَالْإِنْسِ وَالْبَهَائِمِ وَالْهَوَامِّ فَبِهَا يَتَعَاطَفُونَ وَبِهَا يَتَرَاحَمُونَ وَبِهَا تَعْطِفُ الْوَحْشُ عَلَى وَلَدِهَا وَأَخَّرَ اللَّهُ تِسْعًا وَتِسْعِينَ رَحْمَةً يَرْحَمُ بِهَا عِبَادَهُ يَوْمَ الْقِيَامَةِ</div>
+                    <div class="transliteration">Inna li-llāhi mi'ata raḥmatin anzala minhā raḥmatan wāḥidatan bayna l-jinni wa l-insi wa l-bahā'imi wa l-hawāmmi fa bihā yata'āṭafūna wa bihā yatarāḥamūna wa bihā ta'ṭifu l-waḥshu 'alā waladihā wa akhkharu llāhu tis'an wa tis'īna raḥmatan yarḥamu bihā 'ibādahu yawma l-qiyāmah</div>
+                    <p>"Allah has one hundred mercies, out of which He has sent down one mercy between jinn, mankind, animals and insects, by means of which they show kindness to one another and have compassion for one another; and by means of which wild animals care for their young. Allah has retained ninety-nine mercies to deal mercifully with His slaves on the Day of Resurrection."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This famous Hadith Qudsi illustrates the vastness of Al-Muqeet's mercy - what we experience in this world is merely 1% of His total mercy, with 99% reserved for the Hereafter. It shows that all compassion in creation stems from this divine attribute.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Sustenance and Provision</div>
+                    <div class="arabic">اللَّهُمَّ ارْزُقْنَا رِزْقًا حَلَالًا طَيِّبًا وَاسِعًا مِنْ غَيْرِ تَعَبٍ وَلَا مَشَقَّةٍ وَلَا ضَيْرٍ وَلَا نَصَبٍ</div>
+                    <div class="transliteration">Allahummarzuqna rizqan halalan tayyiban wasi'an min ghayri ta'abin wa la mashaqqatin wa la dayrin wa la nasab</div>
+                    <p><strong>Translation:</strong> "O Allah, provide us with lawful, pure, abundant provision without difficulty, hardship, harm or fatigue."</p>
+                    <p><strong>Usage:</strong> This comprehensive du'a seeks Allah's sustenance in the best possible way. It can be recited after prayers or when seeking provision, acknowledging Allah as the true source of all sustenance.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Contentment with Provision</div>
+                    <div class="arabic">اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ</div>
+                    <div class="transliteration">Allahummakfini bihalalika 'an haramika wa aghnini bifadlika 'amman siwaka</div>
+                    <p><strong>Translation:</strong> "O Allah, suffice me with what You have made lawful so that I may dispense with what You have made unlawful, and make me independent of all others by Your bounty."</p>
+                    <p><strong>Source:</strong> This du'a from Tirmidhi teaches complete reliance on Allah's provision and contentment with what He provides.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Gratitude Practice</div>
+                    <p>Daily routine to cultivate thankfulness for Allah's provisions:</p>
+                    <ol>
+                        <li>Upon waking, recite "Alhamdulillah" 3 times</li>
+                        <li>Before each meal, say "Bismillah" and after "Alhamdulillah"</li>
+                        <li>Before sleeping, reflect on 3 blessings received that day</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice:</p>
+                    <ul>
+                        <li>Increases awareness of divine blessings</li>
+                        <li>Develops constant gratitude to Allah</li>
+                        <li>Follows the Prophet's (ﷺ) sunnah of remembrance</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Charity Ritual</div>
+                    <p>Weekly practice to embody trust in Allah's provision:</p>
+                    <ol>
+                        <li>Every Friday, set aside a portion for charity</li>
+                        <li>Give charity before asking for increase in provision</li>
+                        <li>Prefer giving secretly over public charity</li>
+                    </ol>
+                    <p><strong>Evidence:</strong> The Prophet (ﷺ) said: "Charity does not decrease wealth" (Muslim). This practice demonstrates trust that Allah will replace what we give in charity with something better.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains Al-Muqeet through several dimensions:</p>
+                <ol>
+                    <li><strong>The Sustainer:</strong>
+                        <ul>
+                            <li>Allah provides for all creatures (<a href="https://quran.com/11/6?translations=131" target="_blank">11:6</a>)</li>
+                            <li>Provision is perfectly measured (<a href="https://quran.com/17/30?translations=131" target="_blank">17:30</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>The Preserver:</strong>
+                        <ul>
+                            <li>Allah maintains all existence (<a href="https://quran.com/35/3?translations=131" target="_blank">35:3</a>)</li>
+                            <li>Allah knows all needs (<a href="https://quran.com/67/14?translations=131" target="_blank">67:14</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>The Controller:</strong>
+                        <ul>
+                            <li>Allah perfectly manages all affairs (<a href="https://quran.com/10/31?translations=131" target="_blank">10:31</a>)</li>
+                            <li>Allah records all deeds (<a href="https://quran.com/78/29?translations=131" target="_blank">78:29</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In his commentary, Ibn Kathir emphasizes that Al-Muqeet is not merely the Provider but the Perfect Sustainer who maintains the entire creation with perfect knowledge and wisdom.</p>
+            </div>
+
+            <!-- Pagination English -->
+            <div class="surah-pagination">
+                <div class="pagination-row">
+                    <a href="038.html" class="pagination-item"><i class="fas fa-arrow-left"></i> Previous Name: 38. Al-Hafeez (The All-Preserver)</a>
+                    <a href="040.html" class="pagination-item">Next Name: 40. Al-Haseeb (The Reckoner) <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="pagination-center">
+                    <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+                </div>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+
+        <footer>
+            © (2025 AD) 1447 AH Curated and Maintained by Hermansjah. All rights reserved.
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
