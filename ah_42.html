@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>42. Al-Karim - Yang Maha Mulia | The Most Generous</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;  /* lighter dark background */
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua, .amalan, .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua, body.dark-mode .amalan, body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title, body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+        /* toggle buttons (right) */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up { top: 200px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 11px; right: 12px; }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- Fixed Toggle Buttons (Right) -->
+<div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+<!-- Single-step arrows (LEFT) -->
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<!-- Double arrows (RIGHT side: top & bottom) -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+<div class="container" id="mainContainer">
+    <!-- INDONESIAN CONTENT (transliterasi tanpa diakritik, sesuai ejaan Bahasa Indonesia) -->
+    <div id="indonesian-content">
+        <div class="main-menu-links">
+            <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
+        <h1 class="name-title">42. Al-Karim (Yang Maha Mulia)</h1>
+        <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-karim/" target="_blank">myislam.org/99-names-of-allah/al-karim/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+        <div class="arabic">ٱلْكَرِيمُ</div>
+        <div class="transliteration">Transliterasi: Al-Karim</div>
+
+        <div class="audio-player">
+            <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+            <audio controls style="width: 100%;">
+                <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/42.%20al-karim.mp3" type="audio/mpeg">
+                Browser Anda tidak mendukung elemen audio.
+            </audio>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Makna</h2>
+            <p>Al-Karim merupakan nama Allah yang ke-42 dalam Asmaul Husna. Menurut <strong>Kementerian Agama RI</strong>, nama ini mengandung makna:</p>
+            <ul>
+                <li><strong>Yang Maha Mulia:</strong> Kemuliaan-Nya meliputi segala sesuatu</li>
+                <li><strong>Yang Maha Dermawan:</strong> Pemberian-Nya tidak terbatas dan tanpa pamrih</li>
+                <li><strong>Yang Maha Pemurah:</strong> Kemurahan-Nya mencakup semua makhluk</li>
+            </ul>
+            <p>Menurut <strong>Tafsir Kementerian Agama RI</strong>, Al-Karim adalah Dzat yang memiliki kemuliaan sempurna dan memberikan karunia-Nya tanpa diminta. Menurut sumber-sumber resmi Kementerian Agama RI, sifat ini menunjukkan kesempurnaan Allah dalam memberi dan memuliakan hamba-Nya.</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+            
+            <div class="dalil-item">
+                <strong>Referensi Al-Quran:</strong> 
+                <a href="https://quran.com/82:6?translations=33" target="_blank">Surah Al-Infitar 82:6</a>
+                <div class="arabic">يَـٰٓأَيُّهَا ٱلْإِنسَـٰنُ مَا غَرَّكَ بِرَبِّكَ ٱلْكَرِيمِ</div>
+                <div class="transliteration">Ya ayyuhal insanu ma gharraka birabbikal karim</div>
+                <p>"Wahai manusia! Apakah yang telah memperdayakan kamu (berbuat durhaka) terhadap Tuhanmu Yang Maha Mulia?"</p>
+                <div class="tafsir-box">
+                    <strong>Tafsir Kemenag RI:</strong> Ayat ini menegaskan kemuliaan Allah sebagai pencipta manusia. Penyebutan Al-Karim dalam konteks ini menunjukkan bahwa durhaka kepada Allah adalah tindakan yang tidak pantas mengingat kemuliaan-Nya yang sempurna.
+                </div>
+            </div>
+
+            <div class="dalil-item">
+                <strong>Referensi Al-Quran:</strong> 
+                <a href="https://quran.com/96:3?translations=33" target="_blank">Surah Al-Alaq 96:3</a>
+                <div class="arabic">ٱقْرَأْ وَرَبُّكَ ٱلْأَكْرَمُ</div>
+                <div class="transliteration">Iqra' wa rabbukal akram</div>
+                <p>"Bacalah, dan Tuhanmulah Yang Maha Pemurah."</p>
+                <div class="tafsir-box">
+                    <strong>Tafsir Kemenag RI:</strong> Ayat pertama yang turun ini menyandingkan perintah membaca dengan sifat Al-Akram (Yang Maha Pemurah), menunjukkan bahwa ilmu pengetahuan adalah karunia Allah yang mulia. Kementerian Agama RI menjelaskan bahwa kemurahan Allah dalam mengajarkan manusia melalui pena dan tulisan.
+                </div>
+            </div>
+
+            <div class="dalil-item">
+                <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/ibnmajah:55" target="_blank">Sunan Ibn Majah 55</a>
+                <div class="arabic">إِنَّ اللَّهَ كَرِيمٌ يُحِبُّ الْكَرَمَ وَيُحِبُّ مَعَالِيَ الأُمُورِ وَيَكْرَهُ سَفْسَافَهَا</div>
+                <div class="transliteration">Innallaha karimun yuhibbul karama wa yuhibbu ma'aliyal umuri wa yakrahu safsafaha</div>
+                <p>"Sesungguhnya Allah Maha Mulia, mencintai kemuliaan dan mencintai perkara-perkara yang mulia, dan membenci perkara-perkara yang rendah."</p>
+                <div class="tafsir-box">
+                    <strong>Penjelasan Kemenag RI:</strong> Hadits ini menunjukkan bahwa Allah mencintai hamba-Nya yang memiliki sifat mulia sesuai dengan sifat-Nya sebagai Al-Karim. Kementerian Agama RI menambahkan bahwa hadits ini mendorong umat Islam untuk selalu berakhlak mulia.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Doa</h2>
+            <div class="dua">
+                <div class="dua-title">Memohon Kemuliaan dan Rezeki</div>
+                <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ بِأَنَّكَ أَنْتَ اللَّهُ الْكَرِيمُ</div>
+                <div class="transliteration">Allahumma inni as'aluka bi-annaka Anta Allahul Karim</div>
+                <p><strong>Terjemahan:</strong> "Ya Allah, sesungguhnya aku memohon kepada-Mu dengan hak-Mu bahwa Engkau adalah Allah Yang Maha Mulia."</p>
+                <p><strong>Keutamaan:</strong> Doa ini diajarkan sebagai permohonan rezeki dan kemuliaan. Dibaca 100 kali setelah shalat Subuh menurut amalan ulama salaf.</p>
+                <p><strong>Rekomendasi Kemenag RI:</strong> Doa ini termasuk dalam panduan doa harian yang diterbitkan Kementerian Agama.</p>
+            </div>
+
+            <div class="dua">
+                <div class="dua-title">Memohon Kemurahan Hati</div>
+                <div class="arabic">يَا كَرِيمُ يَا كَرِيمُ يَا كَرِيمُ، أَلْطُفْ بِي فِيْمَا جَرَتْ بِهِ الْمَقَادِيْرُ</div>
+                <div class="transliteration">Ya Karimu ya Karimu ya Karim, althuf bi fima jarat bihil maqadir</div>
+                <p><strong>Terjemahan:</strong> "Wahai Yang Maha Mulia (3x), berilah aku kelembutan-Mu dalam segala takdir yang berlaku."</p>
+                <p><strong>Sumber:</strong> Doa dari kitab Al-Adzkar An-Nawawiyah yang dianjurkan <strong>Kemenag RI</strong> untuk dibaca saat menghadapi kesulitan, sebagai bentuk tawakkal kepada kemuliaan Allah.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Amalan</h2>
+            <div class="amalan">
+                <div class="amalan-title">Wirid Al-Karim</div>
+                <p>Amalan harian berdasarkan petunjuk Kementerian Agama RI:</p>
+                <ol>
+                    <li>Setelah shalat Subuh, baca "Yā Karīm" 100 kali</li>
+                    <li>Hadirkan hati dalam mengingat kemuliaan Allah</li>
+                    <li>Akiri dengan doa memohon kemuliaan dunia akhirat</li>
+                </ol>
+                <p><strong>Keutamaan:</strong> Amalan ini:</p>
+                <ul>
+                    <li>Membersihkan hati dari sifat kikir</li>
+                    <li>Mendatangkan rezeki yang barokah</li>
+                    <li>Mendekatkan diri kepada sifat kemuliaan Allah</li>
+                </ul>
+                <p><strong>Rujukan:</strong> Buku Panduan Ibadah Harian terbitan <strong>Kementerian Agama RI</strong>.</p>
+            </div>
+
+            <div class="amalan">
+                <div class="amalan-title">Praktik Kedermawanan</div>
+                <p>Amalan mingguan untuk meneladani sifat Al-Karim menurut panduan Kementerian Agama RI:</p>
+                <ol>
+                    <li>Setiap Jumat, bersedekah sesuai kemampuan</li>
+                    <li>Berbuat baik kepada orang yang membutuhkan</li>
+                    <li>Memaafkan kesalahan orang lain</li>
+                </ol>
+                <p><strong>Dasar Syar'i:</strong> Nabi (ﷺ) bersabda: "Tangan di atas (yang memberi) lebih baik daripada tangan di bawah (yang menerima)" (HR. Bukhari). <strong>Kemenag RI</strong> menganjurkan amalan ini untuk meneladani sifat dermawan Allah.</p>
+                <p><strong>Panduan Kemenag RI:</strong> Kementerian Agama menganjurkan amalan ini untuk meningkatkan ketakwaan.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Tafsir Ibn Kathir</h2>
+            <p>Ibn Kathir menjelaskan Al-Karim melalui empat dimensi:</p>
+            <ol>
+                <li><strong>Kemuliaan Zat:</strong>
+                    <ul>
+                        <li>Kesempurnaan sifat-sifat Allah (<a href="https://quran.com/59:24?translations=33" target="_blank">59:24</a>)</li>
+                        <li>Kebesaran dan keagungan-Nya (<a href="https://quran.com/2:255?translations=33" target="_blank">2:255</a>)</li>
+                    </ul>
+                </li>
+                <li><strong>Kemuliaan Perbuatan:</strong>
+                    <ul>
+                        <li>Penciptaan yang sempurna (<a href="https://quran.com/32:7?translations=33" target="_blank">32:7</a>)</li>
+                        <li>Pemberian tanpa diminta (<a href="https://quran.com/55:29?translations=33" target="_blank">55:29</a>)</li>
+                    </ul>
+                </li>
+                <li><strong>Kemuliaan Nama:</strong>
+                    <ul>
+                        <li>Nama-nama yang indah (<a href="https://quran.com/7:180?translations=33" target="_blank">7:180</a>)</li>
+                        <li>Penyebutan dalam doa-doa (<a href="https://quran.com/17:110?translations=33" target="_blank">17:110</a>)</li>
+                    </ul>
+                </li>
+                <li><strong>Kemuliaan Janji:</strong>
+                    <ul>
+                        <li>Pemenuhan janji (<a href="https://quran.com/30:6?translations=33" target="_blank">30:6</a>)</li>
+                        <li>Pahala yang berlipat (<a href="https://quran.com/2:261?translations=33" target="_blank">2:261</a>)</li>
+                    </ul>
+                </li>
+            </ol>
+            <p>Dalam Tafsir Ibnu Katsir disebutkan bahwa Al-Karim mencakup makna Yang Maha Pemberi, Yang Maha Mulia, dan Yang Maha Pemurah. Sifat ini menunjukkan kesempurnaan Allah dalam memberi dan memuliakan hamba-Nya.</p>
+            <p><strong>Referensi:</strong> Tafsir Ibn Kathir banyak dijadikan rujukan oleh Kementerian Agama RI dalam memahami Asmaul Husna.</p>
+        </div>
+
+        <div class="main-menu-links">
+            <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
+        <a href="#top" class="back-to-top">Kembali ke Atas</a>
+    </div>
+
+    <!-- ENGLISH CONTENT (transliteration with diacritics, unchanged) -->
+    <div id="english-content" class="hidden">
+        <div class="main-menu-links">
+            <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
+        <h1 class="name-title">42. Al-Karim (The Most Generous)</h1>
+        <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-karim/" target="_blank">myislam.org/99-names-of-allah/al-karim/</a></div>
+
+        <!-- Bonus section (English only) -->
+        <div class="bonus">
+            <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+            <div class="audio-player">
+                <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_43Kareem.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+
+        <div class="arabic">ٱلْكَرِيمُ</div>
+        <div class="transliteration">Transliteration: Al-Karim</div>
+
+        <div class="audio-player">
+            <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+            <audio controls style="width: 100%;">
+                <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/42.%20al-karim.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Meaning</h2>
+            <p>Al-Karim is the one whose generosity knows no bounds. He gives abundantly without expecting anything in return. His generosity encompasses both the spiritual and material realms, and He honors those who turn to Him.</p>
+            <ul>
+                <li><strong>The Most Generous:</strong> His giving is perfect and comprehensive</li>
+                <li><strong>The Most Bountiful:</strong> His blessings are innumerable</li>
+                <li><strong>The Most Esteemed:</strong> His dignity and honor are absolute</li>
+            </ul>
+            <p>This name combines the meanings of generosity, nobility, and abundance. It appears in the Quran in contexts emphasizing Allah's perfect giving and noble character.</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Evidence (From Quran & Hadith)</h2>
+            
+            <div class="dalil-item">
+                <strong>Quranic Reference:</strong> 
+                <a href="https://quran.com/82:6?translations=131" target="_blank">Surah Al-Infitar 82:6</a>
+                <div class="arabic">يَـٰٓأَيُّهَا ٱلْإِنسَـٰنُ مَا غَرَّكَ بِرَبِّكَ ٱلْكَرِيمِ</div>
+                <div class="transliteration">Yā ayyuhā l-insānu mā gharraka birabbika l-karīm</div>
+                <p>"O mankind, what has deceived you concerning your Lord, the Generous?"</p>
+                <div class="tafsir-box">
+                    <strong>Explanation:</strong> This verse calls attention to how humans disregard their Generous Lord. The name Al-Karim here emphasizes Allah's perfect generosity that makes human ingratitude particularly blameworthy.
+                </div>
+            </div>
+
+            <div class="dalil-item">
+                <strong>Quranic Reference:</strong> 
+                <a href="https://quran.com/96:3?translations=131" target="_blank">Surah Al-Alaq 96:3</a>
+                <div class="arabic">ٱقْرَأْ وَرَبُّكَ ٱلْأَكْرَمُ</div>
+                <div class="transliteration">Iqra' wa rabbuka l-akram</div>
+                <p>"Recite, and your Lord is the Most Generous."</p>
+                <div class="tafsir-box">
+                    <strong>Explanation:</strong> The first revealed verse connects the command to read with Allah's name Al-Akram (The Most Generous), showing that knowledge itself is a manifestation of divine generosity.
+                </div>
+            </div>
+
+            <div class="dalil-item">
+                <strong>Hadith Reference:</strong> <a href="https://sunnah.com/ibnmajah:55" target="_blank">Sunan Ibn Majah 55</a>
+                <div class="arabic">إِنَّ اللَّهَ كَرِيمٌ يُحِبُّ الْكَرَمَ وَيُحِبُّ مَعَالِيَ الأُمُورِ وَيَكْرَهُ سَفْسَافَهَا</div>
+                <div class="transliteration">Inna Allāha karīmun yuḥibbu l-karama wa yuḥibbu ma'āliya l-umūri wa yakrah safasafahā</div>
+                <p>"Allah is Most Generous and loves generosity, and He loves noble character and hates vile character."</p>
+                <div class="tafsir-box">
+                    <strong>Context:</strong> This hadith connects Allah's attribute of being Al-Karim with His love for generosity in His creation, encouraging Muslims to embody this divine attribute in their conduct.
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Du'a (Supplications)</h2>
+            <div class="dua">
+                <div class="dua-title">For Provision</div>
+                <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ بِأَنَّكَ أَنْتَ اللَّهُ الْكَرِيمُ</div>
+                <div class="transliteration">Allāhumma innī as'aluka bi-annaka Anta Allāhu l-Karīm</div>
+                <p><strong>Translation:</strong> "O Allah, I ask You by virtue of You being Allah, the Most Generous."</p>
+                <p><strong>Benefits:</strong> This comprehensive dua invoking Allah's name Al-Karim is recommended for seeking provision and blessings in all matters.</p>
+            </div>
+
+            <div class="dua">
+                <div class="dua-title">For Noble Character</div>
+                <div class="arabic">يَا كَرِيمُ أَلْبِسْنِي ثَوْبَ الْعَفَافِ وَالْغِنَى</div>
+                <div class="transliteration">Yā Karīmu albisnī thawba l-'afāfi wa l-ghinā</div>
+                <p><strong>Translation:</strong> "O Most Generous, clothe me in the garment of chastity and contentment."</p>
+                <p><strong>Source:</strong> This dua combines seeking Allah's generosity with the request for two noble qualities that reflect His generosity - chastity and contentment.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Practices</h2>
+            <div class="amalan">
+                <div class="amalan-title">Daily Remembrance</div>
+                <p>Morning routine to cultivate generosity:</p>
+                <ol>
+                    <li>Upon waking, recite "Yā Karīm" 100 times</li>
+                    <li>Reflect on Allah's generosity in your life</li>
+                    <li>Plan one act of generosity for the day</li>
+                </ol>
+                <p><strong>Benefits:</strong> This practice:</p>
+                <ul>
+                    <li>Strengthens connection with Al-Karim</li>
+                    <li>Cultivates a generous disposition</li>
+                    <li>Follows prophetic sunnah of morning remembrance</li>
+                </ul>
+            </div>
+
+            <div class="amalan">
+                <div class="amalan-title">Generosity Challenge</div>
+                <p>Weekly practice to embody Al-Karim's attribute:</p>
+                <ol>
+                    <li>Every Friday, perform three acts of generosity:
+                        <ul>
+                            <li>Give charity (any amount)</li>
+                            <li>Share knowledge</li>
+                            <li>Offer sincere compliments</li>
+                        </ul>
+                    </li>
+                    <li>Before each act, say "Bismillah Ar-Rahman Ar-Raheem"</li>
+                </ol>
+                <p><strong>Historical Basis:</strong> The Prophet (ﷺ) said: "The generous person is close to Allah, close to people, and close to Paradise" (Tirmidhi). This practice transforms understanding of divine generosity into action.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Tafsir Ibn Kathir</h2>
+            <p>Ibn Kathir explains Al-Karim through four dimensions of generosity:</p>
+            <ol>
+                <li><strong>Essential Generosity:</strong>
+                    <ul><li>Perfect in His essence and attributes</li><li>Free from any imperfection</li></ul>
+                </li>
+                <li><strong>Active Generosity:</strong>
+                    <ul><li>Gives without being asked</li><li>Gives more than deserved</li></ul>
+                </li>
+                <li><strong>Forgiving Generosity:</strong>
+                    <ul><li>Overlooks faults</li><li>Accepts repentance</li></ul>
+                </li>
+                <li><strong>Honoring Generosity:</strong>
+                    <ul><li>Elevates the status of believers</li><li>Rewards beyond measure</li></ul>
+                </li>
+            </ol>
+            <p>In Surah Al-Infitar (<a href="https://quran.com/82:6?translations=131" target="_blank">82:6</a>), Allah questions human ingratitude despite His continuous generosity. The name Al-Karim appears in contexts emphasizing Allah's perfect giving and noble character.</p>
+        </div>
+
+        <div class="main-menu-links">
+            <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
+        <a href="#top" class="back-to-top">Back To Top</a>
+    </div>
+</div>
+
+<footer>© 1447 AH / 2026 AD - Al-Karim: The Most Generous. Curated and Maintained by Hermansjah.</footer>
+
+<script>
+(function(){
+    // DOM elements
+    const englishDiv = document.getElementById('english-content');
+    const indoDiv = document.getElementById('indonesian-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
+    const translitElements = document.querySelectorAll('.transliteration');
+    const body = document.body;
+    
+    // Helper: URL parameter override
+    function getParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+    
+    // Language override
+    let langFromUrl = null;
+    if (getParam('English') !== null) langFromUrl = 'english';
+    else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+    let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+    
+    function updateLangUI() {
+        const isEnglish = (currentLang === 'english');
+        if (isEnglish) {
+            englishDiv.classList.remove('hidden');
+            indoDiv.classList.add('hidden');
+            langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+        } else {
+            englishDiv.classList.add('hidden');
+            indoDiv.classList.remove('hidden');
+            langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+        }
+        localStorage.setItem('language', currentLang);
+        updateTranslitButtonText();
+        updateDarkModeButtonText();
+    }
+    
+    function updateTranslitButtonText() {
+        const isEnglish = (currentLang === 'english');
+        const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+        if (isEnglish) {
+            translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        } else {
+            translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' : '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+        }
+    }
+    
+    function updateDarkModeButtonText() {
+        const isEnglish = (currentLang === 'english');
+        const isDark = body.classList.contains('dark-mode');
+        if (isEnglish) {
+            darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        } else {
+            darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' : '<i class="fas fa-moon"></i> Mode Gelap';
+        }
+    }
+    
+    // Transliteration
+    let translitVisible = localStorage.getItem('transliteration');
+    if (translitVisible === null) translitVisible = false;
+    else translitVisible = (translitVisible === 'true');
+    if (getParam('Transliteration') !== null) translitVisible = true;
+    
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        updateTranslitButtonText();
+        localStorage.setItem('transliteration', show);
+    }
+    
+    // Dark Mode
+    let darkActive = localStorage.getItem('darkMode');
+    if (darkActive === null) darkActive = false;
+    else darkActive = (darkActive === 'true');
+    if (getParam('Dark') !== null) darkActive = true;
+    if (darkActive) body.classList.add('dark-mode');
+    
+    function setDarkModeUI() {
+        updateDarkModeButtonText();
+        localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+    }
+    
+    // Event listeners
+    langToggle.addEventListener('click', () => {
+        currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+        updateLangUI();
+    });
+    
+    translitToggle.addEventListener('click', () => {
+        const currently = (translitElements[0]?.style.display !== 'none');
+        setTransliteration(!currently);
+    });
+    
+    darkToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        setDarkModeUI();
+    });
+    
+    // Scroll arrows (single-step)
+    document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+    
+    // Initial setup
+    setTransliteration(translitVisible);
+    updateLangUI();
+    setDarkModeUI();
+    
+    // if any scroll anchor from url fragments
+    if (window.location.hash) {
+        setTimeout(() => {
+            const el = document.querySelector(window.location.hash);
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 200);
+    }
+})();
+</script>
+</body>
+</html>
