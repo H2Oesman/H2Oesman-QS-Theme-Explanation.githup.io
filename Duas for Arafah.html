@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>50 Doa untuk Hari Arafah | 50 Powerful Duas for Arafah</title>
+    <title>50 Doa untuk Hari Arafah + Doa-doa dari Kitab | 50 Powerful Duas for Arafah + Duas from Classical Collection</title>
     <style>
         * {
             margin: 0;
@@ -24,6 +23,7 @@
             --link-color: #2980b9;
             --arrow-bg: #2c3e50;
             --arrow-text: white;
+            --arabic-font: 'Scheherazade New', 'Amiri', 'Traditional Arabic', serif;
         }
         .dark-mode {
             --bg-color: #121826;
@@ -117,7 +117,59 @@
             display: inline-block;
             margin-right: 6px;
         }
-        .language-toggle, .dark-mode-toggle {
+        .pdf-dua-item {
+            background: var(--dua-bg);
+            margin-bottom: 24px;
+            padding: 20px 24px;
+            border-radius: 28px;
+            border: 1px solid var(--dua-border);
+            transition: all 0.1s ease;
+        }
+        .arabic-text {
+            font-family: var(--arabic-font);
+            font-size: 1.6rem;
+            line-height: 1.8;
+            text-align: right;
+            direction: rtl;
+            margin-bottom: 12px;
+            font-weight: 500;
+            color: var(--section-title-color);
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed var(--dua-border);
+            padding-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .dark-mode .transliteration {
+            color: #b9c3d4;
+        }
+        .translation-text {
+            margin-top: 10px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+        .lang-badge {
+            font-size: 0.75rem;
+            background: var(--section-title-color);
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-right: 8px;
+        }
+        .source-line {
+            font-size: 0.85rem;
+            margin: -15px 0 20px 24px;
+            color: var(--link-color);
+            font-style: italic;
+        }
+        /* Fixed toggle buttons (right side) */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
             position: fixed;
             right: 20px;
             background: #2c3e50;
@@ -134,8 +186,9 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         .language-toggle { top: 20px; background: #1f6392; }
-        .dark-mode-toggle { top: 90px; background: #5f3b8c; }
-        /* Fixed arrows - Up arrows at top, Down arrows at bottom */
+        .transliteration-toggle { top: 90px; background: #27ae60; }
+        .dark-mode-toggle { top: 160px; background: #5f3b8c; }
+        /* Scroll arrows */
         .scroll-arrow, .scroll-arrow-double {
             position: fixed;
             background: var(--arrow-bg);
@@ -152,13 +205,9 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             transition: 0.2s;
         }
-        /* Single up arrow - left top */
         .scroll-arrow.up { left: 20px; top: 160px; }
-        /* Double up arrow - right top */
         .scroll-arrow-double.up-double { right: 20px; top: 160px; }
-        /* Single down arrow - left bottom */
         .scroll-arrow.down { left: 20px; bottom: 30px; }
-        /* Double down arrow - right bottom */
         .scroll-arrow-double.down-double { right: 20px; bottom: 30px; }
         @media (max-width: 650px) {
             .container { padding: 20px; }
@@ -166,6 +215,14 @@
             .scroll-arrow, .scroll-arrow-double { width: 40px; height: 40px; font-size: 18px; }
             .scroll-arrow.up { top: 140px; }
             .scroll-arrow-double.up-double { top: 140px; }
+            .arabic-text { font-size: 1.3rem; }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 5px 12px; font-size: 11px; right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .source-line { margin-left: 12px; }
         }
         .hidden { display: none; }
         .back-to-top {
@@ -216,13 +273,6 @@
             border-color: var(--dua-border);
             margin: 10px 0;
         }
-        button, .language-toggle, .dark-mode-toggle {
-            transition: 0.2s;
-        }
-        button:hover, .language-toggle:hover, .dark-mode-toggle:hover {
-            filter: brightness(1.05);
-            transform: scale(1.02);
-        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -235,10 +285,12 @@
 <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 <div id="doubleDownScroll" class="scroll-arrow-double down-double"><i class="fas fa-angles-down"></i></div>
 
-<div class="container">
-    <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
-    <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Mode Gelap</div>
+<!-- Three toggles (right side) -->
+<div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Sembunyikan Transliterasi</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Mode Gelap</div>
 
+<div class="container">
     <!-- INDONESIAN VERSION -->
     <div id="indonesian-content">
         <div class="menu-links">
@@ -257,13 +309,19 @@
         </div>
         <div class="section-title"><i class="fas fa-hands-praying"></i> 50 Doa Istimewa — Ampunan, Petunjuk & Keberkahan</div>
         <ul class="powerful-dua-list" id="indonesian-dua-list"></ul>
+        
+        <!-- PDF DUAS (INDONESIAN TRANSLATIONS) -->
+        <div class="section-title" id="pdf-duas-title"><i class="fas fa-book-quran"></i> 📖 Doa-doa Tambahan dari Kitab Klasik (Arab, Transliterasi, Arti)</div>
+        <div class="source-line"><i class="fas fa-archive"></i> Sumber: Kumpulan <strong>Ad'iyah Arafah</strong> (Doa-doa pilihan dari kitab klasik)</div>
+        <div id="pdf-duas-container-id"></div>
+        
         <div class="bonus" style="margin-top: 10px;">
             <p><strong>📝 Catatan Penting:</strong> Tambahkan doa-doa lain sesuai hajat hati. Hari Arafah adalah lautan rahmat, jangan sampai terlewatkan. Banyaklah beristigfar, bertakbir, dan bershalawat kepada Nabi ﷺ.</p>
             <p><strong>🤲 Doa penutup:</strong> Ya Allah, kepada-Mu kami berasal dan kepada-Mu kami kembali. Sayangilah kami, ampunilah kami, bimbinglah kami menuju keridhaan-Mu, jauhkan kami dari kemurkaan-Mu. Terimalah semua doa kami, lindungilah kami dari kesulitan. <strong>Ameen ya Rabbal 'alamin.</strong></p>
             <p><i class="fas fa-heart" style="color:#f06292;"></i> <strong>🤲 Semoga Allah menerima semua doa anda dan memberi anda lebih dari yang anda layak. Ameen.</strong></p>
         </div>
         <div class="back-to-top"><a href="#top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a></div>
-        <footer> Panduan Doa Arafah — 1447 H / 2026 M | Perbanyak doa di akhir waktu asar menjelang maghrib. | Sumber: Sh. Joban</footer>
+        <footer> Panduan Doa Arafah — 1447 H / 2026 M | Perbanyak doa di akhir waktu asar menjelang maghrib. | Sumber: Sh. Joban + tambahan doa dari kitab ادعيه عرفة (Ad'iyah Arafah)</footer>
     </div>
 
     <!-- ENGLISH VERSION -->
@@ -284,18 +342,24 @@
         </div>
         <div class="section-title"><i class="fas fa-hands-praying"></i> 50 Powerful Duas — Seeking Forgiveness, Guidance & Blessings</div>
         <ul class="powerful-dua-list" id="english-dua-list"></ul>
+        
+        <!-- PDF DUAS (ENGLISH TRANSLATIONS) -->
+        <div class="section-title" id="pdf-duas-title-en"><i class="fas fa-book-quran"></i> 📖 Supplementary Duas from Classical Collection (Arabic, Transliteration, English)</div>
+        <div class="source-line"><i class="fas fa-archive"></i> Source: <strong>Ad'iyah Arafah</strong> collection (selected supplications from classical manuscripts)</div>
+        <div id="pdf-duas-container-en"></div>
+        
         <div class="bonus" style="margin-top: 10px;">
             <p><strong>📝 Important Note:</strong> Add any personal supplications. The Day of Arafah is an ocean of mercy — do not miss it. Increase istighfar, takbir, and salawat upon the Prophet ﷺ.</p>
             <p><strong>🤲 Closing Supplication:</strong> Ya Allah, to You we belong and to You is our return. Have mercy on us, forgive us, guide us towards Your pleasure, keep us away from Your displeasure. Accept all our duas and protect us from hardships. <strong>Ameen ya Rabb al-'alamin.</strong></p>
             <p><i class="fas fa-heart" style="color:#f06292;"></i> <strong>🤲 May Allah accept all your duas and give you more than you deserve. Ameen.</strong></p>
         </div>
         <div class="back-to-top"><a href="#top"><i class="fas fa-arrow-up"></i> Back to Top</a></div>
-        <footer> Duas for Arafah — 1447 AH / 2026 CE | Increase dua in the late afternoon before Maghrib. | Source: Sh. Joban</footer>
+        <footer> Duas for Arafah — 1447 AH / 2026 CE | Increase dua in the late afternoon before Maghrib. | Source: Sh. Joban + additional duas from "Ad'iyah Arafah" collection</footer>
     </div>
 </div>
 
 <script>
-    // ---------- 50 DUAS (ENGLISH) as provided, with hajj year updated to 2026 ----------
+    // ---------- 50 DUAS (ENGLISH & INDONESIAN) from original file ----------
     const englishDuasRaw = [
         "Ya Allah Al Wali – The Protecting Friend, protect us from hearts that are not humble, tongues that are not wise, and eyes that have forgotten how to cry.",
         "Ya Allah make me and my family from amongst the sabiqoon you mention in Surah Al Waqi’ah. Let the light of our eeman emanate from our chest and from our right hand side.",
@@ -349,7 +413,6 @@
         "Ya Wakeel I entrust my affairs in your hands do not leave me incharge of my affairs even for a blink of an eye, please rectify for me all of my affairs. Purify my heart and clear the dark spots of sin on my heart. Bless my heart with your Noor."
     ];
 
-    // Indonesian translations (hajj year 2026)
     const indonesianDuasRaw = [
         "Ya Allah Al-Wali (Pelindung), lindungilah kami dari hati yang tidak rendah hati, lisan yang tidak bijaksana, dan mata yang lupa bagaimana menangis.",
         "Ya Allah, jadikanlah aku dan keluargaku termasuk as-sabiqun yang Engkau sebut dalam Surah Al-Waqi'ah. Biarkan cahaya iman kami memancar dari dada dan sisi kanan kami.",
@@ -419,31 +482,159 @@
 
     buildDuaList("indonesian-dua-list", indonesianDuasRaw);
     buildDuaList("english-dua-list", englishDuasRaw);
+    
+    // ---------- PDF DUAS: ARABIC (FULL UTHMANI WITH HARAKAT) + TRANSLITERATION + BILINGUAL ----------
+    const pdfDuasData = [
+        { arabic: "اللَّهُمَّ إِنِّي أَسْتَغْفِرُكَ مِنْ كُلِّ ذَنْبٍ يَعْقُبُ الْحَسْرَةَ وَيُورِثُ النَّدَامَةَ وَيَزِيدُ الدُّعَاءَ وَيَحْبِسُ الرِّزْقَ", 
+          transliteration: "Allahumma inni astaghfiruka min kulli dhanbin ya'qibu al-hasrata wa yurithu an-nadama wa yazeedu ad-du'a wa yahbisu ar-rizq", 
+          en: "O Allah, I seek Your forgiveness for every sin that leads to regret, bequeaths remorse, increases pleading and withholds provision.", 
+          id: "Ya Allah, aku memohon ampunan-Mu dari setiap dosa yang mendatangkan penyesalan, mewariskan rasa sesal, memperbanyak keluhan dan menahan rezeki." },
+        { arabic: "اللَّهُمَّ أَخْرِجْنِي مِنْ ضِيقِ تَفَكُّرِي إِلَىٰ سَعَةِ تَدْبِيرِكَ، اللَّهُمَّ جَبْرًا يَلِيقُ بِعَظَمَتِكَ وَرَحْمَتِكَ، اللَّهُمَّ أَرِنِي عَجَائِبَ قُدْرَتِكَ الْيَوْمَ عَاجِلًا فِي تَحْقِيقِ حُلْمِي", 
+          transliteration: "Allahumma akhrijni min dayqi tafakkuri ila sa'ati tadbeerik, Allahumma jabran yaliq bi'azamatika wa rahmatik, Allahumma arini 'aja'iba qudratika al-yawma 'ajilan fi tahqiqi hulmi", 
+          en: "O Allah, take me out of the narrowness of my overthinking into the vastness of Your decree. Compensate me in a way befitting Your greatness and mercy. Show me the wonders of Your power today in fulfilling my dream.", 
+          id: "Ya Allah, keluarkan aku dari sempitnya keraguanku menuju luasnya pengaturan-Mu. Berilah aku ganti yang indah sesuai kebesaran dan rahmat-Mu. Perlihatkan padaku keajaiban kuasa-Mu segera dalam mewujudkan mimpiku." },
+        { arabic: "يَارَبِّ تَمِّمْ لِي أُمُورِيَ الْقَادِمَةَ عَلَىٰ خَيْرٍ وَبَشِّرْنِي بِمَا أَنْتَظِرُهُ مِنْكَ فَأَنْتَ خَيْرُ الْمُبَشِّرِينَ", 
+          transliteration: "Ya Rabb, tammim li umoori al-qadimah 'ala khayr, wa bashshirni bima antaziruhu minka fa-anta khayr al-mubashshireen", 
+          en: "O Lord, complete my upcoming affairs with goodness, and give me glad tidings of what I await from You, for You are the Best of givers of glad tidings.", 
+          id: "Wahai Tuhanku, sempurnakan urusanku yang akan datang dengan kebaikan, dan kabari aku dengan apa yang kunanti dari-Mu, karena Engkau sebaik-baik pemberi kabar gembira." },
+        { arabic: "اللَّهُمَّ إِنِّي وَلَّيْتُكَ أَمْرِي فَأَعُوذُ بِكَ مِنْ سُوءِ حَظِّي وَضِيقِ صَدْرِي وَفَرَاغِ صَبْرِي", 
+          transliteration: "Allahumma inni wallaytuka amri, fa-a'udhu bika min suu'i hazzi wa dayqi sadri wa faraghi sabri", 
+          en: "O Allah, I have entrusted my affairs to You, so I seek refuge in You from my misfortune, the constriction of my chest, and the emptiness of my patience.", 
+          id: "Ya Allah, aku serahkan urusanku kepada-Mu, maka aku berlindung kepada-Mu dari buruknya nasibku, sempitnya dadaku, dan hilangnya kesabaranku." },
+        { arabic: "اللَّهُمَّ أَسْتَوْدِعُكَ نَفْسِي مِنْ ذُلِّ الْحَيَاةِ وَمِنْ ضَجِيجِ التَّفْكِيرِ، عَوِّضْنِي عَنْ كُلِّ شَيْءٍ أَحْبَبْتُهُ فَخَسِرْتُهُ", 
+          transliteration: "Allahumma astawdi'uka nafsi min dhulli al-hayati wa min dajeegi at-tafkeer, 'awwidni 'an kulli shay'in ahbabtuhu fa khasirtuhu", 
+          en: "O Allah, I entrust my soul to You from the humiliation of life and the noise of overthinking. Compensate me for everything I loved and lost.", 
+          id: "Ya Allah, aku titipkan diriku kepada-Mu dari kehinaan hidup dan hiruk pikuk pikiran. Gantilah aku atas setiap yang kucintai lalu ku kehilangan." },
+        { arabic: "اللَّهُمَّ فِي يَوْمِ عَرَفَةَ نَسْأَلُكَ فُسْحَةً مِنْ فُسَحَاتِ رَحْمَتِكَ الَّتِي لَا يَأْتِي عَلَيْهَا هَمٌّ وَلَا حَزَنٌ وَلَا ضِيقٌ وَلَا يَأْسٌ إِلَّا جَعَلْتَهُ فَرَجًا وَفَرَحًا", 
+          transliteration: "Allahumma fi yawmi 'Arafah nas'aluka fushahan min fushahat rahmatika allati la ya'ti 'alayha hammun wa la hazanun wa la dayqun wa la ya'sun illa ja'altahu farajan wa farahan", 
+          en: "O Allah, on the Day of Arafah we ask You for an expanse from the expanses of Your mercy, that no worry, grief, distress or despair comes upon it except that You turn it into relief and joy.", 
+          id: "Ya Allah, pada hari Arafah kami memohon kelapangan dari kelapangan rahmat-Mu yang tidak didatangi oleh duka, sedih, sempit, atau putus asa melainkan Engkau jadikan sebagai jalan keluar dan kebahagiaan." },
+        { arabic: "يَا مَنْ دَبَّرَ لِيُوسُفَ أَمْرَهُ، دَبِّرْ لِي أَمْرِي وَأَصْلِحْ لِي حَالِي", 
+          transliteration: "Ya man dabbara li-Yusuf amrah, dabbir li amri wa aslih li hali", 
+          en: "O He who arranged Yusuf's affair, arrange my affair and rectify my state.", 
+          id: "Wahai Dzat yang mengatur urusan Yusuf, aturkanlah urusanku dan perbaikilah keadaanku." },
+        { arabic: "اللَّهُمَّ ارْزُقْنِي الْبَرَكَةَ فِي كُلِّ مَا أَمْلِكُ فِي جَسَدِي وَرُوحِي وَقَلْبِي وَعَائِلَتِي", 
+          transliteration: "Allahumma urzuqni al-baraka fi kulli ma amliku fi jasadi wa ruhi wa qalbi wa 'a'iliati", 
+          en: "O Allah, grant me blessings in everything I possess: my body, soul, heart, and family.", 
+          id: "Ya Allah, karuniakan keberkahan dalam segala yang kumiliki: jasad, ruh, hati, dan keluargaku." },
+        { arabic: "اللَّهُمَّ اجْبُرْنَا فِي هَٰذَا الْيَوْمِ جَبْرًا نَرَىٰ بِهِ كُلَّ حَزَنٍ قَدْ زَالَ", 
+          transliteration: "Allahumma jborna fi hadha al-yawmi jabran nara bihi kulla hazanin qad zal", 
+          en: "O Allah, mend us this day with a mending that makes us see every grief removed.", 
+          id: "Ya Allah, perbaikilah keadaan kami pada hari ini dengan perbaikan yang membuat kami melihat setiap kesedihan hilang." },
+        { arabic: "اللَّهُمَّ إِنِّي أَسْتَوْدِعُكَ أَمْرِي كُلَّهُ فَارْزُقْنِي خَيْرَ مَا عِنْدَكَ وَلَا تَجْعَلْنِي مِنَ الْأَشْقِيَاءِ", 
+          transliteration: "Allahumma inni astawdi'uka amri kullaha, farzuqni khayra ma 'indaka wa la taj'alni min al-ashqiya'", 
+          en: "O Allah, I entrust all my affairs to You, so grant me the best of what You have, and do not make me among the wretched.", 
+          id: "Ya Allah, aku titipkan semua urusanku kepada-Mu, maka berilah aku sebaik-baik yang ada di sisi-Mu, dan jangan jadikan aku termasuk orang celaka." },
+        { arabic: "اللَّهُمَّ اجْعَلْ لِي نَصِيبًا كَبِيرًا فِي كُلِّ خَيْرٍ تَقْسِمُهُ وَفِي كُلِّ نُورٍ تَنْشُرُهُ", 
+          transliteration: "Allahumma ij'al li naseeban kabeeran fi kulli khayrin taqsimuhu wa fi kulli noorin tanshuruhu", 
+          en: "O Allah, give me a great share in every good You distribute and in every light You spread.", 
+          id: "Ya Allah, jadikanlah untukku bagian yang besar dalam setiap kebaikan yang Engkau bagikan dan dalam setiap cahaya yang Engkau sebarkan." },
+        { arabic: "اللَّهُمَّ إِنْ كَانَ رِزْقِي فِي السَّمَاءِ فَأَنْزِلْهُ وَإِنْ كَانَ فِي الْأَرْضِ فَأَخْرِجْهُ", 
+          transliteration: "Allahumma in kana rizqi fi as-sama'i fa anzilhu, wa in kana fi al-ardi fa akhrijhu", 
+          en: "O Allah, if my provision is in the sky then send it down, and if it is in the earth then bring it forth.", 
+          id: "Ya Allah, jika rezekiku ada di langit maka turunkanlah, dan jika di bumi maka keluarkanlah." },
+        { arabic: "اللَّهُمَّ افْتَحْ بَيْنِي وَبَيْنَ رِزْقِي وَنَجَاحِي فَتْحًا مُبِينًا", 
+          transliteration: "Allahumma iftah bayni wa bayna rizqi wa najahi fathan mubeena", 
+          en: "O Allah, open between me and my provision and success a clear opening.", 
+          id: "Ya Allah, bukakanlah antara aku dengan rezeki dan keberhasilanku dengan pembukaan yang nyata." },
+        { arabic: "اللَّهُمَّ سَخِّرْ لِي الْأَرْضَ وَمَنْ عَلَيْهَا، وَاجْعَلْ حَصَادَ أَيَّامِي خَيْرًا فِي خَيْرٍ", 
+          transliteration: "Allahumma sakhkhir li al-arda wa man 'alayha, waj'al hisada ayyami khayran fi khayr", 
+          en: "O Allah, subdue for me the earth and whoever is on it, and make the harvest of my days good upon good.", 
+          id: "Ya Allah, tundukkanlah untukku bumi dan segala isinya, jadikan panen hari-hariku kebaikan demi kebaikan." },
+        { arabic: "اللَّهُمَّ أَنْزِلِ السَّكِينَةَ فِي قُلُوبِنَا وَالْمَحَبَّةَ فِي نُفُوسِنَا وَالسَّعَادَةَ فِي بُيُوتِنَا", 
+          transliteration: "Allahumma anzil as-sakeenata fi quloobina, wal-mahabbata fi anfusina, was-sa'adata fi buyutina", 
+          en: "O Allah, send down tranquility into our hearts, love into our souls, and happiness into our homes.", 
+          id: "Ya Allah, turunkanlah ketenangan di hati kami, cinta di jiwa kami, dan kebahagiaan di rumah-rumah kami." },
+        { arabic: "اللَّهُمَّ إِنَّا نَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ وَتَحَوُّلِ عَافِيَتِكَ وَفُجَاءَةِ نِقْمَتِكَ", 
+          transliteration: "Allahumma inna na'udhu bika min zawali ni'matik, wa tahawwuli 'afiyatik, wa fuja'ati niqmatik", 
+          en: "O Allah, we seek refuge in You from the removal of Your blessing, the change of Your wellbeing, and the suddenness of Your punishment.", 
+          id: "Ya Allah, kami berlindung kepada-Mu dari hilangnya nikmat-Mu, berubahnya kesehatan-Mu, dan datangnya siksaan-Mu secara tiba-tiba." },
+        { arabic: "اللَّهُمَّ إِنَّا نَسْأَلُكَ حُسْنَ الْأَثَرِ وَحُسْنَ الْخَاتِمَةِ وَحُسْنَ الرَّحِيلِ", 
+          transliteration: "Allahumma inna nas'aluka husna al-athar, wa husna al-khatimah, wa husna ar-rahil", 
+          en: "O Allah, we ask You for a beautiful legacy, a beautiful end, and a beautiful departure.", 
+          id: "Ya Allah, kami mohon kepada-Mu kesan yang baik, akhir yang baik, dan perpisahan yang baik." },
+        { arabic: "اللَّهُمَّ ارْزُقْنَا الْجَنَّةَ وَنَعِيمَهَا وَخُلُودَهَا مَعَ مَنْ نُحِبُّ", 
+          transliteration: "Allahumma urzuqna al-jannata wa na'eemaha wa khuloodaha ma' man nuhibb", 
+          en: "O Allah, grant us Paradise, its bliss, and its eternity with those we love.", 
+          id: "Ya Allah, karuniakan kami surga, kenikmatannya, dan keabadian di dalamnya bersama orang yang kami cintai." },
+        { arabic: "اللَّهُمَّ اجْعَلْنَا مِنَ الذُّرِّيَّةِ الَّتِي تُدْخِلُ وَالِدَيْهَا الْجَنَّةَ", 
+          transliteration: "Allahumma ij'alna min adh-dhurriyati allati tudkhilu walidayha al-jannah", 
+          en: "O Allah, make us among the offspring who bring their parents into Paradise.", 
+          id: "Ya Allah, jadikan kami termasuk keturunan yang memasukkan kedua orang tuanya ke surga." },
+        { arabic: "اللَّهُمَّ لَبَّيْكَ قَلْبِي ضَائِعًا فَدُلَّهُ، لَبَّيْكَ وَلَا يَضِيعُ قَلْبٌ تَوَجَّهَ إِلَيْكَ", 
+          transliteration: "Allahumma labbayka qalbi daa'i'an fadulluh, labbayka wa la yadee'u qalbun tawajjaha ilayk", 
+          en: "O Allah, here I am, my heart is lost so guide it. Here I am, and a heart that turns to You is never lost.", 
+          id: "Ya Allah, kuserahkan hatiku yang tersesat, berilah petunjuk. Tiada hati yang tersesat jika ia menghadap kepada-Mu." },
+        { arabic: "لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", 
+          transliteration: "La ilaha illa Anta subhanaka inni kuntu min az-zalimeen", 
+          en: "There is no god but You, glory be to You, indeed I have been among the wrongdoers.", 
+          id: "Tiada tuhan selain Engkau, Maha Suci Engkau, sungguh aku termasuk orang-orang zalim." },
+        { arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", 
+          transliteration: "Rabbana atina fid-dunya hasanah wa fil-akhirati hasanah wa qina 'adhab an-nar", 
+          en: "Our Lord, give us good in this world and good in the Hereafter and protect us from the punishment of the Fire.", 
+          id: "Ya Tuhan kami, berilah kami kebaikan di dunia dan kebaikan di akhirat, dan lindungilah kami dari siksa neraka." },
+        { arabic: "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", 
+          transliteration: "La ilaha illallah wahdahu la sharika lahu, lahul-mulku wa lahul-hamdu wa huwa 'ala kulli shay'in qadeer", 
+          en: "There is no god but Allah alone, with no partner. To Him belongs the dominion and to Him belongs all praise, and He is over all things competent.", 
+          id: "Tiada tuhan selain Allah semata, tiada sekutu bagi-Nya. Milik-Nya segala kerajaan dan bagi-Nya segala puji, dan Dia Maha Kuasa atas segala sesuatu." }
+    ];
 
-    // ---------- URL PARAMETER HANDLING (Indonesian, English, Dark) ----------
-    function getQueryParams() {
-        const params = new URLSearchParams(window.location.search);
-        const result = { indonesian: false, english: false, dark: false };
-        for (let [key, value] of params.entries()) {
-            const lowerKey = key.toLowerCase();
-            if (lowerKey === 'indonesian') result.indonesian = true;
-            if (lowerKey === 'english') result.english = true;
-            if (lowerKey === 'dark') result.dark = true;
-        }
-        if (window.location.search.includes('?Indonesian') || window.location.search.includes('?indonesian')) result.indonesian = true;
-        if (window.location.search.includes('?English') || window.location.search.includes('?english')) result.english = true;
-        if (window.location.search.includes('?Dark') || window.location.search.includes('?dark')) result.dark = true;
-        return result;
+    function renderPdfDuas(targetContainerId, translationKey) {
+        const container = document.getElementById(targetContainerId);
+        if (!container) return;
+        container.innerHTML = "";
+        pdfDuasData.forEach((dua, idx) => {
+            const div = document.createElement("div");
+            div.className = "pdf-dua-item";
+            const arabicDiv = document.createElement("div");
+            arabicDiv.className = "arabic-text";
+            arabicDiv.textContent = dua.arabic;
+            const translitDiv = document.createElement("div");
+            translitDiv.className = "transliteration";
+            translitDiv.innerHTML = `<i class="fas fa-language"></i> ${dua.transliteration}`;
+            const transDiv = document.createElement("div");
+            transDiv.className = "translation-text";
+            if (translationKey === 'en') {
+                transDiv.innerHTML = `<span class="lang-badge">🇬🇧 English</span> ${dua.en}`;
+            } else {
+                transDiv.innerHTML = `<span class="lang-badge">🇮🇩 Bahasa Indonesia</span> ${dua.id}`;
+            }
+            div.appendChild(arabicDiv);
+            div.appendChild(translitDiv);
+            div.appendChild(transDiv);
+            container.appendChild(div);
+        });
     }
 
-    // ---------- TOGGLE & DARK MODE ----------
+    renderPdfDuas("pdf-duas-container-id", "id");
+    renderPdfDuas("pdf-duas-container-en", "en");
+
+    // ---------- LANGUAGE, TRANSLITERATION & DARK MODE TOGGLES ----------
     const englishDiv = document.getElementById('english-content');
     const indonesianDiv = document.getElementById('indonesian-content');
     const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
     const darkToggle = document.getElementById('darkModeToggle');
-
+    const translitElements = document.querySelectorAll('.transliteration');
+    
     let currentLang = localStorage.getItem('language') || 'indonesian';
-
+    
+    function updateTranslitToggleText() {
+        const isEnglish = !englishDiv.classList.contains('hidden');
+        const translitVisible = translitElements.length && translitElements[0]?.style.display !== 'none';
+        if (isEnglish) {
+            translitToggle.innerHTML = translitVisible ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        } else {
+            translitToggle.innerHTML = translitVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' : '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+        }
+    }
+    
+    function setTransliterationVisibility(visible) {
+        translitElements.forEach(el => el.style.display = visible ? 'block' : 'none');
+        localStorage.setItem('transliterationVisible', visible);
+        updateTranslitToggleText();
+    }
+    
     function setLanguage(lang, updateStorage = true) {
         currentLang = lang;
         if (lang === 'english') {
@@ -457,8 +648,9 @@
         }
         if (updateStorage) localStorage.setItem('language', lang);
         updateDarkModeButtonText();
+        updateTranslitToggleText();
     }
-
+    
     function updateDarkModeButtonText() {
         const isDark = document.body.classList.contains('dark-mode');
         const isEnglish = currentLang === 'english';
@@ -468,72 +660,46 @@
             darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' : '<i class="fas fa-moon"></i> Mode Gelap';
         }
     }
-
+    
     function setDarkMode(enabled, updateStorage = true) {
-        if (enabled) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
+        if (enabled) document.body.classList.add('dark-mode');
+        else document.body.classList.remove('dark-mode');
         if (updateStorage) localStorage.setItem('darkMode', enabled);
         updateDarkModeButtonText();
     }
-
-    const urlParams = getQueryParams();
-    let langFromUrl = null;
-    if (urlParams.indonesian) langFromUrl = 'indonesian';
-    else if (urlParams.english) langFromUrl = 'english';
     
-    if (langFromUrl) {
-        setLanguage(langFromUrl, true);
-    } else {
-        const savedLang = localStorage.getItem('language');
-        if (savedLang && (savedLang === 'indonesian' || savedLang === 'english')) {
-            setLanguage(savedLang, false);
-        } else {
-            setLanguage('indonesian', false);
-        }
-    }
+    const savedLang = localStorage.getItem('language');
+    if (savedLang && (savedLang === 'indonesian' || savedLang === 'english')) setLanguage(savedLang, false);
+    else setLanguage('indonesian', false);
     
-    if (urlParams.dark) {
-        setDarkMode(true, true);
-    } else {
-        const savedDark = localStorage.getItem('darkMode') === 'true';
-        setDarkMode(savedDark, false);
-    }
-
+    const savedDark = localStorage.getItem('darkMode') === 'true';
+    setDarkMode(savedDark, false);
+    
+    const savedTranslit = localStorage.getItem('transliterationVisible');
+    const translitInitially = savedTranslit === null ? true : savedTranslit === 'true';
+    setTransliterationVisibility(translitInitially);
+    
     langToggle.addEventListener('click', () => {
         const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
         setLanguage(newLang, true);
     });
     darkToggle.addEventListener('click', () => {
-        const willBeDark = !document.body.classList.contains('dark-mode');
-        setDarkMode(willBeDark, true);
+        setDarkMode(!document.body.classList.contains('dark-mode'), true);
     });
-
-    // Arrow button functionality
-    function scrollUpByViewport() {
-        window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
-    }
-    function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    function scrollDownByViewport() {
-        window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-    }
-    function scrollToBottom() {
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-
-    const singleUp = document.getElementById('scrollUp');
-    const doubleUp = document.getElementById('doubleUpScroll');
-    const singleDown = document.getElementById('scrollDown');
-    const doubleDown = document.getElementById('doubleDownScroll');
+    translitToggle.addEventListener('click', () => {
+        const currentlyVisible = translitElements.length && translitElements[0]?.style.display !== 'none';
+        setTransliterationVisibility(!currentlyVisible);
+    });
     
-    if (singleUp) singleUp.addEventListener('click', scrollUpByViewport);
-    if (doubleUp) doubleUp.addEventListener('click', scrollToTop);
-    if (singleDown) singleDown.addEventListener('click', scrollDownByViewport);
-    if (doubleDown) doubleDown.addEventListener('click', scrollToBottom);
+    // ---------- SCROLL ARROWS ----------
+    function scrollUpByViewport() { window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }); }
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function scrollDownByViewport() { window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }); }
+    function scrollToBottom() { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }
+    document.getElementById('scrollUp')?.addEventListener('click', scrollUpByViewport);
+    document.getElementById('doubleUpScroll')?.addEventListener('click', scrollToTop);
+    document.getElementById('scrollDown')?.addEventListener('click', scrollDownByViewport);
+    document.getElementById('doubleDownScroll')?.addEventListener('click', scrollToBottom);
 </script>
 </body>
 </html>
