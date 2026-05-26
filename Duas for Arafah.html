@@ -635,7 +635,7 @@
     renderPdfDuas("pdf-duas-container-id", "id");
     renderPdfDuas("pdf-duas-container-en", "en");
 
-    // ---------- LANGUAGE, TRANSLITERATION & DARK MODE TOGGLES ----------
+    // ---------- LANGUAGE, TRANSLITERATION & DARK MODE TOGGLES (with URL PARAMETER HANDLING) ----------
     const englishDiv = document.getElementById('english-content');
     const indonesianDiv = document.getElementById('indonesian-content');
     const langToggle = document.getElementById('languageToggle');
@@ -643,23 +643,51 @@
     const darkToggle = document.getElementById('darkModeToggle');
     const translitElements = document.querySelectorAll('.transliteration');
     
-    let currentLang = localStorage.getItem('language') || 'indonesian';
+    // --- Helper to get case-insensitive query param ---
+    function getCaseInsensitiveParam(paramName) {
+        const urlParams = new URLSearchParams(window.location.search);
+        for (let [key, value] of urlParams.entries()) {
+            if (key.toLowerCase() === paramName.toLowerCase()) {
+                return value;
+            }
+        }
+        return null;
+    }
     
-    function updateTranslitToggleText() {
-        const isEnglish = !englishDiv.classList.contains('hidden');
-        const translitVisible = translitElements.length && translitElements[0]?.style.display !== 'none';
-        if (isEnglish) {
-            translitToggle.innerHTML = translitVisible ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+    // --- Check URL parameters for language and dark mode ---
+    let urlLang = null;
+    if (getCaseInsensitiveParam('English') !== null || getCaseInsensitiveParam('english') !== null) {
+        urlLang = 'english';
+    } else if (getCaseInsensitiveParam('Indonesian') !== null || getCaseInsensitiveParam('indonesian') !== null) {
+        urlLang = 'indonesian';
+    }
+    
+    let urlDark = (getCaseInsensitiveParam('Dark') !== null || getCaseInsensitiveParam('dark') !== null);
+    
+    // --- Initial language: URL param > localStorage > default Indonesian ---
+    let initialLang = urlLang;
+    if (!initialLang) {
+        const savedLang = localStorage.getItem('language');
+        if (savedLang && (savedLang === 'indonesian' || savedLang === 'english')) {
+            initialLang = savedLang;
         } else {
-            translitToggle.innerHTML = translitVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' : '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+            initialLang = 'indonesian';
         }
     }
     
-    function setTransliterationVisibility(visible) {
-        translitElements.forEach(el => el.style.display = visible ? 'block' : 'none');
-        localStorage.setItem('transliterationVisible', visible);
-        updateTranslitToggleText();
+    // --- Initial dark mode: URL param > localStorage > default false (light) ---
+    let initialDark = urlDark;
+    if (!initialDark) {
+        const savedDark = localStorage.getItem('darkMode');
+        if (savedDark !== null) {
+            initialDark = (savedDark === 'true');
+        } else {
+            initialDark = false;
+        }
     }
+    
+    let currentLang = initialLang;
+    let currentDark = initialDark;
     
     function setLanguage(lang, updateStorage = true) {
         currentLang = lang;
@@ -677,40 +705,55 @@
         updateTranslitToggleText();
     }
     
-    function updateDarkModeButtonText() {
-        const isDark = document.body.classList.contains('dark-mode');
-        const isEnglish = currentLang === 'english';
-        if (isEnglish) {
-            darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-        } else {
-            darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' : '<i class="fas fa-moon"></i> Mode Gelap';
-        }
-    }
-    
     function setDarkMode(enabled, updateStorage = true) {
+        currentDark = enabled;
         if (enabled) document.body.classList.add('dark-mode');
         else document.body.classList.remove('dark-mode');
         if (updateStorage) localStorage.setItem('darkMode', enabled);
         updateDarkModeButtonText();
     }
     
-    const savedLang = localStorage.getItem('language');
-    if (savedLang && (savedLang === 'indonesian' || savedLang === 'english')) setLanguage(savedLang, false);
-    else setLanguage('indonesian', false);
+    function updateDarkModeButtonText() {
+        const isEnglish = currentLang === 'english';
+        if (isEnglish) {
+            darkToggle.innerHTML = currentDark ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        } else {
+            darkToggle.innerHTML = currentDark ? '<i class="fas fa-sun"></i> Mode Terang' : '<i class="fas fa-moon"></i> Mode Gelap';
+        }
+    }
     
-    const savedDark = localStorage.getItem('darkMode') === 'true';
-    setDarkMode(savedDark, false);
+    function updateTranslitToggleText() {
+        const isEnglish = currentLang === 'english';
+        const translitVisible = translitElements.length && translitElements[0]?.style.display !== 'none';
+        if (isEnglish) {
+            translitToggle.innerHTML = translitVisible ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        } else {
+            translitToggle.innerHTML = translitVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' : '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+        }
+    }
     
+    function setTransliterationVisibility(visible) {
+        translitElements.forEach(el => el.style.display = visible ? 'block' : 'none');
+        localStorage.setItem('transliterationVisible', visible);
+        updateTranslitToggleText();
+    }
+    
+    // Apply initial settings
+    setLanguage(initialLang, false);
+    setDarkMode(initialDark, false);
+    
+    // Transliteration visibility from localStorage
     const savedTranslit = localStorage.getItem('transliterationVisible');
     const translitInitially = savedTranslit === null ? true : savedTranslit === 'true';
     setTransliterationVisibility(translitInitially);
     
+    // Event listeners
     langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        const newLang = currentLang === 'indonesian' ? 'english' : 'indonesian';
         setLanguage(newLang, true);
     });
     darkToggle.addEventListener('click', () => {
-        setDarkMode(!document.body.classList.contains('dark-mode'), true);
+        setDarkMode(!currentDark, true);
     });
     translitToggle.addEventListener('click', () => {
         const currentlyVisible = translitElements.length && translitElements[0]?.style.display !== 'none';
