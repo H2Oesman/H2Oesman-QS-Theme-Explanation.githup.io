@@ -57,6 +57,7 @@
             border-radius: 28px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.08);
             transition: background 0.2s;
+            position: relative;
         }
         .name-title {
             font-size: 1.9rem;
@@ -179,13 +180,24 @@
             color: #7f8c8d;
         }
         .menu-links {
-            margin-bottom: 15px;
-            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         .menu-links a {
             color: var(--link-color);
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .menu-links a:hover {
+            text-decoration: underline;
+            opacity: 0.85;
         }
         .source-credit {
             text-align: center;
@@ -193,11 +205,6 @@
             margin: 8px 0 0;
             color: var(--section-title-color);
             font-weight: 500;
-        }
-        .arabic-mini {
-            font-size: 24px;
-            text-align: right;
-            font-family: 'Scheherazade New', serif;
         }
         hr {
             border-color: var(--dua-border);
@@ -227,7 +234,9 @@
 
     <!-- INDONESIAN VERSION -->
     <div id="indonesian-content">
-        <div class="menu-links"><i class="fas fa-calendar-alt"></i> 9 Dzulhijjah — Hari Arafah</div>
+        <div class="menu-links">
+            <a href="index.html"><i class="fas fa-home"></i> ← Menu Utama</a>
+        </div>
         <h1 class="name-title">🌄 50 Doa Dahsyat untuk Hari Arafah</h1>
         <div class="source-credit"><i class="fas fa-book-open"></i> Sumber: Sh. Joban | Referensi amalan salaf & sunnah</div>
         <div class="quote-note">
@@ -252,7 +261,9 @@
 
     <!-- ENGLISH VERSION -->
     <div id="english-content" class="hidden">
-        <div class="menu-links"><i class="fas fa-calendar-alt"></i> 9 Dhul Hijjah — Day of Arafah</div>
+        <div class="menu-links">
+            <a href="index.html"><i class="fas fa-home"></i> ← Main Menu</a>
+        </div>
         <h1 class="name-title">🌄 50 Powerful Duas for the Day of Arafah</h1>
         <div class="source-credit"><i class="fas fa-book-open"></i> Source: Sh. Joban | Based on Sunnah & righteous predecessors</div>
         <div class="quote-note">
@@ -331,7 +342,7 @@
         "Ya Wakeel I entrust my affairs in your hands do not leave me incharge of my affairs even for a blink of an eye, please rectify for me all of my affairs. Purify my heart and clear the dark spots of sin on my heart. Bless my heart with your Noor."
     ];
 
-    // Indonesian translations (updated hajj year to 2026)
+    // Indonesian translations (hajj year 2026)
     const indonesianDuasRaw = [
         "Ya Allah Al-Wali (Pelindung), lindungilah kami dari hati yang tidak rendah hati, lisan yang tidak bijaksana, dan mata yang lupa bagaimana menangis.",
         "Ya Allah, jadikanlah aku dan keluargaku termasuk as-sabiqun yang Engkau sebut dalam Surah Al-Waqi'ah. Biarkan cahaya iman kami memancar dari dada dan sisi kanan kami.",
@@ -399,9 +410,25 @@
         });
     }
 
-    // initialize lists
     buildDuaList("indonesian-dua-list", indonesianDuasRaw);
     buildDuaList("english-dua-list", englishDuasRaw);
+
+    // ---------- URL PARAMETER HANDLING (Indonesian, English, Dark) ----------
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        const result = { indonesian: false, english: false, dark: false };
+        for (let [key, value] of params.entries()) {
+            const lowerKey = key.toLowerCase();
+            if (lowerKey === 'indonesian') result.indonesian = true;
+            if (lowerKey === 'english') result.english = true;
+            if (lowerKey === 'dark') result.dark = true;
+        }
+        // Also check for existence without value: ?Indonesian or ?English
+        if (window.location.search.includes('?Indonesian') || window.location.search.includes('?indonesian')) result.indonesian = true;
+        if (window.location.search.includes('?English') || window.location.search.includes('?english')) result.english = true;
+        if (window.location.search.includes('?Dark') || window.location.search.includes('?dark')) result.dark = true;
+        return result;
+    }
 
     // ---------- TOGGLE & DARK MODE ----------
     const englishDiv = document.getElementById('english-content');
@@ -411,7 +438,7 @@
 
     let currentLang = localStorage.getItem('language') || 'indonesian';
 
-    function setLanguage(lang) {
+    function setLanguage(lang, updateStorage = true) {
         currentLang = lang;
         if (lang === 'english') {
             englishDiv.classList.remove('hidden');
@@ -422,7 +449,7 @@
             indonesianDiv.classList.remove('hidden');
             langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
         }
-        localStorage.setItem('language', lang);
+        if (updateStorage) localStorage.setItem('language', lang);
         updateDarkModeButtonText();
     }
 
@@ -436,25 +463,53 @@
         }
     }
 
-    function setDarkMode() {
-        document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        localStorage.setItem('darkMode', isDark);
+    function setDarkMode(enabled, updateStorage = true) {
+        if (enabled) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
+        if (updateStorage) localStorage.setItem('darkMode', enabled);
         updateDarkModeButtonText();
     }
 
-    const savedDark = localStorage.getItem('darkMode') === 'true';
-    if (savedDark) document.body.classList.add('dark-mode');
+    // Apply URL parameters if present (they override localStorage)
+    const urlParams = getQueryParams();
+    let langFromUrl = null;
+    if (urlParams.indonesian) langFromUrl = 'indonesian';
+    else if (urlParams.english) langFromUrl = 'english';
+    
+    if (langFromUrl) {
+        setLanguage(langFromUrl, true);
+    } else {
+        // otherwise load from localStorage
+        const savedLang = localStorage.getItem('language');
+        if (savedLang && (savedLang === 'indonesian' || savedLang === 'english')) {
+            setLanguage(savedLang, false);
+        } else {
+            setLanguage('indonesian', false);
+        }
+    }
+    
+    // Dark mode from URL or localStorage
+    if (urlParams.dark) {
+        setDarkMode(true, true);
+    } else {
+        const savedDark = localStorage.getItem('darkMode') === 'true';
+        setDarkMode(savedDark, false);
+    }
 
-    setLanguage(currentLang);
-    updateDarkModeButtonText();
+    // Event listeners for toggles
     langToggle.addEventListener('click', () => {
         const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
+        setLanguage(newLang, true);
     });
-    darkToggle.addEventListener('click', setDarkMode);
+    darkToggle.addEventListener('click', () => {
+        const willBeDark = !document.body.classList.contains('dark-mode');
+        setDarkMode(willBeDark, true);
+    });
 
-    // scroll arrows
+    // Scroll arrows
     document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
     document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
     document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
