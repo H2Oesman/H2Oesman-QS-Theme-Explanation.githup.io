@@ -236,7 +236,7 @@
         .language-toggle { top: 20px; background: #1f6392; }
         .transliteration-toggle { top: 90px; background: #27ae60; }
         .dark-mode-toggle { top: 160px; background: #5f3b8c; }
-        /* Scroll arrows */
+        /* Scroll arrows - adjusted vertically to avoid overlapping toggles */
         .scroll-arrow, .scroll-arrow-double {
             position: fixed;
             background: var(--arrow-bg);
@@ -253,16 +253,21 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             transition: 0.2s;
         }
-        .scroll-arrow.up { left: 20px; top: 160px; }
-        .scroll-arrow-double.up-double { right: 20px; top: 160px; }
-        .scroll-arrow.down { left: 20px; bottom: 30px; }
-        .scroll-arrow-double.down-double { right: 20px; bottom: 30px; }
+        /* Up arrows moved down to ~300px (below toggles) */
+        .scroll-arrow.up { left: 20px; top: 300px; }
+        .scroll-arrow-double.up-double { right: 20px; top: 300px; }
+        /* Down arrows moved up from bottom for better visibility */
+        .scroll-arrow.down { left: 20px; bottom: 80px; }
+        .scroll-arrow-double.down-double { right: 20px; bottom: 80px; }
         @media (max-width: 650px) {
             .container { padding: 20px; }
             .powerful-dua-list li { padding: 14px 18px; }
             .scroll-arrow, .scroll-arrow-double { width: 40px; height: 40px; font-size: 18px; }
-            .scroll-arrow.up { top: 140px; }
-            .scroll-arrow-double.up-double { top: 140px; }
+            /* on mobile, adjust arrows a bit higher to not clash with content too much */
+            .scroll-arrow.up { top: 280px; }
+            .scroll-arrow-double.up-double { top: 280px; }
+            .scroll-arrow.down { bottom: 70px; }
+            .scroll-arrow-double.down-double { bottom: 70px; }
             .arabic-text { font-size: 1.3rem; }
             .language-toggle, .transliteration-toggle, .dark-mode-toggle {
                 padding: 5px 12px; font-size: 11px; right: 12px;
@@ -321,7 +326,6 @@
             border-color: var(--dua-border);
             margin: 10px 0;
         }
-        /* Additional style for audio player */
         .audio-player {
             margin-top: 15px;
             display: flex;
@@ -338,7 +342,7 @@
 </head>
 <body>
 
-<!-- Fixed arrows: Up (top left/right) and Down (bottom left/right) -->
+<!-- Fixed arrows: Up (top left/right) and Down (bottom left/right) - positions adjusted -->
 <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
 <div id="doubleUpScroll" class="scroll-arrow-double up-double"><i class="fas fa-angles-up"></i></div>
 <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
@@ -720,7 +724,7 @@
         const container = document.getElementById(targetContainerId);
         if (!container) return;
         container.innerHTML = "";
-        pdfDuasData.forEach((dua, idx) => {
+        pdfDuasData.forEach((dua) => {
             const div = document.createElement("div");
             div.className = "pdf-dua-item";
             const arabicDiv = document.createElement("div");
@@ -754,47 +758,32 @@
     const darkToggle = document.getElementById('darkModeToggle');
     const translitElements = document.querySelectorAll('.transliteration');
     
-    // --- Helper to get case-insensitive query param ---
     function getCaseInsensitiveParam(paramName) {
         const urlParams = new URLSearchParams(window.location.search);
         for (let [key, value] of urlParams.entries()) {
-            if (key.toLowerCase() === paramName.toLowerCase()) {
-                return value;
-            }
+            if (key.toLowerCase() === paramName.toLowerCase()) return value;
         }
         return null;
     }
     
-    // --- Check URL parameters for language and dark mode ---
     let urlLang = null;
-    if (getCaseInsensitiveParam('English') !== null || getCaseInsensitiveParam('english') !== null) {
-        urlLang = 'english';
-    } else if (getCaseInsensitiveParam('Indonesian') !== null || getCaseInsensitiveParam('indonesian') !== null) {
-        urlLang = 'indonesian';
-    }
+    if (getCaseInsensitiveParam('English') !== null || getCaseInsensitiveParam('english') !== null) urlLang = 'english';
+    else if (getCaseInsensitiveParam('Indonesian') !== null || getCaseInsensitiveParam('indonesian') !== null) urlLang = 'indonesian';
     
     let urlDark = (getCaseInsensitiveParam('Dark') !== null || getCaseInsensitiveParam('dark') !== null);
     
-    // --- Initial language: URL param > localStorage > default Indonesian ---
     let initialLang = urlLang;
     if (!initialLang) {
         const savedLang = localStorage.getItem('language');
-        if (savedLang && (savedLang === 'indonesian' || savedLang === 'english')) {
-            initialLang = savedLang;
-        } else {
-            initialLang = 'indonesian';
-        }
+        if (savedLang && (savedLang === 'indonesian' || savedLang === 'english')) initialLang = savedLang;
+        else initialLang = 'indonesian';
     }
     
-    // --- Initial dark mode: URL param > localStorage > default false (light) ---
     let initialDark = urlDark;
     if (!initialDark) {
         const savedDark = localStorage.getItem('darkMode');
-        if (savedDark !== null) {
-            initialDark = (savedDark === 'true');
-        } else {
-            initialDark = false;
-        }
+        if (savedDark !== null) initialDark = (savedDark === 'true');
+        else initialDark = false;
     }
     
     let currentLang = initialLang;
@@ -826,11 +815,7 @@
     
     function updateDarkModeButtonText() {
         const isEnglish = currentLang === 'english';
-        if (isEnglish) {
-            darkToggle.innerHTML = currentDark ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-        } else {
-            darkToggle.innerHTML = currentDark ? '<i class="fas fa-sun"></i> Mode Terang' : '<i class="fas fa-moon"></i> Mode Gelap';
-        }
+        darkToggle.innerHTML = currentDark ? (isEnglish ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-sun"></i> Mode Terang') : (isEnglish ? '<i class="fas fa-moon"></i> Dark Mode' : '<i class="fas fa-moon"></i> Mode Gelap');
     }
     
     function updateTranslitToggleText() {
@@ -849,29 +834,19 @@
         updateTranslitToggleText();
     }
     
-    // Apply initial settings
     setLanguage(initialLang, false);
     setDarkMode(initialDark, false);
     
-    // Transliteration visibility from localStorage
     const savedTranslit = localStorage.getItem('transliterationVisible');
-    const translitInitially = savedTranslit === null ? true : savedTranslit === 'true';
-    setTransliterationVisibility(translitInitially);
+    setTransliterationVisibility(savedTranslit === null ? true : savedTranslit === 'true');
     
-    // Event listeners
-    langToggle.addEventListener('click', () => {
-        const newLang = currentLang === 'indonesian' ? 'english' : 'indonesian';
-        setLanguage(newLang, true);
-    });
-    darkToggle.addEventListener('click', () => {
-        setDarkMode(!currentDark, true);
-    });
+    langToggle.addEventListener('click', () => setLanguage(currentLang === 'indonesian' ? 'english' : 'indonesian', true));
+    darkToggle.addEventListener('click', () => setDarkMode(!currentDark, true));
     translitToggle.addEventListener('click', () => {
         const currentlyVisible = translitElements.length && translitElements[0]?.style.display !== 'none';
         setTransliterationVisibility(!currentlyVisible);
     });
     
-    // ---------- SCROLL ARROWS ----------
     function scrollUpByViewport() { window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }); }
     function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
     function scrollDownByViewport() { window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }); }
