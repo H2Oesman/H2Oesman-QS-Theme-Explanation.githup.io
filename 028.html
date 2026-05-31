@@ -21,6 +21,8 @@
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
             --theme-card-bg: #ffffffdd;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
         }
         .dark-mode {
             --bg-color: #121826;
@@ -38,6 +40,8 @@
             --link-color: #93c5fd;
             --link-hover: #c3e2ff;
             --theme-card-bg: #1e293bdd;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -181,10 +185,13 @@
             vertical-align: top;
         }
         .theme-table th, .structure-table th { background: #2c7da0; color: white; }
+        
+        /* === SCROLL ARROWS (left: single step) === */
         .scroll-arrow {
             position: fixed;
             left: 20px;
-            background: var(--container-bg);
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
             border-radius: 50%;
             width: 44px;
             height: 44px;
@@ -196,12 +203,57 @@
             z-index: 1000;
             transition: 0.2s;
             border: 1px solid var(--verse-border);
-            color: var(--text-color);
             font-size: 22px;
         }
         .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
-        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.up { top: 200px; }
         .scroll-arrow.down { bottom: 90px; }
+        
+        /* === DOUBLE ARROWS (right: top & bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* language toggles (right) */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        
         .surah-pagination {
             display: flex;
             flex-direction: column;
@@ -228,35 +280,7 @@
             transition: 0.2s;
         }
         .pagination-item:hover { background: var(--link-color); color: white; text-decoration: none; }
-        .pagination-center {
-            text-align: center;
-        }
-        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
-            position: fixed;
-            right: 20px;
-            background: #2c3e50;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 40px;
-            cursor: pointer;
-            z-index: 1001;
-            font-weight: bold;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            backdrop-filter: blur(2px);
-        }
-        .language-toggle { top: 20px; background: #2c7da0; }
-        .transliteration-toggle { top: 80px; background: #27ae60; }
-        .dark-mode-toggle { top: 140px; background: #8e44ad; }
-        @media (max-width: 640px) {
-            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
-            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
-            .arabic { font-size: 30px; }
-        }
-        footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
+        .pagination-center { text-align: center; }
         .blink-click {
             animation: gentle-blink 1.2s infinite;
             font-weight: 600;
@@ -303,18 +327,36 @@
             padding: 10px;
             border-radius: 12px;
         }
+        @media (max-width: 640px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .arabic { font-size: 30px; }
+            .container { padding: 20px; }
+        }
+        footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
+<!-- Toggle Buttons (Right) -->
 <div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
 
+<!-- Single-step scroll arrows (LEFT side) -->
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<!-- Double arrows for top / bottom (RIGHT side) -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT (COMPLETE) -->
+    <!-- INDONESIAN CONTENT (LENGKAP) -->
     <div id="indonesian-content">
         <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
         <h1 class="surah-title">Surah Al-Qasas (28) - Tafsir Tematik</h1>
@@ -344,12 +386,12 @@
             <table class="structure-table">
                 <thead><tr><th>Rentang Ayat</th><th>Fokus Utama</th><th>Deskripsi Kandungan</th></tr></thead>
                 <tbody>
-                    <tr><td>1-13</th><td>Kelahiran dan Perlindungan Musa</th><td>Kelahiran Musa di tengah ancaman Fir'aun, ilham kepada ibunya, peti di sungai Nil, diasuh di istana Fir'aun. </td>
-                    <tr><td>14-28</th><td>Musa di Madyan dan Pernikahan</th><td>Pelarian Musa ke Madyan, membantu putri Syu'aib, menikah dan bekerja sebagai penggembala. </td>
-                    <tr><td>29-35</th><td>Pengangkatan Musa sebagai Nabi</th><td>Panggilan di lembah Tuwa, mukjizat tongkat dan tangan bercahaya, Harun sebagai pembantu. </td>
-                    <tr><td>36-50</th><td>Konfrontasi dengan Fir'aun</th><td>Dakwah kepada Fir'aun, tukang sihir yang beriman, penolakan Fir'aun yang angkuh. </td>
-                    <tr><td>51-75</th><td>Kisah Qarun dan Pelajaran</th><td>Kisah Qarun yang sombong dengan hartanya, azab yang menimpanya, peringatan tentang kesombongan. </td>
-                    <tr><td>76-88</th><td>Peringatan dan Penutup</th><td>Peringatan hari kiamat, seruan tauhid, kebenaran hanya milik Allah. </td>
+                    <tr><td>1-13</td><td>Kelahiran dan Perlindungan Musa</td><td>Kelahiran Musa di tengah ancaman Fir'aun, ilham kepada ibunya, peti di sungai Nil, diasuh di istana Fir'aun.</td></tr>
+                    <tr><td>14-28</td><td>Musa di Madyan dan Pernikahan</td><td>Pelarian Musa ke Madyan, membantu putri Syu'aib, menikah dan bekerja sebagai penggembala.</td></tr>
+                    <tr><td>29-35</td><td>Pengangkatan Musa sebagai Nabi</td><td>Panggilan di lembah Tuwa, mukjizat tongkat dan tangan bercahaya, Harun sebagai pembantu.</td></tr>
+                    <tr><td>36-50</td><td>Konfrontasi dengan Fir'aun</td><td>Dakwah kepada Fir'aun, tukang sihir yang beriman, penolakan Fir'aun yang angkuh.</td></tr>
+                    <tr><td>51-75</td><td>Kisah Qarun dan Pelajaran</td><td>Kisah Qarun yang sombong dengan hartanya, azab yang menimpanya, peringatan tentang kesombongan.</td></tr>
+                    <tr><td>76-88</td><td>Peringatan dan Penutup</td><td>Peringatan hari kiamat, seruan tauhid, kebenaran hanya milik Allah.</td></tr>
                 </tbody>
             </table>
         </div>
@@ -359,12 +401,12 @@
             <table class="theme-table">
                 <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-13</strong></td>}</th><td>Allah melindungi calon nabi sejak bayi, tawakal ibu Musa. (Tafsir Ibnu Katsir) </td>
-                    <tr><td><strong>14-28</strong></td>}</th><td>Menolong yang lemah, kejujuran, tawakal, dan kesabaran. (Tafsir Al-Qurthubi) </td>
-                    <tr><td><strong>29-35</strong></td>}</th><td>Allah memilih dan memberi mukjizat sesuai kebutuhan zaman. (Tafsir As-Sa'di) </td>
-                    <tr><td><strong>36-50</strong></td>}</th><td>Kebenaran akan menang meskipun ditentang kekuasaan zalim. (Tafsir At-Tabari) </td>
-                    <tr><td><strong>51-75</strong></td>}</th><td>Bahaya sombong dengan harta, keseimbangan dunia-akhirat. (Tafsir Ibnu Katsir) </td>
-                    <tr><td><strong>76-88</strong></td>}</th><td>Al-Qur'an adalah rahmat, seruan kepada keesaan Allah. (Tafsir As-Sa'di) </td>
+                    <tr><td><strong>1-13</strong></td><td>Allah melindungi calon nabi sejak bayi, tawakal ibu Musa.</td><td>(Tafsir Ibnu Katsir)</td></tr>
+                    <tr><td><strong>14-28</strong></td><td>Menolong yang lemah, kejujuran, tawakal, dan kesabaran.</td><td>(Tafsir Al-Qurthubi)</td></tr>
+                    <tr><td><strong>29-35</strong></td><td>Allah memilih dan memberi mukjizat sesuai kebutuhan zaman.</td><td>(Tafsir As-Sa'di)</td></tr>
+                    <tr><td><strong>36-50</strong></td><td>Kebenaran akan menang meskipun ditentang kekuasaan zalim.</td><td>(Tafsir At-Tabari)</td></tr>
+                    <tr><td><strong>51-75</strong></td><td>Bahaya sombong dengan harta, keseimbangan dunia-akhirat.</td><td>(Tafsir Ibnu Katsir)</td></tr>
+                    <tr><td><strong>76-88</strong></td><td>Al-Qur'an adalah rahmat, seruan kepada keesaan Allah.</td><td>(Tafsir As-Sa'di)</td></tr>
                 </tbody>
             </table>
         </div>
@@ -501,8 +543,6 @@
 </div>
 
 <footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info & sumber klasik | Thematic Reflection</footer>
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <script>
 (function(){
@@ -512,6 +552,7 @@
     const translitToggle = document.getElementById('transliterationToggle');
     const darkToggle = document.getElementById('darkModeToggle');
     const translitElements = document.querySelectorAll('.transliteration');
+    const body = document.body;
 
     const urlParams = new URLSearchParams(window.location.search);
     let langParam = null;
@@ -519,8 +560,8 @@
     else if(urlParams.has('Indonesian')) langParam = 'indonesian';
     let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
 
-    function setLanguage(lang){
-        const isEnglish = (lang === 'english');
+    function updateLangUI(){
+        const isEnglish = (currentLang === 'english');
         if(isEnglish){
             englishDiv.classList.remove('hidden');
             indoDiv.classList.add('hidden');
@@ -530,45 +571,70 @@
             indoDiv.classList.remove('hidden');
             langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
         }
-        localStorage.setItem('language', lang);
+        localStorage.setItem('language', currentLang);
+        updateTranslitButtonText();
+        updateDarkButtonText();
     }
-    setLanguage(currentLang);
-    langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
-    });
+
+    function updateTranslitButtonText(){
+        const isEnglish = (currentLang === 'english');
+        const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+        if(isEnglish){
+            translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        } else {
+            translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' : '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+        }
+    }
+
+    function updateDarkButtonText(){
+        const isEnglish = (currentLang === 'english');
+        const isDark = body.classList.contains('dark-mode');
+        if(isEnglish){
+            darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        } else {
+            darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' : '<i class="fas fa-moon"></i> Mode Gelap';
+        }
+    }
 
     let translitVisible = (urlParams.has('Transliteration')) ? true : (localStorage.getItem('transliteration') === 'true');
     function setTransliteration(show){
         translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        updateTranslitButtonText();
         localStorage.setItem('transliteration', show);
     }
     setTransliteration(translitVisible);
-    translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
-        setTransliteration(!currently);
-    });
 
     let darkActive = false;
     if(urlParams.has('Dark')) darkActive = true;
     else darkActive = localStorage.getItem('darkMode') === 'true';
-    if(darkActive) document.body.classList.add('dark-mode');
+    if(darkActive) body.classList.add('dark-mode');
     function setDarkModeUI(){
-        const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
-        localStorage.setItem('darkMode', active);
+        updateDarkButtonText();
+        localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
     }
     setDarkModeUI();
+
+    langToggle.addEventListener('click', () => {
+        currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+        updateLangUI();
+    });
+
+    translitToggle.addEventListener('click', () => {
+        const currently = (translitElements[0]?.style.display !== 'none');
+        setTransliteration(!currently);
+    });
+
     darkToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
+        body.classList.toggle('dark-mode');
         setDarkModeUI();
     });
 
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if(upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if(downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    // Single scroll arrows (left)
+    document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    // Double arrows (right)
+    document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
 })();
 </script>
 </body>
