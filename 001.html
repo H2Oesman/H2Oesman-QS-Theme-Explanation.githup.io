@@ -22,6 +22,8 @@
             --link-hover: #0d3d5a;
             --theme-card-bg: #ffffffdd;
             --translation-color: #2c3e50;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
         }
         .dark-mode {
             --bg-color: #121826;
@@ -40,6 +42,8 @@
             --link-hover: #c3e2ff;
             --theme-card-bg: #1e293bdd;
             --translation-color: #cbd5e1;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -75,8 +79,10 @@
             color: #7f8c8d;
             font-size: 18px;
             text-align: right;
+            margin: 0 0 10px 0;
             display: none;
         }
+        .dark-mode .transliteration { color: #b0c4de; }
         .translation {
             font-size: 16px;
             text-align: left;
@@ -135,6 +141,7 @@
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
+            margin-right: 15px;
             padding: 8px 16px;
             border-radius: 40px;
             border: 1px solid var(--link-color);
@@ -172,10 +179,12 @@
             margin: 20px auto;
             text-align: center;
         }
+        /* Single scroll arrows (LEFT) */
         .scroll-arrow {
             position: fixed;
             left: 20px;
-            background: var(--container-bg);
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
             border-radius: 50%;
             width: 44px;
             height: 44px;
@@ -187,12 +196,34 @@
             z-index: 1000;
             transition: 0.2s;
             border: 1px solid var(--verse-border);
-            color: var(--text-color);
             font-size: 22px;
         }
         .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
-        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.up { top: 200px; }
         .scroll-arrow.down { bottom: 90px; }
+        /* Double arrows (RIGHT) for top/bottom fast */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
         .surah-pagination {
             display: flex;
             justify-content: space-between;
@@ -240,7 +271,9 @@
         .dark-mode-toggle { top: 140px; background: #8e44ad; }
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
-            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
             .arabic { font-size: 30px; }
             .surah-pagination { flex-direction: column; gap: 10px; align-items: stretch; }
             .pagination-prev, .pagination-next { justify-content: center; }
@@ -350,21 +383,32 @@
 </head>
 <body>
 
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
 
+<!-- Single scroll arrows (LEFT) -->
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<!-- Double arrows (RIGHT: top/bottom fast) -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT -->
+    <!-- INDONESIAN CONTENT (Full, plain transliteration, right justified) -->
     <div id="indonesian-content">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-Fatihah (1) - Tafsir Tematik</h1>
         <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=1&verse=1&to=7" target="_blank">IslamicStudies.info - Surah Al-Fatihah <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a> &nbsp;|&nbsp; <a href="https://quran.com/1:1/tafsirs/en-tafisr-ibn-kathir" target="_blank">Tafsir Ibnu Katsir (Quran.com)</a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="transliteration">Bismillahirrahmanirrahim</div>
         <div class="translation">Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.</div>
         <div class="arabic">بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ﴿١﴾ ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ﴿٢﴾ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ ﴿٣﴾ مَـٰلِكِ يَوْمِ ٱلدِّينِ ﴿٤﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾ ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ ﴿٦﴾ صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ ﴿٧﴾</div>
-        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm. Al-ḥamdu lillāhi rabbil-'ālamīn. Ar-raḥmānir-raḥīm. Mālikī yaumid-dīn. Iyyāka na'budu wa iyyāka nasta'īn. Ihdināṣ-ṣirāṭal-mustaqīm. Ṣirāṭallażīna an'amta 'alaihim gairil-magḍụbi 'alaihim wa laḍ-ḍāllīn.</div>
+        <div class="transliteration">Bismillahirrahmanirrahim. Alhamdulillahi rabbil 'alamin. Arrahmanirrahim. Maliki yaumiddin. Iyyaka na'budu wa iyyaka nasta'in. Ihdinas shiratal mustaqim. Shiratalladzina an'amta 'alaihim ghairil maghdhubi 'alaihim wa lad dhallin.</div>
         <div class="translation">"Dengan nama Allah Yang Maha Pengasih, Maha Penyayang. Segala puji bagi Allah, Tuhan seluruh alam, Yang Maha Pengasih, Maha Penyayang, Pemilik hari pembalasan. Hanya kepada Engkaulah kami menyembah dan hanya kepada Engkaulah kami mohon pertolongan. Tunjukilah kami jalan yang lurus, (yaitu) jalan orang-orang yang telah Engkau beri nikmat kepadanya; bukan (jalan) mereka yang dimurkai, dan bukan (pula jalan) mereka yang sesat." (Al-Fatihah 1:1-7)</div>
 
         <div class="theme-overview">
@@ -398,7 +442,7 @@
         <div class="key-verse">
             <h3><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h3>
             <div class="arabic">إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ﴿٥﴾</div>
-            <div class="transliteration">Iyyāka na'budu wa iyyāka nasta'īn.</div>
+            <div class="transliteration">Iyyaka na'budu wa iyyaka nasta'in.</div>
             <div class="translation"><strong>Terjemahan:</strong> "Hanya kepada Engkaulah kami menyembah dan hanya kepada Engkaulah kami mohon pertolongan." (Al-Fatihah 1:5)</div>
             <div class="tafsir-box">
                 <strong>Tafsir IslamicStudies.info:</strong> Ayat ini adalah inti tauhid. “Iyyāka na‘budu” (hanya kepada-Mu kami menyembah) menegaskan bahwa seluruh bentuk ibadah hanya layak ditujukan kepada Allah. “Iyyāka nasta‘īn” (hanya kepada-Mu kami mohon pertolongan) mengajarkan bahwa segala pertolongan hanya dari Allah. Imam Syafi‘i berkata: seluruh ilmu Al-Qur’an terkandung dalam surah ini, dan seluruh ilmu surah ini terkandung dalam ayat ini. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=1&verse=5&to=5" target="_blank">📖 Baca tafsir lengkap di IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a>
@@ -413,19 +457,19 @@
             <table class="theme-table">
                 <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td style="white-space: nowrap;"><strong>1</strong></th><td>Basmalah – Nama Allah</th>
+                    <tr><td style="white-space: nowrap;"><strong>1</strong></td><td>Basmalah – Nama Allah</td>
                         <td><strong>Ibnu Katsir:</strong> Basmalah adalah ayat yang sempurna dan bagian dari surah Al-Fatihah. Disunnahkan membaca Basmalah di awal setiap pekerjaan baik, mengandung keberkahan dan pengakuan bahwa segala sesuatu terjadi dengan izin Allah. “Ar-Rahmān” mencakup rahmat Allah yang luas di dunia, “Ar-Rahīm” khusus untuk orang beriman di akhirat. <a href="https://quran.com/1:1/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir</a></td>
                     </tr>
-                    <tr><td style="white-space: nowrap;"><strong>2-3</strong></th><td>Pujian dan Kasih Sayang Allah</th>
+                    <tr><td style="white-space: nowrap;"><strong>2-3</strong></td><td>Pujian dan Kasih Sayang Allah</td>
                         <td><strong>Ibnu Katsir:</strong> “Al-ḥamdu” adalah pujian sempurna yang hanya layak bagi Allah, berbeda dengan “asy-syukr” yang lebih terbatas. “Rabb” mencakup penciptaan, kepemilikan, pengaturan, dan pemberian nikmat. Seluruh alam tunduk kepada rububiyah-Nya. Dua sifat rahman dan rahim diletakkan setelah “Rabb” untuk menunjukkan keseimbangan antara kekuasaan dan kasih sayang. <a href="https://quran.com/1:2/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir</a></td>
                     </tr>
-                    <tr><td style="white-space: nowrap;"><strong>4</strong></th><td>Hari Pembalasan</th>
+                    <tr><td style="white-space: nowrap;"><strong>4</strong></td><td>Hari Pembalasan</td>
                         <td><strong>Ibnu Katsir:</strong> Ayat ini bisa dibaca “Maliki” (dengan alif pendek) atau “Maaliki” (dengan mad panjang), keduanya sahih dan menunjukkan bahwa Allah adalah Pemilik mutlak sekaligus Raja pada hari yang tidak ada seorang pun memiliki kekuasaan kecuali Dia. “Yaumid-dīn” adalah hari perhitungan amal. Menyebut hari pembalasan setelah rahman dan rahim menunjukkan keseimbangan antara rahmat dan keadilan Allah. <a href="https://quran.com/1:4/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir</a></td>
                     </tr>
-                    <tr><td style="white-space: nowrap;"><strong>5</strong></th><td>Ibadah dan Permohonan Pertolongan</th>
+                    <tr><td style="white-space: nowrap;"><strong>5</strong></td><td>Ibadah dan Permohonan Pertolongan</td>
                         <td><strong>Ibnu Katsir:</strong> Inti tauhid uluhiyah dan rububiyah: hanya kepada Allah kami menyembah dan memohon pertolongan. Pendahuluan objek “iyyāka” menunjukkan pengkhususan. Ibadah tanpa pertolongan Allah mustahil terlaksana, dan pertolongan tanpa ibadah tidak akan mendatangkan kebahagiaan. <a href="https://quran.com/1:5/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir</a></td>
                     </tr>
-                    <tr><td style="white-space: nowrap;"><strong>6-7</strong></th><td>Permohonan Jalan yang Lurus</th>
+                    <tr><td style="white-space: nowrap;"><strong>6-7</strong></td><td>Permohonan Jalan yang Lurus</td>
                         <td><strong>Ibnu Katsir:</strong> “Al-hidayah” adalah petunjuk dan taufik yang terus-menerus, bukan hanya sekali. “As-Sirāṭ al-mustaqīm” adalah jalan yang benar, tidak bengkok, yang mengantarkan kepada Allah dan surga – yaitu jalan Islam. Orang-orang yang diberi nikmat adalah para nabi, shiddiqin, syuhada, dan shalihin. Yang dimurkai adalah mereka yang mengetahui kebenaran namun menyimpang (Yahudi), dan yang sesat adalah mereka yang beribadah tanpa landasan ilmu (Nasrani). Doa ini dibaca minimal 17 kali sehari dalam shalat. <a href="https://quran.com/1:6/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir</a></td>
                     </tr>
                 </tbody>
@@ -491,9 +535,12 @@
         <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
     </div>
 
-    <!-- ENGLISH CONTENT (parallel) -->
+    <!-- ENGLISH CONTENT (full, with diacritical transliteration) -->
     <div id="english-content" class="hidden">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-Fatihah (1) - Thematic Tafsir</h1>
         <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=1&verse=1&to=7" target="_blank">IslamicStudies.info - Surah Al-Fatihah <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a> &nbsp;|&nbsp; <a href="https://quran.com/1:1/tafsirs/en-tafisr-ibn-kathir" target="_blank">Ibn Kathir Tafsir (Quran.com)</a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
@@ -543,19 +590,19 @@
             <table class="theme-table">
                 <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message & Additional Tafsir</th></tr></thead>
                 <tbody>
-                    <tr><td style="white-space: nowrap;"><strong>1</strong></th><td>Basmalah – Names of Allah</th>
+                    <tr><td style="white-space: nowrap;"><strong>1</strong></td><td>Basmalah – Names of Allah</td>
                         <td><strong>Ibn Kathir:</strong> The Basmalah is a complete verse revealed as an opener for this surah. It is recommended to recite it before any good action because it contains blessing and acknowledgment that everything happens by Allah's permission. “Ar-Rahmān” encompasses mercy for all creation, while “Ar-Rahīm” is specific to believers. <a href="https://quran.com/1:1/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></td>
                     </tr>
-                    <tr><td style="white-space: nowrap;"><strong>2-3</strong></th><td>Praise and Mercy of Allah</th>
+                    <tr><td style="white-space: nowrap;"><strong>2-3</strong></td><td>Praise and Mercy of Allah</td>
                         <td><strong>Ibn Kathir:</strong> “Al-ḥamdu” is the perfect praise belonging only to Allah. “Rabb” encompasses creation, ownership, regulation, and provision. The entire universe submits to His rububiyyah. The attributes of mercy are placed after “Rabb” to show balance between power and compassion. <a href="https://quran.com/1:2/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></td>
                     </tr>
-                    <tr><td style="white-space: nowrap;"><strong>4</strong></th><td>Day of Recompense</th>
+                    <tr><td style="white-space: nowrap;"><strong>4</strong></td><td>Day of Recompense</td>
                         <td><strong>Ibn Kathir:</strong> Both “Maliki” and “Maaliki” are authentic readings, indicating Allah is the absolute Owner and King on the Day when no one possesses any power except Him. “Yaumid-dīn” is the Day of Judgment. Mentioning it after ar-Rahmān and ar-Rahīm shows the balance between mercy and justice. <a href="https://quran.com/1:4/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></td>
                     </tr>
-                    <tr><td style="white-space: nowrap;"><strong>5</strong></th><td>Worship and Seeking Help</th>
+                    <tr><td style="white-space: nowrap;"><strong>5</strong></td><td>Worship and Seeking Help</td>
                         <td><strong>Ibn Kathir:</strong> This verse is the core of tawhid. Placing the object “iyyāka” first indicates exclusivity. Worship without Allah's help is impossible, and help without worship will not bring happiness. Therefore, Allah combined both in one verse. <a href="https://quran.com/1:5/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></td>
                     </tr>
-                    <tr><td style="white-space: nowrap;"><strong>6-7</strong></th><td>Supplication for the Straight Path</th>
+                    <tr><td style="white-space: nowrap;"><strong>6-7</strong></td><td>Supplication for the Straight Path</td>
                         <td><strong>Ibn Kathir:</strong> “Al-hidayah” is continuous guidance, not a one-time event. “As-Sirāṭ al-mustaqīm” is the straight path of Islam. Those who earned anger are those who deviated after knowing the truth (Jews), and those who are astray are those who worship without knowledge (Christians). This supplication is recited at least 17 times daily. <a href="https://quran.com/1:6/tafsirs/en-tafisr-ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></td>
                     </tr>
                 </tbody>
@@ -623,9 +670,6 @@
 </div>
 <footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info & Tafsir Ibnu Katsir (Quran.com) | Guidance for Reflection</footer>
 
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
-
 <script>
 (function() {
     const englishDiv = document.getElementById('english-content');
@@ -650,7 +694,7 @@
         } else {
             englishDiv.classList.add('hidden');
             indoDiv.classList.remove('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 English';
         }
         localStorage.setItem('language', lang);
     }
@@ -690,10 +734,13 @@
 
     const upArrow = document.getElementById('scrollUp');
     const downArrow = document.getElementById('scrollDown');
+    const doubleUp = document.getElementById('doubleUpScroll');
+    const doubleDown = document.getElementById('doubleDownScroll');
     if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
     if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
 })();
 </script>
 </body>
 </html>
-
