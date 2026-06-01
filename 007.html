@@ -22,9 +22,11 @@
             --link-hover: #0d3d5a;
             --translation-color: #2c5282;
             --theme-card-bg: #ffffffdd;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
         }
         .dark-mode {
-            --bg-color: #121826;
+            --bg-color: #1f2a3e;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
             --arabic-color: #7bc9ff;
@@ -36,10 +38,12 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #93c5fd;
-            --link-hover: #c3e2ff;
+            --link-color: #a3c6ff;
+            --link-hover: #c9e0ff;
             --translation-color: #bdd4ff;
             --theme-card-bg: #1e293bdd;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -137,6 +141,7 @@
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
+            margin-right: 15px;
             padding: 8px 16px;
             border-radius: 40px;
             border: 1px solid var(--link-color);
@@ -189,10 +194,12 @@
             vertical-align: top;
         }
         .theme-table th { background: #2c7da0; color: white; }
+        /* SCROLL ARROWS (left: single step) */
         .scroll-arrow {
             position: fixed;
             left: 20px;
-            background: var(--container-bg);
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
             border-radius: 50%;
             width: 44px;
             height: 44px;
@@ -204,12 +211,33 @@
             z-index: 1000;
             transition: 0.2s;
             border: 1px solid var(--verse-border);
-            color: var(--text-color);
             font-size: 22px;
         }
         .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
-        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.up { top: 200px; }
         .scroll-arrow.down { bottom: 90px; }
+        /* DOUBLE ARROWS (right: top/bottom fast) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
         .surah-pagination {
             display: flex;
             justify-content: center;
@@ -253,7 +281,9 @@
         .dark-mode-toggle { top: 140px; background: #8e44ad; }
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
-            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
             .arabic { font-size: 28px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
@@ -359,24 +389,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+<!-- Single-step scroll arrows (LEFT) -->
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<!-- Double arrows for top / bottom (RIGHT) -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT (enhanced) -->
+    <!-- INDONESIAN CONTENT (plain transliteration, right justified) -->
     <div id="indonesian-content">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-A‘rāf (7) - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=1&to=206&opt=1" target="_blank">IslamicStudies.info - Surah Al-A‘rāf <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=1&to=206" target="_blank">IslamicStudies.info - Surah Al-A‘rāf <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="transliteration">Bismillahirrahmanirrahim</div>
         <div class="arabic">الٓمٓصٓ ﴿١﴾ كِتَـٰبٌ أُنزِلَ إِلَيْكَ فَلَا يَكُن فِى صَدْرِكَ حَرَجٌ مِّنْهُ لِتُنذِرَ بِهِۦ وَذِكْرَىٰ لِلْمُؤْمِنِينَ ﴿٢﴾</div>
-        <div class="transliteration">Alif-Lām-Mīm-Ṣād. Kitābun unzila ilaika falā yakun fī ṣadrika ḥarajum minhu litunżira bihī wa żikrā lil-mu`minīn.</div>
-        <div class="translation">"Alif Lam Mim Shad. Ini adalah kitab yang diturunkan kepadamu (Muhammad) maka janganlah ada kesempitan di dadamu karenanya, agar engkau memberi peringatan dengannya dan menjadi pelajaran bagi orang-orang yang beriman." (Al-A‘rāf 7:1-2)</div>
+        <div class="transliteration">Alif lam mim shad. Kitabun unzila ilaika fala yakun fi shadrika harajum minhu li tundzira bihi wa dzikra lil mu'minin.</div>
+        <div class="translation-text">"Alif Lam Mim Shad. Ini adalah kitab yang diturunkan kepadamu (Muhammad) maka janganlah ada kesempitan di dadamu karenanya, agar engkau memberi peringatan dengannya dan menjadi pelajaran bagi orang-orang yang beriman." (Al-A‘rāf 7:1-2)</div>
 
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-A‘rāf (7)</h3>
-            <p>Surah ke-7 (206 ayat) Makkiyah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=1&to=206&opt=1" target="_blank">IslamicStudies.info</a>, surah ini melanjutkan tema tauhid dengan penekanan pada kisah-kisah umat terdahulu sebagai pelajaran. Nama "Al-A‘rāf" diambil dari ayat 46 yang menyebut tempat tinggi antara surga dan neraka. Surah ini memuat kisah Adam dan Iblis, kisah para nabi (Nuh, Hud, Saleh, Luth, Syu‘aib, Musa), serta konsep fitrah (perjanjian primordial). Surah ini juga mengajarkan tentang keadilan Allah, konsekuensi keingkaran, dan rahmat bagi orang yang bertakwa.</p>
+            <p>Surah ke-7 (206 ayat) Makkiyah. Menurut <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=1&to=206" target="_blank">IslamicStudies.info</a>, surah ini melanjutkan tema tauhid dengan penekanan pada kisah-kisah umat terdahulu sebagai pelajaran. Nama "Al-A‘rāf" diambil dari ayat 46 yang menyebut tempat tinggi antara surga dan neraka. Surah ini memuat kisah Adam dan Iblis, kisah para nabi (Nuh, Hud, Saleh, Luth, Syu‘aib, Musa), serta konsep fitrah (perjanjian primordial). Surah ini juga mengajarkan tentang keadilan Allah, konsekuensi keingkaran, dan rahmat bagi orang yang bertakwa.</p>
         </div>
 
         <!-- REVELATION CONTEXT (INDONESIAN) -->
@@ -398,16 +440,16 @@
             <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Larangan kesombongan (seperti Iblis), perintah berlaku adil, larangan perbuatan keji, dan pentingnya bertakwa serta berbuat baik. Keseimbangan antara harapan (raja') dan takut (khauf) kepada Allah.</div>
         </div>
 
-        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/7?translations=33" target="_blank">Quran.com - Surah Al-A‘rāf (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a> | <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=1&to=206&opt=1" target="_blank">Tafsir Lengkap IslamicStudies.info</a></p></div>
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/7?translations=33" target="_blank">Quran.com - Surah Al-A‘rāf (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a> | <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=1&to=206" target="_blank">Tafsir Lengkap IslamicStudies.info</a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-A‘rāf</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/007.mp3" type="audio/mpeg"></audio></div>
 
         <!-- KEY VERSE FOR CONTEMPLATION (FULL AYAT 7:172) -->
         <div class="key-verse">
             <h3><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h3>
             <div class="arabic">وَإِذْ أَخَذَ رَبُّكَ مِنۢ بَنِىٓ ءَادَمَ مِن ظُهُورِهِمْ ذُرِّيَّتَهُمْ وَأَشْهَدَهُمْ عَلَىٰٓ أَنفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا۟ بَلَىٰ ۛ شَهِدْنَآ ۛ أَن تَقُولُوا۟ يَوْمَ ٱلْقِيَـٰمَةِ إِنَّا كُنَّا عَنْ هَـٰذَا غَـٰفِلِينَ ﴿١٧٢﴾</div>
-            <div class="transliteration">Wa iż akhaża rabbuka min banī ādama min ẓuhūrihim żurriyyatahum wa asyhadahum ‘alā anfusihim, alastu birabbikum, qālū balā syahidnā, an taqūlū yaumal-qiyāmati innā kunnā ‘an hāżā gāfilīn.</div>
-            <div class="translation"><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Tuhanmu mengeluarkan keturunan anak-anak Adam dari sulbi mereka dan Allah mengambil kesaksian terhadap jiwa mereka (seraya berfirman): 'Bukankah Aku ini Tuhanmu?' Mereka menjawab: 'Betul (Engkau Tuhan kami), kami bersaksi.' (Kami lakukan yang demikian itu) agar di hari kiamat kamu tidak mengatakan: 'Sesungguhnya kami (bani Adam) adalah orang-orang yang lengah terhadap ini (keesaan Tuhan).'" (Al-A‘rāf 7:172)</div>
-            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini adalah dasar konsep fitrah dalam Islam. Sejak sebelum dilahirkan, setiap manusia telah mengakui keesaan Allah. Syirik bukanlah bawaan asli, melainkan penyimpangan akibat pengaruh lingkungan dan setan. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=172&to=172&opt=1" target="_blank">📖 Baca tafsir lengkap di IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
+            <div class="transliteration">Wa idz akhadza rabbuka min bani adama min zhuhurihim dzurriyyatahum wa asyhadahum 'ala anfusihim, alastu birabbikum, qalu bala syahidna, an taqulu yaumal qiyamati inna kunna 'an hadza gha filin.</div>
+            <div class="translation-text"><strong>Terjemahan:</strong> "Dan (ingatlah) ketika Tuhanmu mengeluarkan keturunan anak-anak Adam dari sulbi mereka dan Allah mengambil kesaksian terhadap jiwa mereka (seraya berfirman): 'Bukankah Aku ini Tuhanmu?' Mereka menjawab: 'Betul (Engkau Tuhan kami), kami bersaksi.' (Kami lakukan yang demikian itu) agar di hari kiamat kamu tidak mengatakan: 'Sesungguhnya kami (bani Adam) adalah orang-orang yang lengah terhadap ini (keesaan Tuhan).'" (Al-A‘rāf 7:172)</div>
+            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini adalah dasar konsep fitrah dalam Islam. Sejak sebelum dilahirkan, setiap manusia telah mengakui keesaan Allah. Syirik bukanlah bawaan asli, melainkan penyimpangan akibat pengaruh lingkungan dan setan. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=172&to=172" target="_blank">📖 Baca tafsir lengkap di IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
             <div class="tafsir-box"><strong>Tafsir Tambahan – Ibnu Katsir:</strong> Ibnu Katsir menjelaskan bahwa perjanjian ini terjadi di alam ruh sebelum manusia dilahirkan. Setiap jiwa bersaksi bahwa Allah adalah Tuhan mereka. Ini adalah bukti bahwa tauhid adalah fitrah asli manusia. Setan dan lingkunganlah yang kemudian menyesatkan. Karena itu, tidak ada alasan bagi manusia untuk menyekutukan Allah pada hari kiamat. <a href="https://quran.com/7:172/tafsirs/ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir selengkapnya</a></div>
         </div>
 
@@ -418,12 +460,12 @@
                 <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan & Tafsir Tambahan</th></tr></thead>
                 <tbody>
                     <tr><td style="white-space: nowrap;"><strong>1-10</strong></th> <td>Pendahuluan: Al-Qur'an sebagai Peringatan</th> <td>Al-Qur'an diturunkan untuk memberi peringatan, seruan untuk mengikuti wahyu, dan peringatan bagi yang mendustakan. — Ibnu Katsir</th></tr>
-                    <tr><td><strong>11-25</strong></th> <td>Kisah Adam dan Iblis</th> <td>Perintah sujud kepada Adam, keangkuhan Iblis, tipu daya setan, dan turunnya Adam ke bumi. — Al-Qurthubi</th></tr>
-                    <tr><td><strong>26-30</strong></th> <td>Peringatan tentang Pakaian dan Hiasan</th> <td>Perintah berpakaian rapi saat shalat, larangan perbuatan keji, dan peringatan untuk tidak mengikuti setan. — As-Sa'di</th></tr>
-                    <tr><td><strong>31-58</strong></th> <td>Peringatan tentang Hari Kebangkitan dan Kisah Para Nabi</th> <td>Perintah makan dan minum tidak berlebihan, peringatan hari kebangkitan, dan kisah Nuh, Hud, Saleh, Luth, Syu‘aib. — At-Tabari</th></tr>
-                    <tr><td><strong>59-102</strong></th> <td>Kisah Para Nabi Nuh, Hud, Saleh, Luth, Syu‘aib</th> <td>Penjelasan panjang lebar tentang dakwah para nabi dan azab yang menimpa kaum yang mendustakan. — Ibnu Katsir</th></tr>
-                    <tr><td><strong>103-174</strong></th> <td>Kisah Nabi Musa dan Firaun</th> <td>Musa diutus kepada Firaun, mukjizat tongkat dan tangan bercahaya, azab yang ditimpakan kepada Firaun, dan Bani Israil diselamatkan. — Al-Qurthubi</th></tr>
-                    <tr><td><strong>175-205</strong></th> <td>Peringatan, Al-A‘rāf, dan Penutup</th> <td>Kisah orang yang mengikuti hawa nafsu, perintah mengambil maaf, dan sifat-sifat orang beriman di akhir surah. — As-Sa'di</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>11-25</strong></th> <td>Kisah Adam dan Iblis</th> <td>Perintah sujud kepada Adam, keangkuhan Iblis, tipu daya setan, dan turunnya Adam ke bumi. — Al-Qurthubi</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>26-30</strong></th> <td>Peringatan tentang Pakaian dan Hiasan</th> <td>Perintah berpakaian rapi saat shalat, larangan perbuatan keji, dan peringatan untuk tidak mengikuti setan. — As-Sa'di</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>31-58</strong></th> <td>Peringatan tentang Hari Kebangkitan dan Kisah Para Nabi</th> <td>Perintah makan dan minum tidak berlebihan, peringatan hari kebangkitan, dan kisah Nuh, Hud, Saleh, Luth, Syu‘aib. — At-Tabari</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>59-102</strong></th> <td>Kisah Para Nabi Nuh, Hud, Saleh, Luth, Syu‘aib</th> <td>Penjelasan panjang lebar tentang dakwah para nabi dan azab yang menimpa kaum yang mendustakan. — Ibnu Katsir</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>103-174</strong></th> <td>Kisah Nabi Musa dan Firaun</th> <td>Musa diutus kepada Firaun, mukjizat tongkat dan tangan bercahaya, azab yang ditimpakan kepada Firaun, dan Bani Israil diselamatkan. — Al-Qurthubi</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>175-205</strong></th> <td>Peringatan, Al-A‘rāf, dan Penutup</th> <td>Kisah orang yang mengikuti hawa nafsu, perintah mengambil maaf, dan sifat-sifat orang beriman di akhir surah. — As-Sa'di</th></tr>
                 </tbody>
             </table>
         </div>
@@ -458,60 +500,60 @@
             <!-- 1. Kisah Adam dan Iblis (11-25) -->
             <div class="adam-section"><div class="theme-title">1. Kisah Adam dan Iblis – Ayat 11-25</div>
                 <div class="arabic">وَلَقَدْ خَلَقْنَـٰكُمْ ثُمَّ صَوَّرْنَـٰكُمْ ثُمَّ قُلْنَا لِلْمَلَـٰٓئِكَةِ ٱسْجُدُوا۟ لِءَادَمَ فَسَجَدُوٓا۟ إِلَّآ إِبْلِيسَ لَمْ يَكُن مِّنَ ٱلسَّـٰجِدِينَ ﴿١١﴾</div>
-                <div class="transliteration">Wa laqad khalaqnākum ṡumma ṣawwarnākum ṡumma qulnā lil-malā`ikatisjudū li`ādama fa sajadū illā iblīs, lam yakum minas-sājidīn.</div>
-                <div class="translation">"Sungguh, Kami telah menciptakan kamu (Adam), kemudian Kami bentuk, kemudian Kami berfirman kepada para malaikat, 'Bersujudlah kamu kepada Adam,' maka mereka pun sujud kecuali Iblis. Ia tidak termasuk mereka yang sujud." (7:11)</div>
+                <div class="transliteration">Wa laqad khalaqnakum tsumma shawwarnakum tsumma qulna lil mala'ikatisjudu li adama fa sajadu illa iblis, lam yakum minas sajidin.</div>
+                <div class="translation-text">"Sungguh, Kami telah menciptakan kamu (Adam), kemudian Kami bentuk, kemudian Kami berfirman kepada para malaikat, 'Bersujudlah kamu kepada Adam,' maka mereka pun sujud kecuali Iblis. Ia tidak termasuk mereka yang sujud." (7:11)</div>
                 <div class="arabic">قَالَ مَا مَنَعَكَ أَلَّا تَسْجُدَ إِذْ أَمَرْتُكَ ۖ قَالَ أَنَا خَيْرٌ مِّنْهُ خَلَقْتَنِى مِن نَّارٍ وَخَلَقْتَهُۥ مِن طِينٍ ﴿١٢﴾</div>
-                <div class="transliteration">Qāla mā mana‘aka allā tasjuda iż amartuk, qāla anā khairum minh, khalaqtanī min nāriw wa khalaqtahū min ṭīn.</div>
-                <div class="translation">"Allah berfirman, 'Apa yang menghalangimu untuk bersujud ketika Aku memerintahkan kamu?' Ia (Iblis) menjawab, 'Aku lebih baik darinya. Engkau ciptakan aku dari api, sedangkan dia Engkau ciptakan dari tanah.'" (7:12)</div>
+                <div class="transliteration">Qala ma mana'aka alla tasjuda idz amartuk, qala ana khairum minhu khalaqtani min narin wa khalaqtahu min thin.</div>
+                <div class="translation-text">"Allah berfirman, 'Apa yang menghalangimu untuk bersujud ketika Aku memerintahkan kamu?' Ia (Iblis) menjawab, 'Aku lebih baik darinya. Engkau ciptakan aku dari api, sedangkan dia Engkau ciptakan dari tanah.'" (7:12)</div>
                 <div class="arabic">قَالَ فَٱهْبِطْ مِنْهَا فَمَا يَكُونُ لَكَ أَن تَتَكَبَّرَ فِيهَا فَٱخْرُجْ إِنَّكَ مِنَ ٱلصَّـٰغِرِينَ ﴿١٣﴾</div>
-                <div class="transliteration">Qāla fahbiṭ min-hā famā yakūnu laka an tatakabbara fīhā fakhruj innaka minaṣ-ṣāgirīn.</div>
-                <div class="translation">"Allah berfirman, 'Turunlah kamu dari surga itu; karena kamu tidak sepatutnya menyombongkan diri di dalamnya. Keluarlah, sesungguhnya kamu termasuk orang-orang yang hina.'" (7:13)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Kesombongan Iblis menjadi akar kekafiran dan pembangkangan. Ia merasa lebih mulia karena diciptakan dari api, sementara Adam dari tanah. Kisah ini mengajarkan manusia untuk rendah hati dan taat kepada Allah, serta mewaspadai godaan yang bersumber dari kesombongan. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=11&to=25&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 11-25) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Qala fahbith minha fama yakunu laka an tatakabbara fiha fakhruj innaka minas shaghirin.</div>
+                <div class="translation-text">"Allah berfirman, 'Turunlah kamu dari surga itu; karena kamu tidak sepatutnya menyombongkan diri di dalamnya. Keluarlah, sesungguhnya kamu termasuk orang-orang yang hina.'" (7:13)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Kesombongan Iblis menjadi akar kekafiran dan pembangkangan. Ia merasa lebih mulia karena diciptakan dari api, sementara Adam dari tanah. Kisah ini mengajarkan manusia untuk rendah hati dan taat kepada Allah, serta mewaspadai godaan yang bersumber dari kesombongan. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=11&to=25" target="_blank">📖 Baca tafsir lengkap (Ayat 11-25) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – Al-Qurthubi:</strong> Al-Qurthubi menjelaskan bahwa kesombongan adalah dosa pertama yang tercatat. Iblis tidak mau sujud karena ia menganggap dirinya lebih baik. Ini menjadi pelajaran bahwa kesombongan dapat menghalangi seseorang dari ketaatan kepada Allah, meskipun perintahnya jelas. Setan kemudian bersumpah akan menyesatkan manusia, kecuali hamba-hamba Allah yang ikhlas. <a href="https://quran.com/7:12/tafsirs/qurtubi" target="_blank">📖 Baca tafsir Al-Qurthubi</a></div>
             </div>
 
             <!-- 2. Kisah Para Nabi (59-102) – ringkasan dengan ayat lengkap untuk Nuh sebagai contoh -->
             <div class="prophets-section"><div class="theme-title">2. Kisah Para Nabi – Ayat 59-102</div>
                 <div class="arabic">لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِۦ فَقَالَ يَـٰقَوْمِ ٱعْبُدُوا۟ ٱللَّهَ مَا لَكُم مِّنْ إِلَـٰهٍ غَيْرُهُۥٓ إِنِّىٓ أَخَافُ عَلَيْكُمْ عَذَابَ يَوْمٍ عَظِيمٍ ﴿٥٩﴾</div>
-                <div class="transliteration">Laqad arsalnā nūḥan ilā qaumihī fa qāla yā qaumi‘budullāha mā lakum min ilāhin gairuh, innī akhāfu ‘alaikum ‘ażāba yaumin ‘aẓīm.</div>
-                <div class="translation">"Sungguh, Kami telah mengutus Nuh kepada kaumnya, lalu ia berkata, 'Wahai kaumku! Sembahlah Allah, tidak ada tuhan bagimu selain Dia. Sesungguhnya aku takut kamu akan ditimpa azab pada hari yang besar (kiamat).'" (7:59)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Pola dakwah para nabi selalu sama: seruan tauhid dan peringatan akhirat. Kisah Nuh, Hud, Saleh, Luth, Syu‘aib, dan Musa menunjukkan konsistensi risalah samawi sepanjang zaman. Mereka yang menolak akan mendapat azab, sedangkan yang beriman diselamatkan. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=59&to=102&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 59-102) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Laqad arsalna nuhan ila qaumihi fa qala ya qaumi'budullaha ma lakum min ilahin gairuhu, inni akhafu 'alaikum 'adzaba yaumin 'azhim.</div>
+                <div class="translation-text">"Sungguh, Kami telah mengutus Nuh kepada kaumnya, lalu ia berkata, 'Wahai kaumku! Sembahlah Allah, tidak ada tuhan bagimu selain Dia. Sesungguhnya aku takut kamu akan ditimpa azab pada hari yang besar (kiamat).'" (7:59)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Pola dakwah para nabi selalu sama: seruan tauhid dan peringatan akhirat. Kisah Nuh, Hud, Saleh, Luth, Syu‘aib, dan Musa menunjukkan konsistensi risalah samawi sepanjang zaman. Mereka yang menolak akan mendapat azab, sedangkan yang beriman diselamatkan. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=59&to=102" target="_blank">📖 Baca tafsir lengkap (Ayat 59-102) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – At-Tabari:</strong> At-Tabari meriwayatkan bahwa setiap nabi yang diutus kepada kaumnya selalu memulai dengan menegaskan tauhid. Azab yang menimpa kaum yang mendustakan adalah bukti nyata bahwa Allah Maha Perkasa dan tidak membiarkan kezaliman. Kisah-kisah ini menjadi peringatan bagi kaum musyrikin Mekah. <a href="https://quran.com/7:59/tafsirs/tabari" target="_blank">📖 Baca tafsir At-Tabari</a></div>
             </div>
 
             <!-- 3. Perjanjian Fitrah (172-174) -->
             <div class="fitrah-section"><div class="theme-title">3. Perjanjian Fitrah (Mitsaq) – Ayat 172-174</div>
                 <div class="arabic">وَإِذْ أَخَذَ رَبُّكَ مِنۢ بَنِىٓ ءَادَمَ مِن ظُهُورِهِمْ ذُرِّيَّتَهُمْ وَأَشْهَدَهُمْ عَلَىٰٓ أَنفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا۟ بَلَىٰ ۛ شَهِدْنَآ ۛ أَن تَقُولُوا۟ يَوْمَ ٱلْقِيَـٰمَةِ إِنَّا كُنَّا عَنْ هَـٰذَا غَـٰفِلِينَ ﴿١٧٢﴾</div>
-                <div class="transliteration">Wa iż akhaża rabbuka min banī ādama min ẓuhūrihim żurriyyatahum wa asyhadahum ‘alā anfusihim, alastu birabbikum, qālū balā syahidnā, an taqūlū yaumal-qiyāmati innā kunnā ‘an hāżā gāfilīn.</div>
-                <div class="translation">"Dan (ingatlah) ketika Tuhanmu mengeluarkan keturunan anak-anak Adam dari sulbi mereka dan Allah mengambil kesaksian terhadap jiwa mereka (seraya berfirman): 'Bukankah Aku ini Tuhanmu?' Mereka menjawab: 'Betul (Engkau Tuhan kami), kami bersaksi.' (Kami lakukan yang demikian itu) agar di hari kiamat kamu tidak mengatakan: 'Sesungguhnya kami (bani Adam) adalah orang-orang yang lengah terhadap ini (keesaan Tuhan).'" (7:172)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Manusia sejak alam ruh telah bersaksi bahwa Allah adalah Tuhannya. Fitrah ini menjadi dasar kecenderungan manusia kepada tauhid. Penyimpangan (syirik) adalah karena pengaruh luar, bukan bawaan asli. Ayat ini menjadi landasan konsep fitrah dalam Islam. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=172&to=174&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 172-174) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Wa idz akhadza rabbuka min bani adama min zhuhurihim dzurriyyatahum wa asyhadahum 'ala anfusihim, alastu birabbikum, qalu bala syahidna, an taqulu yaumal qiyamati inna kunna 'an hadza gha filin.</div>
+                <div class="translation-text">"Dan (ingatlah) ketika Tuhanmu mengeluarkan keturunan anak-anak Adam dari sulbi mereka dan Allah mengambil kesaksian terhadap jiwa mereka (seraya berfirman): 'Bukankah Aku ini Tuhanmu?' Mereka menjawab: 'Betul (Engkau Tuhan kami), kami bersaksi.' (Kami lakukan yang demikian itu) agar di hari kiamat kamu tidak mengatakan: 'Sesungguhnya kami (bani Adam) adalah orang-orang yang lengah terhadap ini (keesaan Tuhan).'" (7:172)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Manusia sejak alam ruh telah bersaksi bahwa Allah adalah Tuhannya. Fitrah ini menjadi dasar kecenderungan manusia kepada tauhid. Penyimpangan (syirik) adalah karena pengaruh luar, bukan bawaan asli. Ayat ini menjadi landasan konsep fitrah dalam Islam. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=172&to=174" target="_blank">📖 Baca tafsir lengkap (Ayat 172-174) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – As-Sa'di:</strong> As-Sa'di menjelaskan bahwa perjanjian ini adalah bukti bahwa tidak ada seorang pun yang bisa mengingkari keberadaan Allah pada hari kiamat. Fitrah tauhid tertanam dalam setiap jiwa. Namun, setan dan lingkungan dapat menutupi fitrah tersebut. Oleh karena itu, dakwah adalah upaya untuk mengembalikan manusia kepada fitrah aslinya. <a href="https://quran.com/7:172/tafsirs/saadi" target="_blank">📖 Baca tafsir As-Sa'di</a></div>
             </div>
 
             <!-- 4. Sifat-sifat Orang Beriman (156) -->
             <div class="believers-section"><div class="theme-title">4. Sifat-sifat Orang Beriman – Ayat 156</div>
                 <div class="arabic">وَٱكْتُبْ لَنَا فِى هَـٰذِهِ ٱلدُّنْيَا حَسَنَةً وَفِى ٱلْـَٔاخِرَةِ إِنَّا هُدْنَآ إِلَيْكَ ۚ قَالَ عَذَابِىٓ أُصِيبُ بِهِۦ مَنْ أَشَآءُ ۖ وَرَحْمَتِى وَسِعَتْ كُلَّ شَىْءٍ ۚ فَسَأَكْتُبُهَا لِلَّذِينَ يَتَّقُونَ وَيُؤْتُونَ ٱلزَّكَوٰةَ وَٱلَّذِينَ هُم بِـَٔايَـٰتِنَا يُؤْمِنُونَ ﴿١٥٦﴾</div>
-                <div class="transliteration">Waktub lanā fī hāżihid-dun‘yā ḥasanataw wa fil-ākhirati innā hudnā ilaīk, qāla ‘ażābī uṣību bihī man asyā’, wa raḥmatī wasi‘at kulla syai’, fa sa aktubuhā lillażīna yattaqūna wa yu’tūnaz-zakāta wallażīna hum bi’āyātinā yu’minūn.</div>
-                <div class="translation">"Dan tetapkanlah untuk kami kebaikan di dunia ini dan di akhirat; sesungguhnya kami kembali (bertaubat) kepada Engkau." Allah berfirman, "Azab-Ku akan Aku timpakan kepada siapa yang Aku kehendaki, dan rahmat-Ku meliputi segala sesuatu. Maka akan Aku tetapkan rahmat-Ku bagi orang-orang yang bertakwa, yang menunaikan zakat, dan mereka yang beriman kepada ayat-ayat Kami." (7:156)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Doa yang diajarkan kepada Musa untuk umatnya. Rahmat Allah diberikan kepada orang yang bertakwa, menunaikan zakat, dan beriman kepada ayat-ayat Allah. Kombinasi takwa, zakat, dan iman adalah kunci rahmat Allah di dunia dan akhirat. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=156&to=156&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 156) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Waktub lana fi hadzihid dunya hasanataw wa fil akhirati inna hudna ilaik, qala 'adzabi ushibu bihi man asya', wa rahmati wasi'at kulla syai', fa sa aktubuha lilladzina yattaquna wa yu'tunaz zakata walladzina hum bi ayatina yu'minun.</div>
+                <div class="translation-text">"Dan tetapkanlah untuk kami kebaikan di dunia ini dan di akhirat; sesungguhnya kami kembali (bertaubat) kepada Engkau." Allah berfirman, "Azab-Ku akan Aku timpakan kepada siapa yang Aku kehendaki, dan rahmat-Ku meliputi segala sesuatu. Maka akan Aku tetapkan rahmat-Ku bagi orang-orang yang bertakwa, yang menunaikan zakat, dan mereka yang beriman kepada ayat-ayat Kami." (7:156)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Doa yang diajarkan kepada Musa untuk umatnya. Rahmat Allah diberikan kepada orang yang bertakwa, menunaikan zakat, dan beriman kepada ayat-ayat Allah. Kombinasi takwa, zakat, dan iman adalah kunci rahmat Allah di dunia dan akhirat. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=156&to=156" target="_blank">📖 Baca tafsir lengkap (Ayat 156) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – Ibnu Katsir:</strong> Ibnu Katsir menjelaskan bahwa rahmat Allah sangat luas, namun dijanjikan khusus kepada orang-orang yang bertakwa, berzakat, dan beriman. Ini adalah kriteria yang jelas. Orang yang memiliki ketiga sifat ini akan mendapatkan rahmat Allah di dunia dan akhirat. <a href="https://quran.com/7:156/tafsirs/ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir</a></div>
             </div>
 
             <!-- 5. Al-A‘rāf: Tempat antara Surga dan Neraka (46-48) -->
             <div class="araf-section"><div class="theme-title">5. Al-A‘rāf: Tempat antara Surga dan Neraka – Ayat 46-48</div>
                 <div class="arabic">وَبَيْنَهُمَا حِجَابٌ ۚ وَعَلَى ٱلْأَعْرَافِ رِجَالٌ يَعْرِفُونَ كُلًّۢا بِسِيمَاهُمْ ۚ وَنَادَوْا۟ أَصْحَـٰبَ ٱلْجَنَّةِ أَن سَلَـٰمٌ عَلَيْكُمْ ۚ لَمْ يَدْخُلُوهَا وَهُمْ يَطْمَعُونَ ﴿٤٦﴾</div>
-                <div class="transliteration">Wa bainahumā ḥijāb, wa ‘alal-a‘rāfi rijāluy ya‘rifūna kullan bisīmāhum, wa nādaw aṣ-ḥābal-jannati an salāmun ‘alaīkum, lam yadkhulūhā wa hum yaṭma‘ūn.</div>
-                <div class="translation">"Dan di antara keduanya (penghuni surga dan neraka) ada batas; dan di atas Al-A‘rāf ada orang-orang yang mengenali masing-masing dengan tanda-tandanya. Mereka berseru kepada penghuni surga, 'Salāmun ‘alaikum.' Mereka belum memasukinya, tetapi mereka sangat berharap (segera memasukinya)." (7:46)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Al-A‘rāf adalah tempat bagi orang-orang yang amal baik dan buruknya seimbang. Mereka belum masuk surga namun bercita-cita memasukinya. Konsep ini menunjukkan keadilan Allah yang sempurna dan harapan bagi mereka yang masih dalam proses perbaikan. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=46&to=48&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 46-48) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Wa bainahuma hijab, wa 'alal a'rafi rijaluy ya'rifuna kullan bisimahum, wa nadau ashabal jannati an salamun 'alaikum, lam yadkhuluha wa hum yathma'un.</div>
+                <div class="translation-text">"Dan di antara keduanya (penghuni surga dan neraka) ada batas; dan di atas Al-A‘rāf ada orang-orang yang mengenali masing-masing dengan tanda-tandanya. Mereka berseru kepada penghuni surga, 'Salāmun ‘alaikum.' Mereka belum memasukinya, tetapi mereka sangat berharap (segera memasukinya)." (7:46)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Al-A‘rāf adalah tempat bagi orang-orang yang amal baik dan buruknya seimbang. Mereka belum masuk surga namun bercita-cita memasukinya. Konsep ini menunjukkan keadilan Allah yang sempurna dan harapan bagi mereka yang masih dalam proses perbaikan. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=46&to=48" target="_blank">📖 Baca tafsir lengkap (Ayat 46-48) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – As-Sa'di:</strong> As-Sa'di menjelaskan bahwa Al-A‘rāf adalah tempat yang tinggi, para penghuninya dapat melihat surga dan neraka. Mereka belum masuk surga karena amal mereka belum sempurna, tetapi mereka berharap karena rahmat Allah. Ini menunjukkan bahwa Allah tidak menzalimi siapa pun, dan setiap orang akan mendapat balasan sesuai amalnya. <a href="https://quran.com/7:46/tafsirs/saadi" target="_blank">📖 Baca tafsir As-Sa'di</a></div>
             </div>
 
             <!-- 6. Pesan Universal Keselamatan (35) -->
             <div class="believers-section"><div class="theme-title">6. Pesan Universal Keselamatan – Ayat 35</div>
                 <div class="arabic">يَـٰبَنِىٓ ءَادَمَ إِمَّا يَأْتِيَنَّكُمْ رُسُلٌ مِّنكُمْ يَقُصُّونَ عَلَيْكُمْ ءَايَـٰتِى ۙ فَمَنِ ٱتَّقَىٰ وَأَصْلَحَ فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ ﴿٣٥﴾</div>
-                <div class="transliteration">Yā banī ādama immā ya’tiyannakum rusulum minkum yaquṣṣūna ‘alaikum āyātī, famanittaqā wa aṣlaḥa falā khaufun ‘alaihim wa lā hum yaḥzanūn.</div>
-                <div class="translation">"Wahai anak cucu Adam! Jika datang kepadamu rasul-rasul dari kalanganmu sendiri yang menceritakan ayat-ayat-Ku kepadamu, maka barangsiapa bertakwa dan mengadakan perbaikan, tidak ada rasa takut pada mereka dan mereka tidak bersedih hati." (7:35)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Inti pesan semua nabi: bertakwa dan berbuat baik adalah kunci keselamatan. Tidak ada ketakutan bagi mereka, baik di dunia maupun di akhirat. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=35&to=35&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 35) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Ya bani adama imma ya'tiyannakum rusulum minkum yaqushshuna 'alaikum ayati, famanittaqa wa ashlaha fala khaufun 'alaihim wa la hum yahzanun.</div>
+                <div class="translation-text">"Wahai anak cucu Adam! Jika datang kepadamu rasul-rasul dari kalanganmu sendiri yang menceritakan ayat-ayat-Ku kepadamu, maka barangsiapa bertakwa dan mengadakan perbaikan, tidak ada rasa takut pada mereka dan mereka tidak bersedih hati." (7:35)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Inti pesan semua nabi: bertakwa dan berbuat baik adalah kunci keselamatan. Tidak ada ketakutan bagi mereka, baik di dunia maupun di akhirat. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=35&to=35" target="_blank">📖 Baca tafsir lengkap (Ayat 35) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – At-Tabari:</strong> At-Tabari menjelaskan bahwa ayat ini adalah ringkasan dari seluruh ajaran para nabi. Takwa dan perbaikan diri adalah kunci kebahagiaan dunia dan akhirat. Orang yang memiliki dua sifat ini tidak perlu takut akan azab atau bersedih atas apa yang telah berlalu. <a href="https://quran.com/7:35/tafsirs/tabari" target="_blank">📖 Baca tafsir At-Tabari</a></div>
             </div>
         </div>
@@ -548,18 +590,21 @@
         </div>
     </div>
 
-    <!-- ENGLISH CONTENT (MIRRORED, WITH ALL DETAILS) -->
+    <!-- ENGLISH CONTENT (MIRRORED, WITH ALL DETAILS, standard transliteration) -->
     <div id="english-content" class="hidden">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-A‘rāf (7) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=1&to=206&opt=1" target="_blank">IslamicStudies.info - Surah Al-A‘rāf <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=1&to=206" target="_blank">IslamicStudies.info - Surah Al-A‘rāf <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
         <div class="arabic">الٓمٓصٓ ﴿١﴾ كِتَـٰبٌ أُنزِلَ إِلَيْكَ فَلَا يَكُن فِى صَدْرِكَ حَرَجٌ مِّنْهُ لِتُنذِرَ بِهِۦ وَذِكْرَىٰ لِلْمُؤْمِنِينَ ﴿٢﴾</div>
         <div class="transliteration">Alif-Lām-Mīm-Ṣād. Kitābun unzila ilaika falā yakun fī ṣadrika ḥarajum minhu litunżira bihī wa żikrā lil-mu`minīn.</div>
-        <div class="translation">"Alif Lam Mim Sad. This is a Book revealed to you, so let there be no discomfort in your heart concerning it, that you may warn thereby, and a reminder to the believers." (7:1-2)</div>
+        <div class="translation-text">"Alif Lam Mim Sad. This is a Book revealed to you, so let there be no discomfort in your heart concerning it, that you may warn thereby, and a reminder to the believers." (7:1-2)</div>
 
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-A‘rāf (7)</h3><p>Meccan surah (206 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=1&to=206&opt=1" target="_blank">IslamicStudies.info</a>, this surah continues the theme of tawhid with emphasis on stories of previous nations as lessons. The name "Al-A‘rāf" (The Heights) is taken from verse 46. It contains the stories of Adam and Iblis, several prophets (Noah, Hud, Salih, Lot, Shu‘ayb, Moses), and the concept of primordial covenant (fitrah).</p></div>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-A‘rāf (7)</h3><p>Meccan surah (206 verses). According to <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=1&to=206" target="_blank">IslamicStudies.info</a>, this surah continues the theme of tawhid with emphasis on stories of previous nations as lessons. The name "Al-A‘rāf" (The Heights) is taken from verse 46. It contains the stories of Adam and Iblis, several prophets (Noah, Hud, Salih, Lot, Shu‘ayb, Moses), and the concept of primordial covenant (fitrah).</p></div>
 
         <!-- Revelation Context (English) -->
         <div class="historical-section"><h3><i class="fas fa-history"></i> Revelation Context</h3><p>Revealed in Mecca in the late Meccan period, as a continuation of Surah Al-An‘ām. It strengthens the foundation of tawhid by presenting stories of prophets as lessons for the polytheists of Mecca. The emphasis on the story of Adam and Iblis, and the punishment that befell previous nations, serves as a warning not to repeat the same mistakes.</p><div class="timeline"><div class="timeline-item"><strong>Location:</strong> Mecca (Makki)</div><div class="timeline-item"><strong>Period:</strong> Late Meccan period</div><div class="timeline-item"><strong>Background:</strong> Strengthening tawhid, stories of past nations as warning</div><div class="timeline-item"><strong>Purpose:</strong> Invite polytheists to tawhid through prophetic stories</div></div></div>
@@ -571,7 +616,7 @@
             <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Prohibition of arrogance (like Iblis), command to be just, prohibition of immoral acts, and the importance of taqwa and good deeds. Balance between hope (raja') and fear (khauf) of Allah.</div>
         </div>
 
-        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Access Complete Text</h3><p><a href="https://recitequran.com/7" target="_blank">ReciteQuran.com - Surah Al-A‘rāf <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a> | <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=1&to=206&opt=1" target="_blank">Complete Tafsir on IslamicStudies.info</a></p></div>
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Access Complete Text</h3><p><a href="https://recitequran.com/7" target="_blank">ReciteQuran.com - Surah Al-A‘rāf <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a> | <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=1&to=206" target="_blank">Complete Tafsir on IslamicStudies.info</a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-A‘rāf</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/007.mp3"></audio></div>
 
         <!-- Key Verse for Contemplation (English) – full 7:172 -->
@@ -579,21 +624,21 @@
             <h3><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h3>
             <div class="arabic">وَإِذْ أَخَذَ رَبُّكَ مِنۢ بَنِىٓ ءَادَمَ مِن ظُهُورِهِمْ ذُرِّيَّتَهُمْ وَأَشْهَدَهُمْ عَلَىٰٓ أَنفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا۟ بَلَىٰ ۛ شَهِدْنَآ ۛ أَن تَقُولُوا۟ يَوْمَ ٱلْقِيَـٰمَةِ إِنَّا كُنَّا عَنْ هَـٰذَا غَـٰفِلِينَ ﴿١٧٢﴾</div>
             <div class="transliteration">Wa iż akhaża rabbuka min banī ādama min ẓuhūrihim żurriyyatahum wa asyhadahum ‘alā anfusihim, alastu birabbikum, qālū balā syahidnā, an taqūlū yaumal-qiyāmati innā kunnā ‘an hāżā gāfilīn.</div>
-            <div class="translation"><strong>Translation:</strong> "And [mention] when your Lord took from the children of Adam... 'Am I not your Lord?' They said, 'Yes, we have testified.'" (7:172)</div>
-            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse establishes the concept of fitrah (innate disposition) in Islam. Before birth, every human acknowledged Allah as their Lord. Shirk is a deviation, not an original state. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=172&to=172&opt=1" target="_blank">📖 Read full tafsir at IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+            <div class="translation-text"><strong>Translation:</strong> "And [mention] when your Lord took from the children of Adam... 'Am I not your Lord?' They said, 'Yes, we have testified.'" (7:172)</div>
+            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse establishes the concept of fitrah (innate disposition) in Islam. Before birth, every human acknowledged Allah as their Lord. Shirk is a deviation, not an original state. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=172&to=172" target="_blank">📖 Read full tafsir at IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
             <div class="tafsir-box"><strong>Additional Tafsir – Ibn Kathir:</strong> Ibn Kathir explains that this covenant took place in the realm of souls before human birth. Every soul testified that Allah is their Lord. This is proof that tawhid is the innate disposition of humans. Satan and environment later cause deviation. Therefore, no one has an excuse on the Day of Judgment. <a href="https://quran.com/7:172/tafsirs/ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></div>
         </div>
 
         <!-- Thematic Division Table (English) -->
         <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
             <table class="theme-table"><thead><tr><th>Verses</th><th>Theme</th><th>Core Message & Tafsir</th></tr></thead><tbody>
-                <tr><td><strong>1-10</strong></th><td>Introduction: The Qur'an as a Warning</th><td>The Qur'an revealed to warn, command to follow revelation, and warning for those who deny. — Ibn Kathir</th></tr>
-                <tr><td><strong>11-25</strong></th><td>Story of Adam and Iblis</th><td>Command to prostrate to Adam, Iblis's arrogance, Satan's deception, and Adam's descent to earth. — Al-Qurtubi</th></tr>
-                <tr><td><strong>26-30</strong></th><td>Warning about Dress and Adornment</th><td>Command to dress properly for prayer, prohibition of immoral acts, and warning not to follow Satan. — As-Sa'di</th></tr>
-                <tr><td><strong>31-58</strong></th><td>Warning about the Day of Resurrection and Stories of Prophets</th><td>Command to eat and drink without excess, warning of the Day of Resurrection, and stories of Noah, Hud, Salih, Lot, Shu‘ayb. — At-Tabari</th></td>
-                <tr><td><strong>59-102</strong></th><td>Stories of Prophets Noah, Hud, Salih, Lot, Shu‘ayb</th><td>Detailed accounts of their da‘wah and the punishment that befell their denying nations. — Ibn Kathir</th></tr>
-                <tr><td><strong>103-174</strong></th><td>Story of Prophet Moses and Pharaoh</th><td>Moses sent to Pharaoh, miracles of the staff and shining hand, plagues, and the salvation of the Children of Israel. — Al-Qurtubi</th></tr>
-                <tr><td><strong>175-205</strong></th><td>Warning, Al-A‘rāf, and Conclusion</th><td>The story of the one who followed his desires, command to take to forgiveness, and the characteristics of believers at the end of the surah. — As-Sa'di</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>1-10</strong></th> <td>Introduction: The Qur'an as a Warning</th> <td>The Qur'an revealed to warn, command to follow revelation, and warning for those who deny. — Ibn Kathir</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>11-25</strong></th> <td>Story of Adam and Iblis</th> <td>Command to prostrate to Adam, Iblis's arrogance, Satan's deception, and Adam's descent to earth. — Al-Qurtubi</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>26-30</strong></th> <td>Warning about Dress and Adornment</th> <td>Command to dress properly for prayer, prohibition of immoral acts, and warning not to follow Satan. — As-Sa'di</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>31-58</strong></th> <td>Warning about the Day of Resurrection and Stories of Prophets</th> <td>Command to eat and drink without excess, warning of the Day of Resurrection, and stories of Noah, Hud, Salih, Lot, Shu‘ayb. — At-Tabari</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>59-102</strong></th> <td>Stories of Prophets Noah, Hud, Salih, Lot, Shu‘ayb</th> <td>Detailed accounts of their da‘wah and the punishment that befell their denying nations. — Ibn Kathir</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>103-174</strong></th> <td>Story of Prophet Moses and Pharaoh</th> <td>Moses sent to Pharaoh, miracles of the staff and shining hand, plagues, and the salvation of the Children of Israel. — Al-Qurtubi</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>175-205</strong></th> <td>Warning, Al-A‘rāf, and Conclusion</th> <td>The story of the one who followed his desires, command to take to forgiveness, and the characteristics of believers at the end of the surah. — As-Sa'di</th></tr>
             </tbody></table>
         </div>
 
@@ -607,54 +652,54 @@
             <div class="adam-section"><div class="theme-title">1. Story of Adam and Iblis – Verses 11-25</div>
                 <div class="arabic">وَلَقَدْ خَلَقْنَـٰكُمْ ثُمَّ صَوَّرْنَـٰكُمْ ثُمَّ قُلْنَا لِلْمَلَـٰٓئِكَةِ ٱسْجُدُوا۟ لِءَادَمَ فَسَجَدُوٓا۟ إِلَّآ إِبْلِيسَ لَمْ يَكُن مِّنَ ٱلسَّـٰجِدِينَ ﴿١١﴾</div>
                 <div class="transliteration">Wa laqad khalaqnākum ṡumma ṣawwarnākum ṡumma qulnā lil-malā`ikatisjudū li`ādama fa sajadū illā iblīs, lam yakum minas-sājidīn.</div>
-                <div class="translation">"And We certainly created you, [O Adam], then We formed you, then We said to the angels, 'Prostrate to Adam,' and they prostrated, except Iblis; he was not of those who prostrated." (7:11)</div>
+                <div class="translation-text">"And We certainly created you, [O Adam], then We formed you, then We said to the angels, 'Prostrate to Adam,' and they prostrated, except Iblis; he was not of those who prostrated." (7:11)</div>
                 <div class="arabic">قَالَ مَا مَنَعَكَ أَلَّا تَسْجُدَ إِذْ أَمَرْتُكَ ۖ قَالَ أَنَا خَيْرٌ مِّنْهُ خَلَقْتَنِى مِن نَّارٍ وَخَلَقْتَهُۥ مِن طِينٍ ﴿١٢﴾</div>
                 <div class="transliteration">Qāla mā mana‘aka allā tasjuda iż amartuk, qāla anā khairum minh, khalaqtanī min nāriw wa khalaqtahū min ṭīn.</div>
-                <div class="translation">"[Allah] said, 'What prevented you from prostrating when I commanded you?' [Iblis] said, 'I am better than him. You created me from fire and created him from clay.'" (7:12)</div>
+                <div class="translation-text">"[Allah] said, 'What prevented you from prostrating when I commanded you?' [Iblis] said, 'I am better than him. You created me from fire and created him from clay.'" (7:12)</div>
                 <div class="arabic">قَالَ فَٱهْبِطْ مِنْهَا فَمَا يَكُونُ لَكَ أَن تَتَكَبَّرَ فِيهَا فَٱخْرُجْ إِنَّكَ مِنَ ٱلصَّـٰغِرِينَ ﴿١٣﴾</div>
                 <div class="transliteration">Qāla fahbiṭ min-hā famā yakūnu laka an tatakabbara fīhā fakhruj innaka minaṣ-ṣāgirīn.</div>
-                <div class="translation">"[Allah] said, 'Descend from it, for it is not for you to be arrogant therein. So get out; indeed, you are of the debased.'" (7:13)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Iblis's arrogance is the root of disbelief and disobedience. It teaches humility and obedience to Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=11&to=25&opt=1" target="_blank">📖 Read full tafsir (Verses 11-25) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"[Allah] said, 'Descend from it, for it is not for you to be arrogant therein. So get out; indeed, you are of the debased.'" (7:13)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Iblis's arrogance is the root of disbelief and disobedience. It teaches humility and obedience to Allah. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=11&to=25" target="_blank">📖 Read full tafsir (Verses 11-25) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – Al-Qurtubi:</strong> Al-Qurtubi explains that arrogance was the first recorded sin. Iblis refused to prostrate because he considered himself superior. This teaches that arrogance can prevent one from obeying Allah, even when the command is clear. Satan then swore to mislead humans, except the sincere servants of Allah. <a href="https://quran.com/7:12/tafsirs/qurtubi" target="_blank">📖 Read Al-Qurtubi tafsir</a></div>
             </div>
 
             <div class="prophets-section"><div class="theme-title">2. Stories of Prophets – Verses 59-102</div>
                 <div class="arabic">لَقَدْ أَرْسَلْنَا نُوحًا إِلَىٰ قَوْمِهِۦ فَقَالَ يَـٰقَوْمِ ٱعْبُدُوا۟ ٱللَّهَ مَا لَكُم مِّنْ إِلَـٰهٍ غَيْرُهُۥٓ إِنِّىٓ أَخَافُ عَلَيْكُمْ عَذَابَ يَوْمٍ عَظِيمٍ ﴿٥٩﴾</div>
                 <div class="transliteration">Laqad arsalnā nūḥan ilā qaumihī fa qāla yā qaumi‘budullāha mā lakum min ilāhin gairuh, innī akhāfu ‘alaikum ‘ażāba yaumin ‘aẓīm.</div>
-                <div class="translation">"We certainly sent Noah to his people, and he said, 'O my people, worship Allah; you have no deity other than Him. Indeed, I fear for you the punishment of a tremendous Day.'" (7:59)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The consistent pattern of prophetic call: tawhid and warning of the Hereafter. Those who reject are punished; believers are saved. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=59&to=102&opt=1" target="_blank">📖 Read full tafsir (Verses 59-102) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"We certainly sent Noah to his people, and he said, 'O my people, worship Allah; you have no deity other than Him. Indeed, I fear for you the punishment of a tremendous Day.'" (7:59)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The consistent pattern of prophetic call: tawhid and warning of the Hereafter. Those who reject are punished; believers are saved. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=59&to=102" target="_blank">📖 Read full tafsir (Verses 59-102) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – At-Tabari:</strong> At-Tabari narrates that every prophet sent to a nation began by affirming tawhid. The punishment that befell the deniers is clear proof that Allah is Almighty and does not leave injustice unpunished. These stories serve as a warning to the polytheists of Mecca. <a href="https://quran.com/7:59/tafsirs/tabari" target="_blank">📖 Read At-Tabari tafsir</a></div>
             </div>
 
             <div class="fitrah-section"><div class="theme-title">3. Covenant of Fitrah – Verses 172-174</div>
                 <div class="arabic">وَإِذْ أَخَذَ رَبُّكَ مِنۢ بَنِىٓ ءَادَمَ مِن ظُهُورِهِمْ ذُرِّيَّتَهُمْ وَأَشْهَدَهُمْ عَلَىٰٓ أَنفُسِهِمْ أَلَسْتُ بِرَبِّكُمْ ۖ قَالُوا۟ بَلَىٰ ۛ شَهِدْنَآ ۛ أَن تَقُولُوا۟ يَوْمَ ٱلْقِيَـٰمَةِ إِنَّا كُنَّا عَنْ هَـٰذَا غَـٰفِلِينَ ﴿١٧٢﴾</div>
                 <div class="transliteration">Wa iż akhaża rabbuka min banī ādama min ẓuhūrihim żurriyyatahum wa asyhadahum ‘alā anfusihim, alastu birabbikum, qālū balā syahidnā, an taqūlū yaumal-qiyāmati innā kunnā ‘an hāżā gāfilīn.</div>
-                <div class="translation">"And [mention] when your Lord took from the children of Adam... 'Am I not your Lord?' They said, 'Yes, we have testified.'" (7:172)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Before earthly life, all humans testified that Allah is their Lord. This innate disposition (fitrah) inclines toward tawhid; shirk is a deviation. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=172&to=174&opt=1" target="_blank">📖 Read full tafsir (Verses 172-174) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"And [mention] when your Lord took from the children of Adam... 'Am I not your Lord?' They said, 'Yes, we have testified.'" (7:172)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Before earthly life, all humans testified that Allah is their Lord. This innate disposition (fitrah) inclines toward tawhid; shirk is a deviation. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=172&to=174" target="_blank">📖 Read full tafsir (Verses 172-174) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – As-Sa'di:</strong> As-Sa'di explains that this covenant is proof that no one can deny Allah's existence on the Day of Judgment. The fitrah of tawhid is embedded in every soul. However, Satan and environment can cover that fitrah. Therefore, da‘wah is an effort to return humans to their original disposition. <a href="https://quran.com/7:172/tafsirs/saadi" target="_blank">📖 Read As-Sa'di tafsir</a></div>
             </div>
 
             <div class="believers-section"><div class="theme-title">4. Characteristics of the Believers – Verse 156</div>
                 <div class="arabic">وَٱكْتُبْ لَنَا فِى هَـٰذِهِ ٱلدُّنْيَا حَسَنَةً وَفِى ٱلْـَٔاخِرَةِ إِنَّا هُدْنَآ إِلَيْكَ ۚ قَالَ عَذَابِىٓ أُصِيبُ بِهِۦ مَنْ أَشَآءُ ۖ وَرَحْمَتِى وَسِعَتْ كُلَّ شَىْءٍ ۚ فَسَأَكْتُبُهَا لِلَّذِينَ يَتَّقُونَ وَيُؤْتُونَ ٱلزَّكَوٰةَ وَٱلَّذِينَ هُم بِـَٔايَـٰتِنَا يُؤْمِنُونَ ﴿١٥٦﴾</div>
                 <div class="transliteration">Waktub lanā fī hāżihid-dun‘yā ḥasanataw wa fil-ākhirati innā hudnā ilaīk, qāla ‘ażābī uṣību bihī man asyā’, wa raḥmatī wasi‘at kulla syai’, fa sa aktubuhā lillażīna yattaqūna wa yu’tūnaz-zakāta wallażīna hum bi’āyātinā yu’minūn.</div>
-                <div class="translation">"And decree for us in this world good and in the Hereafter... My mercy encompasses all things, so I will decree it for those who fear Me and give zakah and those who believe in Our verses." (7:156)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Allah's mercy is decreed for those who are conscious of Him, give zakah, and believe in His signs. The combination of taqwa, charity, and faith is key to divine mercy. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=156&to=156&opt=1" target="_blank">📖 Read full tafsir (Verse 156) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"And decree for us in this world good and in the Hereafter... My mercy encompasses all things, so I will decree it for those who fear Me and give zakah and those who believe in Our verses." (7:156)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Allah's mercy is decreed for those who are conscious of Him, give zakah, and believe in His signs. The combination of taqwa, charity, and faith is key to divine mercy. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=156&to=156" target="_blank">📖 Read full tafsir (Verse 156) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – Ibn Kathir:</strong> Ibn Kathir explains that Allah's mercy is vast, but it is specifically promised to those who are God-conscious, give zakah, and believe. These are clear criteria. Those who possess these three qualities will receive Allah's mercy in this world and the Hereafter. <a href="https://quran.com/7:156/tafsirs/ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></div>
             </div>
 
             <div class="araf-section"><div class="theme-title">5. Al-A‘rāf (The Heights) – Verses 46-48</div>
                 <div class="arabic">وَبَيْنَهُمَا حِجَابٌ ۚ وَعَلَى ٱلْأَعْرَافِ رِجَالٌ يَعْرِفُونَ كُلًّۢا بِسِيمَاهُمْ ۚ وَنَادَوْا۟ أَصْحَـٰبَ ٱلْجَنَّةِ أَن سَلَـٰمٌ عَلَيْكُمْ ۚ لَمْ يَدْخُلُوهَا وَهُمْ يَطْمَعُونَ ﴿٤٦﴾</div>
                 <div class="transliteration">Wa bainahumā ḥijāb, wa ‘alal-a‘rāfi rijāluy ya‘rifūna kullan bisīmāhum, wa nādaw aṣ-ḥābal-jannati an salāmun ‘alaīkum, lam yadkhulūhā wa hum yaṭma‘ūn.</div>
-                <div class="translation">"And between them is a barrier, and on the Heights are men who recognize each by their mark... They have not entered it, but they hope [to do so]." (7:46)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> A place for those whose good and bad deeds are balanced. They hope to enter Paradise, showing Allah's perfect justice and the possibility of hope for improvement. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=46&to=48&opt=1" target="_blank">📖 Read full tafsir (Verses 46-48) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"And between them is a barrier, and on the Heights are men who recognize each by their mark... They have not entered it, but they hope [to do so]." (7:46)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> A place for those whose good and bad deeds are balanced. They hope to enter Paradise, showing Allah's perfect justice and the possibility of hope for improvement. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=46&to=48" target="_blank">📖 Read full tafsir (Verses 46-48) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – As-Sa'di:</strong> As-Sa'di explains that Al-A‘rāf is a high place; its inhabitants can see Paradise and Hell. They have not yet entered Paradise because their deeds are not perfect, but they hope because of Allah's mercy. This shows that Allah does not wrong anyone, and everyone will be recompensed according to their deeds. <a href="https://quran.com/7:46/tafsirs/saadi" target="_blank">📖 Read As-Sa'di tafsir</a></div>
             </div>
 
             <div class="believers-section"><div class="theme-title">6. Universal Message of Salvation – Verse 35</div>
                 <div class="arabic">يَـٰبَنِىٓ ءَادَمَ إِمَّا يَأْتِيَنَّكُمْ رُسُلٌ مِّنكُمْ يَقُصُّونَ عَلَيْكُمْ ءَايَـٰتِى ۙ فَمَنِ ٱتَّقَىٰ وَأَصْلَحَ فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ ﴿٣٥﴾</div>
                 <div class="transliteration">Yā banī ādama immā ya’tiyannakum rusulum minkum yaquṣṣūna ‘alaikum āyātī, famanittaqā wa aṣlaḥa falā khaufun ‘alaihim wa lā hum yaḥzanūn.</div>
-                <div class="translation">"O children of Adam! If there come to you messengers from among you relating to you My verses, then whoever fears Allah and reforms – there will be no fear concerning them, nor will they grieve." (7:35)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The essence of all prophetic messages: God‑consciousness and righteous reform bring security and happiness, free from fear and sorrow. <a href="https://www.islamicstudies.info/tafheem.php?sura=7&verse=35&to=35&opt=1" target="_blank">📖 Read full tafsir (Verse 35) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"O children of Adam! If there come to you messengers from among you relating to you My verses, then whoever fears Allah and reforms – there will be no fear concerning them, nor will they grieve." (7:35)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The essence of all prophetic messages: God‑consciousness and righteous reform bring security and happiness, free from fear and sorrow. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=7&verse=35&to=35" target="_blank">📖 Read full tafsir (Verse 35) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – At-Tabari:</strong> At-Tabari explains that this verse is a summary of the entire message of the prophets. Taqwa and self-reform are the keys to happiness in this world and the Hereafter. Those who possess these two qualities need not fear punishment or grieve over what has passed. <a href="https://quran.com/7:35/tafsirs/tabari" target="_blank">📖 Read At-Tabari tafsir</a></div>
             </div>
         </div>
@@ -672,8 +717,7 @@
     </div>
 </div>
 <footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info & sumber klasik (Ibnu Katsir, Al-Qurthubi, As-Sa'di, At-Tabari) | Thematic Reflection | Semua ayat ditampilkan lengkap dengan nomor Arab.</footer>
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
 <script>
     (function() {
         const englishDiv = document.getElementById('english-content');
@@ -682,6 +726,7 @@
         const translitToggle = document.getElementById('transliterationToggle');
         const darkToggle = document.getElementById('darkModeToggle');
         const translitElements = document.querySelectorAll('.transliteration');
+        const body = document.body;
         const urlParams = new URLSearchParams(window.location.search);
         let langParam = null;
         if (urlParams.has('English')) langParam = 'english';
@@ -703,13 +748,18 @@
         let darkActive = false;
         if (urlParams.has('Dark')) darkActive = true;
         else darkActive = localStorage.getItem('darkMode') === 'true';
-        if (darkActive) document.body.classList.add('dark-mode');
-        function setDarkModeUI() { const active = document.body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
+        if (darkActive) body.classList.add('dark-mode');
+        function setDarkModeUI() { const active = body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
         setDarkModeUI();
-        darkToggle.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
-        const upArrow = document.getElementById('scrollUp'); const downArrow = document.getElementById('scrollDown');
+        darkToggle.addEventListener('click', () => { body.classList.toggle('dark-mode'); setDarkModeUI(); });
+        const upArrow = document.getElementById('scrollUp');
+        const downArrow = document.getElementById('scrollDown');
+        const doubleUp = document.getElementById('doubleUpScroll');
+        const doubleDown = document.getElementById('doubleDownScroll');
         if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
         if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+        if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
     })();
 </script>
 </body>
