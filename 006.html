@@ -22,9 +22,11 @@
             --link-hover: #0d3d5a;
             --translation-color: #2c5282;
             --theme-card-bg: #ffffffdd;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
         }
         .dark-mode {
-            --bg-color: #121826;
+            --bg-color: #1f2a3e;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
             --arabic-color: #7bc9ff;
@@ -36,10 +38,12 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #93c5fd;
-            --link-hover: #c3e2ff;
+            --link-color: #a3c6ff;
+            --link-hover: #c9e0ff;
             --translation-color: #bdd4ff;
             --theme-card-bg: #1e293bdd;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -137,6 +141,7 @@
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
+            margin-right: 15px;
             padding: 8px 16px;
             border-radius: 40px;
             border: 1px solid var(--link-color);
@@ -189,10 +194,12 @@
             vertical-align: top;
         }
         .theme-table th { background: #2c7da0; color: white; }
+        /* SCROLL ARROWS */
         .scroll-arrow {
             position: fixed;
             left: 20px;
-            background: var(--container-bg);
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
             border-radius: 50%;
             width: 44px;
             height: 44px;
@@ -204,12 +211,32 @@
             z-index: 1000;
             transition: 0.2s;
             border: 1px solid var(--verse-border);
-            color: var(--text-color);
             font-size: 22px;
         }
         .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
-        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.up { top: 200px; }
         .scroll-arrow.down { bottom: 90px; }
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
         .surah-pagination {
             display: flex;
             justify-content: center;
@@ -253,7 +280,9 @@
         .dark-mode-toggle { top: 140px; background: #8e44ad; }
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
-            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
             .arabic { font-size: 28px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
@@ -343,24 +372,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+<!-- Single scroll arrows (LEFT) -->
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<!-- Double arrows (RIGHT: top/bottom fast) -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT (fully enhanced) -->
+    <!-- INDONESIAN CONTENT (full, plain transliteration, right justified) -->
     <div id="indonesian-content">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-An‘ām (6) - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=1&to=165&opt=1" target="_blank">IslamicStudies.info - Surah Al-An‘ām <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=1&to=165" target="_blank">IslamicStudies.info - Surah Al-An‘ām <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="transliteration">Bismillahirrahmanirrahim</div>
         <div class="arabic">ٱلْحَمْدُ لِلَّهِ ٱلَّذِى خَلَقَ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ وَجَعَلَ ٱلظُّلُمَـٰتِ وَٱلنُّورَ ۖ ثُمَّ ٱلَّذِينَ كَفَرُوا۟ بِرَبِّهِمْ يَعْدِلُونَ ﴿١﴾</div>
-        <div class="transliteration">Al-ḥamdu lillāhil-lażī khalaqas-samāwāti wal-arḍa wa ja‘alaz-ẓulumāti wan-nūr, ṡummallażīna kafarū birabbihim ya‘dilūn.</div>
-        <div class="translation">"Segala puji bagi Allah yang telah menciptakan langit dan bumi dan menjadikan gelap dan terang, namun orang-orang kafir masih mempersekutukan Tuhan mereka." (Al-An‘ām 6:1)</div>
+        <div class="transliteration">Alhamdu lillahil ladzi khalaqas samawati wal ardha wa ja'alaz zhulumati wan nur, tsummalladzina kafaru birabbihim ya'dilun.</div>
+        <div class="translation-text">"Segala puji bagi Allah yang telah menciptakan langit dan bumi dan menjadikan gelap dan terang, namun orang-orang kafir masih mempersekutukan Tuhan mereka." (Al-An‘ām 6:1)</div>
 
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-An‘ām (6)</h3>
-            <p>Surah ke-6 (165 ayat) Makkiyah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=1&to=165&opt=1" target="_blank">IslamicStudies.info</a>, surah ini secara khusus menekankan tauhid, menolak syirik, dan membantah kepercayaan kaum musyrikin Mekkah. Surah ini mengandung bantahan yang kuat terhadap syirik dan penegasan tentang keesaan Allah dalam penciptaan, pengaturan alam, dan pemberian rezeki. Nama "Al-An‘ām" (Binatang Ternak) diambil dari banyaknya penyebutan hewan ternak dalam konteks penolakan syirik. Surah ini adalah salah satu surah Makkiyah terpanjang yang menjadi fondasi akidah tauhid.</p>
+            <p>Surah ke-6 (165 ayat) Makkiyah. Menurut <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=1&to=165" target="_blank">IslamicStudies.info</a>, surah ini secara khusus menekankan tauhid, menolak syirik, dan membantah kepercayaan kaum musyrikin Mekkah. Surah ini mengandung bantahan yang kuat terhadap syirik dan penegasan tentang keesaan Allah dalam penciptaan, pengaturan alam, dan pemberian rezeki. Nama "Al-An‘ām" (Binatang Ternak) diambil dari banyaknya penyebutan hewan ternak dalam konteks penolakan syirik. Surah ini adalah salah satu surah Makkiyah terpanjang yang menjadi fondasi akidah tauhid.</p>
         </div>
 
         <!-- REVELATION CONTEXT (INDONESIAN) -->
@@ -382,16 +423,16 @@
             <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Berbuat baik kepada kedua orang tua, berlaku adil, menepati janji, menjaga amanah, dan menjauhi sifat sombong. Larangan membunuh anak karena takut miskin menunjukkan kepercayaan kepada Allah sebagai pemberi rezeki.</div>
         </div>
 
-        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/6?translations=33" target="_blank">Quran.com - Surah Al-An‘ām (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a> | <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=1&to=165&opt=1" target="_blank">Tafsir Lengkap IslamicStudies.info</a></p></div>
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3><p><a href="https://quran.com/6?translations=33" target="_blank">Quran.com - Surah Al-An‘ām (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a> | <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=1&to=165" target="_blank">Tafsir Lengkap IslamicStudies.info</a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-An‘ām</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/006.mp3" type="audio/mpeg"></audio></div>
 
         <!-- KEY VERSE FOR CONTEMPLATION (FULL AYAT 6:19) -->
         <div class="key-verse">
             <h3><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h3>
             <div class="arabic">قُلْ أَىُّ شَىْءٍ أَكْبَرُ شَهَـٰدَةًۢ ۖ قُلِ ٱللَّهُ ۖ شَهِيدٌۢ بَيْنِى وَبَيْنَكُمْ ۚ وَأُوحِىَ إِلَىَّ هَـٰذَا ٱلْقُرْءَانُ لِأُنذِرَكُم بِهِۦ وَمَنۢ بَلَغَ ۚ أَئِنَّكُمْ لَتَشْهَدُونَ أَنَّ مَعَ ٱللَّهِ ءَالِهَةً أُخْرَىٰ ۚ قُل لَّآ أَشْهَدُ ۚ قُلْ إِنَّمَا هُوَ إِلَـٰهٌۭ وَٰحِدٌۭ وَإِنَّنِى بَرِىٓءٌۭ مِّمَّا تُشْرِكُونَ ﴿١٩﴾</div>
-            <div class="transliteration">Qul ayyu syai'in akbaru syahādah, qulillāh, syahīdun bainī wa bainakum, wa ūḥiya ilayya hāżal-qur'ānu li'unżirakum bihī wa mam balag, a'innakum latasyhadūna anna ma'allāhi ālihatan ukhrā, qul lā asyhad, qul innamā huwa ilāhun wāḥiduw wa innanī barī'um mimmā tusyrikūn.</div>
-            <div class="translation"><strong>Terjemahan:</strong> "Katakanlah (Muhammad), 'Siapakah yang paling kuat kesaksiannya?' Katakanlah, 'Allah. Dia menjadi saksi antara aku dan kamu. Al-Qur'an ini diwahyukan kepadaku agar dengannya aku memberi peringatan kepadamu dan kepada orang-orang yang sampai (seruannya). Apakah kamu benar-benar mengakui bahwa ada tuhan-tuhan lain di samping Allah?' Katakanlah, 'Aku tidak mengakuinya.' Katakanlah, 'Sesungguhnya Dia adalah Tuhan Yang Maha Esa dan sesungguhnya aku berlepas diri dari apa yang kamu persekutukan (dengan Allah).'" (Al-An‘ām 6:19)</div>
-            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menegaskan bahwa Allah adalah saksi utama atas kebenaran Islam dan kerasulan Muhammad ﷺ. Kesaksian Allah melalui wahyu-Nya adalah kesaksian terbesar dan paling valid. Ini merupakan puncak argumentasi tauhid yang menempatkan Allah sebagai saksi atas kebenaran. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=19&to=19&opt=1" target="_blank">📖 Baca tafsir lengkap di IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
+            <div class="transliteration">Qul ayyu syai'in akbaru syahadah, qulillah, syahidun baini wa bainakum, wa uhiya ilayya hadzal qur'anu li undzirakum bihi wa man balagh, a innakum latasyhaduna anna ma'allahi alihatan ukhra, qul la asyhad, qul innama huwa ilahun wahiduw wa innani bari'um mimma tusyrikun.</div>
+            <div class="translation-text"><strong>Terjemahan:</strong> "Katakanlah (Muhammad), 'Siapakah yang paling kuat kesaksiannya?' Katakanlah, 'Allah. Dia menjadi saksi antara aku dan kamu. Al-Qur'an ini diwahyukan kepadaku agar dengannya aku memberi peringatan kepadamu dan kepada orang-orang yang sampai (seruannya). Apakah kamu benar-benar mengakui bahwa ada tuhan-tuhan lain di samping Allah?' Katakanlah, 'Aku tidak mengakuinya.' Katakanlah, 'Sesungguhnya Dia adalah Tuhan Yang Maha Esa dan sesungguhnya aku berlepas diri dari apa yang kamu persekutukan (dengan Allah).'" (Al-An‘ām 6:19)</div>
+            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menegaskan bahwa Allah adalah saksi utama atas kebenaran Islam dan kerasulan Muhammad ﷺ. Kesaksian Allah melalui wahyu-Nya adalah kesaksian terbesar dan paling valid. Ini merupakan puncak argumentasi tauhid yang menempatkan Allah sebagai saksi atas kebenaran. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=19&to=19" target="_blank">📖 Baca tafsir lengkap di IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
             <div class="tafsir-box"><strong>Tafsir Tambahan – Ibnu Katsir:</strong> Ibnu Katsir menjelaskan bahwa ayat ini adalah argumen tauhid yang paling kuat. Allah sendiri menjadi saksi bahwa tidak ada tuhan selain Dia. Nabi diperintahkan untuk menantang kaum musyrik: siapakah saksi yang lebih besar? Mereka tidak bisa menjawab selain Allah. Kemudian Nabi menegaskan bahwa ia tidak akan pernah mengakui adanya tuhan selain Allah, dan ia berlepas diri dari segala bentuk syirik. <a href="https://quran.com/6:19/tafsirs/ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir selengkapnya</a></div>
         </div>
 
@@ -401,14 +442,14 @@
             <table class="theme-table">
                 <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td style="white-space: nowrap;"><strong>1-24</strong></td><td>Tauhid dan Penolakan Syirik</td><td>Penegasan keesaan Allah, bantahan terhadap kaum musyrik yang menyekutukan Allah, dan dialog tentang kesaksian Allah. — Ibnu Katsir</td></tr>
-                    <tr><td><strong>25-50</strong></td><td>Sikap Orang Kafir terhadap Al-Qur'an</td><td>Orang kafir menolak Al-Qur'an, meminta mukjizat, dan peringatan tentang azab yang akan datang. — Al-Qurthubi</td></tr>
-                    <tr><td><strong>51-73</strong></td><td>Peringatan bagi yang Lalai dan Kekuasaan Allah</td><td>Peringatan kepada orang yang lalai dari hari kebangkitan, penegasan bahwa Allah tidak menzalimi hamba-Nya, dan bukti kekuasaan-Nya di langit dan bumi. — As-Sa'di</td></tr>
-                    <tr><td><strong>74-90</strong></td><td>Kisah Nabi Ibrahim dan Para Nabi</td><td>Ibrahim berdakwah kepada bapaknya, dialog dengan kaumnya, dan penyebutan para nabi pilihan Allah. — At-Tabari</td></tr>
-                    <tr><td><strong>91-110</strong></td><td>Bantahan terhadap Ahli Kitab dan Penegasan Wahyu</td><td>Teguran terhadap mereka yang mengingkari Al-Qur'an, penegasan bahwa Al-Qur'an adalah wahyu Allah, dan akibat dari perbuatan mereka. — Ibnu Katsir</td></tr>
-                    <tr><td><strong>111-140</strong></td><td>Tipu Daya Setan dan Kekuasaan Allah</td><td>Sekalipun Allah mengirim malaikat, orang kafir tetap ingkar; Allah membiarkan mereka sesat karena pilihan mereka sendiri, dan perintah keadilan. — Al-Qurthubi</td></tr>
-                    <tr><td><strong>141-150</strong></td><td>Hukum tentang Binatang Ternak dan Larangan Syirik</td><td>Larangan mengharamkan hewan secara tanpa dasar, dan kesalahan orang musyrik dalam menetapkan hukum halal-haram. — As-Sa'di</td></tr>
-                    <tr><td><strong>151-165</strong></td><td>Wasiat Agung Sepuluh Perintah dan Penutup</td><td>Sepuluh perintah besar (larangan syirik, berbuat baik kepada orang tua, larangan membunuh anak, dll.) dan penegasan bahwa inilah jalan yang lurus. — At-Tabari</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>1-24</strong></td><td>Tauhid dan Penolakan Syirik</th><td>Penegasan keesaan Allah, bantahan terhadap kaum musyrik yang menyekutukan Allah, dan dialog tentang kesaksian Allah. — Ibnu Katsir</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>25-50</strong></th><td>Sikap Orang Kafir terhadap Al-Qur'an</th><td>Orang kafir menolak Al-Qur'an, meminta mukjizat, dan peringatan tentang azab yang akan datang. — Al-Qurthubi</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>51-73</strong></th><td>Peringatan bagi yang Lalai dan Kekuasaan Allah</th><td>Peringatan kepada orang yang lalai dari hari kebangkitan, penegasan bahwa Allah tidak menzalimi hamba-Nya, dan bukti kekuasaan-Nya di langit dan bumi. — As-Sa'di</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>74-90</strong></th><td>Kisah Nabi Ibrahim dan Para Nabi</th><td>Ibrahim berdakwah kepada bapaknya, dialog dengan kaumnya, dan penyebutan para nabi pilihan Allah. — At-Tabari</th><tr>
+                    <tr><td style="white-space: nowrap;"><strong>91-110</strong></th><td>Bantahan terhadap Ahli Kitab dan Penegasan Wahyu</th><td>Teguran terhadap mereka yang mengingkari Al-Qur'an, penegasan bahwa Al-Qur'an adalah wahyu Allah, dan akibat dari perbuatan mereka. — Ibnu Katsir</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>111-140</strong></th><td>Tipu Daya Setan dan Kekuasaan Allah</th><td>Sekalipun Allah mengirim malaikat, orang kafir tetap ingkar; Allah membiarkan mereka sesat karena pilihan mereka sendiri, dan perintah keadilan. — Al-Qurthubi</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>141-150</strong></th><td>Hukum tentang Binatang Ternak dan Larangan Syirik</th><td>Larangan mengharamkan hewan secara tanpa dasar, dan kesalahan orang musyrik dalam menetapkan hukum halal-haram. — As-Sa'di</th></tr>
+                    <tr><td style="white-space: nowrap;"><strong>151-165</strong></th><td>Wasiat Agung Sepuluh Perintah dan Penutup</th><td>Sepuluh perintah besar (larangan syirik, berbuat baik kepada orang tua, larangan membunuh anak, dll.) dan penegasan bahwa inilah jalan yang lurus. — At-Tabari</th></tr>
                 </tbody>
             </table>
         </div>
@@ -443,66 +484,66 @@
             <!-- 1. Tauhid dan Penolakan Syirik (1-24) -->
             <div class="theme-card"><div class="theme-title">1. Tauhid dan Penolakan Syirik – Ayat 1-24</div>
                 <div class="arabic">ٱلْحَمْدُ لِلَّهِ ٱلَّذِى خَلَقَ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ وَجَعَلَ ٱلظُّلُمَـٰتِ وَٱلنُّورَ ۖ ثُمَّ ٱلَّذِينَ كَفَرُوا۟ بِرَبِّهِمْ يَعْدِلُونَ ﴿١﴾</div>
-                <div class="transliteration">Al-ḥamdu lillāhil-lażī khalaqas-samāwāti wal-arḍa wa ja‘alaz-ẓulumāti wan-nūr, ṡummallażīna kafarū birabbihim ya‘dilūn.</div>
-                <div class="translation">"Segala puji bagi Allah yang telah menciptakan langit dan bumi dan menjadikan gelap dan terang, namun orang-orang kafir masih mempersekutukan Tuhan mereka." (6:1)</div>
+                <div class="transliteration">Alhamdu lillahil ladzi khalaqas samawati wal ardha wa ja'alaz zhulumati wan nur, tsummalladzina kafaru birabbihim ya'dilun.</div>
+                <div class="translation-text">"Segala puji bagi Allah yang telah menciptakan langit dan bumi dan menjadikan gelap dan terang, namun orang-orang kafir masih mempersekutukan Tuhan mereka." (6:1)</div>
                 <div class="arabic">قُلْ أَىُّ شَىْءٍ أَكْبَرُ شَهَـٰدَةًۢ ۖ قُلِ ٱللَّهُ ۖ شَهِيدٌۢ بَيْنِى وَبَيْنَكُمْ ۚ وَأُوحِىَ إِلَىَّ هَـٰذَا ٱلْقُرْءَانُ لِأُنذِرَكُم بِهِۦ وَمَنۢ بَلَغَ ۚ أَئِنَّكُمْ لَتَشْهَدُونَ أَنَّ مَعَ ٱللَّهِ ءَالِهَةً أُخْرَىٰ ۚ قُل لَّآ أَشْهَدُ ۚ قُلْ إِنَّمَا هُوَ إِلَـٰهٌۭ وَٰحِدٌۭ وَإِنَّنِى بَرِىٓءٌۭ مِّمَّا تُشْرِكُونَ ﴿١٩﴾</div>
-                <div class="transliteration">Qul ayyu syai'in akbaru syahādah, qulillāh, syahīdun bainī wa bainakum, wa ūḥiya ilayya hāżal-qur'ānu li'unżirakum bihī wa mam balag, a'innakum latasyhadūna anna ma'allāhi ālihatan ukhrā, qul lā asyhad, qul innamā huwa ilāhun wāḥiduw wa innanī barī'um mimmā tusyrikūn.</div>
-                <div class="translation">"Katakanlah (Muhammad), 'Siapakah yang paling kuat kesaksiannya?' Katakanlah, 'Allah. Dia menjadi saksi antara aku dan kamu. Al-Qur'an ini diwahyukan kepadaku agar dengannya aku memberi peringatan kepadamu dan kepada orang-orang yang sampai (seruannya). Apakah kamu benar-benar mengakui bahwa ada tuhan-tuhan lain di samping Allah?' Katakanlah, 'Aku tidak mengakuinya.' Katakanlah, 'Sesungguhnya Dia adalah Tuhan Yang Maha Esa dan sesungguhnya aku berlepas diri dari apa yang kamu persekutukan (dengan Allah).'" (6:19)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Surah ini dibuka dengan pujian kepada Allah atas penciptaan langit dan bumi. Allah menciptakan gelap dan terang sebagai tanda kekuasaan-Nya. Orang kafir tetap menyekutukan Allah meskipun bukti begitu jelas. Ayat 6:19 menjadi puncak argumentasi: Allah adalah saksi terbesar atas kebenaran Islam. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=1&to=24&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 1-24) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Qul ayyu syai'in akbaru syahadah, qulillah, syahidun baini wa bainakum, wa uhiya ilayya hadzal qur'anu li undzirakum bihi wa man balagh, a innakum latasyhaduna anna ma'allahi alihatan ukhra, qul la asyhad, qul innama huwa ilahun wahiduw wa innani bari'um mimma tusyrikun.</div>
+                <div class="translation-text">"Katakanlah (Muhammad), 'Siapakah yang paling kuat kesaksiannya?' Katakanlah, 'Allah. Dia menjadi saksi antara aku dan kamu. Al-Qur'an ini diwahyukan kepadaku agar dengannya aku memberi peringatan kepadamu dan kepada orang-orang yang sampai (seruannya). Apakah kamu benar-benar mengakui bahwa ada tuhan-tuhan lain di samping Allah?' Katakanlah, 'Aku tidak mengakuinya.' Katakanlah, 'Sesungguhnya Dia adalah Tuhan Yang Maha Esa dan sesungguhnya aku berlepas diri dari apa yang kamu persekutukan (dengan Allah).'" (6:19)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Surah ini dibuka dengan pujian kepada Allah atas penciptaan langit dan bumi. Allah menciptakan gelap dan terang sebagai tanda kekuasaan-Nya. Orang kafir tetap menyekutukan Allah meskipun bukti begitu jelas. Ayat 6:19 menjadi puncak argumentasi: Allah adalah saksi terbesar atas kebenaran Islam. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=1&to=24" target="_blank">📖 Baca tafsir lengkap (Ayat 1-24) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – Al-Qurthubi:</strong> Al-Qurthubi menjelaskan bahwa "gelap dan terang" adalah bukti kekuasaan Allah yang nyata. Siapa pun yang merenungi alam akan melihat keteraturan yang sempurna, yang menunjukkan bahwa Penciptanya adalah Maha Esa. Namun orang kafir tetap mempersekutukan Allah karena mereka mengikuti hawa nafsu dan warisan nenek moyang. <a href="https://quran.com/6:1/tafsirs/qurtubi" target="_blank">📖 Baca tafsir Al-Qurthubi</a></div>
             </div>
 
             <!-- 2. Bukti Kekuasaan Allah dalam Alam (95-99) -->
             <div class="theme-card"><div class="theme-title">2. Bukti Kekuasaan Allah dalam Alam – Ayat 95-99</div>
                 <div class="arabic">إِنَّ ٱللَّهَ فَالِقُ ٱلْحَبِّ وَٱلنَّوَىٰ ۖ يُخْرِجُ ٱلْحَىَّ مِنَ ٱلْمَيِّتِ وَمُخْرِجُ ٱلْمَيِّتِ مِنَ ٱلْحَىِّ ۚ ذَٰلِكُمُ ٱللَّهُ ۖ فَأَنَّىٰ تُؤْفَكُونَ ﴿٩٥﴾</div>
-                <div class="transliteration">Innallāha fāliqul-ḥabbi wan-nawā, yukhrijul-ḥayya minal-mayyiti wa mukhrijul-mayyiti minal-ḥayy, żālikumullāh, fa annā tu’fakūn.</div>
-                <div class="translation">"Sesungguhnya Allah menumbuhkan butir dan biji, Dia mengeluarkan yang hidup dari yang mati dan mengeluarkan yang mati dari yang hidup. Itulah Allah, maka mengapa kamu masih berpaling?" (6:95)</div>
+                <div class="transliteration">Innallaha faliqul habbi wan nawa, yukhrijul hayya minal mayiti wa mukhrijul mayiti minal hayy, dzalikumullah, fa anna tu'fakun.</div>
+                <div class="translation-text">"Sesungguhnya Allah menumbuhkan butir dan biji, Dia mengeluarkan yang hidup dari yang mati dan mengeluarkan yang mati dari yang hidup. Itulah Allah, maka mengapa kamu masih berpaling?" (6:95)</div>
                 <div class="arabic">وَهُوَ ٱلَّذِىٓ أَنزَلَ مِنَ ٱلسَّمَآءِ مَآءًۭ فَأَخْرَجْنَا بِهِۦ نَبَاتَ كُلِّ شَىْءٍۢ فَأَخْرَجْنَا مِنْهُ خَضِرًۭا نُّخْرِجُ مِنْهُ حَبًّۭا مُّتَرَاكِبًۭا وَمِنَ ٱلنَّخْلِ مِن طَلْعِهَا قِنْوَانٌۭ دَانِيَةٌۭ وَجَنَّـٰتٍۢ مِّنْ أَعْنَابٍۢ وَٱلزَّيْتُونَ وَٱلرُّمَّانَ مُشْتَبِهًۭا وَغَيْرَ مُتَشَـٰبِهٍ ۗ ٱنظُرُوٓا۟ إِلَىٰ ثَمَرِهِۦٓ إِذَآ أَثْمَرَ وَيَنْعِهِۦٓ ۚ إِنَّ فِى ذَٰلِكُمْ لَـَٔايَـٰتٍۢ لِّقَوْمٍۢ يُؤْمِنُونَ ﴿٩٩﴾</div>
-                <div class="transliteration">Wa huwal-lażī anzala minas-samā'i mā'an fa akhrajnā bihī nabāta kulli syai'in fa akhrajnā min-hu khaḍiran nukhriju min-hu ḥabbam mutarākibā, wa minan-nakhli min ṭal'ihā qinwānun dāniyah, wa jannātim min a‘nābin waz-zaitūna war-rummāna musytabihaw wa gayra mutasyābih, unẓurū ilā ṡamarihī iżā aṡmara wa yan‘ih, inna fī żālikum la`āyātil liqaumiy yu`minūn.</div>
-                <div class="translation">"Dan Dialah yang menurunkan air dari langit, lalu dengan air itu Kami tumbuhkan segala macam tumbuh-tumbuhan, kemudian Kami keluarkan dari tumbuh-tumbuhan itu tanaman yang menghijau, Kami keluarkan dari tanaman itu butir yang bertumpuk; dan dari mayang kurma, mengurai tangkai-tangkai yang menjulai; dan kebun-kebun anggur, dan zaitun dan delima, serupa dan tidak serupa. Perhatikanlah buahnya ketika berbuah, dan menjadi masak. Sungguh, pada yang demikian itu ada tanda-tanda (kekuasaan Allah) bagi orang-orang yang beriman." (6:99)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menunjukkan kekuasaan Allah dalam menumbuhkan tanaman dan mengatur siklus kehidupan. Merenungi ciptaan Allah adalah salah satu jalan meningkatkan keimanan. Ini adalah bukti nyata yang dapat disaksikan semua manusia tentang keesaan dan kekuasaan Allah. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=95&to=99&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 95-99) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Wa huwal ladzi anzala minas samai ma'an fa akhrajna bihi nabata kulli syai'in fa akhrajna minhu khadhiran nukhriju minhu habban mutarakiba, wa minan nakhli min thal'iha qinwanun daniyah, wa jannatim min a'nabin waz zaituna war rummana musytabihaw wa ghaira mutasyabih, unzhuru ila tsamarihi idza athmara wa yan'ih, inna fi dzalikum la ayatin li qaumiy yu'minun.</div>
+                <div class="translation-text">"Dan Dialah yang menurunkan air dari langit, lalu dengan air itu Kami tumbuhkan segala macam tumbuh-tumbuhan, kemudian Kami keluarkan dari tumbuh-tumbuhan itu tanaman yang menghijau, Kami keluarkan dari tanaman itu butir yang bertumpuk; dan dari mayang kurma, mengurai tangkai-tangkai yang menjulai; dan kebun-kebun anggur, dan zaitun dan delima, serupa dan tidak serupa. Perhatikanlah buahnya ketika berbuah, dan menjadi masak. Sungguh, pada yang demikian itu ada tanda-tanda (kekuasaan Allah) bagi orang-orang yang beriman." (6:99)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menunjukkan kekuasaan Allah dalam menumbuhkan tanaman dan mengatur siklus kehidupan. Merenungi ciptaan Allah adalah salah satu jalan meningkatkan keimanan. Ini adalah bukti nyata yang dapat disaksikan semua manusia tentang keesaan dan kekuasaan Allah. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=95&to=99" target="_blank">📖 Baca tafsir lengkap (Ayat 95-99) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – As-Sa'di:</strong> As-Sa'di menjelaskan bahwa menumbuhkan biji dan butir yang keras menjadi tanaman yang hidup adalah bukti kekuasaan Allah yang membangkitkan orang mati. Demikian pula, siklus air dan pertumbuhan tanaman adalah bukti nyata bahwa Allah adalah satu-satunya Pencipta. Semua ini adalah tanda-tanda bagi orang yang beriman. <a href="https://quran.com/6:95/tafsirs/saadi" target="_blank">📖 Baca tafsir As-Sa'di</a></div>
             </div>
 
             <!-- 3. Kisah Nabi Ibrahim (74-83) -->
             <div class="theme-card"><div class="theme-title">3. Kisah Nabi Ibrahim – Ayat 74-83</div>
                 <div class="arabic">وَإِذْ قَالَ إِبْرَٰهِيمُ لِأَبِيهِ آزَرَ أَتَتَّخِذُ أَصْنَامًا ءَالِهَةً ۖ إِنِّىٓ أَرَىٰكَ وَقَوْمَكَ فِى ضَلَـٰلٍۢ مُّبِينٍ ﴿٧٤﴾</div>
-                <div class="transliteration">Wa iż qāla ibrāhīmu li’abīhi āzara, a tattakhiżu aṣnāman ālihah, innī arāka wa qaumaka fī ḍalālim mubīn.</div>
-                <div class="translation">"Dan (ingatlah) ketika Ibrahim berkata kepada bapaknya, Azar, 'Pantaskah engkau menjadikan berhala-berhala sebagai tuhan? Sesungguhnya aku melihat engkau dan kaummu dalam kesesatan yang nyata.'" (6:74)</div>
+                <div class="transliteration">Wa idz qala ibrahimu li abihi azara, a tattakhidzu ashnaman alihatan, inni araka wa qaumaka fi dhalalin mubin.</div>
+                <div class="translation-text">"Dan (ingatlah) ketika Ibrahim berkata kepada bapaknya, Azar, 'Pantaskah engkau menjadikan berhala-berhala sebagai tuhan? Sesungguhnya aku melihat engkau dan kaummu dalam kesesatan yang nyata.'" (6:74)</div>
                 <div class="arabic">وَحَآجَّهُۥ قَوْمُهُۥ ۚ قَالَ أَتُحَـٰٓجُّوٓنِّى فِى ٱللَّهِ وَقَدْ هَدَىٰنِ ۚ وَلَآ أَخَافُ مَا تُشْرِكُونَ بِهِۦٓ إِلَّآ أَن يَشَآءَ رَبِّى شَيْـًۭٔا ۚ وَسِعَ رَبِّى كُلَّ شَىْءٍ عِلْمًا ۚ أَفَلَا تَتَذَكَّرُونَ ﴿٨٠﴾</div>
-                <div class="transliteration">Wa ḥājjahū qaumuh, qāla atuḥājjūnni fillāhi wa qad hadān, wa lā akhāfu mā tusyrikūna bihī illā ay yasyā'a rabbī syai'ā, wasi'a rabbī kulla syai'in 'ilmā, afalā tatażakkarūn.</div>
-                <div class="translation">"Dan kaumnya membantahnya. Dia berkata, 'Apakah kamu hendak membantah aku tentang Allah, padahal Dia telah memberiku petunjuk? Aku tidak takut kepada apa yang kamu persekutukan dengan Allah, kecuali jika Tuhanku menghendaki sesuatu. Pengetahuan Tuhanku meliputi segala sesuatu. Tidakkah kamu mengambil pelajaran?'" (6:80)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Kisah Nabi Ibrahim merupakan contoh nyata perjuangan menegakkan tauhid di tengah masyarakat musyrik. Ibrahim berdakwah kepada bapaknya dengan penuh kasih sayang namun tegas dalam prinsip tauhid. Dakwah tauhid harus dilakukan dengan hikmah dan kesabaran. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=74&to=83&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 74-83) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Wa hajjahu qaumuh, qala atuhajjunni fillahi wa qad hadan, wa la akhafu ma tusyrikuna bihi illa ay yasya'a rabbi syai'a, wasi'a rabbi kulla syai'in 'ilma, afala tatazakkarun.</div>
+                <div class="translation-text">"Dan kaumnya membantahnya. Dia berkata, 'Apakah kamu hendak membantah aku tentang Allah, padahal Dia telah memberiku petunjuk? Aku tidak takut kepada apa yang kamu persekutukan dengan Allah, kecuali jika Tuhanku menghendaki sesuatu. Pengetahuan Tuhanku meliputi segala sesuatu. Tidakkah kamu mengambil pelajaran?'" (6:80)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Kisah Nabi Ibrahim merupakan contoh nyata perjuangan menegakkan tauhid di tengah masyarakat musyrik. Ibrahim berdakwah kepada bapaknya dengan penuh kasih sayang namun tegas dalam prinsip tauhid. Dakwah tauhid harus dilakukan dengan hikmah dan kesabaran. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=74&to=83" target="_blank">📖 Baca tafsir lengkap (Ayat 74-83) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – At-Tabari:</strong> At-Tabari menjelaskan bahwa Ibrahim adalah teladan dalam berdakwah. Ia berbicara kepada bapaknya dengan lembut namun tegas. Ketika kaumnya membantah, ia tidak takut karena keyakinannya kepada Allah sangat kuat. Ia menegaskan bahwa hanya Allah yang berhak ditakuti, bukan berhala-berhala yang tidak berdaya. <a href="https://quran.com/6:80/tafsirs/tabari" target="_blank">📖 Baca tafsir At-Tabari</a></div>
             </div>
 
             <!-- 4. Wasiat Agung Sepuluh Perintah (151-153) -->
             <div class="theme-card"><div class="theme-title">4. Wasiat Agung Sepuluh Perintah – Ayat 151-153</div>
                 <div class="arabic">قُلْ تَعَالَوْا۟ أَتْلُ مَا حَرَّمَ رَبُّكُمْ عَلَيْكُمْ ۖ أَلَّا تُشْرِكُوا۟ بِهِۦ شَيْـًۭٔا ۖ وَبِٱلْوَٰلِدَيْنِ إِحْسَـٰنًۭا ۖ وَلَا تَقْتُلُوٓا۟ أَوْلَـٰدَكُم مِّنْ إِمْلَـٰقٍۢ ۖ نَّحْنُ نَرْزُقُكُمْ وَإِيَّاهُمْ ۖ وَلَا تَقْرَبُوا۟ ٱلْفَوَٰحِشَ مَا ظَهَرَ مِنْهَا وَمَا بَطَنَ ۖ وَلَا تَقْتُلُوا۟ ٱلنَّفْسَ ٱلَّتِى حَرَّمَ ٱللَّهُ إِلَّا بِٱلْحَقِّ ۚ ذَٰلِكُمْ وَصَّىٰكُم بِهِۦ لَعَلَّكُمْ تَعْقِلُونَ ﴿١٥١﴾</div>
-                <div class="transliteration">Qul ta‘ālau atlu mā ḥarrama rabbukum ‘alaikum, allā tusyrikū bihī syai’aw wa bil-wālidaini iḥsānā, wa lā taqtulū aulādakum min imlāq, naḥnu narzuqukum wa iyyāhum, wa lā taqrabul-fawāḥisya mā ẓahara minhā wa mā baṭan, wa lā taqtulun-nafsal-latī ḥarramallāhu illā bil-ḥaqq, żālikum waṣṣākum bihī la‘allakum ta‘qilūn.</div>
-                <div class="translation">"Katakanlah (Muhammad), 'Marilah aku bacakan apa yang diharamkan Tuhan kepadamu: janganlah kamu mempersekutukan sesuatu dengan Dia, berbuat baiklah kepada kedua orang tua, janganlah kamu membunuh anak-anakmu karena takut miskin...'" (6:151)</div>
+                <div class="transliteration">Qul ta'alaw atlu ma harrama rabbukum 'alaikum, alla tusyriku bihi syai'an wa bil walidaini ihsana, wa la taqtulu auladakum min imlaq, nahnu narzuqukum wa iyyahum, wa la taqrabul fawahisya ma zhahara minha wa ma batan, wa la taqtulun nafsal lati harramallahu illa bil haqq, dzalikum washshakum bihi la'allakum ta'qilun.</div>
+                <div class="translation-text">"Katakanlah (Muhammad), 'Marilah aku bacakan apa yang diharamkan Tuhan kepadamu: janganlah kamu mempersekutukan sesuatu dengan Dia, berbuat baiklah kepada kedua orang tua, janganlah kamu membunuh anak-anakmu karena takut miskin...'" (6:151)</div>
                 <div class="arabic">وَلَا تَقْرَبُوا۟ مَالَ ٱلْيَتِيمِ إِلَّا بِٱلَّتِى هِىَ أَحْسَنُ حَتَّىٰ يَبْلُغَ أَشُدَّهُۥ ۖ وَأَوْفُوا۟ ٱلْكَيْلَ وَٱلْمِيزَانَ بِٱلْقِسْطِ ۖ لَا نُكَلِّفُ نَفْسًا إِلَّا وُسْعَهَا ۖ وَإِذَا قُلْتُمْ فَٱعْدِلُوا۟ وَلَوْ كَانَ ذَا قُرْبَىٰ ۖ وَبِعَهْدِ ٱللَّهِ أَوْفُوا۟ ۚ ذَٰلِكُمْ وَصَّىٰكُم بِهِۦ لَعَلَّكُمْ تَذَكَّرُونَ ﴿١٥٢﴾</div>
-                <div class="transliteration">Wa lā taqrabū mālay-yatīmi illā billatī hiya aḥsanu ḥattā yabluga asyuddah, wa aufūl-kaila wal-mīzāna bil-qisṭ, lā nukallifu nafsan illā wus‘ahā, wa iżā qultum fa‘dilū wa lau kāna żā qurbā, wa bi‘ahdillī aufū, żālikum waṣṣākum bihī la‘allakum tażakkarūn.</div>
-                <div class="translation">"Dan janganlah kamu mendekati harta anak yatim, kecuali dengan cara yang lebih baik (bermanfaat) hingga dia dewasa. Dan sempurnakanlah takaran dan timbangan dengan adil. Kami tidak membebani seseorang melainkan menurut kesanggupannya. Apabila kamu berbicara, hendaklah kamu berlaku adil, kendatipun dia kerabat(mu). Dan penuhilah janji Allah. Yang demikian itu diperintahkan Allah kepadamu agar kamu ingat." (6:152)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini merupakan awal dari sepuluh wasiat penting: (1) larangan syirik; (2) berbuat baik kepada orang tua; (3) larangan membunuh anak karena takut miskin; (4) larangan perbuatan keji; (5) larangan membunuh tanpa hak; (6) larangan memakan harta anak yatim; (7) larangan mengurangi timbangan; (8) larangan bersaksi tidak adil; (9) larangan melanggar janji; (10) perintah mengikuti jalan Allah. Wasiat ini mencakup hak Allah dan hak manusia. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=151&to=153&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 151-153) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Wa la taqrabu mala yatimi illa billati hiya ahsanu hatta yabluga asyuddah, wa auful kaila wal mizana bil qisth, la nukallifu nafsan illa wus'aha, wa idza qultum fa'dilu wa lau kana dza qurba, wa bi'ahdillahi aufu, dzalikum washshakum bihi la'allakum tadzakkarun.</div>
+                <div class="translation-text">"Dan janganlah kamu mendekati harta anak yatim, kecuali dengan cara yang lebih baik (bermanfaat) hingga dia dewasa. Dan sempurnakanlah takaran dan timbangan dengan adil. Kami tidak membebani seseorang melainkan menurut kesanggupannya. Apabila kamu berbicara, hendaklah kamu berlaku adil, kendatipun dia kerabat(mu). Dan penuhilah janji Allah. Yang demikian itu diperintahkan Allah kepadamu agar kamu ingat." (6:152)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini merupakan awal dari sepuluh wasiat penting: (1) larangan syirik; (2) berbuat baik kepada orang tua; (3) larangan membunuh anak karena takut miskin; (4) larangan perbuatan keji; (5) larangan membunuh tanpa hak; (6) larangan memakan harta anak yatim; (7) larangan mengurangi timbangan; (8) larangan bersaksi tidak adil; (9) larangan melanggar janji; (10) perintah mengikuti jalan Allah. Wasiat ini mencakup hak Allah dan hak manusia. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=151&to=153" target="_blank">📖 Baca tafsir lengkap (Ayat 151-153) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – Ibnu Katsir:</strong> Ibnu Katsir menekankan bahwa sepuluh wasiat ini adalah ringkasan dari ajaran Islam. Larangan syirik adalah yang teratas. Berbuat baik kepada orang tua adalah kewajiban setelah tauhid. Larangan membunuh anak karena takut miskin menunjukkan kepercayaan penuh kepada Allah sebagai pemberi rezeki. Keadilan dalam timbangan dan kesaksian adalah fondasi ekonomi dan peradilan Islam. <a href="https://quran.com/6:151/tafsirs/ibn-kathir" target="_blank">📖 Baca tafsir Ibnu Katsir</a></div>
             </div>
 
             <!-- 5. Larangan Syirik dan Konsekuensinya (88) -->
             <div class="theme-card"><div class="theme-title">5. Larangan Syirik dan Konsekuensinya – Ayat 88</div>
                 <div class="arabic">ذَٰلِكَ هُدَى ٱللَّهِ يَهْدِى بِهِۦ مَن يَشَآءُ مِنْ عِبَادِهِۦ ۚ وَلَوْ أَشْرَكُوا۟ لَحَبِطَ عَنْهُم مَّا كَانُوا۟ يَعْمَلُونَ ﴿٨٨﴾</div>
-                <div class="transliteration">Żālika hudallāh, yahdī bihī may yasyā’u min ‘ibādih, walau asyrakū laḥabiṭa ‘an-hum mā kānū ya‘malūn.</div>
-                <div class="translation">"Itulah petunjuk Allah, dengan itu Dia memberi petunjuk kepada siapa yang Dia kehendaki di antara hamba-hamba-Nya. Seandainya mereka mempersekutukan Allah, niscaya lenyaplah amal yang telah mereka kerjakan." (6:88)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menunjukkan betapa seriusnya dosa syirik yang dapat menghapus semua amal kebaikan. Syirik adalah dosa terbesar yang tidak diampuni jika pelakunya mati tanpa bertobat. Menjaga tauhid dari syirik adalah kewajiban utama setiap Muslim. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=88&to=88&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 88) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Dzalika huda Allah, yahdi bihi may yasya'u min 'ibadih, walau asyraku lahabitha 'anhum ma kanu ya'malun.</div>
+                <div class="translation-text">"Itulah petunjuk Allah, dengan itu Dia memberi petunjuk kepada siapa yang Dia kehendaki di antara hamba-hamba-Nya. Seandainya mereka mempersekutukan Allah, niscaya lenyaplah amal yang telah mereka kerjakan." (6:88)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini menunjukkan betapa seriusnya dosa syirik yang dapat menghapus semua amal kebaikan. Syirik adalah dosa terbesar yang tidak diampuni jika pelakunya mati tanpa bertobat. Menjaga tauhid dari syirik adalah kewajiban utama setiap Muslim. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=88&to=88" target="_blank">📖 Baca tafsir lengkap (Ayat 88) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – As-Sa'di:</strong> As-Sa'di menjelaskan bahwa amal kebaikan sangat besar nilainya di sisi Allah, tetapi jika seseorang melakukan syirik, semua amalnya menjadi sia-sia. Ini karena syirik adalah kezaliman terbesar. Allah tidak akan mengampuni syirik jika pelakunya mati dalam keadaan syirik. Oleh karena itu, seorang mukmin harus sangat berhati-hati menjaga kemurnian tauhidnya. <a href="https://quran.com/6:88/tafsirs/saadi" target="_blank">📖 Baca tafsir As-Sa'di</a></div>
             </div>
 
             <!-- 6. Shalat, Ibadah, dan Penyembelihan (162-163) -->
             <div class="theme-card"><div class="theme-title">6. Shalat, Ibadah, dan Penyembelihan – Ayat 162-163</div>
                 <div class="arabic">قُلْ إِنَّ صَلَاتِى وَنُسُكِى وَمَحْيَاىَ وَمَمَاتِى لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ﴿١٦٢﴾ لَا شَرِيكَ لَهُۥ ۖ وَبِذَٰلِكَ أُمِرْتُ وَأَنَا۠ أَوَّلُ ٱلْمُسْلِمِينَ ﴿١٦٣﴾</div>
-                <div class="transliteration">Qul inna ṣalātī wa nusukī wa maḥyāya wa mamātī lillāhi rabbil-‘ālamīn. Lā syarīka lah, wa biżālika umirtu wa ana awwalul-muslimīn.</div>
-                <div class="translation">"Katakanlah (Muhammad), 'Sesungguhnya shalatku, ibadahku, hidupku dan matiku hanyalah untuk Allah, Tuhan seluruh alam. Tiada sekutu bagi-Nya; dan demikian itulah yang diperintahkan kepadaku, dan aku adalah orang yang pertama-tama berserah diri (muslim).'" (6:162-163)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini adalah puncak tauhid dan ketundukan total kepada Allah. Seluruh kehidupan seorang muslim – shalat, ibadah, hidup, dan mati – harus ditujukan hanya kepada Allah. Ini adalah inti dari ajaran tauhid yang dibawa oleh semua nabi. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=162&to=163&opt=1" target="_blank">📖 Baca tafsir lengkap (Ayat 162-163) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
+                <div class="transliteration">Qul inna shalati wa nusuki wa mahyaya wa mamati lillahi rabbil 'alamin. La syarika lah, wa bi dzalika umirtu wa ana awwalul muslimin.</div>
+                <div class="translation-text">"Katakanlah (Muhammad), 'Sesungguhnya shalatku, ibadahku, hidupku dan matiku hanyalah untuk Allah, Tuhan seluruh alam. Tiada sekutu bagi-Nya; dan demikian itulah yang diperintahkan kepadaku, dan aku adalah orang yang pertama-tama berserah diri (muslim).'" (6:162-163)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> Ayat ini adalah puncak tauhid dan ketundukan total kepada Allah. Seluruh kehidupan seorang muslim – shalat, ibadah, hidup, dan mati – harus ditujukan hanya kepada Allah. Ini adalah inti dari ajaran tauhid yang dibawa oleh semua nabi. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=162&to=163" target="_blank">📖 Baca tafsir lengkap (Ayat 162-163) <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></div>
                 <div class="tafsir-box"><strong>Tafsir Tambahan – Al-Qurthubi:</strong> Al-Qurthubi menjelaskan bahwa "nusuk" mencakup semua bentuk ibadah, termasuk penyembelihan hewan kurban. Seorang muslim harus memastikan bahwa seluruh amalnya hanya untuk Allah, bukan untuk riya' atau selain Allah. Nabi Muhammad adalah orang pertama yang menegakkan ajaran tauhid ini di tengah masyarakat musyrik. <a href="https://quran.com/6:162/tafsirs/qurtubi" target="_blank">📖 Baca tafsir Al-Qurthubi</a></div>
             </div>
         </div>
@@ -538,18 +579,21 @@
         </div>
     </div>
 
-    <!-- ENGLISH CONTENT (MIRRORED, WITH ALL DETAILS) -->
+    <!-- ENGLISH CONTENT (MIRRORED, WITH ALL DETAILS, retaining diacritical transliteration) -->
     <div id="english-content" class="hidden">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-An‘ām (6) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=1&to=165&opt=1" target="_blank">IslamicStudies.info - Surah Al-An‘ām <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+        <div class="surah-source"><strong>Primary Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=1&to=165" target="_blank">IslamicStudies.info - Surah Al-An‘ām <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
         <div class="arabic">ٱلْحَمْدُ لِلَّهِ ٱلَّذِى خَلَقَ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ وَجَعَلَ ٱلظُّلُمَـٰتِ وَٱلنُّورَ ۖ ثُمَّ ٱلَّذِينَ كَفَرُوا۟ بِرَبِّهِمْ يَعْدِلُونَ ﴿١﴾</div>
         <div class="transliteration">Al-ḥamdu lillāhil-lażī khalaqas-samāwāti wal-arḍa wa ja‘alaz-ẓulumāti wan-nūr, ṡummallażīna kafarū birabbihim ya‘dilūn.</div>
-        <div class="translation">"All praise is for Allah Who created the heavens and the earth and made darkness and light. Yet the disbelievers set up equals to their Lord." (6:1)</div>
+        <div class="translation-text">"All praise is for Allah Who created the heavens and the earth and made darkness and light. Yet the disbelievers set up equals to their Lord." (6:1)</div>
 
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-An‘ām (6)</h3><p>Meccan surah (165 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=1&to=165&opt=1" target="_blank">IslamicStudies.info</a>, this surah specifically emphasizes tawhid, rejects shirk, and refutes the beliefs of the polytheists of Mecca. It contains strong refutations of shirk and affirmations of Allah's oneness in creation, management of the universe, and provision of sustenance. The name "Al-An‘ām" (The Cattle) comes from the frequent mention of cattle in the context of rejecting shirk. This is one of the longest Meccan surahs that forms the foundation of tawhid.</p></div>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-An‘ām (6)</h3><p>Meccan surah (165 verses). According to <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=1&to=165" target="_blank">IslamicStudies.info</a>, this surah specifically emphasizes tawhid, rejects shirk, and refutes the beliefs of the polytheists of Mecca. It contains strong refutations of shirk and affirmations of Allah's oneness in creation, management of the universe, and provision of sustenance. The name "Al-An‘ām" (The Cattle) comes from the frequent mention of cattle in the context of rejecting shirk. This is one of the longest Meccan surahs that forms the foundation of tawhid.</p></div>
 
         <!-- Revelation Context (English) -->
         <div class="historical-section"><h3><i class="fas fa-history"></i> Revelation Context</h3><p>Revealed in Mecca in the late Meccan period before the Hijrah. This is one of the last Meccan surahs revealed all at once, accompanied by 70,000 angels. Its verses affirm tawhid and refute the polytheistic beliefs of the Meccan mushrikūn who associated partners with Allah through idol worship.</p><div class="timeline"><div class="timeline-item"><strong>Location:</strong> Mecca (Makki)</div><div class="timeline-item"><strong>Period:</strong> Late Meccan period, before Hijrah</div><div class="timeline-item"><strong>Background:</strong> Idol worship, shirk, and rejection of tawhid</div><div class="timeline-item"><strong>Purpose:</strong> Purify tawhid, refute shirk, affirm Allah's oneness</div></div></div>
@@ -561,7 +605,7 @@
             <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Kindness to parents, justice, fulfilling promises, trustworthiness, and avoiding arrogance. Prohibition of killing children for fear of poverty shows trust in Allah as the Provider.</div>
         </div>
 
-        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Access Complete Text</h3><p><a href="https://recitequran.com/6" target="_blank">ReciteQuran.com - Surah Al-An‘ām <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a> | <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=1&to=165&opt=1" target="_blank">Complete Tafsir on IslamicStudies.info</a></p></div>
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Access Complete Text</h3><p><a href="https://recitequran.com/6" target="_blank">ReciteQuran.com - Surah Al-An‘ām <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a> | <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=1&to=165" target="_blank">Complete Tafsir on IslamicStudies.info</a></p></div>
         <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-An‘ām</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/006.mp3"></audio></div>
 
         <!-- Key Verse for Contemplation (English) – full 6:19 -->
@@ -569,22 +613,22 @@
             <h3><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h3>
             <div class="arabic">قُلْ أَىُّ شَىْءٍ أَكْبَرُ شَهَـٰدَةًۢ ۖ قُلِ ٱللَّهُ ۖ شَهِيدٌۢ بَيْنِى وَبَيْنَكُمْ ۚ وَأُوحِىَ إِلَىَّ هَـٰذَا ٱلْقُرْءَانُ لِأُنذِرَكُم بِهِۦ وَمَنۢ بَلَغَ ۚ أَئِنَّكُمْ لَتَشْهَدُونَ أَنَّ مَعَ ٱللَّهِ ءَالِهَةً أُخْرَىٰ ۚ قُل لَّآ أَشْهَدُ ۚ قُلْ إِنَّمَا هُوَ إِلَـٰهٌۭ وَٰحِدٌۭ وَإِنَّنِى بَرِىٓءٌۭ مِّمَّا تُشْرِكُونَ ﴿١٩﴾</div>
             <div class="transliteration">Qul ayyu syai'in akbaru syahādah, qulillāh, syahīdun bainī wa bainakum, wa ūḥiya ilayya hāżal-qur'ānu li'unżirakum bihī wa mam balag, a'innakum latasyhadūna anna ma'allāhi ālihatan ukhrā, qul lā asyhad, qul innamā huwa ilāhun wāḥiduw wa innanī barī'um mimmā tusyrikūn.</div>
-            <div class="translation"><strong>Translation:</strong> "Say, 'What thing is greatest in testimony?' Say, 'Allah. He is witness between me and you. And this Qur'an was revealed to me that I may warn you thereby and whomever it reaches. Do you indeed testify that with Allah there are other gods?' Say, 'I do not testify.' Say, 'Indeed, He is but one God, and indeed, I am free of what you associate [with Him].'" (6:19)</div>
-            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse affirms that Allah is the primary witness to the truth of Islam and Muhammad's prophethood. Allah's testimony through His revelation is the greatest and most valid testimony. This is the pinnacle of tawhid argumentation. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=19&to=19&opt=1" target="_blank">📖 Read full tafsir at IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
-            <div class="tafsir-box"><strong>Additional Tafsir – Ibn Kathir:</strong> Ibn Kathir explains that this verse is the strongest argument for tawhid. Allah Himself testifies that there is no god but Him. The Prophet is commanded to challenge the polytheists: who is the greatest witness? They cannot answer other than Allah. Then the Prophet declares that he will never acknowledge any god besides Allah, and he disassociates himself from all forms of shirk. <a href="https://quran.com/6:19/tafsirs/ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></div>
+            <div class="translation-text"><strong>Translation:</strong> "Say, 'What thing is greatest in testimony?' Say, 'Allah. He is witness between me and you. And this Qur'an was revealed to me that I may warn you thereby and whomever it reaches. Do you indeed testify that with Allah there are other gods?' Say, 'I do not testify.' Say, 'Indeed, He is but one God, and indeed, I am free of what you associate [with Him].'" (6:19)</div>
+            <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse affirms that Allah is the primary witness to the truth of Islam and Muhammad's prophethood. Allah's testimony through His revelation is the greatest and most valid testimony. This is the pinnacle of tawhid argumentation. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=19&to=19" target="_blank">📖 Read full tafsir at IslamicStudies.info <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+            <div class="tafsir-box"><strong>Additional Tafsir – Ibn Kathir:</strong> Ibn Kathir explains that this verse is the strongest argument for tawhid. Allah Himself testifies that there is no god but He. The Prophet is commanded to challenge the polytheists: who is the greatest witness? They cannot answer other than Allah. Then the Prophet declares that he will never acknowledge any god besides Allah, and he disassociates himself from all forms of shirk. <a href="https://quran.com/6:19/tafsirs/ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></div>
         </div>
 
         <!-- Thematic Division Table (English) -->
         <div class="section"><h2 class="section-title"><i class="fas fa-table"></i> Thematic Division by Verses</h2>
             <table class="theme-table"><thead><tr><th>Verses</th><th>Theme</th><th>Core Message & Tafsir</th></tr></thead><tbody>
-                <tr><td><strong>1-24</strong></td><td>Tawhid and Rejection of Shirk</th><td>Affirmation of Allah's oneness, refutation of polytheists, and dialogue about Allah's testimony. — Ibn Kathir</th></tr>
-                <tr><td><strong>25-50</strong></th><td>Attitude of Disbelievers towards the Qur'an</th><td>Disbelievers reject the Qur'an, ask for miracles, and warning of coming punishment. — Al-Qurtubi</th></tr>
-                <tr><td><strong>51-73</strong></th><td>Warning for the Negligent and Allah's Power</th><td>Warning to those heedless of the Day of Resurrection, affirmation that Allah does not wrong His servants, and evidence of His power in heavens and earth. — As-Sa'di</th></tr>
-                <tr><td><strong>74-90</strong></th><td>Story of Prophet Ibrahim and Other Prophets</th><td>Ibrahim's dialogue with his father and people, mention of other prophets, and Allah's favor upon them. — At-Tabari</th></tr>
-                <tr><td><strong>91-110</strong></th><td>Refutation of People of the Book and Affirmation of Revelation</th><td>Rebuke to those who disbelieve in the Qur'an and attribute lies to Allah, and the consequence of their actions. — Ibn Kathir</th></tr>
-                <tr><td><strong>111-140</strong></th><td>Devil's Deception and Allah's Sovereignty</th><td>Even if Allah sent angels, disbelievers would still reject; Allah leaves some in error due to their choices, and commands justice. — Al-Qurtubi</th></tr>
-                <tr><td><strong>141-150</strong></th><td>Laws Concerning Cattle and Prohibition of Shirk</th><td>Prohibition of falsely attributing prohibitions to Allah regarding cattle, and the error of the polytheists. — As-Sa'di</th></tr>
-                <tr><td><strong>151-165</strong></th><td>The Great Commandments and Conclusion</th><td>The ten commandments (prohibition of shirk, kindness to parents, prohibition of killing children, avoiding shameful deeds, justice, fulfilling oaths) and the affirmation that this is the straight path. — At-Tabari</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>1-24</strong></td><td>Tawhid and Rejection of Shirk</th><td>Affirmation of Allah's oneness, refutation of polytheists, and dialogue about Allah's testimony. — Ibn Kathir</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>25-50</strong></th><td>Attitude of Disbelievers towards the Qur'an</th><td>Disbelievers reject the Qur'an, ask for miracles, and warning of coming punishment. — Al-Qurtubi</th><tr>
+                <tr><td style="white-space: nowrap;"><strong>51-73</strong></th><td>Warning for the Negligent and Allah's Power</th><td>Warning to those heedless of the Day of Resurrection, affirmation that Allah does not wrong His servants, and evidence of His power in heavens and earth. — As-Sa'di</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>74-90</strong></th><td>Story of Prophet Ibrahim and Other Prophets</th><td>Ibrahim's dialogue with his father and people, mention of other prophets, and Allah's favor upon them. — At-Tabari</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>91-110</strong></th><td>Refutation of People of the Book and Affirmation of Revelation</th><td>Rebuke to those who disbelieve in the Qur'an and attribute lies to Allah, and the consequence of their actions. — Ibn Kathir</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>111-140</strong></th><td>Devil's Deception and Allah's Sovereignty</th><td>Even if Allah sent angels, disbelievers would still reject; Allah leaves some in error due to their choices, and commands justice. — Al-Qurtubi</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>141-150</strong></th><td>Laws Concerning Cattle and Prohibition of Shirk</th><td>Prohibition of falsely attributing prohibitions to Allah regarding cattle, and the error of the polytheists. — As-Sa'di</th></tr>
+                <tr><td style="white-space: nowrap;"><strong>151-165</strong></th><td>The Great Commandments and Conclusion</th><td>The ten commandments (prohibition of shirk, kindness to parents, prohibition of killing children, avoiding shameful deeds, justice, fulfilling oaths) and the affirmation that this is the straight path. — At-Tabari</th></tr>
             </tbody></table>
         </div>
 
@@ -598,60 +642,60 @@
             <div class="theme-card"><div class="theme-title">1. Tawhid and Rejection of Shirk – Verses 1-24</div>
                 <div class="arabic">ٱلْحَمْدُ لِلَّهِ ٱلَّذِى خَلَقَ ٱلسَّمَـٰوَٰتِ وَٱلْأَرْضَ وَجَعَلَ ٱلظُّلُمَـٰتِ وَٱلنُّورَ ۖ ثُمَّ ٱلَّذِينَ كَفَرُوا۟ بِرَبِّهِمْ يَعْدِلُونَ ﴿١﴾</div>
                 <div class="transliteration">Al-ḥamdu lillāhil-lażī khalaqas-samāwāti wal-arḍa wa ja‘alaz-ẓulumāti wan-nūr, ṡummallażīna kafarū birabbihim ya‘dilūn.</div>
-                <div class="translation">"All praise is for Allah Who created the heavens and the earth and made darkness and light. Yet the disbelievers set up equals to their Lord." (6:1)</div>
+                <div class="translation-text">"All praise is for Allah Who created the heavens and the earth and made darkness and light. Yet the disbelievers set up equals to their Lord." (6:1)</div>
                 <div class="arabic">قُلْ أَىُّ شَىْءٍ أَكْبَرُ شَهَـٰدَةًۢ ۖ قُلِ ٱللَّهُ ۖ شَهِيدٌۢ بَيْنِى وَبَيْنَكُمْ ... ﴿١٩﴾</div>
                 <div class="transliteration">Qul ayyu syai'in akbaru syahādah, qulillāh ...</div>
-                <div class="translation">"Say, 'What thing is greatest in testimony?' Say, 'Allah. He is witness between me and you...'" (6:19)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The surah opens with praise to Allah for creating the heavens and earth. Allah created darkness and light as signs of His power. Disbelievers still associate partners with Allah despite clear evidence. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=1&to=24&opt=1" target="_blank">📖 Read full tafsir (Verses 1-24) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"Say, 'What thing is greatest in testimony?' Say, 'Allah. He is witness between me and you...'" (6:19)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The surah opens with praise to Allah for creating the heavens and earth. Allah created darkness and light as signs of His power. Disbelievers still associate partners with Allah despite clear evidence. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=1&to=24" target="_blank">📖 Read full tafsir (Verses 1-24) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – Al-Qurtubi:</strong> Al-Qurtubi explains that "darkness and light" are clear proofs of Allah's power. Anyone who reflects on the universe will see perfect order, indicating that its Creator is One. Yet disbelievers associate partners with Allah because they follow their desires and ancestral traditions. <a href="https://quran.com/6:1/tafsirs/qurtubi" target="_blank">📖 Read Al-Qurtubi tafsir</a></div>
             </div>
 
             <div class="theme-card"><div class="theme-title">2. Evidence of Allah's Power in Nature – Verses 95-99</div>
                 <div class="arabic">إِنَّ ٱللَّهَ فَالِقُ ٱلْحَبِّ وَٱلنَّوَىٰ ۖ يُخْرِجُ ٱلْحَىَّ مِنَ ٱلْمَيِّتِ وَمُخْرِجُ ٱلْمَيِّتِ مِنَ ٱلْحَىِّ ۚ ذَٰلِكُمُ ٱللَّهُ ۖ فَأَنَّىٰ تُؤْفَكُونَ ﴿٩٥﴾</div>
                 <div class="transliteration">Innallāha fāliqul-ḥabbi wan-nawā, yukhrijul-ḥayya minal-mayyiti wa mukhrijul-mayyiti minal-ḥayy, żālikumullāh, fa annā tu’fakūn.</div>
-                <div class="translation">"Indeed, Allah is the cleaver of grain and seeds. He brings the living out of the dead and brings the dead out of the living..." (6:95)</div>
+                <div class="translation-text">"Indeed, Allah is the cleaver of grain and seeds. He brings the living out of the dead and brings the dead out of the living..." (6:95)</div>
                 <div class="arabic">وَهُوَ ٱلَّذِىٓ أَنزَلَ مِنَ ٱلسَّمَآءِ مَآءًۭ فَأَخْرَجْنَا بِهِۦ نَبَاتَ كُلِّ شَىْءٍۢ ... إِنَّ فِى ذَٰلِكُمْ لَـَٔايَـٰتٍۢ لِّقَوْمٍۢ يُؤْمِنُونَ ﴿٩٩﴾</div>
                 <div class="transliteration">Wa huwal-lażī anzala minas-samā'i mā'an ... inna fī żālikum la`āyātil liqaumiy yu`minūn.</div>
-                <div class="translation">"And He is the one who sends down rain from the sky... Indeed in that are signs for a people who believe." (6:99)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse shows Allah's power in sprouting grains and regulating the life cycle. Reflecting on Allah's creation is a way to increase faith. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=95&to=99&opt=1" target="_blank">📖 Read full tafsir (Verses 95-99) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"And He is the one who sends down rain from the sky... Indeed in that are signs for a people who believe." (6:99)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse shows Allah's power in sprouting grains and regulating the life cycle. Reflecting on Allah's creation is a way to increase faith. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=95&to=99" target="_blank">📖 Read full tafsir (Verses 95-99) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – As-Sa'di:</strong> As-Sa'di explains that sprouting hard seeds into living plants is proof of Allah's power to resurrect the dead. Likewise, the water cycle and plant growth are clear evidence that Allah is the sole Creator. All of these are signs for believers. <a href="https://quran.com/6:95/tafsirs/saadi" target="_blank">📖 Read As-Sa'di tafsir</a></div>
             </div>
 
             <div class="theme-card"><div class="theme-title">3. Story of Prophet Ibrahim – Verses 74-83</div>
                 <div class="arabic">وَإِذْ قَالَ إِبْرَٰهِيمُ لِأَبِيهِ آزَرَ أَتَتَّخِذُ أَصْنَامًا ءَالِهَةً ۖ إِنِّىٓ أَرَىٰكَ وَقَوْمَكَ فِى ضَلَـٰلٍۢ مُّبِينٍ ﴿٧٤﴾</div>
                 <div class="transliteration">Wa iż qāla ibrāhīmu li’abīhi āzara, a tattakhiżu aṣnāman ālihah, innī arāka wa qaumaka fī ḍalālim mubīn.</div>
-                <div class="translation">"And [mention] when Abraham said to his father, Azar, 'Do you take idols as deities? Indeed, I see you and your people in manifest error.'" (6:74)</div>
+                <div class="translation-text">"And [mention] when Abraham said to his father, Azar, 'Do you take idols as deities? Indeed, I see you and your people in manifest error.'" (6:74)</div>
                 <div class="arabic">وَحَآجَّهُۥ قَوْمُهُۥ ۚ قَالَ أَتُحَـٰٓجُّوٓنِّى فِى ٱللَّهِ وَقَدْ هَدَىٰنِ ... أَفَلَا تَتَذَكَّرُونَ ﴿٨٠﴾</div>
                 <div class="transliteration">Wa ḥājjahū qaumuh, qāla atuḥājjūnni fillāhi wa qad hadān ... afalā tatażakkarūn.</div>
-                <div class="translation">"And his people argued with him. He said, 'Do you argue with me concerning Allah while He has guided me?... Then will you not remember?'" (6:80)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The story of Prophet Ibrahim exemplifies the struggle to establish tawhid in a polytheistic society. Ibrahim preached to his father with compassion yet firmness. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=74&to=83&opt=1" target="_blank">📖 Read full tafsir (Verses 74-83) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"And his people argued with him. He said, 'Do you argue with me concerning Allah while He has guided me?... Then will you not remember?'" (6:80)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> The story of Prophet Ibrahim exemplifies the struggle to establish tawhid in a polytheistic society. Ibrahim preached to his father with compassion yet firmness. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=74&to=83" target="_blank">📖 Read full tafsir (Verses 74-83) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – At-Tabari:</strong> At-Tabari explains that Ibrahim is a model in preaching. He spoke to his father gently yet firmly. When his people argued, he was not afraid because his faith in Allah was strong. He affirmed that only Allah is to be feared, not the powerless idols. <a href="https://quran.com/6:80/tafsirs/tabari" target="_blank">📖 Read At-Tabari tafsir</a></div>
             </div>
 
             <div class="theme-card"><div class="theme-title">4. The Great Ten Commandments – Verses 151-153</div>
                 <div class="arabic">قُلْ تَعَالَوْا۟ أَتْلُ مَا حَرَّمَ رَبُّكُمْ عَلَيْكُمْ ۖ أَلَّا تُشْرِكُوا۟ بِهِۦ شَيْـًۭٔا ۖ وَبِٱلْوَٰلِدَيْنِ إِحْسَـٰنًۭا ۖ وَلَا تَقْتُلُوٓا۟ أَوْلَـٰدَكُم مِّنْ إِمْلَـٰقٍۢ ۖ نَّحْنُ نَرْزُقُكُمْ وَإِيَّاهُمْ ... ﴿١٥١﴾</div>
                 <div class="transliteration">Qul ta‘ālau atlu mā ḥarrama rabbukum ‘alaikum ...</div>
-                <div class="translation">"Say, 'Come, I will recite what your Lord has prohibited to you...'" (6:151)</div>
+                <div class="translation-text">"Say, 'Come, I will recite what your Lord has prohibited to you...'" (6:151)</div>
                 <div class="arabic">وَأَوْفُوا۟ ٱلْكَيْلَ وَٱلْمِيزَانَ بِٱلْقِسْطِ ... وَبِعَهْدِ ٱللَّهِ أَوْفُوا۟ ۚ ذَٰلِكُمْ وَصَّىٰكُم بِهِۦ لَعَلَّكُمْ تَذَكَّرُونَ ﴿١٥٢﴾</div>
                 <div class="transliteration">Wa aufūl-kaila wal-mīzāna bil-qisṭ ... wa bi‘ahdillī aufū, żālikum waṣṣākum bihī la‘allakum tażakkarūn.</div>
-                <div class="translation">"And give full measure and weight in justice... And fulfill the covenant of Allah. This has He instructed you that you may remember." (6:152)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> These ten commandments cover the prohibition of shirk, kindness to parents, prohibition of killing children for fear of poverty, prohibition of immoral acts, prohibition of unjust killing, prohibition of consuming orphans' wealth, prohibition of giving short measure, prohibition of unjust testimony, prohibition of breaking oaths, and command to follow Allah's path. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=151&to=153&opt=1" target="_blank">📖 Read full tafsir (Verses 151-153) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"And give full measure and weight in justice... And fulfill the covenant of Allah. This has He instructed you that you may remember." (6:152)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> These ten commandments cover the prohibition of shirk, kindness to parents, prohibition of killing children for fear of poverty, prohibition of immoral acts, prohibition of unjust killing, prohibition of consuming orphans' wealth, prohibition of giving short measure, prohibition of unjust testimony, prohibition of breaking oaths, and command to follow Allah's path. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=151&to=153" target="_blank">📖 Read full tafsir (Verses 151-153) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – Ibn Kathir:</strong> Ibn Kathir emphasizes that these ten commandments are a summary of Islamic teachings. Prohibition of shirk is foremost. Kindness to parents is obligatory after tawhid. Prohibition of killing children due to fear of poverty shows complete trust in Allah as the Provider. Justice in measure and testimony is the foundation of Islamic economy and judiciary. <a href="https://quran.com/6:151/tafsirs/ibn-kathir" target="_blank">📖 Read Ibn Kathir tafsir</a></div>
             </div>
 
             <div class="theme-card"><div class="theme-title">5. Prohibition of Shirk and Its Consequences – Verse 88</div>
                 <div class="arabic">ذَٰلِكَ هُدَى ٱللَّهِ يَهْدِى بِهِۦ مَن يَشَآءُ مِنْ عِبَادِهِۦ ۚ وَلَوْ أَشْرَكُوا۟ لَحَبِطَ عَنْهُم مَّا كَانُوا۟ يَعْمَلُونَ ﴿٨٨﴾</div>
                 <div class="transliteration">Żālika hudallāh, yahdī bihī may yasyā’u min ‘ibādih, walau asyrakū laḥabiṭa ‘an-hum mā kānū ya‘malūn.</div>
-                <div class="translation">"That is the guidance of Allah by which He guides whom He wills of His servants. But if they had associated others with Allah, then all that they had done would have been worthless." (6:88)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse shows the seriousness of shirk, which can erase all good deeds. Shirk is the greatest sin that is not forgiven if the perpetrator dies without repentance. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=88&to=88&opt=1" target="_blank">📖 Read full tafsir (Verse 88) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"That is the guidance of Allah by which He guides whom He wills of His servants. But if they had associated others with Allah, then all that they had done would have been worthless." (6:88)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse shows the seriousness of shirk, which can erase all good deeds. Shirk is the greatest sin that is not forgiven if the perpetrator dies without repentance. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=88&to=88" target="_blank">📖 Read full tafsir (Verse 88) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – As-Sa'di:</strong> As-Sa'di explains that good deeds are of great value to Allah, but if a person commits shirk, all their deeds become worthless. This is because shirk is the greatest injustice. Allah will not forgive shirk if the person dies in that state. Therefore, a believer must be extremely careful to maintain the purity of their tawhid. <a href="https://quran.com/6:88/tafsirs/saadi" target="_blank">📖 Read As-Sa'di tafsir</a></div>
             </div>
 
             <div class="theme-card"><div class="theme-title">6. Prayer, Worship, and Sacrifice – Verses 162-163</div>
                 <div class="arabic">قُلْ إِنَّ صَلَاتِى وَنُسُكِى وَمَحْيَاىَ وَمَمَاتِى لِلَّهِ رَبِّ ٱلْعَـٰلَمِينَ ﴿١٦٢﴾ لَا شَرِيكَ لَهُۥ ۖ وَبِذَٰلِكَ أُمِرْتُ وَأَنَا۠ أَوَّلُ ٱلْمُسْلِمِينَ ﴿١٦٣﴾</div>
                 <div class="transliteration">Qul inna ṣalātī wa nusukī wa maḥyāya wa mamātī lillāhi rabbil-‘ālamīn. Lā syarīka lah, wa biżālika umirtu wa ana awwalul-muslimīn.</div>
-                <div class="translation">"Say, 'Indeed, my prayer, my rites of sacrifice, my living and my dying are for Allah, Lord of the worlds. No partner has He. And this I have been commanded, and I am the first of the Muslims [those who submit].'" (6:162-163)</div>
-                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse is the pinnacle of tawhid and total submission to Allah. A Muslim's entire life – prayer, worship, living, and dying – must be dedicated solely to Allah. This is the essence of the message of all prophets. <a href="https://www.islamicstudies.info/tafheem.php?sura=6&verse=162&to=163&opt=1" target="_blank">📖 Read full tafsir (Verses 162-163) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+                <div class="translation-text">"Say, 'Indeed, my prayer, my rites of sacrifice, my living and my dying are for Allah, Lord of the worlds. No partner has He. And this I have been commanded, and I am the first of the Muslims [those who submit].'" (6:162-163)</div>
+                <div class="tafsir-box"><strong>Tafsir IslamicStudies.info:</strong> This verse is the pinnacle of tawhid and total submission to Allah. A Muslim's entire life – prayer, worship, living, and dying – must be dedicated solely to Allah. This is the essence of the message of all prophets. <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=6&verse=162&to=163" target="_blank">📖 Read full tafsir (Verses 162-163) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
                 <div class="tafsir-box"><strong>Additional Tafsir – Al-Qurtubi:</strong> Al-Qurtubi explains that "nusuk" includes all forms of worship, including animal sacrifice. A Muslim must ensure that all their deeds are for Allah alone, not for show or for anyone else. The Prophet Muhammad was the first to establish this tawhid in a polytheistic society. <a href="https://quran.com/6:162/tafsirs/qurtubi" target="_blank">📖 Read Al-Qurtubi tafsir</a></div>
             </div>
         </div>
@@ -669,8 +713,7 @@
     </div>
 </div>
 <footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info & sumber klasik (Ibnu Katsir, Al-Qurthubi, As-Sa'di, At-Tabari) | Thematic Reflection | Semua ayat ditampilkan lengkap dengan nomor Arab.</footer>
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
 <script>
     (function() {
         const englishDiv = document.getElementById('english-content');
@@ -679,6 +722,7 @@
         const translitToggle = document.getElementById('transliterationToggle');
         const darkToggle = document.getElementById('darkModeToggle');
         const translitElements = document.querySelectorAll('.transliteration');
+        const body = document.body;
         const urlParams = new URLSearchParams(window.location.search);
         let langParam = null;
         if (urlParams.has('English')) langParam = 'english';
@@ -700,13 +744,18 @@
         let darkActive = false;
         if (urlParams.has('Dark')) darkActive = true;
         else darkActive = localStorage.getItem('darkMode') === 'true';
-        if (darkActive) document.body.classList.add('dark-mode');
-        function setDarkModeUI() { const active = document.body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
+        if (darkActive) body.classList.add('dark-mode');
+        function setDarkModeUI() { const active = body.classList.contains('dark-mode'); darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode'; localStorage.setItem('darkMode', active); }
         setDarkModeUI();
-        darkToggle.addEventListener('click', () => { document.body.classList.toggle('dark-mode'); setDarkModeUI(); });
-        const upArrow = document.getElementById('scrollUp'); const downArrow = document.getElementById('scrollDown');
+        darkToggle.addEventListener('click', () => { body.classList.toggle('dark-mode'); setDarkModeUI(); });
+        const upArrow = document.getElementById('scrollUp');
+        const downArrow = document.getElementById('scrollDown');
+        const doubleUp = document.getElementById('doubleUpScroll');
+        const doubleDown = document.getElementById('doubleDownScroll');
         if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
         if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+        if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
     })();
 </script>
 </body>
