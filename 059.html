@@ -400,8 +400,8 @@
             <p>Surah Al-Hashr (سورة الحشر) adalah surah ke-59 dalam Al-Qur'an dengan 24 ayat. Termasuk kategori Madaniyah (diturunkan di Madinah). Dinamakan "Al-Hashr" (Pengusiran) yang merujuk pada pengusiran Bani Nadhir, suku Yahudi yang mengkhianati perjanjian dengan Muslim di Madinah. Menurut <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, surah ini menekankan kekuasaan Allah atas alam semesta, distribusi harta rampasan yang adil, karakter orang munafik, dan sifat-sifat agung Allah.</p>
         </div>
         
-        <!-- ASMAUL HUSNA NOTE with ID for scrolling -->
-        <div id="asmaul-husna-section" class="asmul-husna-note">
+        <!-- ASMAUL HUSNA NOTE (Indonesian) -->
+        <div class="asmul-husna-note">
             <h3><i class="fas fa-star-of-life"></i> Konsentrasi Nama-nama Allah (Asmaul Husna)</h3>
             <p>Surah Al-Hashr, khususnya ayat 22–24, mengandung sekitar 15 Nama dan Sifat Allah yang agung, antara lain: <strong>Al-Malik</strong> (Raja), <strong>Al-Quddus</strong> (Maha Suci), <strong>As-Salam</strong> (Maha Sejahtera), <strong>Al-Mu'min</strong> (Maha Memberi Keamanan), <strong>Al-Muhaymin</strong> (Maha Pemelihara), <strong>Al-'Aziz</strong> (Maha Perkasa), <strong>Al-Jabbar</strong> (Maha Memaksa), <strong>Al-Mutakabbir</strong> (Maha Megah), <strong>Al-Khaliq</strong> (Maha Pencipta), <strong>Al-Bari'</strong> (Maha Mengadakan), <strong>Al-Musawwir</strong> (Maha Membentuk Rupa), dan lainnya. Ayat-ayat ini menjadi puncak pengagungan Allah dalam satu rangkaian ayat.</p>
             <p><strong>Referensi:</strong> QS. Al-Hashr (59): 22, 23, 24. Banyak muslim mengamalkan bacaan ini karena ringkas namun mencakup kebesaran Allah.</p>
@@ -477,7 +477,8 @@
 
         <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Hashr (59)</h3><p>Madinan surah (24 verses). According to <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, it emphasizes Allah's absolute power, just distribution of war booty (fai'), characteristics of hypocrites, and Allah's magnificent attributes. The name "Al-Hashr" refers to the expulsion of Banu Nadhir, a Jewish tribe that betrayed their treaty with Muslims in Madinah.</p></div>
         
-        <div id="asmaul-husna-section" class="asmul-husna-note">
+        <!-- ASMAUL HUSNA NOTE (English) -->
+        <div class="asmul-husna-note">
             <h3><i class="fas fa-star-of-life"></i> Concentration of Allah's Names (Asmaul Husna)</h3>
             <p>Surah Al-Hashr, especially verses 22–24, contains around 15 Divine Names and Attributes of Allah, including: <strong>Al-Malik</strong> (The King), <strong>Al-Quddus</strong> (The Most Holy), <strong>As-Salam</strong> (The Source of Peace), <strong>Al-Mu'min</strong> (The Granter of Security), <strong>Al-Muhaymin</strong> (The Guardian), <strong>Al-'Aziz</strong> (The Almighty), <strong>Al-Jabbar</strong> (The Compeller), <strong>Al-Mutakabbir</strong> (The Supreme), <strong>Al-Khaliq</strong> (The Creator), <strong>Al-Bari'</strong> (The Originator), <strong>Al-Musawwir</strong> (The Fashioner), and others. These verses are often recited to summarize Allah's Majesty and Perfection.</p>
             <p><strong>Reference:</strong> Quran 59:22-24.</p>
@@ -554,6 +555,10 @@
             langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 English';
         }
         updateUITexts();
+        // After language change, if AH parameter was present, scroll to visible Asmaul Husna section
+        if (urlParams.has('AH')) {
+            setTimeout(() => scrollToAsmaulHusna(), 200);
+        }
     }
 
     function setTransliteration(show) {
@@ -590,6 +595,14 @@
         });
     }
 
+    function scrollToAsmaulHusna() {
+        const visibleDiv = englishDiv.classList.contains('hidden') ? indoDiv : englishDiv;
+        const targetElement = visibleDiv.querySelector('.asmul-husna-note');
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
     setLanguage(currentLang, false);
     setTransliteration(translitVisible);
 
@@ -613,16 +626,10 @@
     document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
 
-    function scrollToAsmaulHusna() {
-        const params = new URLSearchParams(window.location.search);
-        if (params.has('AH')) {
-            setTimeout(() => {
-                const targetElement = document.getElementById('asmaul-husna-section');
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }, 300);
-        }
+    // Scroll to Asmaul Husna if ?AH parameter is present
+    if (urlParams.has('AH')) {
+        // Wait for language to be fully applied and page rendered
+        setTimeout(() => scrollToAsmaulHusna(), 300);
     }
 
     function enhanceDefaultAudioPlayers() {
@@ -658,7 +665,6 @@
 
     window.addEventListener('load', () => {
         enhanceDefaultAudioPlayers();
-        scrollToAsmaulHusna();
     });
 })();
 </script>
