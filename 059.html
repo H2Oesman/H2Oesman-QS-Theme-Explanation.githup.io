@@ -22,6 +22,8 @@
             --link-hover: #0d3d5a;
             --theme-card-bg: #ffffffdd;
             --translation-color: #2c3e50;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
         }
         .dark-mode {
             --bg-color: #121826;
@@ -36,10 +38,12 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #93c5fd;
-            --link-hover: #c3e2ff;
+            --link-color: #facc15;
+            --link-hover: #ffdf7e;
             --theme-card-bg: #1e293bdd;
             --translation-color: #cbd5e1;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -74,7 +78,7 @@
             font-style: italic;
             color: #7f8c8d;
             font-size: 18px;
-            text-align: center;
+            text-align: right;
             margin: 0 0 5px 0;
             display: none;
         }
@@ -136,6 +140,7 @@
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
+            margin-right: 15px;
             padding: 8px 16px;
             border-radius: 40px;
             border: 1px solid var(--link-color);
@@ -173,10 +178,10 @@
             margin: 20px auto;
             text-align: center;
         }
-        .scroll-arrow {
+        .scroll-arrow, .scroll-arrow-double {
             position: fixed;
-            left: 20px;
-            background: var(--container-bg);
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
             border-radius: 50%;
             width: 44px;
             height: 44px;
@@ -188,12 +193,14 @@
             z-index: 1000;
             transition: 0.2s;
             border: 1px solid var(--verse-border);
-            color: var(--text-color);
-            font-size: 22px;
         }
-        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
-        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow { left: 20px; }
+        .scroll-arrow.up { top: 100px; }
         .scroll-arrow.down { bottom: 90px; }
+        .scroll-arrow-double { right: 20px; }
+        .scroll-arrow-double.up-double { top: 100px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        .scroll-arrow:hover, .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
         .surah-pagination {
             display: flex;
             justify-content: space-between;
@@ -241,7 +248,9 @@
         .dark-mode-toggle { top: 140px; background: #8e44ad; }
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
-            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; left: 12px; right: 12px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 80px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
             .arabic { font-size: 30px; }
             .surah-pagination { flex-direction: column; gap: 10px; align-items: stretch; }
             .pagination-prev, .pagination-next { justify-content: center; }
@@ -295,38 +304,119 @@
         .dark-mode .tafsir-summary {
             background: rgba(255,255,255,0.05);
         }
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .speed-select {
+            background: var(--verse-bg);
+            color: var(--text-color);
+            border: 1px solid var(--verse-border);
+            border-radius: 40px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .clickable-caption {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bonus-bg);
+            padding: 6px 14px;
+            border-radius: 40px;
+            cursor: pointer;
+            border: 1px solid var(--link-color);
+            font-size: 0.9rem;
+        }
+        .clickable-caption:hover {
+            background: var(--link-color);
+            color: white;
+        }
+        .asmul-husna-note {
+            background: linear-gradient(135deg, #fef9e6, #fff3d1);
+            padding: 20px;
+            border-radius: 28px;
+            margin: 30px 0;
+            border-right: 6px solid #d4af37;
+            scroll-margin-top: 100px;
+        }
+        .dark-mode .asmul-husna-note {
+            background: #2a2a1f;
+        }
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--verse-bg);
+            padding: 10px 20px;
+            border-radius: 40px;
+            margin-top: 15px;
+            border: 1px solid var(--link-color);
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .external-link:hover {
+            background: var(--link-color);
+            color: white;
+            text-decoration: none;
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+<div id="doubleUpScroll" class="scroll-arrow-double up-double"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double"><i class="fas fa-angles-down"></i></div>
 
 <div class="container" id="mainContainer">
     <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-book"></i> Juz Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-Hashr (59) - Tafsir Tematik</h1>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info - Surah Al-Hashr <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info - Surah Al-Hashr <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="transliteration">Bismillahirrahmanirrahim</div>
         <div class="translation">Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.</div>
         <div class="arabic">سَبَّحَ لِلَّهِ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۖ وَهُوَ الْعَزِيزُ الْحَكِيمُ</div>
-        <div class="transliteration">Sabbaha lillāhi mā fis-samāwāti wa mā fil-arḍ, wa huwal-'azīzul-ḥakīm</div>
+        <div class="transliteration">Sabbaha lillahi ma fis samawati wa ma fil ard, wa huwal azizul hakim</div>
         <div class="translation">"Telah bertasbih kepada Allah apa yang ada di langit dan apa yang ada di bumi; dan Dialah Yang Mahaperkasa, Mahabijaksana." (Al-Hashr 59:1)</div>
 
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Hashr (59)</h3>
-            <p>Surah Al-Hashr (سورة الحشر) adalah surah ke-59 dalam Al-Qur'an dengan 24 ayat. Termasuk kategori Madaniyah (diturunkan di Madinah). Dinamakan "Al-Hashr" (Pengusiran) yang merujuk pada pengusiran Bani Nadhir, suku Yahudi yang mengkhianati perjanjian dengan Muslim di Madinah. Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, surah ini menekankan kekuasaan Allah atas alam semesta, distribusi harta rampasan yang adil, karakter orang munafik, dan sifat-sifat agung Allah.</p>
+            <p>Surah Al-Hashr (سورة الحشر) adalah surah ke-59 dalam Al-Qur'an dengan 24 ayat. Termasuk kategori Madaniyah (diturunkan di Madinah). Dinamakan "Al-Hashr" (Pengusiran) yang merujuk pada pengusiran Bani Nadhir, suku Yahudi yang mengkhianati perjanjian dengan Muslim di Madinah. Menurut <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, surah ini menekankan kekuasaan Allah atas alam semesta, distribusi harta rampasan yang adil, karakter orang munafik, dan sifat-sifat agung Allah.</p>
         </div>
+        
+        <!-- ASMAUL HUSNA NOTE with ID for scrolling -->
+        <div id="asmaul-husna-section" class="asmul-husna-note">
+            <h3><i class="fas fa-star-of-life"></i> Konsentrasi Nama-nama Allah (Asmaul Husna)</h3>
+            <p>Surah Al-Hashr, khususnya ayat 22–24, mengandung sekitar 15 Nama dan Sifat Allah yang agung, antara lain: <strong>Al-Malik</strong> (Raja), <strong>Al-Quddus</strong> (Maha Suci), <strong>As-Salam</strong> (Maha Sejahtera), <strong>Al-Mu'min</strong> (Maha Memberi Keamanan), <strong>Al-Muhaymin</strong> (Maha Pemelihara), <strong>Al-'Aziz</strong> (Maha Perkasa), <strong>Al-Jabbar</strong> (Maha Memaksa), <strong>Al-Mutakabbir</strong> (Maha Megah), <strong>Al-Khaliq</strong> (Maha Pencipta), <strong>Al-Bari'</strong> (Maha Mengadakan), <strong>Al-Musawwir</strong> (Maha Membentuk Rupa), dan lainnya. Ayat-ayat ini menjadi puncak pengagungan Allah dalam satu rangkaian ayat.</p>
+            <p><strong>Referensi:</strong> QS. Al-Hashr (59): 22, 23, 24. Banyak muslim mengamalkan bacaan ini karena ringkas namun mencakup kebesaran Allah.</p>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="https://quran.com/59/22-24?translations=33" target="_blank" class="external-link">
+                    <i class="fas fa-external-link-alt"></i> Baca dan dengarkan Ayat 22-24 di Quran.com
+                </a>
+            </div>
+        </div>
+
         <div class="info-box">
             <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
             <p><a href="https://quran.com/59:1-24?translations=33" target="_blank">Quran.com - Surah Al-Hashr (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-mouse-pointer"></i> Klik di sini</span></a></p>
         </div>
-        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Hashr</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/059.mp3" type="audio/mpeg"></audio></div>
+        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Hashr (Lengkap)</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/059.mp3" type="audio/mpeg"></audio></div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-book-open"></i> Struktur dan Kandungan Surah</h2>
             <div class="structure-grid">
@@ -337,23 +427,18 @@
             </div>
         </div>
 
-        <div class="historical-section"><h3><i class="fas fa-history"></i> Konteks Penurunan</h3><p>Menurut <a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, Surah Al-Hashr diturunkan di Madinah setelah pengusiran Bani Nadhir pada tahun ke-4 Hijriyah karena mereka berkhianat dan bersekongkol dengan musuh. Surah ini mengajarkan keadilan dalam distribusi harta, peringatan terhadap kemunafikan, dan pengagungan Allah.</p><div class="timeline"><div class="timeline-item"><strong>Lokasi:</strong> Madinah (Madaniyah)</div><div class="timeline-item"><strong>Periode:</strong> Tahun ke-4 Hijriyah (setelah pengusiran Bani Nadhir)</div><div class="timeline-item"><strong>Latar Belakang:</strong> Pengkhianatan Bani Nadhir dan konspirasi orang munafik</div><div class="timeline-item"><strong>Tujuan:</strong> Menegakkan keadilan sosial, memperingatkan kemunafikan, dan mengagungkan Allah</div></div></div>
+        <div class="historical-section"><h3><i class="fas fa-history"></i> Konteks Penurunan</h3><p>Menurut <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, Surah Al-Hashr diturunkan di Madinah setelah pengusiran Bani Nadhir pada tahun ke-4 Hijriyah karena mereka berkhianat dan bersekongkol dengan musuh. Surah ini mengajarkan keadilan dalam distribusi harta, peringatan terhadap kemunafikan, dan pengagungan Allah.</p><div class="timeline"><div class="timeline-item"><strong>Lokasi:</strong> Madinah (Madaniyah)</div><div class="timeline-item"><strong>Periode:</strong> Tahun ke-4 Hijriyah (setelah pengusiran Bani Nadhir)</div><div class="timeline-item"><strong>Latar Belakang:</strong> Pengkhianatan Bani Nadhir dan konspirasi orang munafik</div><div class="timeline-item"><strong>Tujuan:</strong> Menegakkan keadilan sosial, memperingatkan kemunafikan, dan mengagungkan Allah</div></div></div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Tema Utama Surah Al-Hashr</h2>
-            <div class="theme-card"><div class="theme-title">1. Pengusiran Bani Nadhir (Ayat 1-5)</div><div class="arabic">هُوَ الَّذِي أَخْرَجَ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ مِن دِيَارِهِمْ لِأَوَّلِ الْحَشْرِ</div><div class="transliteration">Huwal-ladhī akhrajal-ladhīna kafarū min ahlil-kitābi min diyārihim li-awwalil-ḥashr</div><div class="translation">"Dialah yang mengusir orang-orang kafir di antara Ahli Kitab dari kampung halaman mereka pada pengusiran yang pertama."</div><div class="tafsir-summary"><strong>Tafsir ringkas (Tafhimul Qur'an):</strong> Allah mengusir Bani Nadhir karena pengkhianatan mereka. Meskipun mereka memiliki benteng kokoh, Allah menanamkan rasa takut sehingga mereka menghancurkan rumah sendiri. Ini mengajarkan bahwa kekuatan sejati bukan pada fisik, tetapi pertolongan Allah. Pengkhianatan terhadap perjanjian akan berbuah petaka.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=1&to=5" target="_blank">📖 Tafsir lengkap IslamicStudies.info: Ayat 1-5</a></div></div>
-            <div class="theme-card"><div class="theme-title">2. Distribusi Harta Rampasan (Fai') (Ayat 6-10)</div><div class="arabic">مَّا أَفَاءَ اللَّهُ عَلَىٰ رَسُولِهِ مِنْ أَهْلِ الْقُرَىٰ فَلِلَّهِ وَلِلرَّسُولِ وَلِذِي الْقُرْبَىٰ وَالْيَتَامَىٰ وَالْمَسَاكِينِ وَابْنِ السَّبِيلِ كَيْ لَا يَكُونَ دُولَةً بَيْنَ الْأَغْنِيَاءِ مِنكُمْ</div><div class="transliteration">Mā afā'allāhu 'alā rasūlihī min ahlil-qurā falillāhi wa lir-rasūli wa lidhil-qurbā wa l-yatāmā wa l-masākīni wabni s-sabīl, kay lā yakūna dūlatan baynal-aghniyā'i minkum</div><div class="translation">"Apa saja harta rampasan (fai') yang diberikan Allah kepada Rasul-Nya dari penduduk negeri-negeri, maka untuk Allah, Rasul, kerabat, anak yatim, orang miskin, dan musafir, agar harta itu jangan beredar hanya di antara orang-orang kaya saja di antara kamu."</div><div class="tafsir-summary"><strong>Tafsir ringkas:</strong> Prinsip revolusioner: harta rampasan tidak hanya untuk prajurit, tetapi untuk fakir miskin, yatim, dan musafir agar tidak beredar hanya di kalangan kaya. Ini keadilan sosial yang mendahului zamannya, mencegah monopoli dan kesenjangan ekonomi.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=6&to=10" target="_blank">📖 Tafsir distribusi fai' (IslamicStudies.info)</a></div></div>
-            <div class="theme-card"><div class="theme-title">3. Karakter Orang Munafik (Ayat 11-17)</div><div class="arabic">أَلَمْ تَرَ إِلَى الَّذِينَ نَافَقُوا يَقُولُونَ لِإِخْوَانِهِمُ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ لَئِنْ أُخْرِجْتُمْ لَنَخْرُجَنَّ مَعَكُمْ</div><div class="transliteration">Alam tara ilal-ladhīna nāfaqū yaqūlūna li-ikhwānihimul-ladhīna kafarū min ahlil-kitābi la'in ukhrijtum lanakhrujanna ma'akum</div><div class="translation">"Tidakkah engkau perhatikan orang-orang munafik yang berkata kepada saudara-saudara mereka yang kafir dari Ahli Kitab, 'Sungguh jika kamu diusir, niscaya kami akan keluar bersama kamu.'"</div><div class="tafsir-summary"><strong>Tafsir ringkas:</strong> Orang munafik berjanji palsu kepada musuh Allah, padahal mereka tidak akan menepati. Allah bersaksi bahwa mereka pendusta. Ini peringatan agar umat waspada terhadap musuh dalam selimut yang lebih berbahaya dari musuh terbuka.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=11&to=17" target="_blank">📖 Tafsir kemunafikan (IslamicStudies.info)</a></div></div>
-            <div class="theme-card"><div class="theme-title">4. Persaudaraan Sejati Kaum Anshar (Ayat 9)</div><div class="arabic">وَالَّذِينَ تَبَوَّءُوا الدَّارَ وَالْإِيمَانَ مِن قَبْلِهِمْ يُحِبُّونَ مَنْ هَاجَرَ إِلَيْهِمْ وَلَا يَجِدُونَ فِي صُدُورِهِمْ حَاجَةً مِّمَّا أُوتُوا وَيُؤْثِرُونَ عَلَىٰ أَنفُسِهِمْ وَلَوْ كَانَ بِهِمْ خَصَاصَةٌ</div><div class="transliteration">Wal-ladhīna tabawwa'ud-dāra wal-īmāna min qablihim yuḥibbūna man hājara ilaihim wa lā yajidūna fī ṣudūrihim ḥājatan mimmā ūtū wa yu'ṡirūna 'alā anfusihim wa law kāna bihim khaṣāṣah</div><div class="translation">"Dan orang-orang yang telah menempati kota Madinah dan telah beriman sebelum mereka (Muhajirin), mereka mencintai orang yang berhijrah kepada mereka, dan mereka tidak merasa dalam hati mereka keinginan terhadap apa yang diberikan kepada mereka (Muhajirin); dan mereka mengutamakan (orang-orang Muhajirin) atas diri mereka sendiri, sekalipun mereka dalam kesusahan."</div><div class="tafsir-summary"><strong>Tafsir ringkas:</strong> Kaum Anshar mencintai Muhajirin dan mengutamakan mereka meskipun diri sendiri dalam kesusahan. Ini teladan pengorbanan dan persaudaraan sejati yang kontras dengan sifat munafik. Mereka adalah orang-orang yang beruntung karena terpelihara dari kekikiran.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=9&to=9" target="_blank">📖 Tafsir persaudaraan (IslamicStudies.info)</a></div></div>
-            <div class="theme-card"><div class="theme-title">5. Sifat-sifat Agung Allah & Kesadaran Akhirat (Ayat 18-24)</div><div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ</div><div class="transliteration">Yā ayyuhal-ladhīna āmanut-taqullāha wa ltanẓur nafsum mā qaddamat lighad</div><div class="translation">"Wahai orang-orang yang beriman! Bertakwalah kepada Allah dan hendaklah setiap diri memperhatikan apa yang telah diperbuatnya untuk hari esok (akhirat)."</div><div class="tafsir-summary"><strong>Tafsir ringkas:</strong> Perintah introspeksi untuk hari esok (akhirat) diulang dengan perintah takwa. Puncaknya adalah pengakuan bahwa Allah adalah Al-Khāliq, Al-Bāri', Al-Muṣawwir, pemilik nama-nama terbaik. Seluruh alam bertasbih kepada-Nya. Ini mengembalikan fokus dari urusan duniawi kepada keagungan Allah.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=18&to=24" target="_blank">📖 Tafsir sifat Allah (IslamicStudies.info)</a></div></div>
+            <div class="theme-card"><div class="theme-title">1. Pengusiran Bani Nadhir (Ayat 1-5)</div><div class="arabic">هُوَ الَّذِي أَخْرَجَ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ مِن دِيَارِهِمْ لِأَوَّلِ الْحَشْرِ</div><div class="transliteration">Huwal ladzi akhrajal ladzina kafaru min ahlil kitabi min diyarihim li awwalil hasyr</div><div class="translation">"Dialah yang mengusir orang-orang kafir di antara Ahli Kitab dari kampung halaman mereka pada pengusiran yang pertama."</div><div class="tafsir-summary"><strong>Tafsir ringkas (Tafhimul Qur'an):</strong> Allah mengusir Bani Nadhir karena pengkhianatan mereka. Meskipun mereka memiliki benteng kokoh, Allah menanamkan rasa takut sehingga mereka menghancurkan rumah sendiri. Ini mengajarkan bahwa kekuatan sejati bukan pada fisik, tetapi pertolongan Allah. Pengkhianatan terhadap perjanjian akan berbuah petaka.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=5" target="_blank">📖 Tafsir lengkap IslamicStudies.info: Ayat 1-5</a></div></div>
+            <div class="theme-card"><div class="theme-title">2. Distribusi Harta Rampasan (Fai') (Ayat 6-10)</div><div class="arabic">مَّا أَفَاءَ اللَّهُ عَلَىٰ رَسُولِهِ مِنْ أَهْلِ الْقُرَىٰ فَلِلَّهِ وَلِلرَّسُولِ وَلِذِي الْقُرْبَىٰ وَالْيَتَامَىٰ وَالْمَسَاكِينِ وَابْنِ السَّبِيلِ كَيْ لَا يَكُونَ دُولَةً بَيْنَ الْأَغْنِيَاءِ مِنكُمْ</div><div class="transliteration">Ma afaallahu 'ala rasulihi min ahlil qura falillahi wa lirrasuli wa lidzil qurba wal yatama wal masakini wabnis sabili, kay la yakuna duulatan baynal aghniya'i minkum</div><div class="translation">"Apa saja harta rampasan (fai') yang diberikan Allah kepada Rasul-Nya dari penduduk negeri-negeri, maka untuk Allah, Rasul, kerabat, anak yatim, orang miskin, dan musafir, agar harta itu jangan beredar hanya di antara orang-orang kaya saja di antara kamu."</div><div class="tafsir-summary"><strong>Tafsir ringkas:</strong> Prinsip revolusioner: harta rampasan tidak hanya untuk prajurit, tetapi untuk fakir miskin, yatim, dan musafir agar tidak beredar hanya di kalangan kaya. Ini keadilan sosial yang mendahului zamannya, mencegah monopoli dan kesenjangan ekonomi.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=6&to=10" target="_blank">📖 Tafsir distribusi fai' (IslamicStudies.info)</a></div></div>
+            <div class="theme-card"><div class="theme-title">3. Karakter Orang Munafik (Ayat 11-17)</div><div class="arabic">أَلَمْ تَرَ إِلَى الَّذِينَ نَافَقُوا يَقُولُونَ لِإِخْوَانِهِمُ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ لَئِنْ أُخْرِجْتُمْ لَنَخْرُجَنَّ مَعَكُمْ</div><div class="transliteration">Alam tara ilal ladzina nafaqu yaquluna li ikhwanihimul ladzina kafaru min ahlil kitabi la'in ukhrijtum lanakhrujanna ma'akum</div><div class="translation">"Tidakkah engkau perhatikan orang-orang munafik yang berkata kepada saudara-saudara mereka yang kafir dari Ahli Kitab, 'Sungguh jika kamu diusir, niscaya kami akan keluar bersama kamu.'"</div><div class="tafsir-summary"><strong>Tafsir ringkas:</strong> Orang munafik berjanji palsu kepada musuh Allah, padahal mereka tidak akan menepati. Allah bersaksi bahwa mereka pendusta. Ini peringatan agar umat waspada terhadap musuh dalam selimut yang lebih berbahaya dari musuh terbuka.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=11&to=17" target="_blank">📖 Tafsir kemunafikan (IslamicStudies.info)</a></div></div>
+            <div class="theme-card"><div class="theme-title">4. Persaudaraan Sejati Kaum Anshar (Ayat 9)</div><div class="arabic">وَالَّذِينَ تَبَوَّءُوا الدَّارَ وَالْإِيمَانَ مِن قَبْلِهِمْ يُحِبُّونَ مَنْ هَاجَرَ إِلَيْهِمْ وَلَا يَجِدُونَ فِي صُدُورِهِمْ حَاجَةً مِّمَّا أُوتُوا وَيُؤْثِرُونَ عَلَىٰ أَنفُسِهِمْ وَلَوْ كَانَ بِهِمْ خَصَاصَةٌ</div><div class="transliteration">Walladzina tabawwa'ud dara wal imana min qablihim yuhibbuna man hajara ilaihim wa la yajiduna fi shudurihim hajatan mimma utu wa yu'tsiruna 'ala anfusihim wa law kana bihim khasasah</div><div class="translation">"Dan orang-orang yang telah menempati kota Madinah dan telah beriman sebelum mereka (Muhajirin), mereka mencintai orang yang berhijrah kepada mereka, dan mereka tidak merasa dalam hati mereka keinginan terhadap apa yang diberikan kepada mereka (Muhajirin); dan mereka mengutamakan (orang-orang Muhajirin) atas diri mereka sendiri, sekalipun mereka dalam kesusahan."</div><div class="tafsir-summary"><strong>Tafsir ringkas:</strong> Kaum Anshar mencintai Muhajirin dan mengutamakan mereka meskipun diri sendiri dalam kesusahan. Ini teladan pengorbanan dan persaudaraan sejati yang kontras dengan sifat munafik. Mereka adalah orang-orang yang beruntung karena terpelihara dari kekikiran.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=9&to=9" target="_blank">📖 Tafsir persaudaraan (IslamicStudies.info)</a></div></div>
+            <div class="theme-card"><div class="theme-title">5. Sifat-sifat Agung Allah & Kesadaran Akhirat (Ayat 18-24)</div><div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ</div><div class="transliteration">Ya ayyuhal ladzina amanut taqullaha wa ltanzhur nafsum ma qaddamat lighad</div><div class="translation">"Wahai orang-orang yang beriman! Bertakwalah kepada Allah dan hendaklah setiap diri memperhatikan apa yang telah diperbuatnya untuk hari esok (akhirat)."</div><div class="tafsir-summary"><strong>Tafsir ringkas:</strong> Perintah introspeksi untuk hari esok (akhirat) diulang dengan perintah takwa. Puncaknya adalah pengakuan bahwa Allah adalah Al-Khāliq, Al-Bāri', Al-Muṣawwir, pemilik nama-nama terbaik. Seluruh alam bertasbih kepada-Nya. Ini mengembalikan fokus dari urusan duniawi kepada keagungan Allah.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=18&to=24" target="_blank">📖 Tafsir sifat Allah (IslamicStudies.info)</a></div></div>
         </div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-star"></i> Ayat-Ayat Penting dalam Surah Al-Hashr</h2>
-            <div class="verse"><strong>Introspeksi Diri:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=18&to=18" target="_blank">Al-Hashr 59:18</a><div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ</div><div class="transliteration">Yā ayyuhal-ladhīna āmanut-taqullāha wa ltanẓur nafsum mā qaddamat lighad</div><div class="translation">"Wahai orang-orang yang beriman! Bertakwalah kepada Allah dan hendaklah setiap diri memperhatikan apa yang telah diperbuatnya untuk hari esok (akhirat)."</div></div>
-            <div class="structure-grid">
-                <div class="structure-item"><h4>Ayat 2: Pengusiran Bani Nadhir</h4><div class="arabic">هُوَ الَّذِي أَخْرَجَ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ مِن دِيَارِهِمْ</div><div class="transliteration">Huwal-ladhī akhrajal-ladhīna kafarū min ahlil-kitābi min diyārihim</div><div class="translation">"Dialah yang mengusir orang-orang kafir di antara Ahli Kitab dari kampung halaman mereka."</div></div>
-                <div class="structure-item"><h4>Ayat 7: Distribusi Harta</h4><div class="arabic">كَيْ لَا يَكُونَ دُولَةً بَيْنَ الْأَغْنِيَاءِ مِنكُمْ</div><div class="transliteration">Kay lā yakūna dūlatan baynal-aghnā'i minkum</div><div class="translation">"Agar harta itu jangan beredar hanya di antara orang-orang kaya saja di antara kamu."</div></div>
-                <div class="structure-item"><h4>Ayat 22-24: Nama-nama Allah</h4><div class="arabic">هُوَ اللَّهُ الْخَالِقُ الْبَارِئُ الْمُصَوِّرُ</div><div class="transliteration">Huwa llāhul-khāliqul-bāri'ul-muṣawwir</div><div class="translation">"Dialah Allah Yang Menciptakan, Yang Mengadakan, Yang Membentuk Rupa."</div></div>
-            </div>
+            <div class="verse"><strong>Introspeksi Diri:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=18&to=18" target="_blank">Al-Hashr 59:18</a><div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ</div><div class="transliteration">Ya ayyuhal ladzina amanut taqullaha wa ltanzhur nafsum ma qaddamat lighad</div><div class="translation">"Wahai orang-orang yang beriman! Bertakwalah kepada Allah dan hendaklah setiap diri memperhatikan apa yang telah diperbuatnya untuk hari esok (akhirat)."</div></div>
         </div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-hands-praying"></i> Pelajaran Spiritual dari Surah Al-Hashr</h2>
@@ -367,52 +452,59 @@
             <p><strong>Akhlak:</strong> Menepati janji, tidak berkhianat, mengutamakan saudara seiman, menjauhi sifat munafik, serta tidak bersekongkol dalam dosa dan permusuhan.</p>
         </div>
 
-        <div class="hikmah-section"><h3 class="section-title"><i class="fas fa-gem"></i> Hikmah Surah Al-Hashr</h3><div class="structure-grid"><div class="structure-item"><h4>Menepati Janji</h4><p>Pengkhianatan Bani Nadhir menjadi pelajaran tentang pentingnya komitmen.</p></div><div class="structure-item"><h4>Ekonomi Berkeadilan</h4><p>Distribusi fai' mencegah konsentrasi kekayaan.</p></div><div class="structure-item"><h4>Waspada Kemunafikan</h4><p>Musuh dalam selimut lebih berbahaya.</p></div><div class="structure-item"><h4>Mengenal Allah</h4><p>Menghayati Asmaul Husna meningkatkan ketakwaan.</p></div></div></div>
-
-        <div class="section"><h2 class="section-title"><i class="fas fa-link"></i> Hubungan dengan Surah Lain</h2><div class="structure-grid"><div class="structure-item"><h4><i class="fas fa-arrow-left"></i> Dengan Surah Al-Mujadilah (58)</h4><p>Al-Mujadilah mengatur etika sosial dan loyalitas, Al-Hashr menegakkan keadilan ekonomi dan mengusir pengkhianat.</p></div><div class="structure-item"><h4><i class="fas fa-arrow-right"></i> Dengan Surah Al-Mumtahanah (60)</h4><p>Al-Hashr mengusir musuh yang berkhianat, Al-Mumtahanah mengatur hubungan dengan orang kafir yang tidak memerangi umat Islam.</p></div></div></div>
-
         <div class="surah-pagination">
             <a href="058.html" class="pagination-prev"><i class="fas fa-arrow-left"></i> Sebelumnya: Al-Mujadilah (58)</a>
             <a href="060.html" class="pagination-next">Selanjutnya: Al-Mumtahanah (60) <i class="fas fa-arrow-right"></i></a>
         </div>
-        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Main Menu</a></div>
     </div>
 
-    <!-- ENGLISH CONTENT -->
+    <!-- ENGLISH CONTENT (mirror) -->
     <div id="english-content" class="hidden">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-book"></i> Juz Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-Hashr (59) - Thematic Tafsir</h1>
-        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info - Surah Al-Hashr <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
+        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info - Surah Al-Hashr <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a></div>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="transliteration">Bismillahir rahmanir rahim</div>
         <div class="translation">In the name of Allah, the Most Gracious, the Most Merciful.</div>
         <div class="arabic">سَبَّحَ لِلَّهِ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۖ وَهُوَ الْعَزِيزُ الْحَكِيمُ</div>
-        <div class="transliteration">Sabbaha lillāhi mā fis-samāwāti wa mā fil-arḍ, wa huwal-'azīzul-ḥakīm</div>
+        <div class="transliteration">Sabbaha lillahi ma fis samawati wa ma fil ard, wa huwal azizul hakim</div>
         <div class="translation">"Whatever is in the heavens and whatever is on the earth exalts Allah, and He is the Exalted in Might, the Wise." (Al-Hashr 59:1)</div>
 
-        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Hashr (59)</h3><p>Madinan surah (24 verses). According to <a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, it emphasizes Allah's absolute power, just distribution of war booty (fai'), characteristics of hypocrites, and Allah's magnificent attributes. The name "Al-Hashr" refers to the expulsion of Banu Nadhir, a Jewish tribe that betrayed their treaty with Muslims in Madinah.</p></div>
-        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Access Complete Text</h3><p><a href="https://recitequran.com/59:1-24" target="_blank">ReciteQuran.com - Surah Al-Hashr <span class="blink-click"><i class="fas fa-mouse-pointer"></i> Click Here</span></a></p></div>
-        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Hashr</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/059.mp3"></audio></div>
+        <div class="theme-overview"><h3><i class="fas fa-star"></i> Overview of Surah Al-Hashr (59)</h3><p>Madinan surah (24 verses). According to <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, it emphasizes Allah's absolute power, just distribution of war booty (fai'), characteristics of hypocrites, and Allah's magnificent attributes. The name "Al-Hashr" refers to the expulsion of Banu Nadhir, a Jewish tribe that betrayed their treaty with Muslims in Madinah.</p></div>
+        
+        <div id="asmaul-husna-section" class="asmul-husna-note">
+            <h3><i class="fas fa-star-of-life"></i> Concentration of Allah's Names (Asmaul Husna)</h3>
+            <p>Surah Al-Hashr, especially verses 22–24, contains around 15 Divine Names and Attributes of Allah, including: <strong>Al-Malik</strong> (The King), <strong>Al-Quddus</strong> (The Most Holy), <strong>As-Salam</strong> (The Source of Peace), <strong>Al-Mu'min</strong> (The Granter of Security), <strong>Al-Muhaymin</strong> (The Guardian), <strong>Al-'Aziz</strong> (The Almighty), <strong>Al-Jabbar</strong> (The Compeller), <strong>Al-Mutakabbir</strong> (The Supreme), <strong>Al-Khaliq</strong> (The Creator), <strong>Al-Bari'</strong> (The Originator), <strong>Al-Musawwir</strong> (The Fashioner), and others. These verses are often recited to summarize Allah's Majesty and Perfection.</p>
+            <p><strong>Reference:</strong> Quran 59:22-24.</p>
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="https://quran.com/59/22-24?translations=131" target="_blank" class="external-link">
+                    <i class="fas fa-external-link-alt"></i> Read & Listen to Verses 22-24 at Quran.com
+                </a>
+            </div>
+        </div>
+
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Access Complete Text</h3><p><a href="https://quran.com/59:1-24?translations=131" target="_blank">Quran.com - Surah Al-Hashr (English) <span class="blink-click"><i class="fas fa-mouse-pointer"></i> Click Here</span></a></p></div>
+        <div class="audio-player"><div class="audio-title">🎧 Listen to Full Surah Al-Hashr</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/059.mp3"></audio></div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-book-open"></i> Structure and Content</h2><div class="structure-grid"><div class="structure-item"><h4>Verses 1-5: Expulsion of Banu Nadhir</h4><p>Betrayal and punishment.</p></div><div class="structure-item"><h4>Verses 6-10: Distribution of War Booty (Fai')</h4><p>Fair wealth distribution.</p></div><div class="structure-item"><h4>Verses 11-17: Hypocrites' Character</h4><p>False promises and lies.</p></div><div class="structure-item"><h4>Verses 18-24: Allah's Attributes & Hereafter Consciousness</h4><p>Self-accountability and glorification of Allah.</p></div></div></div>
 
-        <div class="historical-section"><h3><i class="fas fa-history"></i> Revelation Context</h3><p>According to <a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, Surah Al-Hashr was revealed in Medina after the expulsion of Banu Nadhir in 4 AH for their betrayal and conspiracy with enemies. It teaches justice in wealth distribution, warns against hypocrisy, and glorifies Allah.</p><div class="timeline"><div class="timeline-item"><strong>Location:</strong> Medina (Madani)</div><div class="timeline-item"><strong>Period:</strong> 4 AH (after expulsion of Banu Nadhir)</div></div></div>
+        <div class="historical-section"><h3><i class="fas fa-history"></i> Revelation Context</h3><p>According to <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=24" target="_blank">IslamicStudies.info</a>, Surah Al-Hashr was revealed in Medina after the expulsion of Banu Nadhir in 4 AH for their betrayal and conspiracy with enemies. It teaches justice in wealth distribution, warns against hypocrisy, and glorifies Allah.</p><div class="timeline"><div class="timeline-item"><strong>Location:</strong> Medina (Madani)</div><div class="timeline-item"><strong>Period:</strong> 4 AH (after expulsion of Banu Nadhir)</div></div></div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Hashr</h2>
-            <div class="theme-card"><div class="theme-title">1. Expulsion of Banu Nadhir (Verses 1-5)</div><div class="arabic">هُوَ الَّذِي أَخْرَجَ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ مِن دِيَارِهِمْ لِأَوَّلِ الْحَشْرِ</div><div class="transliteration">Huwal-ladhī akhrajal-ladhīna kafarū min ahlil-kitābi min diyārihim li-awwalil-ḥashr</div><div class="translation">"It is He who expelled those who disbelieved among the People of the Scripture from their homes at the first gathering."</div><div class="tafsir-summary"><strong>Brief Tafsir (Tafhimul Qur'an):</strong> Allah expelled Banu Nadhir for betrayal. Their strong forts did not protect them. True strength lies in Allah's support, not physical barriers. Betrayal leads to destruction.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=1&to=5" target="_blank">📖 Full Tafsir: Verses 1-5</a></div></div>
-            <div class="theme-card"><div class="theme-title">2. Distribution of War Booty (Fai') (Verses 6-10)</div><div class="arabic">مَّا أَفَاءَ اللَّهُ عَلَىٰ رَسُولِهِ مِنْ أَهْلِ الْقُرَىٰ فَلِلَّهِ وَلِلرَّسُولِ وَلِذِي الْقُرْبَىٰ وَالْيَتَامَىٰ وَالْمَسَاكِينِ وَابْنِ السَّبِيلِ كَيْ لَا يَكُونَ دُولَةً بَيْنَ الْأَغْنِيَاءِ مِنكُمْ</div><div class="transliteration">Mā afā'allāhu 'alā rasūlihī min ahlil-qurā falillāhi wa lir-rasūli wa lidhil-qurbā wa l-yatāmā wa l-masākīni wabni s-sabīl, kay lā yakūna dūlatan baynal-aghnā'i minkum</div><div class="translation">"And what Allah restored to His Messenger from the people of the towns - it is for Allah and for the Messenger and for [his] near relatives and orphans and the needy and the [stranded] traveler - so that it will not be a perpetual distribution among the rich from among you."</div><div class="tafsir-summary"><strong>Brief Tafsir:</strong> A revolutionary economic principle: wealth from war booty is distributed to the needy, not only to the rich, to prevent concentration of wealth. This ensures social justice.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=6&to=10" target="_blank">📖 Full Tafsir: Fai' Distribution</a></div></div>
-            <div class="theme-card"><div class="theme-title">3. Character of Hypocrites (Verses 11-17)</div><div class="arabic">أَلَمْ تَرَ إِلَى الَّذِينَ نَافَقُوا يَقُولُونَ لِإِخْوَانِهِمُ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ لَئِنْ أُخْرِجْتُمْ لَنَخْرُجَنَّ مَعَكُمْ</div><div class="transliteration">Alam tara ilal-ladhīna nāfaqū yaqūlūna li-ikhwānihimul-ladhīna kafarū min ahlil-kitābi la'in ukhrijtum lanakhrujanna ma'akum</div><div class="translation">"Have you not considered those who practice hypocrisy, saying to their brothers who have disbelieved among the People of the Scripture, 'If you are expelled, we will surely leave with you.'"</div><div class="tafsir-summary"><strong>Brief Tafsir:</strong> Hypocrites make false promises to enemies of Allah. Allah testifies they are liars. They are more dangerous than open enemies because they are inside the community.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=11&to=17" target="_blank">📖 Full Tafsir: Hypocrites</a></div></div>
-            <div class="theme-card"><div class="theme-title">4. True Brotherhood of Ansar (Verse 9)</div><div class="arabic">وَالَّذِينَ تَبَوَّءُوا الدَّارَ وَالْإِيمَانَ مِن قَبْلِهِمْ يُحِبُّونَ مَنْ هَاجَرَ إِلَيْهِمْ وَلَا يَجِدُونَ فِي صُدُورِهِمْ حَاجَةً مِّمَّا أُوتُوا وَيُؤْثِرُونَ عَلَىٰ أَنفُسِهِمْ وَلَوْ كَانَ بِهِمْ خَصَاصَةٌ</div><div class="transliteration">Wal-ladhīna tabawwa'ud-dāra wal-īmāna min qablihim yuḥibbūna man hājara ilaihim wa lā yajidūna fī ṣudūrihim ḥājatan mimmā ūtū wa yu'ṡirūna 'alā anfusihim wa law kāna bihim khaṣāṣah</div><div class="translation">"And [also for] those who were settled in the Home [i.e., Madinah] and [adopted] the faith before them. They love those who emigrated to them and find not any want in their hearts of what the emigrants were given but give [them] preference over themselves, even though they are in privation."</div><div class="tafsir-summary"><strong>Brief Tafsir:</strong> The Ansar loved the Muhajirin and preferred them over themselves despite their own need. This is the highest level of brotherhood and selflessness, contrasting sharply with hypocrisy.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=9&to=9" target="_blank">📖 Full Tafsir: Brotherhood</a></div></div>
-            <div class="theme-card"><div class="theme-title">5. Allah's Majestic Attributes & Hereafter Consciousness (Verses 18-24)</div><div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ</div><div class="transliteration">Yā ayyuhal-ladhīna āmanut-taqullāha wa ltanẓur nafsum mā qaddamat lighad</div><div class="translation">"O you who have believed, fear Allah. And let every soul look to what it has put forth for tomorrow."</div><div class="tafsir-summary"><strong>Brief Tafsir:</strong> A powerful call to self-accountability for the Hereafter. The surah culminates in the magnificent attributes of Allah: Al-Khāliq, Al-Bāri', Al-Muṣawwir, to whom belong the best names. All creation glorifies Him.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=18&to=24" target="_blank">📖 Full Tafsir: Allah's Attributes</a></div></div>
+            <div class="theme-card"><div class="theme-title">1. Expulsion of Banu Nadhir (Verses 1-5)</div><div class="arabic">هُوَ الَّذِي أَخْرَجَ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ مِن دِيَارِهِمْ لِأَوَّلِ الْحَشْرِ</div><div class="transliteration">Huwal ladzi akhrajal ladzina kafaru min ahlil kitabi min diyarihim li awwalil hashr</div><div class="translation">"It is He who expelled those who disbelieved among the People of the Scripture from their homes at the first gathering."</div><div class="tafsir-summary"><strong>Brief Tafsir (Tafhimul Qur'an):</strong> Allah expelled Banu Nadhir for betrayal. Their strong forts did not protect them. True strength lies in Allah's support, not physical barriers. Betrayal leads to destruction.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=1&to=5" target="_blank">📖 Full Tafsir: Verses 1-5</a></div></div>
+            <div class="theme-card"><div class="theme-title">2. Distribution of War Booty (Fai') (Verses 6-10)</div><div class="arabic">مَّا أَفَاءَ اللَّهُ عَلَىٰ رَسُولِهِ مِنْ أَهْلِ الْقُرَىٰ فَلِلَّهِ وَلِلرَّسُولِ وَلِذِي الْقُرْبَىٰ وَالْيَتَامَىٰ وَالْمَسَاكِينِ وَابْنِ السَّبِيلِ كَيْ لَا يَكُونَ دُولَةً بَيْنَ الْأَغْنِيَاءِ مِنكُمْ</div><div class="transliteration">Ma afaallahu 'ala rasulihi min ahlil qura falillahi wa lirrasuli wa lidzil qurba wal yatama wal masakini wabnis sabili, kay la yakuna duulatan baynal aghniya'i minkum</div><div class="translation">"And what Allah restored to His Messenger from the people of the towns - it is for Allah and for the Messenger and for [his] near relatives and orphans and the needy and the [stranded] traveler - so that it will not be a perpetual distribution among the rich from among you."</div><div class="tafsir-summary"><strong>Brief Tafsir:</strong> A revolutionary economic principle: wealth from war booty is distributed to the needy, not only to the rich, to prevent concentration of wealth. This ensures social justice.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=6&to=10" target="_blank">📖 Full Tafsir: Fai' Distribution</a></div></div>
+            <div class="theme-card"><div class="theme-title">3. Character of Hypocrites (Verses 11-17)</div><div class="arabic">أَلَمْ تَرَ إِلَى الَّذِينَ نَافَقُوا يَقُولُونَ لِإِخْوَانِهِمُ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ لَئِنْ أُخْرِجْتُمْ لَنَخْرُجَنَّ مَعَكُمْ</div><div class="transliteration">Alam tara ilal ladzina nafaqu yaquluna li ikhwanihimul ladzina kafaru min ahlil kitabi la'in ukhrijtum lanakhrujanna ma'akum</div><div class="translation">"Have you not considered those who practice hypocrisy, saying to their brothers who have disbelieved among the People of the Scripture, 'If you are expelled, we will surely leave with you.'"</div><div class="tafsir-summary"><strong>Brief Tafsir:</strong> Hypocrites make false promises to enemies of Allah. Allah testifies they are liars. They are more dangerous than open enemies because they are inside the community.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=11&to=17" target="_blank">📖 Full Tafsir: Hypocrites</a></div></div>
+            <div class="theme-card"><div class="theme-title">4. True Brotherhood of Ansar (Verse 9)</div><div class="arabic">وَالَّذِينَ تَبَوَّءُوا الدَّارَ وَالْإِيمَانَ مِن قَبْلِهِمْ يُحِبُّونَ مَنْ هَاجَرَ إِلَيْهِمْ وَلَا يَجِدُونَ فِي صُدُورِهِمْ حَاجَةً مِّمَّا أُوتُوا وَيُؤْثِرُونَ عَلَىٰ أَنفُسِهِمْ وَلَوْ كَانَ بِهِمْ خَصَاصَةٌ</div><div class="transliteration">Walladzina tabawwa'ud dara wal imana min qablihim yuhibbuna man hajara ilaihim wa la yajiduna fi shudurihim hajatan mimma utu wa yu'tsiruna 'ala anfusihim wa law kana bihim khasasah</div><div class="translation">"And [also for] those who were settled in the Home [i.e., Madinah] and [adopted] the faith before them. They love those who emigrated to them and find not any want in their hearts of what the emigrants were given but give [them] preference over themselves, even though they are in privation."</div><div class="tafsir-summary"><strong>Brief Tafsir:</strong> The Ansar loved the Muhajirin and preferred them over themselves despite their own need. This is the highest level of brotherhood and selflessness, contrasting sharply with hypocrisy.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=9&to=9" target="_blank">📖 Full Tafsir: Brotherhood</a></div></div>
+            <div class="theme-card"><div class="theme-title">5. Allah's Majestic Attributes & Hereafter Consciousness (Verses 18-24)</div><div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ</div><div class="transliteration">Ya ayyuhal ladzina amanut taqullaha wa ltanzhur nafsum ma qaddamat lighad</div><div class="translation">"O you who have believed, fear Allah. And let every soul look to what it has put forth for tomorrow."</div><div class="tafsir-summary"><strong>Brief Tafsir:</strong> A powerful call to self-accountability for the Hereafter. The surah culminates in the magnificent attributes of Allah: Al-Khaliq, Al-Bari', Al-Musawwir, to whom belong the best names. All creation glorifies Him.</div><div class="tafsir-box"><a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=18&to=24" target="_blank">📖 Full Tafsir: Allah's Attributes</a></div></div>
         </div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-star"></i> Important Verses in Surah Al-Hashr</h2>
-            <div class="verse"><strong>Self-Accountability:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=59&verse=18&to=18" target="_blank">59:18</a><div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ</div><div class="transliteration">Yā ayyuhal-ladhīna āmanut-taqullāha wa ltanẓur nafsum mā qaddamat lighad</div><div class="translation">"O you who have believed, fear Allah. And let every soul look to what it has put forth for tomorrow."</div></div>
-            <div class="structure-grid">
-                <div class="structure-item"><h4>Verse 2: Expulsion</h4><div class="arabic">هُوَ الَّذِي أَخْرَجَ الَّذِينَ كَفَرُوا مِنْ أَهْلِ الْكِتَابِ مِن دِيَارِهِمْ</div><div class="transliteration">Huwal-ladhī akhrajal-ladhīna kafarū min ahlil-kitābi min diyārihim</div><div class="translation">"It is He who expelled those who disbelieved among the People of the Scripture from their homes."</div></div>
-                <div class="structure-item"><h4>Verse 7: Wealth Distribution</h4><div class="arabic">كَيْ لَا يَكُونَ دُولَةً بَيْنَ الْأَغْنِيَاءِ مِنكُمْ</div><div class="transliteration">Kay lā yakūna dūlatan baynal-aghnā'i minkum</div><div class="translation">"So that it will not be a perpetual distribution among the rich from among you."</div></div>
-                <div class="structure-item"><h4>Verses 22-24: Names of Allah</h4><div class="arabic">هُوَ اللَّهُ الْخَالِقُ الْبَارِئُ الْمُصَوِّرُ</div><div class="transliteration">Huwa llāhul-khāliqul-bāri'ul-muṣawwir</div><div class="translation">"He is Allah, the Creator, the Inventor, the Fashioner."</div></div>
-            </div>
+            <div class="verse"><strong>Self-Accountability:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=59&verse=18&to=18" target="_blank">59:18</a><div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا اتَّقُوا اللَّهَ وَلْتَنظُرْ نَفْسٌ مَّا قَدَّمَتْ لِغَدٍ</div><div class="transliteration">Ya ayyuhal ladzina amanut taqullaha wa ltanzhur nafsum ma qaddamat lighad</div><div class="translation">"O you who have believed, fear Allah. And let every soul look to what it has put forth for tomorrow."</div></div>
         </div>
 
         <div class="section"><h2 class="section-title"><i class="fas fa-hands-praying"></i> Spiritual Lessons from Surah Al-Hashr</h2><div class="benefits-list"><ul><li>Social justice: prevent wealth concentration.</li><li>Political integrity: honest agreements with non-Muslims.</li><li>Sacrifice: prioritize fellow believers.</li><li>Self-accountability: prepare for the Hereafter.</li><li>Knowing Allah: reflect on His beautiful names to increase piety.</li></ul></div></div>
@@ -424,21 +516,14 @@
             <p><strong>Akhlaq (Character):</strong> Keeping promises, not betraying trusts, prioritizing fellow believers, avoiding hypocrisy, and not conspiring in sin and aggression.</p>
         </div>
 
-        <div class="hikmah-section"><h3 class="section-title"><i class="fas fa-gem"></i> Wisdom of Surah Al-Hashr</h3><div class="structure-grid"><div class="structure-item"><h4>Keeping Promises</h4><p>Betrayal of treaty leads to downfall.</p></div><div class="structure-item"><h4>Economic Justice</h4><p>Wealth must circulate beyond the rich.</p></div><div class="structure-item"><h4>Beware of Hypocrisy</h4><p>Enemies within are more dangerous.</p></div><div class="structure-item"><h4>Knowing Allah</h4><p>Reflecting on Asmaul Husna increases piety.</p></div></div></div>
-
-        <div class="section"><h2 class="section-title"><i class="fas fa-link"></i> Relationship with Other Surahs</h2><div class="structure-grid"><div class="structure-item"><h4>With Surah Al-Mujadilah (58)</h4><p>Al-Mujadilah regulates social ethics and loyalty, while Al-Hashr establishes economic justice and expels traitors.</p></div><div class="structure-item"><h4>With Surah Al-Mumtahanah (60)</h4><p>Al-Hashr expels treacherous enemies, while Al-Mumtahanah regulates relations with disbelievers who do not fight Muslims.</p></div></div></div>
-
         <div class="surah-pagination">
             <a href="058.html" class="pagination-prev"><i class="fas fa-arrow-left"></i> Previous: Al-Mujadilah (58)</a>
             <a href="060.html" class="pagination-next">Next: Al-Mumtahanah (60) <i class="fas fa-arrow-right"></i></a>
         </div>
-        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Main Menu</a></div>
     </div>
 </div>
 <footer>© 1447 AH / 2026 AD - Tafsir berdasarkan IslamicStudies.info | Guidance for Reflection</footer>
-
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <script>
 (function() {
@@ -455,57 +540,126 @@
     else if (urlParams.has('Indonesian')) langParam = 'indonesian';
     let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
 
-    function setLanguage(lang) {
+    function setLanguage(lang, savePreference = true) {
         const isEnglish = (lang === 'english');
         if (isEnglish) {
             englishDiv.classList.remove('hidden');
             indoDiv.classList.add('hidden');
+            if (savePreference) localStorage.setItem('language', 'english');
             langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Bahasa Indonesia';
         } else {
             englishDiv.classList.add('hidden');
             indoDiv.classList.remove('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+            if (savePreference) localStorage.setItem('language', 'indonesian');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 English';
         }
-        localStorage.setItem('language', lang);
+        updateUITexts();
     }
-    setLanguage(currentLang);
-    langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
-    });
+
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        localStorage.setItem('transliteration', show);
+        updateUITexts();
+    }
 
     let translitVisible = localStorage.getItem('transliteration') === 'true';
     if (urlParams.has('Transliteration')) translitVisible = true;
-    function setTransliteration(show) {
-        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-        localStorage.setItem('transliteration', show);
-    }
-    setTransliteration(translitVisible);
-    translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
-        setTransliteration(!currently);
-    });
 
     let darkActive = false;
     if (urlParams.has('Dark')) darkActive = true;
     else darkActive = localStorage.getItem('darkMode') === 'true';
     if (darkActive) document.body.classList.add('dark-mode');
+
     function setDarkModeUI() {
         const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        const isEnglish = !englishDiv.classList.contains('hidden');
+        darkToggle.innerHTML = active ? (isEnglish ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-sun"></i> Mode Terang') : (isEnglish ? '<i class="fas fa-moon"></i> Dark Mode' : '<i class="fas fa-moon"></i> Mode Gelap');
         localStorage.setItem('darkMode', active);
     }
     setDarkModeUI();
+
+    function updateUITexts() {
+        const isEnglish = !englishDiv.classList.contains('hidden');
+        const translitShown = translitElements[0]?.style.display === 'block';
+        translitToggle.innerHTML = translitShown ? (isEnglish ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Sembunyikan Transliterasi') : (isEnglish ? '<i class="fas fa-language"></i> Show Transliteration' : '<i class="fas fa-language"></i> Tampilkan Transliterasi');
+        darkToggle.innerHTML = document.body.classList.contains('dark-mode') ? (isEnglish ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-sun"></i> Mode Terang') : (isEnglish ? '<i class="fas fa-moon"></i> Dark Mode' : '<i class="fas fa-moon"></i> Mode Gelap');
+        document.querySelectorAll('.clickable-caption').forEach(cap => {
+            let textNode = Array.from(cap.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+            if (textNode) textNode.textContent = isEnglish ? ' Click to Listen' : ' Klik untuk Mendengarkan';
+            else cap.appendChild(document.createTextNode(isEnglish ? ' Click to Listen' : ' Klik untuk Mendengarkan'));
+        });
+    }
+
+    setLanguage(currentLang, false);
+    setTransliteration(translitVisible);
+
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang, true);
+        setTransliteration(translitElements[0]?.style.display === 'block');
+        setDarkModeUI();
+    });
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
     darkToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         setDarkModeUI();
     });
 
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+    function scrollToAsmaulHusna() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('AH')) {
+            setTimeout(() => {
+                const targetElement = document.getElementById('asmaul-husna-section');
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 300);
+        }
+    }
+
+    function enhanceDefaultAudioPlayers() {
+        document.querySelectorAll('.audio-player').forEach(player => {
+            if (player.querySelector('.audio-controls')) return;
+            const audio = player.querySelector('audio');
+            if (!audio) return;
+            const controlsDiv = document.createElement('div');
+            controlsDiv.className = 'audio-controls';
+            const speedSelect = document.createElement('select');
+            speedSelect.className = 'speed-select';
+            [0.5,0.75,1,1.25,1.5,2].forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s + '×';
+                if (s===1) opt.selected = true;
+                speedSelect.appendChild(opt);
+            });
+            speedSelect.addEventListener('change', e => audio.playbackRate = parseFloat(e.target.value));
+            controlsDiv.appendChild(speedSelect);
+            const caption = document.createElement('div');
+            caption.className = 'clickable-caption';
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-headphones';
+            caption.appendChild(icon);
+            const isEnglish = !englishDiv.classList.contains('hidden');
+            caption.appendChild(document.createTextNode(isEnglish ? ' Click to Listen' : ' Klik untuk Mendengarkan'));
+            caption.addEventListener('click', e => { e.stopPropagation(); audio.play().catch(err => console.log('play error', err)); });
+            controlsDiv.appendChild(caption);
+            player.appendChild(controlsDiv);
+        });
+    }
+
+    window.addEventListener('load', () => {
+        enhanceDefaultAudioPlayers();
+        scrollToAsmaulHusna();
+    });
 })();
 </script>
 </body>
