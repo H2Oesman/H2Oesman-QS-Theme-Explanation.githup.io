@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>99 Names of Allah - Al-Qarīb (The Ever-Near)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --shadow-color: rgba(0,0,0,0.1);
+            --primary-color: #1a5276;
+            --secondary-color: #2c3e50;
+            --accent-color: #3498db;
+            --section-bg: #f8f9fa;
+            --border-color: #e0e0e0;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --link-color: #2980b9;
+            --link-hover: #1a5276;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+
+        .dark-mode {
+            --bg-color: #1e293b;
+            --text-color: #f0f4fa;
+            --container-bg: #2d3748;
+            --primary-color: #90caf9;
+            --secondary-color: #e2e8f0;
+            --accent-color: #7bc9ff;
+            --section-bg: #1e2a3e;
+            --border-color: #4b5563;
+            --tafsir-bg: #1e2a3e;
+            --tafsir-border: #4b5563;
+            --link-color: #7bc9ff;
+            --link-hover: #b3e2ff;
+            --arrow-bg: #1e293b;
+            --arrow-text: #eef2ff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px var(--shadow-color);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        a:hover {
+            color: var(--link-hover);
+            text-decoration: underline;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--primary-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .dark-mode .transliteration {
+            color: #cbd5e1;
+        }
+        .name-title {
+            font-size: 32px;
+            color: var(--secondary-color);
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+        }
+        .dua, .amalan {
+            background-color: var(--section-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--border-color);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+        }
+        .dark-mode .dua-title, .dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        /* Fixed controls positioning */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+            transition: 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        .language-toggle:hover, .transliteration-toggle:hover, .dark-mode-toggle:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+        
+        /* SCROLL ARROWS (LEFT side: single) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow.down { bottom: 90px; }
+        
+        /* DOUBLE ARROWS (RIGHT side: top & bottom) */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--border-color);
+            font-size: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.08);
+            background: #2c7da0;
+            color: white;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        /* Responsive fixes for arrows */
+        @media (max-width: 768px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 6px 12px;
+                font-size: 12px;
+                right: 12px;
+            }
+            .language-toggle { top: 12px; }
+            .transliteration-toggle { top: 68px; }
+            .dark-mode-toggle { top: 124px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up { top: 70px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .scroll-arrow-double.up-double { top: 170px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .scroll-arrow-double { right: 12px; }
+        }
+        
+        /* Menu links styling - both with arrow */
+        .menu-links {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        .top-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        .dark-mode .top-home-link:hover {
+            background-color: #1e3a5f;
+        }
+        
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--accent-color);
+        }
+        .dark-mode .bonus {
+            background-color: #1e3a5f;
+        }
+        .dalil-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px solid var(--tafsir-border);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .hidden {
+            display: none;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .dark-mode .name-source {
+            color: #b0c4de;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- SCROLL ARROWS (LEFT side: SINGLE) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- DOUBLE ARROWS (RIGHT side: top/bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <!-- Fixed toggles -->
+        <div class="language-toggle" id="languageToggle"><i class="fas fa-globe"></i> Switch to English</div>
+        <div class="transliteration-toggle" id="transliterationToggle"><i class="fas fa-language"></i> Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+            
+            <h1 class="name-title">Al-Qarīb (Yang Maha Dekat)</h1>
+            <div class="name-source"><strong>Sumber:</strong> Kementerian Agama RI & Tafsir Al-Qur'an</div>
+
+            <div class="arabic">الْقَرِيبُ</div>
+            <div class="transliteration">Transliterasi: Al-Qarīb</div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Qarīb berarti "Yang Maha Dekat". Menurut Kementerian Agama Republik Indonesia, nama ini menunjukkan kedekatan Allah dengan hamba-Nya, baik dalam ilmu, pendengaran, penglihatan, maupun pertolongan-Nya. Sebagaimana firman Allah dalam <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/2?from=186&to=186" target="_blank">Surah Al-Baqarah 2:186</a>, "Aku dekat, Aku mengabulkan doa orang yang berdoa." Makna Al-Qarīb menurut tafsir resmi:</p>
+
+
+                <ul>
+                    <li><strong>Dekat dalam Perhatian:</strong> Allah mengetahui segala bisikan hati (<a href="https://quran.kemenag.go.id/quran/per-ayat/surah/50?from=16&to=16" target="_blank">50:16</a>)</li>
+		    
+                    <li><strong>Dekat dalam Pertolongan:</strong> Segala yang dipanjatkan kepada-Nya tidak terhalang</li>
+                    <li><strong>Dekat dalam Rahmat:</strong> Meskipun Dia di atas 'Arsy, Dia dekat dengan doa hamba-Nya</li>
+                </ul>
+                <p>Imam Ibn Katsir menjelaskan: "Al-Qarīb adalah Dzat yang maha dekat, mendengar doa hamba-Nya, dan mengabulkan permintaan orang yang memohon." Nama ini menggambarkan bahwa tidak ada tabir atau perantara antara Allah dan hamba yang tulus.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran & Hadits)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong> 
+                    <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/2?from=186&to=186" target="_blank">Surah Al-Baqarah 2:186</a>
+                    <div class="arabic">وَإِذَا سَأَلَكَ عِبَادِى عَنِّى فَإِنِّى قَرِيبٌ ۖ أُجِيبُ دَعْوَةَ ٱلدَّاعِ إِذَا دَعَانِ</div>
+                    <div class="transliteration">Wa iżā sa'alaka 'ibādī 'annī fa innī qarīb, ujību da'wata ad-dā'i iżā da'ān</div>
+                    <p>"Dan apabila hamba-hamba-Ku bertanya kepadamu tentang Aku, maka sesungguhnya Aku dekat. Aku mengabulkan doa orang yang berdoa apabila dia berdoa kepada-Ku." (Terjemahan Kemenag RI)</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menjadi landasan utama bahwa Allah Al-Qarīb tidak membutuhkan perantara. Setiap muslim diperintahkan untuk langsung memohon kepada Allah, dan Dia senantiasa dekat serta mendengar setiap keluh kesah hamba-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> 
+                    <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/11?from=61&to=61" target="_blank">Surah Hud 11:61</a>
+                    <div class="arabic">وَإِلَىٰ ثَمُودَ أَخَاهُمْ صَـٰلِحًۭا ۚ قَالَ يَـٰقَوْمِ ٱعْبُدُوا۟ ٱللَّهَ مَا لَكُم مِّنْ إِلَـٰهٍ غَيْرُهُۥ ۖ هُوَ أَنشَأَكُم مِّنَ ٱلْأَرْضِ وَٱسْتَعْمَرَكُمْ فِيهَا فَٱسْتَغْفِرُوهُ ثُمَّ تُوبُوٓا۟ إِلَيْهِ ۚ إِنَّ رَبِّى قَرِيبٌۭ مُّجِيبٌۭ</div>
+                    <div class="transliteration">Inna rabbī qarībun mujīb</div>
+                    <p>"Sesungguhnya Tuhanku Maha Dekat lagi Maha Mengabulkan (doa)." (Terjemahan Kemenag RI)</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Dalam ayat ini, Nabi Shaleh menegaskan bahwa Allah adalah Al-Qarīb dan Al-Mujīb (Maha Mengabulkan). Kedekatan Allah bersifat mutlak, meliputi ilmu dan kuasa-Nya, tidak terbatas oleh ruang dan waktu.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/bukhari:7405" target="_blank">Sahih Bukhari 7405</a>
+                    <div class="arabic">إِنَّ اللَّهَ قَرِيبٌ يُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ</div>
+                    <div class="transliteration">Innallāha qarīb yujību da'wata ad-dā'i iżā da'ān</div>
+                    <p>"Sesungguhnya Allah itu dekat, mengabulkan doa orang yang berdoa apabila dia berdoa kepada-Nya."</p>
+                    <div class="tafsir-box">
+                        <strong>Konteks:</strong> Hadits ini menunjukkan bahwa tidak ada hijab antara Allah dan hamba-Nya yang berdoa. Menurut penjelasan ulama, nama Al-Qarīb mengajarkan seorang muslim untuk selalu merasa dekat dengan Allah dalam suka dan duka.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Doa Mendekatkan Diri kepada Allah</div>
+                    <div class="arabic">يَا قَرِيبُ يَا مُجِيبُ، قَرِّبْنِي إِلَيْكَ وَأَجِبْ دَعْوَتِي</div>
+                    <div class="transliteration">Yā Qarību yā Mujību, qarribnī ilayka wa ajib da'watī</div>
+                    <p><strong>Terjemahan Resmi Kemenag:</strong> "Wahai Yang Maha Dekat lagi Maha Mengabulkan, dekatkanlah aku kepada-Mu dan kabulkanlah doaku."</p>
+                    <p><strong>Keutamaan:</strong> Doa ini diamalkan setelah shalat fardhu untuk mendekatkan hati kepada Allah serta memohon kemudahan dalam segala urusan.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Doa Ketika Hati Terasa Jauh</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ بِاسْمِكَ الْقَرِيبُ أَنْ تُزِيلَ وَحْشَتِي وَتُؤْنِسَنِي بِقُرْبِكَ</div>
+                    <div class="transliteration">Allāhumma innī as'aluka bismika l-Qarību an tuzīla wahshatī wa tu'nissanī biqurbik</div>
+                    <p><strong>Terjemahan Resmi Kemenag:</strong> "Ya Allah, aku memohon kepada-Mu dengan nama-Mu Al-Qarīb, agar Engkau hilangkan rasa sepi dan hiburkan aku dengan kedekatan-Mu."</p>
+                    <p><strong>Sumber:</strong> Berdasarkan pemaknaan Asmaul Husna oleh ulama, doa ini membantu menghilangkan kegelisahan dan mengingatkan bahwa Allah senantiasa dekat.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Wirid Kedekatan dengan Allah</div>
+                    <p>Amalan yang dianjurkan Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Setiap selesai shalat Maghrib dan Subuh, baca "Yā Qarīb" sebanyak 100 kali.</li>
+                        <li>Rasulullah ﷺ mengajarkan berdoa dengan keyakinan bahwa Allah dekat: baca "Subḥānallāhi wa biḥamdihi, subḥānallāhil ‘aẓīm" 3x, lalu serukan "Yā Qarīb" 33x.</li>
+                        <li>Renungkan bahwa Allah mengetahui setiap detak jantung.</li>
+                    </ol>
+                    <div class="arabic">يَا قَرِيبُ (100x)</div>
+                    <div class="transliteration">Yā Qarīb (100 kali)</div>
+                    <p><strong>Manfaat:</strong> Menurut referensi Kemenag:</p>
+                    <ul>
+                        <li>Menghilangkan perasaan kesepian dan putus asa</li>
+                        <li>Doa lebih cepat terkabul karena kesadaran akan kedekatan Allah</li>
+                        <li>Melatih hati agar selalu dalam pengawasan Allah (muraqabah)</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Amalan Saat Dalam Kesulitan</div>
+                    <p>Apabila menghadapi masalah berat, bacakan:</p>
+                    <ol>
+                        <li>Surah Al-Baqarah ayat 186 sebanyak 7 kali sambil memegang dada.</li>
+                        <li>Berdoa dengan penuh penghayatan: "Yā Qarību, yā Qarīb, yā Qarīb" 41 kali.</li>
+                        <li>Bersedekah sebagai bentuk mendekatkan diri, lalu berdoa dengan nama Al-Qarīb.</li>
+                    </ol>
+                    <p><strong>Catatan:</strong> Amalan ini berdasarkan tuntunan umum ulama dan referensi Kemenag RI tentang keutamaan Asmaul Husna.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Mendalam</h2>
+                <p>Menurut tafsir Kementerian Agama RI, Al-Qarīb memiliki tiga dimensi utama:</p>
+                <ol>
+                    <li><strong>Kedekatan Ilmu (Ilmiah):</strong>
+                        <ul>
+                            <li>Allah Maha Mengetahui segala sesuatu, bahkan bisikan hati (<a href="https://quran.kemenag.go.id/quran/per-ayat/surah/50?from=16&to=16" target="_blank">50:16</a>)</li>
+                            <li>Tidak ada yang tersembunyi dari-Nya, sekecil apapun</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kedekatan Ijabah (Pengabulan):</strong>
+                        <ul>
+                            <li>Dia mengabulkan doa tanpa syarat selain keikhlasan</li>
+                            <li>Seperti dalam <a href="href="https://quran.kemenag.go.id/quran/per-ayat/surah/40?from=60&to=60"_blank">40:60</a> "Berdoalah kepada-Ku, niscaya Aku kabulkan"</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kedekatan Rahmat dan Pertolongan:</strong>
+                        <ul>
+                            <li>Allah selalu bersama hamba-Nya yang bertaqwa dan berbuat baik (<a href="https://quran.kemenag.go.id/quran/per-ayat/surah/57?from=4&to=4" target="_blank">57:4</a>)</li>
+			    
+                            <li>Memberi pertolongan tanpa jarak waktu yang berarti</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam tafsir <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/2?from=186&to=186" target="_blank">Al-Baqarah 2:186</a>, Kemenag RI menegaskan bahwa ayat ini memotivasi kaum muslimin untuk berdoa langsung kepada Allah tanpa perantara, karena kedekatan-Nya adalah hakikat spiritual yang wajib diimani.</p>
+		
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Menu Utama</a></div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <div class="menu-links">
+                <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-list"></i> &larr; Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">Al-Qarīb (The Ever-Near, The Close)</h1>
+            <!-- Removed name-source line as requested -->
+
+            <div class="arabic">الْقَرِيبُ</div>
+            <div class="transliteration">Transliteration: Al-Qarīb</div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Qarīb means "The Ever-Near" or "The Close One". This name signifies Allah’s nearness to His creation in knowledge, hearing, response, and support. As the Quran states (<a href="https://quran.com/2/186?translations=131" target="_blank">2:186</a>), "I am near, I answer the call of the caller." Key dimensions:</p>
+                <ul>
+                    <li><strong>Closeness in Knowledge:</strong> Allah is aware of every secret thought (<a href="https://quran.com/50/16?translations=131" target="_blank">50:16</a>)</li>
+                    <li><strong>Closeness in Response:</strong> He answers supplications without intermediaries</li>
+                    <li><strong>Closeness in Mercy:</strong> Although exalted above His creation, He is near to those who call upon Him</li>
+                </ul>
+                <p>Ibn Kathir explains: "Al-Qarīb is the One Who is near, hearing the invocation of His servant and granting requests." This name encourages every believer to always turn to Allah directly.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran & Hadith)</h2>
+                
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong> 
+                    <a href="https://quran.com/2/186?translations=131" target="_blank">Surah Al-Baqarah 2:186</a>
+                    <div class="arabic">وَإِذَا سَأَلَكَ عِبَادِى عَنِّى فَإِنِّى قَرِيبٌ ۖ أُجِيبُ دَعْوَةَ ٱلدَّاعِ إِذَا دَعَانِ</div>
+                    <div class="transliteration">Wa iżā sa'alaka 'ibādī 'annī fa innī qarīb, ujību da'wata ad-dā'i iżā da'ān</div>
+                    <p>"When My servants ask you concerning Me, indeed I am near. I respond to the invocation of the supplicant when he calls upon Me." (Sahih International)</p>
+                    <div class="tafsir-box">
+                        <strong><a href="https://www.alim.org/quran/tafsir/ibn-kathir/surah/2/186/" target="_blank">Tafsir Ibn Kathir</a>:</strong> This verse establishes Allah’s immediate closeness; there is no need for intermediaries. It is a direct invitation to supplicate sincerely. The attribute of nearness is coupled with response, showing His perfect care.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> 
+                    <a href="https://quran.com/11/61?translations=131" target="_blank">Surah Hud 11:61</a>
+                    <div class="arabic">إِنَّ رَبِّى قَرِيبٌۭ مُّجِيبٌۭ</div>
+                    <div class="transliteration">Inna rabbī qarībun mujīb</div>
+                    <p>"Indeed, my Lord is Near and Responsive."</p>
+                    <div class="tafsir-box">
+                        <strong><a href="https://www.alim.org/quran/tafsir/ibn-kathir/surah/11/61/" target="_blank">Tafsir Ibn Kathir</a>:</strong> The pairing of Al-Qarīb and Al-Mujīb emphasizes that Allah’s closeness is not passive; He actively answers prayers and fulfills needs. This gives immense hope to believers.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/bukhari:7405" target="_blank">Sahih Bukhari 7405</a>
+                    <div class="arabic">إِنَّ اللَّهَ قَرِيبٌ يُجِيبُ دَعْوَةَ الدَّاعِ إِذَا دَعَانِ</div>
+                    <div class="transliteration">Innallāha qarīb yujību da'wata ad-dā'i iżā da'ān</div>
+                    <p>"Verily, Allah is near and answers the call of the caller when he calls upon Him."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> The Prophet (ﷺ) taught that no barrier exists between a sincere servant and Allah. Feeling the closeness of Al-Qarīb brings tranquility and certainty in worship.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Spiritual Nearness</div>
+                    <div class="arabic">يَا قَرِيبُ يَا مُجِيبُ، قَرِّبْنِي إِلَيْكَ وَأَجِبْ دَعْوَتِي</div>
+                    <div class="transliteration">Yā Qarību yā Mujību, qarribnī ilayka wa ajib da'watī</div>
+                    <p><strong>Translation:</strong> "O Ever-Near, O Responsive, bring me closer to You and answer my supplication."</p>
+                    <p><strong>Benefits:</strong> Recite after obligatory prayers to strengthen your connection with Allah and gain confidence that He hears every whisper of your heart.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">When Feeling Distant or Lonely</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ بِاسْمِكَ الْقَرِيبُ أَنْ تُزِيلَ وَحْشَتِي وَتُؤْنِسَنِي بِقُرْبِكَ</div>
+                    <div class="transliteration">Allāhumma innī as'aluka bismika l-Qarību an tuzīla wahshatī wa tu'nissanī biqurbik</div>
+                    <p><strong>Translation:</strong> "O Allah, I ask You by Your name Al-Qarīb to remove my loneliness and comfort me with Your closeness."</p>
+                    <p><strong>Source:</strong> Derived from the teachings of scholars on the therapeutic power of Asmaul Husna.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Daily Dhikr for Divine Closeness</div>
+                    <p>Repeat "Yā Qarīb" 100 times after Fajr and Maghrib:</p>
+                    <div class="arabic">يَا قَرِيبُ (100x)</div>
+                    <div class="transliteration">Yā Qarīb (100 times)</div>
+                    <p><strong>Benefits:</strong> This practice cultivates the awareness that Allah is always near. It dispels despair and increases spiritual sincerity (ikhlas).</p>
+                    <ul>
+                        <li>Purifies the heart from heedlessness</li>
+                        <li>Makes one’s duas more heartfelt and accepted</li>
+                        <li>Strengthens tawakkul (reliance on Allah)</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">During Difficult Times</div>
+                    <p>When facing hardship, recite Surah Al-Baqarah 2:186 seven times, then invoke "Yā Qarīb, yā Qarīb, yā Qarīb" 41 times. Give charity while reflecting on His nearness. This practice deepens trust in Allah’s immediate aid.</p>
+                    <p><strong>Spiritual Impact:</strong> Scholars note that regular remembrance of Al-Qarīb removes anxiety, for the believer knows that the All-Powerful is always listening and watching with mercy.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir (Deep Dive)</h2>
+                <p>Ibn Kathir elaborates on three levels of Al-Qarīb:</p>
+                <ol>
+                    <li><strong>Closeness through Knowledge:</strong> Allah is aware of every detail, every thought, as in <a href="https://quran.com/34/3?translations=131" target="_blank">34:3</a>. Nothing escapes Him.</li>
+                    <li><strong>Closeness through Response:</strong> He directly answers supplications without delay, though the answer may come in different forms (granting, averting evil, or storing reward in the Hereafter).</li>
+                    <li><strong>Closeness through Support:</strong> Allah helps the believers in times of distress, as He saved Prophet Musa (AS) and answered his prayer (Quran 20:25-28).</li>
+                </ol>
+                <p>In Surah Al-Baqarah (2:186), Ibn Kathir emphasizes that the verse was revealed to correct the misconception that Allah requires an intermediary. Al-Qarīb assures every soul: no matter how sinful, sincere turning to Allah is met with immediate closeness and mercy.</p>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> &larr; Main Menu</a></div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2025 AD) 1447 AH Curated and Maintained. Inspired by divine names – Al-Qarīb, The Ever-Near.</p>
+    </footer>
+
+    <script>
+        (function() {
+            // Helper: get URL parameters
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Override flags
+            const langEnglish = getParam('English') !== null;
+            const langIndonesian = getParam('Indonesian') !== null;
+            const darkOverride = getParam('Dark') !== null;
+            const translitOverride = getParam('Transliteration') !== null;
+
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indonesianDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            // Language logic with URL priority
+            let currentLang = localStorage.getItem('language') || 'indonesian';
+            if (langEnglish) currentLang = 'english';
+            else if (langIndonesian) currentLang = 'indonesian';
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indonesianDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Switch to Indonesian';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indonesianDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 Switch to English';
+                }
+                localStorage.setItem('language', lang);
+            }
+            setLanguage(currentLang);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+            });
+
+            // Transliteration toggle with URL override
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = true;
+            else translitVisible = (translitVisible === 'true');
+            if (translitOverride) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+                localStorage.setItem('transliteration', show);
+            }
+            setTransliteration(translitVisible);
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements[0]?.style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            // Dark mode with URL override
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (darkOverride) darkActive = true;
+
+            function setDarkModeUI() {
+                const active = document.body.classList.contains('dark-mode');
+                darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+                localStorage.setItem('darkMode', active);
+            }
+            if (darkActive) document.body.classList.add('dark-mode');
+            setDarkModeUI();
+            darkToggle.addEventListener('click', () => {
+                document.body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // SCROLL ARROWS functionality
+            const scrollUp = document.getElementById('scrollUp');
+            const scrollDown = document.getElementById('scrollDown');
+            const doubleUp = document.getElementById('doubleUpScroll');
+            const doubleDown = document.getElementById('doubleDownScroll');
+            if (scrollUp) scrollUp.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDown) scrollDown.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+            // Handle hash #top
+            if (window.location.hash === '#top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })();
+    </script>
+</body>
+</html>
