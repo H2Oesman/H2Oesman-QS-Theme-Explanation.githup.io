@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Niat Puasa Tasu'a &amp; Asyura — Hadits</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        /* ── reset & variables ── */
+        * { box-sizing: border-box; }
+        :root {
+            --bg-color: #f5f9fc; --text-color: #1e2a3e; --container-bg: white;
+            --arabic-color: #0b3b2c; --section-title-color: #1e5f8e;
+            --verse-bg: #f8f9fa; --verse-border: #e0e0e0; --link-color: #1e5f8e;
+            --link-hover: #0d3d5a; --translation-color: #2c3e50;
+            --arrow-bg: #2c3e50; --arrow-text: white; --footnote-bg: #f0f4f8;
+            --click-caption-bg: #e0f2fe; --bonus-bg: #e8f4fc; --structure-bg: #f0f7ff;
+            --badge-bg: #e0f2fe; --badge-text: #0369a1; --card-highlight: #f0faff;
+            --pill-bg: #e8f0fe; --pill-text: #1e5f8e; --hadith-bg: #fcf8e8;
+            --hadith-border: #d4a843;
+        }
+        .dark-mode {
+            --bg-color: #121826; --text-color: #eef2ff; --container-bg: #1e293b;
+            --arabic-color: #7bc9ff; --section-title-color: #7bc9ff;
+            --verse-bg: #2d3748; --verse-border: #4a5568; --link-color: #93c5fd;
+            --link-hover: #c3e2ff; --translation-color: #cbd5e1; --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff; --footnote-bg: #2d3748; --click-caption-bg: #1e3a5f;
+            --bonus-bg: #1e3a5f; --structure-bg: #1e3a5f; --badge-bg: #1e3a8a;
+            --badge-text: #93c5fd; --card-highlight: #1e3a5f; --pill-bg: #1e3a8a;
+            --pill-text: #93c5fd; --hadith-bg: #1e2a1f; --hadith-border: #b8943a;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8; margin: 0; padding: 20px;
+            color: var(--text-color); background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1100px; margin: 0 auto; background: var(--container-bg);
+            padding: 30px; border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: all 0.3s ease;
+        }
+        a { color: var(--link-color); text-decoration: none; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
+
+        /* ── Arabic & typography ── */
+        .arabic, .arabic-hadith, .arabic-quran {
+            font-family: 'Uthmanic Hafs', 'Scheherazade New', 'Amiri', 'Noto Naskh Arabic', serif;
+            text-align: right; direction: rtl; color: var(--arabic-color);
+            word-wrap: break-word; white-space: normal; font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+        .arabic { font-size: 28px; margin: 20px 0 10px; line-height: 2.2; }
+        .arabic-hadith { font-size: 26px; margin: 16px 0 10px; line-height: 2.4; }
+        .arabic-quran { font-size: 30px; margin: 20px 0 10px; line-height: 2.4; }
+
+        .transliteration {
+            font-style: italic; color: #7f8c8d; font-size: 15px;
+            text-align: right; margin: 5px 0 5px; display: block; direction: ltr;
+        }
+        .translation {
+            font-size: 16px; text-align: left; color: var(--translation-color);
+            margin: 5px 0 15px; padding: 8px 12px;
+            background: rgba(0,0,0,0.03); border-radius: 12px;
+            border-left: 3px solid var(--link-color);
+        }
+        .dark-mode .translation { background: rgba(255,255,255,0.05); }
+
+        .surah-title {
+            font-size: 32px; text-align: center; margin-bottom: 10px;
+            background: linear-gradient(135deg, #2c7da0, #1e5f8e);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-title {
+            font-size: 24px; color: var(--section-title-color);
+            margin: 35px 0 20px; border-left: 5px solid #2c7da0;
+            padding-left: 15px; display: flex; align-items: center;
+            gap: 10px; flex-wrap: wrap;
+        }
+        .section-title .badge {
+            background: var(--pill-bg); color: var(--pill-text);
+            font-size: 14px; padding: 2px 14px; border-radius: 40px;
+            font-weight: 600;
+        }
+        .dhikr-card, .theme-card {
+            background-color: var(--verse-bg); padding: 20px 24px;
+            border-radius: 20px; margin: 25px 0;
+            border: 1px solid var(--verse-border); transition: all 0.2s ease;
+            scroll-margin-top: 100px;
+        }
+        .dhikr-card.highlight {
+            background-color: var(--card-highlight);
+            border-left: 4px solid #2c7da0;
+        }
+        .hadith-card {
+            background-color: var(--hadith-bg); padding: 24px 28px;
+            border-radius: 20px; margin: 25px 0;
+            border: 2px solid var(--hadith-border); transition: all 0.2s ease;
+            scroll-margin-top: 100px;
+        }
+        .hadith-card .hadith-header {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; border-bottom: 1px solid var(--hadith-border);
+            padding-bottom: 12px; margin-bottom: 16px;
+        }
+        .hadith-card .hadith-header .title {
+            font-size: 18px; font-weight: 700; color: var(--section-title-color);
+        }
+        .hadith-card .hadith-header .date { display: none; }
+
+        .theme-title {
+            font-weight: bold; color: #1e7e5c; margin-bottom: 4px;
+            font-size: 1.15rem; display: flex; align-items: center;
+            gap: 8px; flex-wrap: wrap;
+        }
+        .dark-mode .theme-title { color: #66d9a7; }
+        .theme-title .pill {
+            font-size: 13px; background: var(--pill-bg); color: var(--pill-text);
+            padding: 0 12px; border-radius: 30px; font-weight: 500;
+        }
+
+        .info-box {
+            background: var(--bonus-bg); padding: 20px; border-radius: 20px;
+            text-align: center; margin: 20px 0;
+        }
+        .info-box p { margin: 0; }
+
+        .surah-pagination {
+            display: flex; justify-content: flex-end;
+            margin: 40px 0 20px; padding-top: 20px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .pagination-next {
+            background: var(--verse-bg); padding: 10px 24px;
+            border-radius: 60px; display: inline-flex; align-items: center;
+            gap: 8px; font-weight: bold; border: 1px solid var(--verse-border);
+        }
+        .pagination-next:hover {
+            background: var(--link-color); color: white; text-decoration: none;
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        @media (max-width: 640px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                padding: 5px 12px; font-size: 12px; right: 12px;
+            }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; }
+            .arabic { font-size: 24px; }
+            .arabic-quran { font-size: 26px; }
+            .container { padding: 16px; }
+        }
+
+        footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
+        .hidden { display: none !important; }
+        .scroll-target { scroll-margin-top: 100px; }
+        .divider { border: none; border-top: 2px dashed var(--verse-border); margin: 40px 0 30px; }
+
+        .note-box {
+            background: var(--bonus-bg); border-radius: 16px; padding: 16px 20px;
+            margin: 15px 0; border-left: 4px solid #2c7da0; font-size: 15px;
+        }
+        .note-box strong { color: var(--section-title-color); }
+
+        .url-hint {
+            font-size: 13px; opacity: 0.7; font-weight: normal;
+            background: var(--verse-bg); padding: 2px 12px; border-radius: 20px;
+            display: inline-block;
+        }
+        .url-hint code {
+            background: var(--pill-bg); padding: 0 8px; border-radius: 12px;
+            font-size: 12px; color: var(--pill-text);
+        }
+        .scroll-link {
+            cursor: pointer; text-decoration: none;
+        }
+        .scroll-link:hover {
+            text-decoration: underline;
+        }
+        .scroll-link code {
+            pointer-events: none;
+        }
+
+        .lesson-list { padding-left: 20px; margin: 10px 0; }
+        .lesson-list li { margin-bottom: 8px; }
+        .lesson-list li strong { color: var(--section-title-color); }
+
+        .highlight-box {
+            background: var(--card-highlight); border-radius: 16px;
+            padding: 16px 20px; margin: 15px 0;
+            border: 1px solid var(--verse-border);
+        }
+
+        /* ── fixed toggles ── */
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed; right: 20px; background: #2c3e50; color: white;
+            padding: 8px 16px; border-radius: 40px; cursor: pointer;
+            z-index: 1001; font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 8px; font-size: 14px;
+            backdrop-filter: blur(2px); border: none;
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+
+        .scroll-arrow, .scroll-arrow-double {
+            position: fixed; background: var(--arrow-bg); color: var(--arrow-text);
+            border-radius: 50%; width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer;
+            z-index: 1000; transition: 0.2s; border: 1px solid var(--verse-border);
+        }
+        .scroll-arrow { left: 20px; }
+        .scroll-arrow.up { top: 200px; }
+        .scroll-arrow.down { bottom: 90px; }
+        .scroll-arrow-double { right: 20px; }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        .scroll-arrow:hover, .scroll-arrow-double:hover {
+            transform: scale(1.05); background: var(--link-color); color: white;
+        }
+
+        .top-home-link {
+            display: inline-block; margin-bottom: 20px; margin-right: 15px;
+            padding: 8px 16px; border-radius: 40px;
+            border: 1px solid var(--link-color); font-weight: 500;
+            background: var(--container-bg);
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color); color: white; text-decoration: none;
+        }
+
+        .sub-section-title {
+            font-size: 1.2rem; margin: 30px 0 15px;
+            border-bottom: 2px solid var(--verse-border); padding-bottom: 8px;
+            color: var(--section-title-color);
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+        .sub-section-title .pill {
+            font-size: 13px; background: var(--pill-bg); color: var(--pill-text);
+            padding: 0 12px; border-radius: 30px; font-weight: 500;
+        }
+
+        .quran-box {
+            background: var(--structure-bg); border-radius: 16px;
+            padding: 16px 20px; margin: 15px 0;
+            border: 1px solid var(--verse-border);
+        }
+        .fa-hadith { color: var(--hadith-border); }
+        .source-tag {
+            display: inline-block; background: var(--pill-bg); color: var(--pill-text);
+            font-size: 13px; padding: 2px 14px; border-radius: 30px; font-weight: 500;
+        }
+        .quran-link { font-weight: 500; display: inline-block; margin-top: 4px; }
+        .quran-link a { color: var(--link-color); text-decoration: underline; }
+        .quran-link a:hover { color: var(--link-hover); }
+
+        /* history section extras */
+        .history-timeline {
+            padding-left: 20px; margin: 12px 0;
+        }
+        .history-timeline li {
+            margin-bottom: 10px; list-style-type: none;
+            position: relative; padding-left: 28px;
+        }
+        .history-timeline li::before {
+            content: "●"; color: var(--section-title-color);
+            position: absolute; left: 0; top: 0;
+            font-size: 14px;
+        }
+        .history-timeline li strong {
+            color: var(--section-title-color);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toggle Buttons -->
+    <button id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇮🇩 Indonesian</button>
+    <button id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Sembunyikan Transliterasi</button>
+    <button id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</button>
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+
+        <!-- ============================================================ -->
+        <!-- ENGLISH VERSION                                                -->
+        <!-- ============================================================ -->
+        <div id="english-content">
+            <div style="margin-bottom:20px; display:flex; flex-wrap:wrap; gap:8px;">
+                <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna</a>
+                <a href="juz_summary.html" class="top-home-link"><i class="fas fa-book"></i> Juz Summary</a>
+            </div>
+            <h1 class="surah-title">Niat (Intention) for صَوْم (Fasting) — Tasu'a &amp; Asyura</h1>
+            <div class="info-box">
+                <p><i class="fas fa-info-circle"></i> <strong>Note:</strong> The Niat (intention) for fasting is made in the heart before dawn (for voluntary fasts, it may be made before noon as long as nothing has been eaten or drunk). Uttering it verbally is <em>sunnah</em> (recommended) to help the heart stay focused. Below are the standard formulas for the <strong>Sunnah</strong> fasts of <strong>Tasu'a</strong> (9th Muharram) and <strong>Asyura</strong> (10th Muharram).</p>
+                <p style="margin-top:8px; font-size:14px;">
+                    <span class="url-hint"><i class="fas fa-link"></i> Jump to: 
+                        <a href="#" class="scroll-link" data-param="Tasua"><code>?Tasua</code></a>
+                        <a href="#" class="scroll-link" data-param="Asyura"><code>?Asyura</code></a>
+                        <a href="#" class="scroll-link" data-param="History"><code>?History</code></a>
+                        <a href="#" class="scroll-link" data-param="Hadith"><code>?Hadith</code></a>
+                    </span>
+                </p>
+            </div>
+
+            <!-- ==================== SECTION 1: TASU'A ==================== -->
+            <div id="tasua-section" class="section scroll-target">
+                <h2 class="section-title"><i class="fas fa-sun"></i> Niat for صَوْم (Fasting) Tasu'a — 9 Muharram <span class="badge">Sunnah</span></h2>
+                <div class="note-box">
+                    <strong>Tasu'a (9th Muharram)</strong> — It is recommended to fast on the 9th of Muharram along with the 10th, to distinguish from the practice of the People of the Book who used to fast only on the 10th. The Prophet ﷺ said: <em>"If I live until next year, I will surely fast the 9th (along with the 10th)."</em> (Sahih Muslim)
+                </div>
+
+                <div class="dhikr-card highlight">
+                    <div class="theme-title"><i class="fas fa-moon"></i> Niat صَوْم (Fasting) Tasu'a — 9 Muharram <span class="pill">Sunnah</span></div>
+                    <div class="arabic">نَوَيْتُ صَوْمَ غَدٍ عَنْ أَدَاءِ سُنَّةِ التَّاسُوعَاءِ لِلَّهِ تَعَالَى</div>
+                    <div class="transliteration">Nawaiitu shauma ghadin ‘an adā’i sunnati tāsū’ā lillāhi ta‘ālā.</div>
+                    <div class="translation">I intend to fast tomorrow in observance of the Sunnah of Tasu'a, for the sake of Allah Ta'ala.</div>
+                    <div style="margin-top:12px; font-size:14px; background:var(--pill-bg); padding:4px 14px; border-radius:30px; display:inline-block; color:var(--pill-text);">
+                        <i class="far fa-calendar-alt"></i> 9 Muharram
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- ==================== SECTION 2: ASYURA ==================== -->
+            <div id="asyura-section" class="section scroll-target">
+                <h2 class="section-title"><i class="fas fa-star"></i> Niat for صَوْم (Fasting) Asyura — 10 Muharram <span class="badge">Sunnah</span></h2>
+                <div class="note-box">
+                    <strong>Asyura (10th Muharram)</strong> — The 10th of Muharram is the most significant day for fasting in this month. It commemorates the day when Allah saved Prophet Musa (Moses) and the Children of Israel from Pharaoh. The Prophet ﷺ fasted on this day and encouraged others to do so.
+                </div>
+
+                <div class="dhikr-card highlight">
+                    <div class="theme-title"><i class="fas fa-star"></i> Niat صَوْم (Fasting) Asyura — 10 Muharram <span class="pill">Sunnah</span></div>
+                    <div class="arabic">نَوَيْتُ صَوْمَ غَدٍ عَنْ أَدَاءِ سُنَّةِ عَاشُورَاءَ لِلَّهِ تَعَالَى</div>
+                    <div class="transliteration">Nawaiitu shauma ghadin ‘an adā’i sunnati ‘asyura lillāhi ta‘ālā.</div>
+                    <div class="translation">I intend to fast tomorrow in observance of the Sunnah of Asyura, for the sake of Allah Ta'ala.</div>
+                    <div style="margin-top:12px; font-size:14px; background:var(--pill-bg); padding:4px 14px; border-radius:30px; display:inline-block; color:var(--pill-text);">
+                        <i class="far fa-calendar-alt"></i> 10 Muharram
+                    </div>
+                </div>
+
+                <div class="info-box" style="text-align:left;">
+                    <p><i class="fas fa-lightbulb"></i> <strong>Virtue of Asyura:</strong> The Prophet ﷺ said: <em>"Fasting the day of 'Ashura (10th of Muharram), I hope that Allah will accept it as expiation for the sins of the previous year."</em> (Sahih Muslim)</p>
+                </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- ==================== SECTION 3: HISTORY (ENGLISH) ==================== -->
+            <div id="history-section" class="section scroll-target">
+                <h2 class="section-title"><i class="fas fa-history"></i> The History Behind Tasu'a &amp; Asyura <span class="badge">Background</span></h2>
+
+                <div class="note-box">
+                    <strong>The Story of Moses &amp; the Day of Ashura</strong> — The fasting of Ashura has deep roots in the prophetic tradition, connecting the Muslim ummah to the legacy of Prophet Musa (Moses) and the gratitude of the believers.
+                </div>
+
+                <div class="hadith-card" style="border-color: var(--link-color);">
+                    <div class="hadith-header">
+                        <span class="title"><i class="fas fa-hadith" style="color:var(--hadith-border);"></i> The Origin of Ashura Fasting</span>
+                    </div>
+
+                    <p style="font-size:14px; color:var(--translation-color); margin-bottom:12px;">
+                        <span class="source-tag">Sahih al-Bukhari &amp; Muslim</span>
+                    </p>
+
+                    <div class="arabic-hadith" style="font-size:24px;">
+                        عَنْ ابْنِ عَبَّاسٍ رَضِيَ اللَّهُ عَنْهُمَا: أَنَّ النَّبِيَّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ لَمَّا قَدِمَ الْمَدِينَةَ وَجَدَهُمْ يَصُومُونَ يَوْمًا يَعْنِي عَاشُورَاءَ فَقَالُوا هَذَا يَوْمٌ عَظِيمٌ وَهُوَ يَوْمٌ نَجَّى اللَّهُ فِيهِ مُوسَى وَأَغْرَقَ آلَ فِرْعَوْنَ فَصَامَ مُوسَى شُكْرًا لِلَّهِ فَقَالَ أَنَا أَوْلَى بِمُوسَى مِنْهُمْ فَصَامَهُ وَأَمَرَ بِصِيَامِهِ
+                    </div>
+                    <div class="transliteration">
+                        ‘An Ibn ‘Abbās raḍiyallāhu ‘anhumā: anna al-nabiyya ṣallallāhu ‘alayhi wa sallam lammā qadima al-madīnata wajadahum yaṣūmūna yawman ya‘nī ‘āshūrā’a faqālū hādhā yawmun ‘aẓīmun wa huwa yawmun najjā Allāhu fīhi Mūsā wa aghraqa āla fir‘awna faṣāma Mūsā shukran lillāh faqāla ana awlā bi-Mūsā minhum faṣāmahu wa amara bi-ṣiyāmihi.
+                    </div>
+                    <div class="translation">
+                        <strong>Narrated by Ibn ‘Abbas (may Allah be pleased with them both):</strong> When the Prophet ﷺ came to Medina, he found the Jews fasting on the day of 'Ashura. They said: <em>"This is a great day, the day on which Allah saved Moses and drowned the people of Pharaoh. So Moses fasted on this day as a sign of gratitude to Allah."</em> The Prophet ﷺ said: <em>"I am closer to Moses than you."</em> So he fasted on that day and ordered the Muslims to fast on it.<span class="source-tag" style="margin-left:8px;">[Sahih al-Bukhari 3943, Muslim 1130]</span>
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid var(--verse-border); margin:18px 0;" />
+
+                    <div style="font-weight:700; font-size:17px; color:var(--section-title-color); margin-bottom:12px;">
+                        <i class="fas fa-graduation-cap"></i> Key Historical Points:
+                    </div>
+
+                    <ul class="history-timeline">
+                        <li>
+                            <strong>1. The Salvation of Moses &amp; the Israelites</strong><br />
+                            On the 10th of Muharram (Ashura), Allah saved Prophet Musa (Moses) and the Children of Israel from Pharaoh and his army. The sea was parted, allowing them to cross, while Pharaoh and his forces were drowned.
+                        </li>
+                        <li>
+                            <strong>2. Moses Fasted in Gratitude</strong><br />
+                            In thankfulness to Allah for this great deliverance, Prophet Musa observed a fast on this day. This practice was continued by the Jews in Medina.
+                        </li>
+                        <li>
+                            <strong>3. The Prophet’s ﷺ Arrival in Medina</strong><br />
+                            When the Prophet Muhammad ﷺ migrated to Medina, he observed the Jews fasting on the 10th of Muharram. Upon learning the reason, he declared, <em>"We are closer to Moses than you are."</em> He then fasted on that day and commanded the Muslims to do likewise.
+                        </li>
+                        <li>
+                            <strong>4. Distinguishing from the Jews – The Addition of Tasu'a</strong><br />
+                            Later, the Prophet ﷺ expressed his intention to fast on the 9th of Muharram (Tasu'a) as well, to differentiate the Muslim practice from that of the Jews who only fasted on the 10th. He said: <em>"If I live until next year, I will surely fast the 9th (along with the 10th)."</em>
+                        </li>
+                        <li>
+                            <strong>5. From Obligatory to Recommended</strong><br />
+                            In the early years of Islam, fasting on Ashura was obligatory. However, when the fasting of Ramadan was prescribed in the second year of Hijrah, the obligation was abrogated, and fasting on Ashura became a highly recommended Sunnah.
+                        </li>
+                    </ul>
+
+                    <div style="background:var(--card-highlight); border-radius:16px; padding:16px 20px; margin-top:16px; border-left:4px solid var(--link-color);">
+                        <p style="margin:0; font-size:15px;">
+                            <i class="fas fa-quote-left" style="color:var(--link-color);"></i>
+                            <strong>Summary:</strong> The fast of Ashura connects the Muslim ummah to the legacy of Prophet Musa (Moses) and the gratitude shown to Allah for salvation. The addition of Tasu'a (the 9th) reflects the prophetic wisdom of distinguishing Islamic practice while honoring the shared prophetic heritage.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Related Qur'an Verse -->
+                <div class="sub-section-title"><i class="fas fa-quran"></i> Related Qur'an Verse <span class="pill">Al-Baqarah: 50</span></div>
+                <div class="quran-box">
+                    <div class="arabic-quran">وَإِذْ فَرَقْنَا بِكُمُ الْبَحْرَ فَأَنجَيْنَاكُمْ وَأَغْرَقْنَا آلَ فِرْعَوْنَ وَأَنتُمْ تَنظُرُونَ</div>
+                    <div class="transliteration">Wa idh faraqnā bikum al-baḥra fa anjaynākum wa aghraqnā āla fir‘awna wa antum tanẓurūn.</div>
+                    <div class="translation">
+                        And <em>(remember)</em>, when We parted the sea for you, then We saved you and drowned the people of Pharaoh while you were looking on. <em>(QS Al-Baqarah: 50)</em>
+                        <div class="quran-link"><a href="https://recitequran.com/2:50" target="_blank">📖 Read on ReciteQuran.com</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- ==================== SECTION 4: HADITH (ENGLISH) ==================== -->
+            <div id="virtues-section" class="section scroll-target">
+                <h2 class="section-title"><i class="fas fa-hadith"></i> Hadith <span class="badge">Virtues</span></h2>
+
+                <div class="hadith-card">
+                    <div class="hadith-header">
+                        <span class="title"><i class="fas fa-hadith" style="color:var(--hadith-border);"></i> The Virtue of Fasting on 10 Muharram</span>
+                    </div>
+
+                    <p style="font-size:14px; color:var(--translation-color); margin-bottom:12px;">
+                        <span class="source-tag">HR. Muslim no. 1162</span>
+                    </p>
+
+                    <div class="arabic-hadith">
+                        وَسُئِلَ عَنْ صَوْمِ يَوْمِ عَرَفَةَ فَقَالَ : يُكَفِّرُ السَّنَةَ الْمَاضِيَةَ وَالْبَاقِيَةَ . قَالَ وَسُئِلَ عَنْ صَوْمِ يَوْمِ عَاشُورَاءَ فَقَالَ : يُكَفِّرُ السَّنَةَ الْمَاضِيَةَ
+                    </div>
+                    <div class="transliteration">
+                        Wa su’ila ‘an ṣawmi yawmi ‘arafata faqāla: yukaffiru al-sanata al-māḍiyata wa al-bāqiyata. Qāla wa su’ila ‘an ṣawmi yawmi ‘āshūrā’a faqāla: yukaffiru al-sanata al-māḍiyata.
+                    </div>
+                    <div class="translation">
+                        <strong>Abu Qatadah Al Anshoriy reported:</strong> The Prophet ﷺ was asked about fasting on the day of 'Arafah. He replied: <em>"It expiates the sins of the previous year and the coming year."</em> He was then asked about fasting on the day of 'Ashura. He replied: <em>"It expiates the sins of the previous year."</em>
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid var(--verse-border); margin:18px 0;" />
+
+                    <div style="font-weight:700; font-size:17px; color:var(--section-title-color); margin-bottom:12px;">
+                        <i class="fas fa-graduation-cap"></i> Lessons from the Hadith:
+                    </div>
+
+                    <ol class="lesson-list">
+                        <li>
+                            <strong>1. Expiation of Sins for a Year</strong><br />
+                            From Abu Qatadah radhiyallahu ‘anhu, the Prophet ﷺ said about fasting 'Ashura:
+                            <div class="arabic-hadith" style="font-size:22px; margin:8px 0;">
+                                صِيَامُ يَوْمِ عَاشُورَاءَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ
+                            </div>
+                            <div class="transliteration">
+                                Ṣiyāmu yawmi ‘āshūrā’a aḥtasibu ‘alā Allahi an yukaffira al-sanata allatī qablahu.
+                            </div>
+                            <div class="translation">
+                                <em>"Fasting on the day of 'Ashura, I hope that Allah will accept it as expiation for the sins of the previous year."</em> (HR. Muslim)
+                            </div>
+                        </li>
+                        <li>
+                            <strong>2. The Importance of Fasting in Muharram</strong><br />
+                            From Abu Hurairah radhiyallahu ‘anhu:
+                            <div class="arabic-hadith" style="font-size:22px; margin:8px 0;">
+                                أَفْضَلُ الصِّيَامِ بَعْدَ شَهْرِ رَمَضَانَ شَهْرُ اللَّهِ الْمُحَرَّمُ وَأَفْضَلُ الصَّلاَةِ بَعْدَ الْفَرِيضَةِ صَلاَةُ اللَّيْلِ
+                            </div>
+                            <div class="transliteration">
+                                Afḍalu aṣ-ṣiyāmi ba‘da shahri Ramaḍāna shahru Allāhi al-muḥarramu, wa afḍalu aṣ-ṣalāti ba‘da al-farīḍati ṣalātu al-layli.
+                            </div>
+                            <div class="translation">
+                                <em>"The best fasting after the month of Ramadan is the month of Allah — Muharram. And the best prayer after the obligatory prayers is the night prayer."</em> (HR. Muslim)
+                            </div>
+                        </li>
+                        <li>
+                            <strong>3. History of Fasting 'Ashura and the Recommendation to Fast on the 9th and 10th</strong><br />
+                            From Ibn ‘Abbas radhiyallahu ‘anhuma: The Prophet ﷺ fasted on 'Ashura and commanded the Muslims to do so. Some said, <em>"O Messenger of Allah, this is a day that the Jews and Christians honor."</em> The Prophet replied, <em>"When next year comes, insha’Allah, we will fast on the 9th (as well)."</em> But he passed away before the next year came. (HR. Muslim no. 1134)
+                        </li>
+                        <li>
+                            <strong>4. The Recommendation to Differ from the Jews</strong><br />
+                            The Prophet ﷺ also encouraged adding the 9th of Muharram (Tasu'a) so as not to resemble the practice of the Jews:
+                            <div class="arabic-hadith" style="font-size:22px; margin:8px 0;">
+                                لَئِنْ بَقِيتُ إِلَى قَابِلٍ لَأَصُومَنَّ التَّاسِعَ
+                            </div>
+                            <div class="transliteration">
+                                La’in baqītu ilā qābilin la’aṣūmanna at-tāsi‘a.
+                            </div>
+                            <div class="translation">
+                                <em>"If I live until next year, I will surely fast on the 9th (Tasu'a)."</em> (HR. Muslim no. 1134)
+                            </div>
+                        </li>
+                    </ol>
+
+                    <div style="background:var(--card-highlight); border-radius:16px; padding:16px 20px; margin-top:16px; border-left:4px solid var(--hadith-border);">
+                        <p style="margin:0; font-size:15px;">
+                            <strong>📌 What if one only manages to fast on the 10th and 11th of Muharram?</strong><br />
+                            Shaykh ‘Abdul ‘Aziz ibn Baz rahimahullah said: Fasting on the 9th and 10th of Muharram is more virtuous. Fasting on the 10th and 11th also achieves the goal of differing from the Jews. Fasting all three days (9th, 10th, and 11th) is fine. Fasting only on the 10th is disliked.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-pagination">
+                <a href="index.html" class="pagination-next"><i class="fas fa-home"></i> Back to Main Menu</a>
+            </div>
+        </div>
+        <!-- END ENGLISH -->
+
+        <!-- ============================================================ -->
+        <!-- INDONESIAN VERSION                                             -->
+        <!-- ============================================================ -->
+        <div id="indonesian-content" class="hidden">
+            <div style="margin-bottom:20px; display:flex; flex-wrap:wrap; gap:8px;">
+                <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Menu Utama</a>
+                <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna</a>
+                <a href="juz_summary.html" class="top-home-link"><i class="fas fa-book"></i> Ringkasan Juz</a>
+            </div>
+            <h1 class="surah-title">Niat Puasa — Tasu'a &amp; Asyura</h1>
+            <div class="info-box">
+                <p><i class="fas fa-info-circle"></i> <strong>Catatan:</strong> Niat puasa diucapkan dalam hati sebelum fajar (untuk puasa sunnah, boleh diucapkan sebelum dhuhur selama belum makan/minum). Mengucapkannya secara lisan adalah <em>sunnah</em> (dianjurkan) untuk membantu hati tetap fokus. Di bawah ini adalah formula standar untuk puasa <strong>Sunnah</strong> <strong>Tasu'a</strong> (9 Muharram) dan <strong>Asyura</strong> (10 Muharram).</p>
+                <p style="margin-top:8px; font-size:14px;">
+                    <span class="url-hint"><i class="fas fa-link"></i> Lompat ke: 
+                        <a href="#" class="scroll-link" data-param="Tasua"><code>?Tasua</code></a>
+                        <a href="#" class="scroll-link" data-param="Asyura"><code>?Asyura</code></a>
+                        <a href="#" class="scroll-link" data-param="History"><code>?History</code></a>
+                        <a href="#" class="scroll-link" data-param="Hadits"><code>?Hadits</code></a>
+                    </span>
+                </p>
+            </div>
+
+            <!-- ==================== SECTION 1: TASU'A (IND) ==================== -->
+            <div id="tasua-section-id" class="section scroll-target">
+                <h2 class="section-title"><i class="fas fa-sun"></i> Niat Puasa Tasu'a — 9 Muharram <span class="badge">Sunnah</span></h2>
+                <div class="note-box">
+                    <strong>Tasu'a (9 Muharram)</strong> — Dianjurkan untuk berpuasa pada tanggal 9 Muharram bersama dengan tanggal 10, untuk membedakan dari kebiasaan Ahli Kitab yang hanya berpuasa pada tanggal 10. Rasulullah ﷺ bersabda: <em>"Jika aku masih hidup sampai tahun depan, sungguh aku akan berpuasa pada tanggal 9 (bersama dengan tanggal 10)."</em> (HR. Muslim)
+                </div>
+
+                <div class="dhikr-card highlight">
+                    <div class="theme-title"><i class="fas fa-moon"></i> Niat Puasa Tasu'a — 9 Muharram <span class="pill">Sunnah</span></div>
+                    <div class="arabic">نَوَيْتُ صَوْمَ غَدٍ عَنْ أَدَاءِ سُنَّةِ التَّاسُوعَاءِ لِلَّهِ تَعَالَى</div>
+                    <div class="transliteration">Nawaiitu shauma ghadin ‘an adaa-i sunnati tasuu-a lillahi ta'aalaa.</div>
+                    <div class="translation">Aku berniat puasa sunnah Tasu'a esok hari karena Allah SWT.</div>
+                    <div style="margin-top:12px; font-size:14px; background:var(--pill-bg); padding:4px 14px; border-radius:30px; display:inline-block; color:var(--pill-text);">
+                        <i class="far fa-calendar-alt"></i> 9 Muharram
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- ==================== SECTION 2: ASYURA (IND) ==================== -->
+            <div id="asyura-section-id" class="section scroll-target">
+                <h2 class="section-title"><i class="fas fa-star"></i> Niat Puasa Asyura — 10 Muharram <span class="badge">Sunnah</span></h2>
+                <div class="note-box">
+                    <strong>Asyura (10 Muharram)</strong> — Tanggal 10 Muharram adalah hari paling utama untuk berpuasa di bulan ini. Hari ini memperingati hari ketika Allah menyelamatkan Nabi Musa dan Bani Israel dari Fir'aun. Rasulullah ﷺ berpuasa pada hari ini dan menganjurkan umatnya untuk melakukannya.
+                </div>
+
+                <div class="dhikr-card highlight">
+                    <div class="theme-title"><i class="fas fa-star"></i> Niat Puasa Asyura — 10 Muharram <span class="pill">Sunnah</span></div>
+                    <div class="arabic">نَوَيْتُ صَوْمَ غَدٍ عَنْ أَدَاءِ سُنَّةِ عَاشُورَاءَ لِلَّهِ تَعَالَى</div>
+                    <div class="transliteration">Nawaiitu shauma ghadin ‘an adaa-i sunnati 'asyura lillahi ta'aalaa.</div>
+                    <div class="translation">Aku berniat puasa sunnah Asyura esok hari karena Allah SWT.</div>
+                    <div style="margin-top:12px; font-size:14px; background:var(--pill-bg); padding:4px 14px; border-radius:30px; display:inline-block; color:var(--pill-text);">
+                        <i class="far fa-calendar-alt"></i> 10 Muharram
+                    </div>
+                </div>
+
+                <div class="info-box" style="text-align:left;">
+                    <p><i class="fas fa-lightbulb"></i> <strong>Keutamaan Asyura:</strong> Rasulullah ﷺ bersabda: <em>"Puasa pada hari 'Asyura (10 Muharram), saya berharap Allah akan menerimanya sebagai penghapus dosa-dosa setahun yang lalu."</em> (HR. Muslim)</p>
+                </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- ==================== SECTION 3: HISTORY (INDONESIAN) ==================== -->
+            <div id="history-section-id" class="section scroll-target">
+                <h2 class="section-title"><i class="fas fa-history"></i> Sejarah di Balik Tasu'a &amp; Asyura <span class="badge">Latar Belakang</span></h2>
+
+                <div class="note-box">
+                    <strong>Kisah Nabi Musa &amp; Hari Asyura</strong> — Puasa Asyura memiliki akar yang dalam dalam tradisi kenabian, menghubungkan umat Islam dengan warisan Nabi Musa dan rasa syukur para mukmin.
+                </div>
+
+                <div class="hadith-card" style="border-color: var(--link-color);">
+                    <div class="hadith-header">
+                        <span class="title"><i class="fas fa-hadith" style="color:var(--hadith-border);"></i> Asal Mula Puasa Asyura</span>
+                    </div>
+
+                    <p style="font-size:14px; color:var(--translation-color); margin-bottom:12px;">
+                        <span class="source-tag">Sahih al-Bukhari &amp; Muslim</span>
+                    </p>
+
+                    <div class="arabic-hadith" style="font-size:24px;">
+                        عَنْ ابْنِ عَبَّاسٍ رَضِيَ اللَّهُ عَنْهُمَا: أَنَّ النَّبِيَّ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ لَمَّا قَدِمَ الْمَدِينَةَ وَجَدَهُمْ يَصُومُونَ يَوْمًا يَعْنِي عَاشُورَاءَ فَقَالُوا هَذَا يَوْمٌ عَظِيمٌ وَهُوَ يَوْمٌ نَجَّى اللَّهُ فِيهِ مُوسَى وَأَغْرَقَ آلَ فِرْعَوْنَ فَصَامَ مُوسَى شُكْرًا لِلَّهِ فَقَالَ أَنَا أَوْلَى بِمُوسَى مِنْهُمْ فَصَامَهُ وَأَمَرَ بِصِيَامِهِ
+                    </div>
+                    <div class="transliteration">
+                        ‘An Ibn ‘Abbās raḍiyallāhu ‘anhumā: anna al-nabiyya ṣallallāhu ‘alayhi wa sallam lammā qadima al-madīnata wajadahum yaṣūmūna yawman ya‘nī ‘āshūrā’a faqālū hādhā yawmun ‘aẓīmun wa huwa yawmun najjā Allāhu fīhi Mūsā wa aghraqa āla fir‘awna faṣāma Mūsā shukran lillāh faqāla ana awlā bi-Mūsā minhum faṣāmahu wa amara bi-ṣiyāmihi.
+                    </div>
+                    <div class="translation">
+                        <strong>Diriwayatkan oleh Ibnu 'Abbas (radhiyallahu 'anhuma):</strong> Ketika Nabi ﷺ datang ke Madinah, beliau mendapati orang-orang Yahudi berpuasa pada hari 'Asyura. Mereka berkata: <em>"Ini adalah hari yang agung, hari di mana Allah menyelamatkan Musa dan menenggelamkan kaum Fir'aun. Maka Musa berpuasa pada hari ini sebagai tanda syukur kepada Allah."</em> Nabi ﷺ bersabda: <em>"Aku lebih berhak terhadap Musa daripada kalian."</em> Maka beliau berpuasa pada hari itu dan memerintahkan kaum muslimin untuk berpuasa padanya.<span class="source-tag" style="margin-left:8px;">[Sahih al-Bukhari 3943, Muslim 1130]</span>
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid var(--verse-border); margin:18px 0;" />
+
+                    <div style="font-weight:700; font-size:17px; color:var(--section-title-color); margin-bottom:12px;">
+                        <i class="fas fa-graduation-cap"></i> Poin-Poin Sejarah Penting:
+                    </div>
+
+                    <ul class="history-timeline">
+                        <li>
+                            <strong>1. Keselamatan Musa &amp; Bani Israel</strong><br />
+                            Pada tanggal 10 Muharram (Asyura), Allah menyelamatkan Nabi Musa dan Bani Israel dari Fir'aun dan bala tentaranya. Laut terbelah, memungkinkan mereka menyeberang, sedangkan Fir'aun dan pasukannya ditenggelamkan.
+                        </li>
+                        <li>
+                            <strong>2. Musa Berpuasa sebagai Rasa Syukur</strong><br />
+                            Sebagai rasa syukur kepada Allah atas keselamatan yang agung ini, Nabi Musa berpuasa pada hari tersebut. Tradisi ini kemudian dilanjutkan oleh orang-orang Yahudi di Madinah.
+                        </li>
+                        <li>
+                            <strong>3. Kedatangan Nabi ﷺ ke Madinah</strong><br />
+                            Ketika Nabi Muhammad ﷺ hijrah ke Madinah, beliau mendapati orang-orang Yahudi berpuasa pada tanggal 10 Muharram. Setelah mengetahui alasannya, beliau bersabda, <em>"Kami lebih berhak terhadap Musa daripada kalian."</em> Beliau lalu berpuasa pada hari itu dan memerintahkan kaum muslimin untuk berpuasa.
+                        </li>
+                        <li>
+                            <strong>4. Membedakan dari Yahudi – Penambahan Tasu'a</strong><br />
+                            Kemudian, Nabi ﷺ menyatakan niatnya untuk berpuasa pada tanggal 9 Muharram (Tasu'a) juga, untuk membedakan praktik umat Islam dari orang-orang Yahudi yang hanya berpuasa pada tanggal 10. Beliau bersabda: <em>"Jika aku masih hidup sampai tahun depan, sungguh aku akan berpuasa pada tanggal 9 (bersama dengan tanggal 10)."</em>
+                        </li>
+                        <li>
+                            <strong>5. Dari Wajib Menjadi Sunnah</strong><br />
+                            Pada awal Islam, puasa Asyura adalah wajib. Namun, ketika puasa Ramadhan diwajibkan pada tahun kedua Hijriah, kewajiban tersebut dihapus dan puasa Asyura menjadi sunnah yang sangat dianjurkan.
+                        </li>
+                    </ul>
+
+                    <div style="background:var(--card-highlight); border-radius:16px; padding:16px 20px; margin-top:16px; border-left:4px solid var(--link-color);">
+                        <p style="margin:0; font-size:15px;">
+                            <i class="fas fa-quote-left" style="color:var(--link-color);"></i>
+                            <strong>Ringkasan:</strong> Puasa Asyura menghubungkan umat Islam dengan warisan Nabi Musa dan rasa syukur kepada Allah atas keselamatan. Penambahan Tasu'a (tanggal 9) mencerminkan kebijaksanaan kenabian dalam membedakan praktik Islam sambil tetap menghormati warisan kenabian bersama.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ayat Qur'an terkait -->
+                <div class="sub-section-title"><i class="fas fa-quran"></i> Tema yang berkaitan dengan ayat Al-Qur'an <span class="pill">Al-Baqarah: 50</span></div>
+                <div class="quran-box">
+                    <div class="arabic-quran">وَإِذْ فَرَقْنَا بِكُمُ الْبَحْرَ فَأَنجَيْنَاكُمْ وَأَغْرَقْنَا آلَ فِرْعَوْنَ وَأَنتُمْ تَنظُرُونَ</div>
+                    <div class="transliteration">Wa idz faraqnaa bikum al-bahra fa anjainaakum wa aghraqnaa aala fir'auna wa antum tanzhuruun.</div>
+                    <div class="translation">
+                        Dan <em>(ingatlah)</em>, ketika Kami membelah laut untukmu, lalu Kami selamatkan kamu dan Kami tenggelamkan <em>(Fir'aun dan)</em> pengikut-pengikut Fir'aun sedang kamu sendiri menyaksikan. <em>(QS Al-Baqarah: 50)</em>
+                        <div class="quran-link"><a href="https://quran.kemenag.go.id/quran/per-ayat/surah/2?from=50&to=50" target="_blank">📖 Baca di Quran Kemenag</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- ==================== SECTION 4: HADITS (IND) ==================== -->
+            <div id="virtues-section-id" class="section scroll-target">
+                <h2 class="section-title"><i class="fas fa-hadith"></i> Hadits <span class="badge">Keutamaan</span></h2>
+
+                <div class="hadith-card">
+                    <div class="hadith-header">
+                        <span class="title"><i class="fas fa-hadith" style="color:var(--hadith-border);"></i> Keutamaan Puasa Sunnah 10 Muharram</span>
+                    </div>
+
+                    <p style="font-size:14px; color:var(--translation-color); margin-bottom:12px;">
+                        <span class="source-tag">HR. Muslim no. 1162</span>
+                    </p>
+
+                    <div class="arabic-hadith">
+                        وَسُئِلَ عَنْ صَوْمِ يَوْمِ عَرَفَةَ فَقَالَ : يُكَفِّرُ السَّنَةَ الْمَاضِيَةَ وَالْبَاقِيَةَ . قَالَ وَسُئِلَ عَنْ صَوْمِ يَوْمِ عَاشُورَاءَ فَقَالَ : يُكَفِّرُ السَّنَةَ الْمَاضِيَةَ
+                    </div>
+                    <div class="transliteration">
+                        Wa su-ila 'an shaumi yaumi 'arafata faqaala: yukaffiru as-sanata al-maadiyata wa al-baaqiyata. Qaala wa su-ila 'an shaumi yaumi 'aasyuuraa-a faqaala: yukaffiru as-sanata al-maadiyata.
+                    </div>
+                    <div class="translation">
+                        <strong>Dari Abu Qotadah Al Anshoriy,</strong> beliau berkata: <em>"Nabi shallallahu 'alaihi wa sallam ditanya mengenai keutamaan puasa Arafah? Beliau menjawab, 'Puasa Arafah akan menghapus dosa setahun yang lalu dan setahun yang akan datang.' Beliau saw juga ditanya mengenai keistimewaan puasa 'Asyura? Beliau saw menjawab, 'Puasa 'Asyura akan menghapus dosa setahun yang lalu.'"</em>
+                    </div>
+
+                    <hr style="border:0; border-top:1px solid var(--verse-border); margin:18px 0;" />
+
+                    <div style="font-weight:700; font-size:17px; color:var(--section-title-color); margin-bottom:12px;">
+                        <i class="fas fa-graduation-cap"></i> Pelajaran yang terdapat dalam HADITS:
+                    </div>
+
+                    <ol class="lesson-list">
+                        <li>
+                            <strong>1. Pelebur Dosa Setahun</strong><br />
+                            Dari Abu Qatadah radhiyallahu 'anhu, Rasulullah shallallahu 'alaihi wa sallam bersabda tentang puasa Asyura:
+                            <div class="arabic-hadith" style="font-size:22px; margin:8px 0;">
+                                صِيَامُ يَوْمِ عَاشُورَاءَ أَحْتَسِبُ عَلَى اللَّهِ أَنْ يُكَفِّرَ السَّنَةَ الَّتِي قَبْلَهُ
+                            </div>
+                            <div class="transliteration">
+                                Shiyaamu yaumi 'aasyuuraa-a ahtasibu 'ala Allahi an yukaffira as-sanata allatii qablahu.
+                            </div>
+                            <div class="translation">
+                                <em>"Puasa hari Asyura, aku berharap kepada Allah agar dapat menghapuskan (dosa) setahun yang lalu."</em> (HR. Muslim)
+                            </div>
+                        </li>
+                        <li>
+                            <strong>2. Urgensi Puasa di Bulan Muharram</strong><br />
+                            Dari Abu Hurairah radhiyallahu 'anhu:
+                            <div class="arabic-hadith" style="font-size:22px; margin:8px 0;">
+                                أَفْضَلُ الصِّيَامِ بَعْدَ شَهْرِ رَمَضَانَ شَهْرُ اللَّهِ الْمُحَرَّمُ وَأَفْضَلُ الصَّلاَةِ بَعْدَ الْفَرِيضَةِ صَلاَةُ اللَّيْلِ
+                            </div>
+                            <div class="transliteration">
+                                Afdalu ash-shiyaami ba'da shahri ramadhaana shahru Allahi al-muharramu, wa afdalu ash-shalati ba'da al-fariidhati shalaatu al-layli.
+                            </div>
+                            <div class="translation">
+                                <em>"Puasa yang paling utama setelah puasa Ramadhan adalah puasa di bulan Allah (bulan Muharram). Dan shalat yang paling utama setelah shalat wajib adalah shalat malam."</em> (HR. Muslim)
+                            </div>
+                        </li>
+                        <li>
+                            <strong>3. Sejarah Puasa Asyura dan Anjuran Berpuasa 9 dan 10 Muharram</strong><br />
+                            Diriwayatkan dari Ibnu 'Abbas radhiyallahu 'anhuma: Nabi shallallahu 'alaihi wa sallam melakukan puasa hari 'Asyura dan memerintahkan kaum muslimin untuk melakukannya. Ada yang berkata, <em>"Wahai Rasulullah, hari ini adalah hari yang diagungkan oleh Yahudi dan Nashrani."</em> Beliau menjawab, <em>"Apabila tiba tahun depan insya Allah kita akan berpuasa pula pada hari kesembilan."</em> Namun beliau wafat sebelum tahun depan tiba. (HR. Muslim no. 1134)
+                        </li>
+                        <li>
+                            <strong>4. Anjuran Membedakan dengan Kaum Yahudi</strong><br />
+                            Rasulullah SAW juga menganjurkan untuk menyandingkannya dengan puasa tanggal 9 Muharram (Tasu'a) agar tidak sama dengan ibadah kaum Yahudi:
+                            <div class="arabic-hadith" style="font-size:22px; margin:8px 0;">
+                                لَئِنْ بَقِيتُ إِلَى قَابِلٍ لَأَصُومَنَّ التَّاسِعَ
+                            </div>
+                            <div class="transliteration">
+                                La-in baqiitu ilaa qaabilin la-ashuumanna at-taasi'a.
+                            </div>
+                            <div class="translation">
+                                <em>"Jika aku masih hidup hingga tahun depan, niscaya aku akan berpuasa pada hari kesembilan (Tasu'a)."</em> (HR. Muslim no. 1134)
+                            </div>
+                        </li>
+                    </ol>
+
+                    <div style="background:var(--card-highlight); border-radius:16px; padding:16px 20px; margin-top:16px; border-left:4px solid var(--hadith-border);">
+                        <p style="margin:0; font-size:15px;">
+                            <strong>📌 Bagaimana jika sempatnya melakukan puasa 10 dan 11 Muharram?</strong><br />
+                            Syaikh 'Abdul 'Aziz bin Baz rahimahullah mengatakan: Berpuasa pada 9 dan 10 Muharram lebih afdhol. Berpuasa pada 10 dan 11 Muharram pun sudah mencapai maksud untuk menyelisihi Yahudi. Berpuasa tiga hari sekaligus (9, 10, 11) tidaklah masalah. Adapun jika berpuasa pada hari kesepuluh saja, itu dimakruhkan.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="surah-pagination">
+                <a href="index.html" class="pagination-next"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            </div>
+        </div>
+        <!-- END INDONESIAN -->
+
+        <footer>© 1447 AH / 2026 AD — Niat Puasa Tasu'a &amp; Asyura — Hadits</footer>
+    </div>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        (function() {
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+
+            const urlParams = new URLSearchParams(window.location.search);
+            let defaultLang = localStorage.getItem('language') || 'english';
+            if (urlParams.has('English')) defaultLang = 'english';
+            if (urlParams.has('Indonesian')) defaultLang = 'indonesian';
+            let defaultTranslit = localStorage.getItem('transliteration');
+            if (defaultTranslit === null) defaultTranslit = 'true';
+            if (urlParams.has('Transliteration')) defaultTranslit = 'true';
+            let defaultDark = localStorage.getItem('darkMode') === 'true';
+            if (urlParams.has('Dark')) defaultDark = true;
+
+            function setLanguage(lang) {
+                const isEnglish = (lang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                }
+                localStorage.setItem('language', lang);
+                updateUI();
+            }
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                localStorage.setItem('transliteration', show ? 'true' : 'false');
+                updateUI();
+            }
+
+            function updateUI() {
+                const isEnglish = !englishDiv.classList.contains('hidden');
+                const translitVisible = translitElements.length > 0 && translitElements[0].style.display !== 'none';
+                const isDark = document.body.classList.contains('dark-mode');
+
+                langToggle.innerHTML = isEnglish ?
+                    '<i class="fas fa-flag"></i> 🇮🇩 Indonesian' :
+                    '<i class="fas fa-flag"></i> 🇬🇧 English';
+
+                translitToggle.innerHTML = isEnglish ?
+                    (translitVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration') :
+                    (translitVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi');
+
+                darkToggle.innerHTML = isDark ?
+                    '<i class="fas fa-sun"></i> Light Mode' :
+                    '<i class="fas fa-moon"></i> Dark Mode';
+            }
+
+            function setDarkMode(active) {
+                if (active) document.body.classList.add('dark-mode');
+                else document.body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', active ? 'true' : 'false');
+                updateUI();
+            }
+
+            // Function to scroll to a section based on a param
+            function scrollToParam(param) {
+                const isEnglish = !englishDiv.classList.contains('hidden');
+                let targetId = null;
+                // Map param to section IDs
+                const paramMap = {
+                    'Tasua': { en: 'tasua-section', id: 'tasua-section-id' },
+                    'Asyura': { en: 'asyura-section', id: 'asyura-section-id' },
+                    'History': { en: 'history-section', id: 'history-section-id' },
+                    'Hadith': { en: 'virtues-section', id: null },
+                    'Hadits': { en: null, id: 'virtues-section-id' }
+                };
+                const ids = paramMap[param];
+                if (ids) {
+                    targetId = isEnglish ? ids.en : ids.id;
+                }
+                if (targetId) {
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        // highlight briefly
+                        target.style.transition = 'background 0.3s ease';
+                        target.style.background = 'var(--card-highlight)';
+                        setTimeout(() => { target.style.background = ''; }, 1200);
+                    }
+                }
+            }
+
+            // Handle URL params on load
+            function handleUrlScroll() {
+                const isEnglish = !englishDiv.classList.contains('hidden');
+                let param = null;
+                const possibleParams = ['Tasua', 'Asyura', 'History', 'Hadith', 'Hadits'];
+                for (let p of possibleParams) {
+                    if (urlParams.has(p)) {
+                        param = p;
+                        break;
+                    }
+                }
+                if (param) {
+                    // For Hadith/Hadits we need to map correctly
+                    if (param === 'Hadith' && !isEnglish) param = 'Hadits';
+                    if (param === 'Hadits' && isEnglish) param = 'Hadith';
+                    setTimeout(() => scrollToParam(param), 400);
+                }
+            }
+
+            // Event listeners for scroll links
+            document.querySelectorAll('.scroll-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const param = this.dataset.param;
+                    if (param) {
+                        // Update URL without reload
+                        const newUrl = new URL(window.location);
+                        // Clear all existing params
+                        const allParams = ['Tasua', 'Asyura', 'History', 'Hadith', 'Hadits'];
+                        allParams.forEach(p => newUrl.searchParams.delete(p));
+                        newUrl.searchParams.set(param, '');
+                        window.history.pushState({}, '', newUrl);
+                        scrollToParam(param);
+                    }
+                });
+            });
+
+            // Initialize
+            setLanguage(defaultLang);
+            setTransliteration(defaultTranslit === 'true');
+            setDarkMode(defaultDark);
+
+            langToggle.addEventListener('click', () => {
+                const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+                setLanguage(newLang);
+                // After language change, re-run url scroll to adjust to current language
+                setTimeout(handleUrlScroll, 300);
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = translitElements.length > 0 && translitElements[0].style.display !== 'none';
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                setDarkMode(!document.body.classList.contains('dark-mode'));
+            });
+
+            document.getElementById('scrollUp')?.addEventListener('click', () => {
+                window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' });
+            });
+            document.getElementById('scrollDown')?.addEventListener('click', () => {
+                window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+            });
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            });
+
+            handleUrlScroll();
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey || e.metaKey || e.altKey) return;
+                const key = e.key.toLowerCase();
+                const isEnglish = !englishDiv.classList.contains('hidden');
+                const map = {
+                    't': { en: 'tasua-section', id: 'tasua-section-id' },
+                    'a': { en: 'asyura-section', id: 'asyura-section-id' },
+                    'h': { en: 'history-section', id: 'history-section-id' },
+                    'v': { en: 'virtues-section', id: 'virtues-section-id' }
+                };
+                const ids = map[key];
+                if (ids) {
+                    const target = document.getElementById(isEnglish ? ids.en : ids.id);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        target.style.transition = 'background 0.3s ease';
+                        target.style.background = 'var(--card-highlight)';
+                        setTimeout(() => { target.style.background = ''; }, 1200);
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
