@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>47. Al-Wadud - Yang Maha Mencintai | The Most Loving</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua,
+        .amalan,
+        .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua,
+        body.dark-mode .amalan,
+        body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title,
+        .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title,
+        body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+
+        /* toggle buttons (right) */
+        .language-toggle,
+        .transliteration-toggle,
+        .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle {
+            top: 20px;
+            background: #2c7da0;
+        }
+        .transliteration-toggle {
+            top: 80px;
+            background: #27ae60;
+        }
+        .dark-mode-toggle {
+            top: 140px;
+            background: #8e44ad;
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        /* pagination links */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .pagination .menu-link {
+            min-width: 120px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow,
+            .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow.up,
+            .scroll-arrow-double.up-double {
+                top: 170px;
+            }
+            .scroll-arrow.down,
+            .scroll-arrow-double.down-double {
+                bottom: 70px;
+            }
+            .language-toggle,
+            .transliteration-toggle,
+            .dark-mode-toggle {
+                padding: 5px 12px;
+                font-size: 11px;
+                right: 12px;
+            }
+            .language-toggle {
+                top: 12px;
+            }
+            .transliteration-toggle {
+                top: 68px;
+            }
+            .dark-mode-toggle {
+                top: 124px;
+            }
+            .arabic {
+                font-size: 32px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fixed Toggle Buttons (Right) -->
+    <div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+    <!-- Single-step arrows (LEFT) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- Double arrows (RIGHT side: top & bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container" id="mainContainer">
+        <!-- INDONESIAN CONTENT -->
+        <div id="indonesian-content">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">47. Al-Wadud - Yang Maha Mencintai</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-wadud/" target="_blank">myislam.org/99-names-of-allah/al-wadud/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْوَدُودُ</div>
+            <div class="transliteration">Transliterasi: Al-Wadud</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/47.%20al-wadud.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p><strong>Arti:</strong> Yang Maha Mencintai, Yang Maha Pengasih, Yang Maha Dicintai</p>
+                <p>Al-Wadud adalah Dzat yang mencintai hamba-hamba-Nya yang shaleh dan dicintai oleh mereka. Menurut <strong>Kementerian Agama RI</strong>, nama ini menunjukkan bahwa Allah SWT memiliki sifat kasih sayang yang sempurna dan terus-menerus kepada seluruh makhluk-Nya, terutama kepada hamba-hamba-Nya yang bertakwa.</p>
+                <p><strong>Kementerian Agama RI</strong> menjelaskan bahwa cinta Allah dalam nama Al-Wadud memiliki dua aspek: (1) Allah mencintai hamba-Nya yang beriman dan beramal shaleh, dan (2) Allah membuat hamba-Nya mencintai-Nya melalui berbagai nikmat dan petunjuk.</p>
+                <p>Allah berfirman dalam Surah Al-Buruj ayat 14: <a href="https://quran.com/85/14?translations=33" target="_blank">"Dan Dia-lah Yang Maha Pengampun lagi Maha Pengasih."</a></p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong>
+                    <a href="https://quran.com/85/14?translations=33" target="_blank">Surah Al-Buruj 85:14</a>
+                    <div class="arabic">وَهُوَ ٱلْغَفُورُ ٱلْوَدُودُ</div>
+                    <div class="transliteration">Wa huwa al-ghafūru al-wadūd</div>
+                    <p><strong>Terjemahan:</strong> "Dan Dia-lah Yang Maha Pengampun lagi Maha Pengasih."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menggabungkan sifat pengampunan dan kecintaan Allah, menunjukkan bahwa kasih sayang-Nya selalu menyertai pengampunan-Nya. Cinta Allah kepada hamba-Nya tidak pernah terputus meskipun hamba tersebut pernah berbuat dosa.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/11/90?translations=33" target="_blank">Surah Hud 11:90</a>
+                    <div class="arabic">وَٱسْتَغْفِرُوا۟ رَبَّكُمْ ثُمَّ تُوبُوٓا۟ إِلَيْهِ ۚ إِنَّ رَبِّى رَحِيمٌۭ وَدُودٌۭ</div>
+                    <div class="transliteration">Wastaghfirū rabbakum thumma tūbū ilayh, inna rabbī raḥīmun wadūd</div>
+                    <p><strong>Terjemahan:</strong> "Dan mohonlah ampun kepada Tuhanmu kemudian bertaubatlah kepada-Nya. Sesungguhnya Tuhanku Maha Penyayang lagi Maha Mencintai."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa cinta Allah selalu terbuka bagi hamba-Nya yang bertaubat. Cinta Allah tidak pernah padam bagi mereka yang kembali kepada-Nya dengan taubat yang sungguh-sungguh.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/19/96?translations=33" target="_blank">Surah Maryam 19:96</a>
+                    <div class="arabic">إِنَّ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّٰلِحَٰتِ سَيَجْعَلُ لَهُمُ ٱلرَّحْمَٰنُ وُدًّۭا</div>
+                    <div class="transliteration">Inna alladhīna āmanū wa 'amilū aṣ-ṣāliḥāti sa-yaj'alu lahum ar-raḥmānu wuddā</div>
+                    <p><strong>Terjemahan:</strong> "Sesungguhnya orang-orang yang beriman dan beramal saleh, kelak Allah Yang Maha Pengasih akan menanamkan dalam (hati) mereka rasa kasih sayang."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa Allah akan menanamkan rasa cinta dalam hati orang-orang yang beriman dan beramal shaleh. Cinta ini mencakup cinta kepada Allah, cinta sesama mukmin, dan cinta dari makhluk lainnya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/bukhari:3209" target="_blank">Sahih Bukhari 3209</a>
+                    <div class="arabic">إِنَّ اللَّهَ إِذَا أَحَبَّ عَبْدًا دَعَا جِبْرِيلَ فَقَالَ إِنِّي أُحِبُّ فُلَانًا فَأَحِبَّهُ فَيُحِبُّهُ جِبْرِيلُ ثُمَّ يُنَادِي فِي السَّمَاءِ فَيَقُولُ إِنَّ اللَّهَ يُحِبُّ فُلَانًا فَأَحِبُّوهُ فَيُحِبُّهُ أَهْلُ السَّمَاءِ ثُمَّ يُوضَعُ لَهُ الْقَبُولُ فِي الأَرْضِ</div>
+                    <div class="transliteration">Inna Allāha idhā aḥabba 'abdan da'ā Jibrīla faqāla innī uḥibbu fulānan fa-aḥibbuhu fa-yuḥibbuhu Jibrīlu thumma yunādī fī as-samā'i fa-yaqūlu inna Allāha yuḥibbu fulānan fa-aḥibbūhu fa-yuḥibbuhu ahl as-samā'i thumma yūḍa'u lahu al-qabūlu fī al-arḍ</div>
+                    <p><strong>Terjemahan:</strong> "Sesungguhnya apabila Allah mencintai seorang hamba, Dia memanggil Jibril dan berkata: Sesungguhnya Aku mencintai si fulan, maka cintailah dia. Maka Jibril pun mencintainya kemudian menyeru di langit: Sesungguhnya Allah mencintai si fulan, maka cintailah dia. Maka penduduk langit pun mencintainya kemudian dia diberikan penerimaan di bumi."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kemenag RI:</strong> Hadits ini menunjukkan betapa besar kasih sayang Allah kepada hamba-Nya yang dicintai-Nya. Cinta Allah akan menarik cinta dari seluruh makhluk di langit dan di bumi, serta memberikan keberkahan dalam kehidupan hamba tersebut.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut <strong>Kementerian Agama RI</strong>, Al-Wadud memiliki beberapa dimensi:</p>
+                <ol>
+                    <li><strong>Dimensi Cinta Ilahi:</strong>
+                        <ul>
+                            <li>Allah mencintai hamba-Nya yang beriman (<a href="https://quran.com/3/31?translations=33" target="_blank">3:31</a>)</li>
+                            <li>Cinta Allah bersifat sempurna dan tanpa syarat (<a href="https://quran.com/85/14?translations=33" target="_blank">85:14</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Dimensi Rahmat:</strong>
+                        <ul>
+                            <li>Allah memberikan kasih sayang-Nya melalui berbagai nikmat (<a href="https://quran.com/11/90?translations=33" target="_blank">11:90</a>)</li>
+                            <li>Rahmat-Nya meliputi seluruh makhluk (<a href="https://quran.com/7/156?translations=33" target="_blank">7:156</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Dimensi Pengampunan:</strong>
+                        <ul>
+                            <li>Allah mengampuni dosa hamba-Nya yang bertaubat (<a href="https://quran.com/39/53?translations=33" target="_blank">39:53</a>)</li>
+                            <li>Pengampunan-Nya disertai dengan kasih sayang (<a href="https://quran.com/85/14?translations=33" target="_blank">85:14</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam tafsir resmi Kementerian Agama RI dijelaskan bahwa sifat Al-Wadud mengajarkan kita untuk selalu optimis terhadap rahmat Allah, sebagaimana firman-Nya dalam Surah Az-Zumar ayat 53: <a href="https://quran.com/39/53?translations=33" target="_blank">"Katakanlah: Wahai hamba-hamba-Ku yang melampaui batas terhadap diri mereka sendiri, janganlah kamu berputus asa dari rahmat Allah. Sesungguhnya Allah mengampuni dosa-dosa semuanya."</a></p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Doa Memohon Cinta Allah</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ وَحُبَّ مَنْ يُحِبُّكَ وَحُبَّ عَمَلٍ يُقَرِّبُنِي إِلَى حُبِّكَ</div>
+                    <div class="transliteration">Allāhumma innī as'aluka ḥubbaka wa ḥubba man yuḥibbuka wa ḥubba 'amalin yuqarribunī ilā ḥubbik</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, aku memohon kepada-Mu cinta-Mu, cinta orang-orang yang mencintai-Mu, dan cinta amal yang mendekatkanku kepada cinta-Mu."</p>
+                    <p><strong>Sumber:</strong> Hadits riwayat Tirmidhi no. 3235. Doa ini dianjurkan oleh <strong>Kementerian Agama RI</strong> untuk dibaca setiap selesai shalat fardhu sebagai permohonan untuk mendapatkan cinta Allah dan orang-orang shaleh.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Doa Memohon Kasih Sayang</div>
+                    <div class="arabic">رَبَّنَا ٱغْفِرْ لَنَا ذُنُوبَنَا وَكَفِّرْ عَنَّا سَيِّـَٔاتِنَا وَتَوَفَّنَا مَعَ ٱلْأَبْرَارِ</div>
+                    <div class="transliteration">Rabbanā ghfir lanā dhunūbanā wa kaffir 'annā sayyi'ātinā wa tawaffanā ma'a al-abrār</div>
+                    <p><strong>Terjemahan:</strong> "Ya Tuhan kami, ampunilah dosa-dosa kami, hapuskanlah kesalahan-kesalahan kami, dan wafatkanlah kami beserta orang-orang yang berbakti."</p>
+                    <p><strong>Sumber:</strong> Surah Ali Imran 3:193. <strong>Kementerian Agama RI</strong> menganjurkan doa ini sebagai permohonan untuk mendapatkan kasih sayang Allah dengan diwafatkan dalam keadaan husnul khatimah.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Wirid Harian</div>
+                    <div class="arabic">يَا وَدُودُ يَا وَدُودُ يَا وَدُودُ</div>
+                    <div class="transliteration">Yā Wadūdu yā Wadūdu yā Wadūd</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Mencintai, wahai Yang Maha Mencintai, wahai Yang Maha Mencintai."</p>
+                    <p><strong>Sumber:</strong> Wirid ini direkomendasikan untuk dibaca 100 kali setelah shalat Maghrib untuk memohon cinta dan kasih sayang Allah.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Wirid Harian</div>
+                    <p>Amalan yang dianjurkan oleh <strong>Kementerian Agama RI</strong>:</p>
+                    <ol>
+                        <li>Setelah shalat Maghrib, baca "Ya Wadud" 100 kali</li>
+                        <li>Renungkan makna nama Al-Wadud selama beberapa menit</li>
+                        <li>Mohonlah cinta Allah dan kemampuan untuk mencintai apa yang Dia cintai</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Amalan ini membantu mengembangkan cinta kepada Allah dan makhluk-Nya, serta mendapatkan keberkahan dalam hubungan dengan sesama.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Shalat Taubat</div>
+                    <p>Langkah-langkah shalat taubat menurut <strong>Kementerian Agama RI</strong>:</p>
+                    <ol>
+                        <li>Lakukan shalat sunnah 2 rakaat dengan khusyuk</li>
+                        <li>Setelah salam, bacalah istighfar 100 kali</li>
+                        <li>Mohon ampun dan kasih sayang Allah dengan menyebut nama Al-Wadud</li>
+                        <li>Bertekad untuk tidak mengulangi dosa</li>
+                    </ol>
+                    <p><strong>Dasar:</strong> Nabi SAW bersabda: "Setiap anak Adam pernah berbuat salah, dan sebaik-baik orang yang berbuat salah adalah yang bertaubat." (HR. Tirmidhi). Shalat ini mengajarkan kita untuk selalu kembali kepada cinta Allah melalui taubat.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Praktik Kasih Sayang Sehari-hari</div>
+                    <p>Rutinitas untuk meneladani sifat Al-Wadud:</p>
+                    <ol>
+                        <li>Bersedekah kepada fakir miskin setiap hari Jumat</li>
+                        <li>Menjalin silaturahmi dengan keluarga dan tetangga</li>
+                        <li>Memperbanyak senyum dan salam kepada sesama muslim</li>
+                        <li>Memaafkan kesalahan orang lain</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Praktik ini membantu kita meneladani sifat Al-Wadud dalam kehidupan sehari-hari dan mendapatkan keberkahan dalam hubungan sosial.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Manfaat dan Hikmah</h2>
+                <p><strong>Manfaat Mengingat Nama Ini:</strong></p>
+                <ol>
+                    <li>Meningkatkan kecintaan kepada Allah dan Rasul-Nya</li>
+                    <li>Mengembangkan kasih sayang kepada sesama makhluk</li>
+                    <li>Memberikan ketenangan hati karena merasa dicintai Allah</li>
+                    <li>Mendorong untuk lebih taat beribadah sebagai wujud cinta</li>
+                </ol>
+
+                <p><strong>Hikmah:</strong> Menurut <strong>Kementerian Agama RI</strong>, dengan memahami nama Al-Wadud, seorang muslim akan:</p>
+                <ol>
+                    <li>Lebih bersemangat dalam beribadah karena cinta, bukan karena takut</li>
+                    <li>Lebih mudah memaafkan kesalahan orang lain</li>
+                    <li>Lebih bersabar dalam menghadapi ujian karena yakin akan cinta Allah</li>
+                    <li>Lebih tulus dalam beramal shaleh</li>
+                </ol>
+
+                <p><strong>Kementerian Agama RI</strong> menambahkan bahwa keyakinan terhadap kasih sayang Allah akan menghilangkan rasa putus asa dan memberikan optimisme dalam menghadapi kehidupan, karena meyakini bahwa Allah selalu mencintai hamba-Nya yang bertaubat dan berusaha memperbaiki diri.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_46.html" class="menu-link"><i class="fas fa-chevron-left"></i> Sebelumnya (46)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Daftar</a>
+                <a href="ah_48.html" class="menu-link">Selanjutnya (48) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="english-content" class="hidden">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">47. Al-Wadud - The Most Loving</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-wadud/" target="_blank">myislam.org/99-names-of-allah/al-wadud/</a></div>
+
+            <!-- Bonus section (English only) -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_48Wadud.mp3?_=46" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْوَدُودُ</div>
+            <div class="transliteration">Transliteration: Al-Wadud</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/47.%20al-wadud.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p><strong>Meaning:</strong> The Most Loving, The Affectionate, The Beloved</p>
+                <p>Al-Wadud is the one who loves His righteous servants and is loved by them. His love manifests in His endless blessings, mercy, and care. He is the source of all love in creation, and His love is perfect, pure, and unconditional.</p>
+                <p>Allah says in Surah Al-Buruj 85:14: <a href="https://quran.com/85/14?translations=131" target="_blank">"And He is the Forgiving, the Loving."</a></p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (From Quran &amp; Hadith)</h2>
+
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong>
+                    <a href="https://quran.com/85/14?translations=131" target="_blank">Surah Al-Buruj 85:14</a>
+                    <div class="arabic">وَهُوَ ٱلْغَفُورُ ٱلْوَدُودُ</div>
+                    <div class="transliteration">Wa huwa al-ghafūru al-wadūd</div>
+                    <p><strong>Translation:</strong> "And He is the Forgiving, the Loving."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse combines Allah's forgiveness with His loving nature, showing that His mercy is always accompanied by divine love. Even when we sin, Allah's love for His creation never ceases.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/11/90?translations=131" target="_blank">Surah Hud 11:90</a>
+                    <div class="arabic">وَٱسْتَغْفِرُوا۟ رَبَّكُمْ ثُمَّ تُوبُوٓا۟ إِلَيْهِ ۚ إِنَّ رَبِّى رَحِیمٌۭ وَدُودٌۭ</div>
+                    <div class="transliteration">Wastaghfirū rabbakum thumma tūbū ilayh, inna rabbī raḥīmun wadūd</div>
+                    <p><strong>Translation:</strong> "And seek forgiveness of your Lord and repent to Him. Indeed, my Lord is Merciful and Loving."</p>
+                    <div class="tafsir-box">
+                        <strong>Explanation:</strong> This verse shows that Allah's love is always available to those who turn to Him in repentance. His door of mercy and love is never closed to the repentant servant.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/19/96?translations=131" target="_blank">Surah Maryam 19:96</a>
+                    <div class="arabic">إِنَّ ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّٰلِحَٰتِ سَيَجْعَلُ لَهُمُ ٱلرَّحْمَٰنُ وُدًّۭا</div>
+                    <div class="transliteration">Inna alladhīna āmanū wa 'amilū aṣ-ṣāliḥāti sa-yaj'alu lahum ar-raḥmānu wuddā</div>
+                    <p><strong>Translation:</strong> "Indeed, those who have believed and done righteous deeds - the Most Merciful will appoint for them affection."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse shows that Allah will instill love in the hearts of believers who do righteous deeds. This love includes love for Allah, love among believers, and love from other creatures.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/bukhari:3209" target="_blank">Sahih Bukhari 3209</a>
+                    <div class="arabic">إِنَّ اللَّهَ إِذَا أَحَبَّ عَبْدًا دَعَا جِبْرِيلَ فَقَالَ إِنِّي أُحِبُّ فُلَانًا فَأَحِبَّهُ فَيُحِبُّهُ جِبْرِيلُ ثُمَّ يُنَادِي فِي السَّمَاءِ فَيَقُولُ إِنَّ اللَّهَ يُحِبُّ فُلَانًا فَأَحِبُّوهُ فَيُحِبُّهُ أَهْلُ السَّمَاءِ ثُمَّ يُوضَعُ لَهُ الْقَبُولُ فِي الأَرْضِ</div>
+                    <div class="transliteration">Inna Allāha idhā aḥabba 'abdan da'ā Jibrīla faqāla innī uḥibbu fulānan fa-aḥibbuhu fa-yuḥibbuhu Jibrīlu thumma yunādī fī as-samā'i fa-yaqūlu inna Allāha yuḥibbu fulānan fa-aḥibbūhu fa-yuḥibbuhu ahl as-samā'i thumma yūḍa'u lahu al-qabūlu fī al-arḍ</div>
+                    <p><strong>Translation:</strong> "When Allah loves a servant, He calls Gabriel and says: Verily, I love this person, so love him. Then Gabriel loves him and announces to the heavens: Allah loves this person, so love him. Then the inhabitants of the heavens love him and he is granted acceptance on earth."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith shows the tremendous effect of Allah's love for a person. When Allah loves someone, that love spreads through the heavens and brings acceptance on earth.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains that the name Al-Wadud signifies:</p>
+                <ol>
+                    <li>Allah's perfect love for His righteous servants</li>
+                    <li>His continuous bestowal of blessings as an expression of love</li>
+                    <li>The love He places between His creation</li>
+                    <li>His acceptance of repentance as an act of love</li>
+                </ol>
+                <p>Understanding this name helps us recognize that every blessing we receive is an expression of Allah's love, and every trial may also contain hidden love meant to purify and elevate us.</p>
+                <p>In Surah Az-Zumar 39:53, Allah says: <a href="https://quran.com/39/53?translations=131" target="_blank">"Say: O My servants who have transgressed against themselves, do not despair of Allah's mercy. Indeed, Allah forgives all sins."</a> This verse teaches us never to despair from Allah's vast mercy and love.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">Du'a for Divine Love</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ وَحُبَّ مَنْ يُحِبُّكَ وَحُبَّ عَمَلٍ يُقَرِّبُنِي إِلَى حُبِّكَ</div>
+                    <div class="transliteration">Allāhumma innī as'aluka ḥubbaka wa ḥubba man yuḥibbuka wa ḥubba 'amalin yuqarribunī ilā ḥubbik</div>
+                    <p><strong>Translation:</strong> "O Allah, I ask You for Your love, the love of those who love You, and the love of deeds that will bring me closer to Your love."</p>
+                    <p><strong>Benefits:</strong> This comprehensive du'a covers three levels of divine love: Allah's love for us, our love for the righteous, and our love for good deeds that please Allah. The Prophet (ﷺ) taught this du'a as a means to attain all three.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Du'a for Mercy</div>
+                    <div class="arabic">رَبَّنَا ٱغْفِرْ لَنَا ذُنُوبَنَا وَكَفِّرْ عَنَّا سَيِّـَٔاتِنَا وَتَوَفَّنَا مَعَ ٱلْأَبْرَارِ</div>
+                    <div class="transliteration">Rabbanā ghfir lanā dhunūbanā wa kaffir 'annā sayyi'ātinā wa tawaffanā ma'a al-abrār</div>
+                    <p><strong>Translation:</strong> "Our Lord, forgive us our sins, erase our misdeeds, and cause us to die with the righteous."</p>
+                    <p><strong>Source:</strong> This du'a from Surah Ali Imran 3:193 combines seeking forgiveness with the aspiration to be among those whom Allah loves - the righteous. It's a powerful prayer for divine love and mercy.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Daily Wird</div>
+                    <div class="arabic">يَا وَدُودُ يَا وَدُودُ يَا وَدُودُ</div>
+                    <div class="transliteration">Yā Wadūdu yā Wadūdu yā Wadūd</div>
+                    <p><strong>Translation:</strong> "O Most Loving, O Most Loving, O Most Loving."</p>
+                    <p><strong>Source:</strong> This wird is recommended to be recited 100 times after Maghrib prayer for seeking Allah's love and affection, as mentioned in various books of remembrance.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Daily Remembrance</div>
+                    <p>Recommended practice to connect with this name:</p>
+                    <ol>
+                        <li>Recite "Ya Wadud" 100 times after Maghrib prayer</li>
+                        <li>Reflect on Allah's love manifested in your life</li>
+                        <li>Perform 2 rak'ahs of prayer seeking Allah's love</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice helps develop awareness of Allah's love and increases our own love for Him. Regular remembrance fosters a loving relationship with our Creator.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Repentance Prayer</div>
+                    <p>Steps for the prayer of repentance:</p>
+                    <ol>
+                        <li>Perform 2 rak'ahs of voluntary prayer</li>
+                        <li>Recite the istighfar (seeking forgiveness) 100 times</li>
+                        <li>Ask for Allah's love and mercy by invoking Al-Wadud</li>
+                        <li>Make firm intention not to repeat the sin</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Prophet (ﷺ) said: "Every son of Adam sins, and the best of those who sin are those who repent." (Tirmidhi). This prayer teaches us that returning to Allah's love through repentance is always possible.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Daily Love Practice</div>
+                    <p>Routine to embody the quality of divine love:</p>
+                    <ol>
+                        <li>Give charity to the poor every Friday</li>
+                        <li>Maintain family ties and good relations with neighbors</li>
+                        <li>Smile and greet fellow Muslims frequently</li>
+                        <li>Forgive others' mistakes and shortcomings</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice helps us embody the quality of Al-Wadud in our daily lives and brings blessings to our social relationships.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Reflection and Benefits</h2>
+                <p><strong>Reflection:</strong> Contemplating Allah's name Al-Wadud should:</p>
+                <ol>
+                    <li>Increase our love for Allah and His creation</li>
+                    <li>Help us recognize Allah's love in every blessing</li>
+                    <li>Encourage us to purify our intentions for His sake</li>
+                    <li>Develop contentment with Allah's decree</li>
+                </ol>
+
+                <p><strong>Benefits of Invoking This Name:</strong></p>
+                <ol>
+                    <li>Develops a stronger connection with Allah</li>
+                    <li>Brings peace and contentment to the heart</li>
+                    <li>Increases love and harmony in relationships</li>
+                    <li>Strengthens reliance on Allah in all matters</li>
+                </ol>
+
+                <p>Belief in Allah's perfect love removes despair and gives optimism in facing life's challenges, as we trust that Allah always loves His servants who repent and strive to improve themselves.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_46.html" class="menu-link"><i class="fas fa-chevron-left"></i> Previous (46)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Index</a>
+                <a href="ah_48.html" class="menu-link">Next (48) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>© 1447 AH / 2026 AD - Al-Wadud: The Most Loving. Curated and Maintained by Hermansjah.</footer>
+
+    <script>
+        (function() {
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+            const body = document.body;
+
+            // Helper: URL parameter override
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Language override
+            let langFromUrl = null;
+            if (getParam('English') !== null) langFromUrl = 'english';
+            else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+            let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+
+            function updateLangUI() {
+                const isEnglish = (currentLang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+                }
+                localStorage.setItem('language', currentLang);
+                updateTranslitButtonText();
+                updateDarkModeButtonText();
+            }
+
+            function updateTranslitButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+                if (isEnglish) {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration';
+                } else {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                }
+            }
+
+            function updateDarkModeButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const isDark = body.classList.contains('dark-mode');
+                if (isEnglish) {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' :
+                        '<i class="fas fa-moon"></i> Dark Mode';
+                } else {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' :
+                        '<i class="fas fa-moon"></i> Mode Gelap';
+                }
+            }
+
+            // Transliteration
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = false;
+            else translitVisible = (translitVisible === 'true');
+            if (getParam('Transliteration') !== null) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                updateTranslitButtonText();
+                localStorage.setItem('transliteration', show);
+            }
+
+            // Dark Mode
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (getParam('Dark') !== null) darkActive = true;
+            if (darkActive) body.classList.add('dark-mode');
+
+            function setDarkModeUI() {
+                updateDarkModeButtonText();
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            }
+
+            // Event listeners
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+                updateLangUI();
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = (translitElements[0]?.style.display !== 'none');
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // Scroll arrows (single-step)
+            document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0,
+                    behavior: 'smooth' }));
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document
+                    .body.scrollHeight, behavior: 'smooth' }));
+
+            // Initial setup
+            setTransliteration(translitVisible);
+            updateLangUI();
+            setDarkModeUI();
+
+            // if any scroll anchor from url fragments
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            }
+        })();
+    </script>
+</body>
+</html>
