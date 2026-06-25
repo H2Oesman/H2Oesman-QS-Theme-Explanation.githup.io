@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>48. Al-Majeed - Yang Maha Mulia | The Glorious</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua,
+        .amalan,
+        .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua,
+        body.dark-mode .amalan,
+        body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title,
+        .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title,
+        body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+
+        /* toggle buttons (right) */
+        .language-toggle,
+        .transliteration-toggle,
+        .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle {
+            top: 20px;
+            background: #2c7da0;
+        }
+        .transliteration-toggle {
+            top: 80px;
+            background: #27ae60;
+        }
+        .dark-mode-toggle {
+            top: 140px;
+            background: #8e44ad;
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        /* pagination links */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .pagination .menu-link {
+            min-width: 120px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow,
+            .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow.up,
+            .scroll-arrow-double.up-double {
+                top: 170px;
+            }
+            .scroll-arrow.down,
+            .scroll-arrow-double.down-double {
+                bottom: 70px;
+            }
+            .language-toggle,
+            .transliteration-toggle,
+            .dark-mode-toggle {
+                padding: 5px 12px;
+                font-size: 11px;
+                right: 12px;
+            }
+            .language-toggle {
+                top: 12px;
+            }
+            .transliteration-toggle {
+                top: 68px;
+            }
+            .dark-mode-toggle {
+                top: 124px;
+            }
+            .arabic {
+                font-size: 32px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fixed Toggle Buttons (Right) -->
+    <div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+    <!-- Single-step arrows (LEFT) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- Double arrows (RIGHT side: top & bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container" id="mainContainer">
+        <!-- INDONESIAN CONTENT -->
+        <div id="indonesian-content">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">48. Al-Majeed - Yang Maha Mulia</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-majeed/" target="_blank">myislam.org/99-names-of-allah/al-majeed/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْمَجِيدُ</div>
+            <div class="transliteration">Transliterasi: Al-Majeed</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/48.%20al-majid.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p><strong>Arti:</strong> Yang Maha Mulia, Yang Maha Terhormat, Yang Maha Agung</p>
+                <p>Al-Majeed adalah Dzat yang memiliki kemuliaan dan kehormatan sempurna. Menurut Kementerian Agama RI, nama ini menunjukkan bahwa Allah SWT memiliki kemuliaan yang mutlak dan tidak tertandingi oleh makhluk mana pun. Keagungan-Nya melampaui segala pemahaman manusia.</p>
+                <p>Kementerian Agama RI menjelaskan bahwa nama Al-Majeed mengandung makna bahwa Allah adalah sumber segala kemuliaan dan kehormatan. Segala kemuliaan yang ada pada makhluk hanyalah pantulan dari kemuliaan-Nya yang sempurna.</p>
+                <p>Allah berfirman dalam Surah Al-Buruj ayat 15: <a href="https://quran.com/85/15?translations=33" target="_blank">"Pemilik Arsy yang mulia."</a></p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong>
+                    <a href="https://quran.com/85/15?translations=33" target="_blank">Surah Al-Buruj 85:15</a>
+                    <div class="arabic">ذُو ٱلْعَرْشِ ٱلْمَجِيدُ</div>
+                    <div class="transliteration">Dhu al-'arshi al-majīd</div>
+                    <p><strong>Terjemahan:</strong> "Pemilik Arsy yang mulia."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa kemuliaan Allah bersifat mutlak dan sempurna, yang diwujudkan melalui kekuasaan-Nya atas Arsy yang agung. Kemuliaan Allah tidak terbatas dan meliputi seluruh aspek kekuasaan-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/11/73?translations=33" target="_blank">Surah Hud 11:73</a>
+                    <div class="arabic">قَالُوٓا۟ أَتَعْجَبِينَ مِنْ أَمْرِ ٱللَّهِ ۖ رَحْمَتُ ٱللَّهِ وَبَرَكَـٰتُهُۥ عَلَيْكُمْ أَهْلَ ٱلْبَيْتِ ۚ إِنَّهُۥ حَمِيدٌۭ مَّجِيدٌۭ</div>
+                    <div class="transliteration">Qālū a-ta'jabīna min amri llāh, raḥmatu llāhi wa barakātuhū 'alaykum ahla l-bayt, innahū ḥamīdun majīd</div>
+                    <p><strong>Terjemahan:</strong> "Mereka (malaikat) berkata: 'Apakah kamu merasa heran tentang ketetapan Allah? (Itu adalah) rahmat Allah dan keberkahan-Nya dicurahkan atas kamu, wahai ahlul bait! Sesungguhnya Allah Maha Terpuji lagi Maha Mulia.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menggabungkan sifat Al-Hamid (Maha Terpuji) dan Al-Majeed (Maha Mulia), menunjukkan bahwa pujian dan kemuliaan Allah bersifat sempurna dan saling melengkapi. Kemuliaan Allah diwujudkan melalui rahmat dan keberkahan yang Dia berikan kepada hamba-hamba-Nya yang shaleh.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/55/27?translations=33" target="_blank">Surah Ar-Rahman 55:27</a>
+                    <div class="arabic">وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَٰلِ وَٱلْإِكْرَامِ</div>
+                    <div class="transliteration">Wa yabqā wajhu rabbika dhū al-jalāli wa al-ikrām</div>
+                    <p><strong>Terjemahan:</strong> "Dan tetap kekal Wajah Tuhanmu yang mempunyai kebesaran dan kemuliaan."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan kekekalan dan kemuliaan Allah. Sifat Al-Majeed mencakup kebesaran dan kemuliaan yang abadi, berbeda dengan kemuliaan duniawi yang fana.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/muslim:179" target="_blank">Sahih Muslim 179</a>
+                    <div class="arabic">إِنَّ اللَّهَ عَزَّ وَجَلَّ لاَ يَنَامُ وَلاَ يَنْبَغِي لَهُ أَنْ يَنَامَ يَخْفِضُ الْقِسْطَ وَيَرْفَعُهُ يُرْفَعُ إِلَيْهِ عَمَلُ اللَّيْلِ قَبْلَ النَّهَارِ وَعَمَلُ النَّهَارِ قَبْلَ اللَّيْلِ حِجَابُهُ النُّورُ لَوْ كَشَفَهُ لَأَحْرَقَتْ سُبُحَاتُ وَجْهِهِ مَا انْتَهَى إِلَيْهِ بَصَرُهُ مِنْ خَلْقِهِ</div>
+                    <div class="transliteration">Inna Allāha 'azza wa jalla lā yanāmu wa lā yanbaghī lahu an yanāma yakhfidu al-qista wa yarfa'uhu yurfa'u ilayhi 'amalu al-layli qabla an-nahāri wa 'amalu an-nahāri qabla al-layli hijābuhu an-nūru law kashafahu la-ahraqat subuhātu wajhihi mā intahā ilayhi basaruhu min khalqih</div>
+                    <p><strong>Terjemahan:</strong> "Sesungguhnya Allah Yang Maha Perkasa lagi Maha Agung tidak tidur dan tidak layak bagi-Nya untuk tidur. Dia menurunkan timbangan dan mengangkatnya. Amal malam diangkat kepada-Nya sebelum siang, dan amal siang sebelum malam. Tabir-Nya adalah cahaya, jika Dia menyingkapnya, kemuliaan wajah-Nya akan membakar segala sesuatu dari ciptaan-Nya sejauh pandangan-Nya."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kemenag RI:</strong> Hadits ini menggambarkan kemuliaan dan keagungan Allah yang mutlak. Cahaya yang menjadi tabir Allah menunjukkan betapa agungnya Dzat Allah, sehingga jika kemuliaan-Nya yang sebenarnya terlihat, seluruh ciptaan tidak akan mampu menahannya.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut Kementerian Agama RI, Al-Majeed memiliki beberapa dimensi:</p>
+                <ol>
+                    <li><strong>Dimensi Keagungan:</strong>
+                        <ul>
+                            <li>Allah memiliki kemuliaan yang sempurna (<a href="https://quran.com/85/15?translations=33" target="_blank">85:15</a>)</li>
+                            <li>Keagungan-Nya meliputi seluruh alam semesta (<a href="https://quran.com/55/27?translations=33" target="_blank">55:27</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Dimensi Kekuasaan:</strong>
+                        <ul>
+                            <li>Allah memiliki kekuasaan yang mulia (<a href="https://quran.com/67/1?translations=33" target="_blank">67:1</a>)</li>
+                            <li>Kerajaan-Nya abadi dan sempurna (<a href="https://quran.com/2/255?translations=33" target="_blank">2:255</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Dimensi Rahmat:</strong>
+                        <ul>
+                            <li>Kemuliaan Allah disertai rahmat (<a href="https://quran.com/11/73?translations=33" target="_blank">11:73</a>)</li>
+                            <li>Kemuliaan-Nya mencakup pemberian nikmat (<a href="https://quran.com/14/34?translations=33" target="_blank">14:34</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Menurut Kementerian Agama RI, memahami nama Al-Majeed akan membantu kita menyadari keagungan Allah dan menjaga diri dari sikap sombong, karena segala kemuliaan sejati hanya milik Allah semata.</p>
+                <p>Dalam tafsir Kementerian Agama RI dijelaskan bahwa sifat Al-Majeed mengajarkan kita untuk selalu rendah hati dan tidak terpesona oleh kemuliaan dunia, sebagaimana firman-Nya dalam Surah Al-Hadid ayat 20: <a href="https://quran.com/57/20?translations=33" target="_blank">"Ketahuilah, bahwa sesungguhnya kehidupan dunia itu hanyalah permainan dan sesuatu yang melalaikan, perhiasan dan bermegah-megah antara kamu serta berbangga-banggaan tentang banyaknya harta dan anak."</a></p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Doa Memohon Kemuliaan</div>
+                    <div class="arabic">اللَّهُمَّ أَنْتَ الْعَزِيزُ الْحَكِيمُ الْمَجِيدُ</div>
+                    <div class="transliteration">Allāhumma Anta al-'Azīzu al-Hakīmu al-Majīd</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, Engkaulah Yang Maha Perkasa, Maha Bijaksana, Maha Mulia."</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI. Doa ini berdasarkan penggabungan nama-nama Allah yang mulia. Kementerian Agama RI menganjurkan doa ini untuk memohon kemuliaan dalam kehidupan dunia dan akhirat.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Doa Memohon Perlindungan</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ الْمَجِيدِ أَعِذْنِي مِنَ الذُّلِّ وَالْهَوَانِ</div>
+                    <div class="transliteration">Allāhumma bi-ḥaqqi al-Majīdi a'idhnī min adh-dhulli wa al-hawān</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, demi hak Al-Majeed, lindungilah aku dari kehinaan dan kerendahan."</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI. Doa ini diajarkan untuk memohon perlindungan dari segala bentuk kehinaan dengan menyebut nama Al-Majeed, karena hanya Allah yang memiliki kemuliaan sejati.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Wirid Harian</div>
+                    <div class="arabic">يَا مَجِيدُ يَا مَجِيدُ يَا مَجِيدُ</div>
+                    <div class="transliteration">Yā Majīdu yā Majīdu yā Majīd</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Mulia, wahai Yang Maha Mulia, wahai Yang Maha Mulia."</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI. Wirid ini dianjurkan untuk dibaca 100 kali setelah shalat Subuh untuk memohon kemuliaan dan kehormatan.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Wirid Harian</div>
+                    <p>Amalan yang dianjurkan oleh Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Setelah shalat Subuh, baca "Ya Majeed" 100 kali</li>
+                        <li>Renungkan makna nama Al-Majeed selama beberapa menit</li>
+                        <li>Mohonlah kemuliaan dalam agama dan kehidupan dunia</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Amalan ini membantu mengembangkan kesadaran akan kemuliaan Allah dan menjaga diri dari sikap sombong atau rendah diri yang berlebihan.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Shalat Hajat</div>
+                    <p>Langkah-langkah shalat hajat menurut Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Lakukan shalat sunnah 2 rakaat dengan khusyuk</li>
+                        <li>Setelah salam, bacalah istighfar 100 kali</li>
+                        <li>Mohon hajat dengan menyebut nama Al-Majeed</li>
+                        <li>Yakinlah bahwa Allah akan memberikan yang terbaik</li>
+                    </ol>
+                    <p><strong>Dasar:</strong> Nabi SAW bersabda: "Barangsiapa yang berwudhu dan menyempurnakan wudhunya, kemudian shalat dua rakaat dengan sempurna, niscaya Allah akan memberinya apa yang dia minta, baik segera maupun tertunda." (HR. Ahmad). Shalat ini mengajarkan kita untuk memohon dengan menyadari kemuliaan Allah.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Praktik Kemuliaan Sehari-hari</div>
+                    <p>Rutinitas untuk meneladani sifat Al-Majeed:</p>
+                    <ol>
+                        <li>Selalu menjaga harga diri dengan tidak melakukan hal yang hina</li>
+                        <li>Menjauhi perbuatan maksiat yang merendahkan martabat</li>
+                        <li>Berperilaku mulia terhadap sesama makhluk</li>
+                        <li>Selalu mengingat bahwa kemuliaan sejati hanya dari Allah</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Praktik ini membantu kita meneladani sifat Al-Majeed dalam kehidupan sehari-hari dan mendapatkan keberkahan dalam menjaga martabat sebagai muslim.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Manfaat dan Hikmah</h2>
+                <p><strong>Manfaat Mengingat Nama Ini:</strong></p>
+                <ol>
+                    <li>Meningkatkan kesadaran akan keagungan Allah</li>
+                    <li>Menumbuhkan sikap tawadhu' (rendah hati)</li>
+                    <li>Memberikan ketenangan karena yakin akan kemuliaan Allah</li>
+                    <li>Mendorong untuk selalu berbuat mulia sesuai tuntunan agama</li>
+                </ol>
+
+                <p><strong>Hikmah:</strong> Menurut Kementerian Agama RI, dengan memahami nama Al-Majeed, seorang muslim akan:</p>
+                <ol>
+                    <li>Tidak terpukau oleh kemuliaan duniawi</li>
+                    <li>Selalu menjaga martabat diri sesuai syariat</li>
+                    <li>Lebih menghargai orang lain tanpa merendahkan diri</li>
+                    <li>Lebih bersemangat dalam beribadah untuk meraih kemuliaan sejati</li>
+                </ol>
+
+                <p>Kementerian Agama RI menambahkan bahwa keyakinan terhadap kemuliaan Allah akan memberikan ketenangan batin dan melindungi dari penyakit hati seperti sombong, riya', dan ujub, karena meyakini bahwa segala kemuliaan hanya milik Allah semata.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_47.html" class="menu-link"><i class="fas fa-chevron-left"></i> Sebelumnya (47)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Daftar</a>
+                <a href="ah_49.html" class="menu-link">Selanjutnya (49) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="english-content" class="hidden">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">48. Al-Majeed - The Glorious</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-majeed/" target="_blank">myislam.org/99-names-of-allah/al-majeed/</a></div>
+
+            <!-- Bonus section (English only) -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_49Majeed.mp3?_=47" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْمَجِيدُ</div>
+            <div class="transliteration">Transliteration: Al-Majeed</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/48.%20al-majid.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p><strong>Meaning:</strong> The Glorious, The Most Honorable, The Majestic</p>
+                <p>Al-Majeed is the one who possesses perfect glory and honor. His majesty is beyond comprehension, and His honor surpasses all honor. He is the source of all nobility and grandeur in creation.</p>
+                <p>Allah says in Surah Al-Buruj 85:15: <a href="https://quran.com/85/15?translations=131" target="_blank">"Owner of the Glorious Throne."</a></p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (From Quran &amp; Hadith)</h2>
+
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong>
+                    <a href="https://quran.com/85/15?translations=131" target="_blank">Surah Al-Buruj 85:15</a>
+                    <div class="arabic">ذُو ٱلْعَرْشِ ٱلْمَجِيدُ</div>
+                    <div class="transliteration">Dhu al-'arshi al-majīd</div>
+                    <p><strong>Translation:</strong> "Owner of the Glorious Throne."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse describes Allah's absolute glory manifested through His ownership of the magnificent Throne. The combination of ownership and glory shows that Allah's majesty encompasses both authority and perfection.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/11/73?translations=131" target="_blank">Surah Hud 11:73</a>
+                    <div class="arabic">قَالُوٓا۟ أَتَعْجَبِينَ مِنْ أَمْرِ ٱللَّهِ ۖ رَحْمَتُ ٱللَّهِ وَبَرَكَـٰتُهُۥ عَلَيْكُمْ أَهْلَ ٱلْبَيْتِ ۚ إِنَّهُۥ حَمِيدٌۭ مَّجِيدٌۭ</div>
+                    <div class="transliteration">Qālū a-ta'jabīna min amri llāh, raḥmatu llāhi wa barakātuhū 'alaykum ahla l-bayt, innahū ḥamīdun majīd</div>
+                    <p><strong>Translation:</strong> "They said: 'Do you wonder at the decree of Allah? May the mercy of Allah and His blessings be upon you, people of the house. Indeed, He is Praiseworthy and Glorious.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Explanation:</strong> This verse combines Allah's attributes of being Praiseworthy (Al-Hamid) and Glorious (Al-Majeed), showing that His praise is glorious and His glory is praiseworthy. The angels mention these attributes while bringing glad tidings to Ibrahim's family.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/55/27?translations=131" target="_blank">Surah Ar-Rahman 55:27</a>
+                    <div class="arabic">وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَٰلِ وَٱلْإِكْرَامِ</div>
+                    <div class="transliteration">Wa yabqā wajhu rabbika dhū al-jalāli wa al-ikrām</div>
+                    <p><strong>Translation:</strong> "And there will remain the Face of your Lord, Owner of Majesty and Honor."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse shows the eternity of Allah's glorious essence. While everything in creation perishes, Allah's majestic countenance remains forever, possessing absolute glory and honor.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/muslim:179" target="_blank">Sahih Muslim 179</a>
+                    <div class="arabic">إِنَّ اللَّهَ عَزَّ وَجَلَّ لاَ يَنَامُ وَلاَ يَنْبَغِي لَهُ أَنْ يَنَامَ يَخْفِضُ الْقِسْطَ وَيَرْفَعُهُ يُرْفَعُ إِلَيْهِ عَمَلُ اللَّيْلِ قَبْلَ النَّهَارِ وَعَمَلُ النَّهَارِ قَبْلَ اللَّيْلِ حِجَابُهُ النُّورُ لَوْ كَشَفَهُ لَأَحْرَقَتْ سُبُحَاتُ وَجْهِهِ مَا انْتَهَى إِلَيْهِ بَصَرُهُ مِنْ خَلْقِهِ</div>
+                    <div class="transliteration">Inna Allāha 'azza wa jalla lā yanāmu wa lā yanbaghī lahu an yanāma yakhfidu al-qista wa yarfa'uhu yurfa'u ilayhi 'amalu al-layli qabla an-nahāri wa 'amalu an-nahāri qabla al-layli hijābuhu an-nūru law kashafahu la-ahraqat subuhātu wajhihi mā intahā ilayhi basaruhu min khalqih</div>
+                    <p><strong>Translation:</strong> "Allah the Exalted does not sleep and it does not befit Him to sleep. He lowers the scales and raises them. The deeds of the night are taken up to Him before the day, and the deeds of the day before the night. His veil is light, and if He were to remove it, the glory of His Face would burn everything of His creation as far as His sight reaches."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith describes Allah's absolute glory and majesty. The light that veils Allah's Countenance is so intense that if it were removed, the sheer glory would consume all creation. This shows the incomprehensible majesty of Allah.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains that the name Al-Majeed signifies:</p>
+                <ol>
+                    <li>Allah's perfect glory and majesty</li>
+                    <li>His immense honor that surpasses all honor</li>
+                    <li>The perfection of His attributes and actions</li>
+                    <li>His supreme nobility above all creation</li>
+                </ol>
+                <p>In his commentary on Surah Hud 11:73, Ibn Kathir states that Allah's glory is coupled with His praise, indicating that His majesty is praiseworthy and His praise is majestic. This combination shows the perfection of Allah's attributes.</p>
+                <p>The name Al-Majeed reminds believers that true glory belongs only to Allah, and any honor we possess is merely a reflection of His divine honor bestowed upon us.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">Du'a for Honor and Glory</div>
+                    <div class="arabic">اللَّهُمَّ أَنْتَ الْعَزِيزُ الْحَكِيمُ الْمَجِيدُ</div>
+                    <div class="transliteration">Allāhumma Anta al-'Azīzu al-Hakīmu al-Majīd</div>
+                    <p><strong>Translation:</strong> "O Allah, You are the Almighty, the All-Wise, the Glorious."</p>
+                    <p><strong>Source:</strong> Based on the combination of Allah's beautiful names. This dua is recommended for seeking honor and wisdom in one's affairs.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Du'a for Protection from Humiliation</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ الْمَجِيدِ أَعِذْنِي مِنَ الذُّلِّ وَالْهَوَانِ</div>
+                    <div class="transliteration">Allāhumma bi-ḥaqqi al-Majīdi a'idhnī min adh-dhulli wa al-hawān</div>
+                    <p><strong>Translation:</strong> "O Allah, by the right of Al-Majeed, protect me from humiliation and degradation."</p>
+                    <p><strong>Source:</strong> Traditional dua invoking Allah's glorious name to seek protection from anything that diminishes one's honor.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Daily Dhikr</div>
+                    <div class="arabic">يَا مَجِيدُ يَا مَجِيدُ يَا مَجِيدُ</div>
+                    <div class="transliteration">Yā Majīdu yā Majīdu yā Majīd</div>
+                    <p><strong>Translation:</strong> "O Glorious, O Glorious, O Glorious."</p>
+                    <p><strong>Source:</strong> Recommended to recite this 100 times after Fajr prayer to seek honor and nobility in both worlds.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Daily Dhikr Practice</div>
+                    <p>Recommended practice:</p>
+                    <ol>
+                        <li>Recite "Ya Majeed" 100 times after Fajr prayer</li>
+                        <li>Reflect on the meaning of this name for a few minutes</li>
+                        <li>Ask Allah for honor in both religious and worldly matters</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice helps develop consciousness of Allah's glory and protects one from both arrogance and inferiority complex.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Salat al-Hajat</div>
+                    <p>Steps for performing prayer of need:</p>
+                    <ol>
+                        <li>Perform two rak'ahs of voluntary prayer with concentration</li>
+                        <li>After salam, recite istighfar 100 times</li>
+                        <li>Make your request while invoking the name Al-Majeed</li>
+                        <li>Have certainty that Allah will grant what is best</li>
+                    </ol>
+                    <p><strong>Basis:</strong> The Prophet (peace be upon him) said: "Whoever performs wudu and perfects it, then prays two rak'ahs perfectly, Allah will grant him whatever he asks for, either sooner or later." (Ahmad). This prayer teaches us to ask while being conscious of Allah's glory.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Daily Practice of Nobility</div>
+                    <p>Routine to emulate the attribute of Al-Majeed:</p>
+                    <ol>
+                        <li>Always maintain self-respect by avoiding shameful acts</li>
+                        <li>Stay away from sins that degrade human dignity</li>
+                        <li>Behave nobly towards all creation</li>
+                        <li>Always remember that true honor comes only from Allah</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice helps us emulate the attribute of Al-Majeed in daily life and attain blessings in maintaining our dignity as Muslims.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Reflection and Benefits</h2>
+                <p><strong>Reflection:</strong> Contemplating Allah's name Al-Majeed should:</p>
+                <ol>
+                    <li>Increase our awareness of Allah's majesty</li>
+                    <li>Help us cultivate humility (tawadu')</li>
+                    <li>Bring tranquility through certainty in Allah's glory</li>
+                    <li>Motivate us to act nobly according to religious guidance</li>
+                </ol>
+
+                <p><strong>Benefits of Invoking This Name:</strong></p>
+                <ol>
+                    <li>Increases awareness of Allah's majesty</li>
+                    <li>Cultivates humility (tawadu')</li>
+                    <li>Provides tranquility through certainty in Allah's glory</li>
+                    <li>Motivates one to act nobly according to religious guidance</li>
+                </ol>
+
+                <p>Belief in Allah's glory provides inner peace and protects from heart diseases like arrogance, ostentation, and self-admiration, by recognizing that all glory belongs to Allah alone.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_47.html" class="menu-link"><i class="fas fa-chevron-left"></i> Previous (47)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Index</a>
+                <a href="ah_49.html" class="menu-link">Next (49) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>© 1447 AH / 2026 AD - Al-Majeed: The Glorious. Curated and Maintained by Hermansjah.</footer>
+
+    <script>
+        (function() {
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+            const body = document.body;
+
+            // Helper: URL parameter override
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Language override
+            let langFromUrl = null;
+            if (getParam('English') !== null) langFromUrl = 'english';
+            else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+            let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+
+            function updateLangUI() {
+                const isEnglish = (currentLang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+                }
+                localStorage.setItem('language', currentLang);
+                updateTranslitButtonText();
+                updateDarkModeButtonText();
+            }
+
+            function updateTranslitButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+                if (isEnglish) {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration';
+                } else {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                }
+            }
+
+            function updateDarkModeButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const isDark = body.classList.contains('dark-mode');
+                if (isEnglish) {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' :
+                        '<i class="fas fa-moon"></i> Dark Mode';
+                } else {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' :
+                        '<i class="fas fa-moon"></i> Mode Gelap';
+                }
+            }
+
+            // Transliteration
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = false;
+            else translitVisible = (translitVisible === 'true');
+            if (getParam('Transliteration') !== null) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                updateTranslitButtonText();
+                localStorage.setItem('transliteration', show);
+            }
+
+            // Dark Mode
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (getParam('Dark') !== null) darkActive = true;
+            if (darkActive) body.classList.add('dark-mode');
+
+            function setDarkModeUI() {
+                updateDarkModeButtonText();
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            }
+
+            // Event listeners
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+                updateLangUI();
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = (translitElements[0]?.style.display !== 'none');
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // Scroll arrows (single-step)
+            document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0,
+                    behavior: 'smooth' }));
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document
+                    .body.scrollHeight, behavior: 'smooth' }));
+
+            // Initial setup
+            setTransliteration(translitVisible);
+            updateLangUI();
+            setDarkModeUI();
+
+            // if any scroll anchor from url fragments
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            }
+        })();
+    </script>
+</body>
+</html>
