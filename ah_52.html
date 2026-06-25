@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>52. Al-Wakil - Yang Maha Memelihara | The Trustee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua,
+        .amalan,
+        .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua,
+        body.dark-mode .amalan,
+        body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title,
+        .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title,
+        body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+
+        /* toggle buttons (right) */
+        .language-toggle,
+        .transliteration-toggle,
+        .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle {
+            top: 20px;
+            background: #2c7da0;
+        }
+        .transliteration-toggle {
+            top: 80px;
+            background: #27ae60;
+        }
+        .dark-mode-toggle {
+            top: 140px;
+            background: #8e44ad;
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        /* pagination links */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .pagination .menu-link {
+            min-width: 120px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow,
+            .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow.up,
+            .scroll-arrow-double.up-double {
+                top: 170px;
+            }
+            .scroll-arrow.down,
+            .scroll-arrow-double.down-double {
+                bottom: 70px;
+            }
+            .language-toggle,
+            .transliteration-toggle,
+            .dark-mode-toggle {
+                padding: 5px 12px;
+                font-size: 11px;
+                right: 12px;
+            }
+            .language-toggle {
+                top: 12px;
+            }
+            .transliteration-toggle {
+                top: 68px;
+            }
+            .dark-mode-toggle {
+                top: 124px;
+            }
+            .arabic {
+                font-size: 32px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fixed Toggle Buttons (Right) -->
+    <div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+    <!-- Single-step arrows (LEFT) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- Double arrows (RIGHT side: top & bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container" id="mainContainer">
+        <!-- INDONESIAN CONTENT -->
+        <div id="indonesian-content">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">52. Al-Wakil - Yang Maha Memelihara</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-wakeel/" target="_blank">myislam.org/99-names-of-allah/al-wakeel/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْوَكِيلُ</div>
+            <div class="transliteration">Transliterasi: Al-Wakil</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/52.%20al-wakeel.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Wakil adalah Yang Maha Memelihara, Pengatur Urusan, Yang dapat diandalkan untuk mengatur semua hal dengan sempurna. Dia adalah Pelindung Utama yang mengurus semua urusan ciptaan-Nya dengan hikmah dan kekuatan yang sempurna.</p>
+                <p>Menurut referensi Kementerian Agama RI, Al-Wakil merupakan salah satu dari 99 Asmaul Husna yang menunjukkan sifat Allah sebagai pengatur segala urusan yang paling sempurna.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Penjelasan Detail</h2>
+                <p>Al-Wakil berasal dari akar kata wa-ka-la yang berarti "mempercayakan, mengandalkan, menunjuk sebagai wali." Nama ini menekankan kemampuan sempurna Allah untuk mengatur semua urusan dan keandalan-Nya yang sempurna sebagai wali utama.</p>
+                <p>Ketika kita menjadikan Allah sebagai Wakil (penanggung jawab) kita, kita mengakui bahwa Dia adalah pengatur terbaik urusan kita. Ini bukan berarti kita meninggalkan usaha, melainkan kita berusaha sebaik mungkin kemudian menyerahkan sepenuhnya pada pengaturan Allah yang sempurna.</p>
+                <p>Nabi Ibrahim (AS) menunjukkan ini ketika dia berkata saat akan dilemparkan ke api: "Cukuplah Allah (menjadi penolong) bagi kami, dan Dia sebaik-baik pengatur urusan (hasbunallahu wa ni'mal wakeel)." (<a href="https://quran.com/3/173?translations=33" target="_blank">3:173</a>)</p>
+                <p>Nama ini mengajarkan kita tawakkul (bersandar pada Allah) - keseimbangan sempurna antara mengambil langkah yang diperlukan dan percaya pada ketetapan Allah.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong>
+                    <a href="https://quran.com/3/173?translations=33" target="_blank">Surah Ali 'Imran 3:173</a>
+                    <div class="arabic">ٱلَّذِينَ قَالَ لَهُمُ ٱلنَّاسُ إِنَّ ٱلنَّاسَ قَدْ جَمَعُوا۟ لَكُمْ فَٱخْشَوْهُمْ فَزَادَهُمْ إِيمَـٰنًۭا وَقَالُوا۟ حَسْبُنَا ٱللَّهُ وَنِعْمَ ٱلْوَكِيلُ</div>
+                    <div class="transliteration">Alladheena qaala lahumun naasu innan naasa qad jama'oo lakum fakhshawhum fa zaadahum eemaanan wa qaaloo hasbunal laahu wa ni'mal wakeel</div>
+                    <p>"(Yaitu) orang-orang (yang mentaati Allah dan Rasul) yang kepada mereka ada orang-orang yang mengatakan: 'Sesungguhnya manusia telah mengumpulkan pasukan untuk menserang kamu, karena itu takutlah kepada mereka', maka perkataan itu menambah keimanan mereka dan mereka menjawab: 'Cukuplah Allah menjadi Penolong kami dan Allah adalah sebaik-baik Pelindung.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan contoh sempurna tawakkul (berserah diri kepada Allah) dari orang-orang beriman. Ketika dihadapkan pada ancaman besar, mereka justru semakin memperkuat keimanan dan bersandar sepenuhnya pada Allah sebagai Al-Wakil.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/65/2-3?translations=33" target="_blank">Surah At-Talaq 65:2-3</a>
+                    <div class="arabic">وَمَن يَتَّقِ ٱللَّهَ يَجْعَل لَّهُۥ مَخْرَجًۭا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ۚ وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ ۚ إِنَّ ٱللَّهَ بَـٰلِغُ أَمْرِهِۦ ۚ قَدْ جَعَلَ ٱللَّهُ لِكُلِّ شَىْءٍۢ قَدْرًۭا</div>
+                    <div class="transliteration">Wa many-yattaqil laaha yaj'al lahoo makhrajanw wa yarzuqhu min haisu laa yahtasib; wa many-yatawakkal 'alal laahi fahuwa hasbuh; innal laaha baalighu amrih; qad ja'alal laahu likulli shai'in qadra</div>
+                    <p>"Dan barang siapa bertakwa kepada Allah niscaya Dia akan membukakan jalan keluar baginya. Dan Dia memberinya rezeki dari arah yang tidak disangka-sangkanya. Dan barang siapa bertawakal kepada Allah niscaya Allah akan mencukupkan (keperluan)nya. Sesungguhnya Allah melaksanakan urusan-Nya. Sungguh, Allah telah mengadakan ketentuan bagi setiap sesuatu."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini mengandung janji Allah yang sangat besar bagi orang yang bertakwa dan bertawakkal. Menurut Tafsir Al-Azhar, tawakkul yang sebenarnya adalah setelah melakukan usaha maksimal, kemudian menyerahkan hasilnya sepenuhnya kepada Allah.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/25/58?translations=33" target="_blank">Surah Al-Furqan 25:58</a>
+                    <div class="arabic">وَتَوَكَّلْ عَلَى ٱلْحَىِّ ٱلَّذِى لَا يَمُوتُ وَسَبِّحْ بِحَمْدِهِۦ ۚ وَكَفَىٰ بِهِۦ بِذُنُوبِ عِبَادِهِۦ خَبِيرًۭا</div>
+                    <div class="transliteration">Wa tawakkal 'alal-Hayyil-ladhee laa yamootu wa sabbih bihamdih; wa kafaa bihee bizunoobi 'ibaadihee khabeera</div>
+                    <p>"Dan bertawakallah kepada Tuhan Yang Hidup Kekal, Yang tidak mati, dan bertasbihlah dengan memuji-Nya. Dan cukuplah Dia Maha Mengetahui dosa-dosa hamba-hamba-Nya."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini memerintahkan kita untuk bertawakkal hanya kepada Allah yang hidup kekal, berbeda dengan makhluk yang fana. Tawakkal kepada Al-Wakil memberikan ketenangan karena Dia Maha Mengetahui segala kebutuhan hamba-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/tirmidhi:2344" target="_blank">Sunan At-Tirmidhi 2344</a>
+                    <div class="arabic">عَنْ عُمَرَ بْنِ الْخَطَّابِ قَالَ قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ لَوْ أَنَّكُمْ كُنْتُمْ تَوَكَّلُونَ عَلَى اللَّهِ حَقَّ تَوَكُّلِهِ لَرَزَقَكُمْ كَمَا يَرْزُقُ الطَّيْرَ تَغْدُو خِمَاصًا وَتَرُوحُ بِطَانًا</div>
+                    <div class="transliteration">'An 'Umar ibn al-Khattab qala qala rasulullahi sallallahu 'alayhi wa sallam: "Law annakum kuntum tawakkaltum 'alallahi haqqa tawakkulihi larazaqakum kama yarzuqu at-tayru taghdu khimasan wa taruhu bitanan"</div>
+                    <p>"Dari Umar bin Khattab, Rasulullah SAW bersabda: 'Seandainya kalian bertawakal kepada Allah dengan sebenar-benar tawakal, niscaya Allah akan memberikan rezeki kepada kalian sebagaimana Dia memberikan rezeki kepada burung - mereka pergi pagi hari dalam keadaan lapar dan pulang sore hari dalam keadaan kenyang.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kemenag RI:</strong> Hadits ini menggambarkan konsep tawakkul yang sebenarnya. Burung berusaha mencari rezeki tetapi hasilnya diserahkan kepada Allah. Ini menjadi pedoman bagi umat Islam dalam menjalani kehidupan sehari-hari.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Doa Memohon Perlindungan Al-Wakil</div>
+                    <div class="arabic">حَسْبِيَ اللَّهُ لَا إِلَـٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ ٱلْعَرْشِ ٱلْعَظِيمِ</div>
+                    <div class="transliteration">Hasbiyal laahu laaa ilaaha illaa Huwa 'alaihi tawakkaltu wa Huwa Rabbul 'Arshil 'Azeem</div>
+                    <p><strong>Terjemahan:</strong> "Cukuplah Allah bagiku; tidak ada tuhan selain Dia. Hanya kepada-Nya aku bertawakal, dan Dia adalah Tuhan yang memiliki 'Arsy yang agung."</p>
+                    <p><strong>Keutamaan:</strong> Doa ini diajarkan dalam Al-Quran (<a href="https://quran.com/9/129?translations=33" target="_blank">9:129</a>) dan dianjurkan oleh Kementerian Agama RI untuk dibaca pagi dan petang sebagai bentuk penyerahan diri sepenuhnya kepada Allah sebagai Al-Wakil.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Doa Memohon Pengurusan Urusan</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ بِاسْمِكَ الْوَكِيلِ أَنْ تَكْفِيَنِي مَا أَهَمَّنِي وَتَتَوَلَّى أَمْرِي وَتُصْلِحَ لِي شَأْنِي كُلَّهُ</div>
+                    <div class="transliteration">Allahumma inni as'aluka bismikal-Wakili an takfiyani ma ahammani wa tatawalla amri wa tusliha li sha'ni kullahu</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, aku memohon kepada-Mu dengan nama-Mu Al-Wakil untuk mencukupku dalam hal yang mengkhawatirkanku, untuk mengurus urusanku, dan memperbaiki semua keadaanku."</p>
+                    <p><strong>Sumber:</strong> Doa ini diajarkan dalam panduan Kementerian Agama RI sebagai permohonan kepada Allah untuk mengatur segala urusan. Dianjurkan dibaca ketika menghadapi kesulitan atau ketidakpastian.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Praktik Tawakkul Harian</div>
+                    <p>Rutinitas untuk mengamalkan sifat Al-Wakil dalam kehidupan sehari-hari:</p>
+                    <ol>
+                        <li>Setiap pagi, baca "Hasbiyallahu la ilaha illa huwa, alayhi tawakkaltu wa huwa Rabbul-arshil-azeem" 7 kali</li>
+                        <li>Sebelum memulai aktivitas, ucapkan "Bismillah" dan lakukan usaha maksimal</li>
+                        <li>Setelah berusaha, ucapkan "Tawakkal-tu 'alallah" (Aku bertawakal kepada Allah)</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Nabi (ﷺ) bersabda: "Barangsiapa membaca 'Hasbiyallahu la ilaha illa huwa...' tujuh kali di pagi hari dan tujuh kali di petang hari, Allah akan mencukupkan baginya apa yang membuatnya gelisah." (HR. Abu Dawud). Amalan ini sesuai dengan ajaran Ahlussunnah wal Jama'ah.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Wirid Penguatan Tawakkul</div>
+                    <p>Amalan mingguan untuk memperkuat tawakkul kepada Al-Wakil:</p>
+                    <ol>
+                        <li>Setiap malam Jumat, perbanyak membaca:</li>
+                        <ul>
+                            <li>"Ya Wakil" 100 kali</li>
+                            <li>Doa Nabi Yunus: "La ilaha illa anta subhanaka inni kuntu minaz-zalimin" (100 kali)</li>
+                        </ul>
+                        <li>Sebelum wirid, lakukan shalat sunnah 2 rakaat</li>
+                        <li>Jaga amalan ini dengan ikhlas hanya untuk Allah</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Wirid ini diajarkan dalam panduan Kementerian Agama RI untuk memperkuat ketergantungan kepada Allah. Nabi (ﷺ) mengajarkan bahwa dzikir dengan Asmaul Husna memiliki keutamaan khusus dalam mendekatkan diri kepada Allah.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut Tafsir Al-Azhar yang dirujuk oleh Kementerian Agama RI, Al-Wakil memiliki beberapa dimensi makna:</p>
+                <ol>
+                    <li><strong>Pengatur Urusan:</strong>
+                        <ul>
+                            <li>Allah mengatur semua urusan makhluk-Nya dengan sempurna (<a href="https://quran.com/10/31?translations=33" target="_blank">10:31</a>)</li>
+                            <li>Segala sesuatu terjadi dengan ketetapan-Nya (<a href="https://quran.com/54/49?translations=33" target="_blank">54:49</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pelindung Utama:</strong>
+                        <ul>
+                            <li>Allah mencukupi kebutuhan hamba-Nya (<a href="https://quran.com/39/36?translations=33" target="_blank">39:36</a>)</li>
+                            <li>Allah memberikan jalan keluar dari kesulitan (<a href="https://quran.com/65/2?translations=33" target="_blank">65:2</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Sumber Kepercayaan:</strong>
+                        <ul>
+                            <li>Allah adalah tempat bersandar yang paling sempurna (<a href="https://quran.com/3/173?translations=33" target="_blank">3:173</a>)</li>
+                            <li>Hanya Allah yang dapat diandalkan sepenuhnya (<a href="https://quran.com/9/129?translations=33" target="_blank">9:129</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pemberi Jaminan:</strong>
+                        <ul>
+                            <li>Allah menjamin rezeki hamba-Nya (<a href="https://quran.com/11/6?translations=33" target="_blank">11:6</a>)</li>
+                            <li>Allah menepati semua janji-Nya (<a href="https://quran.com/30/6?translations=33" target="_blank">30:6</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam panduan Kementerian Agama RI, pemahaman tentang Al-Wakil dijelaskan melalui kitab-kitab aqidah Ahlussunnah wal Jama'ah yang menegaskan bahwa Allah adalah pengatur segala urusan yang paling sempurna dan dapat dipercaya.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_51.html" class="menu-link"><i class="fas fa-chevron-left"></i> Sebelumnya (51)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Daftar</a>
+                <a href="ah_53.html" class="menu-link">Selanjutnya (53) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="english-content" class="hidden">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">52. Al-Wakil - The Trustee</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-wakeel/" target="_blank">myislam.org/99-names-of-allah/al-wakeel/</a></div>
+
+            <!-- Bonus section (English only) -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_53Wakeel.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْوَكِيلُ</div>
+            <div class="transliteration">Transliteration: Al-Wakil</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/52.%20al-wakeel.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Wakil is The Trustee, The Disposer of Affairs, The One who can be relied upon to manage all matters perfectly. He is the Ultimate Guardian who takes care of all affairs of His creation with perfect wisdom and power.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Detailed Explanation</h2>
+                <p>Al-Wakil comes from the root wa-ka-la which means "to entrust, to rely upon, to appoint as guardian." This name emphasizes Allah's perfect ability to manage all affairs and His complete reliability as the ultimate trustee.</p>
+                <p>When we make Allah our Wakil (trustee), we acknowledge that He is the best disposer of our affairs. This doesn't mean we abandon effort, but rather we do our best and then place complete trust in Allah's perfect arrangement.</p>
+                <p>The Prophet Ibrahim (AS) demonstrated this when he said while being thrown into the fire: "Allah is sufficient for us, and He is the best disposer of affairs (hasbunallahu wa ni'mal wakeel)." (<a href="https://quran.com/3/173?translations=131" target="_blank">3:173</a>)</p>
+                <p>This name teaches us tawakkul (reliance on Allah) - the perfect balance between taking necessary means and trusting in Allah's decree.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (From Quran &amp; Hadith)</h2>
+
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong>
+                    <a href="https://quran.com/3/173?translations=131" target="_blank">Surah Ali 'Imran 3:173</a>
+                    <div class="arabic">ٱلَّذِينَ قَالَ لَهُمُ ٱلنَّاسُ إِنَّ ٱلنَّاسَ قَدْ جَمَعُوا۟ لَكُمْ فَٱخْشَوْهُمْ فَزَادَهُمْ إِيمَـٰنًۭا وَقَالُوا۟ حَسْبُنَا ٱللَّهُ وَنِعْمَ ٱلْوَكِيلُ</div>
+                    <div class="transliteration">Alladheena qaala lahumun naasu innan naasa qad jama'oo lakum fakhshawhum fa zaadahum eemaanan wa qaaloo hasbunal laahu wa ni'mal wakeel</div>
+                    <p>"Those to whom people said, 'Indeed, the people have gathered against you, so fear them.' But it [merely] increased them in faith, and they said, 'Sufficient for us is Allah, and [He is] the best disposer of affairs.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse shows the perfect example of tawakkul (reliance on Allah) from the believers. When faced with great threat, their faith actually increased and they relied completely on Allah as Al-Wakil.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/65/2-3?translations=131" target="_blank">Surah At-Talaq 65:2-3</a>
+                    <div class="arabic">وَمَن يَتَّقِ ٱللَّهَ يَجْعَل لَّهُۥ مَخْرَجًۭا وَيَرْزُقْهُ مِنْ حَيْثُ لَا يَحْتَسِبُ ۚ وَمَن يَتَوَكَّلْ عَلَى ٱللَّهِ فَهُوَ حَسْبُهُۥٓ ۚ إِنَّ ٱللَّهَ بَـٰلِغُ أَمْرِهِۦ ۚ قَدْ جَعَلَ ٱللَّهُ لِكُلِّ شَىْءٍۢ قَدْرًۭا</div>
+                    <div class="transliteration">Wa many-yattaqil laaha yaj'al lahoo makhrajanw wa yarzuqhu min haisu laa yahtasib; wa many-yatawakkal 'alal laahi fahuwa hasbuh; innal laaha baalighu amrih; qad ja'alal laahu likulli shai'in qadra</div>
+                    <p>"And whoever fears Allah - He will make for him a way out. And will provide for him from where he does not expect. And whoever relies upon Allah - then He is sufficient for him. Indeed, Allah will accomplish His purpose. Allah has already set for everything a [decreed] extent."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> These verses contain Allah's great promise to those who have taqwa and tawakkul (reliance on Allah). When one truly makes Allah their Wakil, He guarantees to provide for them from unexpected sources and make a way out of difficulties.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/25/58?translations=131" target="_blank">Surah Al-Furqan 25:58</a>
+                    <div class="arabic">وَتَوَكَّلْ عَلَى ٱلْحَىِّ ٱلَّذِى لَا يَمُوتُ وَسَبِّحْ بِحَمْدِهِۦ ۚ وَكَفَىٰ بِهِۦ بِذُنُوبِ عِبَادِهِۦ خَبِيرًۭا</div>
+                    <div class="transliteration">Wa tawakkal 'alal-Hayyil-ladhee laa yamootu wa sabbih bihamdih; wa kafaa bihee bizunoobi 'ibaadihee khabeera</div>
+                    <p>"And rely upon the Ever-Living who does not die, and exalt [Allah] with His praise. And sufficient is He to be, with the sins of His servants, Acquainted."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse commands us to rely only upon Allah who is Ever-Living, unlike creation which is temporary. Reliance on Al-Wakil brings peace because He is All-Knowing of His servants' needs.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/tirmidhi:2344" target="_blank">Sunan At-Tirmidhi 2344</a>
+                    <div class="arabic">عَنْ عُمَرَ بْنِ الْخَطَّابِ قَالَ قَالَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ لَوْ أَنَّكُمْ كُنْتُمْ تَوَكَّلُونَ عَلَى اللَّهِ حَقَّ تَوَكُّلِهِ لَرَزَقَكُمْ كَمَا يَرْزُقُ الطَّيْرَ تَغْدُو خِمَاصًا وَتَرُوحُ بِطَانًا</div>
+                    <div class="transliteration">'An 'Umar ibn al-Khattab qala qala rasulullahi sallallahu 'alayhi wa sallam: "Law annakum kuntum tawakkaltum 'alallahi haqqa tawakkulihi larazaqakum kama yarzuqu at-tayru taghdu khimasan wa taruhu bitanan"</div>
+                    <p>"From Umar bin Khattab, the Messenger of Allah (ﷺ) said: 'If you were to rely upon Allah with due reliance, He would provide for you as He provides for the birds - they go out hungry in the morning and return full in the evening.'"</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith illustrates the true concept of tawakkul. The birds make effort to seek provision but leave the results to Allah. This serves as guidance for Muslims in daily life.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">Supplication for Reliance on Al-Wakil</div>
+                    <div class="arabic">حَسْبِيَ اللَّهُ لَا إِلَـٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ ٱلْعَرْشِ ٱلْعَظِيمِ</div>
+                    <div class="transliteration">Hasbiyal laahu laaa ilaaha illaa Huwa 'alaihi tawakkaltu wa Huwa Rabbul 'Arshil 'Azeem</div>
+                    <p><strong>Translation:</strong> "Sufficient for me is Allah; there is no deity except Him. On Him I have relied, and He is the Lord of the Great Throne."</p>
+                    <p><strong>Benefits:</strong> This dua is taught in the Quran (<a href="https://quran.com/9/129?translations=131" target="_blank">9:129</a>) and is recommended to be recited morning and evening as complete reliance on Allah as Al-Wakil.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Supplication for Affairs Management</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ بِاسْمِكَ الْوَكِيلِ أَنْ تَكْفِيَنِي مَا أَهَمَّنِي وَتَتَوَلَّى أَمْرِي وَتُصْلِحَ لِي شَأْنِي كُلَّهُ</div>
+                    <div class="transliteration">Allahumma inni as'aluka bismikal-Wakili an takfiyani ma ahammani wa tatawalla amri wa tusliha li sha'ni kullahu</div>
+                    <p><strong>Translation:</strong> "O Allah, I ask You by Your name Al-Wakil to suffice me in what concerns me, to take charge of my affairs, and to rectify all my matters."</p>
+                    <p><strong>Source:</strong> This dua is taught in Islamic devotional books as a request to Allah to manage all affairs. It's recommended during times of difficulty or uncertainty.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Daily Tawakkul Practice</div>
+                    <p>Routine to embody Al-Wakil's attribute in daily life:</p>
+                    <ol>
+                        <li>Each morning, recite "Hasbiyallahu la ilaha illa huwa, alayhi tawakkaltu wa huwa Rabbul-arshil-azeem" 7 times</li>
+                        <li>Before starting any activity, say "Bismillah" and put in maximum effort</li>
+                        <li>After making effort, say "Tawakkal-tu 'alallah" (I rely on Allah)</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> The Prophet (ﷺ) said: "Whoever recites 'Hasbiyallahu la ilaha illa huwa...' seven times in the morning and seven times in the evening, Allah will suffice him against what worries him." (Abu Dawud). This practice aligns with Ahlus Sunnah teachings.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Weekly Tawakkul Strengthening</div>
+                    <p>Weekly practice to strengthen tawakkul in Al-Wakil:</p>
+                    <ol>
+                        <li>Every Thursday night, frequently recite:</li>
+                        <ul>
+                            <li>"Ya Wakil" 100 times</li>
+                            <li>Prophet Yunus' dua: "La ilaha illa anta subhanaka inni kuntu minaz-zalimin" (100 times)</li>
+                        </ul>
+                        <li>Before the dhikr, perform 2 rak'ahs of voluntary prayer</li>
+                        <li>Keep this practice sincere between you and Allah</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> This dhikr is taught in Islamic tradition to strengthen reliance on Allah. The Prophet (ﷺ) taught that remembrance through Allah's beautiful names has special merit in drawing closer to Him.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains Al-Wakil through four dimensions of divine trusteeship:</p>
+                <ol>
+                    <li><strong>Affairs Management:</strong>
+                        <ul>
+                            <li>Allah perfectly manages all creation's affairs (<a href="https://quran.com/10/31?translations=131" target="_blank">10:31</a>)</li>
+                            <li>Everything occurs by His decree (<a href="https://quran.com/54/49?translations=131" target="_blank">54:49</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ultimate Protection:</strong>
+                        <ul>
+                            <li>Allah suffices His servants' needs (<a href="https://quran.com/39/36?translations=131" target="_blank">39:36</a>)</li>
+                            <li>Allah provides solutions to difficulties (<a href="https://quran.com/65/2?translations=131" target="_blank">65:2</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Source of Trust:</strong>
+                        <ul>
+                            <li>Allah is the most perfect reliance (<a href="https://quran.com/3/173?translations=131" target="_blank">3:173</a>)</li>
+                            <li>Only Allah is completely reliable (<a href="https://quran.com/9/129?translations=131" target="_blank">9:129</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Guarantor of Provision:</strong>
+                        <ul>
+                            <li>Allah guarantees sustenance for His creatures (<a href="https://quran.com/11/6?translations=131" target="_blank">11:6</a>)</li>
+                            <li>Allah fulfills all His promises (<a href="https://quran.com/30/6?translations=131" target="_blank">30:6</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In Surah Al-Anfal (<a href="https://quran.com/8/2?translations=131" target="_blank">8:2</a>), Allah describes true believers as those whose faith increases when Allah's name is mentioned, and who put their trust in their Lord - showing that recognizing Al-Wakil is a mark of true faith.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_51.html" class="menu-link"><i class="fas fa-chevron-left"></i> Previous (51)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Index</a>
+                <a href="ah_53.html" class="menu-link">Next (53) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>© 1447 AH / 2026 AD - Al-Wakil: The Trustee. Curated and Maintained by Hermansjah.</footer>
+
+    <script>
+        (function() {
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+            const body = document.body;
+
+            // Helper: URL parameter override
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Language override
+            let langFromUrl = null;
+            if (getParam('English') !== null) langFromUrl = 'english';
+            else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+            let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+
+            function updateLangUI() {
+                const isEnglish = (currentLang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+                }
+                localStorage.setItem('language', currentLang);
+                updateTranslitButtonText();
+                updateDarkModeButtonText();
+            }
+
+            function updateTranslitButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+                if (isEnglish) {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration';
+                } else {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                }
+            }
+
+            function updateDarkModeButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const isDark = body.classList.contains('dark-mode');
+                if (isEnglish) {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' :
+                        '<i class="fas fa-moon"></i> Dark Mode';
+                } else {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' :
+                        '<i class="fas fa-moon"></i> Mode Gelap';
+                }
+            }
+
+            // Transliteration
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = false;
+            else translitVisible = (translitVisible === 'true');
+            if (getParam('Transliteration') !== null) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                updateTranslitButtonText();
+                localStorage.setItem('transliteration', show);
+            }
+
+            // Dark Mode
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (getParam('Dark') !== null) darkActive = true;
+            if (darkActive) body.classList.add('dark-mode');
+
+            function setDarkModeUI() {
+                updateDarkModeButtonText();
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            }
+
+            // Event listeners
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+                updateLangUI();
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = (translitElements[0]?.style.display !== 'none');
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // Scroll arrows (single-step)
+            document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0,
+                    behavior: 'smooth' }));
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document
+                    .body.scrollHeight, behavior: 'smooth' }));
+
+            // Initial setup
+            setTransliteration(translitVisible);
+            updateLangUI();
+            setDarkModeUI();
+
+            // if any scroll anchor from url fragments
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            }
+        })();
+    </script>
+</body>
+</html>
