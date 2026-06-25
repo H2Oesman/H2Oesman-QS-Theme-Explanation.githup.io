@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>46. Al-Hakim - Yang Maha Bijaksana | The All-Wise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua,
+        .amalan,
+        .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua,
+        body.dark-mode .amalan,
+        body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title,
+        .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title,
+        body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+
+        /* toggle buttons (right) */
+        .language-toggle,
+        .transliteration-toggle,
+        .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle {
+            top: 20px;
+            background: #2c7da0;
+        }
+        .transliteration-toggle {
+            top: 80px;
+            background: #27ae60;
+        }
+        .dark-mode-toggle {
+            top: 140px;
+            background: #8e44ad;
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        /* pagination links */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .pagination .menu-link {
+            min-width: 120px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow,
+            .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow.up,
+            .scroll-arrow-double.up-double {
+                top: 170px;
+            }
+            .scroll-arrow.down,
+            .scroll-arrow-double.down-double {
+                bottom: 70px;
+            }
+            .language-toggle,
+            .transliteration-toggle,
+            .dark-mode-toggle {
+                padding: 5px 12px;
+                font-size: 11px;
+                right: 12px;
+            }
+            .language-toggle {
+                top: 12px;
+            }
+            .transliteration-toggle {
+                top: 68px;
+            }
+            .dark-mode-toggle {
+                top: 124px;
+            }
+            .arabic {
+                font-size: 32px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fixed Toggle Buttons (Right) -->
+    <div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+    <!-- Single-step arrows (LEFT) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- Double arrows (RIGHT side: top & bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container" id="mainContainer">
+        <!-- INDONESIAN CONTENT -->
+        <div id="indonesian-content">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">46. Al-Hakim - Yang Maha Bijaksana</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-hakeem/" target="_blank">myislam.org/99-names-of-allah/al-hakeem/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْحَكِيمُ</div>
+            <div class="transliteration">Transliterasi: Al-Hakim</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/46.%20al-hakim.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p><strong>Arti:</strong> Yang Maha Bijaksana, Yang Maha Sempurna Hikmah-Nya, Hakim Segala Hakim</p>
+                <p>Al-Hakim adalah Dzat yang hikmah-Nya sempurna dalam semua perbuatan, perintah, dan ketetapan-Nya. Dia menempatkan segala sesuatu pada tempat yang sempurna sesuai dengan hikmah-Nya yang tak terbatas. Hikmah-Nya terwujud dalam penciptaan, syariat, dan takdir.</p>
+                <p>Menurut <strong>Kementerian Agama RI</strong>, nama Al-Hakim menunjukkan bahwa segala keputusan dan ketetapan Allah mengandung hikmah yang sempurna, meskipun mungkin tidak selalu dapat kita pahami dengan akal manusia yang terbatas.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/6/18?translations=33" target="_blank">Surah Al-An'am 6:18</a>
+                    <div class="arabic">وَهُوَ ٱلْقَاهِرُ فَوْقَ عِبَادِهِۦ ۖ وَهُوَ ٱلْحَكِيمُ ٱلْخَبِيرُ</div>
+                    <div class="transliteration">Wa huwa al-qāhiru fawqa 'ibādih, wa huwa al-hakīmu al-khabīr</div>
+                    <p><strong>Terjemahan:</strong> "Dan Dialah yang berkuasa atas hamba-hamba-Nya. Dan Dialah Yang Maha Bijaksana lagi Maha Mengetahui."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menegaskan bahwa Allah Maha Kuasa atas segala sesuatu dan segala keputusan-Nya didasarkan pada kebijaksanaan-Nya yang sempurna. Kebijaksanaan Allah selalu disertai dengan pengetahuan yang mendalam tentang segala aspek ciptaan-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/4/11?translations=33" target="_blank">Surah An-Nisa 4:11</a>
+                    <div class="arabic">إِنَّ ٱللَّهَ كَانَ عَلِيمًا حَكِيمًۭا</div>
+                    <div class="transliteration">Inna Allāha kāna 'alīman hakīmā</div>
+                    <p><strong>Terjemahan:</strong> "Sesungguhnya Allah Maha Mengetahui lagi Maha Bijaksana."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa segala ketentuan Allah dalam pembagian warisan yang disebutkan sebelumnya didasarkan pada pengetahuan dan kebijaksanaan-Nya yang sempurna. Manusia diperintahkan untuk menerimanya dengan penuh kepasrahan.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/31/27?translations=33" target="_blank">Surah Luqman 31:27</a>
+                    <div class="arabic">إِنَّ اللَّهَ عَزِيزٌ حَكِيمٌ</div>
+                    <div class="transliteration">Inna Allāha 'azīzun hakīm</div>
+                    <p><strong>Terjemahan:</strong> "Sesungguhnya Allah Maha Perkasa lagi Maha Bijaksana."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa kekuasaan Allah selalu disertai dengan kebijaksanaan-Nya yang sempurna. Tidak ada tindakan Allah yang tanpa hikmah dan tujuan yang mulia.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/bukhari:6854" target="_blank">Sahih Bukhari 6854</a>
+                    <div class="arabic">إِنَّ اللَّهَ تَعَالَى حَكِيمٌ يُحِبُّ الْحِلْمَ فِي الأَمْرِ كُلِّهِ</div>
+                    <div class="transliteration">Inna Allāha ta'ālā hakīmun yuhibbu al-hilma fī al-amri kullih</div>
+                    <p><strong>Terjemahan:</strong> "Sesungguhnya Allah Yang Maha Tinggi adalah Maha Bijaksana dan Dia mencintai sikap santun dalam segala urusan."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kemenag RI:</strong> Hadits ini mengajarkan bahwa sebagai hamba Allah yang meneladani sifat Al-Hakim, kita harus mengembangkan sikap santun dan bijaksana dalam segala urusan, karena itulah sifat yang dicintai oleh Allah SWT.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut <strong>Kementerian Agama RI</strong>, nama Al-Hakim menandakan:</p>
+                <ol>
+                    <li>Hikmah Allah yang sempurna dalam penciptaan dan syariat</li>
+                    <li>Tujuan mendalam di balik semua ketetapan-Nya</li>
+                    <li>Hikmah-Nya dalam menempatkan segala sesuatu pada ukuran yang sempurna</li>
+                    <li>Hikmah tertinggi yang mendasari semua perintah ilahi</li>
+                </ol>
+                <p>Menurut <strong>Kementerian Agama RI</strong>, memahami nama Al-Hakim akan meningkatkan keimanan kita karena meyakini bahwa segala ketentuan Allah pasti mengandung hikmah, meskipun kita belum atau tidak dapat memahaminya.</p>
+                <p>Dalam tafsir resmi Kementerian Agama RI dijelaskan bahwa sifat Al-Hakim mengajarkan kita untuk selalu bersabar dan bertawakal kepada Allah, sebagaimana firman-Nya dalam Surah Al-Baqarah ayat 216: <a href="https://quran.com/2/216?translations=33" target="_blank">"Boleh jadi kamu membenci sesuatu, padahal ia amat baik bagimu, dan boleh jadi (pula) kamu menyukai sesuatu, padahal ia amat buruk bagimu; Allah mengetahui, sedang kamu tidak mengetahui."</a></p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Doa untuk Memohon Hikmah</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ الْحِكْمَةَ وَالْعِلْمَ النَّافِعَ</div>
+                    <div class="transliteration">Allāhumma innī as'aluka al-hikmata wal-'ilma an-nāfi'</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, aku memohon kepada-Mu hikmah dan ilmu yang bermanfaat."</p>
+                    <p><strong>Keutamaan:</strong> Doa ini berdasarkan hadits yang diriwayatkan oleh Ibnu Majah. <strong>Kementerian Agama RI</strong> menganjurkan doa ini untuk memohon kebijaksanaan dalam menghadapi berbagai persoalan hidup.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Doa untuk Ketetapan yang Baik</div>
+                    <div class="arabic">اللَّهُمَّ أَرِنَا الْحَقَّ حَقًّا وَارْزُقْنَا اتِّبَاعَهُ وَأَرِنَا الْبَاطِلَ بَاطِلًا وَارْزُقْنَا اجْتِنَابَهُ</div>
+                    <div class="transliteration">Allāhumma arinā al-ḥaqqa ḥaqqan warzuqnā ittibā'ahu, wa arinā al-bāṭila bāṭilan warzuqnā ijtinābah</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, tunjukkanlah kepada kami yang benar itu benar dan berilah kami kemampuan untuk mengikutinya, dan tunjukkanlah kepada kami yang batil itu batil dan berilah kami kemampuan untuk menjauhinya."</p>
+                    <p><strong>Sumber:</strong> Doa yang direkomendasikan <strong>Kementerian Agama RI</strong> untuk memohon kemampuan membedakan yang hak dan batil, serta kekuatan untuk mengikuti kebenaran.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Wirid Harian</div>
+                    <div class="arabic">يَا حَكِيمُ يَا حَكِيمُ يَا حَكِيمُ</div>
+                    <div class="transliteration">Yā Hakīmu yā Hakīmu yā Hakīm</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Bijaksana, wahai Yang Maha Bijaksana, wahai Yang Maha Bijaksana."</p>
+                    <p><strong>Sumber:</strong> Wirid ini direkomendasikan untuk dibaca 100 kali setelah shalat Dhuha untuk memohon kebijaksanaan dalam segala urusan.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Wirid Harian</div>
+                    <p>Amalan yang dianjurkan oleh <strong>Kementerian Agama RI</strong>:</p>
+                    <ol>
+                        <li>Setelah shalat Subuh, baca "Ya Hakim" 100 kali</li>
+                        <li>Renungkan makna nama Al-Hakim selama beberapa menit</li>
+                        <li>Mohonlah kebijaksanaan dalam menghadapi urusan hari itu</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Amalan ini membantu mengembangkan kebijaksanaan dalam mengambil keputusan dan lebih menerima ketetapan Allah dengan ikhlas.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Shalat Istikharah</div>
+                    <p>Langkah-langkah shalat istikharah menurut <strong>Kementerian Agama RI</strong>:</p>
+                    <ol>
+                        <li>Lakukan shalat sunnah 2 rakaat</li>
+                        <li>Setelah salam, bacalah doa istikharah</li>
+                        <li>Mohon petunjuk kepada Allah Yang Maha Bijaksana</li>
+                        <li>Percayalah bahwa Allah akan memberikan yang terbaik</li>
+                    </ol>
+                    <p><strong>Dasar:</strong> Nabi SAW bersabda: "Jika salah seorang di antara kalian berniat melakukan sesuatu, hendaklah dia shalat sunnah dua rakaat..." (HR. Bukhari). Shalat ini mengajarkan kita untuk bersandar pada kebijaksanaan Allah dalam memutuskan sesuatu.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Praktik Kebijaksanaan Sehari-hari</div>
+                    <p>Rutinitas untuk meneladani sifat Al-Hakim:</p>
+                    <ol>
+                        <li>Selalu berpikir sebelum berbicara atau bertindak</li>
+                        <li>Mencari nasihat dari orang yang berilmu sebelum mengambil keputusan penting</li>
+                        <li>Merenungkan hikmah di balik setiap peristiwa yang terjadi</li>
+                        <li>Mengembangkan sikap santun dan bijaksana dalam bergaul</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Praktik ini membantu kita meneladani sifat Al-Hakim dalam kehidupan sehari-hari dan mendapatkan keberkahan dalam setiap keputusan yang kita ambil.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Manfaat dan Hikmah</h2>
+                <p><strong>Manfaat Mengingat Nama Ini:</strong></p>
+                <ol>
+                    <li>Mengembangkan pertimbangan yang baik dalam pengambilan keputusan</li>
+                    <li>Membawa ketenangan saat menghadapi tantangan hidup</li>
+                    <li>Meningkatkan apresiasi terhadap hikmah ilahi dalam penciptaan</li>
+                    <li>Menumbuhkan sikap tawakal kepada Allah Yang Maha Bijaksana</li>
+                </ol>
+
+                <p><strong>Hikmah:</strong> Menurut <strong>Kementerian Agama RI</strong>, dengan memahami nama Al-Hakim, seorang muslim akan:</p>
+                <ol>
+                    <li>Lebih bersabar dalam menghadapi ujian</li>
+                    <li>Tidak tergesa-gesa dalam mengambil keputusan</li>
+                    <li>Selalu berusaha mencari solusi terbaik dengan petunjuk Allah</li>
+                    <li>Menerima ketetapan Allah dengan lapang dada</li>
+                </ol>
+
+                <p><strong>Kementerian Agama RI</strong> menambahkan bahwa keyakinan terhadap kebijaksanaan Allah akan menghilangkan keraguan dan kegelisahan hati, karena meyakini bahwa segala yang terjadi pasti mengandung hikmah dan pelajaran yang berharga.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_45.html" class="menu-link"><i class="fas fa-chevron-left"></i> Sebelumnya (45)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Daftar</a>
+                <a href="ah_47.html" class="menu-link">Selanjutnya (47) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="english-content" class="hidden">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">46. Al-Hakim - The All-Wise</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-hakeem/" target="_blank">myislam.org/99-names-of-allah/al-hakeem/</a></div>
+
+            <!-- Bonus section (English only) -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_47Hakeem.mp3?_=45" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْحَكِيمُ</div>
+            <div class="transliteration">Transliteration: Al-Hakim</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/46.%20al-hakim.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p><strong>Meaning:</strong> The All-Wise, The Perfectly Wise, The Judge of Judges</p>
+                <p>Al-Hakim is the one whose wisdom is perfect in all His actions, commands, and decrees. He places everything in its perfect place according to His infinite wisdom. His wisdom manifests in creation, legislation, and destiny.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (From Quran &amp; Hadith)</h2>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/6/18?translations=131" target="_blank">Surah Al-An'am 6:18</a>
+                    <div class="arabic">وَهُوَ ٱلْقَاهِرُ فَوْقَ عِبَادِهِۦ ۖ وَهُوَ ٱلْحَكِيمُ ٱلْخَبِيرُ</div>
+                    <div class="transliteration">Wa huwa al-qāhiru fawqa 'ibādih, wa huwa al-hakīmu al-khabīr</div>
+                    <p><strong>Translation:</strong> "And He is the Subduer over His servants. And He is the Wise, the Acquainted."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse establishes Allah's absolute authority coupled with His perfect wisdom and knowledge. His wisdom is never separate from His complete awareness of all circumstances.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/4/11?translations=131" target="_blank">Surah An-Nisa 4:11</a>
+                    <div class="arabic">إِنَّ ٱللَّهَ كَانَ عَلِيمًا حَكِيمًۭا</div>
+                    <div class="transliteration">Inna Allāha kāna 'alīman hakīmā</div>
+                    <p><strong>Translation:</strong> "Indeed, Allah is ever Knowing and Wise."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse appears in the context of inheritance laws, showing that divine legislation is always based on perfect knowledge and wisdom, even when humans may not comprehend it fully.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/31/27?translations=131" target="_blank">Surah Luqman 31:27</a>
+                    <div class="arabic">إِنَّ اللَّهَ عَزِيزٌ حَكِيمٌ</div>
+                    <div class="transliteration">Inna Allāha 'azīzun hakīm</div>
+                    <p><strong>Translation:</strong> "Indeed, Allah is Exalted in Might and Wise."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse shows that Allah's might is always accompanied by perfect wisdom. His power is never exercised without profound purpose and wisdom.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/bukhari:6854" target="_blank">Sahih Bukhari 6854</a>
+                    <div class="arabic">إِنَّ اللَّهَ تَعَالَى حَكِيمٌ يُحِبُّ الْحِلْمَ فِي الأَمْرِ كُلِّهِ</div>
+                    <div class="transliteration">Inna Allāha ta'ālā hakīmun yuhibbu al-hilma fī al-amri kullih</div>
+                    <p><strong>Translation:</strong> "Allah the Exalted is Wise and He loves forbearance in all matters."</p>
+                    <div class="tafsir-box">
+                        <strong>Explanation:</strong> This hadith teaches us that as servants of Al-Hakim, we should cultivate wisdom and forbearance in our dealings, as these qualities are beloved to Allah.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains that the name Al-Hakim signifies:</p>
+                <ol>
+                    <li>Allah's perfect wisdom in creation and legislation</li>
+                    <li>The profound purpose behind all His decrees</li>
+                    <li>His wisdom in placing everything in its perfect measure</li>
+                    <li>The ultimate wisdom that underlies all divine commands</li>
+                </ol>
+                <p>Understanding this name increases our trust in Allah's perfect wisdom, even when we cannot comprehend His decisions. It teaches us that everything happens according to divine wisdom, even if we don't perceive it.</p>
+                <p>In Surah Al-Baqarah 2:216, Allah says: <a href="https://quran.com/2/216?translations=131" target="_blank">"But perhaps you hate a thing and it is good for you; and perhaps you love a thing and it is bad for you. And Allah Knows, while you know not."</a> This verse beautifully illustrates Allah's perfect wisdom versus our limited understanding.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">Du'a for Wisdom</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ الْحِكْمَةَ وَالْعِلْمَ النَّافِعَ</div>
+                    <div class="transliteration">Allāhumma innī as'aluka al-hikmata wal-'ilma an-nāfi'</div>
+                    <p><strong>Translation:</strong> "O Allah, I ask You for wisdom and beneficial knowledge."</p>
+                    <p><strong>Benefits:</strong> This comprehensive du'a covers both theoretical knowledge and practical wisdom in applying that knowledge. The Prophet (ﷺ) taught us to seek beneficial knowledge in all matters.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Du'a for Good Judgment</div>
+                    <div class="arabic">اللَّهُمَّ أَرِنَا الْحَقَّ حَقًّا وَارْزُقْنَا اتِّبَاعَهُ وَأَرِنَا الْبَاطِلَ بَاطِلًا وَارْزُقْنَا اجْتِنَابَهُ</div>
+                    <div class="transliteration">Allāhumma arinā al-ḥaqqa ḥaqqan warzuqnā ittibā'ahu, wa arinā al-bāṭila bāṭilan warzuqnā ijtinābah</div>
+                    <p><strong>Translation:</strong> "O Allah, show us the truth as truth and grant us the ability to follow it, and show us falsehood as falsehood and grant us the ability to avoid it."</p>
+                    <p><strong>Source:</strong> This comprehensive du'a helps in developing discernment - a key aspect of divine wisdom. It's particularly recommended during times of confusion or difficult decisions.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Daily Wird</div>
+                    <div class="arabic">يَا حَكِيمُ يَا حَكِيمُ يَا حَكِيمُ</div>
+                    <div class="transliteration">Yā Hakīmu yā Hakīmu yā Hakīm</div>
+                    <p><strong>Translation:</strong> "O All-Wise, O All-Wise, O All-Wise."</p>
+                    <p><strong>Source:</strong> This wird is recommended to be recited 100 times after Dhuha prayer for seeking wisdom in all affairs, as mentioned in various books of remembrance.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Daily Remembrance</div>
+                    <p>Recommended practice to connect with this name:</p>
+                    <ol>
+                        <li>Recite "Ya Hakim" 100 times after Fajr prayer</li>
+                        <li>Reflect on Allah's wisdom in creation</li>
+                        <li>Perform 2 rak'ahs of prayer seeking divine wisdom</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice helps develop sound judgment and increases awareness of divine wisdom in everyday life. Regular remembrance fosters a wise approach to challenges.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Istikhara Prayer</div>
+                    <p>Steps for the prayer of guidance:</p>
+                    <ol>
+                        <li>Perform 2 rak'ahs of voluntary prayer</li>
+                        <li>Recite the istikhara du'a after salam</li>
+                        <li>Trust in Allah's perfect wisdom to guide you</li>
+                        <li>Be attentive to signs in your heart and circumstances</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Prophet (ﷺ) taught this prayer to his companions when facing decisions, saying: "When one of you is concerned about a decision, let him pray two rak'ahs..." (Bukhari). It embodies complete reliance on Allah's wisdom.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Daily Wisdom Practice</div>
+                    <p>Routine to embody the quality of wisdom:</p>
+                    <ol>
+                        <li>Think before speaking or acting</li>
+                        <li>Seek counsel from knowledgeable people before important decisions</li>
+                        <li>Reflect on the wisdom behind events in your life</li>
+                        <li>Develop gentleness and wisdom in interactions</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice helps us embody the quality of Al-Hakim in our daily lives and brings blessings to our decisions and actions.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Reflection and Benefits</h2>
+                <p><strong>Reflection:</strong> Contemplating Allah's name Al-Hakim should:</p>
+                <ol>
+                    <li>Increase our trust in Allah's perfect wisdom</li>
+                    <li>Help us accept divine decrees with patience</li>
+                    <li>Encourage us to seek wisdom in our own lives</li>
+                    <li>Develop contentment with Allah's decisions</li>
+                </ol>
+
+                <p><strong>Benefits of Invoking This Name:</strong></p>
+                <ol>
+                    <li>Develops sound judgment in decision-making</li>
+                    <li>Brings peace when facing life's challenges</li>
+                    <li>Increases appreciation for divine wisdom in creation</li>
+                    <li>Strengthens reliance on Allah in all matters</li>
+                </ol>
+
+                <p>Belief in Allah's perfect wisdom removes doubt and anxiety from the heart, as we trust that everything happens according to divine wisdom and contains valuable lessons for our spiritual growth.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_45.html" class="menu-link"><i class="fas fa-chevron-left"></i> Previous (45)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Index</a>
+                <a href="ah_47.html" class="menu-link">Next (47) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>© 1447 AH / 2026 AD - Al-Hakim: The All-Wise. Curated and Maintained by Hermansjah.</footer>
+
+    <script>
+        (function() {
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+            const body = document.body;
+
+            // Helper: URL parameter override
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Language override
+            let langFromUrl = null;
+            if (getParam('English') !== null) langFromUrl = 'english';
+            else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+            let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+
+            function updateLangUI() {
+                const isEnglish = (currentLang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+                }
+                localStorage.setItem('language', currentLang);
+                updateTranslitButtonText();
+                updateDarkModeButtonText();
+            }
+
+            function updateTranslitButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+                if (isEnglish) {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration';
+                } else {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                }
+            }
+
+            function updateDarkModeButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const isDark = body.classList.contains('dark-mode');
+                if (isEnglish) {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' :
+                        '<i class="fas fa-moon"></i> Dark Mode';
+                } else {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' :
+                        '<i class="fas fa-moon"></i> Mode Gelap';
+                }
+            }
+
+            // Transliteration
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = false;
+            else translitVisible = (translitVisible === 'true');
+            if (getParam('Transliteration') !== null) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                updateTranslitButtonText();
+                localStorage.setItem('transliteration', show);
+            }
+
+            // Dark Mode
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (getParam('Dark') !== null) darkActive = true;
+            if (darkActive) body.classList.add('dark-mode');
+
+            function setDarkModeUI() {
+                updateDarkModeButtonText();
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            }
+
+            // Event listeners
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+                updateLangUI();
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = (translitElements[0]?.style.display !== 'none');
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // Scroll arrows (single-step)
+            document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0,
+                    behavior: 'smooth' }));
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document
+                    .body.scrollHeight, behavior: 'smooth' }));
+
+            // Initial setup
+            setTransliteration(translitVisible);
+            updateLangUI();
+            setDarkModeUI();
+
+            // if any scroll anchor from url fragments
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            }
+        })();
+    </script>
+</body>
+</html>
