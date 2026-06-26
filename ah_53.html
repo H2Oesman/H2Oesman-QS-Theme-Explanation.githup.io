@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>53. Al-Qawiyy - Yang Maha Kuat | The All-Strong</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua,
+        .amalan,
+        .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua,
+        body.dark-mode .amalan,
+        body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title,
+        .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title,
+        body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+
+        /* toggle buttons (right) */
+        .language-toggle,
+        .transliteration-toggle,
+        .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle {
+            top: 20px;
+            background: #2c7da0;
+        }
+        .transliteration-toggle {
+            top: 80px;
+            background: #27ae60;
+        }
+        .dark-mode-toggle {
+            top: 140px;
+            background: #8e44ad;
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        /* pagination links */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .pagination .menu-link {
+            min-width: 120px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow,
+            .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow.up,
+            .scroll-arrow-double.up-double {
+                top: 170px;
+            }
+            .scroll-arrow.down,
+            .scroll-arrow-double.down-double {
+                bottom: 70px;
+            }
+            .language-toggle,
+            .transliteration-toggle,
+            .dark-mode-toggle {
+                padding: 5px 12px;
+                font-size: 11px;
+                right: 12px;
+            }
+            .language-toggle {
+                top: 12px;
+            }
+            .transliteration-toggle {
+                top: 68px;
+            }
+            .dark-mode-toggle {
+                top: 124px;
+            }
+            .arabic {
+                font-size: 32px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fixed Toggle Buttons (Right) -->
+    <div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+    <!-- Single-step arrows (LEFT) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- Double arrows (RIGHT side: top & bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container" id="mainContainer">
+        <!-- INDONESIAN CONTENT -->
+        <div id="indonesian-content">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">53. Al-Qawiyy - Yang Maha Kuat</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-qawiyy/" target="_blank">myislam.org/99-names-of-allah/al-qawiyy/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْقَوِيُّ</div>
+            <div class="transliteration">Transliterasi: Al-Qawiyy</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/53.%20al-qawi.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Qawiyy adalah Yang Maha Kuat, Yang Maha Perkasa, Yang memiliki kekuatan dan kekuasaan yang sempurna. Kekuatan-Nya sempurna dan tak terbatas, meliputi semua aspek kekuatan dan kemampuan.</p>
+                <p>Menurut referensi Kementerian Agama RI, Al-Qawiyy menunjukkan bahwa Allah memiliki kekuatan mutlak yang tidak pernah berkurang atau melemah. Kekuatan Allah berbeda dengan makhluk-Nya yang terbatas dan sementara.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Penjelasan Detail</h2>
+                <p>Al-Qawiyy berasal dari akar kata qa-wa-ya yang berarti "kuat, mampu, dan berkuasa." Nama ini menekankan kekuatan sempurna Allah yang meliputi segala aspek kekuatan - fisik, kekuasaan, kemampuan, dan ketahanan.</p>
+                <p>Kekuatan Allah bersifat mutlak dan tidak terbatas, berbeda dengan kekuatan makhluk yang bersifat relatif dan terbatas. Allah SWT berfirman: "Sesungguhnya Allah Dialah Yang memberi rezeki Yang mempunyai kekuatan lagi sangat kokoh." (<a href="https://quran.com/51/58?translations=33" target="_blank">QS. Adz-Dzariyat: 58</a>)</p>
+                <p>Nama Al-Qawiyy mengajarkan kita bahwa semua kekuatan yang ada pada makhluk bersumber dari Allah. Oleh karena itu, kita harus menyandarkan diri hanya kepada kekuatan Allah dan tidak sombong dengan kekuatan yang kita miliki.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/51/58?translations=33" target="_blank">Surah Adh-Dhariyat 51:58</a>
+                    <div class="arabic">إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ</div>
+                    <div class="transliteration">Innal laaha Huwar Razzaaqu Zul Quwwatil Mateen</div>
+                    <p>"Sesungguhnya Allah Dialah Maha Pemberi rezeki Yang mempunyai kekuatan lagi sangat kokoh."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa kekuatan Allah bersifat sempurna dan kokoh, tidak seperti kekuatan makhluk yang bersifat sementara. Kekuatan Allah digandengkan dengan sifat-Nya sebagai pemberi rezeki, menunjukkan bahwa kekuatan-Nya digunakan untuk memberikan kebaikan kepada seluruh makhluk.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/30/54?translations=33" target="_blank">Surah Ar-Rum 30:54</a>
+                    <div class="arabic">ٱللَّهُ ٱلَّذِى خَلَقَكُم مِّن ضَعْفٍۢ ثُمَّ جَعَلَ مِنۢ بَعْدِ ضَعْفٍۢ قُوَّةًۭ ثُمَّ جَعَلَ مِنۢ بَعْدِ قُوَّةٍۢ ضَعْفًۭا وَشَيْبَةًۭ ۚ يَخْلُقُ مَا يَشَآءُ ۖ وَهُوَ ٱلْعَلِيمُ ٱلْقَدِيرُ</div>
+                    <div class="transliteration">Allaahul lazee khalaqakum min da'fin summa ja'ala mim ba'di da'fin quwwatan summa ja'ala mim ba'di quwwatin da'fanw wa shaibah; yakhluqu maa yashaaa'; wa Huwal 'Aleemul Qadeer</div>
+                    <p>"Allah, Dialah yang menciptakan kamu dari keadaan lemah, kemudian Dia menjadikan (kamu) sesudah keadaan lemah itu menjadi kuat, kemudian Dia menjadikan (kamu) sesudah kuat itu lemah (kembali) dan beruban. Dia menciptakan apa yang dikehendaki-Nya dan Dialah Yang Maha Mengetahui lagi Maha Kuasa."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan siklus kekuatan dan kelemahan manusia sebagai bukti kekuasaan Allah. Perubahan kondisi manusia dari lemah menjadi kuat dan kembali lemah menunjukkan bahwa semua kekuatan berasal dari Allah dan akan kembali kepada-Nya.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/33/25?translations=33" target="_blank">Surah Al-Ahzab 33:25</a>
+                    <div class="arabic">وَكَانَ ٱللَّهُ قَوِيًّۭا عَزِيزًۭا</div>
+                    <div class="transliteration">Wa kaanal laahu Qawiyyan 'Azeeza</div>
+                    <p>"Dan adalah Allah Maha Kuat lagi Maha Perkasa."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menegaskan bahwa kekuatan Allah bersifat mutlak dan sempurna, tidak seperti kekuatan manusia yang terbatas. Kekuatan Allah digandengkan dengan sifat 'Aziz (Maha Perkasa) yang menunjukkan bahwa kekuatan-Nya disertai dengan kemuliaan dan kemenangan.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/muslim:2664" target="_blank">Sahih Muslim 2664</a>
+                    <div class="arabic">الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ، وَفِي كُلٍّ خَيْرٌ</div>
+                    <div class="transliteration">Al-mu'minul qawiyyu khayrun wa ahabbu ilallahi minal mu'minid da'ifi, wa fi kullin khayr</div>
+                    <p>"Orang mukmin yang kuat lebih baik dan lebih dicintai Allah daripada orang mukmin yang lemah, dan pada keduanya ada kebaikan."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kemenag RI:</strong> Hadits ini menunjukkan bahwa kekuatan yang dimaksud mencakup kekuatan iman, fisik, dan karakter. Kekuatan seorang mukmin bersumber dari kekuatan Allah (Al-Qawiyy) dan harus digunakan untuk kebaikan.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Kekuatan dalam Iman</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ بِاسْمِكَ الْقَوِيِّ أَنْ تَجْعَلَنِي قَوِيًّا فِي دِينِكَ، مُتَمَسِّكًا بِحَبْلِكَ، ثَابِتًا عَلَى طَاعَتِكَ</div>
+                    <div class="transliteration">Allahumma inni as'aluka bismikal-Qawiyyi an taj'alani qawiyyan fi deenika, mutamassikan bihablika, thabitan 'ala ta'atika</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, aku memohon kepada-Mu dengan nama-Mu Al-Qawiyy untuk menjadikanku kuat dalam agama-Mu, berpegang teguh pada tali-Mu, teguh dalam ketaatan kepada-Mu."</p>
+                    <p><strong>Sumber:</strong> Doa ini berdasarkan hadits tentang keutamaan berdoa dengan Asmaul Husna dan diajarkan dalam panduan Kementerian Agama RI sebagai doa untuk memohon kekuatan iman.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Pertolongan dengan Kekuatan Allah</div>
+                    <div class="arabic">يَا قَوِيُّ، يَا مَتِينُ، أَسْتَعِينُ بِقُوَّتِكَ عَلَى أَمْرِ الدُّنْيَا وَالْآخِرَةِ</div>
+                    <div class="transliteration">Ya Qawiyyu, ya Mateenu, asta'eenu biquwwatika 'ala amrid-dunya wal-akhirah</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Kuat, Wahai Yang Kokoh, aku memohon pertolongan dengan kekuatan-Mu untuk urusan dunia dan akhirat."</p>
+                    <p><strong>Sumber:</strong> Doa ini diajarkan dalam panduan Kementerian Agama RI sebagai permohonan pertolongan dengan menyebut nama Al-Qawiyy dan Al-Matin (Yang Kokoh).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Penguatan Iman dan Fisik</div>
+                    <p>Rutinitas harian untuk mengembangkan kekuatan fisik dan spiritual:</p>
+                    <ol>
+                        <li>Setelah shalat Subuh, baca "Ya Qawiyyu" 33 kali sambil merenungkan maknanya</li>
+                        <li>Lakukan olahraga ringan sambil berdzikir kepada Allah</li>
+                        <li>Baca doa memohon kekuatan sebelum memulai aktivitas</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Nabi (ﷺ) bersabda: "Orang mukmin yang kuat lebih baik dan lebih dicintai Allah daripada orang mukmin yang lemah" (Muslim). Praktik ini mengikuti sunnah Nabi dalam menjaga keseimbangan antara kekuatan fisik dan spiritual.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Wirid Kekuatan</div>
+                    <p>Amalan mingguan untuk memohon kekuatan dari Allah:</p>
+                    <ol>
+                        <li>Setiap malam Jumat, baca Surah Al-Fatihah 7 kali</li>
+                        <li>Baca ayat kursi (<a href="https://quran.com/2/255?translations=33" target="_blank">2:255</a>) 7 kali</li>
+                        <li>Baca "Ya Qawiyyu" 100 kali</li>
+                        <li>Berdoa memohon kekuatan iman dan fisik</li>
+                    </ol>
+                    <p><strong>Referensi Kemenag RI:</strong> Amalan ini berdasarkan hadits tentang keutamaan membaca Al-Quran dan dzikir untuk memohon kekuatan. Dianjurkan dalam panduan Kementerian Agama RI sebagai wirid permohonan kekuatan.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut tafsir Kementerian Agama RI, Al-Qawiyy dapat dipahami melalui beberapa dimensi:</p>
+                <ol>
+                    <li><strong>Kekuatan Mutlak:</strong>
+                        <ul>
+                            <li>Allah memiliki kekuatan yang tidak terbatas (<a href="https://quran.com/2/20?translations=33" target="_blank">2:20</a>)</li>
+                            <li>Tidak ada yang dapat melemahkan kekuatan Allah (<a href="https://quran.com/35/44?translations=33" target="_blank">35:44</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kekuatan dalam Memberi Rezeki:</strong>
+                        <ul>
+                            <li>Allah mampu memberi rezeki kepada semua makhluk (<a href="https://quran.com/11/6?translations=33" target="_blank">11:6</a>)</li>
+                            <li>Kekuatan Allah dalam mengatur rezeki makhluk-Nya (<a href="https://quran.com/29/60?translations=33" target="_blank">29:60</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kekuatan dalam Membela Orang Beriman:</strong>
+                        <ul>
+                            <li>Allah akan membela orang-orang yang beriman (<a href="https://quran.com/22/40?translations=33" target="_blank">22:40</a>)</li>
+                            <li>Kekuatan Allah dalam memberikan kemenangan (<a href="https://quran.com/3/160?translations=33" target="_blank">3:160</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kekuatan dalam Menciptakan dan Membangkitkan:</strong>
+                        <ul>
+                            <li>Allah mampu menciptakan langit dan bumi (<a href="https://quran.com/46/33?translations=33" target="_blank">46:33</a>)</li>
+                            <li>Allah mampu membangkitkan manusia setelah mati (<a href="https://quran.com/22/5?translations=33" target="_blank">22:5</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam panduan Kementerian Agama RI, pemahaman tentang Al-Qawiyy sering dikaitkan dengan konsep tawakkal (berserah diri) setelah berusaha. Kekuatan manusia bersifat relatif dan berasal dari Allah, sehingga harus digunakan untuk kebaikan dan ketaatan.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_52.html" class="menu-link"><i class="fas fa-chevron-left"></i> Sebelumnya (52)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Daftar</a>
+                <a href="ah_54.html" class="menu-link">Selanjutnya (54) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="english-content" class="hidden">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">53. Al-Qawiyy - The All-Strong</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-qawiyy/" target="_blank">myislam.org/99-names-of-allah/al-qawiyy/</a></div>
+
+            <!-- Bonus section (English only) -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_54Qawiy55Mateen.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْقَوِيُّ</div>
+            <div class="transliteration">Transliteration: Al-Qawiyy</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/53.%20al-qawi.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Qawiyy is The All-Strong, The Powerful, The One who possesses complete strength and power. His strength is perfect and inexhaustible, encompassing all aspects of might and ability.</p>
+                <p>This name emphasizes Allah's absolute and perfect strength that never weakens or diminishes. Allah's strength is comprehensive - it includes physical power, authority, ability, and all other forms of might.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Detailed Explanation</h2>
+                <p>Al-Qawiyy comes from the root qa-wa-ya which means "to be strong, capable, and powerful." This name emphasizes Allah's perfect strength that encompasses all aspects of power - physical might, authority, ability, and endurance.</p>
+                <p>Allah's strength is absolute and unlimited, unlike the relative and limited strength of creation. Allah says: "Indeed, it is Allah who is the [continual] Provider, the firm possessor of strength." (<a href="https://quran.com/51/58?translations=131" target="_blank">51:58</a>)</p>
+                <p>This name teaches us that all strength possessed by creation originates from Allah. Therefore, we should rely only on Allah's strength and not become arrogant with whatever strength we may possess.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (From Quran &amp; Hadith)</h2>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/51/58?translations=131" target="_blank">Surah Adh-Dhariyat 51:58</a>
+                    <div class="arabic">إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ</div>
+                    <div class="transliteration">Innal laaha Huwar Razzaaqu Zul Quwwatil Mateen</div>
+                    <p>"Indeed, it is Allah who is the [continual] Provider, the firm possessor of strength."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse shows that Allah's strength is coupled with His role as the Provider (Ar-Razzaq), indicating that His might ensures provision for all creation. The term "Al-Mateen" (the Firm) emphasizes that His strength is unwavering and constant.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/30/54?translations=131" target="_blank">Surah Ar-Rum 30:54</a>
+                    <div class="arabic">ٱللَّهُ ٱلَّذِى خَلَقَكُم مِّن ضَعْفٍۢ ثُمَّ جَعَلَ مِنۢ بَعْدِ ضَعْفٍۢ قُوَّةًۭ ثُمَّ جَعَلَ مِنۢ بَعْدِ قُوَّةٍۢ ضَعْفًۭا وَشَيْبَةًۭ ۚ يَخْلُقُ مَا يَشَآءُ ۖ وَهُوَ ٱلْعَلِيمُ ٱلْقَدِيرُ</div>
+                    <div class="transliteration">Allaahul lazee khalaqakum min da'fin summa ja'ala mim ba'di da'fin quwwatan summa ja'ala mim ba'di quwwatin da'fanw wa shaibah; yakhluqu maa yashaaa'; wa Huwal 'Aleemul Qadeer</div>
+                    <p>"It is Allah who created you from weakness, then made after weakness strength, then made after strength weakness and white hair. He creates what He wills, and He is the Knowing, the Competent."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse describes the cycle of strength and weakness in human life, contrasting it with Allah's eternal power. The changes in human strength demonstrate Allah's wisdom and absolute power over creation.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/33/25?translations=131" target="_blank">Surah Al-Ahzab 33:25</a>
+                    <div class="arabic">وَكَانَ ٱللَّهُ قَوِيًّۭا عَزِيزًۭا</div>
+                    <div class="transliteration">Wa kaanal laahu Qawiyyan 'Azeeza</div>
+                    <p>"And ever is Allah All-Strong and Exalted in Might."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse highlights that Allah's strength is always coupled with honor and victory, showing that His might is purposeful and just.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/muslim:2664" target="_blank">Sahih Muslim 2664</a>
+                    <div class="arabic">الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ، وَفِي كُلٍّ خَيْرٌ</div>
+                    <div class="transliteration">Al-mu'minul qawiyyu khayrun wa ahabbu ilallahi minal mu'minid da'ifi, wa fi kullin khayr</div>
+                    <p>"The strong believer is better and more beloved to Allah than the weak believer, while there is good in both."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith encourages believers to seek both spiritual and physical strength, while recognizing that all strength comes from Allah (Al-Qawiyy).
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Strength in Faith</div>
+                    <div class="arabic">اللَّهُمَّ إِنِّي أَسْأَلُكَ بِاسْمِكَ الْقَوِيِّ أَنْ تَجْعَلَنِي قَوِيًّا فِي دِينِكَ، مُتَمَسِّكًا بِحَبْلِكَ، ثَابِتًا عَلَى طَاعَتِكَ</div>
+                    <div class="transliteration">Allahumma inni as'aluka bismikal-Qawiyyi an taj'alani qawiyyan fi deenika, mutamassikan bihablika, thabitan 'ala ta'atika</div>
+                    <p><strong>Translation:</strong> "O Allah, I ask You by Your name Al-Qawiyy to make me strong in Your religion, holding firmly to Your rope, steadfast in Your obedience."</p>
+                    <p><strong>Benefits:</strong> The Prophet (ﷺ) taught that invoking Allah by His names guarantees response (Tirmidhi). This dua combines seeking strength with firmness in faith.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Help Through Divine Strength</div>
+                    <div class="arabic">يَا قَوِيُّ، يَا مَتِينُ، أَسْتَعِينُ بِقُوَّتِكَ عَلَى أَمْرِ الدُّنْيَا وَالْآخِرَةِ</div>
+                    <div class="transliteration">Ya Qawiyyu, ya Mateenu, asta'eenu biquwwatika 'ala amrid-dunya wal-akhirah</div>
+                    <p><strong>Translation:</strong> "O All-Strong, O Firm One, I seek help through Your strength for the matters of this world and the Hereafter."</p>
+                    <p><strong>Source:</strong> This dua combines invoking Al-Qawiyy with Al-Matin (The Firm), two names that emphasize Allah's perfect strength and stability.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Strength Development Practice</div>
+                    <p>Daily routine to cultivate spiritual and physical strength:</p>
+                    <ol>
+                        <li>After Fajr prayer, recite "Ya Qawiyyu" 33 times while reflecting on its meaning</li>
+                        <li>Engage in physical exercise while remembering Allah</li>
+                        <li>Recite a dua for strength before beginning daily activities</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice:</p>
+                    <ul>
+                        <li>Develops awareness of divine strength</li>
+                        <li>Balances physical and spiritual development</li>
+                        <li>Follows the Prophet's (ﷺ) example of maintaining strength</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Weekly Strength Remembrance</div>
+                    <p>Weekly practice to connect with Allah's strength:</p>
+                    <ol>
+                        <li>Every Thursday night, recite Surah Al-Fatihah 7 times</li>
+                        <li>Recite Ayat al-Kursi (<a href="https://quran.com/2/255?translations=131" target="_blank">2:255</a>) 7 times</li>
+                        <li>Recite "Ya Qawiyyu" 100 times</li>
+                        <li>Make dua asking for strength in faith and life</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Prophet (ﷺ) emphasized Thursday nights for extra worship. This practice combines Quranic recitation with dhikr to seek Allah's strength.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains Al-Qawiyy through several dimensions of divine strength:</p>
+                <ol>
+                    <li><strong>Absolute Power:</strong>
+                        <ul>
+                            <li>Unlimited ability to create and command (<a href="https://quran.com/36/82?translations=131" target="_blank">36:82</a>)</li>
+                            <li>Power over all creation (<a href="https://quran.com/3/189?translations=131" target="_blank">3:189</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Sustaining Strength:</strong>
+                        <ul>
+                            <li>Continuous provision for all creatures (<a href="https://quran.com/11/6?translations=131" target="_blank">11:6</a>)</li>
+                            <li>Maintenance of the universe (<a href="https://quran.com/35/41?translations=131" target="_blank">35:41</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Protective Strength:</strong>
+                        <ul>
+                            <li>Defense of believers (<a href="https://quran.com/22/40?translations=131" target="_blank">22:40</a>)</li>
+                            <li>Victory over falsehood (<a href="https://quran.com/21/18?translations=131" target="_blank">21:18</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Resurrecting Power:</strong>
+                        <ul>
+                            <li>Ability to bring the dead to life (<a href="https://quran.com/22/5?translations=131" target="_blank">22:5</a>)</li>
+                            <li>Power over the Day of Judgment (<a href="https://quran.com/40/16?translations=131" target="_blank">40:16</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>The constant mention of Allah's strength in the Quran (over 50 times) serves as a reminder that all power belongs to Him alone, and human strength is merely a loan from the All-Strong.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_52.html" class="menu-link"><i class="fas fa-chevron-left"></i> Previous (52)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Index</a>
+                <a href="ah_54.html" class="menu-link">Next (54) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>© 1447 AH / 2026 AD - Al-Qawiyy: The All-Strong. Curated and Maintained by Hermansjah.</footer>
+
+    <script>
+        (function() {
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+            const body = document.body;
+
+            // Helper: URL parameter override
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Language override
+            let langFromUrl = null;
+            if (getParam('English') !== null) langFromUrl = 'english';
+            else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+            let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+
+            function updateLangUI() {
+                const isEnglish = (currentLang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+                }
+                localStorage.setItem('language', currentLang);
+                updateTranslitButtonText();
+                updateDarkModeButtonText();
+            }
+
+            function updateTranslitButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+                if (isEnglish) {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration';
+                } else {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                }
+            }
+
+            function updateDarkModeButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const isDark = body.classList.contains('dark-mode');
+                if (isEnglish) {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' :
+                        '<i class="fas fa-moon"></i> Dark Mode';
+                } else {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' :
+                        '<i class="fas fa-moon"></i> Mode Gelap';
+                }
+            }
+
+            // Transliteration
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = false;
+            else translitVisible = (translitVisible === 'true');
+            if (getParam('Transliteration') !== null) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                updateTranslitButtonText();
+                localStorage.setItem('transliteration', show);
+            }
+
+            // Dark Mode
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (getParam('Dark') !== null) darkActive = true;
+            if (darkActive) body.classList.add('dark-mode');
+
+            function setDarkModeUI() {
+                updateDarkModeButtonText();
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            }
+
+            // Event listeners
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+                updateLangUI();
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = (translitElements[0]?.style.display !== 'none');
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // Scroll arrows (single-step)
+            document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0,
+                    behavior: 'smooth' }));
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document
+                    .body.scrollHeight, behavior: 'smooth' }));
+
+            // Initial setup
+            setTransliteration(translitVisible);
+            updateLangUI();
+            setDarkModeUI();
+
+            // if any scroll anchor from url fragments
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            }
+        })();
+    </script>
+</body>
+</html>
