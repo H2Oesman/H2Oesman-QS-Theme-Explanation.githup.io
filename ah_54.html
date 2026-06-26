@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>54. Al-Matin - Yang Maha Kokoh | The Firm</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua,
+        .amalan,
+        .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua,
+        body.dark-mode .amalan,
+        body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title,
+        .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title,
+        body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+
+        /* toggle buttons (right) */
+        .language-toggle,
+        .transliteration-toggle,
+        .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle {
+            top: 20px;
+            background: #2c7da0;
+        }
+        .transliteration-toggle {
+            top: 80px;
+            background: #27ae60;
+        }
+        .dark-mode-toggle {
+            top: 140px;
+            background: #8e44ad;
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        /* pagination links */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .pagination .menu-link {
+            min-width: 120px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow,
+            .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow.up,
+            .scroll-arrow-double.up-double {
+                top: 170px;
+            }
+            .scroll-arrow.down,
+            .scroll-arrow-double.down-double {
+                bottom: 70px;
+            }
+            .language-toggle,
+            .transliteration-toggle,
+            .dark-mode-toggle {
+                padding: 5px 12px;
+                font-size: 11px;
+                right: 12px;
+            }
+            .language-toggle {
+                top: 12px;
+            }
+            .transliteration-toggle {
+                top: 68px;
+            }
+            .dark-mode-toggle {
+                top: 124px;
+            }
+            .arabic {
+                font-size: 32px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fixed Toggle Buttons (Right) -->
+    <div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+    <!-- Single-step arrows (LEFT) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- Double arrows (RIGHT side: top & bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container" id="mainContainer">
+        <!-- INDONESIAN CONTENT -->
+        <div id="indonesian-content">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">54. Al-Matin - Yang Maha Kokoh</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-matin/" target="_blank">myislam.org/99-names-of-allah/al-matin/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْمَتِينُ</div>
+            <div class="transliteration">Transliterasi: Al-Matin</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/54.%20al-matin.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Matin adalah Yang Maha Kokoh yang kekuatan-Nya mutlak dan tidak tergoyahkan. Dia-lah Yang kekuatan-Nya sempurna, kehendak-Nya tak terbatas, dan keputusan-Nya tidak dapat dibatalkan.</p>
+                <p>Menurut referensi Kementerian Agama RI, Al-Matin menunjukkan bahwa Allah memiliki kekuatan yang sempurna dan tidak pernah berkurang. Kekokohan Allah berbeda dengan kekuatan makhluk-Nya yang terbatas dan sementara.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Penjelasan Detail</h2>
+                <p>Al-Matin berasal dari akar kata ma-ta-na yang berarti "kokoh, kuat, dan teguh." Nama ini menekankan kekokohan sempurna Allah yang tidak dapat digoyahkan oleh apapun. Kekuatan Allah bersifat mutlak dan abadi, berbeda dengan kekuatan makhluk yang bersifat relatif dan fana.</p>
+                <p>Allah SWT berfirman: "Sesungguhnya Allah Dialah Maha Pemberi rezeki Yang Mempunyai Kekuatan lagi Sangat Kokoh." (QS. Adz-Dzariyat: 58). Ayat ini menunjukkan bahwa kekokohan Allah disertai dengan kekuatan yang sempurna.</p>
+                <p>Nama Al-Matin mengajarkan kita bahwa semua kekokohan dan keteguhan yang ada pada makhluk bersumber dari Allah. Oleh karena itu, kita harus menyandarkan diri hanya kepada kekokohan Allah dan tidak sombong dengan kekuatan yang kita miliki.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/51/58?translations=33" target="_blank">Surah Adh-Dhariyat 51:58</a>
+                    <div class="arabic">إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ</div>
+                    <div class="transliteration">Innallaha huwa ar-Razzaaqu thul-quwwatil-mateen</div>
+                    <p>"Sesungguhnya Allah Dialah Maha Pemberi rezeki Yang Mempunyai Kekuatan lagi Sangat Kokoh."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa kekokohan Allah bersifat sempurna dan tidak terbatas. Kekuatan Allah digandengkan dengan sifat-Nya sebagai pemberi rezeki, menunjukkan bahwa kekokohan-Nya digunakan untuk memberikan kebaikan kepada seluruh makhluk.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/22/74?translations=33" target="_blank">Surah Al-Hajj 22:74</a>
+                    <div class="arabic">وَٱللَّهُ ٱلْقَوِىُّ ٱلْمَتِينُ</div>
+                    <div class="transliteration">Wallahu al-Qawiyyul-Mateen</div>
+                    <p>"Dan Allah Maha Kuat lagi Maha Kokoh."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bahwa kekuatan dan kekokohan Allah bersifat mutlak. Kekokohan Allah digandengkan dengan sifat Al-Qawiyy (Yang Maha Kuat), menunjukkan bahwa kekuatan-Nya disertai dengan keteguhan yang sempurna.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/urn/1340020" target="_blank">Musnad Ahmad 13400</a>
+                    <div class="arabic">إِنَّ اللَّهَ مَتِينٌ يُحِبُّ الْمَتَانَةَ فِي كُلِّ شَيْءٍ</div>
+                    <div class="transliteration">Innallaha mateenun yuhibbul-matana fee kulli shay</div>
+                    <p>"Sesungguhnya Allah Maha Kokoh dan mencintai kekokohan dalam segala hal."</p>
+                    <div class="tafsir-box">
+                        <strong>Penjelasan Kemenag RI:</strong> Hadits ini menunjukkan bahwa sifat kekokohan Allah tercermin dalam ciptaan-Nya. Allah mencintai hamba-Nya yang memiliki keteguhan dalam iman dan amal shaleh.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Keteguhan Iman</div>
+                    <div class="arabic">يَا مَتِينُ، ثَبِّتْنِي عَلَى دِينِكَ وَاجْعَلْنِي مِنَ الْعَابِدِينَ الصَّابِرِينَ</div>
+                    <div class="transliteration">Ya Mateen, thabbitnee 'ala deenik waj'alnee minal-'abideen as-sabireen</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Kokoh, teguhkan aku dalam agama-Mu dan jadikan aku termasuk hamba-hamba-Mu yang sabar."</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI - Doa ini berdasarkan hadits tentang keutamaan berdoa dengan Asmaul Husna (Tirmidhi) sebagai doa untuk memohon keteguhan iman.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Kekuatan dengan Sifat Al-Matin</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ الْمَتِينِ أَعِنِّي عَلَى أَمْرِ الدُّنْيَا وَالدِّينِ</div>
+                    <div class="transliteration">Allahumma bi-haqqil-Mateeni a'inni 'ala amrid-dunya wad-deen</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, demi hak Al-Matin, tolonglah aku dalam urusan dunia dan agama."</p>
+                    <p><strong>Sumber:</strong> Kementerian Agama RI - Doa ini diajarkan sebagai permohonan pertolongan dengan menyebut nama Al-Matin.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Wirid Keteguhan</div>
+                    <p>Rutinitas harian untuk mengembangkan keteguhan iman:</p>
+                    <ol>
+                        <li>Setelah shalat Subuh, baca "Ya Mateen" 33 kali sambil merenungkan maknanya</li>
+                        <li>Baca Surah Al-Ikhlas 3 kali untuk mengingat keesaan Allah</li>
+                        <li>Baca doa memohon keteguhan sebelum memulai aktivitas</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Nabi (ﷺ) bersabda: "Orang beriman yang kuat lebih baik dan lebih dicintai Allah" (Muslim). Praktik ini mengikuti sunnah Nabi dalam menjaga keteguhan iman.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Amalan Kekokohan</div>
+                    <p>Amalan mingguan untuk memohon kekokohan dari Allah:</p>
+                    <ol>
+                        <li>Setiap malam Jumat, baca Surah Al-Fatihah 7 kali</li>
+                        <li>Baca ayat kursi (<a href="https://quran.com/2/255?translations=33" target="_blank">2:255</a>) 7 kali</li>
+                        <li>Baca "Ya Mateen" 100 kali</li>
+                        <li>Berdoa memohon keteguhan iman dan kekuatan</li>
+                    </ol>
+                    <p><strong>Referensi:</strong> Kementerian Agama RI - Amalan ini berdasarkan hadits tentang keutamaan membaca Al-Quran dan dzikir untuk memohon kekuatan.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut tafsir Kementerian Agama RI, Al-Matin dapat dipahami melalui beberapa dimensi:</p>
+                <ol>
+                    <li><strong>Kekokohan Mutlak:</strong>
+                        <ul>
+                            <li>Allah memiliki kekuatan yang tidak tergoyahkan (<a href="https://quran.com/22/74?translations=33" target="_blank">22:74</a>)</li>
+                            <li>Tidak ada yang dapat melemahkan kekokohan Allah (<a href="https://quran.com/35/44?translations=33" target="_blank">35:44</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kekokohan dalam Memberi Rezeki:</strong>
+                        <ul>
+                            <li>Allah mampu memberi rezeki kepada semua makhluk (<a href="https://quran.com/11/6?translations=33" target="_blank">11:6</a>)</li>
+                            <li>Kekokohan Allah dalam mengatur rezeki makhluk-Nya (<a href="https://quran.com/29/60?translations=33" target="_blank">29:60</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kekokohan dalam Membela Orang Beriman:</strong>
+                        <ul>
+                            <li>Allah akan membela orang-orang yang beriman (<a href="https://quran.com/22/40?translations=33" target="_blank">22:40</a>)</li>
+                            <li>Kekokohan Allah dalam memberikan kemenangan (<a href="https://quran.com/3/160?translations=33" target="_blank">3:160</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kekokohan dalam Menciptakan dan Membangkitkan:</strong>
+                        <ul>
+                            <li>Allah mampu menciptakan langit dan bumi (<a href="https://quran.com/46/33?translations=33" target="_blank">46:33</a>)</li>
+                            <li>Allah mampu membangkitkan manusia setelah mati (<a href="https://quran.com/22/5?translations=33" target="_blank">22:5</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Kekokohan manusia bersifat relatif dan berasal dari Allah, sehingga harus digunakan untuk kebaikan dan ketaatan.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_53.html" class="menu-link"><i class="fas fa-chevron-left"></i> Sebelumnya (53)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Daftar</a>
+                <a href="ah_55.html" class="menu-link">Selanjutnya (55) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="english-content" class="hidden">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">54. Al-Matin - The Firm</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-matin/" target="_blank">myislam.org/99-names-of-allah/al-matin/</a></div>
+
+            <!-- Bonus section (English only) -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_54Qawiy55Mateen.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْمَتِينُ</div>
+            <div class="transliteration">Transliteration: Al-Matin</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/54.%20al-matin.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Matin is The Firm and Steadfast whose strength is absolute and unshakable. He is the One whose power is perfect, whose will is inexhaustible, and whose decisions cannot be overturned.</p>
+                <p>This name emphasizes Allah's perfect and unwavering strength that never diminishes. Allah's firmness is comprehensive - it includes all aspects of might and stability.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Detailed Explanation</h2>
+                <p>Al-Matin comes from the root ma-ta-na which means "to be firm, strong, and steadfast." This name emphasizes Allah's perfect firmness that cannot be shaken by anything. Allah's strength is absolute and eternal, unlike the relative and temporary strength of creation.</p>
+                <p>Allah says: "Indeed, it is Allah who is the [continual] Provider, the firm possessor of strength." (QS. Adh-Dhariyat: 58). This verse shows that Allah's firmness is coupled with perfect strength.</p>
+                <p>This name teaches us that all firmness and steadfastness possessed by creation originates from Allah. Therefore, we should rely only on Allah's firmness and not become arrogant with whatever strength we may possess.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (From Quran &amp; Hadith)</h2>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/51/58?translations=131" target="_blank">Surah Adh-Dhariyat 51:58</a>
+                    <div class="arabic">إِنَّ ٱللَّهَ هُوَ ٱلرَّزَّاقُ ذُو ٱلْقُوَّةِ ٱلْمَتِينُ</div>
+                    <div class="transliteration">Innallaha huwa ar-Razzaaqu thul-quwwatil-mateen</div>
+                    <p>"Indeed, it is Allah who is the Perfect Provider, the Possessor of Strength, the Firm."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse shows that Allah's firmness is coupled with His role as the Provider (Ar-Razzaq), indicating that His sustenance is backed by inexhaustible power. The term "Al-Matin" emphasizes that His strength is unwavering and constant.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/22/74?translations=131" target="_blank">Surah Al-Hajj 22:74</a>
+                    <div class="arabic">وَٱللَّهُ ٱلْقَوِىُّ ٱلْمَتِينُ</div>
+                    <div class="transliteration">Wallahu al-Qawiyyul-Mateen</div>
+                    <p>"And Allah is the All-Strong, the Firm."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This direct reference to Al-Matin paired with Al-Qawi emphasizes Allah's absolute and unshakable strength. The pairing shows that Allah's power is both comprehensive and unwavering.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/urn/1340020" target="_blank">Musnad Ahmad 13400</a>
+                    <div class="arabic">إِنَّ اللَّهَ مَتِينٌ يُحِبُّ الْمَتَانَةَ فِي كُلِّ شَيْءٍ</div>
+                    <div class="transliteration">Innallaha mateenun yuhibbul-matana fee kulli shay</div>
+                    <p>"Indeed Allah is Firm and loves firmness in all things."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith connects Allah's attribute of firmness with His love for strength and steadfastness in His creation. It encourages believers to develop firmness in their faith and actions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Steadfastness in Faith</div>
+                    <div class="arabic">يَا مَتِينُ، ثَبِّتْنِي عَلَى دِينِكَ وَاجْعَلْنِي مِنَ الْعَابِدِينَ الصَّابِرِينَ</div>
+                    <div class="transliteration">Ya Mateen, thabbitnee 'ala deenik waj'alnee minal-'abideen as-sabireen</div>
+                    <p><strong>Translation:</strong> "O Firm One, make me steadfast in Your religion and make me among Your patient worshippers."</p>
+                    <p><strong>Benefits:</strong> The Prophet (ﷺ) taught that invoking Allah by His names guarantees response (Tirmidhi). This dua combines seeking firmness with patience in worship.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Strength Through Al-Matin</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ الْمَتِينِ أَعِنِّي عَلَى أَمْرِ الدُّنْيَا وَالدِّينِ</div>
+                    <div class="transliteration">Allahumma bi-haqqil-Mateeni a'inni 'ala amrid-dunya wad-deen</div>
+                    <p><strong>Translation:</strong> "O Allah, by the right of Al-Matin, help me in the matters of this world and religion."</p>
+                    <p><strong>Source:</strong> This dua combines invoking Al-Matin with comprehensive help for both worldly and religious matters, following the Prophet's example of comprehensive supplication.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Steadfastness Practice</div>
+                    <p>Daily routine to cultivate spiritual steadfastness:</p>
+                    <ol>
+                        <li>After Fajr prayer, recite "Ya Mateen" 33 times while reflecting on its meaning</li>
+                        <li>Recite Surah Al-Ikhlas 3 times to remember Allah's oneness</li>
+                        <li>Recite a dua for steadfastness before beginning daily activities</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice:</p>
+                    <ul>
+                        <li>Develops awareness of divine firmness</li>
+                        <li>Strengthens connection with Allah's attributes</li>
+                        <li>Follows the Prophet's (ﷺ) example of morning remembrance</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Weekly Firmness Remembrance</div>
+                    <p>Weekly practice to connect with Allah's firmness:</p>
+                    <ol>
+                        <li>Every Thursday night, recite Surah Al-Fatihah 7 times</li>
+                        <li>Recite Ayat al-Kursi (<a href="https://quran.com/2/255?translations=131" target="_blank">2:255</a>) 7 times</li>
+                        <li>Recite "Ya Mateen" 100 times</li>
+                        <li>Make dua asking for steadfastness in faith and life</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Prophet (ﷺ) emphasized Thursday nights for extra worship. This practice combines Quranic recitation with dhikr to seek Allah's firmness.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains Al-Matin through several dimensions of divine firmness:</p>
+                <ol>
+                    <li><strong>Absolute Firmness:</strong>
+                        <ul>
+                            <li>Unshakable power to create and command (<a href="https://quran.com/36/82?translations=131" target="_blank">36:82</a>)</li>
+                            <li>Power over all creation (<a href="https://quran.com/3/189?translations=131" target="_blank">3:189</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Sustaining Firmness:</strong>
+                        <ul>
+                            <li>Continuous provision for all creatures (<a href="https://quran.com/11/6?translations=131" target="_blank">11:6</a>)</li>
+                            <li>Maintenance of the universe (<a href="https://quran.com/35/41?translations=131" target="_blank">35:41</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Protective Firmness:</strong>
+                        <ul>
+                            <li>Defense of believers (<a href="https://quran.com/22/40?translations=131" target="_blank">22:40</a>)</li>
+                            <li>Victory over falsehood (<a href="https://quran.com/21/18?translations=131" target="_blank">21:18</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Resurrecting Power:</strong>
+                        <ul>
+                            <li>Ability to bring the dead to life (<a href="https://quran.com/22/5?translations=131" target="_blank">22:5</a>)</li>
+                            <li>Power over the Day of Judgment (<a href="https://quran.com/40/16?translations=131" target="_blank">40:16</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>The constant mention of Allah's firmness in the Quran serves as a reminder that all stability comes from Him alone, and human steadfastness is merely a reflection of divine attributes.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_53.html" class="menu-link"><i class="fas fa-chevron-left"></i> Previous (53)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Index</a>
+                <a href="ah_55.html" class="menu-link">Next (55) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>© 1447 AH / 2026 AD - Al-Matin: The Firm. Curated and Maintained by Hermansjah.</footer>
+
+    <script>
+        (function() {
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+            const body = document.body;
+
+            // Helper: URL parameter override
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Language override
+            let langFromUrl = null;
+            if (getParam('English') !== null) langFromUrl = 'english';
+            else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+            let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+
+            function updateLangUI() {
+                const isEnglish = (currentLang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+                }
+                localStorage.setItem('language', currentLang);
+                updateTranslitButtonText();
+                updateDarkModeButtonText();
+            }
+
+            function updateTranslitButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+                if (isEnglish) {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration';
+                } else {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                }
+            }
+
+            function updateDarkModeButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const isDark = body.classList.contains('dark-mode');
+                if (isEnglish) {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' :
+                        '<i class="fas fa-moon"></i> Dark Mode';
+                } else {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' :
+                        '<i class="fas fa-moon"></i> Mode Gelap';
+                }
+            }
+
+            // Transliteration
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = false;
+            else translitVisible = (translitVisible === 'true');
+            if (getParam('Transliteration') !== null) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                updateTranslitButtonText();
+                localStorage.setItem('transliteration', show);
+            }
+
+            // Dark Mode
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (getParam('Dark') !== null) darkActive = true;
+            if (darkActive) body.classList.add('dark-mode');
+
+            function setDarkModeUI() {
+                updateDarkModeButtonText();
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            }
+
+            // Event listeners
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+                updateLangUI();
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = (translitElements[0]?.style.display !== 'none');
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // Scroll arrows (single-step)
+            document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0,
+                    behavior: 'smooth' }));
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document
+                    .body.scrollHeight, behavior: 'smooth' }));
+
+            // Initial setup
+            setTransliteration(translitVisible);
+            updateLangUI();
+            setDarkModeUI();
+
+            // if any scroll anchor from url fragments
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            }
+        })();
+    </script>
+</body>
+</html>
