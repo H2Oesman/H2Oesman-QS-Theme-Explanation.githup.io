@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>64. Al-Wajid - Yang Maha Menemukan | The Perceiver</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua,
+        .amalan,
+        .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua,
+        body.dark-mode .amalan,
+        body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title,
+        .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title,
+        body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+
+        /* toggle buttons (right) */
+        .language-toggle,
+        .transliteration-toggle,
+        .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle {
+            top: 20px;
+            background: #2c7da0;
+        }
+        .transliteration-toggle {
+            top: 80px;
+            background: #27ae60;
+        }
+        .dark-mode-toggle {
+            top: 140px;
+            background: #8e44ad;
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        /* pagination links */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .pagination .menu-link {
+            min-width: 120px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow,
+            .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow.up,
+            .scroll-arrow-double.up-double {
+                top: 170px;
+            }
+            .scroll-arrow.down,
+            .scroll-arrow-double.down-double {
+                bottom: 70px;
+            }
+            .language-toggle,
+            .transliteration-toggle,
+            .dark-mode-toggle {
+                padding: 5px 12px;
+                font-size: 11px;
+                right: 12px;
+            }
+            .language-toggle {
+                top: 12px;
+            }
+            .transliteration-toggle {
+                top: 68px;
+            }
+            .dark-mode-toggle {
+                top: 124px;
+            }
+            .arabic {
+                font-size: 32px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fixed Toggle Buttons (Right) -->
+    <div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+    <!-- Single-step arrows (LEFT) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- Double arrows (RIGHT side: top & bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container" id="mainContainer">
+        <!-- INDONESIAN CONTENT -->
+        <div id="indonesian-content">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">64. Al-Wajid - Yang Maha Menemukan</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-wajid/" target="_blank">myislam.org/99-names-of-allah/al-wajid/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْوَاجِدُ</div>
+            <div class="transliteration">Transliterasi: Al-Wajid</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/64.%20al-wajid.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Wajid adalah salah satu dari Asmaul Husna yang menunjukkan sifat Allah Yang Maha Mengetahui dan Maha Menemukan segala sesuatu yang Dia kehendaki. Nama ini mengandung makna:</p>
+                <ul>
+                    <li><strong>Yang Maha Mengetahui:</strong> Tidak ada sesuatu pun yang tersembunyi dari pengetahuan-Nya</li>
+                    <li><strong>Yang Maha Menemukan:</strong> Dapat menemukan dan mewujudkan apa yang Dia kehendaki</li>
+                    <li><strong>Yang Maha Kaya:</strong> Tidak membutuhkan apapun dari makhluk-Nya</li>
+                </ul>
+                <p>Menurut tafsir Kementerian Agama RI, Al-Wajid menunjukkan bahwa Allah SWT mengetahui segala kebutuhan hamba-Nya dan mampu memenuhi kebutuhan tersebut sesuai dengan hikmah-Nya. Nama ini mengajarkan kita untuk selalu bergantung hanya kepada Allah dalam segala urusan.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/93/7?translations=33" target="_blank">Surah Ad-Duha 93:7</a>
+                    <div class="arabic">وَوَجَدَكَ ضَالًّۭا فَهَدَىٰ</div>
+                    <div class="transliteration">Wa wajadaka ḍāllan fa-hadā</div>
+                    <p>"Dan Dia mendapatimu sebagai seorang yang bingung, lalu Dia memberikan petunjuk."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menjelaskan bagaimana Allah sebagai Al-Wajid menemukan Nabi Muhammad SAW dalam keadaan bingung dan memberikan petunjuk kepadanya. Ini menunjukkan bahwa Allah selalu menemukan hamba-Nya yang sedang dalam kebingungan dan memberikan solusi.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/6/59?translations=33" target="_blank">Surah Al-An'am 6:59</a>
+                    <div class="arabic">وَعِندَهُۥ مَفَاتِحُ ٱلْغَيْبِ لَا يَعْلَمُهَآ إِلَّا هُوَ</div>
+                    <div class="transliteration">Wa 'indahu mafātīḥu l-ghaybi lā yaʿlamuhā illā huw</div>
+                    <p>"Dan pada sisi Allah-lah kunci-kunci semua yang ghaib; tidak ada yang mengetahuinya kecuali Dia sendiri."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan sifat Al-Wajid bahwa Allah mengetahui segala yang ghaib dan dapat menemukan apa yang tidak diketahui oleh makhluk-Nya. Ini menjadi dasar keyakinan bahwa hanya Allah yang mengetahui segala rahasia.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/38/44?translations=33" target="_blank">Surah Sad 38:44</a>
+                    <div class="arabic">إِنَّا وَجَدْنَٰهُ صَابِرًۭا</div>
+                    <div class="transliteration">Innā wajadnāhu ṣābirā</div>
+                    <p>"Sesungguhnya Kami dapati dia (Ayyub) seorang yang sabar."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini menunjukkan bagaimana Allah sebagai Al-Wajid menemukan kesabaran Nabi Ayyub dalam menghadapi ujian. Ini menunjukkan bahwa Allah mengetahui kualitas hamba-Nya yang tersembunyi.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/abudawud:4012" target="_blank">Sunan Abu Dawud 4012</a>
+                    <div class="arabic">إِنَّ اللَّهَ تَعَالَى هُوَ الْوَاجِدُ الْمَانِعُ، الْحَيِيُّ السَّتِيرُ، يُحِبُّ الْحَيَاءَ وَالسَّتْرَ</div>
+                    <div class="transliteration">Innallāha taʿālā huwa al-Wājidu l-māniʿ, al-ḥayyīyu s-satīr, yuḥibbu l-ḥayā'a wa s-satr</div>
+                    <p>"Sesungguhnya Allah Yang Maha Tinggi adalah Al-Wajid (Yang Maha Menemukan), Al-Mani' (Yang Maha Mencegah), Yang Maha Pemalu, Yang Maha Menutupi. Dia mencintai rasa malu dan penutupan."</p>
+                    <div class="tafsir-box">
+                        <strong>Konteks:</strong> Hadits ini menjelaskan bahwa meskipun Allah sebagai Al-Wajid mengetahui segala sesuatu, Dia juga Maha Menutupi aib hamba-Nya. Menurut penjelasan Kementerian Agama RI, ini menunjukkan kasih sayang Allah yang sempurna.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Memohon Petunjuk dan Penemuan</div>
+                    <div class="arabic">يَا وَاجِدَ كُلِّ ضَالٍّ، أَرِنِي حَقَائِقَ الأَشْيَاءِ كَمَا هِيَ</div>
+                    <div class="transliteration">Yā wājida kulli ḍāllin, arinī ḥaqā'iqa l-ashyā'i kamā hiya</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Menemukan segala yang hilang, tunjukkanlah kepadaku hakikat segala sesuatu sebagaimana adanya."</p>
+                    <p><strong>Keutamaan:</strong> Doa ini dianjurkan oleh Kementerian Agama RI untuk memohon petunjuk ketika menghadapi kebingungan atau mencari kebenaran. Dianjurkan dibaca setelah shalat tahajjud.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Memohon Kemudahan dalam Mencari</div>
+                    <div class="arabic">اللَّهُمَّ بِاسْمِكَ الْوَاجِدِ أَجِدْ مَا فَقَدْتُ وَأَدْرِكْ مَا أُرِيدُ</div>
+                    <div class="transliteration">Allāhumma bismika l-Wājidi ajid mā faqadtu wa adrik mā urīd</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, dengan nama-Mu Yang Maha Menemukan, temukanlah apa yang hilang dariku dan sampaikanlah apa yang kuinginkan."</p>
+                    <p><strong>Sumber:</strong> Doa ini berdasarkan hadits-hadits tentang keutamaan berdoa dengan nama-nama Allah. Kemenag RI menganjurkan doa ini ketika mencari sesuatu yang hilang atau membutuhkan petunjuk.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Praktik Mencari yang Hilang</div>
+                    <p>Ketika kehilangan sesuatu atau membutuhkan petunjuk:</p>
+                    <ol>
+                        <li>Lakukan wudhu dan shalat sunnah 2 rakaat</li>
+                        <li>Baca "Ya Wajid" 100 kali dengan khusyuk</li>
+                        <li>Berdoa dengan sungguh-sungguh memohon pertolongan Allah</li>
+                        <li>Yakinlah bahwa Allah akan menunjukkan jalan</li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Menurut Kementerian Agama RI, amalan ini:</p>
+                    <ul>
+                        <li>Memperkuat tawakkal kepada Allah</li>
+                        <li>Melatih kesabaran dalam mencari solusi</li>
+                        <li>Mendekatkan diri kepada Allah sebagai sumber petunjuk</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Dzikir Pencari Ilmu</div>
+                    <p>Untuk memudahkan dalam mencari ilmu:</p>
+                    <ol>
+                        <li>Sebelum belajar, baca "Al-Wajid" 11 kali</li>
+                        <li>Renungkan bahwa Allah mengetahui semua ilmu</li>
+                        <li>Mohon kepada Allah untuk membukakan pemahaman</li>
+                        <li>Baca doa memohon ilmu: "Rabbi zidni ilma"</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Nabi SAW bersabda: "Barangsiapa yang menempuh jalan untuk mencari ilmu, maka Allah akan memudahkan baginya jalan ke surga" (HR. Muslim). Amalan ini dianjurkan oleh Kementerian Agama RI untuk para penuntut ilmu.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir</h2>
+                <p>Menurut tafsir Kementerian Agama RI, Al-Wajid mengandung makna mendalam:</p>
+                <ol>
+                    <li><strong>Pengetahuan yang Sempurna:</strong>
+                        <ul>
+                            <li>Mengetahui segala yang tersembunyi (<a href="https://quran.com/58/7?translations=33" target="_blank">58:7</a>)</li>
+                            <li>Mengetahui isi hati setiap makhluk (<a href="https://quran.com/67/13?translations=33" target="_blank">67:13</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kemampuan Menemukan:</strong>
+                        <ul>
+                            <li>Dapat menemukan apa yang dicari (<a href="https://quran.com/93/7?translations=33" target="_blank">93:7</a>)</li>
+                            <li>Mengetahui kebutuhan hamba-Nya sebelum diminta (<a href="https://quran.com/2/186?translations=33" target="_blank">2:186</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kekayaan yang Sempurna:</strong>
+                        <ul>
+                            <li>Tidak membutuhkan apapun dari makhluk (<a href="https://quran.com/35/15?translations=33" target="_blank">35:15</a>)</li>
+                            <li>Memiliki segala sumber daya untuk memenuhi kebutuhan (<a href="https://quran.com/14/34?translations=33" target="_blank">14:34</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p><strong>Menurut Kementerian Agama RI:</strong> Pemahaman terhadap sifat Al-Wajid ini penting untuk memperkuat keyakinan bahwa hanya Allah SWT yang mengetahui segala sesuatu dan mampu memenuhi segala kebutuhan hamba-Nya. Ini menjadi dasar pentingnya tawakal dalam kehidupan seorang muslim.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_63.html" class="menu-link"><i class="fas fa-chevron-left"></i> Sebelumnya (63)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Daftar</a>
+                <a href="ah_65.html" class="menu-link">Selanjutnya (65) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="english-content" class="hidden">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">64. Al-Wajid - The Perceiver</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-wajid/" target="_blank">myislam.org/99-names-of-allah/al-wajid/</a></div>
+
+            <!-- Bonus section (English only) -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_65Waajid.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْوَاجِدُ</div>
+            <div class="transliteration">Transliteration: Al-Wajid</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/64.%20al-wajid.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Wajid is The One who perceives and finds whatever He wills. He is the One whose knowledge encompasses everything, who finds whatever He seeks, and who lacks nothing He desires.</p>
+                <ul>
+                    <li><strong>The All-Perceiving:</strong> Nothing is hidden from His knowledge</li>
+                    <li><strong>The Finder:</strong> Can manifest and discover whatever He wills</li>
+                    <li><strong>The Self-Sufficient:</strong> Needs nothing from His creation</li>
+                </ul>
+                <p>Ibn Kathir explains in his tafsir that Al-Wajid demonstrates Allah's complete knowledge and power. Nothing is hidden from Him, and He can bring forth whatever He wishes from His infinite treasures and wisdom.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (From Quran &amp; Hadith)</h2>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/93/7?translations=131" target="_blank">Surah Ad-Duha 93:7</a>
+                    <div class="arabic">وَوَجَدَكَ ضَالًّۭا فَهَدَىٰ</div>
+                    <div class="transliteration">Wa wajadaka ḍāllan fa-hadā</div>
+                    <p>"And Allah found you lost and guided [you]."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse shows Allah as Al-Wajid finding His prophet and responding to his needs with mercy and guidance. It demonstrates how Allah finds those who are sincerely seeking Him, even when they feel lost.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/6/59?translations=131" target="_blank">Surah Al-An'am 6:59</a>
+                    <div class="arabic">وَعِندَهُۥ مَفَاتِحُ ٱلْغَيْبِ لَا يَعْلَمُهَآ إِلَّا هُوَ</div>
+                    <div class="transliteration">Wa 'indahu mafātīḥu l-ghaybi lā yaʿlamuhā illā huw</div>
+                    <p>"And with Him are the keys of the unseen; none knows them except Him."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This verse emphasizes Allah's perfect knowledge as Al-Wajid, showing He alone holds the keys to all unseen matters and can reveal what He wills when He wills.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/38/44?translations=131" target="_blank">Surah Sad 38:44</a>
+                    <div class="arabic">إِنَّا وَجَدْنَٰهُ صَابِرًۭا</div>
+                    <div class="transliteration">Innā wajadnāhu ṣābirā</div>
+                    <p>"Indeed, We found him patient."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This verse shows Allah finding Prophet Ayyub's patience during his trials, demonstrating how Al-Wajid perceives the hidden qualities within His servants.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/abudawud:4012" target="_blank">Sunan Abu Dawud 4012</a>
+                    <div class="arabic">إِنَّ اللَّهَ تَعَالَى هُوَ الْوَاجِدُ الْمَانِعُ، الْحَيِيُّ السَّتِيرُ، يُحِبُّ الْحَيَاءَ وَالسَّتْرَ</div>
+                    <div class="transliteration">Innallāha taʿālā huwa al-Wājidu l-māniʿ, al-ḥayyīyu s-satīr, yuḥibbu l-ḥayā'a wa s-satr</div>
+                    <p>"Indeed Allah is The Finder, The Withholder, The Modest, The Coverer. He loves modesty and covering."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> This hadith beautifully describes Allah as Al-Wajid who finds and provides while also being modest in covering people's faults, showing His perfect balance of knowledge and mercy.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Guidance and Discovery</div>
+                    <div class="arabic">يَا وَاجِدَ كُلِّ ضَالٍّ، أَرِنِي حَقَائِقَ الأَشْيَاءِ كَمَا هِيَ</div>
+                    <div class="transliteration">Yā wājida kulli ḍāllin, arinī ḥaqā'iqa l-ashyā'i kamā hiya</div>
+                    <p><strong>Translation:</strong> "O Finder of every lost thing, show me the realities of things as they truly are."</p>
+                    <p><strong>Benefits:</strong> This du'a can be recited when seeking guidance, clarity, or when searching for something lost. The Prophet (ﷺ) taught similar supplications recognizing Allah's perfect knowledge.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For Finding What is Lost</div>
+                    <div class="arabic">اللَّهُمَّ بِاسْمِكَ الْوَاجِدِ أَجِدْ مَا فَقَدْتُ وَأَدْرِكْ مَا أُرِيدُ</div>
+                    <div class="transliteration">Allāhumma bismika l-Wājidi ajid mā faqadtu wa adrik mā urīd</div>
+                    <p><strong>Translation:</strong> "O Allah, by Your name Al-Wajid, help me find what I've lost and attain what I seek."</p>
+                    <p><strong>Source:</strong> Based on prophetic teachings about invoking Allah by His names for specific needs (Tirmidhi).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">The "Lost and Found" Practice</div>
+                    <p>When searching for something lost:</p>
+                    <ol>
+                        <li>Perform wudu and pray 2 rak'ahs of prayer</li>
+                        <li>Recite "Ya Wajid" 100 times</li>
+                        <li>Make sincere du'a asking Allah to help you find what you seek</li>
+                        <li>Have complete trust that Allah will guide you</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice strengthens reliance on Allah alone and has been recommended by scholars throughout Islamic history for those seeking lost items or guidance.</p>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">The Truth Seeker's Remembrance</div>
+                    <p>For seeking knowledge and clarity:</p>
+                    <ol>
+                        <li>Before studying or making important decisions, say "Al-Wajid" 11 times</li>
+                        <li>Recite the du'a for knowledge: "Rabbi zidnee ilma" (My Lord, increase me in knowledge)</li>
+                        <li>Reflect that Allah knows all truths and can reveal them to you</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Prophet (ﷺ) encouraged remembrance of Allah's names when seeking knowledge (Muslim). Many early scholars practiced similar dhikr for divine illumination.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains Al-Wajid through three dimensions:</p>
+                <ol>
+                    <li><strong>Perfect Knowledge:</strong>
+                        <ul>
+                            <li>Knows all hidden matters (<a href="https://quran.com/58/7?translations=131" target="_blank">58:7</a>)</li>
+                            <li>Understands the depths of hearts (<a href="https://quran.com/67/13?translations=131" target="_blank">67:13</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Manifestation Power:</strong>
+                        <ul>
+                            <li>Can bring forth what He wills (<a href="https://quran.com/93/7?translations=131" target="_blank">93:7</a>)</li>
+                            <li>Knows needs before they're expressed (<a href="https://quran.com/2/186?translations=131" target="_blank">2:186</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Complete Self-Sufficiency:</strong>
+                        <ul>
+                            <li>Needs nothing from creation (<a href="https://quran.com/35/15?translations=131" target="_blank">35:15</a>)</li>
+                            <li>Possesses all resources (<a href="https://quran.com/14/34?translations=131" target="_blank">14:34</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In Surah Ad-Duha (<a href="https://quran.com/93/7?translations=131" target="_blank">93:7</a>), Allah describes finding His prophet when he was lost, showing Al-Wajid's active role in guiding those who sincerely seek Him.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_63.html" class="menu-link"><i class="fas fa-chevron-left"></i> Previous (63)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Index</a>
+                <a href="ah_65.html" class="menu-link">Next (65) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>© 1447 AH / 2026 AD - Al-Wajid: The Perceiver. Curated and Maintained by Hermansjah.</footer>
+
+    <script>
+        (function() {
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+            const body = document.body;
+
+            // Helper: URL parameter override
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Language override
+            let langFromUrl = null;
+            if (getParam('English') !== null) langFromUrl = 'english';
+            else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+            let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+
+            function updateLangUI() {
+                const isEnglish = (currentLang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+                }
+                localStorage.setItem('language', currentLang);
+                updateTranslitButtonText();
+                updateDarkModeButtonText();
+            }
+
+            function updateTranslitButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+                if (isEnglish) {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration';
+                } else {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                }
+            }
+
+            function updateDarkModeButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const isDark = body.classList.contains('dark-mode');
+                if (isEnglish) {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' :
+                        '<i class="fas fa-moon"></i> Dark Mode';
+                } else {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' :
+                        '<i class="fas fa-moon"></i> Mode Gelap';
+                }
+            }
+
+            // Transliteration
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = false;
+            else translitVisible = (translitVisible === 'true');
+            if (getParam('Transliteration') !== null) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                updateTranslitButtonText();
+                localStorage.setItem('transliteration', show);
+            }
+
+            // Dark Mode
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (getParam('Dark') !== null) darkActive = true;
+            if (darkActive) body.classList.add('dark-mode');
+
+            function setDarkModeUI() {
+                updateDarkModeButtonText();
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            }
+
+            // Event listeners
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+                updateLangUI();
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = (translitElements[0]?.style.display !== 'none');
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // Scroll arrows (single-step)
+            document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0,
+                    behavior: 'smooth' }));
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document
+                    .body.scrollHeight, behavior: 'smooth' }));
+
+            // Initial setup
+            setTransliteration(translitVisible);
+            updateLangUI();
+            setDarkModeUI();
+
+            // if any scroll anchor from url fragments
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            }
+        })();
+    </script>
+</body>
+</html>
