@@ -21,12 +21,15 @@
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
             --theme-card-bg: #ffffffdd;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+            --click-caption-bg: #e0f2fe;
         }
         .dark-mode {
             --bg-color: #121826;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
-            --arabic-color: #9ad0ff;
+            --arabic-color: #7bc9ff;
             --section-title-color: #7bc9ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
@@ -35,9 +38,12 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #90caf9;
-            --link-hover: #c3e2ff;
+            --link-color: #facc15;
+            --link-hover: #ffdf7e;
             --theme-card-bg: #1e293bdd;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
+            --click-caption-bg: #1e3a5f;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -73,10 +79,22 @@
             color: #7f8c8d;
             font-size: 18px;
             text-align: right;
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
             display: none;
         }
-        .dark-mode .transliteration { color: #b0c4de; }
+        .translation-text {
+            font-size: 16px;
+            text-align: left;
+            color: var(--translation-color);
+            margin: 5px 0 15px 0;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 12px;
+            border-left: 3px solid var(--link-color);
+        }
+        .dark-mode .translation-text {
+            background: rgba(255,255,255,0.05);
+        }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -129,6 +147,7 @@
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
+            margin-right: 15px;
             padding: 8px 16px;
             border-radius: 40px;
             border: 1px solid var(--link-color);
@@ -178,12 +197,13 @@
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
             text-align: left;
+            vertical-align: top;
         }
         .theme-table th { background: #2c7da0; color: white; }
-        .scroll-arrow {
+        .scroll-arrow, .scroll-arrow-double {
             position: fixed;
-            left: 20px;
-            background: var(--container-bg);
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
             border-radius: 50%;
             width: 44px;
             height: 44px;
@@ -195,12 +215,14 @@
             z-index: 1000;
             transition: 0.2s;
             border: 1px solid var(--verse-border);
-            color: var(--text-color);
-            font-size: 22px;
         }
-        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
-        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow { left: 20px; }
+        .scroll-arrow.up { top: 100px; }
         .scroll-arrow.down { bottom: 90px; }
+        .scroll-arrow-double { right: 20px; }
+        .scroll-arrow-double.up-double { top: 100px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        .scroll-arrow:hover, .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
         .surah-pagination {
             margin: 40px 0 20px;
             padding-top: 20px;
@@ -249,7 +271,9 @@
         .dark-mode-toggle { top: 140px; background: #8e44ad; }
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
-            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; left: 12px; right: 12px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 80px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
             .arabic { font-size: 30px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
@@ -293,24 +317,64 @@
             padding: 20px;
             border: 1px solid var(--verse-border);
         }
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .speed-select {
+            background: var(--verse-bg);
+            color: var(--text-color);
+            border: 1px solid var(--verse-border);
+            border-radius: 40px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .clickable-caption {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--click-caption-bg);
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            border: 1px solid var(--link-color);
+        }
+        .clickable-caption:hover {
+            background: var(--link-color);
+            color: white;
+            transform: scale(1.02);
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+<div id="doubleUpScroll" class="scroll-arrow-double up-double"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double"><i class="fas fa-angles-down"></i></div>
 
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT (ENHANCED) -->
+    <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-book"></i> Juz Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-Jinn (72) - Tafsir Tematik</h1>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=1&to=28&opt=1" target="_blank">IslamicStudies.info - Surah Al-Jinn (1-28) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
+        <div class="transliteration">Bismillahirrahmanirrahim</div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=1&to=28" target="_blank">IslamicStudies.info - Surah Al-Jinn (1-28) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Jinn (Surah ke-72)</h3>
             <p>Surah Al-Jinn (72) terdiri dari 28 ayat dan tergolong surah Makkiyah. Dinamai “Al-Jinn” karena surah ini mengisahkan sekelompok jin yang mendengarkan Al-Qur'an, lalu beriman dan menyebarkan ajaran Islam di kalangan jin. Surah ini menegaskan universalitas risalah Islam, kekuatan Al-Qur'an, dan kebenaran kenabian Muhammad ﷺ.</p>
@@ -327,7 +391,13 @@
             <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
             <p><a href="https://quran.com/72?translations=33" target="_blank">Quran.com - Surah Al-Jinn (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p>
         </div>
-        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Jinn</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/072.mp3" type="audio/mpeg"></audio></div>
+        <div class="audio-player">
+            <div class="audio-title">🎧 Dengarkan Surah Al-Jinn</div>
+            <audio controls>
+                <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/072.mp3" type="audio/mpeg">
+                Browser Anda tidak mendukung audio.
+            </audio>
+        </div>
 
         <!-- PEMBAGIAN TEMA PER BAGIAN AYAT -->
         <div class="section">
@@ -337,12 +407,12 @@
                     <tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan & Tafsir Tambahan</th></tr>
                 </thead>
                 <tbody>
-                    <tr><td><strong>1-7</strong></td><td>Kesaksian Jin tentang Keajaiban Al-Qur'an</th><td>Jin mendengar Al-Qur'an, mengakuinya menakjubkan, dan langsung beriman. — Ibnu Katsir</th></tr>
-                    <tr><td><strong>8-10</strong></th><td>Usaha Jin Mencuri Dengar Berita Langit</th><td>Langit dijaga ketat dengan panah api setelah kenabian. — Al-Qurthubi</th></tr>
-                    <tr><td><strong>11-14</strong></th><td>Keragaman Jin: Saleh dan Tidak, Muslim dan Qāsit</th><td>Ada jin saleh dan tidak; ada yang muslim dan menyimpang. — As-Sa'di</th></td>
-                    <tr><td><strong>15-20</strong></th><td>Tauhid Jin dan Ibadah Murni</th><td>Masjid milik Allah; larangan menyembah selain Allah. — At-Tabari</th></td>
-                    <tr><td><strong>21-24</strong></th><td>Tanggung Jawab Nabi dan Ancaman</th><td>Nabi hanya menyampaikan; durhaka mendapat neraka. — Ibnu Katsir</th></td>
-                    <tr><td><strong>25-28</strong></th><td>Ilmu Gaib dan Penjagaan Wahyu</th><td>Hanya Allah tahu gaib; Dia menjaga wahyu-Nya. — Al-Qurthubi</th></tr>
+                    <tr><td><strong>1-7</strong></td><td>Kesaksian Jin tentang Keajaiban Al-Qur'an</td><td>Jin mendengar Al-Qur'an, mengakuinya menakjubkan, dan langsung beriman. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>8-10</strong></td><td>Usaha Jin Mencuri Dengar Berita Langit</td><td>Langit dijaga ketat dengan panah api setelah kenabian. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>11-14</strong></td><td>Keragaman Jin: Saleh dan Tidak, Muslim dan Qāsit</td><td>Ada jin saleh dan tidak; ada yang muslim dan menyimpang. — As-Sa'di</td></tr>
+                    <tr><td><strong>15-20</strong></td><td>Tauhid Jin dan Ibadah Murni</td><td>Masjid milik Allah; larangan menyembah selain Allah. — At-Tabari</td></tr>
+                    <tr><td><strong>21-24</strong></td><td>Tanggung Jawab Nabi dan Ancaman</td><td>Nabi hanya menyampaikan; durhaka mendapat neraka. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>25-28</strong></td><td>Ilmu Gaib dan Penjagaan Wahyu</td><td>Hanya Allah tahu gaib; Dia menjaga wahyu-Nya. — Al-Qurthubi</td></tr>
                 </tbody>
             </table>
         </div>
@@ -352,9 +422,9 @@
             <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
             <div class="verse">
                 <div class="arabic">إِنَّا سَمِعْنَا قُرْآنًا عَجَبًا يَهْدِي إِلَى الرُّشْدِ</div>
-                <div class="transliteration">Innā sami‘nā qur’ānan ‘ajabā, yahdī ilar-rusydi</div>
+                <div class="transliteration">Inna sami'na qur'anan 'ajaban yahdi ila ar-rusydi</div>
                 <div class="translation-text"><strong>Terjemahan:</strong> “Sesungguhnya kami telah mendengarkan Al-Qur'an yang menakjubkan, (yang) memberi petunjuk kepada jalan yang benar.” (Al-Jinn 72:2)</div>
-                <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menjelaskan bahwa jin yang mendengar Al-Qur'an menyebutnya “ajabā” (menakjubkan) karena keindahan lafaz, kedalaman makna, dan petunjuknya yang langsung menyentuh hati. Ini menjadi bukti bahwa Al-Qur'an memiliki kekuatan luar biasa, mampu menggetarkan makhluk gaib sekalipun. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=2">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menjelaskan bahwa jin yang mendengar Al-Qur'an menyebutnya “ajabā” (menakjubkan) karena keindahan lafaz, kedalaman makna, dan petunjuknya yang langsung menyentuh hati. Ini menjadi bukti bahwa Al-Qur'an memiliki kekuatan luar biasa, mampu menggetarkan makhluk gaib sekalipun. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=2" target="_blank">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                 <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
             </div>
         </div>
@@ -375,11 +445,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-1"></i> 1. Kesaksian Jin tentang Keajaiban Al-Qur'an (Ayat 1-7)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=1&to=7&opt=1" target="_blank">Al-Jinn 72:1-7 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=1&to=7" target="_blank">Al-Jinn 72:1-7 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">قُلْ أُوحِىَ إِلَىَّ أَنَّهُ ٱسْتَمَعَ نَفَرٌۭ مِّنَ ٱلْجِنِّ فَقَالُوٓا۟ إِنَّا سَمِعْنَا قُرْءَانًا عَجَبًۭا ﴿١﴾ يَهْدِىٓ إِلَى ٱلرُّشْدِ فَـَٔامَنَّا بِهِۦ ۖ وَلَن نُّشْرِكَ بِرَبِّنَآ أَحَدًۭا ﴿٢﴾ وَأَنَّهُۥ تَعَـٰلَىٰ جَدُّ رَبِّنَا مَا ٱتَّخَذَ صَـٰحِبَةًۭ وَلَا وَلَدًۭا ﴿٣﴾ وَأَنَّهُۥ كَانَ يَقُولُ سَفِيهُنَا عَلَى ٱللَّهِ شَطَطًۭا ﴿٤﴾ وَأَنَّا ظَنَنَّآ أَن لَّن تَقُولَ ٱلْإِنسُ وَٱلْجِنُّ عَلَى ٱللَّهِ كَذِبًۭا ﴿٥﴾ وَأَنَّهُۥ كَانَ رِجَالٌۭ مِّنَ ٱلْإِنسِ يَعُوذُونَ بِرِجَالٍۢ مِّنَ ٱلْجِنِّ فَزَادُوهُمْ رَهَقًۭا ﴿٦﴾ وَأَنَّهُمْ ظَنُّوا۟ كَمَا ظَنَنتُمْ أَن لَّن يَبْعَثَ ٱللَّهُ أَحَدًۭا ﴿٧﴾</div>
-                    <div class="transliteration">Qul uḥiya ilayya annahustama‘a nafarun mina l-jinni fa qālū innā sami‘nā qur’ānan ‘ajabā (1) Yahdī ilar-rusydi fa āmannā bihī wa lan nusyrika birabbinā aḥadā (2) Wa annahū ta‘ālā jaddu rabbinā mat takhaża ṣāḥibataw wa lā waladā (3) Wa annahū kāna yaqūlu safīhunā ‘alallāhi syaṭaṭā (4) Wa annā ẓanannā al lan taqūla l-insu wa l-jinnu ‘alallāhi każibā (5) Wa annahū kāna rijālun mina l-insi ya‘ūżūna birijālin mina l-jinni fa zādūhum rahaqā (6) Wa annahum ẓannū kamā ẓanantum al lay yab‘aṡallāhu aḥadā (7)</div>
+                    <div class="transliteration">Qul uhiya ilayya annahu istama'a nafarun min al-jinni fa qalu inna sami'na qur'anan 'ajaban (1) Yahdi ila ar-rusydi fa amanna bihi wa lan nusyrika birabbina ahadan (2) Wa annahu ta'ala jaddu rabbina ma ittakhadza shahibatan wa la waladan (3) Wa annahu kana yaqulu safihuna 'alallahi syatatan (4) Wa anna zananna al lan taqula al-insu wal-jinnu 'alallahi kadziban (5) Wa annahu kana rijalun min al-insi ya'udzuna birijalin min al-jinni fa zaduhum rahaqan (6) Wa annahum zannu kama zanantum al lan yab'athallahu ahadan (7)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Katakanlah (Muhammad), 'Telah diwahyukan kepadaku bahwa sekumpulan jin telah mendengarkan (bacaan Al-Qur'an), lalu mereka berkata, 'Sesungguhnya kami telah mendengarkan Al-Qur'an yang menakjubkan, (yang) memberi petunjuk kepada jalan yang benar, lalu kami beriman kepadanya. Dan kami tidak akan mempersekutukan seorang pun dengan Tuhan kami.' Dan sesungguhnya Mahatinggi kebesaran Tuhan kami, Dia tidak beristri dan tidak beranak. Dan sesungguhnya orang yang bodoh di antara kami (Iblis) dahulu mengucapkan perkataan yang melampaui batas terhadap Allah. Dan sesungguhnya kami mengira bahwa manusia dan jin tidak akan mengatakan dusta terhadap Allah. Dan sesungguhnya ada beberapa orang laki-laki dari kalangan manusia yang meminta perlindungan kepada beberapa laki-laki dari kalangan jin, maka mereka (jin) menambah bagi mereka (manusia) dosa dan ketakutan. Dan sesungguhnya mereka (jin) menyangka sebagaimana persangkaan kamu (orang kafir Mekah) bahwa Allah tidak akan membangkitkan seorang pun (dari kubur).”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menjelaskan bahwa sekelompok jin dari Nashibin (Yaman) mendengar bacaan Al-Qur'an dari Nabi ﷺ saat shalat subuh di lembah Nakhlah. Mereka terkesima dan langsung beriman, menyebut Al-Qur'an “ajabā” (menakjubkan) karena isinya yang luar biasa. Mereka mengakui keesaan Allah dan menolak anggapan Allah beristri atau beranak. Jin juga mengakui kesalahan masa lalu: orang bodoh di antara mereka (Iblis) telah melampaui batas. Mereka juga mengakui bahwa manusia biasa meminta perlindungan kepada jin, yang justru menambah dosa dan ketakutan. Sebelum mendengar Al-Qur'an, mereka menyangka tidak ada kebangkitan, namun setelah mendengar, mereka beriman. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=1&to=7">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menjelaskan bahwa sekelompok jin dari Nashibin (Yaman) mendengar bacaan Al-Qur'an dari Nabi ﷺ saat shalat subuh di lembah Nakhlah. Mereka terkesima dan langsung beriman, menyebut Al-Qur'an “ajabā” (menakjubkan) karena isinya yang luar biasa. Mereka mengakui keesaan Allah dan menolak anggapan Allah beristri atau beranak. Jin juga mengakui kesalahan masa lalu: orang bodoh di antara mereka (Iblis) telah melampaui batas. Mereka juga mengakui bahwa manusia biasa meminta perlindungan kepada jin, yang justru menambah dosa dan ketakutan. Sebelum mendengar Al-Qur'an, mereka menyangka tidak ada kebangkitan, namun setelah mendengar, mereka beriman. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=1&to=7" target="_blank">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                     <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
                 </div>
             </div>
@@ -388,11 +458,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-2"></i> 2. Usaha Jin Mencuri Dengar Berita Langit (Ayat 8-10)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=8&to=10&opt=1" target="_blank">Al-Jinn 72:8-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=8&to=10" target="_blank">Al-Jinn 72:8-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">وَأَنَّا لَمَسْنَا ٱلسَّمَآءَ فَوَجَدْنَـٰهَا مُلِئَتْ حَرَسًۭا شَدِيدًۭا وَشُهُبًۭا ﴿٨﴾ وَأَنَّا كُنَّا نَقْعُدُ مِنْهَا مَقَـٰعِدَ لِلسَّمْعِ ۖ فَمَن يَسْتَمِعِ ٱلْـَٔانَ يَجِدْ لَهُۥ شِهَابًۭا رَّصَدًۭا ﴿٩﴾ وَأَنَّا لَا نَدْرِىٓ أَشَرٌّ أُرِيدَ بِمَن فِى ٱلْأَرْضِ أَمْ أَرَادَ بِهِمْ رَبُّهُمْ رَشَدًۭا ﴿١٠﴾</div>
-                    <div class="transliteration">Wa annā lamasnas-samā’a fa wajadnāhā muli’at ḥarasan syadīdaw wa syuhabā (8) Wa annā kunnā naq‘udu minhā maqā‘ida lis-sam‘i famay yastami‘il-āna yajid lahū syihābar raṣadā (9) Wa annā lā nadrī asyarrun urīda biman fil-arḍi am arāda bihim rabbuhum rasyadā (10)</div>
+                    <div class="transliteration">Wa anna lamasna as-sama'a fa wajadnaha muli'at harasan syadidan wa syuhuban (8) Wa anna kunna naq'udu minha maqa'ida lis-sam'i faman yastami' al-ana yajid lahu syihaban rasadan (9) Wa anna la nadri asyarrun urida biman fil-ardi am arada bihim rabbuhum rasyadan (10)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Dan sesungguhnya kami (jin) telah mencoba mengetahui (rahasia) langit, maka kami mendapatinya penuh dengan penjagaan yang kuat dan panah-panah api. Dan sesungguhnya kami dahulu dapat menduduki beberapa tempat di langit untuk mendengar-dengaran (berita-beritanya). Tetapi sekarang barangsiapa yang mencoba mendengar-dengaran seperti itu, niscaya akan mendapati panah api yang mengintai (untuk membakarnya). Dan sesungguhnya kami tidak mengetahui (dengan adanya penjagaan itu) apakah keburukan yang dikehendaki bagi orang yang di bumi ataukah Tuhan mereka menghendaki kebaikan bagi mereka.”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Al-Qurthubi menjelaskan: Sebelum kenabian Muhammad ﷺ, jin bisa mencuri dengar berita dari langit dan menyampaikannya kepada dukun. Namun setelah Al-Qur'an diturunkan, langit dijaga ketat dengan malaikat yang kuat dan meteor (syuhub). Jin yang mencoba mendengar sekarang akan diburu panah api. Jin tidak tahu apakah penjagaan ini pertanda buruk (azab) atau kebaikan (petunjuk) bagi penduduk bumi. Ini menunjukkan bahwa risalah Islam mengubah tatanan alam gaib. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=8&to=10">Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Al-Qurthubi menjelaskan: Sebelum kenabian Muhammad ﷺ, jin bisa mencuri dengar berita dari langit dan menyampaikannya kepada dukun. Namun setelah Al-Qur'an diturunkan, langit dijaga ketat dengan malaikat yang kuat dan meteor (syuhub). Jin yang mencoba mendengar sekarang akan diburu panah api. Jin tidak tahu apakah penjagaan ini pertanda buruk (azab) atau kebaikan (petunjuk) bagi penduduk bumi. Ini menunjukkan bahwa risalah Islam mengubah tatanan alam gaib. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=8&to=10" target="_blank">Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
                     <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
                 </div>
             </div>
@@ -401,11 +471,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-3"></i> 3. Keragaman Jin: Saleh dan Tidak, Muslim dan Qāsit (Ayat 11-14)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=11&to=14&opt=1" target="_blank">Al-Jinn 72:11-14 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=11&to=14" target="_blank">Al-Jinn 72:11-14 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">وَأَنَّا مِنَّا ٱلصَّـٰلِحُونَ وَمِنَّا دُونَ ذَٰلِكَ ۖ كُنَّا طَرَآئِقَ قِدَدًۭا ﴿١١﴾ وَأَنَّا ظَنَنَّآ أَن لَّن نُّعْجِزَ ٱللَّهَ فِى ٱلْأَرْضِ وَلَن نُّعْجِزَهُۥ هَرَبًۭا ﴿١٢﴾ وَأَنَّا لَمَّا سَمِعْنَا ٱلْهُدَىٰٓ ءَامَنَّا بِهِۦ ۖ فَمَن يُؤْمِنۢ بِرَبِّهِۦ فَلَا يَخَافُ بَخْسًۭا وَلَا رَهَقًۭا ﴿١٣﴾ وَأَنَّا مِنَّا ٱلْمُسْلِمُونَ وَمِنَّا ٱلْقَـٰسِطُونَ ۖ فَمَنْ أَسْلَمَ فَأُو۟لَـٰٓئِكَ تَحَرَّوْا۟ رَشَدًۭا ﴿١٤﴾</div>
-                    <div class="transliteration">Wa annā minnaṣ-ṣāliḥūna wa minnā dūna żālik, kunnā ṭarā’iqa qidadā (11) Wa annā ẓanannā al lan nu‘jizallāha fil-arḍi wa lan nu‘jizahū harabā (12) Wa annā lammā sami‘nā al-hudā āmannā bih, famay yu’min birabbihī falā yakhāfu bakhsaw wa lā rahaqā (13) Wa annā minnal-muslimūna wa minnal-qāsiṭūn, faman aslama fa ulā’ika taḥarraw rasyadā (14)</div>
+                    <div class="transliteration">Wa anna minna as-salihuna wa minna duna dzalika kunna thara'iqa qidadan (11) Wa anna zananna al lan nu'jizallaha fil-ardi wa lan nu'jizahu haraban (12) Wa anna lamma sami'na al-huda amanna bih, faman yu'min birabbihi fala yakhafu bakhsan wa la rahaqan (13) Wa anna minna al-muslimuna wa minna al-qasitun, faman aslama fa ula'ika taharraw rasyadan (14)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Dan sesungguhnya di antara kami (jin) ada yang saleh dan ada (pula) yang tidak demikian; kami menempuh jalan yang berbeda-beda. Dan sesungguhnya kami mengetahui bahwa kami tidak akan dapat melemahkan Allah di bumi, dan tidak (pula) dapat lari melemahkan-Nya. Dan sesungguhnya ketika kami mendengar petunjuk (Al-Qur'an), kami beriman kepadanya. Maka barangsiapa beriman kepada Tuhannya, maka ia tidak takut akan pengurangan pahala dan tidak (takut) akan penambahan dosa. Dan sesungguhnya di antara kami ada yang muslim dan ada yang kāsiṭ (menyimpang dari kebenaran). Maka barangsiapa yang muslim, mereka itulah yang memilih jalan yang lurus.”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> As-Sa‘di dalam Taisir Al-Karim Ar-Rahman menjelaskan: Jin mengakui keberagaman di antara mereka: ada yang saleh dan ada yang tidak. Mereka menyadari bahwa tidak ada yang bisa melepaskan diri dari kekuasaan Allah. Setelah mendengar Al-Qur'an, mereka beriman. Orang yang beriman tidak takut akan dikurangi pahalanya (bakhs) atau ditimpa dosa orang lain (rahaq). Mereka juga membagi diri menjadi dua kelompok: muslim (tunduk) dan qāsit (menyimpang). Yang muslim telah memilih jalan yang lurus (ar-rusyd). — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=11&to=14">As-Sa‘di, Taisir Al-Karim Ar-Rahman</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> As-Sa‘di dalam Taisir Al-Karim Ar-Rahman menjelaskan: Jin mengakui keberagaman di antara mereka: ada yang saleh dan ada yang tidak. Mereka menyadari bahwa tidak ada yang bisa melepaskan diri dari kekuasaan Allah. Setelah mendengar Al-Qur'an, mereka beriman. Orang yang beriman tidak takut akan dikurangi pahalanya (bakhs) atau ditimpa dosa orang lain (rahaq). Mereka juga membagi diri menjadi dua kelompok: muslim (tunduk) dan qāsit (menyimpang). Yang muslim telah memilih jalan yang lurus (ar-rusyd). — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=11&to=14" target="_blank">As-Sa‘di, Taisir Al-Karim Ar-Rahman</a></div>
                     <div class="tafsir-source">Sumber: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
                 </div>
             </div>
@@ -414,11 +484,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-4"></i> 4. Tauhid Jin dan Ibadah Murni (Ayat 15-20)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=15&to=20&opt=1" target="_blank">Al-Jinn 72:15-20 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=15&to=20" target="_blank">Al-Jinn 72:15-20 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">وَأَمَّا ٱلْقَـٰسِطُونَ فَكَانُوا۟ لِجَهَنَّمَ حَطَبًۭا ﴿١٥﴾ وَأَلَّوِ ٱسْتَقَـٰمُوا۟ عَلَى ٱلطَّرِيقَةِ لَأَسْقَيْنَـٰهُم مَّآءً غَدَقًۭا ﴿١٦﴾ لِّنَفْتِنَهُمْ فِيهِ ۚ وَمَن يُعْرِضْ عَن ذِكْرِ رَبِّهِۦ يَسْلُكْهُ عَذَابًۭا صَعَدًۭا ﴿١٧﴾ وَأَنَّ ٱلْمَسَـٰجِدَ لِلَّهِ فَلَا تَدْعُوا۟ مَعَ ٱللَّهِ أَحَدًۭا ﴿١٨﴾ وَأَنَّهُۥ لَمَّا قَامَ عَبْدُ ٱللَّهِ يَدْعُوهُ كَادُوا۟ يَكُونُونَ عَلَيْهِ لِبَدًۭا ﴿١٩﴾ قُلْ إِنَّمَآ أَدْعُوا۟ رَبِّى وَلَآ أُشْرِكُ بِهِۦٓ أَحَدًۭا ﴿٢٠﴾</div>
-                    <div class="transliteration">Wa ammal-qāsiṭūna fa kānū lijahannama ḥaṭabā (15) Wa allawistaqāmū ‘alaṭ-ṭarīqati la’asqaynāhum mā’an gadaqā (16) Linaftinahum fīh, wa may yu‘riḍ ‘an żikri rabbihī yaslukhu ‘adhāban ṣa‘adā (17) Wa annal-masājida lillāhi fa lā tad‘ū ma‘allāhi aḥadā (18) Wa annahū lammā qāma ‘abdullāhi yad‘ūhu kādū yakūnūna ‘alayhi libadā (19) Qul innamā ad‘ū rabbī wa lā usyriku bihī aḥadā (20)</div>
+                    <div class="transliteration">Wa amma al-qasituna fa kanu lijahannama hataban (15) Wa allawi istaqamu 'ala ath-thariqati la'asqaynahum ma'an ghadaqan (16) Linaftinahum fih, wa man yu'rid 'an dzikri rabbihi yaslukhu 'adhaban sa'adan (17) Wa anna al-masajida lillahi fa la tad'u ma'allahi ahadan (18) Wa annahu lamma qama 'abdullahi yad'uhu kadu yakununa 'alayhi libadan (19) Qul innama ad'u rabbi wa la usyriku bihi ahadan (20)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Adapun orang-orang yang menyimpang (qāsitūn), maka mereka menjadi kayu bakar bagi neraka Jahanam. Dan sekiranya mereka tetap berjalan lurus di atas jalan (agama), niscaya Kami akan mencurahkan kepada mereka air yang segar (rezeki yang melimpah), untuk Kami cobai mereka dengan (nikmat) itu. Dan barangsiapa berpaling dari peringatan Tuhannya, niscaya Dia akan memasukkannya ke dalam azab yang sangat berat. Dan sesungguhnya masjid-masjid itu milik Allah, maka janganlah kamu menyembah seorang pun di dalamnya bersama Allah. Dan sesungguhnya ketika hamba Allah (Muhammad) berdiri menyembah-Nya (melaksanakan shalat), mereka (jin) hampir saja berdesakan di sekelilingnya. Katakanlah (Muhammad), 'Sesungguhnya aku hanya menyembah Tuhanku dan aku tidak mempersekutukan seorang pun dengan-Nya.'”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> At-Tabari menjelaskan: Jin yang menyimpang (qāsitūn) menjadi bahan bakar neraka. Seandainya mereka istiqamah, Allah akan memberi rezeki melimpah sebagai ujian. Masjid (tempat sujud) adalah milik Allah, larangan keras memanggil atau menyembah selain Allah. Ketika Nabi ﷺ berdiri shalat, jin-jin berdesakan mendengarkan bacaannya. Nabi diperintahkan untuk menegaskan bahwa ia hanya menyembah Allah tanpa sekutu. Ini adalah inti dakwah tauhid. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=15&to=20">At-Tabari, Jami‘ Al-Bayan</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> At-Tabari menjelaskan: Jin yang menyimpang (qāsitūn) menjadi bahan bakar neraka. Seandainya mereka istiqamah, Allah akan memberi rezeki melimpah sebagai ujian. Masjid (tempat sujud) adalah milik Allah, larangan keras memanggil atau menyembah selain Allah. Ketika Nabi ﷺ berdiri shalat, jin-jin berdesakan mendengarkan bacaannya. Nabi diperintahkan untuk menegaskan bahwa ia hanya menyembah Allah tanpa sekutu. Ini adalah inti dakwah tauhid. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=15&to=20" target="_blank">At-Tabari, Jami‘ Al-Bayan</a></div>
                     <div class="tafsir-source">Sumber: At-Tabari, Jami‘ Al-Bayan</div>
                 </div>
             </div>
@@ -427,11 +497,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-5"></i> 5. Tanggung Jawab Nabi dan Ancaman (Ayat 21-24)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=21&to=24&opt=1" target="_blank">Al-Jinn 72:21-24 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=21&to=24" target="_blank">Al-Jinn 72:21-24 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">قُلْ إِنِّى لَآ أَمْلِكُ لَكُمْ ضَرًّۭا وَلَا رَشَدًۭا ﴿٢١﴾ قُلْ إِنِّى لَن يُجِيرَنِى مِنَ ٱللَّهِ أَحَدٌۭ وَلَنْ أَجِدَ مِن دُونِهِۦ مُلْتَحَدًا ﴿٢٢﴾ إِلَّا بَلَـٰغًۭا مِّنَ ٱللَّهِ وَرِسَـٰلَـٰتِهِۦ ۚ وَمَن يَعْصِ ٱللَّهَ وَرَسُولَهُۥ فَإِنَّ لَهُۥ نَارَ جَهَنَّمَ خَـٰلِدِينَ فِيهَآ أَبَدًا ﴿٢٣﴾ حَتَّىٰٓ إِذَا رَأَوْا۟ مَا يُوعَدُونَ فَسَيَعْلَمُونَ مَنْ أَضْعَفُ نَاصِرًۭا وَأَقَلُّ عَدَدًۭا ﴿٢٤﴾</div>
-                    <div class="transliteration">Qul innī lā amliku lakum ḍarraw wa lā rasyadā (21) Qul innī lay yujīranī minallāhi aḥaduw wa lan ajida min dūnihī multaḥadā (22) Illā balāgam minallāhi wa risalātih, wa may ya‘ṣillāha wa rasūlahū fa inna lahū nāra jahannama khālidīna fīhā abadā (23) Ḥattā iżā ra’au mā yū‘ādūna fasaya‘lamūna man aḍ‘afu nāṣiraw wa aqallu ‘adadā (24)</div>
+                    <div class="transliteration">Qul inni la amliku lakum darran wa la rasyadan (21) Qul inni lan yujirani minallahi ahadun wa lan ajida min dunihi multahadan (22) Illa balaghan minallahi wa risalatih, wa man ya'shillaha wa rasulahu fa inna lahu nara jahannama khalidina fiha abadan (23) Hatta idza ra'au ma yu'aduna fasaya'lamuna man ad'afu nasiran wa aqallu 'adadan (24)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Katakanlah (Muhammad), 'Sesungguhnya aku tidak kuasa menolak mudarat maupun mendatangkan kebaikan kepadamu.' Katakanlah, 'Sesungguhnya tidak seorang pun dapat melindungiku dari (azab) Allah, dan aku tidak akan memperoleh tempat berlindung selain kepada-Nya. (Tugasku) hanya menyampaikan (peringatan) dari Allah dan risalah-Nya. Barangsiapa mendurhakai Allah dan Rasul-Nya, maka sesungguhnya baginyalah neraka Jahanam, mereka kekal di dalamnya selama-lamanya.' Hingga apabila mereka melihat apa yang diancamkan kepada mereka, maka kelak mereka akan mengetahui siapakah yang lebih lemah penolongnya dan lebih sedikit jumlahnya.”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menegaskan: Nabi tidak memiliki kekuatan gaib untuk memberi manfaat atau mudarat di luar kehendak Allah. Satu-satunya perlindungan adalah Allah. Tugas nabi hanyalah menyampaikan (balāgh). Ancaman bagi yang mendurhakai Allah dan Rasul adalah neraka Jahanam kekal. Ketika azab datang, mereka akan tahu siapa yang sebenarnya lemah. Ayat ini menolak klaim orang kafir yang menganggap Nabi memiliki kekuatan super. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=21&to=24">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menegaskan: Nabi tidak memiliki kekuatan gaib untuk memberi manfaat atau mudarat di luar kehendak Allah. Satu-satunya perlindungan adalah Allah. Tugas nabi hanyalah menyampaikan (balāgh). Ancaman bagi yang mendurhakai Allah dan Rasul adalah neraka Jahanam kekal. Ketika azab datang, mereka akan tahu siapa yang sebenarnya lemah. Ayat ini menolak klaim orang kafir yang menganggap Nabi memiliki kekuatan super. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=21&to=24" target="_blank">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                     <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
                 </div>
             </div>
@@ -440,11 +510,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-6"></i> 6. Ilmu Gaib dan Penjagaan Wahyu (Ayat 25-28)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=25&to=28&opt=1" target="_blank">Al-Jinn 72:25-28 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=25&to=28" target="_blank">Al-Jinn 72:25-28 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">قُلْ إِنْ أَدْرِىٓ أَقَرِيبٌۭ مَّا تُوعَدُونَ أَمْ يَجْعَلُ لَهُۥ رَبِّىٓ أَمَدًا ﴿٢٥﴾ عَـٰلِمُ ٱلْغَيْبِ فَلَا يُظْهِرُ عَلَىٰ غَيْبِهِۦٓ أَحَدًا ﴿٢٦﴾ إِلَّا مَنِ ٱرْتَضَىٰ مِن رَّسُولٍۢ فَإِنَّهُۥ يَسْلُكُ مِنۢ بَيْنِ يَدَيْهِ وَمِنْ خَلْفِهِۦ رَصَدًۭا ﴿٢٧﴾ لِّيَعْلَمَ أَن قَدْ أَبْلَغُوا۟ رِسَـٰلَـٰتِ رَبِّهِمْ وَأَحَاطَ بِمَا لَدَيْهِمْ وَأَحْصَىٰ كُلَّ شَىْءٍ عَدَدًۢا ﴿٢٨﴾</div>
-                    <div class="transliteration">Qul in adrī aqarībum mā tū‘adūna am yaj‘alu lahū rabbī amadā (25) ‘Ālimul-gaibi fa lā yuẓ-hiru ‘alā gaibihī aḥadā (26) Illā manirtāḍā min rasụlin fa innahū yasluku min bayni yadayhi wa min khalfihī raṣadā (27) Liya‘lama an qad ablaghū risālāti rabbihim wa aḥāṭa bimā ladayhim wa aḥṣā kulla syai’in ‘adadā (28)</div>
+                    <div class="transliteration">Qul in adri aqaribun ma tu'aduna am yaj'alu lahu rabbi amadan (25) 'Alimul-ghaibi fa la yuzhiru 'ala ghaibihi ahadan (26) Illa manirtada min rasulin fa innahu yasluku min bayni yadayhi wa min khalfihi rasadan (27) Liya'lama an qad ablaghu risalati rabbihim wa ahatha bima ladayhim wa ahsa kulla syay'in 'adadan (28)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Katakanlah (Muhammad), 'Aku tidak mengetahui apakah azab yang diancamkan kepadamu itu dekat ataukah Tuhanku menjadikan baginya masa yang panjang.' (Dia adalah) Yang Mengetahui yang gaib, maka Dia tidak memperlihatkan kepada siapa pun tentang yang gaib itu. Kecuali kepada rasul yang diridai-Nya, maka sesungguhnya Dia mengadakan penjaga-penjaga (malaikat) di depan dan di belakangnya, agar Dia mengetahui bahwa sesungguhnya rasul-rasul itu telah menyampaikan risalah-risalah Tuhannya, sedangkan (ilmu-Nya) meliputi apa yang ada pada mereka, dan Dia menghitung segala sesuatu satu per satu.”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Al-Qurthubi menjelaskan: Hanya Allah yang mengetahui waktu terjadinya kiamat. Allah tidak memberitahukan hal gaib kepada siapa pun, kecuali kepada rasul yang diridai-Nya dengan memberikan sebagian kecil pengetahuan gaib yang diperlukan. Allah juga mengutus malaikat penjaga di depan dan belakang rasul untuk melindungi wahyu dari gangguan setan. Ini membuktikan bahwa Al-Qur'an benar-benar wahyu dari Allah, bukan dari jin atau manusia. Allah menghitung segala sesuatu dengan teliti. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=25&to=28">Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Al-Qurthubi menjelaskan: Hanya Allah yang mengetahui waktu terjadinya kiamat. Allah tidak memberitahukan hal gaib kepada siapa pun, kecuali kepada rasul yang diridai-Nya dengan memberikan sebagian kecil pengetahuan gaib yang diperlukan. Allah juga mengutus malaikat penjaga di depan dan belakang rasul untuk melindungi wahyu dari gangguan setan. Ini membuktikan bahwa Al-Qur'an benar-benar wahyu dari Allah, bukan dari jin atau manusia. Allah menghitung segala sesuatu dengan teliti. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=25&to=28" target="_blank">Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
                     <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
                 </div>
             </div>
@@ -477,18 +547,22 @@
                 <a href="073.html" class="pagination-item">Surah Berikutnya: Al-Muzzammil (73) <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="pagination-center">
-                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Main Menu</a>
             </div>
         </div>
     </div>
 
-    <!-- ENGLISH CONTENT (FULL MIRROR OF INDONESIAN - NO PLACEHOLDERS) -->
+    <!-- ENGLISH CONTENT -->
     <div id="english-content" class="hidden">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-book"></i> Juz Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-Jinn (72) - Thematic Tafsir</h1>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=1&to=28&opt=1" target="_blank">IslamicStudies.info - Surah Al-Jinn (1-28) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
+        <div class="transliteration">Bismillahir rahmanir rahim</div>
+        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=1&to=28" target="_blank">IslamicStudies.info - Surah Al-Jinn (1-28) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Overview of Surah Al-Jinn (Surah 72)</h3>
             <p>Surah Al-Jinn (72) is a Meccan surah consisting of 28 verses. It narrates how a group of jinn listened to the Qur'an, believed, and spread Islam among their kind. It affirms the universality of Islam, the power of the Qur'an, and the truth of Muhammad's prophethood.</p>
@@ -501,8 +575,14 @@
             <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Humility to admit mistakes, avoid arrogance, shun shirk, and spread truth after receiving guidance.</div>
         </div>
 
-        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/72" target="_blank">ReciteQuran.com - Surah Al-Jinn <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
-        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Jinn</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/072.mp3"></audio></div>
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Access Complete Text</h3><p><a href="https://quran.com/72?translations=131" target="_blank">Quran.com - Surah Al-Jinn (English) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
+        <div class="audio-player">
+            <div class="audio-title">🎧 Listen to Surah Al-Jinn</div>
+            <audio controls>
+                <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/072.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
 
         <!-- Thematic Division by Verses (English) -->
         <div class="section">
@@ -510,12 +590,12 @@
             <table class="theme-table">
                 <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message & Additional Tafsir</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-7</strong></td><td>Jinn's Testimony about the Qur'an</th><td>Jinn hear the Qur'an, call it amazing, and believe immediately. — Ibn Kathir</th></tr>
-                    <tr><td><strong>8-10</strong></th><td>Jinn's Attempts to Eavesdrop on Heaven</th><td>Heaven is strictly guarded with flaming meteors after prophethood. — Al-Qurtubi</th></tr>
-                    <tr><td><strong>11-14</strong></th><td>Diversity of Jinn: Righteous and Not, Muslim and Qasit</th><td>Some jinn are righteous, others not; some are Muslim, others deviant. — As-Sa'di</th></td>
-                    <tr><td><strong>15-20</strong></th><td>Jinn's Tawhid and Pure Worship</th><td>Mosques belong to Allah; do not invoke anyone besides Allah. — At-Tabari</th></tr>
-                    <tr><td><strong>21-24</strong></th><td>Prophet's Responsibility and Warning</th><td>Prophet only conveys; disobedience leads to Hell. — Ibn Kathir</th></td>
-                    <tr><td><strong>25-28</strong></th><td>Unseen Knowledge and Guarding Revelation</th><td>Only Allah knows the unseen; He guards revelation. — Al-Qurtubi</th></tr>
+                    <tr><td><strong>1-7</strong></td><td>Jinn's Testimony about the Qur'an</td><td>Jinn hear the Qur'an, call it amazing, and believe immediately. — Ibn Kathir</td></tr>
+                    <tr><td><strong>8-10</strong></td><td>Jinn's Attempts to Eavesdrop on Heaven</td><td>Heaven is strictly guarded with flaming meteors after prophethood. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>11-14</strong></td><td>Diversity of Jinn: Righteous and Not, Muslim and Qasit</td><td>Some jinn are righteous, others not; some are Muslim, others deviant. — As-Sa'di</td></tr>
+                    <tr><td><strong>15-20</strong></td><td>Jinn's Tawhid and Pure Worship</td><td>Mosques belong to Allah; do not invoke anyone besides Allah. — At-Tabari</td></tr>
+                    <tr><td><strong>21-24</strong></td><td>Prophet's Responsibility and Warning</td><td>Prophet only conveys; disobedience leads to Hell. — Ibn Kathir</td></tr>
+                    <tr><td><strong>25-28</strong></td><td>Unseen Knowledge and Guarding Revelation</td><td>Only Allah knows the unseen; He guards revelation. — Al-Qurtubi</td></tr>
                 </tbody>
             </table>
         </div>
@@ -525,9 +605,9 @@
             <h2 class="section-title"><i class="fas fa-lightbulb"></i> Key Verse for Contemplation</h2>
             <div class="verse">
                 <div class="arabic">إِنَّا سَمِعْنَا قُرْآنًا عَجَبًا يَهْدِي إِلَى الرُّشْدِ</div>
-                <div class="transliteration">Innā sami‘nā qur’ānan ‘ajabā, yahdī ilar-rusydi</div>
+                <div class="transliteration">Inna sami'na qur'anan 'ajaban yahdi ila ar-rusydi</div>
                 <div class="translation-text"><strong>Translation:</strong> “Indeed, we have heard an amazing Qur'an, guiding to right conduct.” (Al-Jinn 72:2)</div>
-                <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir explains that the jinn who heard the Qur'an called it “ajabā” (amazing) because of its beautiful wording, profound meanings, and its guidance that directly touches the heart. This proves the Qur'an's extraordinary power, able to move even unseen creatures. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=2">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir explains that the jinn who heard the Qur'an called it “ajabā” (amazing) because of its beautiful wording, profound meanings, and its guidance that directly touches the heart. This proves the Qur'an's extraordinary power, able to move even unseen creatures. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=2" target="_blank">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                 <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
             </div>
         </div>
@@ -540,7 +620,7 @@
             <p><strong>Akhlaq (Character):</strong> Be humble to admit past mistakes. Avoid arrogance and pride. Repent immediately upon hearing the truth. Spread guidance after receiving it.</p>
         </div>
 
-        <!-- MAIN THEMES (ENGLISH) - FULL MIRROR OF INDONESIAN, WITH COMPLETE TRANSLITERATION -->
+        <!-- MAIN THEMES (ENGLISH) - FULL MIRROR OF INDONESIAN -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Jinn (Detailed Tafsir)</h2>
 
@@ -548,11 +628,11 @@
             <div class="theme-card">
                 <div class="theme-title">1. Jinn's Testimony about the Qur'an's Wonder (Verses 1-7)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=1&to=7&opt=1" target="_blank">Al-Jinn 72:1-7 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=1&to=7" target="_blank">Al-Jinn 72:1-7 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">قُلْ أُوحِىَ إِلَىَّ أَنَّهُ ٱسْتَمَعَ نَفَرٌۭ مِّنَ ٱلْجِنِّ فَقَالُوٓا۟ إِنَّا سَمِعْنَا قُرْءَانًا عَجَبًۭا ﴿١﴾ يَهْدِىٓ إِلَى ٱلرُّشْدِ فَـَٔامَنَّا بِهِۦ ۖ وَلَن نُّشْرِكَ بِرَبِّنَآ أَحَدًۭا ﴿٢﴾ وَأَنَّهُۥ تَعَـٰلَىٰ جَدُّ رَبِّنَا مَا ٱتَّخَذَ صَـٰحِبَةًۭ وَلَا وَلَدًۭا ﴿٣﴾ وَأَنَّهُۥ كَانَ يَقُولُ سَفِيهُنَا عَلَى ٱللَّهِ شَطَطًۭا ﴿٤﴾ وَأَنَّا ظَنَنَّآ أَن لَّن تَقُولَ ٱلْإِنسُ وَٱلْجِنُّ عَلَى ٱللَّهِ كَذِبًۭا ﴿٥﴾ وَأَنَّهُۥ كَانَ رِجَالٌۭ مِّنَ ٱلْإِنسِ يَعُوذُونَ بِرِجَالٍۢ مِّنَ ٱلْجِنِّ فَزَادُوهُمْ رَهَقًۭا ﴿٦﴾ وَأَنَّهُمْ ظَنُّوا۟ كَمَا ظَنَنتُمْ أَن لَّن يَبْعَثَ ٱللَّهُ أَحَدًۭا ﴿٧﴾</div>
-                    <div class="transliteration">Qul uḥiya ilayya annahustama‘a nafarun mina l-jinni fa qālū innā sami‘nā qur’ānan ‘ajabā (1) Yahdī ilar-rusydi fa āmannā bihī wa lan nusyrika birabbinā aḥadā (2) Wa annahū ta‘ālā jaddu rabbinā mat takhaża ṣāḥibataw wa lā waladā (3) Wa annahū kāna yaqūlu safīhunā ‘alallāhi syaṭaṭā (4) Wa annā ẓanannā al lan taqūla l-insu wa l-jinnu ‘alallāhi każibā (5) Wa annahū kāna rijālun mina l-insi ya‘ūżūna birijālin mina l-jinni fa zādūhum rahaqā (6) Wa annahum ẓannū kamā ẓanantum al lay yab‘aṡallāhu aḥadā (7)</div>
+                    <div class="transliteration">Qul uhiya ilayya annahu istama'a nafarun min al-jinni fa qalu inna sami'na qur'anan 'ajaban (1) Yahdi ila ar-rusydi fa amanna bihi wa lan nusyrika birabbina ahadan (2) Wa annahu ta'ala jaddu rabbina ma ittakhadza shahibatan wa la waladan (3) Wa annahu kana yaqulu safihuna 'alallahi syatatan (4) Wa anna zananna al lan taqula al-insu wal-jinnu 'alallahi kadziban (5) Wa annahu kana rijalun min al-insi ya'udzuna birijalin min al-jinni fa zaduhum rahaqan (6) Wa annahum zannu kama zanantum al lan yab'athallahu ahadan (7)</div>
                     <div class="translation-text"><strong>Translation:</strong> “Say, [O Muhammad], 'It has been revealed to me that a group of the jinn listened and said, 'Indeed, we have heard an amazing Qur'an, guiding to right conduct, and we have believed in it. And we will not associate anyone with our Lord... And they (the jinn) thought as you thought that Allah would never send anyone (as a messenger).'”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir explains that a group of jinn from Nasibin heard the Prophet reciting the Qur'an during the Fajr prayer in the valley of Nakhlah. They were amazed, believed immediately, and called the Qur'an “ajabā” (wonderful). They affirmed Allah's oneness and rejected the idea that Allah has a wife or son. They also admitted past mistakes. Before hearing the Qur'an, they thought there would be no resurrection, but after hearing it, they believed. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=1&to=7">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir explains that a group of jinn from Nasibin heard the Prophet reciting the Qur'an during the Fajr prayer in the valley of Nakhlah. They were amazed, believed immediately, and called the Qur'an “ajabā” (wonderful). They affirmed Allah's oneness and rejected the idea that Allah has a wife or son. They also admitted past mistakes. Before hearing the Qur'an, they thought there would be no resurrection, but after hearing it, they believed. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=1&to=7" target="_blank">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                     <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
                 </div>
             </div>
@@ -561,11 +641,11 @@
             <div class="theme-card">
                 <div class="theme-title">2. Jinn's Attempts to Eavesdrop on Heaven (Verses 8-10)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=8&to=10&opt=1" target="_blank">Al-Jinn 72:8-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=8&to=10" target="_blank">Al-Jinn 72:8-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">وَأَنَّا لَمَسْنَا ٱلسَّمَآءَ فَوَجَدْنَـٰهَا مُلِئَتْ حَرَسًۭا شَدِيدًۭا وَشُهُبًۭا ﴿٨﴾ وَأَنَّا كُنَّا نَقْعُدُ مِنْهَا مَقَـٰعِدَ لِلسَّمْعِ ۖ فَمَن يَسْتَمِعِ ٱلْـَٔانَ يَجِدْ لَهُۥ شِهَابًۭا رَّصَدًۭا ﴿٩﴾ وَأَنَّا لَا نَدْرِىٓ أَشَرٌّ أُرِيدَ بِمَن فِى ٱلْأَرْضِ أَمْ أَرَادَ بِهِمْ رَبُّهُمْ رَشَدًۭا ﴿١٠﴾</div>
-                    <div class="transliteration">Wa annā lamasnas-samā’a fa wajadnāhā muli’at ḥarasan syadīdaw wa syuhabā (8) Wa annā kunnā naq‘udu minhā maqā‘ida lis-sam‘i famay yastami‘il-āna yajid lahū syihābar raṣadā (9) Wa annā lā nadrī asyarrun urīda biman fil-arḍi am arāda bihim rabbuhum rasyadā (10)</div>
+                    <div class="transliteration">Wa anna lamasna as-sama'a fa wajadnaha muli'at harasan syadidan wa syuhuban (8) Wa anna kunna naq'udu minha maqa'ida lis-sam'i faman yastami' al-ana yajid lahu syihaban rasadan (9) Wa anna la nadri asyarrun urida biman fil-ardi am arada bihim rabbuhum rasyadan (10)</div>
                     <div class="translation-text"><strong>Translation:</strong> “And we have sought to reach heaven but found it filled with stern guards and flaming meteors. And we used to sit in positions for eavesdropping, but whoever eavesdrops now finds a flaming meteor lying in wait for him. And we do not know whether evil is intended for those on earth or whether their Lord intends for them right conduct.”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Al-Qurtubi explains: Before Muhammad's prophethood, jinn could eavesdrop on heavenly news and relay it to soothsayers. After the Qur'an was revealed, heaven is strictly guarded by strong angels and meteors (shuhub). Any jinn trying to listen now is hunted by flaming meteors. This shows that the message of Islam changed the unseen order. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=8&to=10">Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Al-Qurtubi explains: Before Muhammad's prophethood, jinn could eavesdrop on heavenly news and relay it to soothsayers. After the Qur'an was revealed, heaven is strictly guarded by strong angels and meteors (shuhub). Any jinn trying to listen now is hunted by flaming meteors. This shows that the message of Islam changed the unseen order. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=8&to=10" target="_blank">Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
                     <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
                 </div>
             </div>
@@ -574,11 +654,11 @@
             <div class="theme-card">
                 <div class="theme-title">3. Diversity of Jinn: Righteous and Not, Muslim and Qasit (Verses 11-14)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=11&to=14&opt=1" target="_blank">Al-Jinn 72:11-14 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=11&to=14" target="_blank">Al-Jinn 72:11-14 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">وَأَنَّا مِنَّا ٱلصَّـٰلِحُونَ وَمِنَّا دُونَ ذَٰلِكَ ۖ كُنَّا طَرَآئِقَ قِدَدًۭا ﴿١١﴾ وَأَنَّا ظَنَنَّآ أَن لَّن نُّعْجِزَ ٱللَّهَ فِى ٱلْأَرْضِ وَلَن نُّعْجِزَهُۥ هَرَبًۭا ﴿١٢﴾ وَأَنَّا لَمَّا سَمِعْنَا ٱلْهُدَىٰٓ ءَامَنَّا بِهِۦ ۖ فَمَن يُؤْمِنۢ بِرَبِّهِۦ فَلَا يَخَافُ بَخْسًۭا وَلَا رَهَقًۭا ﴿١٣﴾ وَأَنَّا مِنَّا ٱلْمُسْلِمُونَ وَمِنَّا ٱلْقَـٰسِطُونَ ۖ فَمَنْ أَسْلَمَ فَأُو۟لَـٰٓئِكَ تَحَرَّوْا۟ رَشَدًۭا ﴿١٤﴾</div>
-                    <div class="transliteration">Wa annā minnaṣ-ṣāliḥūna wa minnā dūna żālik, kunnā ṭarā’iqa qidadā (11) Wa annā ẓanannā al lan nu‘jizallāha fil-arḍi wa lan nu‘jizahū harabā (12) Wa annā lammā sami‘nā al-hudā āmannā bih, famay yu’min birabbihī falā yakhāfu bakhsaw wa lā rahaqā (13) Wa annā minnal-muslimūna wa minnal-qāsiṭūn, faman aslama fa ulā’ika taḥarraw rasyadā (14)</div>
+                    <div class="transliteration">Wa anna minna as-salihuna wa minna duna dzalika kunna thara'iqa qidadan (11) Wa anna zananna al lan nu'jizallaha fil-ardi wa lan nu'jizahu haraban (12) Wa anna lamma sami'na al-huda amanna bih, faman yu'min birabbihi fala yakhafu bakhsan wa la rahaqan (13) Wa anna minna al-muslimuna wa minna al-qasitun, faman aslama fa ula'ika taharraw rasyadan (14)</div>
                     <div class="translation-text"><strong>Translation:</strong> “And among us are the righteous, and among us are other than that; we were of diverse ways... And among us are Muslims, and among us are the deviators (qasitun). So those who have become Muslim have sought the right path.”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> As-Sa‘di in Taisir Al-Karim Ar-Rahman explains: The jinn acknowledge diversity among themselves: some are righteous, others not. They realize that no one can escape Allah's power. After hearing the Qur'an, they believed. A believer does not fear reduction of reward (bakhs) or burden of others' sins (rahaq). They divide themselves into two groups: Muslims (submissive) and qasitun (deviators). Those who are Muslim have chosen the right path (ar-rusyd). — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=11&to=14">As-Sa‘di, Taisir Al-Karim Ar-Rahman</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> As-Sa‘di in Taisir Al-Karim Ar-Rahman explains: The jinn acknowledge diversity among themselves: some are righteous, others not. They realize that no one can escape Allah's power. After hearing the Qur'an, they believed. A believer does not fear reduction of reward (bakhs) or burden of others' sins (rahaq). They divide themselves into two groups: Muslims (submissive) and qasitun (deviators). Those who are Muslim have chosen the right path (ar-rusyd). — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=11&to=14" target="_blank">As-Sa‘di, Taisir Al-Karim Ar-Rahman</a></div>
                     <div class="tafsir-source">Source: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
                 </div>
             </div>
@@ -587,11 +667,11 @@
             <div class="theme-card">
                 <div class="theme-title">4. Jinn's Tawhid and Pure Worship (Verses 15-20)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=15&to=20&opt=1" target="_blank">Al-Jinn 72:15-20 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=15&to=20" target="_blank">Al-Jinn 72:15-20 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">وَأَمَّا ٱلْقَـٰسِطُونَ فَكَانُوا۟ لِجَهَنَّمَ حَطَبًۭا ﴿١٥﴾ وَأَلَّوِ ٱسْتَقَـٰمُوا۟ عَلَى ٱلطَّرِيقَةِ لَأَسْقَيْنَـٰهُم مَّآءً غَدَقًۭا ﴿١٦﴾ لِّنَفْتِنَهُمْ فِيهِ ۚ وَمَن يُعْرِضْ عَن ذِكْرِ رَبِّهِۦ يَسْلُكْهُ عَذَابًۭا صَعَدًۭا ﴿١٧﴾ وَأَنَّ ٱلْمَسَـٰجِدَ لِلَّهِ فَلَا تَدْعُوا۟ مَعَ ٱللَّهِ أَحَدًۭا ﴿١٨﴾ وَأَنَّهُۥ لَمَّا قَامَ عَبْدُ ٱللَّهِ يَدْعُوهُ كَادُوا۟ يَكُونُونَ عَلَيْهِ لِبَدًۭا ﴿١٩﴾ قُلْ إِنَّمَآ أَدْعُوا۟ رَبِّى وَلَآ أُشْرِكُ بِهِۦٓ أَحَدًۭا ﴿٢٠﴾</div>
-                    <div class="transliteration">Wa ammal-qāsiṭūna fa kānū lijahannama ḥaṭabā (15) Wa allawistaqāmū ‘alaṭ-ṭarīqati la’asqaynāhum mā’an gadaqā (16) Linaftinahum fīh, wa may yu‘riḍ ‘an żikri rabbihī yaslukhu ‘adhāban ṣa‘adā (17) Wa annal-masājida lillāhi fa lā tad‘ū ma‘allāhi aḥadā (18) Wa annahū lammā qāma ‘abdullāhi yad‘ūhu kādū yakūnūna ‘alayhi libadā (19) Qul innamā ad‘ū rabbī wa lā usyriku bihī aḥadā (20)</div>
+                    <div class="transliteration">Wa amma al-qasituna fa kanu lijahannama hataban (15) Wa allawi istaqamu 'ala ath-thariqati la'asqaynahum ma'an ghadaqan (16) Linaftinahum fih, wa man yu'rid 'an dzikri rabbihi yaslukhu 'adhaban sa'adan (17) Wa anna al-masajida lillahi fa la tad'u ma'allahi ahadan (18) Wa annahu lamma qama 'abdullahi yad'uhu kadu yakununa 'alayhi libadan (19) Qul innama ad'u rabbi wa la usyriku bihi ahadan (20)</div>
                     <div class="translation-text"><strong>Translation:</strong> “But as for the deviators, they will be firewood for Hell... And the mosques are for Allah, so do not invoke anyone along with Allah... Say, 'I only invoke my Lord and do not associate anyone with Him.'”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> At-Tabari explains: The deviant jinn (qasitun) become fuel for Hellfire. If they were steadfast, Allah would give abundant provision as a test. Mosques (places of prostration) belong to Allah; it is strictly forbidden to call upon or worship anyone besides Allah. When the Prophet stood in prayer, jinn crowded around to listen. The Prophet is commanded to declare that he worships only Allah without any partner. This is the core of the da‘wah of tawhid. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=15&to=20">At-Tabari, Jami‘ Al-Bayan</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> At-Tabari explains: The deviant jinn (qasitun) become fuel for Hellfire. If they were steadfast, Allah would give abundant provision as a test. Mosques (places of prostration) belong to Allah; it is strictly forbidden to call upon or worship anyone besides Allah. When the Prophet stood in prayer, jinn crowded around to listen. The Prophet is commanded to declare that he worships only Allah without any partner. This is the core of the da‘wah of tawhid. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=15&to=20" target="_blank">At-Tabari, Jami‘ Al-Bayan</a></div>
                     <div class="tafsir-source">Source: At-Tabari, Jami‘ Al-Bayan</div>
                 </div>
             </div>
@@ -600,11 +680,11 @@
             <div class="theme-card">
                 <div class="theme-title">5. Prophet's Responsibility and Warning (Verses 21-24)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=21&to=24&opt=1" target="_blank">Al-Jinn 72:21-24 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=21&to=24" target="_blank">Al-Jinn 72:21-24 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">قُلْ إِنِّى لَآ أَمْلِكُ لَكُمْ ضَرًّۭا وَلَا رَشَدًۭا ﴿٢١﴾ قُلْ إِنِّى لَن يُجِيرَنِى مِنَ ٱللَّهِ أَحَدٌۭ وَلَنْ أَجِدَ مِن دُونِهِۦ مُلْتَحَدًا ﴿٢٢﴾ إِلَّا بَلَـٰغًۭا مِّنَ ٱللَّهِ وَرِسَـٰلَـٰتِهِۦ ۚ وَمَن يَعْصِ ٱللَّهَ وَرَسُولَهُۥ فَإِنَّ لَهُۥ نَارَ جَهَنَّمَ خَـٰلِدِينَ فِيهَآ أَبَدًا ﴿٢٣﴾ حَتَّىٰٓ إِذَا رَأَوْا۟ مَا يُوعَدُونَ فَسَيَعْلَمُونَ مَنْ أَضْعَفُ نَاصِرًۭا وَأَقَلُّ عَدَدًۭا ﴿٢٤﴾</div>
-                    <div class="transliteration">Qul innī lā amliku lakum ḍarraw wa lā rasyadā (21) Qul innī lay yujīranī minallāhi aḥaduw wa lan ajida min dūnihī multaḥadā (22) Illā balāgam minallāhi wa risalātih, wa may ya‘ṣillāha wa rasūlahū fa inna lahū nāra jahannama khālidīna fīhā abadā (23) Ḥattā iżā ra’au mā yū‘ādūna fasaya‘lamūna man aḍ‘afu nāṣiraw wa aqallu ‘adadā (24)</div>
+                    <div class="transliteration">Qul inni la amliku lakum darran wa la rasyadan (21) Qul inni lan yujirani minallahi ahadun wa lan ajida min dunihi multahadan (22) Illa balaghan minallahi wa risalatih, wa man ya'shillaha wa rasulahu fa inna lahu nara jahannama khalidina fiha abadan (23) Hatta idza ra'au ma yu'aduna fasaya'lamuna man ad'afu nasiran wa aqallu 'adadan (24)</div>
                     <div class="translation-text"><strong>Translation:</strong> “Say, 'I do not possess for you harm or right course... And whoever disobeys Allah and His Messenger - then indeed, for him is the fire of Hell; they will abide therein forever.'”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir affirms: The Prophet does not have the power to bring benefit or harm outside Allah's will. The only protection is Allah. The Prophet's duty is only to convey (balagh). The threat for those who disobey Allah and His Messenger is eternal Hellfire. When punishment comes, they will know who is truly weak. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=21&to=24">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir affirms: The Prophet does not have the power to bring benefit or harm outside Allah's will. The only protection is Allah. The Prophet's duty is only to convey (balagh). The threat for those who disobey Allah and His Messenger is eternal Hellfire. When punishment comes, they will know who is truly weak. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=21&to=24" target="_blank">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                     <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
                 </div>
             </div>
@@ -613,11 +693,11 @@
             <div class="theme-card">
                 <div class="theme-title">6. Unseen Knowledge and Guarding Revelation (Verses 25-28)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=25&to=28&opt=1" target="_blank">Al-Jinn 72:25-28 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=25&to=28" target="_blank">Al-Jinn 72:25-28 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">قُلْ إِنْ أَدْرِىٓ أَقَرِيبٌۭ مَّا تُوعَدُونَ أَمْ يَجْعَلُ لَهُۥ رَبِّىٓ أَمَدًا ﴿٢٥﴾ عَـٰلِمُ ٱلْغَيْبِ فَلَا يُظْهِرُ عَلَىٰ غَيْبِهِۦٓ أَحَدًا ﴿٢٦﴾ إِلَّا مَنِ ٱرْتَضَىٰ مِن رَّسُولٍۢ فَإِنَّهُۥ يَسْلُكُ مِنۢ بَيْنِ يَدَيْهِ وَمِنْ خَلْفِهِۦ رَصَدًۭا ﴿٢٧﴾ لِّيَعْلَمَ أَن قَدْ أَبْلَغُوا۟ رِسَـٰلَـٰتِ رَبِّهِمْ وَأَحَاطَ بِمَا لَدَيْهِمْ وَأَحْصَىٰ كُلَّ شَىْءٍ عَدَدًۢا ﴿٢٨﴾</div>
-                    <div class="transliteration">Qul in adrī aqarībum mā tū‘adūna am yaj‘alu lahū rabbī amadā (25) ‘Ālimul-gaibi fa lā yuẓ-hiru ‘alā gaibihī aḥadā (26) Illā manirtāḍā min rasụlin fa innahū yasluku min bayni yadayhi wa min khalfihī raṣadā (27) Liya‘lama an qad ablaghū risālāti rabbihim wa aḥāṭa bimā ladayhim wa aḥṣā kulla syai’in ‘adadā (28)</div>
+                    <div class="transliteration">Qul in adri aqaribun ma tu'aduna am yaj'alu lahu rabbi amadan (25) 'Alimul-ghaibi fa la yuzhiru 'ala ghaibihi ahadan (26) Illa manirtada min rasulin fa innahu yasluku min bayni yadayhi wa min khalfihi rasadan (27) Liya'lama an qad ablaghu risalati rabbihim wa ahatha bima ladayhim wa ahsa kulla syay'in 'adadan (28)</div>
                     <div class="translation-text"><strong>Translation:</strong> “[He is] Knower of the unseen, and He does not disclose His [knowledge of the] unseen to anyone. Except whom He has approved of messengers... and He has enumerated everything in numbers.”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Al-Qurtubi explains: Only Allah knows the timing of the Hour. Allah does not disclose the unseen to anyone except to messengers He approves, giving them a small portion of unseen knowledge as needed. Allah also sends guardian angels before and behind the messengers to protect revelation from devils. This proves that the Qur'an is truly from Allah, not from jinn or humans. Allah counts everything meticulously. — <a href="https://www.islamicstudies.info/tafheem.php?sura=72&verse=25&to=28">Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Al-Qurtubi explains: Only Allah knows the timing of the Hour. Allah does not disclose the unseen to anyone except to messengers He approves, giving them a small portion of unseen knowledge as needed. Allah also sends guardian angels before and behind the messengers to protect revelation from devils. This proves that the Qur'an is truly from Allah, not from jinn or humans. Allah counts everything meticulously. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=72&verse=25&to=28" target="_blank">Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
                     <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
                 </div>
             </div>
@@ -650,16 +730,13 @@
                 <a href="073.html" class="pagination-item">Next Surah: Al-Muzzammil (73) <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="pagination-center">
-                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Main Menu</a>
             </div>
         </div>
     </div>
 </div>
 
 <footer>© 1447 AH / 2026 AD - Tafsir based on IslamicStudies.info & classical sources | Guidance for Reflection</footer>
-
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <script>
 (function() {
@@ -676,57 +753,110 @@
     else if (urlParams.has('Indonesian')) langParam = 'indonesian';
     let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
 
-    function setLanguage(lang) {
+    function setLanguage(lang, savePreference = true) {
         const isEnglish = (lang === 'english');
         if (isEnglish) {
             englishDiv.classList.remove('hidden');
             indoDiv.classList.add('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+            if (savePreference) localStorage.setItem('language', 'english');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Indonesian';
         } else {
             englishDiv.classList.add('hidden');
             indoDiv.classList.remove('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+            if (savePreference) localStorage.setItem('language', 'indonesian');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 English';
         }
-        localStorage.setItem('language', lang);
+        updateUITexts();
     }
-    setLanguage(currentLang);
-    langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
-    });
+
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        localStorage.setItem('transliteration', show);
+        updateUITexts();
+    }
 
     let translitVisible = localStorage.getItem('transliteration') === 'true';
     if (urlParams.has('Transliteration')) translitVisible = true;
-    function setTransliteration(show) {
-        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-        localStorage.setItem('transliteration', show);
-    }
-    setTransliteration(translitVisible);
-    translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
-        setTransliteration(!currently);
-    });
 
     let darkActive = false;
     if (urlParams.has('Dark')) darkActive = true;
     else darkActive = localStorage.getItem('darkMode') === 'true';
     if (darkActive) document.body.classList.add('dark-mode');
+
     function setDarkModeUI() {
         const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
+        const isEnglish = !englishDiv.classList.contains('hidden');
+        darkToggle.innerHTML = active ? (isEnglish ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-sun"></i> Mode Terang') : (isEnglish ? '<i class="fas fa-moon"></i> Dark Mode' : '<i class="fas fa-moon"></i> Mode Gelap');
         localStorage.setItem('darkMode', active);
     }
     setDarkModeUI();
+
+    function updateUITexts() {
+        const isEnglish = !englishDiv.classList.contains('hidden');
+        const translitShown = translitElements[0]?.style.display === 'block';
+        translitToggle.innerHTML = translitShown ? (isEnglish ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Sembunyikan Transliterasi') : (isEnglish ? '<i class="fas fa-language"></i> Show Transliteration' : '<i class="fas fa-language"></i> Tampilkan Transliterasi');
+        darkToggle.innerHTML = document.body.classList.contains('dark-mode') ? (isEnglish ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-sun"></i> Mode Terang') : (isEnglish ? '<i class="fas fa-moon"></i> Dark Mode' : '<i class="fas fa-moon"></i> Mode Gelap');
+        document.querySelectorAll('.clickable-caption').forEach(cap => {
+            let textNode = Array.from(cap.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+            if (textNode) textNode.textContent = isEnglish ? ' Click to Listen' : ' Klik untuk Mendengarkan';
+            else cap.appendChild(document.createTextNode(isEnglish ? ' Click to Listen' : ' Klik untuk Mendengarkan'));
+        });
+    }
+
+    setLanguage(currentLang, false);
+    setTransliteration(translitVisible);
+
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang, true);
+        setTransliteration(translitElements[0]?.style.display === 'block');
+        setDarkModeUI();
+    });
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
     darkToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         setDarkModeUI();
     });
 
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+    function enhanceAudioPlayers() {
+        document.querySelectorAll('.audio-player').forEach(player => {
+            if (player.querySelector('.audio-controls')) return;
+            const audio = player.querySelector('audio');
+            if (!audio) return;
+            const controlsDiv = document.createElement('div');
+            controlsDiv.className = 'audio-controls';
+            const speedSelect = document.createElement('select');
+            speedSelect.className = 'speed-select';
+            [0.5,0.75,1,1.25,1.5,2].forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s + '×';
+                if (s===1) opt.selected = true;
+                speedSelect.appendChild(opt);
+            });
+            speedSelect.addEventListener('change', e => audio.playbackRate = parseFloat(e.target.value));
+            controlsDiv.appendChild(speedSelect);
+            const caption = document.createElement('div');
+            caption.className = 'clickable-caption';
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-headphones';
+            caption.appendChild(icon);
+            const isEnglish = !englishDiv.classList.contains('hidden');
+            caption.appendChild(document.createTextNode(isEnglish ? ' Click to Listen' : ' Klik untuk Mendengarkan'));
+            caption.addEventListener('click', e => { e.stopPropagation(); audio.play().catch(err => console.log('play error', err)); });
+            controlsDiv.appendChild(caption);
+            player.appendChild(controlsDiv);
+        });
+    }
+    enhanceAudioPlayers();
 })();
 </script>
 </body>
