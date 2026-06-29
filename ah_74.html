@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>74. Al-Akhir - Yang Terakhir | The Last</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua,
+        .amalan,
+        .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua,
+        body.dark-mode .amalan,
+        body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title,
+        .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title,
+        body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+
+        /* toggle buttons (right) */
+        .language-toggle,
+        .transliteration-toggle,
+        .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle {
+            top: 20px;
+            background: #2c7da0;
+        }
+        .transliteration-toggle {
+            top: 80px;
+            background: #27ae60;
+        }
+        .dark-mode-toggle {
+            top: 140px;
+            background: #8e44ad;
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        /* pagination links */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .pagination .menu-link {
+            min-width: 120px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow,
+            .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow.up,
+            .scroll-arrow-double.up-double {
+                top: 170px;
+            }
+            .scroll-arrow.down,
+            .scroll-arrow-double.down-double {
+                bottom: 70px;
+            }
+            .language-toggle,
+            .transliteration-toggle,
+            .dark-mode-toggle {
+                padding: 5px 12px;
+                font-size: 11px;
+                right: 12px;
+            }
+            .language-toggle {
+                top: 12px;
+            }
+            .transliteration-toggle {
+                top: 68px;
+            }
+            .dark-mode-toggle {
+                top: 124px;
+            }
+            .arabic {
+                font-size: 32px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fixed Toggle Buttons (Right) -->
+    <div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+    <!-- Single-step arrows (LEFT) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- Double arrows (RIGHT side: top & bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container" id="mainContainer">
+        <!-- INDONESIAN CONTENT -->
+        <div id="indonesian-content">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">74. Al-Akhir - Yang Terakhir</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-akhir/" target="_blank">myislam.org/99-names-of-allah/al-akhir/</a> | <a href="https://kemenag.go.id/" target="_blank">Kementerian Agama RI</a></div>
+
+            <div class="arabic">ٱلْـَٔاخِرُ</div>
+            <div class="transliteration">Transliterasi: Al-Akhir</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/74.%20al-akhir.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Akhir muncul dalam Al-Quran di Surah Al-Hadid 57:3 dengan makna:</p>
+                <ul>
+                    <li><strong>Yang Terakhir:</strong> Yang tetap ada setelah semua ciptaan binasa</li>
+                    <li><strong>Yang Kekal:</strong> Yang keberadaan-Nya tidak berakhir</li>
+                </ul>
+                <p>Menurut Kementerian Agama RI dalam Tafsir Al-Quran, Al-Akhir adalah salah satu dari Asmaul Husna yang menunjukkan keabadian Allah SWT. Ibnu Katsir menjelaskan: "Al-Akhir adalah Dia yang tetap ada setelah segala sesuatu berhenti eksis. Keberadaan-Nya abadi tanpa akhir."</p>
+                <p>Kementerian Agama RI dalam kajian Asmaul Husna menjelaskan bahwa nama ini mengingatkan kita bahwa semua makhluk akan binasa, hanya Allah yang kekal abadi. Ini sejalan dengan firman Allah dalam <a href="https://quran.com/55/26-27?translations=33" target="_blank">Surah Ar-Rahman 55:26-27</a>.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong>
+                    <a href="https://quran.com/57/3?translations=33" target="_blank">Surah Al-Hadid 57:3</a>
+                    <div class="arabic">هُوَ ٱلْأَوَّلُ وَٱلْـَٔاخِرُ وَٱلظَّـٰهِرُ وَٱلْبَاطِنُ ۖ وَهُوَ بِكُلِّ شَىْءٍ عَلِيمٌ</div>
+                    <div class="transliteration">Huwa l-awwalu wa l-ākhiru wa ẓ-ẓāhiru wa l-bāṭin, wa huwa bikulli shay'in 'alīm</div>
+                    <p>"Dialah Yang Awal dan Yang Akhir, Yang Zhahir dan Yang Bathin, dan Dia Maha Mengetahui segala sesuatu."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menunjukkan kesempurnaan Allah SWT yang meliputi segala sesuatu. Al-Akhir menunjukkan bahwa Allah tetap ada setelah semua makhluk binasa. Sebagaimana dijelaskan dalam Tafsir Kemenag, nama ini mengingatkan manusia akan kehidupan akhirat dan keabadian Allah SWT.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/55/26-27?translations=33" target="_blank">Surah Ar-Rahman 55:26-27</a>
+                    <div class="arabic">كُلُّ مَنْ عَلَيْهَا فَانٍۢ ۝ وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَـٰلِ وَٱلْإِكْرَامِ</div>
+                    <div class="transliteration">Kullu man 'alayhā fān, wa yabqā wajhu rabbika dhū l-jalāli wa l-ikrām</div>
+                    <p>"Semua yang ada di bumi itu akan binasa, Dan tetap kekal Wajah Rabbmu yang mempunyai kebesaran dan kemuliaan."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kemenag RI:</strong> Ayat ini secara tegas menyatakan bahwa semua makhluk akan binasa, hanya Allah yang kekal. Ini merupakan penegasan dari nama Al-Akhir yang menunjukkan keabadian mutlak Allah SWT.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/muslim:2713" target="_blank">Sahih Muslim 2713</a>
+                    <div class="arabic">وَهُوَ ٱلْـَٔاخِرُ بَعْدَ ٱلْأَوَّلِينَ</div>
+                    <div class="transliteration">Wa huwa l-ākhiru ba'da l-awwalīn</div>
+                    <p>"Dan Dia adalah Yang Terakhir setelah generasi pertama."</p>
+                    <div class="tafsir-box">
+                        <strong>Konteks:</strong> Hadits Qudsi ini menjelaskan sifat Allah sebagai Yang Terakhir setelah semua makhluk binasa. Sebagaimana dijelaskan dalam kitab-kitab syarah hadits yang menjadi rujukan Kementerian Agama RI, ini menunjukkan keabadian Allah setelah semua ciptaan-Nya.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Untuk Koneksi Abadi</div>
+                    <div class="arabic">يَا آخِرُ ٱجْعَلْ آخِرَ كَلَامِي ٱلشَّهَادَةَ وَآخِرَ عَمَلِي ٱلصَّالِحَ ٱلْمُقْبَلَ</div>
+                    <div class="transliteration">Yā Ākhir, ij'al ākhira kalāmī sh-shahādah wa ākhira 'amalī ṣ-ṣāliḥa l-muqbal</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Terakhir, jadikan akhir ucapanku syahadat dan akhir amalku yang shaleh dan diterima."</p>
+                    <p><strong>Keutamaan:</strong> Doa ini diajarkan dalam berbagai majelis dan tercantum dalam kitab-kitab doa yang disusun oleh ulama. Dianjurkan dibaca setiap pagi dan petang untuk memohon husnul khatimah.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Dzikir Petang</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ ٱلْآخِرِ ٱجْعَلْ آخِرَ عُمْرِي خَيْرَهُ وَآخِرَ عَمَلِي أَرْضَاهُ</div>
+                    <div class="transliteration">Allāhumma bi-ḥaqqi l-Ākhir, ij'al ākhira 'umrī khayrahū wa ākhira 'amalī arḍāh</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, dengan hak Al-Akhir, jadikan akhir umurku bagian terbaiknya dan akhir amalku yang paling Engkau ridhai."</p>
+                    <p><strong>Sumber:</strong> Doa ini direkomendasikan oleh Kementerian Agama RI dalam panduan doa-doa mustajabah. Nabi (ﷺ) mengajarkan bahwa berdoa dengan menyebut nama-nama Allah akan dikabulkan (Tirmidhi).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Praktik Perenungan Keabadian</div>
+                    <p>Rutinitas harian untuk mengembangkan kesadaran akan keabadian ilahi:</p>
+                    <ol>
+                        <li>Sebelum tidur, baca "Yā Ākhir" 11 kali sambil merenungkan maknanya</li>
+                        <li>Renungkan sifat sementara dunia dan keabadian akhirat</li>
+                        <li>Baca <a href="https://quran.com/28/88?translations=33" target="_blank">Surah Al-Qasas 28:88</a></li>
+                    </ol>
+                    <p><strong>Keutamaan:</strong> Praktik ini:</p>
+                    <ul>
+                        <li>Memperkuat kesadaran akan sifat sementara kehidupan dunia</li>
+                        <li>Mengembangkan orientasi pada kehidupan akhirat</li>
+                        <li>Mengikuti tradisi ulama salaf dalam berzikir</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Ritual Penutupan</div>
+                    <p>Amalan ketika menyelesaikan urusan penting:</p>
+                    <ol>
+                        <li>Akhiri dengan "Alhamdulillah" dan "Yā Ākhir" 7 kali</li>
+                        <li>Baca Surah Al-Ikhlas</li>
+                        <li>Mohon pada Allah untuk menerimanya dan membuat dampaknya langgeng</li>
+                    </ol>
+                    <p><strong>Dasar Syar'i:</strong> Nabi (ﷺ) bersabda: "Sebaik-baik amal adalah yang diakhiri dengan kebaikan" (HR. Ahmad). Praktik ini diajarkan dalam pengajian-pengajian untuk mengingatkan pada keabadian Allah.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir menjelaskan Al-Akhir melalui tiga dimensi:</p>
+                <ol>
+                    <li><strong>Keabadian Temporal:</strong>
+                        <ul>
+                            <li>Keberadaan setelah waktu (<a href="https://quran.com/57/3?translations=33" target="_blank">57:3</a>)</li>
+                            <li>Tetap ada setelah akhir ciptaan (<a href="https://quran.com/55/26-27?translations=33" target="_blank">55:26-27</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Kedaulatan Abadi:</strong>
+                        <ul>
+                            <li>Kekuasaan yang kekal (<a href="https://quran.com/20/111?translations=33" target="_blank">20:111</a>)</li>
+                            <li>Kerajaan yang langgeng (<a href="https://quran.com/25/26?translations=33" target="_blank">25:26</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Tujuan Akhir:</strong>
+                        <ul>
+                            <li>Kembali terakhir kepada-Nya (<a href="https://quran.com/2/285?translations=33" target="_blank">2:285</a>)</li>
+                            <li>Titik akhir semua perjalanan (<a href="https://quran.com/53/42?translations=33" target="_blank">53:42</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam kajian Kementerian Agama RI dijelaskan bahwa memahami Al-Akhir membantu kita memprioritaskan kehidupan akhirat. Surah Al-Hadid (57:3) memadukan Al-Akhir dengan Al-Awwal, menunjukkan Allah meliputi segala waktu dan kekal abadi.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_73.html" class="menu-link"><i class="fas fa-chevron-left"></i> Sebelumnya (73)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Daftar</a>
+                <a href="ah_75.html" class="menu-link">Selanjutnya (75) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- ENGLISH CONTENT -->
+        <div id="english-content" class="hidden">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">74. Al-Akhir - The Last</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-akhir/" target="_blank">myislam.org/99-names-of-allah/al-akhir/</a></div>
+
+            <!-- Bonus section (English only) -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_75Aakhir.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْـَٔاخِرُ</div>
+            <div class="transliteration">Transliteration: Al-Akhir</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/74.%20al-akhir.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Akhir appears in the Quran in Surah Al-Hadid 57:3 with the meaning:</p>
+                <ul>
+                    <li><strong>The Last:</strong> The One who remains after all creation perishes</li>
+                    <li><strong>The Endless:</strong> The One whose existence has no termination</li>
+                </ul>
+                <p>Ibn Kathir explained: "Al-Akhir is He who remains after everything ceases to exist. His existence is perpetual without any end." This name emphasizes Allah's absolute eternity and that He will remain when all else has passed away.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (From Quran &amp; Hadith)</h2>
+
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong>
+                    <a href="https://quran.com/57/3?translations=131" target="_blank">Surah Al-Hadid 57:3</a>
+                    <div class="arabic">هُوَ ٱلْأَوَّلُ وَٱلْـَٔاخِرُ وَٱلظَّـٰهِرُ وَٱلْبَاطِنُ ۖ وَهُوَ بِكُلِّ شَىْءٍ عَلِيمٌ</div>
+                    <div class="transliteration">Huwa l-awwalu wa l-ākhiru wa ẓ-ẓāhiru wa l-bāṭin, wa huwa bikulli shay'in 'alīm</div>
+                    <p>"He is the First and the Last, the Ascendant and the Intimate, and He is, of all things, Knowing."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse pairs Al-Akhir (The Last) with Al-Awwal (The First), showing Allah's transcendence beyond temporal limitations. Ibn Abbas commented: "He remains when all things perish, just as He existed before all things."
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/55/26-27?translations=131" target="_blank">Surah Ar-Rahman 55:26-27</a>
+                    <div class="arabic">كُلُّ مَنْ عَلَيْهَا فَانٍۢ ۝ وَيَبْقَىٰ وَجْهُ رَبِّكَ ذُو ٱلْجَلَـٰلِ وَٱلْإِكْرَامِ</div>
+                    <div class="transliteration">Kullu man 'alayhā fān, wa yabqā wajhu rabbika dhū l-jalāli wa l-ikrām</div>
+                    <p>"Everyone upon the earth will perish, And there will remain the Face of your Lord, Owner of Majesty and Honor."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse powerfully illustrates Allah's attribute as Al-Akhir - everything perishes except His Noble Countenance, showing His eternal permanence.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/muslim:2713" target="_blank">Sahih Muslim 2713</a>
+                    <div class="arabic">وَهُوَ ٱلْـَٔاخِرُ بَعْدَ ٱلْأَوَّلِينَ</div>
+                    <div class="transliteration">Wa huwa l-ākhiru ba'da l-awwalīn</div>
+                    <p>"And He is the Last after the first [generations]."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> Part of a hadith qudsi where Allah describes Himself as remaining after all creation has passed away.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Eternal Connection</div>
+                    <div class="arabic">يَا آخِرُ ٱجْعَلْ آخِرَ كَلَامِي ٱلشَّهَادَةَ وَآخِرَ عَمَلِي ٱلصَّالِحَ ٱلْمُقْبَلَ</div>
+                    <div class="transliteration">Yā Ākhir, ij'al ākhira kalāmī sh-shahādah wa ākhira 'amalī ṣ-ṣāliḥa l-muqbal</div>
+                    <p><strong>Translation:</strong> "O Last, make my final words the testimony of faith and my final deeds righteous and accepted."</p>
+                    <p><strong>Benefits:</strong> This du'a seeks to connect one's ending with Allah's eternal nature, asking for a good ending as mentioned in <a href="https://quran.com/2/132?translations=131" target="_blank">Surah Al-Baqarah 2:132</a>.</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Evening Remembrance</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ ٱلْآخِرِ ٱجْعَلْ آخِرَ عُمْرِي خَيْرَهُ وَآخِرَ عَمَلِي أَرْضَاهُ</div>
+                    <div class="transliteration">Allāhumma bi-ḥaqqi l-Ākhir, ij'al ākhira 'umrī khayrahū wa ākhira 'amalī arḍāh</div>
+                    <p><strong>Translation:</strong> "O Allah, by the right of Al-Akhir, make the end of my life its best part and the end of my deeds most pleasing to You."</p>
+                    <p><strong>Source:</strong> Inspired by the Prophet's (ﷺ) evening adhkar (Muslim).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Eternity Reflection Practice</div>
+                    <p>To contemplate Allah's endless nature:</p>
+                    <ol>
+                        <li>Before sleeping, recite "Yā Ākhir" 11 times</li>
+                        <li>Reflect on the temporary nature of worldly things</li>
+                        <li>Read <a href="https://quran.com/28/88?translations=131" target="_blank">Surah Al-Qasas 28:88</a></li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice:</p>
+                    <ul>
+                        <li>Strengthens awareness of life's temporary nature</li>
+                        <li>Develops focus on eternal matters</li>
+                        <li>Connects daily life with divine permanence</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Conclusion Ritual</div>
+                    <p>When completing important matters:</p>
+                    <ol>
+                        <li>Conclude with "Alhamdulillah" and "Yā Ākhir" 7 times</li>
+                        <li>Recite Surah Al-Ikhlas</li>
+                        <li>Ask Allah to accept it and make its effects lasting</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Companions would conclude important matters by remembering Allah's eternal nature, as recorded in Ibn Abi Shaybah's Musannaf.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir explains Al-Akhir through three dimensions:</p>
+                <ol>
+                    <li><strong>Temporal Permanence:</strong>
+                        <ul>
+                            <li>Existence after time (<a href="https://quran.com/57/3?translations=131" target="_blank">57:3</a>)</li>
+                            <li>Remaining after creation's end (<a href="https://quran.com/55/26-27?translations=131" target="_blank">55:26-27</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Eternal Sovereignty:</strong>
+                        <ul>
+                            <li>Everlasting dominion (<a href="https://quran.com/20/111?translations=131" target="_blank">20:111</a>)</li>
+                            <li>Perpetual kingdom (<a href="https://quran.com/25/26?translations=131" target="_blank">25:26</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ultimate Destination:</strong>
+                        <ul>
+                            <li>Final return to Him (<a href="https://quran.com/2/285?translations=131" target="_blank">2:285</a>)</li>
+                            <li>End point of all journeys (<a href="https://quran.com/53/42?translations=131" target="_blank">53:42</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In Surah Al-Hadid (57:3), Allah's name Al-Akhir is paired with Al-Awwal (The First), showing His transcendence beyond temporal limitations. This name reminds believers that all endings return to Allah's eternal presence.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_73.html" class="menu-link"><i class="fas fa-chevron-left"></i> Previous (73)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Index</a>
+                <a href="ah_75.html" class="menu-link">Next (75) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+
+    <footer>© 1447 AH / 2026 AD - Al-Akhir: The Last. Curated and Maintained by Hermansjah.</footer>
+
+    <script>
+        (function() {
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+            const body = document.body;
+
+            // Helper: URL parameter override
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Language override
+            let langFromUrl = null;
+            if (getParam('English') !== null) langFromUrl = 'english';
+            else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+            let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+
+            function updateLangUI() {
+                const isEnglish = (currentLang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+                }
+                localStorage.setItem('language', currentLang);
+                updateTranslitButtonText();
+                updateDarkModeButtonText();
+            }
+
+            function updateTranslitButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+                if (isEnglish) {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration';
+                } else {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                }
+            }
+
+            function updateDarkModeButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const isDark = body.classList.contains('dark-mode');
+                if (isEnglish) {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' :
+                        '<i class="fas fa-moon"></i> Dark Mode';
+                } else {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' :
+                        '<i class="fas fa-moon"></i> Mode Gelap';
+                }
+            }
+
+            // Transliteration
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = false;
+            else translitVisible = (translitVisible === 'true');
+            if (getParam('Transliteration') !== null) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                updateTranslitButtonText();
+                localStorage.setItem('transliteration', show);
+            }
+
+            // Dark Mode
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (getParam('Dark') !== null) darkActive = true;
+            if (darkActive) body.classList.add('dark-mode');
+
+            function setDarkModeUI() {
+                updateDarkModeButtonText();
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            }
+
+            // Event listeners
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+                updateLangUI();
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = (translitElements[0]?.style.display !== 'none');
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // Scroll arrows (single-step)
+            document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0,
+                    behavior: 'smooth' }));
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document
+                    .body.scrollHeight, behavior: 'smooth' }));
+
+            // Initial setup
+            setTransliteration(translitVisible);
+            updateLangUI();
+            setDarkModeUI();
+
+            // if any scroll anchor from url fragments
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            }
+        })();
+    </script>
+</body>
+</html>
