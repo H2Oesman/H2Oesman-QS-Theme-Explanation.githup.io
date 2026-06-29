@@ -21,12 +21,16 @@
             --link-color: #1e5f8e;
             --link-hover: #0d3d5a;
             --theme-card-bg: #ffffffdd;
+            --translation-color: #2c3e50;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+            --click-caption-bg: #e0f2fe;
         }
         .dark-mode {
             --bg-color: #121826;
             --text-color: #eef2ff;
             --container-bg: #1e293b;
-            --arabic-color: #9ad0ff;
+            --arabic-color: #7bc9ff;
             --section-title-color: #7bc9ff;
             --verse-bg: #2d3748;
             --verse-border: #4a5568;
@@ -35,9 +39,13 @@
             --tafsir-border: #5dade2;
             --structure-bg: #1e3a5f;
             --benefits-bg: #1f3a2f;
-            --link-color: #90caf9;
-            --link-hover: #c3e2ff;
+            --link-color: #facc15;
+            --link-hover: #ffdf7e;
             --theme-card-bg: #1e293bdd;
+            --translation-color: #cbd5e1;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
+            --click-caption-bg: #1e3a5f;
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -73,10 +81,23 @@
             color: #7f8c8d;
             font-size: 18px;
             text-align: right;
-            margin: 0 0 10px 0;
+            margin: 0 0 5px 0;
             display: none;
         }
         .dark-mode .transliteration { color: #b0c4de; }
+        .translation-text {
+            font-size: 16px;
+            text-align: left;
+            color: var(--translation-color);
+            margin: 5px 0 15px 0;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 12px;
+            border-left: 3px solid var(--link-color);
+        }
+        .dark-mode .translation-text {
+            background: rgba(255,255,255,0.05);
+        }
         .surah-title {
             font-size: 36px;
             text-align: center;
@@ -129,6 +150,7 @@
         .top-home-link {
             display: inline-block;
             margin-bottom: 20px;
+            margin-right: 15px;
             padding: 8px 16px;
             border-radius: 40px;
             border: 1px solid var(--link-color);
@@ -178,12 +200,13 @@
             padding: 12px;
             border-bottom: 1px solid var(--verse-border);
             text-align: left;
+            vertical-align: top;
         }
         .theme-table th { background: #2c7da0; color: white; }
-        .scroll-arrow {
+        .scroll-arrow, .scroll-arrow-double {
             position: fixed;
-            left: 20px;
-            background: var(--container-bg);
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
             border-radius: 50%;
             width: 44px;
             height: 44px;
@@ -195,12 +218,14 @@
             z-index: 1000;
             transition: 0.2s;
             border: 1px solid var(--verse-border);
-            color: var(--text-color);
-            font-size: 22px;
         }
-        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
-        .scroll-arrow.up { top: 90px; }
+        .scroll-arrow { left: 20px; }
+        .scroll-arrow.up { top: 100px; }
         .scroll-arrow.down { bottom: 90px; }
+        .scroll-arrow-double { right: 20px; }
+        .scroll-arrow-double.up-double { top: 100px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        .scroll-arrow:hover, .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
         .surah-pagination {
             margin: 40px 0 20px;
             padding-top: 20px;
@@ -249,7 +274,9 @@
         .dark-mode-toggle { top: 140px; background: #8e44ad; }
         @media (max-width: 640px) {
             .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
-            .scroll-arrow { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; left: 12px; right: 12px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 80px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
             .arabic { font-size: 30px; }
         }
         footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
@@ -293,24 +320,64 @@
             padding: 20px;
             border: 1px solid var(--verse-border);
         }
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .speed-select {
+            background: var(--verse-bg);
+            color: var(--text-color);
+            border: 1px solid var(--verse-border);
+            border-radius: 40px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        .clickable-caption {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--click-caption-bg);
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            border: 1px solid var(--link-color);
+        }
+        .clickable-caption:hover {
+            background: var(--link-color);
+            color: white;
+            transform: scale(1.02);
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 Switch to English</div>
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
 <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
 <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+<div id="doubleUpScroll" class="scroll-arrow-double up-double"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double"><i class="fas fa-angles-down"></i></div>
 
 <div class="container" id="mainContainer">
-    <!-- INDONESIAN CONTENT (ENHANCED) -->
+    <!-- INDONESIAN CONTENT -->
     <div id="indonesian-content">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-book"></i> Juz Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-Muzzammil (73) - Tafsir Tematik</h1>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
-        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=1&to=20&opt=1" target="_blank">IslamicStudies.info - Surah Al-Muzzammil (1-20) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
+        <div class="transliteration">Bismillahirrahmanirrahim</div>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=1&to=20" target="_blank">IslamicStudies.info - Surah Al-Muzzammil (1-20) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a></div>
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Gambaran Umum Surah Al-Muzzammil (Surah ke-73)</h3>
             <p>Surah Al-Muzzammil (73) terdiri dari 20 ayat dan tergolong surah Makkiyah. Dinamai “Al-Muzzammil” (orang yang berselimut) karena ayat pertama yang memanggil Nabi ﷺ dengan sebutan tersebut. Surah ini memberi panduan spiritual tentang ibadah malam (qiyamul lail), bacaan Al-Qur'an dengan tartil, kesabaran, tawakal, serta persiapan menghadapi tugas kenabian. Surah ini merupakan salah satu surah awal yang diturunkan kepada Nabi Muhammad ﷺ.</p>
@@ -327,7 +394,13 @@
             <h3><i class="fas fa-info-circle"></i> Akses Teks Lengkap</h3>
             <p><a href="https://quran.com/73?translations=33" target="_blank">Quran.com - Surah Al-Muzzammil (Terjemahan Indonesia) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik di sini</span></a></p>
         </div>
-        <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Muzzammil</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/073.mp3" type="audio/mpeg"></audio></div>
+        <div class="audio-player">
+            <div class="audio-title">🎧 Dengarkan Surah Al-Muzzammil</div>
+            <audio controls>
+                <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/073.mp3" type="audio/mpeg">
+                Browser Anda tidak mendukung audio.
+            </audio>
+        </div>
 
         <!-- PEMBAGIAN TEMA PER BAGIAN AYAT (TABLE) -->
         <div class="section">
@@ -335,11 +408,11 @@
             <table class="theme-table">
                 <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan & Tafsir Tambahan</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-4</strong></th><td>Perintah Qiyamul Lail & Tartil</th><td>Bangun malam, baca Al-Qur'an dengan perlahan dan penghayatan. — Ibnu Katsir</th></tr>
-                    <tr><td><strong>5-8</strong></th><td>Beban Kenabian & Hikmah Ibadah Malam</th><td>Sungguh akan Kami turunkan perkataan berat; bangun malam lebih kuat pengaruhnya. — Al-Qurthubi</th></tr>
-                    <tr><td><strong>9-10</strong></th><td>Tauhid, Tawakal & Kesabaran</th><td>Allah Tuhan timur dan barat, jadikan Dia pelindung; sabar atas ucapan mereka. — As-Sa'di</th></td>
-                    <tr><td><strong>11-19</strong></th><td>Peringatan bagi Pendusta & Azab</th><td>Biarkan Aku dengan orang yang mendustakan; sesungguhnya azab Tuhan sangat keras. — At-Tabari</th></td>
-                    <tr><td><strong>20</strong></th><td>Keringanan, Shalat, Zakat & Istigfar</th><td>Bacalah yang mudah, dirikan shalat, tunaikan zakat, pinjamkan Allah pinjaman yang baik. — Ibnu Katsir</th></tr>
+                    <tr><td><strong>1-4</strong></td><td>Perintah Qiyamul Lail & Tartil</td><td>Bangun malam, baca Al-Qur'an dengan perlahan dan penghayatan. — Ibnu Katsir</td></tr>
+                    <tr><td><strong>5-8</strong></td><td>Beban Kenabian & Hikmah Ibadah Malam</td><td>Sungguh akan Kami turunkan perkataan berat; bangun malam lebih kuat pengaruhnya. — Al-Qurthubi</td></tr>
+                    <tr><td><strong>9-10</strong></td><td>Tauhid, Tawakal & Kesabaran</td><td>Allah Tuhan timur dan barat, jadikan Dia pelindung; sabar atas ucapan mereka. — As-Sa'di</td></tr>
+                    <tr><td><strong>11-19</strong></td><td>Peringatan bagi Pendusta & Azab</td><td>Biarkan Aku dengan orang yang mendustakan; sesungguhnya azab Tuhan sangat keras. — At-Tabari</td></tr>
+                    <tr><td><strong>20</strong></td><td>Keringanan, Shalat, Zakat & Istigfar</td><td>Bacalah yang mudah, dirikan shalat, tunaikan zakat, pinjamkan Allah pinjaman yang baik. — Ibnu Katsir</td></tr>
                 </tbody>
             </table>
         </div>
@@ -349,9 +422,9 @@
             <h2 class="section-title"><i class="fas fa-lightbulb"></i> Ayat Kunci untuk Tadabbur</h2>
             <div class="verse">
                 <div class="arabic">إِنَّ نَاشِئَةَ اللَّيْلِ هِيَ أَشَدُّ وَطْئًا وَأَقْوَمُ قِيلًا</div>
-                <div class="transliteration">Inna nāshi'atal-layli hiya asyaddu waṭ'an wa aqwamu qīlā</div>
+                <div class="transliteration">Inna nashi'atal-layli hiya asyaddu wat'an wa aqwamu qila</div>
                 <div class="translation-text"><strong>Terjemahan:</strong> “Sesungguhnya bangun malam itu lebih kuat (mengisi jiwa) dan lebih lurus bacaannya.” (Al-Muzzammil 73:6)</div>
-                <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Al-Qurthubi menjelaskan bahwa “nāshi’atul-layl” adalah waktu bangun setelah tidur. Pada waktu ini, hati tenang, pikiran jernih, dan konsentrasi maksimal. Itulah sebabnya ibadah malam memiliki keutamaan yang besar. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=6">Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
+                <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Al-Qurthubi menjelaskan bahwa “nāshi’atul-layl” adalah waktu bangun setelah tidur. Pada waktu ini, hati tenang, pikiran jernih, dan konsentrasi maksimal. Itulah sebabnya ibadah malam memiliki keutamaan yang besar. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=6" target="_blank">Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
                 <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
             </div>
         </div>
@@ -372,11 +445,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-1"></i> 1. Perintah Qiyamul Lail & Tartil (Ayat 1-4)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=1&to=4&opt=1" target="_blank">Al-Muzzammil 73:1-4 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=1&to=4" target="_blank">Al-Muzzammil 73:1-4 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">يَـٰٓأَيُّهَا ٱلْمُزَّمِّلُ ﴿١﴾ قُمِ ٱلَّيْلَ إِلَّا قَلِيلًۭا ﴿٢﴾ نِّصْفَهُۥٓ أَوِ ٱنقُصْ مِنْهُ قَلِيلًا ﴿٣﴾ أَوْ زِدْ عَلَيْهِ وَرَتِّلِ ٱلْقُرْءَانَ تَرْتِيلًا ﴿٤﴾</div>
-                    <div class="transliteration">Yā ayyuhal-muzzammil (1) Qumil-laila illā qalīlā (2) Niṣfahū awinqus min-hu qalīlā (3) Au zid 'alaihi wa rattilil-qur`āna tartīlā (4)</div>
+                    <div class="transliteration">Ya ayyuhal-muzzammil (1) Qumil-laila illa qalila (2) Nisfahu awinqus min-hu qalila (3) Au zid 'alaihi wa rattilil-qur'ana tartila (4)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Wahai orang yang berselimut! Bangunlah (untuk salat) pada malam hari, kecuali sedikit. (Yaitu) separuhnya atau kurang sedikit, atau lebih dari itu, dan bacalah Al-Qur'an itu dengan perlahan-lahan.”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menjelaskan bahwa ayat ini adalah perintah awal bagi Nabi ﷺ untuk mendirikan shalat malam sebagai persiapan spiritual menghadapi dakwah yang berat. Allah memberi fleksibilitas waktu: separuh malam, kurang sedikit, atau lebih. “Tartil” berarti membaca dengan perlahan, jelas, memperhatikan makhraj dan makna. Ini adalah metode bacaan yang diajarkan Jibril dan menjadi sumber ketenangan hati. Qiyamul lail juga merupakan sarana untuk mendekatkan diri kepada Allah di waktu yang mustajab. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=1&to=4">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menjelaskan bahwa ayat ini adalah perintah awal bagi Nabi ﷺ untuk mendirikan shalat malam sebagai persiapan spiritual menghadapi dakwah yang berat. Allah memberi fleksibilitas waktu: separuh malam, kurang sedikit, atau lebih. “Tartil” berarti membaca dengan perlahan, jelas, memperhatikan makhraj dan makna. Ini adalah metode bacaan yang diajarkan Jibril dan menjadi sumber ketenangan hati. Qiyamul lail juga merupakan sarana untuk mendekatkan diri kepada Allah di waktu yang mustajab. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=1&to=4" target="_blank">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                     <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
                 </div>
             </div>
@@ -385,11 +458,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-2"></i> 2. Beban Kenabian & Hikmah Ibadah Malam (Ayat 5-8)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=5&to=8&opt=1" target="_blank">Al-Muzzammil 73:5-8 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=5&to=8" target="_blank">Al-Muzzammil 73:5-8 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">إِنَّا سَنُلْقِى عَلَيْكَ قَوْلًۭا ثَقِيلًا ﴿٥﴾ إِنَّ نَاشِئَةَ ٱلَّيْلِ هِىَ أَشَدُّ وَطْـًۭٔا وَأَقْوَمُ قِيلًا ﴿٦﴾ إِنَّ لَكَ فِى ٱلنَّهَارِ سَبْحًۭا طَوِيلًۭا ﴿٧﴾ وَٱذْكُرِ ٱسْمَ رَبِّكَ وَتَبَتَّلْ إِلَيْهِ تَبْتِيلًۭا ﴿٨﴾</div>
-                    <div class="transliteration">Innā sanulqī 'alayka qawlan thaqīlā (5) Inna nāshi'atal-layli hiya asyaddu waṭ'an wa aqwamu qīlā (6) Inna laka fin-nahāri sabḥan ṭawīlā (7) Ważkurisma rabbika wa tabattal ilaihi tabtīlā (8)</div>
+                    <div class="transliteration">Inna sanulqi 'alayka qawlan thaqila (5) Inna nashi'atal-layli hiya asyaddu wat'an wa aqwamu qila (6) Inna laka fin-nahari sabhan thawila (7) Wazkurisma rabbika wa tabattal ilaihi tabtila (8)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Sesungguhnya Kami akan menurunkan kepadamu perkataan yang berat. Sesungguhnya bangun malam itu lebih kuat (mengisi jiwa) dan lebih lurus bacaannya. Sesungguhnya pada siang hari engkau memiliki urusan yang panjang. Dan sebutlah nama Tuhanmu, dan beribadahlah kepada-Nya dengan sepenuh hati.”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Al-Qurthubi menjelaskan: “Qawlan thaqīlā” merujuk pada Al-Qur'an yang berat makna dan hukumnya, memerlukan kesungguhan. “Nāshi'atul-layl” adalah bangun malam setelah tidur; waktu ini lebih efektif untuk konsentrasi dan lebih kokoh pemahamannya. Pada siang hari, Nabi sibuk dengan urusan dakwah dan kehidupan. Karena itu, malam adalah waktu terbaik untuk ibadah intensif. “Tabattal” berarti memutuskan diri dari segala selain Allah, fokus total kepada-Nya. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=5&to=8">Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Al-Qurthubi menjelaskan: “Qawlan thaqīlā” merujuk pada Al-Qur'an yang berat makna dan hukumnya, memerlukan kesungguhan. “Nāshi'atul-layl” adalah bangun malam setelah tidur; waktu ini lebih efektif untuk konsentrasi dan lebih kokoh pemahamannya. Pada siang hari, Nabi sibuk dengan urusan dakwah dan kehidupan. Karena itu, malam adalah waktu terbaik untuk ibadah intensif. “Tabattal” berarti memutuskan diri dari segala selain Allah, fokus total kepada-Nya. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=5&to=8" target="_blank">Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
                     <div class="tafsir-source">Sumber: Al-Qurthubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
                 </div>
             </div>
@@ -398,11 +471,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-3"></i> 3. Tauhid, Tawakal & Kesabaran (Ayat 9-10)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=9&to=10&opt=1" target="_blank">Al-Muzzammil 73:9-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=9&to=10" target="_blank">Al-Muzzammil 73:9-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">رَّبُّ ٱلْمَشْرِقِ وَٱلْمَغْرِبِ لَآ إِلَـٰهَ إِلَّا هُوَ فَٱتَّخِذْهُ وَكِيلًۭا ﴿٩﴾ وَٱصْبِرْ عَلَىٰ مَا يَقُولُونَ وَٱهْجُرْهُمْ هَجْرًۭا جَمِيلًۭا ﴿١٠﴾</div>
-                    <div class="transliteration">Rabbul-masyriqi wal-magribi lā ilāha illā huw fattakhiż-hu wakīlā (9) Waṣbir 'alā mā yaqụlụna wahjur-hum hajran jamīlā (10)</div>
+                    <div class="transliteration">Rabbul-masyriqi wal-magribi la ilaha illa huwa fattakhidz-hu wakila (9) Wasbir 'ala ma yaquluna wahjur-hum hajran jamila (10)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “(Dialah) Tuhan timur dan barat, tidak ada tuhan selain Dia, maka jadikanlah Dia sebagai pelindung. Dan bersabarlah terhadap apa yang mereka ucapkan dan tinggalkanlah mereka dengan cara yang baik.”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> As-Sa'di dalam Taisir Al-Karim Ar-Rahman menegaskan: Allah adalah penguasa mutlak seluruh arah. Setelah mengakui keesaan-Nya, jadikan Dia satu-satunya wakil (pelindung) yang mengurus segala urusan. Kemudian perintah sabar atas cacian dan tuduhan orang kafir. “Hajran jamīlā” adalah berpaling dengan cara yang baik, tanpa kekerasan atau kebencian, menjaga martabat dan membuka pintu hidayah. Ini adalah strategi dakwah yang mulia. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=9&to=10">As-Sa‘di, Taisir Al-Karim Ar-Rahman</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> As-Sa'di dalam Taisir Al-Karim Ar-Rahman menegaskan: Allah adalah penguasa mutlak seluruh arah. Setelah mengakui keesaan-Nya, jadikan Dia satu-satunya wakil (pelindung) yang mengurus segala urusan. Kemudian perintah sabar atas cacian dan tuduhan orang kafir. “Hajran jamīlā” adalah berpaling dengan cara yang baik, tanpa kekerasan atau kebencian, menjaga martabat dan membuka pintu hidayah. Ini adalah strategi dakwah yang mulia. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=9&to=10" target="_blank">As-Sa‘di, Taisir Al-Karim Ar-Rahman</a></div>
                     <div class="tafsir-source">Sumber: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
                 </div>
             </div>
@@ -411,11 +484,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-4"></i> 4. Peringatan bagi Pendusta & Azab (Ayat 11-19)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=11&to=19&opt=1" target="_blank">Al-Muzzammil 73:11-19 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=11&to=19" target="_blank">Al-Muzzammil 73:11-19 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">وَذَرْنِى وَٱلْمُكَذِّبِينَ أُو۟لِى ٱلنَّعْمَةِ وَمَهِّلْهُمْ قَلِيلًا ﴿١١﴾ إِنَّ لَدَيْنَآ أَنكَالًۭا وَجَحِيمًۭا ﴿١٢﴾ وَطَعَامًۭا ذَا غُصَّةٍۢ وَعَذَابًا أَلِيمًۭا ﴿١٣﴾ يَوْمَ تَرْجُفُ ٱلْأَرْضُ وَٱلْجِبَالُ وَكَانَتِ ٱلْجِبَالُ كَثِيبًۭا مَّهِيلًا ﴿١٤﴾ إِنَّآ أَرْسَلْنَآ إِلَيْكُمْ رَسُولًۭا شَـٰهِدًا عَلَيْكُمْ كَمَآ أَرْسَلْنَآ إِلَىٰ فِرْعَوْنَ رَسُولًۭا ﴿١٥﴾ فَعَصَىٰ فِرْعَوْنُ ٱلرَّسُولَ فَأَخَذْنَـٰهُ أَخْذًۭا وَبِيلًۭا ﴿١٦﴾ فَكَيْفَ تَتَّقُونَ إِن كَفَرْتُمْ يَوْمًۭا يَجْعَلُ ٱلْوِلْدَٰنَ شِيبًا ﴿١٧﴾ ٱلسَّمَآءُ مُنفَطِرٌۢ بِهِۦ ۚ كَانَ وَعْدُهُۥ مَفْعُولًا ﴿١٨﴾ إِنَّ هَـٰذِهِۦ تَذْكِرَةٌۭ ۖ فَمَن شَآءَ ٱتَّخَذَ إِلَىٰ رَبِّهِۦ سَبِيلًا ﴿١٩﴾</div>
-                    <div class="transliteration">Wa żarnī wal-mukażżibīna ulin-na'mati wa mahhilhum qalīlā (11) Inna ladaynā ankālaw wa jaḥīmā (12) Wa ṭa'āman dhā ghuṣṣatin wa 'adhāban alīmā (13) Yawma tarjufu al-arḍu wal-jibālu wa kānatil-jibālu kaṡībam mahīlā (14) Innā arsalnā ilaykum rasūlan syāhidan 'alaykum kamā arsalnā ilā fir'awna rasūlā (15) Fa 'aṣā fir'awnur-rasūla fa akhażnāhu akhżaw wabīlā (16) Fakayfa tattaqūna in kafartum yauman yaj'alul-wildāna syībā (17) As-samā'u munfaṭirun bih, kāna wa'duhū maf'ūlā (18) Inna hāżihī tażkirah, faman syā'at takhaża ilā rabbihī sabīlā (19)</div>
+                    <div class="transliteration">Wa dzarni wal-mukadzdzibina ulin-na'mati wa mahhilhum qalila (11) Inna ladayna ankalan wa jahiman (12) Wa tha'aman dza ghussatin wa 'adhaban alima (13) Yawma tarjufu al-ardu wal-jibalu wa kanatil-jibalu kathibam mahila (14) Inna arsalna ilaykum rasulan syahidan 'alaykum kama arsalna ila fir'awna rasula (15) Fa 'asa fir'awnur-rasula fa akhadzna-hu akhadzaw wabila (16) Fakayfa tattaquna in kafartum yauman yaj'alul-wildana syiba (17) As-sama'u munfatirun bih, kana wa'duhu maf'ula (18) Inna hadzihi tadzkirah, faman sya'a takhadza ila rabbihi sabila (19)</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Biarkanlah Aku dengan orang-orang yang mendustakan yang hidup mewah, dan beri mereka tenggang waktu sebentar. Sesungguhnya di sisi Kami ada belenggu dan neraka yang menyala, dan makanan yang menyumbat di kerongkongan serta azab yang pedih. Pada hari ketika bumi dan gunung-gunung berguncang, dan gunung-gunung menjadi tumpukan pasir yang berterbangan. Sesungguhnya Kami telah mengutus kepada kamu seorang Rasul yang menjadi saksi terhadapmu, sebagaimana Kami telah mengutus kepada Fir'aun seorang rasul. Maka Fir'aun mendurhakai rasul itu, lalu Kami siksa dia dengan siksaan yang berat. Maka bagaimana kamu akan melindungi diri jika kamu tetap kafir pada hari yang menjadikan anak-anak beruban? Langit pun terbelah pada hari itu. Janji-Nya pasti terlaksana. Sesungguhnya ini adalah peringatan, maka barangsiapa menghendaki niscaya dia menempuh jalan kepada Tuhannya.”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> At-Tabari menjelaskan: Allah memperingatkan orang-orang kafir yang hidup mewah di Makkah. Mereka diberi tenggang waktu, namun azab pasti datang: belenggu (ankāl), neraka (jaḥīm), makanan menyumbat (ghuṣṣah), dan azab pedih. Gambaran hari kiamat: bumi dan gunung berguncang, gunung menjadi pasir berterbangan. Allah mengingatkan kisah Fir'aun sebagai pelajaran. Hari kiamat sangat dahsyat hingga anak-anak menjadi beruban. Namun Allah tetap memberi kabar baik: ini adalah peringatan, siapa yang mau bisa menempuh jalan kepada Tuhannya. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=11&to=19">At-Tabari, Jami‘ Al-Bayan</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> At-Tabari menjelaskan: Allah memperingatkan orang-orang kafir yang hidup mewah di Makkah. Mereka diberi tenggang waktu, namun azab pasti datang: belenggu (ankāl), neraka (jaḥīm), makanan menyumbat (ghuṣṣah), dan azab pedih. Gambaran hari kiamat: bumi dan gunung berguncang, gunung menjadi pasir berterbangan. Allah mengingatkan kisah Fir'aun sebagai pelajaran. Hari kiamat sangat dahsyat hingga anak-anak menjadi beruban. Namun Allah tetap memberi kabar baik: ini adalah peringatan, siapa yang mau bisa menempuh jalan kepada Tuhannya. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=11&to=19" target="_blank">At-Tabari, Jami‘ Al-Bayan</a></div>
                     <div class="tafsir-source">Sumber: At-Tabari, Jami‘ Al-Bayan</div>
                 </div>
             </div>
@@ -424,11 +497,11 @@
             <div class="theme-card">
                 <div class="theme-title"><i class="fas fa-5"></i> 5. Keringanan, Shalat, Zakat & Istigfar (Ayat 20)</div>
                 <div class="verse-item">
-                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=20&opt=1" target="_blank">Al-Muzzammil 73:20 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
+                    <strong>Ayat Lengkap:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=20" target="_blank">Al-Muzzammil 73:20 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik tafsir</span></a>
                     <div class="arabic">۞ إِنَّ رَبَّكَ يَعْلَمُ أَنَّكَ تَقُومُ أَدْنَىٰ مِن ثُلُثَىِ ٱلَّيْلِ وَنِصْفَهُۥ وَثُلُثَهُۥ وَطَآئِفَةٌۭ مِّنَ ٱلَّذِينَ مَعَكَ ۚ وَٱللَّهُ يُقَدِّرُ ٱلَّيْلَ وَٱلنَّهَارَ ۚ عَلِمَ أَن لَّن تُحْصُوهُ فَتَابَ عَلَيْكُمْ ۖ فَٱقْرَءُوا۟ مَا تَيَسَّرَ مِنَ ٱلْقُرْءَانِ ۚ عَلِمَ أَن سَيَكُونُ مِنكُم مَّرْضَىٰ ۙ وَءَاخَرُونَ يَضْرِبُونَ فِى ٱلْأَرْضِ يَبْتَغُونَ مِن فَضْلِ ٱللَّهِ ۙ وَءَاخَرُونَ يُقَـٰتِلُونَ فِى سَبِيلِ ٱللَّهِ ۖ فَٱقْرَءُوا۟ مَا تَيَسَّرَ مِنْهُ ۚ وَأَقِيمُوا۟ ٱلصَّلَوٰةَ وَءَاتُوا۟ ٱلزَّكَوٰةَ وَأَقْرِضُوا۟ ٱللَّهَ قَرْضًا حَسَنًۭا ۚ وَمَا تُقَدِّمُوا۟ لِأَنفُسِكُم مِّنْ خَيْرٍۢ تَجِدُوهُ عِندَ ٱللَّهِ هُوَ خَيْرًۭا وَأَعْظَمَ أَجْرًۭا ۚ وَٱسْتَغْفِرُوا۟ ٱللَّهَ ۖ إِنَّ ٱللَّهَ غَفُورٌۭ رَّحِيمٌۢ ﴿٢٠﴾</div>
-                    <div class="transliteration">Inna rabbaka ya'lamu annaka taqūmu adnā min ṡuluṡayil-layli wa niṣfahū wa ṡuluṡahū wa ṭā'ifatum minal-ladzīna ma'ak. Wallāhu yuqaddirul-layla wan-nahār. 'Alima allan tuḥṣūhu fatāba 'alaykum faqra'ụ mā tayassara minal-qur`ān. 'Alima an sayakūnu minkum marḍā wa ākharūna yaḍribūna fil-arḍi yabtaghūna min faḍlillāh, wa ākharūna yuqātilūna fī sabīlillāh, faqra'ụ mā tayassara min-hu, wa aqīmuṣ-ṣalāta wa ātuz-zakāta wa aqriḍullāha qarḍan ḥasanā. Wa mā tuqaddimū li'anfusikum min khairin tajidūhu 'indallāhi huwa khayraw wa a'ẓama ajrā, wastagfirullāh, innallāha gafụrur raḥīm.</div>
+                    <div class="transliteration">Inna rabbaka ya'lamu annaka taqumu adna min thuluthayil-layli wa nisfahu wa thuluthahu wa tha'ifatun minal-ladzina ma'ak. Wallahu yuqaddirul-layla wan-nahar. 'Alima allan tuhshuhu fataba 'alaykum faqra'u ma tayassara minal-qur'an. 'Alima an sayakunu minkum marda wa akharuna yadribuna fil-ardi yabtaghuna min fadlillah, wa akharuna yuqatiluna fi sabilillah, faqra'u ma tayassara min-hu, wa aqimus-salata wa atuz-zakata wa aqridullaha qardan hasana. Wa ma tuqaddimu li'anfusikum min khairin tajiduhu 'indallahi huwa khayraw wa a'zama ajra, wastagfirullah, innallaha ghafurur rahim.</div>
                     <div class="translation-text"><strong>Terjemahan:</strong> “Sesungguhnya Tuhanmu mengetahui bahwa engkau (Muhammad) berdiri (shalat) kurang dari dua pertiga malam, atau separuhnya, atau sepertiganya, dan (demikian pula) segolongan dari orang-orang yang bersamamu. Allah menetapkan ukuran malam dan siang. Dia mengetahui bahwa kamu tidak dapat menentukan batas-batas waktu itu, maka Dia memberi keringanan kepadamu. Karena itu bacalah apa yang mudah (bagimu) dari Al-Qur'an. Dia mengetahui bahwa akan ada di antara kamu yang sakit, dan yang lain berjalan di bumi mencari karunia Allah, dan yang lain berperang di jalan Allah. Maka bacalah apa yang mudah bagimu, dan dirikanlah shalat, tunaikanlah zakat, dan pinjamkanlah kepada Allah pinjaman yang baik. Dan kebaikan apa saja yang kamu perbuat untuk dirimu, niscaya kamu mendapat (balasan)nya di sisi Allah sebagai balasan yang paling baik dan paling besar pahalanya. Dan mohonlah ampunan kepada Allah. Sungguh, Allah Maha Pengampun, Maha Penyayang.”</div>
-                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menjelaskan ayat ini sebagai keringanan besar dari Allah setelah perintah qiyamul lail yang berat. Allah mengetahui keterbatasan manusia: sakit, bepergian mencari rezeki, berperang di jalan Allah. Maka Dia meringankan: bacalah Al-Qur'an semampu kalian. Kemudian Allah memerintahkan kewajiban pokok: shalat, zakat, infak (qarḍ hasan). Setiap kebaikan akan mendapat balasan berlipat ganda di sisi Allah. Di akhir ayat, perintah istigfar sebagai penutup. Ini menunjukkan keseimbangan antara ibadah sunnah (malam) dan kewajiban sosial, serta rahmat Allah yang melimpah. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=20">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                    <div class="tafsir-box"><strong>Tafsir Mendalam:</strong> Ibnu Katsir menjelaskan ayat ini sebagai keringanan besar dari Allah setelah perintah qiyamul lail yang berat. Allah mengetahui keterbatasan manusia: sakit, bepergian mencari rezeki, berperang di jalan Allah. Maka Dia meringankan: bacalah Al-Qur'an semampu kalian. Kemudian Allah memerintahkan kewajiban pokok: shalat, zakat, infak (qarḍ hasan). Setiap kebaikan akan mendapat balasan berlipat ganda di sisi Allah. Di akhir ayat, perintah istigfar sebagai penutup. Ini menunjukkan keseimbangan antara ibadah sunnah (malam) dan kewajiban sosial, serta rahmat Allah yang melimpah. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=20" target="_blank">Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                     <div class="tafsir-source">Sumber: Ibnu Katsir, Tafsir Al-Qur’an Al-‘Azim</div>
                 </div>
             </div>
@@ -461,18 +534,22 @@
                 <a href="074.html" class="pagination-item">Surah Berikutnya: Al-Muddatstsir (74) <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="pagination-center">
-                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Main Menu</a>
             </div>
         </div>
     </div>
 
-    <!-- ENGLISH CONTENT (FULL MIRROR OF INDONESIAN - NO PLACEHOLDERS, FULL TRANSLITERATION) -->
+    <!-- ENGLISH CONTENT (FULL MIRROR OF INDONESIAN) -->
     <div id="english-content" class="hidden">
-        <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="ah_index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-book"></i> Juz Menu</a>
+        </div>
         <h1 class="surah-title">Surah Al-Muzzammil (73) - Thematic Tafsir</h1>
         <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ</div>
         <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
-        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=1&to=20&opt=1" target="_blank">IslamicStudies.info - Surah Al-Muzzammil (1-20) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
+        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=1&to=20" target="_blank">IslamicStudies.info - Surah Al-Muzzammil (1-20) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></div>
         <div class="theme-overview">
             <h3><i class="fas fa-star"></i> Overview of Surah Al-Muzzammil (Surah 73)</h3>
             <p>Surah Al-Muzzammil (73) is a Meccan surah consisting of 20 verses. It is named “Al-Muzzammil” (the one who wraps himself) because the first verse addresses the Prophet ﷺ with that title. This surah provides spiritual guidance on night prayer (qiyamul lail), measured recitation of the Qur'an (tartil), patience, reliance on Allah, and preparation for the prophetic mission. It is one of the earliest surahs revealed.</p>
@@ -485,8 +562,14 @@
             <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Patience in the face of insults, graceful avoidance (hajr jamil), reliance on Allah, and avoiding arrogance.</div>
         </div>
 
-        <div class="info-box"><h3>Full Text Access</h3><p><a href="https://recitequran.com/73" target="_blank">ReciteQuran.com - Surah Al-Muzzammil <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
-        <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Muzzammil</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/073.mp3"></audio></div>
+        <div class="info-box"><h3><i class="fas fa-info-circle"></i> Access Complete Text</h3><p><a href="https://quran.com/73?translations=131" target="_blank">Quran.com - Surah Al-Muzzammil (English) <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Here</span></a></p></div>
+        <div class="audio-player">
+            <div class="audio-title">🎧 Listen to Surah Al-Muzzammil</div>
+            <audio controls>
+                <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/073.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
 
         <!-- Thematic Division by Verses (English) -->
         <div class="section">
@@ -494,11 +577,11 @@
             <table class="theme-table">
                 <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message & Additional Tafsir</th></tr></thead>
                 <tbody>
-                    <tr><td><strong>1-4</strong></td><td>Command for Night Prayer & Tartil</th><td>Arise at night, recite the Qur'an slowly and thoughtfully. — Ibn Kathir</th></tr>
-                    <tr><td><strong>5-8</strong></th><td>Burden of Prophethood & Wisdom of Night Worship</th><td>We will send down a heavy word; night rising is more effective. — Al-Qurtubi</th></td>
-                    <tr><td><strong>9-10</strong></th><td>Tawhid, Reliance & Patience</th><td>Lord of east and west, take Him as Disposer; bear their words gracefully. — As-Sa'di</th></td>
-                    <tr><td><strong>11-19</strong></th><td>Warning to Deniers & Punishment</th><td>Leave Me with the deniers; indeed, the punishment is severe. — At-Tabari</th></td>
-                    <tr><td><strong>20</strong></th><td>Concession, Prayer, Zakah & Istighfar</th><td>Recite what is easy, establish prayer, give zakah, lend Allah a goodly loan. — Ibn Kathir</th></tr>
+                    <tr><td><strong>1-4</strong></td><td>Command for Night Prayer & Tartil</td><td>Arise at night, recite the Qur'an slowly and thoughtfully. — Ibn Kathir</td></tr>
+                    <tr><td><strong>5-8</strong></td><td>Burden of Prophethood & Wisdom of Night Worship</td><td>We will send down a heavy word; night rising is more effective. — Al-Qurtubi</td></tr>
+                    <tr><td><strong>9-10</strong></td><td>Tawhid, Reliance & Patience</td><td>Lord of east and west, take Him as Disposer; bear their words gracefully. — As-Sa'di</td></tr>
+                    <tr><td><strong>11-19</strong></td><td>Warning to Deniers & Punishment</td><td>Leave Me with the deniers; indeed, the punishment is severe. — At-Tabari</td></tr>
+                    <tr><td><strong>20</strong></td><td>Concession, Prayer, Zakah & Istighfar</td><td>Recite what is easy, establish prayer, give zakah, lend Allah a goodly loan. — Ibn Kathir</td></tr>
                 </tbody>
             </table>
         </div>
@@ -510,7 +593,7 @@
                 <div class="arabic">إِنَّ نَاشِئَةَ اللَّيْلِ هِيَ أَشَدُّ وَطْئًا وَأَقْوَمُ قِيلًا</div>
                 <div class="transliteration">Inna nāshi'atal-layli hiya asyaddu waṭ'an wa aqwamu qīlā</div>
                 <div class="translation-text"><strong>Translation:</strong> “Indeed, the hours of the night are more effective for concurrence (of heart and tongue) and more suitable for words.” (Al-Muzzammil 73:6)</div>
-                <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Al-Qurtubi explains that “nāshi’atul-layl” is the time of rising after sleep. At this time, the heart is calm, the mind is clear, and concentration is maximal. That is why night worship has great virtue. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=6">Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
+                <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Al-Qurtubi explains that “nāshi’atul-layl” is the time of rising after sleep. At this time, the heart is calm, the mind is clear, and concentration is maximal. That is why night worship has great virtue. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=6" target="_blank">Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
                 <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
             </div>
         </div>
@@ -523,7 +606,7 @@
             <p><strong>Akhlaq (Character):</strong> Be patient in the face of insults from disbelievers. Leave them gracefully (hajr jamīl). Rely on Allah after making efforts.</p>
         </div>
 
-        <!-- MAIN THEMES (ENGLISH) - FULL MIRROR OF INDONESIAN, WITH COMPLETE TRANSLITERATION -->
+        <!-- MAIN THEMES (ENGLISH) - FULL MIRROR OF INDONESIAN -->
         <div class="section">
             <h2 class="section-title"><i class="fas fa-palette"></i> Main Themes of Surah Al-Muzzammil (Detailed Tafsir)</h2>
 
@@ -531,11 +614,11 @@
             <div class="theme-card">
                 <div class="theme-title">1. Command for Night Prayer & Tartil (Verses 1-4)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=1&to=4&opt=1" target="_blank">Al-Muzzammil 73:1-4 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=1&to=4" target="_blank">Al-Muzzammil 73:1-4 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">يَـٰٓأَيُّهَا ٱلْمُزَّمِّلُ ﴿١﴾ قُمِ ٱلَّيْلَ إِلَّا قَلِيلًۭا ﴿٢﴾ نِّصْفَهُۥٓ أَوِ ٱنقُصْ مِنْهُ قَلِيلًا ﴿٣﴾ أَوْ زِدْ عَلَيْهِ وَرَتِّلِ ٱلْقُرْءَانَ تَرْتِيلًا ﴿٤﴾</div>
                     <div class="transliteration">Yā ayyuhal-muzzammil (1) Qumil-laila illā qalīlā (2) Niṣfahū awinqus min-hu qalīlā (3) Au zid 'alaihi wa rattilil-qur`āna tartīlā (4)</div>
                     <div class="translation-text"><strong>Translation:</strong> “O you who wraps himself [in clothing]! Arise [to pray] the night, except for a little. Half of it - or subtract from it a little, or add to it, and recite the Qur'an with measured recitation.”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir explains that this is an initial command for the Prophet to establish night prayer as spiritual preparation for the heavy task of prophethood. Flexibility is given: half the night, a little less, or a little more. “Tartil” means slow, clear recitation with proper pronunciation and reflection. This is the method taught by Jibreel and a source of tranquility. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=1&to=4">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir explains that this is an initial command for the Prophet to establish night prayer as spiritual preparation for the heavy task of prophethood. Flexibility is given: half the night, a little less, or a little more. “Tartil” means slow, clear recitation with proper pronunciation and reflection. This is the method taught by Jibreel and a source of tranquility. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=1&to=4" target="_blank">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                     <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
                 </div>
             </div>
@@ -544,11 +627,11 @@
             <div class="theme-card">
                 <div class="theme-title">2. Burden of Prophethood & Wisdom of Night Worship (Verses 5-8)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=5&to=8&opt=1" target="_blank">Al-Muzzammil 73:5-8 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=5&to=8" target="_blank">Al-Muzzammil 73:5-8 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">إِنَّا سَنُلْقِى عَلَيْكَ قَوْلًۭا ثَقِيلًا ﴿٥﴾ إِنَّ نَاشِئَةَ ٱلَّيْلِ هِىَ أَشَدُّ وَطْـًۭٔا وَأَقْوَمُ قِيلًا ﴿٦﴾ إِنَّ لَكَ فِى ٱلنَّهَارِ سَبْحًۭا طَوِيلًۭا ﴿٧﴾ وَٱذْكُرِ ٱسْمَ رَبِّكَ وَتَبَتَّلْ إِلَيْهِ تَبْتِيلًۭا ﴿٨﴾</div>
                     <div class="transliteration">Innā sanulqī 'alayka qawlan thaqīlā (5) Inna nāshi'atal-layli hiya asyaddu waṭ'an wa aqwamu qīlā (6) Inna laka fin-nahāri sabḥan ṭawīlā (7) Ważkurisma rabbika wa tabattal ilaihi tabtīlā (8)</div>
                     <div class="translation-text"><strong>Translation:</strong> “Indeed, We will cast upon you a heavy word. Indeed, the hours of the night are more effective for concurrence (of heart and tongue) and more suitable for words. Indeed, for you by day is prolonged occupation. And remember the name of your Lord and devote yourself to Him with complete devotion.”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Al-Qurtubi explains: “Qawlan thaqīlā” refers to the Qur'an, heavy in meaning and obligations, requiring seriousness. “Nāshi'atul-layl” is rising at night after sleep; this time is most effective for concentration and comprehension. By day, the Prophet is busy with da'wah and daily affairs. “Tabattal” means cutting off from everything other than Allah, total devotion. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=5&to=8">Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Al-Qurtubi explains: “Qawlan thaqīlā” refers to the Qur'an, heavy in meaning and obligations, requiring seriousness. “Nāshi'atul-layl” is rising at night after sleep; this time is most effective for concentration and comprehension. By day, the Prophet is busy with da'wah and daily affairs. “Tabattal” means cutting off from everything other than Allah, total devotion. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=5&to=8" target="_blank">Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</a></div>
                     <div class="tafsir-source">Source: Al-Qurtubi, Tafsir Al-Jami‘ li Ahkam Al-Qur’an</div>
                 </div>
             </div>
@@ -557,11 +640,11 @@
             <div class="theme-card">
                 <div class="theme-title">3. Tawhid, Reliance & Patience (Verses 9-10)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=9&to=10&opt=1" target="_blank">Al-Muzzammil 73:9-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=9&to=10" target="_blank">Al-Muzzammil 73:9-10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">رَّبُّ ٱلْمَشْرِقِ وَٱلْمَغْرِبِ لَآ إِلَـٰهَ إِلَّا هُوَ فَٱتَّخِذْهُ وَكِيلًۭا ﴿٩﴾ وَٱصْبِرْ عَلَىٰ مَا يَقُولُونَ وَٱهْجُرْهُمْ هَجْرًۭا جَمِيلًۭا ﴿١٠﴾</div>
                     <div class="transliteration">Rabbul-masyriqi wal-magribi lā ilāha illā huw fattakhiż-hu wakīlā (9) Waṣbir 'alā mā yaqụlụna wahjur-hum hajran jamīlā (10)</div>
                     <div class="translation-text"><strong>Translation:</strong> “(He is) the Lord of the east and the west; there is no deity except Him, so take Him as Disposer of [your] affairs. And be patient over what they say and avoid them with gracious avoidance.”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> As-Sa'di in Taisir Al-Karim Ar-Rahman affirms: Allah is the absolute Master of all directions. After acknowledging His oneness, take Him as the only Wakil (Trustee) who manages all affairs. Then comes the command to be patient over insults and accusations. “Hajran jamīlā” is to turn away gracefully, without violence or hatred, preserving dignity and leaving the door open for guidance. This is a noble da'wah strategy. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=9&to=10">As-Sa‘di, Taisir Al-Karim Ar-Rahman</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> As-Sa'di in Taisir Al-Karim Ar-Rahman affirms: Allah is the absolute Master of all directions. After acknowledging His oneness, take Him as the only Wakil (Trustee) who manages all affairs. Then comes the command to be patient over insults and accusations. “Hajran jamīlā” is to turn away gracefully, without violence or hatred, preserving dignity and leaving the door open for guidance. This is a noble da'wah strategy. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=9&to=10" target="_blank">As-Sa‘di, Taisir Al-Karim Ar-Rahman</a></div>
                     <div class="tafsir-source">Source: As-Sa'di, Taisir Al-Karim Ar-Rahman</div>
                 </div>
             </div>
@@ -570,11 +653,11 @@
             <div class="theme-card">
                 <div class="theme-title">4. Warning to Deniers & Punishment (Verses 11-19)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=11&to=19&opt=1" target="_blank">Al-Muzzammil 73:11-19 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=11&to=19" target="_blank">Al-Muzzammil 73:11-19 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">وَذَرْنِى وَٱلْمُكَذِّبِينَ أُو۟لِى ٱلنَّعْمَةِ وَمَهِّلْهُمْ قَلِيلًا ﴿١١﴾ إِنَّ لَدَيْنَآ أَنكَالًۭا وَجَحِيمًۭا ﴿١٢﴾ وَطَعَامًۭا ذَا غُصَّةٍۢ وَعَذَابًا أَلِيمًۭا ﴿١٣﴾ يَوْمَ تَرْجُفُ ٱلْأَرْضُ وَٱلْجِبَالُ وَكَانَتِ ٱلْجِبَالُ كَثِيبًۭا مَّهِيلًا ﴿١٤﴾ إِنَّآ أَرْسَلْنَآ إِلَيْكُمْ رَسُولًۭا شَـٰهِدًا عَلَيْكُمْ كَمَآ أَرْسَلْنَآ إِلَىٰ فِرْعَوْنَ رَسُولًۭا ﴿١٥﴾ فَعَصَىٰ فِرْعَوْنُ ٱلرَّسُولَ فَأَخَذْنَـٰهُ أَخْذًۭا وَبِيلًۭا ﴿١٦﴾ فَكَيْفَ تَتَّقُونَ إِن كَفَرْتُمْ يَوْمًۭا يَجْعَلُ ٱلْوِلْدَٰنَ شِيبًا ﴿١٧﴾ ٱلسَّمَآءُ مُنفَطِرٌۢ بِهِۦ ۚ كَانَ وَعْدُهُۥ مَفْعُولًا ﴿١٨﴾ إِنَّ هَـٰذِهِۦ تَذْكِرَةٌۭ ۖ فَمَن شَآءَ ٱتَّخَذَ إِلَىٰ رَبِّهِۦ سَبِيلًا ﴿١٩﴾</div>
                     <div class="transliteration">Wa żarnī wal-mukażżibīna ulin-na'mati wa mahhilhum qalīlā (11) Inna ladaynā ankālaw wa jaḥīmā (12) Wa ṭa'āman dhā ghuṣṣatin wa 'adhāban alīmā (13) Yawma tarjufu al-arḍu wal-jibālu wa kānatil-jibālu kaṡībam mahīlā (14) Innā arsalnā ilaykum rasūlan syāhidan 'alaykum kamā arsalnā ilā fir'awna rasūlā (15) Fa 'aṣā fir'awnur-rasūla fa akhażnāhu akhżaw wabīlā (16) Fakayfa tattaqūna in kafartum yauman yaj'alul-wildāna syībā (17) As-samā'u munfaṭirun bih, kāna wa'duhū maf'ūlā (18) Inna hāżihī tażkirah, faman syā'at takhaża ilā rabbihī sabīlā (19)</div>
                     <div class="translation-text"><strong>Translation:</strong> “Leave Me with the deniers, those of luxury, and give them respite for a little. Indeed, with Us are shackles and hellfire, and food that chokes and a painful punishment. On the Day when the earth and the mountains will convulse and the mountains will become a heap of sand pouring down. Indeed, We have sent to you a Messenger as a witness upon you, just as We sent to Pharaoh a messenger. But Pharaoh disobeyed the messenger, so We seized him with a severe punishment. Then how can you, if you disbelieve, protect yourselves from a Day that will make children grey-haired? The heaven will break apart therefrom; His promise is to be fulfilled. Indeed, this is a reminder; so whoever wills may take to his Lord a way.”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> At-Tabari explains: Allah warns the wealthy disbelievers of Mecca. They are given respite, but punishment is certain: shackles (ankāl), hellfire (jaḥīm), choking food (ghuṣṣah), and painful torment. The Day of Judgment is described: earth and mountains shake, mountains become scattered sand. The story of Pharaoh is a lesson. The Day is so terrifying that children become gray-haired. Yet Allah gives good news: this is a reminder; whoever wills may take a path to his Lord. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=11&to=19">At-Tabari, Jami‘ Al-Bayan</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> At-Tabari explains: Allah warns the wealthy disbelievers of Mecca. They are given respite, but punishment is certain: shackles (ankāl), hellfire (jaḥīm), choking food (ghuṣṣah), and painful torment. The Day of Judgment is described: earth and mountains shake, mountains become scattered sand. The story of Pharaoh is a lesson. The Day is so terrifying that children become gray-haired. Yet Allah gives good news: this is a reminder; whoever wills may take a path to his Lord. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=11&to=19" target="_blank">At-Tabari, Jami‘ Al-Bayan</a></div>
                     <div class="tafsir-source">Source: At-Tabari, Jami‘ Al-Bayan</div>
                 </div>
             </div>
@@ -583,11 +666,11 @@
             <div class="theme-card">
                 <div class="theme-title">5. Concession, Prayer, Zakah & Istighfar (Verse 20)</div>
                 <div class="verse-item">
-                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=20&opt=1" target="_blank">Al-Muzzammil 73:20 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
+                    <strong>Full Verses:</strong> <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=20" target="_blank">Al-Muzzammil 73:20 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Tafsir</span></a>
                     <div class="arabic">۞ إِنَّ رَبَّكَ يَعْلَمُ أَنَّكَ تَقُومُ أَدْنَىٰ مِن ثُلُثَىِ ٱلَّيْلِ وَنِصْفَهُۥ وَثُلُثَهُۥ وَطَآئِفَةٌۭ مِّنَ ٱلَّذِينَ مَعَكَ ۚ وَٱللَّهُ يُقَدِّرُ ٱلَّيْلَ وَٱلنَّهَارَ ۚ عَلِمَ أَن لَّن تُحْصُوهُ فَتَابَ عَلَيْكُمْ ۖ فَٱقْرَءُوا۟ مَا تَيَسَّرَ مِنَ ٱلْقُرْءَانِ ۚ عَلِمَ أَن سَيَكُونُ مِنكُم مَّرْضَىٰ ۙ وَءَاخَرُونَ يَضْرِبُونَ فِى ٱلْأَرْضِ يَبْتَغُونَ مِن فَضْلِ ٱللَّهِ ۙ وَءَاخَرُونَ يُقَـٰتِلُونَ فِى سَبِيلِ ٱللَّهِ ۖ فَٱقْرَءُوا۟ مَا تَيَسَّرَ مِنْهُ ۚ وَأَقِيمُوا۟ ٱلصَّلَوٰةَ وَءَاتُوا۟ ٱلزَّكَوٰةَ وَأَقْرِضُوا۟ ٱللَّهَ قَرْضًا حَسَنًۭا ۚ وَمَا تُقَدِّمُوا۟ لِأَنفُسِكُم مِّنْ خَيْرٍۢ تَجِدُوهُ عِندَ ٱللَّهِ هُوَ خَيْرًۭا وَأَعْظَمَ أَجْرًۭا ۚ وَٱسْتَغْفِرُوا۟ ٱللَّهَ ۖ إِنَّ ٱللَّهَ غَفُورٌۭ رَّحِيمٌۢ ﴿٢٠﴾</div>
                     <div class="transliteration">Inna rabbaka ya'lamu annaka taqūmu adnā min ṡuluṡayil-layli wa niṣfahū wa ṡuluṡahū wa ṭā'ifatum minal-ladzīna ma'ak. Wallāhu yuqaddirul-layla wan-nahār. 'Alima allan tuḥṣūhu fatāba 'alaykum faqra'ụ mā tayassara minal-qur`ān. 'Alima an sayakūnu minkum marḍā wa ākharūna yaḍribūna fil-arḍi yabtaghūna min faḍlillāh, wa ākharūna yuqātilūna fī sabīlillāh, faqra'ụ mā tayassara min-hu, wa aqīmuṣ-ṣalāta wa ātuz-zakāta wa aqriḍullāha qarḍan ḥasanā. Wa mā tuqaddimū li'anfusikum min khairin tajidūhu 'indallāhi huwa khayraw wa a'ẓama ajrā, wastagfirullāh, innallāha gafụrur raḥīm.</div>
                     <div class="translation-text"><strong>Translation:</strong> “Indeed, your Lord knows that you stand [in prayer] less than two-thirds of the night or half of it or a third of it, and [so does] a group of those with you. And Allah determines [the extent of] the night and the day. He knows that you will not be able to do it, so He has turned to you in forgiveness, so recite what is easy [for you] of the Qur'an. He knows that there will be among you those who are ill and others traveling throughout the land seeking [something] of the bounty of Allah and others fighting for the cause of Allah. So recite what is easy from it and establish prayer and give zakah and loan Allah a goodly loan. And whatever good you put forward for yourselves - you will find it with Allah as better and greater in reward. And seek forgiveness of Allah. Indeed, Allah is Forgiving and Merciful.”</div>
-                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir explains this verse as a great concession from Allah after the heavy command of night prayer. Allah knows human limitations: sickness, travel seeking provision, fighting in Allah's way. Therefore, He lightens the command: recite what is easy of the Qur'an. Then Allah commands the core obligations: prayer, zakah, and spending in charity (qarḍ hasan). Every good deed will be multiplied. The verse ends with a command to seek forgiveness, showing Allah's abundant mercy. — <a href="https://www.islamicstudies.info/tafheem.php?sura=73&verse=20">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
+                    <div class="tafsir-box"><strong>In-depth Tafsir:</strong> Ibn Kathir explains this verse as a great concession from Allah after the heavy command of night prayer. Allah knows human limitations: sickness, travel seeking provision, fighting in Allah's way. Therefore, He lightens the command: recite what is easy of the Qur'an. Then Allah commands the core obligations: prayer, zakah, and spending in charity (qarḍ hasan). Every good deed will be multiplied. The verse ends with a command to seek forgiveness, showing Allah's abundant mercy. — <a href="https://www.islamicstudies.info/tafheem-orig.php?sura=73&verse=20" target="_blank">Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</a></div>
                     <div class="tafsir-source">Source: Ibn Kathir, Tafsir Al-Qur’an Al-‘Azim</div>
                 </div>
             </div>
@@ -620,16 +703,13 @@
                 <a href="074.html" class="pagination-item">Next Surah: Al-Muddatstsir (74) <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="pagination-center">
-                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Back to Main Menu</a>
+                <a href="index.html" class="pagination-item"><i class="fas fa-home"></i> Main Menu</a>
             </div>
         </div>
     </div>
 </div>
 
 <footer>© 1447 AH / 2026 AD - Tafsir based on IslamicStudies.info & classical sources | Guidance for Reflection</footer>
-
-<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
-<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
 
 <script>
 (function() {
@@ -646,57 +726,110 @@
     else if (urlParams.has('Indonesian')) langParam = 'indonesian';
     let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
 
-    function setLanguage(lang) {
+    function setLanguage(lang, savePreference = true) {
         const isEnglish = (lang === 'english');
         if (isEnglish) {
             englishDiv.classList.remove('hidden');
             indoDiv.classList.add('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Switch to Indonesian';
+            if (savePreference) localStorage.setItem('language', 'english');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Indonesian';
         } else {
             englishDiv.classList.add('hidden');
             indoDiv.classList.remove('hidden');
-            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 Switch to English';
+            if (savePreference) localStorage.setItem('language', 'indonesian');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 English';
         }
-        localStorage.setItem('language', lang);
+        updateUITexts();
     }
-    setLanguage(currentLang);
-    langToggle.addEventListener('click', () => {
-        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
-        setLanguage(newLang);
-    });
+
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        localStorage.setItem('transliteration', show);
+        updateUITexts();
+    }
 
     let translitVisible = localStorage.getItem('transliteration') === 'true';
     if (urlParams.has('Transliteration')) translitVisible = true;
-    function setTransliteration(show) {
-        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
-        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
-        localStorage.setItem('transliteration', show);
-    }
-    setTransliteration(translitVisible);
-    translitToggle.addEventListener('click', () => {
-        const currently = translitElements[0]?.style.display === 'block';
-        setTransliteration(!currently);
-    });
 
     let darkActive = false;
     if (urlParams.has('Dark')) darkActive = true;
     else darkActive = localStorage.getItem('darkMode') === 'true';
     if (darkActive) document.body.classList.add('dark-mode');
+
     function setDarkModeUI() {
         const active = document.body.classList.contains('dark-mode');
-        darkToggle.innerHTML = active ? '<i class="fas fa-moon"></i> Light Mode' : '<i class="fas fa-sun"></i> Dark Mode';
+        const isEnglish = !englishDiv.classList.contains('hidden');
+        darkToggle.innerHTML = active ? (isEnglish ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-sun"></i> Mode Terang') : (isEnglish ? '<i class="fas fa-moon"></i> Dark Mode' : '<i class="fas fa-moon"></i> Mode Gelap');
         localStorage.setItem('darkMode', active);
     }
     setDarkModeUI();
+
+    function updateUITexts() {
+        const isEnglish = !englishDiv.classList.contains('hidden');
+        const translitShown = translitElements[0]?.style.display === 'block';
+        translitToggle.innerHTML = translitShown ? (isEnglish ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Sembunyikan Transliterasi') : (isEnglish ? '<i class="fas fa-language"></i> Show Transliteration' : '<i class="fas fa-language"></i> Tampilkan Transliterasi');
+        darkToggle.innerHTML = document.body.classList.contains('dark-mode') ? (isEnglish ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-sun"></i> Mode Terang') : (isEnglish ? '<i class="fas fa-moon"></i> Dark Mode' : '<i class="fas fa-moon"></i> Mode Gelap');
+        document.querySelectorAll('.clickable-caption').forEach(cap => {
+            let textNode = Array.from(cap.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+            if (textNode) textNode.textContent = isEnglish ? ' Click to Listen' : ' Klik untuk Mendengarkan';
+            else cap.appendChild(document.createTextNode(isEnglish ? ' Click to Listen' : ' Klik untuk Mendengarkan'));
+        });
+    }
+
+    setLanguage(currentLang, false);
+    setTransliteration(translitVisible);
+
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang, true);
+        setTransliteration(translitElements[0]?.style.display === 'block');
+        setDarkModeUI();
+    });
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
     darkToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         setDarkModeUI();
     });
 
-    const upArrow = document.getElementById('scrollUp');
-    const downArrow = document.getElementById('scrollDown');
-    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
-    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+    function enhanceAudioPlayers() {
+        document.querySelectorAll('.audio-player').forEach(player => {
+            if (player.querySelector('.audio-controls')) return;
+            const audio = player.querySelector('audio');
+            if (!audio) return;
+            const controlsDiv = document.createElement('div');
+            controlsDiv.className = 'audio-controls';
+            const speedSelect = document.createElement('select');
+            speedSelect.className = 'speed-select';
+            [0.5,0.75,1,1.25,1.5,2].forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s;
+                opt.textContent = s + '×';
+                if (s===1) opt.selected = true;
+                speedSelect.appendChild(opt);
+            });
+            speedSelect.addEventListener('change', e => audio.playbackRate = parseFloat(e.target.value));
+            controlsDiv.appendChild(speedSelect);
+            const caption = document.createElement('div');
+            caption.className = 'clickable-caption';
+            const icon = document.createElement('i');
+            icon.className = 'fas fa-headphones';
+            caption.appendChild(icon);
+            const isEnglish = !englishDiv.classList.contains('hidden');
+            caption.appendChild(document.createTextNode(isEnglish ? ' Click to Listen' : ' Klik untuk Mendengarkan'));
+            caption.addEventListener('click', e => { e.stopPropagation(); audio.play().catch(err => console.log('play error', err)); });
+            controlsDiv.appendChild(caption);
+            player.appendChild(controlsDiv);
+        });
+    }
+    enhanceAudioPlayers();
 })();
 </script>
 </body>
