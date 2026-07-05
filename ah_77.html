@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>77. Al-Wali</title>
+    <style>
+        /* Reset & basics */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            padding: 20px;
+            background: #f5f9fc;
+            color: #1e2a3e;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+        }
+        body.dark-mode .arabic { color: #9ad0ff; }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration { color: #cbd5e6; }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title { color: #eef2ff; border-bottom-color: #5fa7cf; }
+        .section { margin: 40px 0; }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title { color: #7bc9ff; border-left-color: #5fa7cf; }
+        .dua, .amalan, .dalil-item {
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+        }
+        body.dark-mode .dua, body.dark-mode .amalan, body.dark-mode .dalil-item {
+            background: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title, .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title, body.dark-mode .amalan-title { color: #66d9a7; }
+        .tafsir-box {
+            background: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .bonus {
+            background: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus { background: #1f3a4b; border-left-color: #5fa7cf; }
+        .audio-player { margin-top: 15px; }
+        .audio-title { font-weight: 600; margin-bottom: 6px; }
+        .hidden { display: none !important; }
+
+        /* Toggle buttons (fixed) */
+        .toggle-btn {
+            position: fixed;
+            right: 20px;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+        #langToggle { top: 20px; background: #2c7da0; }
+        #translitToggle { top: 80px; background: #27ae60; }
+        #darkToggle { top: 140px; background: #8e44ad; }
+
+        /* Scroll arrows */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: none;
+            font-size: 22px;
+            transition: 0.2s;
+        }
+        .scroll-arrow:hover { transform: scale(1.05); background: #2c7da0; }
+        body.dark-mode .scroll-arrow { background: #3e5a77; }
+        body.dark-mode .scroll-arrow:hover { background: #2c7da0; }
+        .scroll-arrow.up { top: 200px; }
+        .scroll-arrow.down { bottom: 90px; }
+
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: none;
+            font-size: 20px;
+            transition: 0.2s;
+        }
+        .scroll-arrow-double:hover { transform: scale(1.05); background: #2c7da0; }
+        body.dark-mode .scroll-arrow-double { background: #3e5a77; }
+        body.dark-mode .scroll-arrow-double:hover { background: #2c7da0; }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+
+        /* Menu links */
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: #1e2a3e;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        body.dark-mode .menu-link { background: #253446; color: #eef2ff; }
+        .menu-link:hover { background: #d4e2ec; text-decoration: none; }
+        body.dark-mode .menu-link:hover { background: #2f405b; }
+        .main-menu-links { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+        .pagination { display: flex; justify-content: center; gap: 20px; margin: 30px 0 10px; flex-wrap: wrap; }
+        .pagination .menu-link { min-width: 120px; justify-content: center; }
+        a { color: #1a5a8a; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        body.dark-mode a { color: #a3c6ff; }
+        body.dark-mode a:hover { color: #c9e0ff; }
+
+        footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; border-top: 1px solid #ddd; padding-top: 20px; }
+        body.dark-mode footer { border-top-color: #3a4a62; }
+        .back-to-top { display: inline-block; margin-top: 20px; color: #2c7da0; font-weight: 500; }
+
+        @media (max-width: 680px) {
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; font-size: 18px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .toggle-btn { padding: 5px 12px; font-size: 11px; right: 12px; }
+            #langToggle { top: 12px; }
+            #translitToggle { top: 68px; }
+            #darkToggle { top: 124px; }
+            .arabic { font-size: 32px; }
+            .container { padding: 20px; }
+        }
+
+        /* Fallback: if JS fails, show a notice */
+        .no-js-msg { background: #fff3cd; color: #856404; padding: 10px 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #ffeeba; }
+        body.dark-mode .no-js-msg { background: #3a3a2a; color: #ffd966; border-color: #665a33; }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Fixed Toggle Buttons ===== -->
+    <button id="langToggle" class="toggle-btn" onclick="toggleLanguage()">🇬🇧 English</button>
+    <button id="translitToggle" class="toggle-btn" onclick="toggleTransliteration()">Show Transliteration</button>
+    <button id="darkToggle" class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
+
+    <!-- ===== Scroll arrows ===== -->
+    <div class="scroll-arrow up" onclick="window.scrollBy({top:-window.innerHeight, behavior:'smooth'})">↑</div>
+    <div class="scroll-arrow down" onclick="window.scrollBy({top:window.innerHeight, behavior:'smooth'})">↓</div>
+    <div class="scroll-arrow-double up-double" onclick="window.scrollTo({top:0, behavior:'smooth'})">⤊</div>
+    <div class="scroll-arrow-double down-double" onclick="window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'})">⤋</div>
+
+    <!-- ===== MAIN CONTAINER ===== -->
+    <div class="container" id="mainContainer">
+
+        <!-- ========================================================= -->
+        <!--                INDONESIAN CONTENT (visible by default)      -->
+        <!-- ========================================================= -->
+        <div id="indoContent" style="display:block;">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link">← Main Menu</a>
+                <a href="ah_index.html" class="menu-link">← Asmaul Husna Menu</a>
+            </div>
+
+            <h1 class="name-title">77. Al-Wali (Yang Maha Melindungi dan Memerintah)</h1>
+            <div class="name-source"><strong>Sumber:</strong> Kementerian Agama RI</div>
+            <div class="arabic">ٱلْوَلِيُّ</div>
+            <div class="transliteration">Transliterasi: Al-Wali</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width:100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/77.%20al-wali.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Wali muncul beberapa kali dalam Al-Quran (mis. <a href="https://quran.com/42/9?translations=33" target="_blank">Surah Ash-Shura 42:9</a>, <a href="https://quran.com/2/257?translations=33" target="_blank">Surah Al-Baqarah 2:257</a>) dengan dua makna mendalam:</p>
+                <ul>
+                    <li><strong>Yang Maha Melindungi:</strong> Penjaga yang mengurus urusan hamba-hamba-Nya</li>
+                    <li><strong>Yang Maha Memerintah:</strong> Penguasa yang mengatur semua ciptaan dengan hikmah sempurna</li>
+                </ul>
+                <p>Menurut Kementerian Agama RI, Al-Wali adalah Allah yang melindungi dan memimpin hamba-hamba-Nya yang beriman. Ibnu Qayyim menjelaskan: "Al-Wali adalah Yang khusus menjaga hamba-hamba-Nya yang beriman, melindungi mereka dari bahaya dan membimbing urusan mereka. Dia juga Penguasa sejati alam semesta, mengatur segala hal dengan hikmah sempurna."</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong> <a href="https://quran.com/42/9?translations=33" target="_blank">Surah Ash-Shura 42:9</a>
+                    <div class="arabic">أَمِ ٱتَّخَذُوا۟ مِن دُونِهِۦٓ أَوْلِيَآءَ فَٱللَّهُ هُوَ ٱلْوَلِىُّ وَهُوَ يُحْىِ ٱلْمَوْتَىٰ وَهُوَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌۭ</div>
+                    <div class="transliteration">Am ittakhadhū min dūnihī awliyā'a fa-llāhu huwa l-waliyyu wa huwa yuḥyi l-mawtā wa huwa 'alā kulli shay'in qadīr</div>
+                    <p>"Ataukah mereka mengambil pelindung-pelindung selain-Nya? Maka Allah, Dialah Pelindung itu, dan Dia menghidupkan yang mati, dan Dia Maha Kuasa atas segala sesuatu."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menetapkan Allah sebagai satu-satunya Wali (Pelindung/Penguasa) sejati, membedakan-Nya dengan pelindung palsu yang mungkin diambil manusia. Hubungan antara penjagaan-Nya dan kuasa menghidupkan menunjukkan otoritas-Nya yang sempurna.
+                    </div>
+                </div>
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> <a href="https://quran.com/2/257?translations=33" target="_blank">Surah Al-Baqarah 2:257</a>
+                    <div class="arabic">ٱللَّهُ وَلِىُّ ٱلَّذِينَ ءَامَنُوا۟ يُخْرِجُهُم مِّنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ</div>
+                    <div class="transliteration">Allāhu waliyyu lladhīna āmanū yukhrijuhum mina ẓ-ẓulumāti ilā n-nūr</div>
+                    <p>"Allah Pelindung orang-orang yang beriman. Dia mengeluarkan mereka dari kegelapan kepada cahaya."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menunjukkan hubungan khusus Al-Wali dengan orang beriman, membimbing mereka dari kebodohan kepada pengetahuan, dari kesesatan kepada petunjuk, dan dari kegelapan kepada cahaya.
+                    </div>
+                </div>
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong> <a href="https://quran.com/10/62?translations=33" target="_blank">Surah Yunus 10:62</a>
+                    <div class="arabic">أَلَآ إِنَّ أَوْلِيَآءَ ٱللَّهِ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ</div>
+                    <div class="transliteration">Alā inna awliyā'a llāhi lā khawfun 'alayhim wa lā hum yaḥzanūn</div>
+                    <p>"Ingatlah, sesungguhnya wali-wali Allah itu tidak ada kekhawatiran terhadap mereka dan tidak (pula) mereka bersedih hati."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menjanjikan keamanan dan ketenangan bagi para wali Allah (kekasih-kekasih-Nya), menunjukkan hasil dari perlindungan Al-Wali.
+                    </div>
+                </div>
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/bukhari:2896" target="_blank">Sahih Bukhari 2896</a>
+                    <div class="arabic">إِنَّ اللَّهَ وَلِيُّ الْمُؤْمِنِينَ وَهُوَ أَعْلَمُ بِهِمْ</div>
+                    <div class="transliteration">Inna llāha waliyyu l-mu'minīn wa huwa a'lamu bihim</div>
+                    <p>"Sesungguhnya Allah adalah Wali (Pelindung) orang-orang beriman dan Dia lebih mengetahui tentang mereka."</p>
+                    <div class="tafsir-box">
+                        <strong>Konteks:</strong> Nabi (ﷺ) mengatakan ini ketika menjelaskan bahwa Allah mengetahui apa yang terbaik bagi hamba-hamba-Nya, bahkan ketika mereka tidak memahami ketetapan-Nya.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Untuk Perlindungan Ilahi</div>
+                    <div class="arabic">يَا وَلِيُّ ٱلْمُؤْمِنِينَ وََلِّنِي مَا وَلَّيْتَ بِهِ عِبَادَكَ ٱلصَّالِحِينَ</div>
+                    <div class="transliteration">Yā Waliyyu l-mu'minīn, wallinī mā wallayta bihī 'ibādaka ṣ-ṣāliḥīn</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Pelindung orang-orang beriman, anugerahkan padaku penjagaan yang Engkau berikan kepada hamba-hamba-Mu yang shaleh."</p>
+                    <p><strong>Manfaat:</strong> Doa ini memohon perlindungan dan bimbingan khusus Allah, sebagaimana Dia berikan kepada hamba-hamba-Nya yang shaleh (<a href="https://quran.com/10/62?translations=33" target="_blank">Surah Yunus 10:62</a>). Dianjurkan untuk dibaca pagi dan petang.</p>
+                </div>
+                <div class="dua">
+                    <div class="dua-title">Untuk Pengurusan Urusan</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ ٱلْوَلِيِّ ٱدْفَعْ عَنِّي مَا لَا أُطِيقُ وَوَلِّ أُمُورِي خِيَارَ عِبَادِكَ</div>
+                    <div class="transliteration">Allāhumma bi-ḥaqqi l-Wali, idfa' 'annī mā lā uṭīqu wa walli umūrī khiyāra 'ibādik</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, dengan hak Al-Wali, jauhkan dariku apa yang tidak sanggup kuhadapi, dan tunjuklah hamba-hamba-Mu terbaik untuk mengurus urusanku."</p>
+                    <p><strong>Sumber:</strong> Terinspirasi dari ajaran Nabi (ﷺ) tentang mencari perlindungan Allah (Tirmidhi). Direkomendasikan oleh Kementerian Agama RI dalam panduan doa sehari-hari.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Ritual Perlindungan</div>
+                    <p>Untuk mencari penjagaan Allah:</p>
+                    <ol>
+                        <li>Baca "Yā Wali" 11 kali setelah Subuh dan Maghrib</li>
+                        <li>Baca <a href="https://quran.com/3/173?translations=33" target="_blank">Surah Al-Imran 3:173</a></li>
+                        <li>Berdoa untuk perlindungan sepanjang hari</li>
+                    </ol>
+                    <p><strong>Manfaat:</strong> Praktik ini memohon perlindungan terus-menerus dari Allah, memperkuat ketergantungan pada penjagaan ilahi, dan menghubungkan dengan keadaan hamba-hamba shaleh.</p>
+                    <p><strong>Dasar Syar'i:</strong> Nabi (ﷺ) bersabda: "Barangsiapa yang membaca 'Hasbiyallahu la ilaha illa huwa, 'alayhi tawakkaltu, wa huwa Rabbul 'arsyil 'azim' (Cukuplah Allah bagiku, tidak ada tuhan selain Dia, hanya kepada-Nya aku bertawakal, dan Dia adalah Tuhan pemilik 'Arsy yang agung) sebanyak tujuh kali pada pagi dan sore, Allah akan mencukupkan untuknya segala urusannya." (HR. Abu Daud)</p>
+                </div>
+                <div class="amalan">
+                    <div class="amalan-title">Pemeliharaan Persahabatan</div>
+                    <p>Untuk mengembangkan kedekatan dengan Al-Wali:</p>
+                    <ol>
+                        <li>Pagi dan petang: "Hasbiyallahu la ilaha illa huwa 'alayhi tawakkalt" (Cukuplah Allah bagiku)</li>
+                        <li>Rutin mempelajari nama dan sifat Allah</li>
+                        <li>Perbanyak amal shaleh untuk layak mendapat persahabatan-Nya</li>
+                    </ol>
+                    <p><strong>Dasar Historis:</strong> Para Sahabat mengembangkan persahabatan dengan Allah melalui zikir dan ketaatan terus-menerus, seperti tercatat dalam Musannaf Ibnu Abi Shaybah.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibn Kathir menjelaskan Al-Wali melalui tiga dimensi:</p>
+                <ol>
+                    <li><strong>Penjagaan Pelindung:</strong> Membela orang beriman dari bahaya (<a href="https://quran.com/22/38?translations=33" target="_blank">Surah Al-Hajj 22:38</a>) dan melindungi dari bahaya spiritual (<a href="https://quran.com/7/196?translations=33" target="_blank">Surah Al-A'raf 7:196</a>).</li>
+                    <li><strong>Otoritas Pemerintahan:</strong> Mengatur urusan semesta (<a href="https://quran.com/10/31?translations=33" target="_blank">Surah Yunus 10:31</a>) dan mengarahkan semua ciptaan (<a href="https://quran.com/35/13?translations=33" target="_blank">Surah Fatir 35:13</a>).</li>
+                    <li><strong>Persahabatan Intim:</strong> Hubungan khusus dengan orang beriman (<a href="https://quran.com/45/19?translations=33" target="_blank">Surah Al-Jathiyah 45:19</a>) dan dekat dengan yang mendekat (<a href="https://quran.com/2/186?translations=33" target="_blank">Surah Al-Baqarah 2:186</a>).</li>
+                </ol>
+                <p>Dalam Surah Al-Jathiyah (45:19), Allah menyatakan: "Sesungguhnya mereka tidak akan dapat menolak dari kamu sedikit pun dari (siksaan) Allah. Dan sesungguhnya orang-orang yang zalim itu sebagian mereka menjadi penolong bagi sebagian yang lain, dan Allah adalah pelindung orang-orang yang bertakwa." Ini menunjukkan bagaimana Al-Wali membentuk ikatan khusus dengan yang berjuang di jalan-Nya.</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="ah_76.html" class="menu-link">← Sebelumnya (76)</a>
+                <a href="ah_index.html" class="menu-link">Daftar</a>
+                <a href="ah_78.html" class="menu-link">Selanjutnya (78) →</a>
+            </div>
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link">← Main Menu</a>
+                <a href="ah_index.html" class="menu-link">← Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+
+        <!-- ========================================================= -->
+        <!--                ENGLISH CONTENT (hidden by default)         -->
+        <!-- ========================================================= -->
+        <div id="engContent" style="display:none;">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link">← Main Menu</a>
+                <a href="ah_index.html" class="menu-link">← Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">77. Al-Wali (The Protecting Friend, The Governor)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-wali/" target="_blank">myislam.org</a></div>
+
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+                <div class="audio-player">
+                    <div class="audio-title">Explanation Audio</div>
+                    <audio controls style="width:100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_78Waali.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْوَلِيُّ</div>
+            <div class="transliteration">Transliteration: Al-Wali</div>
+            <div class="audio-player">
+                <div class="audio-title">Pronunciation</div>
+                <audio controls style="width:100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/77.%20al-wali.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Wali appears multiple times in the Quran (e.g., <a href="https://quran.com/42/9?translations=131" target="_blank">Surah Ash-Shura 42:9</a>, <a href="https://quran.com/2/257?translations=131" target="_blank">Surah Al-Baqarah 2:257</a>) with two profound meanings:</p>
+                <ul>
+                    <li><strong>The Protecting Friend:</strong> The Guardian who takes charge of His servants' affairs</li>
+                    <li><strong>The Governor:</strong> The Sovereign who manages all creation with perfect wisdom</li>
+                </ul>
+                <p>Ibn Qayyim explained: "Al-Wali is the One who takes special care of His believing servants, protecting them from harms and guiding their affairs. He is also the true Governor of the universe, arranging all matters with perfect wisdom."</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Evidence (Quran &amp; Hadith)</h2>
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong> <a href="https://quran.com/42/9?translations=131" target="_blank">Surah Ash-Shura 42:9</a>
+                    <div class="arabic">أَمِ ٱتَّخَذُوا۟ مِن دُونِهِۦٓ أَوْلِيَآءَ فَٱللَّهُ هُوَ ٱلْوَلِىُّ وَهُوَ يُحْىِ ٱلْمَوْتَىٰ وَهُوَ عَلَىٰ كُلِّ شَىْءٍۢ قَدِيرٌۭ</div>
+                    <div class="transliteration">Am ittakhadhū min dūnihī awliyā'a fa-llāhu huwa l-waliyyu wa huwa yuḥyi l-mawtā wa huwa 'alā kulli shay'in qadīr</div>
+                    <p>"Or have they taken protectors besides Him? But Allah is the Protector, and He gives life to the dead, and He is over all things competent."</p>
+                    <div class="tafsir-box"><strong>Tafsir Ibn Kathir:</strong> This verse establishes Allah as the only true Wali, contrasting Him with false protectors. The connection between His guardianship and power to resurrect shows His complete authority.</div>
+                </div>
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> <a href="https://quran.com/2/257?translations=131" target="_blank">Surah Al-Baqarah 2:257</a>
+                    <div class="arabic">ٱللَّهُ وَلِىُّ ٱلَّذِينَ ءَامَنُوا۟ يُخْرِجُهُم مِّنَ ٱلظُّلُمَـٰتِ إِلَى ٱلنُّورِ</div>
+                    <div class="transliteration">Allāhu waliyyu lladhīna āmanū yukhrijuhum mina ẓ-ẓulumāti ilā n-nūr</div>
+                    <p>"Allah is the Protector of those who believe. He brings them out from darknesses into the light."</p>
+                    <div class="tafsir-box"><strong>Tafsir Ibn Kathir:</strong> This verse shows Al-Wali's special relationship with believers, guiding them from ignorance to knowledge, from misguidance to guidance.</div>
+                </div>
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong> <a href="https://quran.com/10/62?translations=131" target="_blank">Surah Yunus 10:62</a>
+                    <div class="arabic">أَلَآ إِنَّ أَوْلِيَآءَ ٱللَّهِ لَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ</div>
+                    <div class="transliteration">Alā inna awliyā'a llāhi lā khawfun 'alayhim wa lā hum yaḥzanūn</div>
+                    <p>"Unquestionably, [for] the allies of Allah there will be no fear concerning them, nor will they grieve."</p>
+                    <div class="tafsir-box"><strong>Tafsir Ibn Kathir:</strong> This verse promises security and peace for Allah's awliya (close friends), showing the result of Al-Wali's protection.</div>
+                </div>
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/bukhari:2896" target="_blank">Sahih Bukhari 2896</a>
+                    <div class="arabic">إِنَّ اللَّهَ وَلِيُّ الْمُؤْمِنِينَ وَهُوَ أَعْلَمُ بِهِمْ</div>
+                    <div class="transliteration">Inna llāha waliyyu l-mu'minīn wa huwa a'lamu bihim</div>
+                    <p>"Indeed Allah is the Wali (Protector) of the believers and He knows best about them."</p>
+                    <div class="tafsir-box"><strong>Context:</strong> The Prophet (ﷺ) said this when explaining that Allah knows what's truly best for His servants.</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a</h2>
+                <div class="dua">
+                    <div class="dua-title">For Divine Protection</div>
+                    <div class="arabic">يَا وَلِيُّ ٱلْمُؤْمِنِينَ وََلِّنِي مَا وَلَّيْتَ بِهِ عِبَادَكَ ٱلصَّالِحِينَ</div>
+                    <div class="transliteration">Yā Waliyyu l-mu'minīn, wallinī mā wallayta bihī 'ibādaka ṣ-ṣāliḥīn</div>
+                    <p><strong>Translation:</strong> "O Protector of the believers, grant me the guardianship You have granted Your righteous servants."</p>
+                    <p><strong>Benefits:</strong> This du'a seeks Allah's special protection and guidance, as He provides for His righteous servants (<a href="https://quran.com/10/62?translations=131" target="_blank">Surah Yunus 10:62</a>).</p>
+                </div>
+                <div class="dua">
+                    <div class="dua-title">For Affairs Management</div>
+                    <div class="arabic">اللَّهُمَّ بِحَقِّ ٱلْوَلِيِّ ٱدْفَعْ عَنِّي مَا لَا أُطِيقُ وَوَلِّ أُمُورِي خِيَارَ عِبَادِكَ</div>
+                    <div class="transliteration">Allāhumma bi-ḥaqqi l-Wali, idfa' 'annī mā lā uṭīqu wa walli umūrī khiyāra 'ibādik</div>
+                    <p><strong>Translation:</strong> "O Allah, by the right of Al-Wali, repel from me what I cannot bear, and appoint the best of Your servants to manage my affairs."</p>
+                    <p><strong>Source:</strong> Inspired by the Prophet's (ﷺ) teachings on seeking Allah's guardianship (Tirmidhi).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Practices</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Protection Ritual</div>
+                    <p>For seeking Allah's guardianship:</p>
+                    <ol>
+                        <li>Recite "Yā Wali" 11 times after Fajr and Maghrib</li>
+                        <li>Read <a href="https://quran.com/3/173?translations=131" target="_blank">Surah Al-Imran 3:173</a></li>
+                        <li>Make dua for protection throughout the day</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice invokes Allah's continuous protection, strengthens reliance on divine guardianship, and connects with the state of righteous servants.</p>
+                </div>
+                <div class="amalan">
+                    <div class="amalan-title">Friendship Cultivation</div>
+                    <p>To develop closeness to Al-Wali:</p>
+                    <ol>
+                        <li>Morning and evening: "Hasbiyallahu la ilaha illa huwa 'alayhi tawakkalt" (Allah suffices me)</li>
+                        <li>Regularly study Allah's names and attributes</li>
+                        <li>Increase righteous deeds to become worthy of His friendship</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The Companions would cultivate Allah's friendship through constant remembrance and obedience.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir (Deep Dive)</h2>
+                <p>Ibn Kathir explains Al-Wali through three dimensions:</p>
+                <ol>
+                    <li><strong>Protective Guardianship:</strong> Defending believers from harm (<a href="https://quran.com/22/38?translations=131" target="_blank">Surah Al-Hajj 22:38</a>) and shielding from spiritual dangers (<a href="https://quran.com/7/196?translations=131" target="_blank">Surah Al-A'raf 7:196</a>).</li>
+                    <li><strong>Governmental Authority:</strong> Managing universal affairs (<a href="https://quran.com/10/31?translations=131" target="_blank">Surah Yunus 10:31</a>) and directing all creation (<a href="https://quran.com/35/13?translations=131" target="_blank">Surah Fatir 35:13</a>).</li>
+                    <li><strong>Intimate Friendship:</strong> Special relationship with believers (<a href="https://quran.com/45/19?translations=131" target="_blank">Surah Al-Jathiyah 45:19</a>) and drawing near to those who draw near (<a href="https://quran.com/2/186?translations=131" target="_blank">Surah Al-Baqarah 2:186</a>).</li>
+                </ol>
+                <p>In Surah Al-Jathiyah (45:19), Allah states: "Indeed, they will not avail you against Allah at all. And indeed, the wrongdoers are allies of one another; but Allah is the protector of the righteous."</p>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="ah_76.html" class="menu-link">← Previous (76)</a>
+                <a href="ah_index.html" class="menu-link">Index</a>
+                <a href="ah_78.html" class="menu-link">Next (78) →</a>
+            </div>
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link">← Main Menu</a>
+                <a href="ah_index.html" class="menu-link">← Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back to Top</a>
+        </div>
+
+    </div><!-- /container -->
+
+    <footer>© 1447 AH / 2026 AD – 77. Al-Wali. Curated by Hermansjah.</footer>
+
+    <noscript>
+        <div style="background:#fff3cd; padding:15px; margin:20px; border-radius:8px; color:#856404; text-align:center;">
+            <strong>JavaScript is disabled.</strong> The page content is still visible, but language toggles and dark mode require JavaScript.
+        </div>
+    </noscript>
+
+    <!-- ============================================================= -->
+    <!--                          JAVASCRIPT (simple)                   -->
+    <!-- ============================================================= -->
+    <script>
+        // In-memory preferences (no localStorage — some viewers/sandboxed
+        // previews block it entirely, and an uncaught SecurityError there
+        // used to stop this script from ever running, leaving a blank page).
+        var prefs = {
+            language: 'indonesian',
+            transliteration: 'hide',
+            darkMode: 'disabled'
+        };
+
+        function toggleLanguage() {
+            var indo = document.getElementById('indoContent');
+            var eng = document.getElementById('engContent');
+            var btn = document.getElementById('langToggle');
+            if (indo.style.display === 'none') {
+                indo.style.display = 'block';
+                eng.style.display = 'none';
+                btn.innerHTML = '🇬🇧 English';
+                prefs.language = 'indonesian';
+            } else {
+                indo.style.display = 'none';
+                eng.style.display = 'block';
+                btn.innerHTML = '🇮🇩 Bahasa Indonesia';
+                prefs.language = 'english';
+            }
+        }
+
+        function toggleTransliteration() {
+            var translits = document.querySelectorAll('.transliteration');
+            var btn = document.getElementById('translitToggle');
+            var currently = (translits.length > 0 && translits[0].style.display !== 'none');
+            var newState = currently ? 'none' : 'block';
+            for (var i = 0; i < translits.length; i++) {
+                translits[i].style.display = newState;
+            }
+            btn.innerHTML = (newState === 'block') ? 'Hide Transliteration' : 'Show Transliteration';
+            prefs.transliteration = (newState === 'block') ? 'show' : 'hide';
+        }
+
+        function toggleDarkMode() {
+            var body = document.body;
+            var btn = document.getElementById('darkToggle');
+            body.classList.toggle('dark-mode');
+            var isDark = body.classList.contains('dark-mode');
+            btn.innerHTML = isDark ? 'Light Mode' : 'Dark Mode';
+            prefs.darkMode = isDark ? 'enabled' : 'disabled';
+        }
+
+        // -------- Apply default preferences on page load --------
+        (function applyPrefs() {
+            try {
+                if (prefs.language === 'english') {
+                    document.getElementById('indoContent').style.display = 'none';
+                    document.getElementById('engContent').style.display = 'block';
+                    document.getElementById('langToggle').innerHTML = '🇮🇩 Bahasa Indonesia';
+                } else {
+                    document.getElementById('indoContent').style.display = 'block';
+                    document.getElementById('engContent').style.display = 'none';
+                    document.getElementById('langToggle').innerHTML = '🇬🇧 English';
+                }
+                var translits = document.querySelectorAll('.transliteration');
+                var showTranslit = prefs.transliteration === 'show';
+                for (var i = 0; i < translits.length; i++) {
+                    translits[i].style.display = showTranslit ? 'block' : 'none';
+                }
+                document.getElementById('translitToggle').innerHTML = showTranslit ? 'Hide Transliteration' : 'Show Transliteration';
+                if (prefs.darkMode === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    document.getElementById('darkToggle').innerHTML = 'Light Mode';
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    document.getElementById('darkToggle').innerHTML = 'Dark Mode';
+                }
+            } catch (e) {
+                console.error('Preference setup failed:', e);
+            }
+        })();
+    </script>
+
+</body>
+</html>
