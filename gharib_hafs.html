@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Modul Bacaan Gharib Al-Qur'an (Riwayat Hafs 'an 'Asim) | Gharib Recitation Module</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #1e2a3e;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #1e5f8e;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --link-color: #1e5f8e;
+            --link-hover: #0d3d5a;
+            --theme-card-bg: #ffffffdd;
+            --translation-color: #2c3e50;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+        .dark-mode {
+            --bg-color: #121826;
+            --text-color: #eef2ff;
+            --container-bg: #1e293b;
+            --arabic-color: #7bc9ff;
+            --section-title-color: #7bc9ff;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #5dade2;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1f3a2f;
+            --link-color: #93c5fd;
+            --link-hover: #c3e2ff;
+            --theme-card-bg: #1e293bdd;
+            --translation-color: #cbd5e1;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0 10px 0;
+            color: var(--arabic-color);
+            font-family: 'Amiri Quran', 'Scheherazade New', 'Traditional Arabic', serif;
+            line-height: 2.1;
+        }
+        .arabic-word {
+            font-size: 46px;
+            text-align: center;
+            direction: rtl;
+            margin: 18px 0;
+            color: var(--arabic-color);
+            font-family: 'Amiri Quran', 'Scheherazade New', 'Traditional Arabic', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: right;
+            margin: 0 0 10px 0;
+            display: none;
+        }
+        .dark-mode .transliteration { color: #b0c4de; }
+        .translation {
+            font-size: 16px;
+            text-align: left;
+            color: var(--translation-color);
+            margin: 5px 0 15px 0;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 12px;
+            border-left: 3px solid var(--link-color);
+        }
+        .dark-mode .translation {
+            background: rgba(255,255,255,0.05);
+        }
+        .surah-title {
+            font-size: 34px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #2c7da0, #1e5f8e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section { margin: 30px 0; }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #1e7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 16px;
+            margin-top: 15px;
+            border: 1px solid var(--tafsir-border);
+        }
+        .hidden { display: none; }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            margin-right: 15px;
+            padding: 8px 16px;
+            border-radius: 40px;
+            border: 1px solid var(--link-color);
+            font-weight: 500;
+        }
+        .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
+        .theme-card {
+            background: var(--theme-card-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 6px solid #2c7da0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .benefits-list {
+            background: var(--benefits-bg);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+        .theme-overview, .special-benefits {
+            background: var(--bonus-bg);
+            padding: 25px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .info-box {
+            background: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .audio-player {
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        /* Single scroll arrows (LEFT) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow.up { top: 200px; }
+        .scroll-arrow.down { bottom: 90px; }
+        /* Double arrows (RIGHT) for top/bottom fast */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+
+        .surah-pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--verse-border);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .pagination-prev, .pagination-next {
+            background: var(--verse-bg);
+            padding: 10px 24px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+            transition: 0.2s;
+        }
+        .pagination-prev:hover, .pagination-next:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        @media (max-width: 640px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .arabic { font-size: 30px; }
+            .arabic-word { font-size: 34px; }
+            .surah-pagination { flex-direction: column; gap: 10px; align-items: stretch; }
+            .pagination-prev, .pagination-next { justify-content: center; }
+        }
+        footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
+        .fa, .fas, .far { margin-right: 4px; }
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .structure-item {
+            background: var(--structure-bg);
+            padding: 15px;
+            border-radius: 20px;
+            border-left: 4px solid #2c7da0;
+        }
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
+        }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
+        }
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
+            min-width: 220px;
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--structure-bg);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .theme-table th, .theme-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--verse-border);
+            text-align: left;
+            vertical-align: top;
+        }
+        .theme-table th {
+            background: #2c7da0;
+            color: white;
+        }
+        .key-verse {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fa 100%);
+            border-left: 6px solid #2c7da0;
+            padding: 25px;
+            border-radius: 24px;
+            margin: 30px 0;
+        }
+        .dark-mode .key-verse {
+            background: linear-gradient(135deg, #1e2a3a 0%, #1a2535 100%);
+        }
+        .relationship-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        .timeline-item {
+            background: var(--verse-bg);
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 12px;
+        }
+        .hikmah-section {
+            background: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .historical-section {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+        .not-standard-note {
+            background: rgba(255,152,0,0.1);
+            border: 1px dashed #ff9800;
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 0.92rem;
+            margin-top: 12px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+<!-- Single scroll arrows (LEFT) -->
+<div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+<div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+<!-- Double arrows (RIGHT: top/bottom fast) -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+<div class="container" id="mainContainer">
+    <!-- INDONESIAN CONTENT -->
+    <div id="indonesian-content">
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Menu Utama</a>
+        </div>
+        <h1 class="surah-title">Modul Bacaan Gharib Al-Qur'an (Riwayat Hafs 'an 'Asim)</h1>
+        <div class="surah-source"><strong>Cakupan:</strong> Isymam, Saktah, Imalah, Rawm, dan Tashil &nbsp;|&nbsp; Rujukan umum: kitab-kitab ilmu Qira'at &amp; Tajwid klasik, serta <a href="https://quran.kemenag.go.id/" target="_blank">Quran.com <span class="blink-click"><i class="fas fa-hand-point-left"></i> Lihat ayat</span></a></div>
+
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Apa itu Bacaan Gharib?</h3>
+            <p>Gharib al-Qur'an secara bahasa berarti "asing" atau "jarang ditemukan". Dalam ilmu tajwid, istilah ini merujuk pada sejumlah bacaan khusus yang cara pelafalannya berbeda dari kaidah umum, dan hanya muncul di beberapa tempat tertentu dalam mushaf. Karena kelangkaannya, bacaan-bacaan ini rawan salah ucap jika tidak dipelajari secara khusus, sehingga sangat dianjurkan untuk mempelajarinya secara talaqqi (langsung) bersama guru yang bersanad.</p>
+        </div>
+
+        <div class="historical-section">
+            <h3><i class="fas fa-history"></i> Kedudukan dalam Riwayat Hafs 'an 'Asim</h3>
+            <p>Riwayat Hafs 'an 'Asim adalah jalur periwayatan bacaan Al-Qur'an yang paling luas digunakan oleh umat Islam di dunia saat ini, bersumber dari Imam 'Asim bin Abi an-Najud melalui muridnya, Hafs bin Sulaiman. Meskipun mayoritas ayat dibaca dengan kaidah tajwid yang seragam, terdapat beberapa lafaz yang diriwayatkan dengan cara baca khusus dan tetap dipertahankan turun-temurun melalui sanad. Lafaz-lafaz inilah yang dikenal sebagai bacaan Gharib.</p>
+            <div class="timeline">
+                <div class="timeline-item"><strong>Sumber:</strong> Imam 'Asim bin Abi an-Najud, melalui Hafs bin Sulaiman</div>
+                <div class="timeline-item"><strong>Sifat:</strong> Bacaan khusus, jumlahnya terbatas dan tempatnya tetap</div>
+                <div class="timeline-item"><strong>Metode belajar:</strong> Talaqqi (tatap muka) dengan guru bersanad</div>
+                <div class="timeline-item"><strong>Tujuan:</strong> Menjaga keaslian pelafalan sebagaimana diajarkan Rasulullah ﷺ</div>
+            </div>
+        </div>
+
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-wind"></i> <strong>Isymam:</strong> Isyarat bibir tanpa suara. Ada dua bentuk: pada nun yang diidghamkan (QS Yusuf 12:11) dan pada huruf berharakat dhammah saat waqaf.</div>
+            <div class="column-card"><i class="fas fa-hand-paper"></i> <strong>Saktah &amp; Rawm:</strong> Teknik berhenti sejenak (saktah) di empat tempat masyhur, dan membunyikan sebagian kecil harakat saat waqaf (rawm).</div>
+            <div class="column-card"><i class="fas fa-language"></i> <strong>Imalah &amp; Tashil:</strong> Pergeseran bunyi fathah ke arah kasrah (imalah di QS Hud 11:41), serta peringanan dua hamzah berurutan (tashil di QS Fussilat 41:44).</div>
+        </div>
+
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> Belajar Talaqqi</h3>
+            <p>bacaan gharib sebaiknya tidak dipelajari hanya dari tulisan. dengarkan pelafalan langsung dari qari' yang menguasai riwayat hafs, lalu praktikkan di hadapan guru bersanad untuk memastikan ketepatannya. <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/12?from=11&to=11" target="_blank">Dengarkan QS Yusuf 12:11 di Quran.com <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></p>
+	   
+
+        </div>
+        <div class="audio-player"><div class="audio-title">🎧 Contoh: QS Yusuf 12:11 (Isymam)</div><audio controls><source src="https://everyayah.com/data/Alafasy_128kbps/012011.mp3" type="audio/mpeg"></audio></div>
+
+        <div class="key-verse">
+            <h3><i class="fas fa-lightbulb"></i> Contoh Kunci: Isymam pada QS Yusuf 12:11</h3>
+            <div class="arabic-word">تَأْمَنَّا</div>
+            <div class="transliteration">ta'mannā</div>
+            <div class="arabic">قَالُوا يَا أَبَانَا مَا لَكَ لَا تَأْمَنَّا عَلَىٰ يُوسُفَ وَإِنَّا لَهُ لَنَاصِحُونَ</div>
+            <div class="transliteration">Qālụ yā abānā mā laka lā ta'mannā 'alā yụsufa wa innā lahụ lanāṣiḥụn.</div>
+            <div class="translation"><strong>Terjemahan:</strong> "Mereka berkata, 'Wahai ayah kami, mengapa engkau tidak memercayai kami terhadap Yusuf, padahal sesungguhnya kami adalah orang-orang yang mengharapkan kebaikan baginya?'" (QS Yusuf 12:11)</div>
+            <div class="tafsir-box">
+                <strong>Penjelasan:</strong> Kata تَأْمَنَّا asalnya adalah تَأْمَنُنَا (dua huruf nun), lalu nun pertama diidghamkan (dilebur) ke nun kedua. Ketika membaca idgham ini, bibir dibulatkan tanpa suara sesaat sebelum melafalkan nun yang bertasydid, sebagai isyarat bahwa huruf yang dilebur aslinya berharakat dhammah. Inilah satu-satunya tempat isymam jenis ini dalam seluruh Al-Qur'an menurut riwayat Hafs.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-table"></i> Ringkasan 8 Istilah Bacaan Gharib</h2>
+            <table class="theme-table">
+                <thead><tr><th>No.</th><th>Istilah</th><th>Lokasi dalam Al-Qur'an</th><th>Status pada Hafs</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1</strong></td><td>Isymam (pada idgham nun)</td><td>QS Yusuf 12:11</td><td>Satu tempat, standar Hafs</td></tr>
+                    <tr><td><strong>2</strong></td><td>Saktah</td><td>Al-Kahfi 18:1-2, Yasin 36:52, Al-Qiyamah 75:27, Al-Mutaffifin 83:14</td><td>Empat tempat masyhur, standar Hafs</td></tr>
+                    <tr><td><strong>3</strong></td><td>Imalah</td><td>QS Hud 11:41 (مَجْرَاهَا)</td><td>Satu tempat, standar Hafs</td></tr>
+                    <tr><td><strong>4</strong></td><td>Rawm</td><td>Diterapkan pada waqaf tertentu di akhir ayat berharakat, sesuai kaidah waqaf</td><td>Teknik waqaf umum</td></tr>
+                    <tr><td><strong>5</strong></td><td>Isymam (saat waqaf)</td><td>Pada huruf akhir berharakat dhammah ketika waqaf, mis. QS Yusuf 12:11 akhir ayat &amp; tempat serupa</td><td>Teknik waqaf umum</td></tr>
+                    <tr><td><strong>6</strong></td><td>Tashil</td><td>QS Fussilat 41:44 (أَأَعْجَمِيٌّ)</td><td>Satu tempat, standar Hafs</td></tr>
+                    <tr><td><strong>7</strong></td><td>Naql</td><td>—</td><td>Bukan bacaan standar Hafs (dikenal pada riwayat lain, mis. Warsy)</td></tr>
+                    <tr><td><strong>8</strong></td><td>Ibdal</td><td>—</td><td>Bukan bacaan standar Hafs (dikenal pada qira'at/riwayat lain)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Penjelasan Tiap Istilah</h2>
+
+            <div class="theme-card">
+                <div class="theme-title">1. Isymam (pada Idgham Nun) — QS Yusuf 12:11</div>
+                <div class="arabic">لَا تَأْمَنَّا عَلَىٰ يُوسُفَ</div>
+                <div class="translation">"...mengapa engkau tidak memercayai kami terhadap Yusuf..."</div>
+                <div class="tafsir-box">Isymam di sini adalah membulatkan kedua bibir tanpa mengeluarkan suara, dilakukan sesaat sebelum mengucapkan nun bertasydid pada kata تَأْمَنَّا. Isyarat ini menunjukkan bahwa nun pertama pada asal kata (تَأْمَنُنَا) berharakat dhammah sebelum diidghamkan. Ini adalah satu-satunya contoh isymam jenis ini dalam Al-Qur'an menurut riwayat Hafs.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">2. Saktah — Empat Tempat Masyhur</div>
+                <div class="arabic">وَلَمْ يَجْعَل لَّهُ عِوَجًا ۜ قَيِّمًا</div>
+                <div class="translation">"...dan Dia tidak menjadikan-Nya bengkok. (Dia menjadikannya) lurus..." (QS Al-Kahfi 18:1-2)</div>
+                <div class="tafsir-box">Saktah adalah berhenti sejenak tanpa bernapas dan tanpa memutus bacaan, biasanya kurang dari dua harakat, sebelum melanjutkan ke kata berikutnya. Empat tempat masyhur saktah dalam riwayat Hafs adalah: <strong>(1)</strong> Al-Kahfi 18:1-2, antara عِوَجًا dan قَيِّمًا; <strong>(2)</strong> Yasin 36:52, antara مَّرْقَدِنَا dan هَـٰذَا; <strong>(3)</strong> Al-Qiyamah 75:27, antara مَنْ dan رَاقٍ; <strong>(4)</strong> Al-Mutaffifin 83:14, antara بَلْ dan رَانَ. Tanda saktah dalam mushaf Madinah biasanya ditulis dengan huruf kecil "سكتة" atau simbol "ساكته".</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">3. Imalah — QS Hud 11:41</div>
+                <div class="arabic-word">مَجْرَىٰهَا</div>
+                <div class="transliteration">majrehā</div>
+                <div class="arabic">وَقَالَ ارْكَبُوا فِيهَا بِسْمِ اللَّهِ مَجْرَاهَا وَمُرْسَاهَا ۚ إِنَّ رَبِّي لَغَفُورٌ رَّحِيمٌ</div>
+                <div class="translation">"Dan dia (Nuh) berkata, 'Naiklah kamu sekalian ke dalamnya, dengan menyebut nama Allah pada waktu berlayar dan berlabuhnya. Sesungguhnya Tuhanku Maha Pengampun, Maha Penyayang.'" (QS Hud 11:41)</div>
+                <div class="tafsir-box">Imalah adalah mencondongkan bunyi fathah ke arah kasrah, sehingga alif dibaca mendekati bunyi "e" (seperti pada kata "meja"), tanpa berubah menjadi ya' murni. Pada kata مَجْرَاهَا, huruf ra' yang berharakat fathah panjang dibaca dengan imalah menjadi <em>majrehā</em>, bukan <em>majrāhā</em>. Ini adalah satu-satunya imalah kubra (imalah penuh) yang standar dalam seluruh Al-Qur'an menurut riwayat Hafs.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">4. Rawm (الرَّوْم)</div>
+                <div class="tafsir-box">Rawm adalah salah satu cara waqaf (berhenti) dengan membunyikan sebagian kecil dari harakat asli huruf terakhir, dengan suara yang sangat pelan hingga hanya terdengar oleh orang yang dekat. Rawm hanya berlaku pada huruf yang berharakat fathah, dhammah, atau kasrah (bukan pada harakat sukun atau fathah tanwin), dan merupakan salah satu dari beberapa cara waqaf yang sah dalam ilmu tajwid, digunakan sebagai variasi dari waqaf sukun murni.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">5. Isymam saat Waqaf</div>
+                <div class="tafsir-box">Berbeda dengan isymam pada QS Yusuf 12:11 yang terjadi di tengah bacaan (washal), isymam jenis ini dilakukan ketika berhenti (waqaf) pada huruf akhir yang asalnya berharakat dhammah. Caranya adalah membulatkan bibir sesaat setelah menyukunkan huruf terakhir, sebagai isyarat visual — bukan bunyi — bahwa huruf tersebut aslinya berharakat dhammah. Karena berupa gerakan bibir tanpa suara, isymam jenis ini hanya dapat "didengar" secara visual dan lazimnya diajarkan langsung oleh guru.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">6. Tashil — QS Fussilat 41:44</div>
+                <div class="arabic-word">أَأَعْجَمِيٌّ</div>
+                <div class="transliteration">a'ajamiyy (dibaca antara hamzah dan alif)</div>
+                <div class="arabic">وَلَوْ جَعَلْنَاهُ قُرْآنًا أَعْجَمِيًّا لَّقَالُوا لَوْلَا فُصِّلَتْ آيَاتُهُ ۖ أَأَعْجَمِيٌّ وَعَرَبِيٌّ</div>
+                <div class="translation">"Dan sekiranya Al-Qur'an itu Kami jadikan dalam bahasa selain Arab, tentu mereka berkata, 'Mengapa ayat-ayatnya tidak dijelaskan?' Apakah (patut Al-Qur'an) berbahasa asing sedangkan (Rasul-Nya) berbahasa Arab?" (QS Fussilat 41:44)</div>
+                <div class="tafsir-box">Tashil berarti meringankan pengucapan hamzah kedua ketika dua huruf hamzah bertemu berurutan dalam satu kata. Pada kata أَأَعْجَمِيٌّ, hamzah pertama dibaca jelas (tahqiq) dan pendek, sedangkan hamzah kedua dibaca dengan tashil, yaitu bunyi yang berada di antara hamzah murni dan alif — bukan hamzah tegas, juga bukan alif panjang. Menurut riwayat Hafs 'an 'Asim, inilah satu-satunya bacaan tashil dalam seluruh Al-Qur'an.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">7 &amp; 8. Naql dan Ibdal</div>
+                <div class="tafsir-box">
+                    <strong>Naql</strong> adalah memindahkan harakat hamzah ke huruf mati (sukun) sebelumnya sehingga hamzah tersebut tidak lagi terdengar sebagai huruf tersendiri. <strong>Ibdal</strong> adalah menggantikan bunyi hamzah dengan huruf mad (alif, wau, atau ya') sesuai harakat sebelumnya.
+                    <div class="not-standard-note"><i class="fas fa-circle-info"></i> Kedua kaidah ini dipelajari dalam ilmu Qira'at sebagai bagian dari perbandingan antar-riwayat (misalnya naql dikenal luas dalam riwayat Warsy 'an Nafi'), namun keduanya <strong>bukan bagian dari bacaan standar riwayat Hafs 'an 'Asim</strong> yang umum digunakan saat ini. Keduanya tetap penting dipelajari sebagai wawasan ilmu Qira'at, tetapi tidak diterapkan dalam praktik bacaan sehari-hari menurut Hafs.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="benefits-list">
+            <h3><i class="fas fa-award"></i> Manfaat Mempelajari Bacaan Gharib</h3>
+            <ul>
+                <li><strong>Menjaga Keaslian Bacaan:</strong> Melafalkan Al-Qur'an persis sebagaimana diajarkan turun-temurun melalui sanad yang bersambung hingga Rasulullah ﷺ.</li>
+                <li><strong>Menghindari Kesalahan Fatal:</strong> Salah membaca tempat-tempat gharib dapat mengubah makna atau keluar dari kaidah tajwid yang telah disepakati.</li>
+                <li><strong>Melatih Kepekaan Lisan:</strong> Isymam, imalah, dan tashil melatih ketelitian pelafalan yang bermanfaat untuk bacaan-bacaan lain.</li>
+                <li><strong>Menghormati Tradisi Talaqqi:</strong> Mendorong pembelajar untuk belajar langsung dari guru, bukan hanya dari tulisan.</li>
+            </ul>
+        </div>
+
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Perbedaan dengan Kaidah Riwayat Lain</h3>
+            <ul>
+                <li><strong>Naql pada Riwayat Warsy:</strong> Diterapkan pada banyak tempat, berbeda dengan Hafs yang tidak menerapkannya sama sekali.</li>
+                <li><strong>Imalah pada Riwayat Ad-Duri 'an Abi 'Amr:</strong> Diterapkan lebih luas, sedangkan Hafs hanya mengenal satu tempat imalah kubra (QS Hud 11:41).</li>
+                <li><strong>Saktah pada Riwayat Lain:</strong> Sebagian riwayat memiliki jumlah dan letak saktah yang berbeda dari empat tempat masyhur riwayat Hafs.</li>
+            </ul>
+        </div>
+
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a></div>
+    </div>
+
+    <!-- ENGLISH CONTENT -->
+    <div id="english-content" class="hidden">
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+        </div>
+        <h1 class="surah-title">Gharib Recitation Module of the Qur'an (Hafs 'an 'Asim Riwayah)</h1>
+        <div class="surah-source"><strong>Covers:</strong> Isymam, Saktah, Imalah, Rawm, and Tashil &nbsp;|&nbsp; General references: classical works on the science of Qira'at &amp; Tajwid, and <a href="https://quran.com" target="_blank">Quran.com <span class="blink-click"><i class="fas fa-hand-point-left"></i> View verses</span></a></div>
+
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> What is Gharib Recitation?</h3>
+            <p>Gharib al-Qur'an literally means "unusual" or "rarely found." In the science of tajwid, the term refers to a small set of special recitations whose pronunciation differs from the general rules, occurring at only a handful of specific spots in the mushaf. Because they are so rare, these readings are easy to mispronounce unless studied deliberately, which is why they are best learned through talaqqi — direct, face-to-face study with a qualified, chain-connected teacher.</p>
+        </div>
+
+        <div class="historical-section">
+            <h3><i class="fas fa-history"></i> Position within the Hafs 'an 'Asim Riwayah</h3>
+            <p>The Hafs 'an 'Asim riwayah is the most widely used transmission of Qur'anic recitation among Muslims today, traced back to Imam 'Asim ibn Abi an-Najud through his student, Hafs ibn Sulayman. While the vast majority of verses follow uniform tajwid rules, a small number of words are transmitted with a distinctive pronunciation preserved generation after generation through an unbroken chain. These words are known as Gharib recitations.</p>
+            <div class="timeline">
+                <div class="timeline-item"><strong>Source:</strong> Imam 'Asim ibn Abi an-Najud, via Hafs ibn Sulayman</div>
+                <div class="timeline-item"><strong>Nature:</strong> Special readings, limited in number, fixed in location</div>
+                <div class="timeline-item"><strong>Learning method:</strong> Talaqqi (face-to-face) with a chain-connected teacher</div>
+                <div class="timeline-item"><strong>Purpose:</strong> Preserving the exact pronunciation as taught by the Prophet ﷺ</div>
+            </div>
+        </div>
+
+        <div class="three-columns">
+            <div class="column-card"><i class="fas fa-wind"></i> <strong>Isymam:</strong> A silent lip gesture. It occurs in two forms: on an assimilated nun (QS Yusuf 12:11) and on a letter carrying dammah when stopping (waqaf).</div>
+            <div class="column-card"><i class="fas fa-hand-paper"></i> <strong>Saktah &amp; Rawm:</strong> A brief pause technique (saktah) at four well-known locations, and sounding a small portion of a vowel when stopping (rawm).</div>
+            <div class="column-card"><i class="fas fa-language"></i> <strong>Imalah &amp; Tashil:</strong> Shifting a fathah sound toward kasrah (imalah at QS Hud 11:41), and easing two consecutive hamzahs (tashil at QS Fussilat 41:44).</div>
+        </div>
+
+        <div class="info-box">
+            <h3><i class="fas fa-info-circle"></i> Learning through Talaqqi</h3>
+            <p>Gharib recitations should not be learned from text alone. Listen to a qualified reciter of the Hafs riwayah, then practice in front of a chain-connected teacher to ensure accuracy. <a href="https://quran.com/12/11" target="_blank">Listen to QS Yusuf 12:11 on Quran.com <span class="blink-click"><i class="fas fa-hand-point-left"></i></span></a></p>
+        </div>
+        <div class="audio-player"><div class="audio-title">🎧 Example: QS Yusuf 12:11 (Isymam)</div><audio controls><source src="https://everyayah.com/data/Alafasy_128kbps/012011.mp3" type="audio/mpeg"></audio></div>
+
+        <div class="key-verse">
+            <h3><i class="fas fa-lightbulb"></i> Key Example: Isymam in QS Yusuf 12:11</h3>
+            <div class="arabic-word">تَأْمَنَّا</div>
+            <div class="transliteration">ta'mannā</div>
+            <div class="arabic">قَالُوا يَا أَبَانَا مَا لَكَ لَا تَأْمَنَّا عَلَىٰ يُوسُفَ وَإِنَّا لَهُ لَنَاصِحُونَ</div>
+            <div class="transliteration">Qālụ yā abānā mā laka lā ta'mannā 'alā yụsufa wa innā lahụ lanāṣiḥụn.</div>
+            <div class="translation"><strong>Translation:</strong> "They said, 'O our father, why do you not trust us with Joseph, while indeed, we are his well-wishers?'" (QS Yusuf 12:11)</div>
+            <div class="tafsir-box">
+                <strong>Explanation:</strong> The word تَأْمَنَّا originally read تَأْمَنُنَا (with two nun letters), where the first nun was assimilated (idgham) into the second. While pronouncing this assimilation, the lips are rounded silently just before articulating the doubled nun, as a visual cue that the assimilated letter originally carried a dammah. This is the only occurrence of this type of isymam in the entire Qur'an according to the Hafs riwayah.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-table"></i> Summary of the 8 Gharib Terms</h2>
+            <table class="theme-table">
+                <thead><tr><th>No.</th><th>Term</th><th>Location(s) in the Qur'an</th><th>Status in Hafs</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>1</strong></td><td>Isymam (on nun assimilation)</td><td>QS Yusuf 12:11</td><td>One location, standard Hafs</td></tr>
+                    <tr><td><strong>2</strong></td><td>Saktah</td><td>Al-Kahf 18:1-2, Yasin 36:52, Al-Qiyamah 75:27, Al-Mutaffifin 83:14</td><td>Four well-known locations, standard Hafs</td></tr>
+                    <tr><td><strong>3</strong></td><td>Imalah</td><td>QS Hud 11:41 (مَجْرَاهَا)</td><td>One location, standard Hafs</td></tr>
+                    <tr><td><strong>4</strong></td><td>Rawm</td><td>Applied at certain stops at the end of vowelled verses, per waqf rules</td><td>General waqf technique</td></tr>
+                    <tr><td><strong>5</strong></td><td>Isymam (during waqaf)</td><td>On a final letter carrying dammah when stopping, e.g. end of QS Yusuf 12:11 and similar spots</td><td>General waqf technique</td></tr>
+                    <tr><td><strong>6</strong></td><td>Tashil</td><td>QS Fussilat 41:44 (أَأَعْجَمِيٌّ)</td><td>One location, standard Hafs</td></tr>
+                    <tr><td><strong>7</strong></td><td>Naql</td><td>—</td><td>Not part of standard Hafs (known in other riwayahs, e.g. Warsh)</td></tr>
+                    <tr><td><strong>8</strong></td><td>Ibdal</td><td>—</td><td>Not part of standard Hafs (known in other qira'at/riwayahs)</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-palette"></i> Explanation of Each Term</h2>
+
+            <div class="theme-card">
+                <div class="theme-title">1. Isymam (on Nun Assimilation) — QS Yusuf 12:11</div>
+                <div class="arabic">لَا تَأْمَنَّا عَلَىٰ يُوسُفَ</div>
+                <div class="translation">"...why do you not trust us with Joseph..."</div>
+                <div class="tafsir-box">Here, isymam means rounding both lips without producing any sound, done just before pronouncing the doubled nun in تَأْمَنَّا. This gesture signals that the first nun in the original word (تَأْمَنُنَا) carried a dammah before it was assimilated. This is the only example of this specific type of isymam in the Qur'an according to the Hafs riwayah.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">2. Saktah — Four Well-Known Locations</div>
+                <div class="arabic">وَلَمْ يَجْعَل لَّهُ عِوَجًا ۜ قَيِّمًا</div>
+                <div class="translation">"...and has not made therein any deviance. [He has made it] straight..." (QS Al-Kahf 18:1-2)</div>
+                <div class="tafsir-box">Saktah is a brief pause without breathing and without breaking the recitation, usually less than two vowel-counts, before continuing to the next word. The four well-known saktah locations in the Hafs riwayah are: <strong>(1)</strong> Al-Kahf 18:1-2, between عِوَجًا and قَيِّمًا; <strong>(2)</strong> Yasin 36:52, between مَّرْقَدِنَا and هَـٰذَا; <strong>(3)</strong> Al-Qiyamah 75:27, between مَنْ and رَاقٍ; <strong>(4)</strong> Al-Mutaffifin 83:14, between بَلْ and رَانَ. In the Madinah mushaf, the saktah mark is usually printed as a small "سكتة" label or symbol.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">3. Imalah — QS Hud 11:41</div>
+                <div class="arabic-word">مَجْرَىٰهَا</div>
+                <div class="transliteration">majrehā</div>
+                <div class="arabic">وَقَالَ ارْكَبُوا فِيهَا بِسْمِ اللَّهِ مَجْرَاهَا وَمُرْسَاهَا ۚ إِنَّ رَبِّي لَغَفُورٌ رَّحِيمٌ</div>
+                <div class="translation">"And he [Noah] said, 'Embark on it; in the name of Allah is its course and its anchorage. Indeed, my Lord is Forgiving and Merciful.'" (QS Hud 11:41)</div>
+                <div class="tafsir-box">Imalah means leaning the sound of fathah toward kasrah, so a long alif is pronounced closer to an "e" sound rather than a pure long "a." In the word مَجْرَاهَا, the long fathah on the ra' is pronounced with imalah as <em>majrehā</em> rather than <em>majrāhā</em>. This is the only standard full imalah (imalah kubra) in the entire Qur'an according to the Hafs riwayah.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">4. Rawm (الرَّوْم)</div>
+                <div class="tafsir-box">Rawm is a way of stopping (waqaf) by sounding a small portion of a letter's original vowel very softly, audible only to someone close by. Rawm applies only to letters carrying fathah, dammah, or kasrah (not sukun or tanwin fathah), and is one of several valid stopping methods in tajwid, used as a variation on a plain sukun stop.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">5. Isymam during Waqaf</div>
+                <div class="tafsir-box">Unlike the isymam in QS Yusuf 12:11, which occurs mid-recitation (washal), this type of isymam is performed when stopping (waqaf) on a final letter that originally carried a dammah. The lips are rounded briefly right after the final letter is made silent (sukun), as a purely visual — not audible — sign that the letter's original vowel was dammah. Because it is a silent gesture, this type of isymam can only be "seen," and is best learned directly from a teacher.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">6. Tashil — QS Fussilat 41:44</div>
+                <div class="arabic-word">أَأَعْجَمِيٌّ</div>
+                <div class="transliteration">a'ajamiyy (pronounced between hamzah and alif)</div>
+                <div class="arabic">وَلَوْ جَعَلْنَاهُ قُرْآنًا أَعْجَمِيًّا لَّقَالُوا لَوْلَا فُصِّلَتْ آيَاتُهُ ۖ أَأَعْجَمِيٌّ وَعَرَبِيٌّ</div>
+                <div class="translation">"And if We had made it a non-Arabic Qur'an, they would have said, 'Why are its verses not explained in detail? Is it a foreign [recitation] and an Arab [messenger]?'" (QS Fussilat 41:44)</div>
+                <div class="tafsir-box">Tashil means easing the pronunciation of the second hamzah when two hamzahs occur consecutively within one word. In أَأَعْجَمِيٌّ, the first hamzah is pronounced clearly (tahqiq) and short, while the second is pronounced with tashil — a sound between a pure hamzah and a long alif, neither fully one nor the other. According to the Hafs 'an 'Asim riwayah, this is the only occurrence of tashil in the entire Qur'an.</div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-title">7 &amp; 8. Naql and Ibdal</div>
+                <div class="tafsir-box">
+                    <strong>Naql</strong> means transferring the vowel of a hamzah onto the preceding silent (sukun) letter, so the hamzah is no longer heard as a separate sound. <strong>Ibdal</strong> means substituting the hamzah sound with a long vowel letter (alif, waw, or ya') matching the preceding vowel.
+                    <div class="not-standard-note"><i class="fas fa-circle-info"></i> Both rules are studied within the science of Qira'at as part of comparing the different transmitted readings (naql, for example, is widely known in the Warsh 'an Nafi' riwayah), but neither is part of the <strong>standard Hafs 'an 'Asim</strong> recitation commonly used today. They remain valuable to know as part of Qira'at scholarship, but are not applied in everyday recitation according to Hafs.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="benefits-list">
+            <h3><i class="fas fa-award"></i> Benefits of Studying Gharib Recitation</h3>
+            <ul>
+                <li><strong>Preserving Authenticity:</strong> Reciting the Qur'an exactly as transmitted through an unbroken chain back to the Prophet ﷺ.</li>
+                <li><strong>Avoiding Serious Errors:</strong> Mispronouncing these gharib spots can distort meaning or break agreed-upon tajwid rules.</li>
+                <li><strong>Sharpening Articulation:</strong> Isymam, imalah, and tashil train precise pronunciation that benefits recitation more broadly.</li>
+                <li><strong>Honoring the Talaqqi Tradition:</strong> Encourages learners to study directly with a teacher rather than from text alone.</li>
+            </ul>
+        </div>
+
+        <div class="relationship-box">
+            <h3><i class="fas fa-link"></i> Differences from Other Riwayahs</h3>
+            <ul>
+                <li><strong>Naql in the Warsh Riwayah:</strong> Applied in many locations, unlike Hafs, which does not apply it at all.</li>
+                <li><strong>Imalah in the Ad-Duri 'an Abi 'Amr Riwayah:</strong> Applied much more broadly, whereas Hafs recognizes only one full imalah location (QS Hud 11:41).</li>
+                <li><strong>Saktah in Other Riwayahs:</strong> Some riwayahs have a different number and placement of saktah than the four well-known Hafs locations.</li>
+            </ul>
+        </div>
+
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a></div>
+    </div>
+</div>
+<footer>© 1448 AH / 2026 AD - Modul Bacaan Gharib Al-Qur'an, Riwayat Hafs 'an 'Asim | Disusun untuk pembelajaran, dianjurkan dipelajari lanjut secara talaqqi dengan guru bersanad.</footer>
+
+<script>
+(function() {
+    const englishDiv = document.getElementById('english-content');
+    const indoDiv = document.getElementById('indonesian-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
+    const translitElements = document.querySelectorAll('.transliteration');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let langParam = null;
+    if (urlParams.has('English')) langParam = 'english';
+    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+
+    function setLanguage(lang) {
+        const isEnglish = (lang === 'english');
+        if (isEnglish) {
+            englishDiv.classList.remove('hidden');
+            indoDiv.classList.add('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Bahasa Indonesia';
+        } else {
+            englishDiv.classList.add('hidden');
+            indoDiv.classList.remove('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 English';
+        }
+        localStorage.setItem('language', lang);
+    }
+    setLanguage(currentLang);
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang);
+    });
+
+    let translitVisible = localStorage.getItem('transliteration') === 'true';
+    if (urlParams.has('Transliteration')) translitVisible = true;
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        localStorage.setItem('transliteration', show);
+    }
+    setTransliteration(translitVisible);
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
+
+    let darkActive = false;
+    if (urlParams.has('Dark')) darkActive = true;
+    else darkActive = localStorage.getItem('darkMode') === 'true';
+    if (darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI() {
+        const active = document.body.classList.contains('dark-mode');
+        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        localStorage.setItem('darkMode', active);
+    }
+    setDarkModeUI();
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        setDarkModeUI();
+    });
+
+    const upArrow = document.getElementById('scrollUp');
+    const downArrow = document.getElementById('scrollDown');
+    const doubleUp = document.getElementById('doubleUpScroll');
+    const doubleDown = document.getElementById('doubleDownScroll');
+    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+})();
+</script>
+</body>
+</html>
