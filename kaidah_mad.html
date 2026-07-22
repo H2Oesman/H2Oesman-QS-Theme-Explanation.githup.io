@@ -932,6 +932,29 @@
     if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
     if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+
+    // Zoom out the display so wide tables (mad-grid / rule-table) never get clipped
+    // or force horizontal scrolling — shrink the whole page just enough to fit.
+    function fitTablesToViewport() {
+        document.body.style.zoom = '';
+        document.body.style.transformOrigin = 'top left';
+        document.body.style.transform = '';
+
+        const viewportWidth = window.innerWidth;
+        const contentWidth = document.documentElement.scrollWidth;
+
+        if (contentWidth > viewportWidth) {
+            const scale = Math.max(viewportWidth / contentWidth, 0.5);
+            if ('zoom' in document.body.style) {
+                document.body.style.zoom = scale;
+            } else {
+                document.body.style.transform = `scale(${scale})`;
+                document.body.style.width = `${100 / scale}%`;
+            }
+        }
+    }
+    window.addEventListener('load', fitTablesToViewport);
+    window.addEventListener('resize', fitTablesToViewport);
 })();
 </script>
 </body>
