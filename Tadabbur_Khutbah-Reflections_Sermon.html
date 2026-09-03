@@ -132,18 +132,51 @@
             background: var(--structure-bg);
             border: 1px solid var(--verse-border);
             border-radius: 20px;
-            padding: 20px 22px;
+            padding: 16px 22px;
             margin: 0 0 30px;
+            overflow: hidden;
+        }
+        .toc-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            cursor: pointer;
+            padding: 4px 0;
+            user-select: none;
         }
         .toc-title {
             font-size: 1.1rem;
             font-weight: bold;
-            margin-bottom: 12px;
             color: var(--section-title-color);
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-wrap: wrap;
         }
+        .toc-chevron {
+            font-size: 1rem;
+            color: var(--link-color);
+            transition: transform 0.25s ease;
+            flex-shrink: 0;
+        }
+        .toc-box.toc-open .toc-chevron { transform: rotate(180deg); }
+        .toc-content {
+            display: none;
+        }
+        .toc-box.toc-open .toc-content { display: block; }
+        .toc-search {
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 14px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--verse-border);
+            background: var(--container-bg);
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+        .toc-search:focus { outline: 2px solid var(--link-color); outline-offset: 1px; }
         .toc-group-label {
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -151,13 +184,14 @@
             opacity: 0.6;
             margin: 14px 0 6px;
         }
-        .toc-group-label:first-of-type { margin-top: 0; }
+        .toc-group-label:first-of-type { margin-top: 14px; }
         .toc-list {
             list-style: none;
             margin: 0;
             padding: 0;
         }
         .toc-list li { margin: 2px 0; }
+        .toc-list li.toc-hidden { display: none; }
         .toc-link {
             display: flex;
             align-items: baseline;
@@ -178,6 +212,14 @@
         .toc-link.toc-active { background: var(--link-color); color: white; font-weight: bold; }
         .toc-ref { font-size: 0.8em; opacity: 0.7; }
         .toc-clickable-tag { font-size: 0.75em; opacity: 0.55; font-style: italic; margin-left: auto; }
+        .toc-no-results {
+            display: none;
+            padding: 10px 12px;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            font-style: italic;
+        }
+        .toc-no-results.toc-visible { display: block; }
         .surah-title {
             font-size: 30px;
             text-align: center;
@@ -361,32 +403,40 @@
             <h1 class="surah-title">Qur'anic Reflections &amp; Friday Khutbah</h1>
 
             <nav class="toc-box" id="toc-en" aria-label="Table of Contents">
-                <div class="toc-title"><i class="fas fa-list"></i> Table of Contents <span class="toc-clickable-tag">(Clickable)</span></div>
-                <div class="toc-group-label">Tadabbur — Reflections</div>
-                <ul class="toc-list">
-                    <li><a class="toc-link" data-target="t1">1. Rejoicing at a Believer's Hardship (Schadenfreude) <span class="toc-ref">9:50</span></a></li>
-                    <li><a class="toc-link" data-target="t2">2. A Good Ending (Ḥusn al-Khātimah) <span class="toc-ref">46:9</span></a></li>
-                    <li><a class="toc-link" data-target="t3">3. The Etiquette of Differences <span class="toc-ref">49:13</span></a></li>
-                    <li><a class="toc-link" data-target="t4">4. The Responses of Noah and Hūd <span class="toc-ref">7:61-62, 7:66-67</span></a></li>
-                    <li><a class="toc-link" data-target="t5">5. The Heart of Ibrāhīm — "Al-Awwāh" <span class="toc-ref">9:114</span></a></li>
-                    <li><a class="toc-link" data-target="t6">6. Mercy Is the Rule, Adversity Is the Exception <span class="toc-ref">30:36</span></a></li>
-                    <li><a class="toc-link" data-target="t7">7. Truthfulness (Ṣidq) as a Moral Principle <span class="toc-ref">9:119, 5:119</span></a></li>
-                    <li><a class="toc-link" data-target="t8">8. Zakāh: Purification of the Heart and Wealth <span class="toc-ref">9:103</span></a></li>
-                    <li><a class="toc-link" data-target="t9">9. Arguing Against the Truth <span class="toc-ref">6:121, 40:56, 40:35</span></a></li>
-                    <li><a class="toc-link" data-target="t10">10. Following the Messenger ﷺ: Salvation and Empowerment <span class="toc-ref">22:41, 2:251</span></a></li>
-                    <li><a class="toc-link" data-target="t11">11. Our Relationship with Allah Is Clear <span class="toc-ref">6:115, 3:76, 30:45, 3:31, 92:12, 16:9</span></a></li>
-                    <li><a class="toc-link" data-target="t12">12. The Tyranny of Wealth <span class="toc-ref">28:76, 28:77</span></a></li>
-                    <li><a class="toc-link" data-target="t13">13. Constructive Doubt: Faith to Reassurance <span class="toc-ref">23:115, 6:79, 2:260, 13:28, 33:41, 16:106</span></a></li>
-                    <li><a class="toc-link" data-target="t14">14. The Power of a Promise <span class="toc-ref">4:122, 28:61, 18:36</span></a></li>
-                </ul>
-                <div class="toc-group-label">Khutbah</div>
-                <ul class="toc-list">
-                    <li><a class="toc-link" data-target="khutbah">Khuṭbah — 20260828 </a></li>
-                </ul>
-                <div class="toc-group-label">Bonus</div>
-                <ul class="toc-list">
-                    <li><a class="toc-link" data-target="bonus">Ridhā Before and After Paradise <span class="toc-ref">5:119, 58:22, 98:8, 9:100, 9:72</span></a></li>
-                </ul>
+                <div class="toc-header" id="toc-header-en">
+                    <div class="toc-title"><i class="fas fa-list"></i> Table of Contents <span class="toc-clickable-tag">(Clickable)</span></div>
+                    <i class="fas fa-chevron-down toc-chevron" id="toc-chevron-en"></i>
+                </div>
+                <div class="toc-content" id="toc-content-en">
+                    <input type="text" class="toc-search" id="toc-search-en" placeholder="Search by word or surah:ayat…">
+                    <div class="toc-group-label">Tadabbur — Reflections</div>
+                    <ul class="toc-list">
+                        <li><a class="toc-link" data-target="t1" data-title="1. Rejoicing at a Believer's Hardship (Schadenfreude)">1. Rejoicing at a Believer's Hardship (Schadenfreude) <span class="toc-ref">9:50</span></a></li>
+                        <li><a class="toc-link" data-target="t2" data-title="2. A Good Ending (Ḥusn al-Khātimah)">2. A Good Ending (Ḥusn al-Khātimah) <span class="toc-ref">46:9</span></a></li>
+                        <li><a class="toc-link" data-target="t3" data-title="3. The Etiquette of Differences">3. The Etiquette of Differences <span class="toc-ref">49:13</span></a></li>
+                        <li><a class="toc-link" data-target="t4" data-title="4. The Responses of Noah and Hūd">4. The Responses of Noah and Hūd <span class="toc-ref">7:61-62, 7:66-67</span></a></li>
+                        <li><a class="toc-link" data-target="t5" data-title="5. The Heart of Ibrāhīm — Al-Awwāh">5. The Heart of Ibrāhīm — "Al-Awwāh" <span class="toc-ref">9:114</span></a></li>
+                        <li><a class="toc-link" data-target="t6" data-title="6. Mercy Is the Rule, Adversity Is the Exception">6. Mercy Is the Rule, Adversity Is the Exception <span class="toc-ref">30:36</span></a></li>
+                        <li><a class="toc-link" data-target="t7" data-title="7. Truthfulness (Ṣidq) as a Moral Principle">7. Truthfulness (Ṣidq) as a Moral Principle <span class="toc-ref">9:119, 5:119</span></a></li>
+                        <li><a class="toc-link" data-target="t8" data-title="8. Zakāh: Purification of the Heart and Wealth">8. Zakāh: Purification of the Heart and Wealth <span class="toc-ref">9:103</span></a></li>
+                        <li><a class="toc-link" data-target="t9" data-title="9. Arguing Against the Truth">9. Arguing Against the Truth <span class="toc-ref">6:121, 40:56, 40:35</span></a></li>
+                        <li><a class="toc-link" data-target="t10" data-title="10. Following the Messenger ﷺ: Salvation and Empowerment">10. Following the Messenger ﷺ: Salvation and Empowerment <span class="toc-ref">22:41, 2:251</span></a></li>
+                        <li><a class="toc-link" data-target="t11" data-title="11. Our Relationship with Allah Is Clear">11. Our Relationship with Allah Is Clear <span class="toc-ref">6:115, 3:76, 30:45, 3:31, 92:12, 16:9</span></a></li>
+                        <li><a class="toc-link" data-target="t12" data-title="12. The Tyranny of Wealth">12. The Tyranny of Wealth <span class="toc-ref">28:76, 28:77</span></a></li>
+                        <li><a class="toc-link" data-target="t13" data-title="13. Constructive Doubt: Faith to Reassurance">13. Constructive Doubt: Faith to Reassurance <span class="toc-ref">23:115, 6:79, 2:260, 13:28, 33:41, 16:106</span></a></li>
+                        <li><a class="toc-link" data-target="t14" data-title="14. The Power of a Promise">14. The Power of a Promise <span class="toc-ref">4:122, 28:61, 18:36</span></a></li>
+                        <li><a class="toc-link" data-target="t15" data-title="15. The True Believer Does Not Linger After a Misstep">15. The True Believer Does Not Linger After a Misstep <span class="toc-ref">11:114, 3:135, 83:14</span></a></li>
+                    </ul>
+                    <div class="toc-group-label">Khutbah</div>
+                    <ul class="toc-list">
+                        <li><a class="toc-link" data-target="khutbah" data-title="Khuṭbah — 20260828">Khuṭbah — 20260828</a></li>
+                    </ul>
+                    <div class="toc-group-label">Bonus</div>
+                    <ul class="toc-list">
+                        <li><a class="toc-link" data-target="bonus" data-title="Ridhā Before and After Paradise">Ridhā Before and After Paradise <span class="toc-ref">5:119, 58:22, 98:8, 9:100, 9:72</span></a></li>
+                    </ul>
+                    <div class="toc-no-results" id="toc-no-results-en">No matching entries.</div>
+                </div>
             </nav>
 
             <!-- ========== SECTION 1: TADABBUR ========== -->
@@ -656,7 +706,7 @@
                     <!-- <div class="audio-player" data-surahs="23,6,2,13,33,16"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/023.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/006.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/013.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/033.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/016.mp3"></audio></div> -->
                 </div>
 
-                <div id="t14" class="dhikr-card" data-tlast="true">
+                <div id="t14" class="dhikr-card">
                     <div class="theme-title">14. The Power of a Promise Comes from the Greatness and Truthfulness of the One Who Makes It <span class="reference-inline">(<a href="https://recitequran.com/4:122" target="_blank">4:122</a>, <a href="https://recitequran.com/28:61" target="_blank">28:61</a>, <a href="https://recitequran.com/18:36" target="_blank">18:36</a>)</span></div>
                     <p>The power of a promise does not lie merely in the words that are spoken, but in the greatness of the One who makes the promise and the truthfulness of the One who gives it. When the One who promises is Allah, there is no room for doubt and no place for hesitation:</p>
                     <div class="arabic-quran" data-ref="4:122">وَعْدَ ٱللَّهِ حَقًّۭا ۚ وَمَنْ أَصْدَقُ مِنَ ٱللَّهِ قِيلًۭا ﴾١٢٢﴿</div>
@@ -676,6 +726,35 @@
                     <p>Whoever truly believes in Allah's promise will not sell the certainty of the Hereafter for a fleeting pleasure, nor exchange what is everlasting for what is temporary. He knows that Allah's promise is too great to be doubted, too true to be broken, and that Allah is far too generous to disappoint the one who thinks well of Him and walks the path toward Him.</p>
                     <p>So, when the One who makes the promise is Allah, blessed is the one who proves his belief in that promise through action, thinks well of his Lord, and awaits what Allah has promised with a tranquil heart.</p>
                     <!-- <div class="audio-player" data-surahs="4,28,18"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/004.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/028.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/018.mp3"></audio></div> -->
+                </div>
+
+                <div id="t15" class="dhikr-card" data-tlast="true">
+                    <div class="theme-title">15. The True Believer Does Not Linger After a Misstep <span class="reference-inline">(<a href="https://recitequran.com/11:114" target="_blank">11:114</a>, <a href="https://recitequran.com/3:135" target="_blank">3:135</a>, <a href="https://recitequran.com/83:14" target="_blank">83:14</a>)</span></div>
+                    <p>The true believer is not one who never sins — for every son of Adam is prone to error. Rather, the true believer is one who returns quickly to his Lord. When his foot slips, he does not remain where he fell. When he commits a sin, he does not delay repentance. Instead, he hastens to do good and follows the sin with an act of righteousness that erases its effect.</p>
+                    <p>Allah says:</p>
+                    <div class="arabic-quran" data-ref="11:114">وَأَقِمِ ٱلصَّلَوٰةَ طَرَفَىِ ٱلنَّهَارِ وَزُلَفًۭا مِّنَ ٱلَّيْلِ ۚ إِنَّ ٱلْحَسَنَـٰتِ يُذْهِبْنَ ٱلسَّيِّـَٔاتِ ۚ ذَٰلِكَ ذِكْرَىٰ لِلذَّٰكِرِينَ ﴾١١٤﴿</div>
+                    <div class="transliteration">Wa aqimiṣ-ṣalāta ṭarafayin-nahāri wa zulafam-minal-layl, innal-ḥasanāti yudh-hibnas-sayyi'āt, dhālika dhikrā lidh-dhākirīn.</div>
+                    <div class="translation">"And establish prayer at the two ends of the day and at the approaches of the night. Indeed, good deeds erase bad deeds. That is a reminder for those who remember." <a href="https://recitequran.com/11:114" target="_blank">(Qur'an, Hud 11:114)</a></div>
+                    <p>Reflect upon this beautiful Qur'anic expression: "Indeed, good deeds erase bad deeds." The verb "yudh-hibna" — "they erase" — comes with the feminine plural ending, which indicates plurality in a small number, carrying a subtle indication of Allah's immense mercy: even if the good deeds are few, they can erase sins.</p>
+                    <p>It is as though the meaning is: do not consider your sin too great compared with the weakness of your righteous deeds. Allah may give a small good deed an immense effect and, through it, erase from you the traces of a sin in ways you could never imagine.</p>
+                    <p>Then look at the conclusion of the verse: "That is a reminder for those who remember." The reminder is not restricted to the Prophet ﷺ, nor to a particular group of people. Rather, Allah says "for those who remember" — meaning everyone who takes heed, remembers, and seeks to rectify himself and return to his Lord.</p>
+                    <p>This meaning is further emphasized in Allah's description of the people of faith:</p>
+                    <div class="arabic-quran" data-ref="3:135">وَٱلَّذِينَ إِذَا فَعَلُوا۟ فَـٰحِشَةً أَوْ ظَلَمُوٓا۟ أَنفُسَهُمْ ذَكَرُوا۟ ٱللَّهَ فَٱسْتَغْفَرُوا۟ لِذُنُوبِهِمْ ﴾١٣٥﴿</div>
+                    <div class="transliteration">Wal-ladhīna idhā fa‘alū fāḥishatan aw ẓalamū anfusahum dhakarullāha fastaghfarū lidhunūbihim.</div>
+                    <div class="translation">"And those who, when they commit an immorality or wrong themselves, remember Allah and then immediately seek forgiveness for their sins." <a href="https://recitequran.com/3:135" target="_blank">(Qur'an, Aal 'Imran 3:135)</a></div>
+                    <p>Notice the "fa" in "fastaghfarū" — "then they seek forgiveness." It conveys immediacy and rapid succession: as soon as they remember Allah, they hasten to seek His forgiveness. It is not repentance postponed until later, nor correction delayed, nor remorse waiting for tomorrow. They remember — and immediately seek forgiveness.</p>
+                    <p>This is among the qualities of a believer whose faith is precise and sincere: he does not allow a sin to settle in his heart, nor does he give Satan the opportunity to transform a stumble into a dwelling place, a dwelling place into persistence, and persistence into hardness of the heart.</p>
+                    <p>That is why the beloved Prophet ﷺ said: "Follow a bad deed with a good deed; it will erase it."</p>
+                    <p>A sin, therefore, should not be the end of the road. It should be an alarm that awakens you and brings you back to Allah. If you sin, do good. If you stumble, repent. If you become weak, seek Allah's help. And do not allow a long distance to form between the sin and repentance.</p>
+                    <p>For delaying repentance is dangerous, because the heart is not something static and unchanging. It is affected by what its owner continually earns. Allah says:</p>
+                    <div class="arabic-quran" data-ref="83:14">كَلَّا بَلْ ۜ رَانَ عَلَىٰ قُلُوبِهِم مَّا كَانُوا۟ يَكْسِبُونَ ﴾١٤﴿</div>
+                    <div class="transliteration">Kallā bal rāna ‘alā qulūbihim mā kānū yaksibūn.</div>
+                    <div class="translation">"No! Rather, a stain has covered their hearts because of what they used to earn." <a href="https://recitequran.com/83:14" target="_blank">(Qur'an, Al-Mutaffifin 83:14)</a></div>
+                    <p>The longer you postpone repentance, the more opportunity you give the sin to leave a deeper mark. And the sooner you hasten toward obedience, the sooner you begin cleansing your heart before that stain accumulates upon it.</p>
+                    <p>Do not say, "I will repent tomorrow." Do not say, "I will reform myself later." When you recognize the sin, repent immediately. When you fall into sin, hasten to do good.</p>
+                    <p>The true believer may fall, but he does not remain where he fell. He quickly returns to his Lord. He remembers Him. He seeks His forgiveness. He follows the sin with a good deed. And he hastens to rescue his heart before it becomes hardened.</p>
+                    <p>This is the mercy of Allah: a sin does not necessarily mean destruction. A small good deed may erase it. And sincere repentance opens the door back to Him.</p>
+                    <!-- <div class="audio-player" data-surahs="11,3,83"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/011.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/083.mp3"></audio></div> -->
                 </div>
             </div>
 
@@ -813,32 +892,40 @@
             <h1 class="surah-title">Tadabbur Al-Qur'an &amp; Khutbah Jumat</h1>
 
             <nav class="toc-box" id="toc-id" aria-label="Daftar Isi">
-                <div class="toc-title"><i class="fas fa-list"></i> Daftar Isi <span class="toc-clickable-tag">(Dapat Diklik)</span></div>
-                <div class="toc-group-label">Tadabbur — Renungan</div>
-                <ul class="toc-list">
-                    <li><a class="toc-link" data-target="t1">1. Bergembira atas Musibah Saudara (Syamatah) <span class="toc-ref">9:50</span></a></li>
-                    <li><a class="toc-link" data-target="t2">2. Husnul Khatimah <span class="toc-ref">46:9</span></a></li>
-                    <li><a class="toc-link" data-target="t3">3. Adab Perbedaan <span class="toc-ref">49:13</span></a></li>
-                    <li><a class="toc-link" data-target="t4">4. Jawaban Nabi Nuh dan Nabi Hud <span class="toc-ref">7:61-62, 7:66-67</span></a></li>
-                    <li><a class="toc-link" data-target="t5">5. Hati Nabi Ibrahim — "Al-Awwah" <span class="toc-ref">9:114</span></a></li>
-                    <li><a class="toc-link" data-target="t6">6. Rahmat Adalah Asal, Musibah Pengecualian <span class="toc-ref">30:36</span></a></li>
-                    <li><a class="toc-link" data-target="t7">7. Kejujuran (Ash-Shidq) Sebagai Prinsip Akhlak <span class="toc-ref">9:119, 5:119</span></a></li>
-                    <li><a class="toc-link" data-target="t8">8. Zakat: Penyucian Hati dan Harta <span class="toc-ref">9:103</span></a></li>
-                    <li><a class="toc-link" data-target="t9">9. Jidal Menentang Kebenaran <span class="toc-ref">6:121, 40:56, 40:35</span></a></li>
-                    <li><a class="toc-link" data-target="t10">10. Mengikuti Rasulullah ﷺ: Keselamatan dan Kekuasaan <span class="toc-ref">22:41, 2:251</span></a></li>
-                    <li><a class="toc-link" data-target="t11">11. Hubungan Kita dengan Allah adalah Jelas <span class="toc-ref">6:115, 3:76, 30:45, 3:31, 92:12, 16:9</span></a></li>
-                    <li><a class="toc-link" data-target="t12">12. Harta yang Melampaui Batas <span class="toc-ref">28:76, 28:77</span></a></li>
-                    <li><a class="toc-link" data-target="t13">13. Keraguan yang Terpuji <span class="toc-ref">23:115, 6:79, 2:260, 13:28, 33:41, 16:106</span></a></li>
-                    <li><a class="toc-link" data-target="t14">14. Kekuatan Janji <span class="toc-ref">4:122, 28:61, 18:36</span></a></li>
-                </ul>
-                <div class="toc-group-label">Khutbah</div>
-                <ul class="toc-list">
-                    <li><a class="toc-link" data-target="khutbah">Khutbah — 20260828 </a></li>
-                </ul>
-                <div class="toc-group-label">Bonus</div>
-                <ul class="toc-list">
-                    <li><a class="toc-link" data-target="bonus">Ridha Sebelum dan Sesudah Surga <span class="toc-ref">5:119, 58:22, 98:8, 9:100, 9:72</span></a></li>
-                </ul>
+                <div class="toc-header" id="toc-header-id">
+                    <div class="toc-title"><i class="fas fa-list"></i> Daftar Isi <span class="toc-clickable-tag">(Dapat Diklik)</span></div>
+                    <i class="fas fa-chevron-down toc-chevron" id="toc-chevron-id"></i>
+                </div>
+                <div class="toc-content" id="toc-content-id">
+                    <input type="text" class="toc-search" id="toc-search-id" placeholder="Cari berdasarkan kata atau surah:ayat…">
+                    <div class="toc-group-label">Tadabbur — Renungan</div>
+                    <ul class="toc-list">
+                        <li><a class="toc-link" data-target="t1" data-title="1. Bergembira atas Musibah Saudara (Syamatah)">1. Bergembira atas Musibah Saudara (Syamatah) <span class="toc-ref">9:50</span></a></li>
+                        <li><a class="toc-link" data-target="t2" data-title="2. Husnul Khatimah">2. Husnul Khatimah <span class="toc-ref">46:9</span></a></li>
+                        <li><a class="toc-link" data-target="t3" data-title="3. Adab Perbedaan">3. Adab Perbedaan <span class="toc-ref">49:13</span></a></li>
+                        <li><a class="toc-link" data-target="t4" data-title="4. Jawaban Nabi Nuh dan Nabi Hud">4. Jawaban Nabi Nuh dan Nabi Hud <span class="toc-ref">7:61-62, 7:66-67</span></a></li>
+                        <li><a class="toc-link" data-target="t5" data-title="5. Hati Nabi Ibrahim — Al-Awwah">5. Hati Nabi Ibrahim — "Al-Awwah" <span class="toc-ref">9:114</span></a></li>
+                        <li><a class="toc-link" data-target="t6" data-title="6. Rahmat Adalah Asal, Musibah Pengecualian">6. Rahmat Adalah Asal, Musibah Pengecualian <span class="toc-ref">30:36</span></a></li>
+                        <li><a class="toc-link" data-target="t7" data-title="7. Kejujuran (Ash-Shidq) Sebagai Prinsip Akhlak">7. Kejujuran (Ash-Shidq) Sebagai Prinsip Akhlak <span class="toc-ref">9:119, 5:119</span></a></li>
+                        <li><a class="toc-link" data-target="t8" data-title="8. Zakat: Penyucian Hati dan Harta">8. Zakat: Penyucian Hati dan Harta <span class="toc-ref">9:103</span></a></li>
+                        <li><a class="toc-link" data-target="t9" data-title="9. Jidal Menentang Kebenaran">9. Jidal Menentang Kebenaran <span class="toc-ref">6:121, 40:56, 40:35</span></a></li>
+                        <li><a class="toc-link" data-target="t10" data-title="10. Mengikuti Rasulullah ﷺ: Keselamatan dan Kekuasaan">10. Mengikuti Rasulullah ﷺ: Keselamatan dan Kekuasaan <span class="toc-ref">22:41, 2:251</span></a></li>
+                        <li><a class="toc-link" data-target="t11" data-title="11. Hubungan Kita dengan Allah adalah Jelas">11. Hubungan Kita dengan Allah adalah Jelas <span class="toc-ref">6:115, 3:76, 30:45, 3:31, 92:12, 16:9</span></a></li>
+                        <li><a class="toc-link" data-target="t12" data-title="12. Harta yang Melampaui Batas">12. Harta yang Melampaui Batas <span class="toc-ref">28:76, 28:77</span></a></li>
+                        <li><a class="toc-link" data-target="t13" data-title="13. Keraguan yang Terpuji">13. Keraguan yang Terpuji <span class="toc-ref">23:115, 6:79, 2:260, 13:28, 33:41, 16:106</span></a></li>
+                        <li><a class="toc-link" data-target="t14" data-title="14. Kekuatan Janji">14. Kekuatan Janji <span class="toc-ref">4:122, 28:61, 18:36</span></a></li>
+                        <li><a class="toc-link" data-target="t15" data-title="15. Mukmin yang Jujur… Tidak Berlama-lama dalam Kesalahan">15. Mukmin yang Jujur… Tidak Berlama-lama dalam Kesalahan <span class="toc-ref">11:114, 3:135, 83:14</span></a></li>
+                    </ul>
+                    <div class="toc-group-label">Khutbah</div>
+                    <ul class="toc-list">
+                        <li><a class="toc-link" data-target="khutbah" data-title="Khutbah — 20260828">Khutbah — 20260828</a></li>
+                    </ul>
+                    <div class="toc-group-label">Bonus</div>
+                    <ul class="toc-list">
+                        <li><a class="toc-link" data-target="bonus" data-title="Ridha Sebelum dan Sesudah Surga">Ridha Sebelum dan Sesudah Surga <span class="toc-ref">5:119, 58:22, 98:8, 9:100, 9:72</span></a></li>
+                    </ul>
+                    <div class="toc-no-results" id="toc-no-results-id">Tidak ada entri yang cocok.</div>
+                </div>
             </nav>
 
             <!-- SECTION 1: TADABBUR (ID) -->
@@ -1108,7 +1195,7 @@
                     <!-- <div class="audio-player" data-surahs="23,6,2,13,33,16"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/023.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/006.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/013.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/033.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/016.mp3"></audio></div> -->
                 </div>
 
-                <div id="t14-id" class="dhikr-card" data-tlast="true">
+                <div id="t14-id" class="dhikr-card">
                     <div class="theme-title">14. Kekuatan Janji Berasal dari Keagungan dan Kejujuran Yang Menjanjikannya <span class="reference-inline">(<a href="https://quran.kemenag.go.id/quran/per-ayat/surah/4?from=122&to=122" target="_blank">4:122</a>, <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/28?from=61&to=61" target="_blank">28:61</a>, <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/18?from=36&to=36" target="_blank">18:36</a>)</span></div>
                     <p>Kekuatan sebuah janji bukanlah terletak pada kata-kata yang diucapkan, melainkan pada keagungan Zat yang menjanjikan, dan kejujuran Zat yang berikrar. Maka apabila yang menjanjikan itu adalah Allah, tidak ada ruang untuk ragu, dan tidak ada tempat untuk bimbang:</p>
                     <div class="arabic-quran" data-ref="4:122">وَعْدَ ٱللَّهِ حَقًّۭا ۚ وَمَنْ أَصْدَقُ مِنَ ٱللَّهِ قِيلًۭا ﴾١٢٢﴿</div>
@@ -1128,6 +1215,35 @@
                     <p>Barangsiapa membenarkan janji Allah, ia tidak akan menjual keyakinan akan akhirat dengan kenikmatan yang sesaat, dan tidak akan menukar yang kekal dengan yang fana; karena ia mengetahui bahwa janji Allah terlalu agung untuk diragukan, terlalu benar untuk diingkari, dan bahwa Allah terlalu mulia untuk mengecewakan orang yang berbaik sangka kepada-Nya dan menempuh jalan-Nya.</p>
                     <p>Maka apabila yang menjanjikan itu adalah Allah, berbahagialah orang yang membenarkan janji itu dengan amal, berbaik sangka kepada Tuhannya, dan menanti apa yang telah dijanjikan Allah dengan hati yang tenteram.</p>
                     <!-- <div class="audio-player" data-surahs="4,28,18"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/004.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/028.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/018.mp3"></audio></div> -->
+                </div>
+
+                <div id="t15-id" class="dhikr-card" data-tlast="true">
+                    <div class="theme-title">15. Mukmin yang Jujur… Tidak Berlama-lama dalam Kesalahan <span class="reference-inline">(<a href="https://quran.kemenag.go.id/quran/per-ayat/surah/11?from=114&to=114" target="_blank">11:114</a>, <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/3?from=135&to=135" target="_blank">3:135</a>, <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/83?from=14&to=14" target="_blank">83:14</a>)</span></div>
+                    <p>Mukmin yang jujur bukanlah orang yang tidak pernah berbuat dosa, karena setiap anak Adam pasti berbuat salah. Akan tetapi, mukmin yang jujur adalah orang yang segera kembali kepada Tuhannya; apabila kakinya tergelincir, ia tidak berlama-lama berdiri di tempat ia tergelincir, dan apabila ia terjatuh dalam keburukan, ia tidak menunda taubat, melainkan segera berbuat kebaikan, dan mengiringi keburukan itu dengan sesuatu yang menghapus bekasnya.</p>
+                    <p>Allah Ta'ala berfirman:</p>
+                    <div class="arabic-quran" data-ref="11:114">وَأَقِمِ ٱلصَّلَوٰةَ طَرَفَىِ ٱلنَّهَارِ وَزُلَفًۭا مِّنَ ٱلَّيْلِ ۚ إِنَّ ٱلْحَسَنَـٰتِ يُذْهِبْنَ ٱلسَّيِّـَٔاتِ ۚ ذَٰلِكَ ذِكْرَىٰ لِلذَّٰكِرِينَ ﴾١١٤﴿</div>
+                    <div class="transliteration">Wa aqimish shalata tharafayin nahari wa zulafam minal lail, innal hasanati yudzhibnas sayyi'at, dzalika dzikra lidz dzakirin.</div>
+                    <div class="translation">"Dan laksanakanlah salat pada kedua ujung siang (pagi dan petang) dan pada bagian permulaan malam. Sesungguhnya perbuatan-perbuatan baik itu menghapus kesalahan-kesalahan. Itulah peringatan bagi orang-orang yang selalu mengingat (Allah)." <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/11?from=114&to=114" target="_blank">(QS. Hud: 114)</a></div>
+                    <p>Renungkanlah ungkapan Al-Qur'an yang indah ini: "Sesungguhnya perbuatan-perbuatan baik itu menghapus kesalahan-kesalahan." Allah tidak berfirman "tudzhibu" (menghapus, bentuk tunggal), melainkan berfirman "yudzhibna" (menghapus, dengan nun niswah yang menunjukkan sedikitnya jumlah), sebagai isyarat halus akan besarnya rahmat Allah: bahwa kebaikan, sekalipun sedikit, dapat menghapus keburukan.</p>
+                    <p>Seandainya dikatakan "perbuatan baik menghapus keburukan" (dalam bentuk tunggal), niscaya akan memberi kesan bahwa terhapusnya keburukan hanya terjadi dengan banyaknya kebaikan. Adapun ungkapan Al-Qur'an "yudzhibna" membuka pintu harapan, dan memberitahukan kepada hamba bahwa sedikit kebaikan bisa menjadi sebab terhapusnya banyak keburukan dengan izin Allah.</p>
+                    <p>Kemudian perhatikan penutup ayat ini: "Itulah peringatan bagi orang-orang yang selalu mengingat (Allah)." Allah tidak menjadikan peringatan ini khusus bagi Nabi ﷺ, atau bagi golongan tertentu dari manusia, melainkan berfirman "lidz dzakirin" (bagi orang-orang yang mengingat); yakni bagi setiap orang yang mengambil pelajaran dan ingat, dan bagi setiap orang yang ingin memperbaiki dirinya dan kembali kepada Tuhannya.</p>
+                    <p>Makna ini semakin dikuatkan dalam sifat yang Allah gambarkan bagi ahli iman:</p>
+                    <div class="arabic-quran" data-ref="3:135">وَٱلَّذِينَ إِذَا فَعَلُوا۟ فَـٰحِشَةً أَوْ ظَلَمُوٓا۟ أَنفُسَهُمْ ذَكَرُوا۟ ٱللَّهَ فَٱسْتَغْفَرُوا۟ لِذُنُوبِهِمْ ﴾١٣٥﴿</div>
+                    <div class="transliteration">Wal ladzina idza fa'alu fahisyatan au zhalamu anfusahum dzakarullaha fastaghfaru lidzunubihim.</div>
+                    <div class="translation">"Dan (juga) orang-orang yang apabila mengerjakan perbuatan keji atau menzalimi diri sendiri, (mereka) segera mengingat Allah, lalu memohon ampunan atas dosa-dosanya." <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/3?from=135&to=135" target="_blank">(QS. Ali 'Imran: 135)</a></div>
+                    <p>Renungkanlah huruf "fa" pada firman-Nya "fastaghfaru" (lalu mereka memohon ampun); begitu mereka mengingat Allah, mereka segera memohon ampunan. Bukan taubat yang ditunda, bukan perbaikan yang diakhirkan, dan bukan penyesalan yang menunggu esok hari; mereka ingat, lalu mereka memohon ampun.</p>
+                    <p>Ini termasuk sifat seorang mukmin yang teliti dalam keimanannya: ia tidak membiarkan keburukan menetap dalam hatinya, dan tidak memberi kesempatan kepada setan untuk mengubah kekeliruan menjadi kebiasaan, kebiasaan menjadi keteguhan (dalam dosa), dan keteguhan itu menjadi kekerasan hati.</p>
+                    <p>Karena itu, kekasih kita Nabi ﷺ bersabda: "Iringilah keburukan dengan kebaikan, niscaya ia akan menghapusnya."</p>
+                    <p>Maka keburukan tidak sepatutnya menjadi akhir perjalanan, melainkan sepatutnya menjadi lonceng peringatan yang mengembalikanmu kepada Allah; apabila engkau berbuat dosa, berbuat baiklah; apabila engkau tergelincir, bertaubatlah; apabila engkau lemah, mintalah pertolongan kepada Allah, dan janganlah engkau jadikan jarak antara dosa dan taubat itu panjang.</p>
+                    <p>Sesungguhnya menunda taubat itu berbahaya; karena hati bukanlah sesuatu yang tetap dan tidak berubah, melainkan terpengaruh oleh apa yang terus-menerus diperbuat oleh pemiliknya. Allah Ta'ala berfirman:</p>
+                    <div class="arabic-quran" data-ref="83:14">كَلَّا بَلْ ۜ رَانَ عَلَىٰ قُلُوبِهِم مَّا كَانُوا۟ يَكْسِبُونَ ﴾١٤﴿</div>
+                    <div class="transliteration">Kalla bal rana 'ala qulubihim ma kanu yaksibun.</div>
+                    <div class="translation">"Sekali-kali tidak! Bahkan apa yang selalu mereka usahakan itu menutup hati mereka." <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/83?from=14&to=14" target="_blank">(QS. Al-Muthaffifin: 14)</a></div>
+                    <p>Setiap kali engkau menunda taubat, engkau memberi kesempatan kepada dosa untuk meninggalkan bekas yang lebih dalam, dan setiap kali engkau bersegera kepada ketaatan, engkau bersegera membersihkan hatimu sebelum ar-ran (noda hitam) menumpuk di atasnya.</p>
+                    <p>Janganlah engkau berkata, "Aku akan bertaubat besok." Dan janganlah engkau berkata, "Aku akan memperbaiki diriku nanti." Apabila engkau mengenali dosa, segeralah bertaubat. Dan apabila engkau terjatuh dalam keburukan, segeralah berbuat kebaikan.</p>
+                    <p>Mukmin yang jujur boleh jadi terjatuh, tetapi ia tidak menetap di tempat ia terjatuh; ia segera kembali kepada Tuhannya, mengingat-Nya, memohon ampun kepada-Nya, mengiringi keburukan dengan kebaikan, dan menyelamatkan hatinya sebelum menjadi keras.</p>
+                    <p>Dan inilah rahmat Allah: sebuah keburukan tidak mesti berujung pada kebinasaan, sedikit kebaikan bisa menghapusnya, dan taubat yang tulus membuka bagimu pintu untuk kembali.</p>
+                    <!-- <div class="audio-player" data-surahs="11,3,83"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/011.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/083.mp3"></audio></div> -->
                 </div>
             </div>
 
@@ -1275,9 +1391,9 @@
 
             const SURAH_NAMES = {
                 1: "Al-Fatihah", 2: "Al-Baqarah", 3: "Aal 'Imran", 4: "An-Nisa", 5: "Al-Ma'idah", 6: "Al-An'am",
-                7: "Al-A'raf", 9: "At-Taubah", 13: "Ar-Ra'd", 16: "An-Nahl", 18: "Al-Kahf", 22: "Al-Hajj", 23: "Al-Mu'minun", 28: "Al-Qasas", 30: "Ar-Rum", 33: "Al-Ahzab",
+                7: "Al-A'raf", 9: "At-Taubah", 11: "Hud", 13: "Ar-Ra'd", 16: "An-Nahl", 18: "Al-Kahf", 22: "Al-Hajj", 23: "Al-Mu'minun", 28: "Al-Qasas", 30: "Ar-Rum", 33: "Al-Ahzab",
                 40: "Ghafir", 46: "Al-Ahqaf", 49: "Al-Hujurat", 58: "Al-Mujadilah",
-                92: "Al-Layl", 98: "Al-Bayyinah"
+                83: "Al-Mutaffifin", 92: "Al-Layl", 98: "Al-Bayyinah"
             };
 
             const urlParams = new URLSearchParams(window.location.search);
@@ -1494,6 +1610,60 @@
                 });
             }
 
+            function setupTocPulldown(suffix) {
+                const box = document.getElementById(`toc-${suffix}`);
+                const header = document.getElementById(`toc-header-${suffix}`);
+                if (!box || !header) return;
+                header.addEventListener('click', () => box.classList.toggle('toc-open'));
+            }
+
+            function filterToc(suffix, query) {
+                const box = document.getElementById(`toc-${suffix}`);
+                const noResults = document.getElementById(`toc-no-results-${suffix}`);
+                if (!box) return;
+                const q = query.trim().toLowerCase();
+                let anyVisible = false;
+                box.querySelectorAll('.toc-list li').forEach(li => {
+                    const link = li.querySelector('.toc-link');
+                    if (!link) return;
+                    const title = (link.getAttribute('data-title') || '').toLowerCase();
+                    const ref = (link.querySelector('.toc-ref')?.textContent || '').toLowerCase();
+                    const matches = q === '' || title.includes(q) || ref.includes(q);
+                    li.classList.toggle('toc-hidden', !matches);
+                    if (matches) anyVisible = true;
+                });
+                box.querySelectorAll('.toc-group-label').forEach(label => {
+                    // Hide a group label if every item in the following list is hidden.
+                    const list = label.nextElementSibling;
+                    if (list && list.classList.contains('toc-list')) {
+                        const hasVisible = Array.from(list.querySelectorAll('li')).some(li => !li.classList.contains(
+                            'toc-hidden'));
+                        label.style.display = hasVisible ? '' : 'none';
+                    }
+                });
+                if (noResults) noResults.classList.toggle('toc-visible', !anyVisible);
+            }
+
+            function setupTocSearch(suffix) {
+                const input = document.getElementById(`toc-search-${suffix}`);
+                if (!input) return;
+                input.addEventListener('input', () => filterToc(suffix, input.value));
+            }
+
+            // Default the search box to the last Tadabbur reflection entry, and
+            // filter the list to it, so the newest reflection is easy to find.
+            function setTocDefaultToLastEntry(suffix) {
+                const box = document.getElementById(`toc-${suffix}`);
+                const input = document.getElementById(`toc-search-${suffix}`);
+                if (!box || !input) return;
+                const tadabburLinks = box.querySelectorAll('.toc-list .toc-link[data-target^="t"]');
+                if (!tadabburLinks.length) return;
+                const lastLink = tadabburLinks[tadabburLinks.length - 1];
+                const title = lastLink.getAttribute('data-title') || '';
+                input.value = title;
+                filterToc(suffix, title);
+            }
+
             setLanguage(defaultLang);
             setTransliteration(defaultTranslit);
             setDarkMode(defaultDark);
@@ -1517,6 +1687,12 @@
             enhanceAudioPlayers();
             refreshAudioCaptions();
             setupTocLinks();
+            setupTocPulldown('en');
+            setupTocPulldown('id');
+            setupTocSearch('en');
+            setupTocSearch('id');
+            setTocDefaultToLastEntry('en');
+            setTocDefaultToLastEntry('id');
             handleUrlScroll();
         })();
     </script>
