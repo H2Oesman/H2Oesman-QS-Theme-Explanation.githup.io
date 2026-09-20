@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 23 - Surah Thematic Analysis (corrected)</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --table-header-bg: #3498db;
+            --table-header-color: white;
+            --table-row-even: #f9f9f9;
+            --table-row-odd: #ffffff;
+            --link-color: #2980b9;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --table-header-bg: #2c3e50;
+            --table-header-color: #ecf0f1;
+            --table-row-even: #2d3748;
+            --table-row-odd: #1a202c;
+            --link-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .back-to-top {
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border: 1px solid var(--link-color);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .transliteration-toggle {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .dark-mode-toggle {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #9b59b6;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .hidden {
+            display: none;
+        }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            border: 1px solid var(--link-color);
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-table th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table td {
+            padding: 15px;
+            border: 1px solid var(--verse-border);
+            background-color: var(--table-row-odd);
+        }
+        .theme-table tr:nth-child(even) td {
+            background-color: var(--table-row-even);
+        }
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .audio-player h3 {
+            margin-top: 0;
+            color: var(--section-title-color);
+        }
+        .message-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .message-box h3 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .message-box ul {
+            padding-left: 20px;
+        }
+        .message-box li {
+            margin-bottom: 10px;
+        }
+        .access-link {
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border: 1px solid var(--link-color);
+            background: var(--verse-bg);
+        }
+        .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--verse-bg);
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .pagination a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--link-color);
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .surah-divider {
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            margin: 50px 0;
+            border-radius: 2px;
+        }
+        .overview-box {
+            background: var(--structure-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .overview-box h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .dark-mode .overview-box {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        .juz-overview {
+            background: linear-gradient(135deg, #e8f4fc 0%, #f0f7ff 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #3498db;
+        }
+        .dark-mode .juz-overview {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d3748 100%);
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        @media (max-width: 768px) {
+            .arabic {
+                font-size: 32px;
+            }
+            .surah-title {
+                font-size: 28px;
+            }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .scroll-arrow, .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow { left: 12px; }
+            .scroll-arrow-double { right: 12px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .top-home-link {
+                margin-bottom: 15px;
+            }
+            .theme-table {
+                display: block;
+                overflow-x: auto;
+            }
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+    <div id="scrollUp" class="scroll-arrow up" title="Scroll up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down" title="Scroll down"><i class="fas fa-chevron-down"></i></div>
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+        <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Menu Ringkasan Juz</a>
+            <h1 class="surah-title">Juz 23 - Analisis Tematik</h1>
+            <div class="surah-source"><strong>Sumber:</strong> IslamicStudies.info (disunting)</div>
+
+            <!-- Juz 23 Overview (updated) -->
+            <div class="juz-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Juz 23</h3>
+                <p>Juz 23 mencakup halaman 442 hingga 461 dalam Mushaf Al-Quran standar. Juz ini terdiri dari bagian akhir Surah Ya-Sin (ayat 28-83), seluruh Surah As-Saffat (ayat 1-182), seluruh Surah Sad (ayat 1-88), dan bagian awal Surah Az-Zumar (ayat 1-31).</p>
+                <p>Juz ini dikenal dengan nama "Wa Māliya" yang diambil dari awal ayat 22 Surah Ya-Sin. Tema utama yang menonjol dalam juz ini adalah kisah para nabi, tanda-tanda kekuasaan Allah, penegasan hari kebangkitan, bantahan terhadap syirik, serta kisah penciptaan Adam dan keengganan Iblis.</p>
+                <p><strong>Hizb:</strong> Hizb 45-46</p>
+                <p><strong>Surah dalam Juz ini:</strong></p>
+                <ul>
+                    <li>Surah Ya-Sin (36) - Ayat 28-83</li>
+                    <li>Surah As-Saffat (37) - Ayat 1-182</li>
+                    <li>Surah Sad (38) - Ayat 1-88</li>
+                    <li>Surah Az-Zumar (39) - Ayat 1-31</li>
+                </ul>
+            </div>
+
+            <!-- Akses Teks Lengkap - single Juz link -->
+            <div class="message-box">
+                <h3><i class="fas fa-external-link-alt"></i> Akses Teks Lengkap Juz 23</h3>
+                <p>Untuk membaca teks lengkap Juz 23 beserta terjemahannya, kunjungi:</p>
+                <p>
+                    <a href="https://quran.com/juz/23?translations=33" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Quran.com - Juz 23
+                    </a>
+                </p>
+            </div>
+
+            <!-- Surah Ya-Sin (bagian Juz 23) - tetap sama -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ya-Sin - Ayat 28-83</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Bagian Akhir Surah Ya-Sin</h3>
+                    <p>Surah Ya-Sin adalah surah ke-36, terdiri dari 83 ayat. Ayat 28-83 terdapat dalam Juz 23 (ayat 1-27 ada di Juz 22). Surah ini dikenal sebagai "Jantung Al-Qur'an". Bagian ini melanjutkan kisah penduduk suatu negeri, tanda-tanda kekuasaan Allah di alam, dan penjelasan tentang hari kebangkitan.</p>
+                    <p>Bagian Juz 23 ini menegaskan kekuasaan Allah menghidupkan tulang belulang yang hancur, peringatan tentang hari kiamat, dan pemisahan antara orang beriman dan orang berdosa. Surah ini ditutup dengan penegasan bahwa Allah Maha Kuasa atas segala sesuatu.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Ya-Sin (Ayat 28-83)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/036.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/36:28-83?translations=33" target="_blank" class="access-link">Quran.com - Surah Ya-Sin (28-83)</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat (Juz 23)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Ayat 28-32</td><td>Kisah Penduduk Suatu Negeri (Sambungan)</td><td>Kisah tiga utusan Allah kepada penduduk negeri; penolakan mereka; azab yang menimpa</td></tr>
+                            <tr><td>Ayat 33-44</td><td>Tanda-tanda Kekuasaan Allah</td><td>Bukti kebesaran Allah dalam bumi mati yang dihidupkan; peredaran matahari dan bulan; kapal laut</td></tr>
+                            <tr><td>Ayat 45-58</td><td>Hari Kiamat dan Balasan</td><td>Peringatan tentang hari kiamat; kondisi penghuni surga dan neraka; dialog di neraka</td></tr>
+                            <tr><td>Ayat 59-68</td><td>Pemisahan dan Penyesalan</td><td>Pemisahan antara orang berdosa dan orang beriman; penyesalan orang kafir; penciptaan manusia</td></tr>
+                            <tr><td>Ayat 69-76</td><td>Peringatan untuk Manusia</td><td>Al-Qur'an bukan syair; peringatan untuk menghindari neraka; Allah Maha Mengetahui</td></tr>
+                            <tr><td>Ayat 77-83</td><td>Kebangkitan dan Kekuasaan Allah</td><td>Allah mampu menghidupkan tulang belulang; Allah Pencipta langit dan bumi; kekuasaan mutlak Allah</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan pada hari kebangkitan, keimanan pada kekuasaan Allah menghidupkan yang mati, pengakuan bahwa Allah Pencipta langit dan bumi, keyakinan pada malaikat-malaikat Allah.</li>
+                        <li><strong>Ibadah:</strong> Bersyukur atas nikmat Allah, berdoa kepada Allah semata, mengingat Allah dalam segala kondisi, tunduk kepada perintah Allah.</li>
+                        <li><strong>Akhlak:</strong> Menyampaikan kebenaran meski ditolak, rendah hati terhadap sesama manusia, tidak sombong dengan pengetahuan, sabar menghadapi penolakan.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center; margin: 20px 0;"><a href="https://www.islamicstudies.info/tafheem.php?sura=36&verse=13&to=83" target="_blank" class="access-link"><i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info</a></p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah As-Saffat (seluruhnya) - tetap sama -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah As-Saffat (Barisan-barisan) - Ayat 1-182</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah As-Saffat</h3>
+                    <p>Surah As-Saffat adalah surah ke-37, terdiri dari 182 ayat. Seluruh surah ini terdapat dalam Juz 23. Surah ini dinamai "As-Saffat" yang berarti "Barisan-barisan" merujuk pada malaikat yang berbaris. Surah ini menekankan keesaan Allah, kebenaran hari kebangkitan, dan kisah-kisah para nabi.</p>
+                    <p>Surah ini memuat kisah Nabi Nuh, Ibrahim, Luth, Musa, Harun, Ilyas, dan Yunus. Setiap kisah menegaskan bahwa para nabi menghadapi penolakan namun akhirnya Allah menolong mereka. Surah ini juga membantah anggapan bahwa Allah mempunyai anak.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah As-Saffat</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/037.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;"><i class="fas fa-external-link-alt"></i> Teks Lengkap: <a href="https://quran.com/37:1-182?translations=33" target="_blank" class="access-link">Quran.com - Surah As-Saffat</a></p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                        <tbody>
+                            <tr><td>Ayat 1-10</td><td>Sumpah dan Malaikat</td><td>Sumpah Allah dengan malaikat yang berbaris; tugas malaikat; penjagaan langit dari setan</td></tr>
+                            <tr><td>Ayat 11-39</td><td>Penolakan Kaum Musyrik dan Balasan</td><td>Penolakan terhadap kebangkitan; kisah Nuh dan kaumnya; azab untuk kaum 'Ad, Tsamud, dan penduduk Sodom</td></tr>
+                            <tr><td>Ayat 40-74</td><td>Kisah Nabi Ibrahim dan Luth</td><td>Kisah Ibrahim menghancurkan berhala; penyelamatan Ibrahim dari api; kisah Luth dan kaumnya</td></tr>
+                            <tr><td>Ayat 75-113</td><td>Kisah Nabi Nuh dan Ibrahim (lanjutan)</td><td>Doa Nuh disambut; penyelamatan Nuh dan pengikutnya; kisah pengorbanan Ismail</td></tr>
+                            <tr><td>Ayat 114-138</td><td>Kisah Nabi Musa, Harun, Ilyas</td><td>Kisah Musa dan Fir'aun; Nabi Harun; Nabi Ilyas dan kaumnya</td></tr>
+                            <tr><td>Ayat 139-148</td><td>Kisah Nabi Yunus</td><td>Yunus dalam perut ikan; pertobatan kaumnya; nikmat untuk mereka</td></tr>
+                            <tr><td>Ayat 149-182</td><td>Penolakan Syirik dan Penutupan</td><td>Bantahan terhadap anggapan Allah punya anak; keesaan Allah; penutupan dengan pujian</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan pada malaikat Allah, keimanan pada kisah para nabi, pengakuan bahwa Allah tidak punya anak, keyakinan pada hari pembalasan.</li>
+                        <li><strong>Ibadah:</strong> Bersujud kepada Allah, berdoa dengan sungguh-sungguh, mengesakan Allah dalam ibadah, bertasbih kepada Allah.</li>
+                        <li><strong>Akhlak:</strong> Tabah menghadapi ujian seperti Ibrahim, sabar seperti Nuh, jujur dalam berdakwah, taat kepada orang tua seperti Ismail.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center; margin: 20px 0;"><a href="https://www.islamicstudies.info/tafheem.php?sura=37" target="_blank" class="access-link"><i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info</a></p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Sad (seluruhnya: 1-88) - DIPERBAIKI -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Sad - Ayat 1-88 (Lengkap)</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Sad</h3>
+                    <p>Surah Sad adalah surah ke-38, terdiri dari 88 ayat. Seluruh surah ini terdapat dalam Juz 23. Surah ini dimulai dengan huruf "Sad" yang merupakan salah satu huruf muqatta'at. Surah ini menceritakan kisah Nabi Daud, Sulaiman, Ayub, serta kisah Adam dan Iblis, dan menegaskan keesaan Allah.</p>
+                    <p>Bagian ini menampilkan kekuasaan Allah yang diberikan kepada para nabi: Daud dengan suara merdu dan kebijaksanaan, Sulaiman dengan kerajaannya yang agung, Ayub dengan kesabaran luar biasa, serta diakhiri dengan kisah penciptaan Adam dan keengganan Iblis bersujud karena sombong. Surah ini menjadi peringatan bagi orang-orang yang sombong.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Sad (1-88)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/038.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;"><i class="fas fa-external-link-alt"></i> Teks Lengkap: <a href="https://quran.com/38:1-88?translations=33" target="_blank" class="access-link">Quran.com - Surah Sad (1-88)</a></p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                        <tbody>
+                            <tr><td>Ayat 1-17</td><td>Al-Qur'an dan Penolakan Kaum Kafir</td><td>Sumpah dengan Al-Qur'an; penolakan kaum kafir terhadap Nabi; kisah umat-umat terdahulu yang dibinasakan</td></tr>
+                            <tr><td>Ayat 18-26</td><td>Kisah Nabi Daud</td><td>Kekuasaan Daud; gunung dan burung bertasbih; kisah dua orang yang berselisih; nasihat agar berbuat adil</td></tr>
+                            <tr><td>Ayat 27-40</td><td>Kisah Nabi Sulaiman</td><td>Kerajaan Sulaiman yang megah; pasukan jin, manusia, dan burung; ujian dengan kuda; doa Sulaiman</td></tr>
+                            <tr><td>Ayat 41-48</td><td>Kisah Nabi Ayub</td><td>Kesabaran Ayub dalam ujian penyakit; kesembuhan dan kembalinya keluarganya</td></tr>
+                            <tr><td>Ayat 49-64</td><td>Balasan bagi orang bertakwa dan peringatan bagi pendurhaka</td><td>Gambaran surga bagi orang bertakwa; siksa neraka bagi orang sesat; perdebatan penghuni neraka</td></tr>
+                            <tr><td>Ayat 65-74</td><td>Keesaan Allah dan kisah para nabi lain</td><td>Ibrahim, Ishak, Ya'qub; Ismail, Alyasa', Dzulkifli; keagungan Allah</td></tr>
+                            <tr><td>Ayat 75-88</td><td>Kisah Adam dan Iblis, serta penutup</td><td>Perintah sujud kepada Adam; kesombongan Iblis dan pengusirannya; tantangan Iblis; ancaman neraka; penegasan bahwa Al-Qur'an adalah peringatan nyata</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan pada Al-Qur'an sebagai peringatan, keimanan pada kisah para nabi, pengakuan bahwa Allah Maha Mengetahui, keyakinan pada kebenaran rasul, serta bahaya kesombongan (seperti Iblis).</li>
+                        <li><strong>Ibadah:</strong> Bertasbih kepada Allah seperti Daud, bersyukur atas nikmat, berdoa dengan rendah hati, bersujud kepada Allah, meneladani kesabaran Ayub.</li>
+                        <li><strong>Akhlak:</strong> Sabar menghadapi ujian seperti Ayub, adil dalam memutuskan perkara seperti Daud, rendah hati seperti Sulaiman, taat kepada Allah, dan menjauhi sifat sombong.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center; margin: 20px 0;"><a href="https://www.islamicstudies.info/tafheem.php?sura=38" target="_blank" class="access-link"><i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info</a></p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Az-Zumar (bagian awal: 1-31) - DITAMBAHKAN -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Az-Zumar (Rombongan) - Ayat 1-31</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Bagian Awal Surah Az-Zumar</h3>
+                    <p>Surah Az-Zumar adalah surah ke-39, terdiri dari 75 ayat. Ayat 1-31 terdapat dalam Juz 23 (sisa ayat 32-75 ada di Juz 24). Surah ini dinamai "Az-Zumar" (rombongan-rombongan) karena menggambarkan dua rombongan di akhirat: penghuni surga dan neraka.</p>
+                    <p>Bagian awal surah ini menekankan bahwa Al-Qur'an diturunkan dari Allah Yang Maha Perkasa lagi Maha Bijaksana, perintah untuk mengikhlaskan ibadah hanya kepada Allah, bukti-bukti kekuasaan Allah di alam, dan peringatan bagi orang-orang yang berbuat syirik. Juga disebutkan tentang orang yang taat di malam hari dan ancaman bagi pendusta.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Az-Zumar (Ayat 1-31)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/039.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/39:1-31?translations=33" target="_blank" class="access-link">Quran.com - Surah Az-Zumar (1-31)</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat (Juz 23)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Ayat 1-9</td><td>Keagungan Al-Qur'an dan Tauhid</td><td>Al-Qur'an dari Allah; perintah ikhlas beribadah; Allah tidak memerlukan anak; ciptaan langit dan bumi; perbandingan orang berilmu dan tidak</td></tr>
+                            <tr><td>Ayat 10-20</td><td>Kabargembira bagi orang sabar dan bertakwa</td><td>Perintah bertakwa; balasan berlipat bagi orang sabar; mereka yang menjauhi thaghut mendapat surga; perumpamaan orang buta dan melihat</td></tr>
+                            <tr><td>Ayat 21-31</td><td>Tanda kekuasaan Allah dan peringatan</td><td>Air hujan menyuburkan bumi; hati yang keras; perumpamaan kalimat baik dan buruk; Allah menguatkan orang beriman; siksa bagi pengingkar</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan bahwa Al-Qur'an benar-benar dari Allah, keesaan Allah dalam uluhiyah dan rububiyah, penolakan syirik, keyakinan akan adanya hisab dan balasan.</li>
+                        <li><strong>Ibadah:</strong> Ikhlas dalam beribadah, bersabar dalam ketaatan, bersyukur atas nikmat air dan kehidupan, merenungkan tanda-tanda Allah.</li>
+                        <li><strong>Akhlak:</strong> Menjauhi thaghut (segala sesembahan selain Allah), bersabar terhadap ujian, berkata baik (kalimat thayyibah), menjadi hamba yang berilmu dan takut kepada Allah.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=39" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_22.html"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 23</span>
+                <a href="juz_24.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Menu Ringkasan Juz</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Kembali ke Atas</a>
+        </div>
+
+        <!-- English Content (Hidden by Default) - juga diperbaiki sesuai struktur Indonesia -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Juz Summary List</a>
+            <h1 class="surah-title">Juz 23 - Thematic Analysis</h1>
+            <div class="surah-source"><strong>Sources:</strong> IslamicStudies.info (revised)</div>
+
+            <!-- Juz 23 Overview - English (updated) -->
+            <div class="juz-overview">
+                <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Juz 23</h3>
+                <p>Juz 23 covers pages 442 to 461 in the standard Quran Mushaf. This Juz consists of the final part of Surah Ya-Sin (verses 28-83), the entire Surah As-Saffat (verses 1-182), the entire Surah Sad (verses 1-88), and the beginning of Surah Az-Zumar (verses 1-31).</p>
+                <p>This Juz is known as "Wa Māliya" taken from the beginning of verse 22 of Surah Ya-Sin. The prominent themes are the stories of prophets, signs of Allah's power, affirmation of the Day of Resurrection, refutation of shirk, and the story of Adam and Iblis.</p>
+                <p><strong>Hizb:</strong> Hizb 45-46</p>
+                <p><strong>Surahs in this Juz:</strong></p>
+                <ul>
+                    <li>Surah Ya-Sin (36) - Verses 28-83</li>
+                    <li>Surah As-Saffat (37) - Verses 1-182</li>
+                    <li>Surah Sad (38) - Verses 1-88</li>
+                    <li>Surah Az-Zumar (39) - Verses 1-31</li>
+                </ul>
+            </div>
+
+            <!-- Access Complete Text - English -->
+            <div class="message-box">
+                <h3><i class="fas fa-external-link-alt"></i> Access Complete Text of Juz 23</h3>
+                <p><a href="https://quran.com/juz/23?translations=131" target="_blank" class="access-link"><i class="fas fa-book"></i> Quran.com - Juz 23</a></p>
+            </div>
+
+            <!-- Surah Ya-Sin (English) - condensed for brevity, same as Indonesian but English -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Ya-Sin - Verses 28-83</h2>
+                <div class="overview-box"><h3>Overview of the Final Part of Surah Ya-Sin</h3><p>Surah Ya-Sin is the 36th chapter. Verses 28-83 are in Juz 23. Known as the "Heart of the Quran". This section affirms Allah's power to revive bones, warnings of Judgment Day.</p></div>
+                <div class="audio-player"><h3>Listen to Surah Ya-Sin (28-83)</h3><audio controls style="width:100%"><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/036.mp3" type="audio/mpeg"></audio><p><a href="https://recitequran.com/36:28" target="_blank" class="access-link">reciteQuran.com - Surah Ya-Sin (28-83)</a></p></div>
+                <div class="section"><h3 class="theme-title">Theme Division</h3><table class="theme-table"> <!-- same rows as Indonesian but English -->
+                <thead><tr><th>Verse Range</th><th>Main Theme</th><th>Core Message</th></tr></thead><tbody>
+                <tr><td>28-32</td><td>Story of the Town (cont.)</td><td>Three messengers; rejection; punishment</td></tr>
+                <tr><td>33-44</td><td>Signs of Allah's Power</td><td>Dead earth revived; sun, moon, ships</td></tr>
+                <tr><td>45-58</td><td>Day of Judgment</td><td>Warnings; Paradise & Hell; dialogue in Hell</td></tr>
+                <tr><td>59-68</td><td>Separation and Regret</td><td>Separation of sinners and believers; regret of disbelievers</td></tr>
+                <tr><td>69-76</td><td>Warning for Mankind</td><td>Quran is not poetry; warning to avoid Hell</td></tr>
+                <tr><td>77-83</td><td>Resurrection and Allah's Power</td><td>Allah can revive bones; Creator of heavens and earth</td></tr>
+                </tbody></table></div>
+                <div class="message-box"><h3>Message of Aqidah, Worship, Akhlaq</h3><ul><li><strong>Aqidah:</strong> Belief in Resurrection, Allah's power over life and death.</li><li><strong>Worship:</strong> Gratitude, prayer, remembrance.</li><li><strong>Akhlak:</strong> Convey truth patiently, humility.</li></ul></div>
+                <p style="text-align:center"><a href="https://www.islamicstudies.info/tafheem.php?sura=36&verse=13&to=83" target="_blank" class="access-link">Tafsir at IslamicStudies.info</a></p>
+            </div>
+            <div class="surah-divider"></div>
+
+            <!-- Surah As-Saffat English (abbreviated but correct) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah As-Saffat - Verses 1-182</h2>
+                <div class="overview-box"><h3>Overview</h3><p>Surah 37, entire in Juz 23. Stories of Nuh, Ibrahim, Lut, Musa, Harun, Ilyas, Yunus; refutation of Allah having children.</p></div>
+                <div class="audio-player"><h3>Listen to Surah As-Saffat</h3><audio controls style="width:100%"><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/037.mp3" type="audio/mpeg"></audio><p><a href="https://recitequran.com/37" target="_blank" class="access-link">reciteQuran.com - Surah As-Saffat</a></p></div>
+                <p style="text-align:center"><a href="https://www.islamicstudies.info/tafheem.php?sura=37" target="_blank" class="access-link">Tafsir at IslamicStudies.info</a></p>
+            </div>
+            <div class="surah-divider"></div>
+
+            <!-- Surah Sad English (full 1-88) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Sad - Verses 1-88 (complete)</h2>
+                <div class="overview-box"><h3>Overview</h3><p>Surah 38, entire in Juz 23. Stories of Dawud, Sulaiman, Ayyub; creation of Adam and Iblis's arrogance.</p></div>
+                <div class="audio-player"><h3>Listen to Surah Sad (1-88)</h3><audio controls style="width:100%"><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/038.mp3" type="audio/mpeg"></audio><p><a href="https://recitequran.com/38" target="_blank" class="access-link">reciteQuran.com - Surah Sad (1-88)</a></p></div>
+                <div class="section"><h3 class="theme-title">Theme Division</h3><table class="theme-table"><thead><tr><th>Verses</th><th>Theme</th><th>Message</th></tr></thead><tbody>
+                <tr><td>1-17</td><td>Quran & rejection</td><td>Oath by Quran; past nations destroyed</td></tr>
+                <tr><td>18-26</td><td>Prophet Dawud</td><td>Birds/mountains glorify; judgment story</td></tr>
+                <tr><td>27-40</td><td>Prophet Sulaiman</td><td>Kingdom, jinn, birds; test of horses</td></tr>
+                <tr><td>41-48</td><td>Prophet Ayyub</td><td>Patience in illness; healing</td></tr>
+                <tr><td>49-64</td><td>Reward and punishment</td><td>Paradise for pious; Hell for wrongdoers</td></tr>
+                <tr><td>65-74</td><td>Oneness & other prophets</td><td>Ibrahim, Ishaq, Ya'qub, Ismail, etc.</td></tr>
+                <tr><td>75-88</td><td>Adam & Iblis; conclusion</td><td>Iblis refuses to prostrate; his arrogance; warning of Hell</td></tr>
+                </tbody></table></div>
+                <div class="message-box"><h3>Message</h3><ul><li>Aqidah: belief in prophets, danger of pride.</li><li>Worship: glorify Allah, patience.</li><li>Akhlaq: humility, justice, steadfastness.</li></ul></div>
+                <p style="text-align:center"><a href="https://www.islamicstudies.info/tafheem.php?sura=38" target="_blank" class="access-link">Tafsir at IslamicStudies.info</a></p>
+            </div>
+            <div class="surah-divider"></div>
+
+            <!-- Surah Az-Zumar English (1-31) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Az-Zumar - Verses 1-31</h2>
+                <div class="overview-box"><h3>Overview of the beginning of Surah Az-Zumar</h3><p>Surah 39, verses 1-31 in Juz 23. Emphasizes sincerity in worship, signs of Allah, and comparison of believers and disbelievers.</p></div>
+                <div class="audio-player"><h3>Listen to Surah Az-Zumar (1-31)</h3><audio controls style="width:100%"><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/039.mp3" type="audio/mpeg"></audio><p><a href="https://recitequran.com/39" target="_blank" class="access-link">reciteQuran.com - Surah Az-Zumar (1-31)</a></p></div>
+                <div class="section"><h3 class="theme-title">Theme Division (Juz 23)</h3><table class="theme-table"><thead><tr><th>Verses</th><th>Theme</th><th>Core Message</th></tr></thead><tbody>
+                <tr><td>1-9</td><td>Quran & Tawheed</td><td>Revelation from Allah; command to worship sincerely; signs in creation</td></tr>
+                <tr><td>10-20</td><td>Good news for the patient</td><td>Reward for those who avoid Taghut; description of Paradise</td></tr>
+                <tr><td>21-31</td><td>Signs of Allah & warnings</td><td>Rain reviving earth; similitude of good word vs evil word; punishment for deniers</td></tr>
+                </tbody></table></div>
+                <div class="message-box"><h3>Message of Aqidah, Worship, Akhlaq</h3><ul><li><strong>Aqidah:</strong> Absolute sincerity to Allah, rejection of shirk.</li><li><strong>Worship:</strong> Ikhlas, patience, reflection on nature.</li><li><strong>Akhlak:</strong> Avoid false deities, speak good words, be among the knowledgeable.</li></ul></div>
+                <p style="text-align:center"><a href="https://www.islamicstudies.info/tafheem.php?sura=39" target="_blank" class="access-link">Tafsir at IslamicStudies.info</a></p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_22.html"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 23</span>
+                <a href="juz_24.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            </div>
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Juz Summary List</a></div>
+            <a href="#top" class="back-to-top"><i class="fas fa-arrow-up"></i> Back To Top</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Juz 23 Thematic Analysis | Based on IslamicStudies.info | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        // Same toggle script as before
+        document.addEventListener('DOMContentLoaded', function() {
+            const englishContent = document.getElementById('english-content');
+            const indonesianContent = document.getElementById('indonesian-content');
+            const languageToggle = document.getElementById('languageToggle');
+            const transliterationToggle = document.getElementById('transliterationToggle');
+            const darkModeToggle = document.getElementById('darkModeToggle');
+
+            const currentLanguage = localStorage.getItem('language') || 'indonesian';
+            if (currentLanguage === 'english') {
+                englishContent.classList.remove('hidden');
+                indonesianContent.classList.add('hidden');
+                languageToggle.textContent = 'Switch to Indonesian';
+            } else {
+                englishContent.classList.add('hidden');
+                indonesianContent.classList.remove('hidden');
+                languageToggle.textContent = 'Switch to English';
+            }
+
+            languageToggle.addEventListener('click', function() {
+                if (englishContent.classList.contains('hidden')) {
+                    englishContent.classList.remove('hidden');
+                    indonesianContent.classList.add('hidden');
+                    languageToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    englishContent.classList.add('hidden');
+                    indonesianContent.classList.remove('hidden');
+                    languageToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // transliteration toggle (no actual elements, but keeps functionality)
+            const transliterationElements = document.querySelectorAll('.transliteration');
+            const transliterationVisible = localStorage.getItem('transliteration') === 'true';
+            if (transliterationVisible) {
+                transliterationElements.forEach(el => el.style.display = 'block');
+                transliterationToggle.textContent = 'Hide Transliteration';
+            }
+
+            transliterationToggle.addEventListener('click', function() {
+                if (transliterationElements[0] && (transliterationElements[0].style.display === 'none' || transliterationElements[0].style.display === '')) {
+                    transliterationElements.forEach(el => el.style.display = 'block');
+                    transliterationToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    transliterationElements.forEach(el => el.style.display = 'none');
+                    transliterationToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Light Mode';
+            }
+
+            darkModeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkModeToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkModeToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+
+            // Scroll arrows
+            const scrollUpBtn = document.getElementById('scrollUp');
+            const scrollDownBtn = document.getElementById('scrollDown');
+            const doubleUpBtn = document.getElementById('doubleUpScroll');
+            const doubleDownBtn = document.getElementById('doubleDownScroll');
+            if (scrollUpBtn) scrollUpBtn.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+            if (scrollDownBtn) scrollDownBtn.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+            if (doubleUpBtn) doubleUpBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            if (doubleDownBtn) doubleDownBtn.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+        });
+    </script>
+</body>
+</html>
+
