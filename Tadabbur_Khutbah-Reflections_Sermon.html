@@ -408,66 +408,6 @@
         .scroll-target { scroll-margin-top: 100px; }
         .arabic, .arabic-quran { unicode-bidi: embed; }
     </style>
-
-<style id="ux-enhance-v1">
-/* ---- Single round play / pause button ---- */
-.ux-play-wrap { display: flex; justify-content: center; margin: 12px 0 6px; }
-.ux-play-btn { position: relative; width: 60px; height: 60px; border-radius: 50%; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; background: var(--link-color, #1e5f8e); color: #fff; box-shadow: 0 4px 14px rgba(30, 95, 142, 0.28); transition: transform 0.2s ease, box-shadow 0.2s ease; padding: 0; margin: 0; }
-.dark-mode .ux-play-btn { color: var(--container-bg, #1e293b); }
-.ux-play-btn:hover { transform: scale(1.08); box-shadow: 0 6px 18px rgba(30, 95, 142, 0.38); }
-.ux-play-btn:focus-visible { outline: 2px solid var(--link-color, #1e5f8e); outline-offset: 4px; }
-.ux-play-btn svg { display: block; }
-.ux-play-btn .ux-ic-play { margin-left: 3px; }
-.ux-play-btn .ux-ic-pause { display: none; }
-.ux-play-btn.playing .ux-ic-play { display: none; }
-.ux-play-btn.playing .ux-ic-pause { display: block; }
-.ux-play-btn.playing::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--link-color, #1e5f8e); animation: ux-play-pulse 1.6s ease-out infinite; }
-@keyframes ux-play-pulse { from { opacity: 0.7; transform: scale(0.92); } to { opacity: 0; transform: scale(1.25); } }
-audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed-select) { display: none !important; }
-
-/* ---- Animated directional arrows ---- */
-.scroll-arrow, .scroll-arrow-double { display: flex; align-items: center; justify-content: center; }
-.ux-arrow-ic { display: block; }
-.scroll-arrow.ux-up .ux-arrow-ic, .scroll-arrow-double.ux-up .ux-arrow-ic { animation: ux-nudge-up 1.8s ease-in-out infinite; }
-.scroll-arrow.ux-down .ux-arrow-ic, .scroll-arrow-double.ux-down .ux-arrow-ic { animation: ux-nudge-down 1.8s ease-in-out infinite; }
-.scroll-arrow:hover .ux-arrow-ic, .scroll-arrow-double:hover .ux-arrow-ic { animation-duration: 0.9s; }
-@keyframes ux-nudge-up { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-4px); } }
-@keyframes ux-nudge-down { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(4px); } }
-.ux-added-arrow { position: fixed; width: 44px; height: 44px; border-radius: 50%; background: var(--arrow-bg, #2c3e50); color: var(--arrow-text, #fff); box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; z-index: 1000; transition: 0.2s; border: 1px solid var(--verse-border, #e0e0e0); }
-.ux-added-arrow:hover { transform: scale(1.05); background: var(--link-color, #1e5f8e); color: #fff; }
-.ux-added-arrow.scroll-arrow { left: 20px; }
-.ux-added-arrow.scroll-arrow-double { right: 20px; }
-.ux-added-arrow.ux-up { top: 200px; }
-.ux-added-arrow.ux-down { bottom: 90px; }
-.scroll-arrow-double.ux-up:not(.up-double) { top: 200px; bottom: auto; }
-.scroll-arrow-double.ux-down:not(.down-double) { bottom: 90px; top: auto; }
-@media (max-width: 640px) {
-  .scroll-arrow-double.ux-up:not(.up-double) { top: 170px; }
-  .scroll-arrow-double.ux-down:not(.down-double) { bottom: 70px; }
-  .scroll-arrow-double { left: auto !important; right: 12px !important; }
-  .ux-added-arrow { width: 38px; height: 38px; }
-  .ux-added-arrow.scroll-arrow { left: 12px; }
-  .ux-added-arrow.ux-up { top: 170px; }
-  .ux-added-arrow.ux-down { bottom: 70px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ux-arrow-ic, .ux-play-btn.playing::after { animation: none !important; }
-}
-
-/* ---- Save as PDF ---- */
-.ux-pdf-btn { cursor: pointer; }
-@media print {
-  @page { margin: 14mm; }
-  .language-toggle, .transliteration-toggle, .dark-mode-toggle, .scroll-arrow, .scroll-arrow-double,
-  .ux-pdf-btn, .ux-play-wrap, audio, .audio-player, .audio-controls,
-  .top-home-link, .menu-link, .surah-pagination, .pagination-center { display: none !important; }
-  body { background: #fff !important; }
-  .container { box-shadow: none !important; }
-  .verse, .theme-card, .structure-item, .tafsir-box, .dhikr-card { break-inside: avoid; }
-  .section-title { break-after: avoid; }
-  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-}
-</style>
 </head>
 <body>
 
@@ -475,10 +415,10 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
     <div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇮🇩 Indonesian</div>
     <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
     <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
-    <div id="scrollUp" class="scroll-arrow up ux-up"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div id="scrollDown" class="scroll-arrow down ux-down"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div id="doubleUpScroll" class="scroll-arrow-double up-double ux-up"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 12l6-6 6 6M6 18l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div id="doubleDownScroll" class="scroll-arrow-double down-double ux-down"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l6 6 6-6M6 12l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double"><i class="fas fa-angles-down"></i></div>
 
     <div class="container">
 
@@ -490,7 +430,6 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
         <div id="english-content">
             <div style="margin-bottom:20px;">
                 <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
-<a href="#" class="top-home-link ux-pdf-btn" role="button"><i class="fas fa-file-pdf"></i> Save as PDF</a>
             </div>
             <h1 class="surah-title">Qur'anic Reflections &amp; Friday Khutbah</h1>
 
@@ -571,6 +510,7 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
                         <li><a class="toc-link" data-target="t65" data-title="65. When Blessings Do Not Corrupt You and Hardships Do Not Crush You"><span class="toc-label-text">65. When Blessings Do Not Corrupt You and Hardships Do Not Crush You</span><span class="toc-ref">43:32</span></a></li>
                         <li><a class="toc-link" data-target="t66" data-title="66. Do Not Let the Life of This World Deceive You, Nor Let the Deceiver Delude You About Allah"><span class="toc-label-text">66. Do Not Let the Life of This World Deceive You, Nor Let the Deceiver Delude You About Allah</span><span class="toc-ref">35:5</span></a></li>
                         <li><a class="toc-link" data-target="t67" data-title="67. The Station of Neediness Before Allah"><span class="toc-label-text">67. The Station of Neediness Before Allah</span><span class="toc-ref">35:15, 28:78, 28:81</span></a></li>
+                        <li><a class="toc-link" data-target="t68" data-title="68. Among the Greatest Blessings of Allah: Preparing You for Trials Before They Come"><span class="toc-label-text">68. Among the Greatest Blessings of Allah: Preparing You for Trials Before They Come</span><span class="toc-ref">3:186</span></a></li>
                     </ul>
                     <div class="toc-group-label">Khutbah</div>
                     <ul class="toc-list">
@@ -2444,7 +2384,7 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
 
                 <div class="back-to-top"><a class="back-to-top-link" data-scope="en"><i class="fas fa-circle-arrow-up"></i> Go to the Top</a></div>
 
-                <div id="t67" class="dhikr-card" data-tlast="true">
+                <div id="t67" class="dhikr-card">
                     <div class="theme-title">67. The Station of Neediness Before Allah <span class="reference-inline">(<a href="https://recitequran.com/35:15" target="_blank">35:15</a>, <a href="https://recitequran.com/28:78" target="_blank">28:78</a>, <a href="https://recitequran.com/28:81" target="_blank">28:81</a>)</span></div>
                     <p>The station of neediness before Allah is among the noblest stations of servitude and one of the highest levels of closeness to Him. Being in need of Allah is not a deficiency in a person's worth; rather, it is the perfection of his servitude and a sign of his true knowledge of his Lord.</p>
                     <p>The more a servant recognizes his own weakness, the limits of his abilities, the boundaries of his knowledge, and the depth of his need for his Lord, the more his heart humbles itself before Allah, attaches itself to Him, places its trust in Him, and draws guidance, strength, assistance, and success from Him.</p>
@@ -2478,6 +2418,29 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
                     <p>Thus, the reality of servitude becomes clear: to recognize your poverty and ask the Self-Sufficient; to recognize your weakness and draw strength from the All-Powerful; to recognize your ignorance and seek guidance from the All-Knowing; and to recognize your inability and seek help from the All-Capable.</p>
                     <p>There is no nobler state for a servant than to have a heart utterly dependent upon Allah, while finding sufficiency in Him above all others.</p>
                     <!-- <div class="audio-player" data-surahs="35,28"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/035.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/028.mp3"></audio></div> -->
+                </div>
+
+                <div class="back-to-top"><a class="back-to-top-link" data-scope="en"><i class="fas fa-circle-arrow-up"></i> Go to the Top</a></div>
+
+                <div id="t68" class="dhikr-card" data-tlast="true">
+                    <div class="theme-title">68. Among the Greatest Blessings of Allah: Preparing You for Trials Before They Come <span class="reference-inline">(<a href="https://recitequran.com/3:186" target="_blank">3:186</a>)</span></div>
+                    <p>Allah's generosity and grace are manifested in the way He warns you of trials before they occur, prepares you for them emotionally and spiritually, and shows you the path to remain steadfast through them.</p>
+                    <p>Allah says:</p>
+                    <div class="arabic-quran" data-ref="3:186">لَتُبْلَوُنَّ فِىٓ أَمْوَٰلِكُمْ وَأَنفُسِكُمْ وَلَتَسْمَعُنَّ مِنَ ٱلَّذِينَ أُوتُوا۟ ٱلْكِتَـٰبَ مِن قَبْلِكُمْ وَمِنَ ٱلَّذِينَ أَشْرَكُوٓا۟ أَذًۭى كَثِيرًۭا ۚ وَإِن تَصْبِرُوا۟ وَتَتَّقُوا۟ فَإِنَّ ذَٰلِكَ مِنْ عَزْمِ ٱلْأُمُورِ ﴾١٨٦﴿</div>
+                    <div class="transliteration">La-tublawunna fī amwālikum wa anfusikum, wa latasma‘unna minal-ladhīna ūtul-kitāba min qablikum wa minal-ladhīna ashrakū adhan kathīrā, wa in taṣbirū wa tattaqū fa'inna dhālika min ‘azmil-umūr.</div>
+                    <div class="translation">"You will certainly be tested in your wealth and yourselves, and you will certainly hear much abuse from those who were given the Scripture before you and from those who associate others with Allah. But if you are patient and mindful of Allah, then that is indeed a matter of great resolve." <a href="https://recitequran.com/3:186" target="_blank">(Qur'an 3:186)</a></div>
+                    <p>Reflect upon this tremendous divine generosity!</p>
+                    <p>Allah informs you of the trials before they come and prepares your heart to receive them before they take you by surprise. You do not enter the arena of trials unaware of their nature, nor do you encounter the hurtful words of others as though you had never expected them.</p>
+                    <p>Then Allah does not merely inform you that trials are inevitable. He identifies the areas in which they will occur: your wealth, your own selves, and the hurtful things you will hear from others. This prepares you so that you do not mistake the occurrence of such hardships for a flaw in your faith, or assume that the path of righteousness should be free of pain and adversity.</p>
+                    <p>Then comes the completion of His grace: Allah does not leave you facing trials without guidance on how to deal with them. Rather, He directs you to the key to steadfastness and success:</p>
+                    <p>"But if you are patient and mindful of Allah…"</p>
+                    <p>Patience prevents you from being broken by trials or drawn into resentment and despair. Mindfulness of Allah prevents your pain from driving you beyond His limits, from responding to injustice with injustice, or from doing what displeases Him in pursuit of vindication for yourself.</p>
+                    <p>It is as though this verse lays out a complete framework for navigating life's hardships: knowledge before the trial, preparation before the shock, guidance to govern your response, and the assurance that patience and God-consciousness are among the matters requiring the greatest resolve.</p>
+                    <p>What generosity could be greater than this? What grace could be more magnificent than for your Lord to tell you what you will face, teach you how to face it, and then open for you the door to reward and steadfastness through it?</p>
+                    <p>Allah does not promise you a life free of trials. Rather, He grants you guidance that helps you pass through them without losing your faith. Nor does He allow the hurtful treatment of others to become a justification for straying from the truth.</p>
+                    <p>A trial may surprise you when it arrives, but you need not be left bewildered about how to face it. Your Lord's words of warning and guidance have already reached you before it comes.</p>
+                    <p>All praise belongs to Allah, who has not left His servants to face the calamities of life without clarification; who has not commanded them to be patient without teaching them where patience is needed; and who has not placed them upon the path of righteousness without showing them its landmarks.</p>
+                    <!-- <div class="audio-player" data-surahs="3"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3"></audio></div> -->
                 </div>
 
                 <div class="back-to-top"><a class="back-to-top-link" data-scope="en"><i class="fas fa-circle-arrow-up"></i> Go to the Top</a></div>
@@ -2627,7 +2590,6 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
         <div id="indonesian-content" class="hidden">
             <div style="margin-bottom:20px;">
                 <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Menu Utama</a>
-<a href="#" class="top-home-link ux-pdf-btn" role="button"><i class="fas fa-file-pdf"></i> Simpan sebagai PDF</a>
             </div>
             <h1 class="surah-title">Tadabbur Al-Qur'an &amp; Khutbah Jumat</h1>
 
@@ -2708,6 +2670,7 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
                         <li><a class="toc-link" data-target="t65" data-title="65. Ketika Nikmat Tidak Merusakmu dan Musibah Tidak Menghancurkanmu"><span class="toc-label-text">65. Ketika Nikmat Tidak Merusakmu dan Musibah Tidak Menghancurkanmu</span><span class="toc-ref">43:32</span></a></li>
                         <li><a class="toc-link" data-target="t66" data-title="66. Janganlah Kehidupan Dunia Memperdayakanmu, dan Janganlah Penipu Memperdayakanmu tentang Allah"><span class="toc-label-text">66. Janganlah Kehidupan Dunia Memperdayakanmu, dan Janganlah Penipu Memperdayakanmu tentang Allah</span><span class="toc-ref">35:5</span></a></li>
                         <li><a class="toc-link" data-target="t67" data-title="67. Maqam Iftiqar (Kebutuhan) kepada Allah"><span class="toc-label-text">67. Maqam Iftiqar (Kebutuhan) kepada Allah</span><span class="toc-ref">35:15, 28:78, 28:81</span></a></li>
+                        <li><a class="toc-link" data-target="t68" data-title="68. Di antara Kemurahan dan Karunia Allah: Memperingatkanmu tentang Ujian Sebelum Terjadi"><span class="toc-label-text">68. Di antara Kemurahan dan Karunia Allah: Memperingatkanmu tentang Ujian Sebelum Terjadi</span><span class="toc-ref">3:186</span></a></li>
                     </ul>
                     <div class="toc-group-label">Khutbah</div>
                     <ul class="toc-list">
@@ -4565,7 +4528,7 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
 
                 <div class="back-to-top"><a class="back-to-top-link" data-scope="id"><i class="fas fa-circle-arrow-up"></i> Kembali ke Atas</a></div>
 
-                <div id="t67-id" class="dhikr-card" data-tlast="true">
+                <div id="t67-id" class="dhikr-card">
                     <div class="theme-title">67. Maqam Iftiqar (Kebutuhan) kepada Allah <span class="reference-inline">(<a href="https://quran.kemenag.go.id/quran/per-ayat/surah/35?from=15&to=15" target="_blank">35:15</a>, <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/28?from=78&to=78" target="_blank">28:78</a>, <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/28?from=81&to=81" target="_blank">28:81</a>)</span></div>
                     <p>Maqam iftiqar (kebutuhan) kepada Allah adalah salah satu maqam penghambaan yang paling mulia, dan salah satu tingkatan kedekatan kepada-Nya yang paling tinggi; sebab kebutuhan kepada Allah bukanlah kekurangan pada kedudukan manusia, melainkan kesempurnaan dalam penghambaannya, dan kejujuran dalam pengenalannya kepada Tuhannya.</p>
                     <p>Maka semakin seorang hamba mengenal lemahnya dirinya, tidak mampunya kekuatannya, terbatasnya ilmunya, dan besarnya kebutuhannya kepada Tuhannya, semakin hancur hatinya di hadapan Allah, bergantung kepada-Nya, bertawakal kepada-Nya, dan memohon dari-Nya petunjuk, kekuatan, pertolongan, dan taufik.</p>
@@ -4598,6 +4561,28 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
                     <p>Demikianlah tampak hakikat penghambaan: engkau mengetahui kefakiranmu, maka engkau meminta kepada Yang Mahakaya; kelemahanmu, maka engkau memohon kekuatan dari Yang Mahakuat; kebodohanmu, maka engkau meminta petunjuk dari Yang Maha Mengetahui; dan ketidakmampuanmu, maka engkau memohon pertolongan dari Yang Mahakuasa.</p>
                     <p>Maka tidak ada yang lebih mulia bagi seorang hamba daripada hatinya yang fakir kepada Allah, dan merasa cukup dengan-Nya dari selain-Nya.</p>
                     <!-- <div class="audio-player" data-surahs="35,28"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/035.mp3"></audio><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/028.mp3"></audio></div> -->
+                </div>
+
+                <div class="back-to-top"><a class="back-to-top-link" data-scope="id"><i class="fas fa-circle-arrow-up"></i> Kembali ke Atas</a></div>
+
+                <div id="t68-id" class="dhikr-card" data-tlast="true">
+                    <div class="theme-title">68. Di antara Kemurahan dan Karunia Allah: Memperingatkanmu tentang Ujian Sebelum Terjadi <span class="reference-inline">(<a href="https://quran.kemenag.go.id/quran/per-ayat/surah/3?from=186&to=186" target="_blank">3:186</a>)</span></div>
+                    <p>Di antara kemurahan dan karunia Allah adalah bahwa Dia memperingatkanmu tentang ujian sebelum terjadi, mempersiapkanmu untuknya secara kejiwaan dan keimanan, dan menjelaskan kepadamu jalan keteguhan di atasnya.</p>
+                    <p>Allah Ta'ala berfirman:</p>
+                    <div class="arabic-quran" data-ref="3:186">لَتُبْلَوُنَّ فِىٓ أَمْوَٰلِكُمْ وَأَنفُسِكُمْ وَلَتَسْمَعُنَّ مِنَ ٱلَّذِينَ أُوتُوا۟ ٱلْكِتَـٰبَ مِن قَبْلِكُمْ وَمِنَ ٱلَّذِينَ أَشْرَكُوٓا۟ أَذًۭى كَثِيرًۭا ۚ وَإِن تَصْبِرُوا۟ وَتَتَّقُوا۟ فَإِنَّ ذَٰلِكَ مِنْ عَزْمِ ٱلْأُمُورِ ﴾١٨٦﴿</div>
+                    <div class="transliteration">La tublawunna fi amwalikum wa anfusikum, wa latasma'unna minal ladzina utul kitaba min qablikum wa minal ladzina asyraku adzan katsira, wa in tashbiru wa tattaqu fa inna dzalika min 'azmil umur.</div>
+                    <div class="translation">"Kamu pasti akan diuji dengan hartamu dan dirimu. Dan pasti kamu akan mendengar dari orang-orang yang diberi kitab sebelum kamu dan dari orang-orang musyrik, banyak hal yang sangat menyakitkan hati. Jika kamu bersabar dan bertakwa, maka sesungguhnya yang demikian itu termasuk urusan yang (patut) diutamakan." <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/3?from=186&to=186" target="_blank">(QS. Ali 'Imran: 186)</a></div>
+                    <p>Renungkanlah kemurahan ilahi yang agung ini!</p>
+                    <p>Allah memberitahumu tentang ujian sebelum terjadi, dan mempersiapkan hatimu untuk menyambutnya sebelum ia mengejutkanmu; maka engkau tidak memasuki medan ujian dalam keadaan lalai akan tabiatnya, dan tidak menghadapi gangguan manusia seolah-olah engkau tidak pernah menduganya.</p>
+                    <p>Kemudian Dia Yang Mahasuci tidak cukup memberitahumu bahwa ujian pasti terjadi, melainkan menjelaskan kepadamu tempat-tempatnya: pada harta dan diri, dan pada gangguan dari orang lain yang engkau dengar; agar engkau tidak mengira bahwa terjadinya sesuatu dari itu adalah bukti adanya cacat pada imanmu, atau bahwa jalan istikamah mestinya bebas dari rasa sakit dan gangguan.</p>
+                    <p>Kemudian datanglah kesempurnaan karunia: Allah tidak membiarkanmu menghadapi ujian tanpa petunjuk tentang cara menghadapinya; bahkan Dia menunjukkan kepadamu kunci keteguhan dan keselamatan: "Jika kamu bersabar dan bertakwa."</p>
+                    <p>Maka kesabaran mencegahmu dari hancur di hadapan ujian atau terseret kepada kemarahan dan keluh kesah, sedangkan takwa mencegahmu dari didorong oleh rasa sakit untuk melampaui batas-batas Allah, atau membalas kezaliman dengan kezaliman, atau melakukan apa yang tidak Dia ridai demi membela dirimu.</p>
+                    <p>Seolah-olah ayat ini menggambarkan bagimu sebuah metode yang utuh: pengetahuan yang mendahului ujian, persiapan yang mendahului kejutan, petunjuk yang mengatur respons, dan janji bahwa sabar dan takwa termasuk urusan yang patut diutamakan.</p>
+                    <p>Maka kemurahan apa yang lebih besar daripada ini? Dan karunia apa yang lebih agung daripada Tuhanmu memberitahumu apa yang akan engkau hadapi, mengajarimu bagaimana menghadapinya, kemudian membukakan bagimu melaluinya pintu pahala dan keteguhan?</p>
+                    <p>Dia Yang Mahasuci tidak menjanjikanmu kehidupan tanpa ujian, tetapi Dia menganugerahkan kepadamu petunjuk yang membantumu melewati ujian tanpa kehilangan agamamu, dan Dia tidak menjadikan gangguan manusia sebagai pembenaran bagimu untuk menyimpang dari kebenaran.</p>
+                    <p>Ujian mungkin mengejutkanmu dengan terjadinya, tetapi tidak semestinya ia membiarkanmu bingung bagaimana menghadapinya; sebab seruan Tuhanmu berupa peringatan dan petunjuk telah mendahuluinya.</p>
+                    <p>Maka segala puji bagi Allah yang tidak membiarkan hamba-hamba-Nya menghadapi musibah kehidupan tanpa penjelasan, tidak memerintahkan mereka bersabar tanpa mengajarkan kepada mereka tempat-tempat kesabaran, dan tidak membebani mereka jalan istikamah tanpa menunjukkan kepada mereka rambu-rambunya.</p>
+                    <!-- <div class="audio-player" data-surahs="3"><audio controls src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3"></audio></div> -->
                 </div>
 
                 <div class="back-to-top"><a class="back-to-top-link" data-scope="id"><i class="fas fa-circle-arrow-up"></i> Kembali ke Atas</a></div>
@@ -5125,176 +5110,5 @@ audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed
             handleUrlScroll();
         })();
     </script>
-
-<script id="ux-enhance-v1-js">
-(function () {
-  var PLAY = '<svg class="ux-ic-play" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>';
-  var PAUSE = '<svg class="ux-ic-pause" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>';
-  var ARROWS = {"su": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 15l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "sd": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 9l6 6 6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "du": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 12l6-6 6 6M6 18l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "dd": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 6l6 6 6-6M6 12l6 6 6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"};
-  function isEn() {
-    var id = document.getElementById('indonesian-content');
-    return id ? id.classList.contains('hidden') || getComputedStyle(id).display === 'none' : true;
-  }
-  function allAudio() { return document.querySelectorAll('audio'); }
-  function labels() {
-    document.querySelectorAll('.ux-pdf-dyn .ux-pdf-label').forEach(function (l) { l.textContent = isEn() ? 'Save as PDF' : 'Simpan sebagai PDF'; });
-    document.querySelectorAll('.ux-play-btn').forEach(function (b) {
-      var p = b.classList.contains('playing');
-      var t = p ? (isEn() ? 'Pause recitation' : 'Jeda bacaan') : (isEn() ? 'Play recitation' : 'Putar bacaan');
-      b.setAttribute('aria-label', t); b.title = t;
-    });
-  }
-  function enhanceAudio() {
-    allAudio().forEach(function (audio) {
-      if (audio.dataset.uxEnhanced) return;
-      audio.dataset.uxEnhanced = '1';
-      audio.removeAttribute('controls');
-      audio.classList.add('ux-hidden-audio');
-      if (!audio.getAttribute('preload')) audio.setAttribute('preload', 'none');
-      var wrap = document.createElement('div');
-      wrap.className = 'ux-play-wrap';
-      var btn = document.createElement('button');
-      btn.type = 'button'; btn.className = 'ux-play-btn'; btn.innerHTML = PLAY + PAUSE;
-      btn.addEventListener('click', function (e) {
-        e.preventDefault(); e.stopPropagation();
-        if (audio.paused) { var pr = audio.play(); if (pr && pr.catch) pr.catch(function () {}); } else audio.pause();
-      });
-      audio.addEventListener('play', function () {
-        allAudio().forEach(function (o) { if (o !== audio && !o.paused) o.pause(); });
-        btn.classList.add('playing'); labels();
-      });
-      audio.addEventListener('pause', function () { btn.classList.remove('playing'); labels(); });
-      audio.addEventListener('ended', function () { btn.classList.remove('playing'); labels(); });
-      wrap.appendChild(btn);
-      audio.parentNode.insertBefore(wrap, audio);
-    });
-    labels();
-  }
-  function addMissingArrows() {
-    var specs = [];
-    if (!document.querySelector('.scroll-arrow')) specs.push(['scroll-arrow', 'up', ARROWS.su, function () { window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }); }],
-                                                            ['scroll-arrow', 'down', ARROWS.sd, function () { window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }); }]);
-    if (!document.querySelector('.scroll-arrow-double')) specs.push(['scroll-arrow-double', 'up', ARROWS.du, function () { window.scrollTo({ top: 0, behavior: 'smooth' }); }],
-                                                                   ['scroll-arrow-double', 'down', ARROWS.dd, function () { window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' }); }]);
-    specs.forEach(function (s) {
-      var d = document.createElement('div');
-      d.className = s[0] + ' ux-added-arrow ux-' + s[1];
-      d.title = s[0] === 'scroll-arrow' ? (s[1] === 'up' ? 'Scroll up' : 'Scroll down') : (s[1] === 'up' ? 'Go to top' : 'Go to bottom');
-      d.innerHTML = s[2];
-      d.addEventListener('click', s[3]);
-      document.body.appendChild(d);
-    });
-  }
-  // Save as PDF via the browser print dialog (printed in light mode)
-  var wasDark = false;
-  window.addEventListener('beforeprint', function () {
-    wasDark = document.body.classList.contains('dark-mode');
-    document.body.classList.remove('dark-mode');
-  });
-  window.addEventListener('afterprint', function () { if (wasDark) document.body.classList.add('dark-mode'); });
-  document.addEventListener('click', function (e) {
-    var b = e.target.closest && e.target.closest('.ux-pdf-btn');
-    if (b) { e.preventDefault(); allAudio().forEach(function (o) { o.pause(); }); window.print(); }
-  });
-  var lt = document.getElementById('languageToggle');
-  if (lt) lt.addEventListener('click', function () { allAudio().forEach(function (o) { o.pause(); }); setTimeout(labels, 0); });
-  function init() { enhanceAudio(); addMissingArrows(); }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
-  window.addEventListener('load', enhanceAudio);
-})();
-</script>
-
-<style id="ux-audio-seek-v1">
-.ux-seek { display: flex; align-items: center; justify-content: center; gap: 8px; max-width: 460px; margin: 4px auto 12px; padding: 0 6px; font-size: 12.5px; color: var(--text-color, #334155); }
-.ux-seek .ux-time { min-width: 38px; text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; opacity: 0.85; }
-.ux-seek input[type=range] { flex: 1 1 auto; min-width: 80px; height: 22px; margin: 0; cursor: pointer; accent-color: var(--link-color, #1e5f8e); background: transparent; }
-.ux-seek .ux-skip { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--link-color, #1e5f8e); background: transparent; color: var(--link-color, #1e5f8e); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; transition: background 0.2s ease, transform 0.2s ease; }
-.ux-seek .ux-skip:hover { background: rgba(30, 95, 142, 0.10); transform: scale(1.06); }
-.ux-seek .ux-skip:focus-visible, .ux-seek input[type=range]:focus-visible { outline: 2px solid var(--link-color, #1e5f8e); outline-offset: 2px; }
-.ux-seek .ux-skip svg { display: block; }
-@media (max-width: 480px) { .ux-seek { gap: 6px; font-size: 11.5px; } .ux-seek .ux-time { min-width: 32px; } .ux-seek .ux-skip { width: 30px; height: 30px; } }
-@media print { .ux-seek { display: none !important; } }
-</style>
-<script id="ux-audio-seek-v1-js">
-(function () {
-  var BACK = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z" fill="currentColor"/><text x="12" y="16.2" text-anchor="middle" font-size="6.5" font-family="sans-serif" font-weight="700" fill="currentColor">10</text></svg>';
-  var FWD = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5V2l5 4-5 4V7a6 6 0 1 0 6 6h2a8 8 0 1 1-8-8z" fill="currentColor"/><text x="12" y="16.2" text-anchor="middle" font-size="6.5" font-family="sans-serif" font-weight="700" fill="currentColor">10</text></svg>';
-  function fmt(t) {
-    if (!isFinite(t) || t < 0) t = 0;
-    var h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = Math.floor(t % 60);
-    return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (s < 10 ? '0' : '') + s;
-  }
-  function isEnEl(el) { return !!(el.closest && el.closest('#english-content')); }
-  function build(wrap, audio) {
-    if (wrap.dataset.uxSeek) return;
-    wrap.dataset.uxSeek = '1';
-    var en = isEnEl(wrap);
-    var row = document.createElement('div'); row.className = 'ux-seek';
-    var back = document.createElement('button'); back.type = 'button'; back.className = 'ux-skip'; back.innerHTML = BACK;
-    var fwd = document.createElement('button'); fwd.type = 'button'; fwd.className = 'ux-skip'; fwd.innerHTML = FWD;
-    back.title = en ? 'Back 10 seconds' : 'Mundur 10 detik'; back.setAttribute('aria-label', back.title);
-    fwd.title = en ? 'Forward 10 seconds' : 'Maju 10 detik'; fwd.setAttribute('aria-label', fwd.title);
-    var cur = document.createElement('span'); cur.className = 'ux-time'; cur.textContent = '0:00';
-    var dur = document.createElement('span'); dur.className = 'ux-time'; dur.textContent = '0:00';
-    var bar = document.createElement('input'); bar.type = 'range'; bar.min = 0; bar.max = 1000; bar.step = 1; bar.value = 0;
-    bar.setAttribute('aria-label', en ? 'Seek recitation' : 'Geser posisi bacaan');
-    row.appendChild(back); row.appendChild(cur); row.appendChild(bar); row.appendChild(dur); row.appendChild(fwd);
-    wrap.parentNode.insertBefore(row, wrap.nextSibling);
-    var dragging = false, pending = null;
-    function ready() { return isFinite(audio.duration) && audio.duration > 0; }
-    function ensureLoaded() {
-      if (!ready() && audio.readyState === 0) { audio.preload = 'metadata'; try { audio.load(); } catch (e) {} }
-    }
-    function paint() {
-      if (ready()) {
-        dur.textContent = fmt(audio.duration);
-        if (!dragging) bar.value = Math.round(audio.currentTime / audio.duration * 1000);
-        cur.textContent = fmt(dragging ? bar.value / 1000 * audio.duration : audio.currentTime);
-      }
-      var pct = (bar.value / 10) + '%';
-      bar.style.background = 'linear-gradient(to right, var(--link-color, #1e5f8e) ' + pct + ', rgba(127,127,127,0.25) ' + pct + ')';
-      bar.style.borderRadius = '4px'; bar.style.height = '6px';
-    }
-    function seekTo(frac) {
-      if (ready()) { audio.currentTime = Math.max(0, Math.min(audio.duration - 0.25, frac * audio.duration)); paint(); }
-      else { pending = { frac: frac }; ensureLoaded(); }
-    }
-    function skip(sec) {
-      if (ready()) { audio.currentTime = Math.max(0, Math.min(audio.duration - 0.25, audio.currentTime + sec)); paint(); }
-      else { pending = { delta: sec }; ensureLoaded(); }
-    }
-    audio.addEventListener('loadedmetadata', function () {
-      if (pending) {
-        if (pending.frac != null) audio.currentTime = pending.frac * audio.duration;
-        else audio.currentTime = Math.max(0, audio.currentTime + pending.delta);
-        pending = null;
-      }
-      paint();
-    });
-    audio.addEventListener('timeupdate', paint);
-    audio.addEventListener('durationchange', paint);
-    audio.addEventListener('seeked', paint);
-    audio.addEventListener('ended', function () { bar.value = 1000; paint(); });
-    bar.addEventListener('pointerdown', function () { dragging = true; ensureLoaded(); });
-    bar.addEventListener('input', function () { dragging = true; paint(); if (ready()) cur.textContent = fmt(bar.value / 1000 * audio.duration); });
-    bar.addEventListener('change', function () { dragging = false; seekTo(bar.value / 1000); });
-    bar.addEventListener('keydown', function () { ensureLoaded(); });
-    back.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); skip(-10); });
-    fwd.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); skip(10); });
-    paint();
-  }
-  function init() {
-    document.querySelectorAll('.ux-play-wrap').forEach(function (wrap) {
-      var a = wrap.nextElementSibling;
-      while (a && a.tagName !== 'AUDIO') a = a.nextElementSibling;
-      if (!a) { var p = wrap.parentNode; a = p && p.querySelector('audio'); }
-      if (a) build(wrap, a);
-    });
-  }
-  function run() { init(); setTimeout(init, 300); setTimeout(init, 1200); }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  window.addEventListener('load', init);
-})();
-</script>
 </body>
 </html>
