@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Juz 3 - Tafsir Tematik | Thematic Tafsir</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #1e2a3e;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #1e5f8e;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --link-color: #1e5f8e;
+            --link-hover: #0d3d5a;
+            --theme-card-bg: #ffffffdd;
+            --translation-color: #2c3e50;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+        .dark-mode {
+            --bg-color: #121826;
+            --text-color: #eef2ff;
+            --container-bg: #1e293b;
+            --arabic-color: #7bc9ff;
+            --section-title-color: #7bc9ff;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #5dade2;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1f3a2f;
+            --link-color: #93c5fd;
+            --link-hover: #c3e2ff;
+            --theme-card-bg: #1e293bdd;
+            --translation-color: #cbd5e1;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0 10px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: right;
+            margin: 0 0 10px 0;
+            display: none;
+        }
+        .dark-mode .transliteration { color: #b0c4de; }
+        .translation {
+            font-size: 16px;
+            text-align: left;
+            color: var(--translation-color);
+            margin: 5px 0 15px 0;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 12px;
+            border-left: 3px solid var(--link-color);
+        }
+        .dark-mode .translation {
+            background: rgba(255,255,255,0.05);
+        }
+        .surah-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #2c7da0, #1e5f8e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section { margin: 30px 0; }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #1e7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 16px;
+            margin-top: 15px;
+            border: 1px solid var(--tafsir-border);
+        }
+        .hidden { display: none; }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            margin-right: 15px;
+            padding: 8px 16px;
+            border-radius: 40px;
+            border: 1px solid var(--link-color);
+            font-weight: 500;
+        }
+        .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
+        .theme-card {
+            background: var(--theme-card-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 6px solid #2c7da0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .benefits-list {
+            background: var(--benefits-bg);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+        .theme-overview, .special-benefits {
+            background: var(--bonus-bg);
+            padding: 25px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .info-box {
+            background: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .audio-player {
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        /* Single scroll arrows (LEFT) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow.up { top: 200px; }
+        .scroll-arrow.down { bottom: 90px; }
+        /* Double arrows (RIGHT) for top/bottom fast */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        .surah-pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--verse-border);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .pagination-prev, .pagination-next {
+            background: var(--verse-bg);
+            padding: 10px 24px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+            transition: 0.2s;
+        }
+        .pagination-prev:hover, .pagination-next:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        @media (max-width: 640px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .arabic { font-size: 30px; }
+            .surah-pagination { flex-direction: column; gap: 10px; align-items: stretch; }
+            .pagination-prev, .pagination-next { justify-content: center; }
+        }
+        footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
+        .fa, .fas, .far { margin-right: 4px; }
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .structure-item {
+            background: var(--structure-bg);
+            padding: 15px;
+            border-radius: 20px;
+            border-left: 4px solid #2c7da0;
+        }
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
+        }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
+        }
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--structure-bg);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .theme-table th, .theme-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--verse-border);
+            text-align: left;
+        }
+        .theme-table th {
+            background: #2c7da0;
+            color: white;
+        }
+        .key-verse {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fa 100%);
+            border-left: 6px solid #2c7da0;
+            padding: 25px;
+            border-radius: 24px;
+            margin: 30px 0;
+        }
+        .dark-mode .key-verse {
+            background: linear-gradient(135deg, #1e2a3a 0%, #1a2535 100%);
+        }
+        .relationship-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        .timeline-item {
+            background: var(--verse-bg);
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 12px;
+        }
+        .hikmah-section {
+            background: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .historical-section {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style id="ux-enhance-v1">
+/* ---- Single round play / pause button ---- */
+.ux-play-wrap { display: flex; justify-content: center; margin: 12px 0 6px; }
+.ux-play-btn { position: relative; width: 60px; height: 60px; border-radius: 50%; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; background: var(--link-color, #1e5f8e); color: #fff; box-shadow: 0 4px 14px rgba(30, 95, 142, 0.28); transition: transform 0.2s ease, box-shadow 0.2s ease; padding: 0; margin: 0; }
+.dark-mode .ux-play-btn { color: var(--container-bg, #1e293b); }
+.ux-play-btn:hover { transform: scale(1.08); box-shadow: 0 6px 18px rgba(30, 95, 142, 0.38); }
+.ux-play-btn:focus-visible { outline: 2px solid var(--link-color, #1e5f8e); outline-offset: 4px; }
+.ux-play-btn svg { display: block; }
+.ux-play-btn .ux-ic-play { margin-left: 3px; }
+.ux-play-btn .ux-ic-pause { display: none; }
+.ux-play-btn.playing .ux-ic-play { display: none; }
+.ux-play-btn.playing .ux-ic-pause { display: block; }
+.ux-play-btn.playing::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--link-color, #1e5f8e); animation: ux-play-pulse 1.6s ease-out infinite; }
+@keyframes ux-play-pulse { from { opacity: 0.7; transform: scale(0.92); } to { opacity: 0; transform: scale(1.25); } }
+audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed-select) { display: none !important; }
+
+/* ---- Animated directional arrows ---- */
+.scroll-arrow, .scroll-arrow-double { display: flex; align-items: center; justify-content: center; }
+.ux-arrow-ic { display: block; }
+.scroll-arrow.ux-up .ux-arrow-ic, .scroll-arrow-double.ux-up .ux-arrow-ic { animation: ux-nudge-up 1.8s ease-in-out infinite; }
+.scroll-arrow.ux-down .ux-arrow-ic, .scroll-arrow-double.ux-down .ux-arrow-ic { animation: ux-nudge-down 1.8s ease-in-out infinite; }
+.scroll-arrow:hover .ux-arrow-ic, .scroll-arrow-double:hover .ux-arrow-ic { animation-duration: 0.9s; }
+@keyframes ux-nudge-up { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-4px); } }
+@keyframes ux-nudge-down { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(4px); } }
+.ux-added-arrow { position: fixed; width: 44px; height: 44px; border-radius: 50%; background: var(--arrow-bg, #2c3e50); color: var(--arrow-text, #fff); box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; z-index: 1000; transition: 0.2s; border: 1px solid var(--verse-border, #e0e0e0); }
+.ux-added-arrow:hover { transform: scale(1.05); background: var(--link-color, #1e5f8e); color: #fff; }
+.ux-added-arrow.scroll-arrow { left: 20px; }
+.ux-added-arrow.scroll-arrow-double { right: 20px; }
+.ux-added-arrow.ux-up { top: 200px; }
+.ux-added-arrow.ux-down { bottom: 90px; }
+.scroll-arrow-double.ux-up:not(.up-double) { top: 200px; bottom: auto; }
+.scroll-arrow-double.ux-down:not(.down-double) { bottom: 90px; top: auto; }
+@media (max-width: 640px) {
+  .scroll-arrow-double.ux-up:not(.up-double) { top: 170px; }
+  .scroll-arrow-double.ux-down:not(.down-double) { bottom: 70px; }
+  .scroll-arrow-double { left: auto !important; right: 12px !important; }
+  .ux-added-arrow { width: 38px; height: 38px; }
+  .ux-added-arrow.scroll-arrow { left: 12px; }
+  .ux-added-arrow.ux-up { top: 170px; }
+  .ux-added-arrow.ux-down { bottom: 70px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ux-arrow-ic, .ux-play-btn.playing::after { animation: none !important; }
+}
+
+/* ---- Save as PDF ---- */
+.ux-pdf-btn { cursor: pointer; }
+@media print {
+  @page { margin: 14mm; }
+  .language-toggle, .transliteration-toggle, .dark-mode-toggle, .scroll-arrow, .scroll-arrow-double,
+  .ux-pdf-btn, .ux-play-wrap, audio, .audio-player, .audio-controls,
+  .top-home-link, .menu-link, .surah-pagination, .pagination-center { display: none !important; }
+  body { background: #fff !important; }
+  .container { box-shadow: none !important; }
+  .verse, .theme-card, .structure-item, .tafsir-box, .dhikr-card { break-inside: avoid; }
+  .section-title { break-after: avoid; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+<!-- Single scroll arrows (LEFT) -->
+<div id="scrollUp" class="scroll-arrow up ux-up"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div id="scrollDown" class="scroll-arrow down ux-down"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+<!-- Double arrows (RIGHT: top/bottom fast) -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double ux-up" title="Go to top"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 12l6-6 6 6M6 18l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double ux-down" title="Go to bottom"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l6 6 6-6M6 12l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+<div class="container" id="mainContainer">
+    <div id="indonesian-content">
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Menu Utama</a>
+            <a href="#" class="top-home-link ux-pdf-btn" role="button"><i class="fas fa-file-pdf"></i> Simpan sebagai PDF</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Daftar Juz</a>
+        </div>
+        <h1 class="surah-title">Juz 3 - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/2?from=253&to=286" target="_blank">Qur'an Kemenag <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a> &nbsp;|&nbsp; <a href="https://quran.com/juz/3" target="_blank">Quran.com - Juz 3</a></div>
+        <div class="arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+        <div class="transliteration">Bismillaahir-rahmaanir-rahiim</div>
+        <div class="translation">"Dengan nama Allah Yang Maha Pengasih, Maha Penyayang."</div>
+
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Gambaran Umum Juz 3</h3>
+            <p>Juz 3 memuat Surah Al-Baqarah ayat 253–286 dan Surah Ali 'Imran ayat 1–91. Di dalamnya terdapat Ayat Kursi, prinsip tidak ada paksaan dalam agama, perumpamaan infak, larangan riba, ayat tentang pencatatan utang, dan dua ayat penutup Al-Baqarah. Surah Ali 'Imran kemudian menegaskan keesaan Allah, ayat-ayat muhkam dan mutasyabih, kisah keluarga Imran, Maryam, Nabi Zakaria, Yahya, dan Isa, serta dialog dengan Ahli Kitab.</p>
+            <div class="timeline">
+                <div class="timeline-item"><strong>Halaman:</strong> 42–61</div>
+                <div class="timeline-item"><strong>Awal juz:</strong> QS Al-Baqarah [2]: 253</div>
+                <div class="timeline-item"><strong>Akhir juz:</strong> QS Ali 'Imran [3]: 91</div>
+                <div class="timeline-item"><strong>Jumlah surah:</strong> 2</div>
+            </div>
+            <p style="font-size: 0.9em; opacity: 0.8;"><em>Pembagian juz dan halaman mengikuti Mushaf Al-Qur'an Standar Indonesia (Kemenag).</em></p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-list-ol"></i> Isi Juz 3</h2>
+            <table class="theme-table">
+                <thead><tr><th>No.</th><th>Surah</th><th>Ayat</th><th>Keterangan</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><a href="#seg-id-2">Al-Baqarah</a> (2) – Sapi</td><td style="white-space: nowrap;">253–286</td><td>Sebagian · Madaniyah</td></tr>
+                    <tr><td>2</td><td><a href="#seg-id-3">Ali 'Imran</a> (3) – Keluarga Imran</td><td style="white-space: nowrap;">1–91</td><td>Sebagian · Madaniyah</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-verse" data-anchor="key-verse">
+            <h3><i class="fas fa-key"></i> Ayat Pilihan Juz 3</h3>
+            <div class="arabic">اَللّٰهُ لَآ اِلٰهَ اِلَّا هُوَۚ اَلْحَيُّ الْقَيُّوْمُ ۚ لَا تَأْخُذُهٗ سِنَةٌ وَّلَا نَوْمٌۗ لَهٗ مَا فِى السَّمٰوٰتِ وَمَا فِى الْاَرْضِۗ مَنْ ذَا الَّذِيْ يَشْفَعُ عِنْدَهٗٓ اِلَّا بِاِذْنِهٖۗ يَعْلَمُ مَا بَيْنَ اَيْدِيْهِمْ وَمَا خَلْفَهُمْۚ وَلَا يُحِيْطُوْنَ بِشَيْءٍ مِّنْ عِلْمِهٖٓ اِلَّا بِمَا شَاۤءَۚ وَسِعَ كُرْسِيُّهُ السَّمٰوٰتِ وَالْاَرْضَۚ وَلَا يَـُٔوْدُهٗ حِفْظُهُمَاۚ وَهُوَ الْعَلِيُّ الْعَظِيْمُ ﴿٢٥٥﴾</div>
+            <div class="transliteration">Allaahu laa ilaaha illaa huw, al-hayyul-qayyuum, laa ta'khudzuhuu sinatuw wa laa naum, lahuu maa fis-samaawaati wa maa fil-ardh, man dzal-ladzii yasyfa'u 'indahuu illaa bi'idznih, ya'lamu maa baina aidiihim wa maa khalfahum, wa laa yuhiithuuna bisyai'im min 'ilmihii illaa bimaa syaa', wasi'a kursiyyuhus-samaawaati wal-ardh, wa laa ya'uuduhuu hifzhuhumaa, wa huwal-'aliyyul-'azhiim</div>
+            <div class="translation"><strong>Terjemahan:</strong> "Allah, tidak ada tuhan selain Dia. Yang Mahahidup, Yang terus menerus mengurus (makhluk-Nya), tidak mengantuk dan tidak tidur. Milik-Nya apa yang ada di langit dan apa yang ada di bumi. Tidak ada yang dapat memberi syafaat di sisi-Nya tanpa izin-Nya. Dia mengetahui apa yang di hadapan mereka dan apa yang di belakang mereka, dan mereka tidak mengetahui sesuatu apa pun tentang ilmu-Nya melainkan apa yang Dia kehendaki. Kursi-Nya meliputi langit dan bumi. Dan Dia tidak merasa berat memelihara keduanya, dan Dia Mahatinggi, Mahabesar." (QS Al-Baqarah [2]: 255)</div>
+            <div class="tafsir-box"><strong>Tafsir Ringkas Kemenag:</strong> Allah, tidak ada tuhan yang pantas disembah selain Dia, Yang Mahahidup dan terus-menerus mengurus makhluk-Nya. Dia tidak mengantuk dan tidak tidur, karena keduanya sifat kekurangan. Milik-Nya apa yang ada di langit dan di bumi; tidak ada yang dapat memberi syafaat di sisi-Nya tanpa izin-Nya. Dia mengetahui segala sesuatu, Kursi-Nya meliputi langit dan bumi, dan Dia tidak merasa berat memelihara keduanya. Dialah Yang Mahatinggi, Mahaagung. <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/2?from=255&to=255" target="_blank">📖 Baca tafsir Kemenag (Ayat 255)</a></div>
+        </div>
+
+        <div class="section" id="seg-id-2">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> 1. Surah Al-Baqarah (Sapi) · Ayat 253–286</h2>
+            <div class="overview-box info-box"><p>Bagian penutup Al-Baqarah ini dibuka dengan keutamaan sebagian rasul atas yang lain, lalu Ayat Kursi yang menegaskan keagungan Allah. Setelah prinsip tidak ada paksaan dalam agama dan kisah-kisah tentang kekuasaan Allah menghidupkan yang mati, Allah menganjurkan infak yang ikhlas, mengharamkan riba, dan memerintahkan pencatatan utang. Surah ditutup dengan pernyataan iman Rasul dan orang-orang beriman serta doa agar tidak dibebani di luar kemampuan.</p></div>
+            <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Baqarah</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3" type="audio/mpeg"></audio></div>
+            <h3 class="theme-title"><i class="fas fa-table"></i> Pembagian Tema Berdasarkan Ayat</h3>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>253–260</strong></td><td>Para Rasul dan Tauhid</td><td>Keutamaan para rasul, Ayat Kursi, tidak ada paksaan dalam agama, dan bukti kebangkitan (kisah Nabi Ibrahim dan burung)</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>261–286</strong></td><td>Infak, Riba, dan Doa Penutup</td><td>Keutamaan infak, larangan riba, aturan utang-piutang, dan doa penutup surah</td></tr>
+                </tbody>
+            </table>
+            <h3 class="theme-title"><i class="fas fa-star"></i> Pesan Akidah, Ibadah, dan Akhlak</h3>
+            <div class="three-columns">
+                <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Keagungan dan kekuasaan Allah dalam Ayat Kursi (ayat 255) dan iman kepada semua rasul tanpa membeda-bedakan (ayat 285).</div>
+                <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Berinfak dengan ikhlas tanpa menyebut-nyebut dan menyakiti (ayat 261–264) serta berdoa dengan doa penutup Al-Baqarah (ayat 286).</div>
+                <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Tidak memaksa dalam beragama (ayat 256), menjauhi riba (ayat 275–279), dan jujur serta tertib dalam utang piutang (ayat 282).</div>
+            </div>
+            <p style="text-align: center; margin: 15px 0;"><a href="002.html" class="access-link"><i class="fas fa-book"></i> Baca Tafsir Tematik Surah Al-Baqarah</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/2?from=253&to=286" target="_blank" class="access-link">Teks, terjemahan, dan tafsir Kemenag</a></p>
+        </div>
+
+        <div class="section" id="seg-id-3">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> 2. Surah Ali 'Imran (Keluarga Imran) · Ayat 1–91</h2>
+            <div class="overview-box info-box"><p>Bagian awal Surah Ali 'Imran menegaskan bahwa Allah Yang Mahahidup menurunkan Al-Qur'an yang membenarkan kitab-kitab sebelumnya, serta menjelaskan ayat-ayat muhkam dan mutasyabih. Allah mengisahkan keluarga Imran: kelahiran Maryam, doa Nabi Zakaria yang dikabulkan dengan kelahiran Yahya, dan kelahiran Nabi Isa tanpa ayah sebagai tanda kekuasaan-Nya. Bagian ini juga memuat ajakan kepada Ahli Kitab menuju kalimat yang sama, yaitu tidak menyembah selain Allah.</p></div>
+            <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Ali 'Imran</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3" type="audio/mpeg"></audio></div>
+            <h3 class="theme-title"><i class="fas fa-table"></i> Pembagian Tema Berdasarkan Ayat</h3>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>1–32</strong></td><td>Tauhid &amp; Keesaan Allah</td><td>Penegasan keesaan Allah; Allah menurunkan Taurat, Injil, dan Al-Qur'an sebagai petunjuk; ayat muhkam dan mutasyabih; serta Islam sebagai agama yang diridai Allah.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>33–63</strong></td><td>Kisah Keluarga Imran dan Kelahiran Isa</td><td>Kesucian Maryam, mukjizat kelahiran Nabi Isa a.s., dan bantahan terhadap anggapan bahwa Isa adalah tuhan.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>64–91</strong></td><td>Dialog dengan Ahli Kitab</td><td>Ajakan kepada Ahli Kitab menuju kalimat yang sama (tauhid), keteladanan Nabi Ibrahim yang hanif, dan Kakbah sebagai rumah ibadah pertama.</td></tr>
+                </tbody>
+            </table>
+            <h3 class="theme-title"><i class="fas fa-star"></i> Pesan Akidah, Ibadah, dan Akhlak</h3>
+            <div class="three-columns">
+                <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Allah Esa, Mahahidup, dan menurunkan kitab-kitab-Nya (ayat 2–4); agama yang diridai di sisi Allah adalah Islam (ayat 19).</div>
+                <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Berdoa memohon keteguhan hati (ayat 8) dan meneladani ibadah Maryam serta doa Nabi Zakaria (ayat 37–38).</div>
+                <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Mengikuti Rasul sebagai bukti cinta kepada Allah (ayat 31) dan berdialog dengan Ahli Kitab secara santun (ayat 64).</div>
+            </div>
+            <p style="text-align: center; margin: 15px 0;"><a href="003.html" class="access-link"><i class="fas fa-book"></i> Baca Tafsir Tematik Surah Ali 'Imran</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/3?from=1&to=91" target="_blank" class="access-link">Teks, terjemahan, dan tafsir Kemenag</a></p>
+        </div>
+
+        <div class="surah-pagination">
+            <a href="juz_02.html" class="pagination-prev"><i class="fas fa-arrow-left"></i> Juz Sebelumnya: Juz 2</a>
+            <a href="juz_04.html" class="pagination-next">Juz Berikutnya: Juz 4 <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a><a href="juz_summary.html" class="top-home-link"><i class="fas fa-list"></i> Menu Ringkasan Juz</a></div>
+    </div>
+
+    <div id="english-content" class="hidden">
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="#" class="top-home-link ux-pdf-btn" role="button"><i class="fas fa-file-pdf"></i> Save as PDF</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Juz List</a>
+        </div>
+        <h1 class="surah-title">Juz 3 - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://quran.com/juz/3" target="_blank">Quran.com - Juz 3 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a> &nbsp;|&nbsp; <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/" target="_blank">Qur'an Kemenag</a></div>
+        <div class="arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="translation">"In the name of Allah, the Entirely Merciful, the Especially Merciful."</div>
+
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Overview of Juz 3</h3>
+            <p>Juz 3 contains Al-Baqarah 253-286 and Ali 'Imran 1-92. It includes the Throne Verse, the principle of no compulsion in religion, parables of spending, the prohibition of usury, the verse on recording debts, and the closing verses of Al-Baqarah. Ali 'Imran then affirms Allah's oneness, explains clear and ambiguous verses, tells of the family of 'Imran, Mary, Zechariah, John, and Jesus, and engages the People of the Book.</p>
+            <div class="timeline">
+                <div class="timeline-item"><strong>Pages:</strong> 42–61</div>
+                <div class="timeline-item"><strong>Juz begins:</strong> Al-Baqarah 2:253</div>
+                <div class="timeline-item"><strong>Juz ends:</strong> Ali 'Imran 3:92</div>
+                <div class="timeline-item"><strong>Number of surahs:</strong> 2</div>
+            </div>
+            <p style="font-size: 0.9em; opacity: 0.8;"><em>Juz divisions and pages follow the standard Madinah Mushaf.</em></p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-list-ol"></i> Contents of Juz 3</h2>
+            <table class="theme-table">
+                <thead><tr><th>No.</th><th>Surah</th><th>Verses</th><th>Note</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><a href="#seg-en-2">Al-Baqarah</a> (2) – The Cow</td><td style="white-space: nowrap;">253–286</td><td>Partial · Medinan</td></tr>
+                    <tr><td>2</td><td><a href="#seg-en-3">Ali 'Imran</a> (3) – The Family of Imraan</td><td style="white-space: nowrap;">1–92</td><td>Partial · Medinan</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-verse" data-anchor="key-verse">
+            <h3><i class="fas fa-key"></i> Selected Verse of Juz 3</h3>
+            <div class="arabic">اَللّٰهُ لَآ اِلٰهَ اِلَّا هُوَۚ اَلْحَيُّ الْقَيُّوْمُ ۚ لَا تَأْخُذُهٗ سِنَةٌ وَّلَا نَوْمٌۗ لَهٗ مَا فِى السَّمٰوٰتِ وَمَا فِى الْاَرْضِۗ مَنْ ذَا الَّذِيْ يَشْفَعُ عِنْدَهٗٓ اِلَّا بِاِذْنِهٖۗ يَعْلَمُ مَا بَيْنَ اَيْدِيْهِمْ وَمَا خَلْفَهُمْۚ وَلَا يُحِيْطُوْنَ بِشَيْءٍ مِّنْ عِلْمِهٖٓ اِلَّا بِمَا شَاۤءَۚ وَسِعَ كُرْسِيُّهُ السَّمٰوٰتِ وَالْاَرْضَۚ وَلَا يَـُٔوْدُهٗ حِفْظُهُمَاۚ وَهُوَ الْعَلِيُّ الْعَظِيْمُ ﴿٢٥٥﴾</div>
+            <div class="transliteration">Allāhu lā ilāha illā huw, al-ḥayyul-qayyūm, lā ta’khudhuhū sinatuw wa lā naum, lahū mā fis-samāwāti wa mā fil-arḍ, man dhal-ladhī yashfa‘u ‘indahū illā bi’idhnih, ya‘lamu mā baina aidīhim wa mā khalfahum, wa lā yuḥīṭūna bishai’im min ‘ilmihī illā bimā shā’, wasi‘a kursiyyuhus-samāwāti wal-arḍ, wa lā ya’ūduhū ḥifẓuhumā, wa huwal-‘aliyyul-‘aẓīm</div>
+            <div class="translation"><strong>Translation:</strong> "Allah - there is no deity except Him, the Ever-Living, the Sustainer of [all] existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is [presently] before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great." (Al-Baqarah 2:255)</div>
+            <div class="tafsir-box"><strong>Tafsir Summary (Kemenag):</strong> Allah, there is no god worthy of worship but Him, the Ever-Living, the Sustainer of all. Neither drowsiness nor sleep overtakes Him, for both are imperfections. To Him belongs all in the heavens and the earth; none can intercede with Him except by His leave. He knows all things, His Kursi extends over the heavens and the earth, and guarding them does not tire Him. He is the Most High, the Most Great. <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/2?from=255&to=255" target="_blank">📖 Read the Kemenag tafsir (Verses 255)</a></div>
+        </div>
+
+        <div class="section" id="seg-en-2">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> 1. Surah Al-Baqarah (The Cow) · Verses 253–286</h2>
+            <div class="overview-box info-box"><p>This closing part of Al-Baqarah opens with the ranks of the messengers and the Throne Verse affirming Allah's majesty. After the principle of no compulsion in religion and accounts of Allah reviving the dead, it urges sincere spending, forbids usury, and commands the recording of debts. The surah ends with the declaration of faith of the Messenger and the believers and the prayer not to be burdened beyond capacity.</p></div>
+            <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Baqarah</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/002.mp3" type="audio/mpeg"></audio></div>
+            <h3 class="theme-title"><i class="fas fa-table"></i> Thematic Division by Verses</h3>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>253–260</strong></td><td>Messengers &amp; Tawhid Proofs</td><td>Virtues of messengers, miracles, resurrection (story of Ibrahim and birds)</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>261–286</strong></td><td>Charity, Supplication &amp; Conclusion</td><td>Spending, prohibition of riba, the great supplication, Ayat al-Kursi, last two verses</td></tr>
+                </tbody>
+            </table>
+            <h3 class="theme-title"><i class="fas fa-star"></i> Messages of Creed, Worship, and Character</h3>
+            <div class="three-columns">
+                <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Allah's majesty and power in the Throne Verse (2:255) and faith in all messengers without distinction (2:285).</div>
+                <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Spending sincerely without reminders of generosity or hurt (2:261-264) and praying with the closing prayer of Al-Baqarah (2:286).</div>
+                <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> No compulsion in religion (2:256), shunning usury (2:275-279), and honesty and order in debts (2:282).</div>
+            </div>
+            <p style="text-align: center; margin: 15px 0;"><a href="002.html" class="access-link"><i class="fas fa-book"></i> Read the Thematic Tafsir of Surah Al-Baqarah</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/2?from=253&to=286" target="_blank" class="access-link">Kemenag text, translation, and tafsir</a></p>
+        </div>
+
+        <div class="section" id="seg-en-3">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> 2. Surah Ali 'Imran (The Family of Imraan) · Verses 1–92</h2>
+            <div class="overview-box info-box"><p>The opening of Ali 'Imran affirms that the Ever-Living sent down the Qur'an confirming earlier scriptures, and explains the clear and ambiguous verses. It tells of the family of 'Imran: Mary's birth, Zechariah's prayer answered with John, and the birth of Jesus without a father as a sign of Allah's power. It also invites the People of the Book to a common word: to worship none but Allah.</p></div>
+            <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Ali 'Imran</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/003.mp3" type="audio/mpeg"></audio></div>
+            <h3 class="theme-title"><i class="fas fa-table"></i> Thematic Division by Verses</h3>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>1–32</strong></td><td>Tawhid &amp; Oneness of Allah</td><td>Affirmation that Allah is One, revealed the Torah, Gospel, and Qur'an as guidance. Invites People of the Book to a common word (tawhid).</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>33–63</strong></td><td>Story of the Family of Imran and Birth of Jesus</td><td>The purity of Mary, miraculous birth of Jesus, and refutation of Jesus's divinity.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>64–92</strong></td><td>Dialogue with People of the Book</td><td>Invitation to unite in tawhid, criticism of idol worship, and command to follow the religion of Abraham (hanif).</td></tr>
+                </tbody>
+            </table>
+            <h3 class="theme-title"><i class="fas fa-star"></i> Messages of Creed, Worship, and Character</h3>
+            <div class="three-columns">
+                <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Allah is One and Ever-Living and sent down His scriptures (3:2-4); the religion approved by Allah is Islam (3:19).</div>
+                <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Praying for steadfast hearts (3:8) and following the devotion of Mary and the prayer of Zechariah (3:37-38).</div>
+                <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Following the Messenger as proof of loving Allah (3:31) and engaging the People of the Book courteously (3:64).</div>
+            </div>
+            <p style="text-align: center; margin: 15px 0;"><a href="003.html" class="access-link"><i class="fas fa-book"></i> Read the Thematic Tafsir of Surah Ali 'Imran</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/3?from=1&to=92" target="_blank" class="access-link">Kemenag text, translation, and tafsir</a></p>
+        </div>
+
+        <div class="surah-pagination">
+            <a href="juz_02.html" class="pagination-prev"><i class="fas fa-arrow-left"></i> Previous Juz: Juz 2</a>
+            <a href="juz_04.html" class="pagination-next">Next Juz: Juz 4 <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a><a href="juz_summary.html" class="top-home-link"><i class="fas fa-list"></i> Juz Summary Menu</a></div>
+    </div>
+</div>
+<footer>© 1448 AH / 2026 AD — Tafsir: Kemenag RI (Bahasa Indonesia), IslamicStudies.info &amp; Ibn Kathir (English) · Terjemahan/Translation: Kemenag RI 2019, Saheeh International · Guidance for Reflection</footer>
+
+<script>
+(function() {
+    const englishDiv = document.getElementById('english-content');
+    const indoDiv = document.getElementById('indonesian-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
+    const translitElements = document.querySelectorAll('.transliteration');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let langParam = null;
+    if (urlParams.has('English')) langParam = 'english';
+    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+
+    function setLanguage(lang) {
+        const isEnglish = (lang === 'english');
+        if (isEnglish) {
+            englishDiv.classList.remove('hidden');
+            indoDiv.classList.add('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Bahasa Indonesia';
+        } else {
+            englishDiv.classList.add('hidden');
+            indoDiv.classList.remove('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 English';
+        }
+        localStorage.setItem('language', lang);
+    }
+    setLanguage(currentLang);
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang);
+    });
+
+    let translitVisible = localStorage.getItem('transliteration') === 'true';
+    if (urlParams.has('Transliteration')) translitVisible = true;
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        localStorage.setItem('transliteration', show);
+    }
+    setTransliteration(translitVisible);
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
+
+    let darkActive = false;
+    if (urlParams.has('Dark')) darkActive = true;
+    else darkActive = localStorage.getItem('darkMode') === 'true';
+    if (darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI() {
+        const active = document.body.classList.contains('dark-mode');
+        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        localStorage.setItem('darkMode', active);
+    }
+    setDarkModeUI();
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        setDarkModeUI();
+    });
+
+    const jumpTo = { Kursi: 'key-verse', Deep: 'themes-end' };
+    for (const k in jumpTo) {
+        if (urlParams.has(k)) {
+            setTimeout(() => {
+                const sec = englishDiv.classList.contains('hidden') ? indoDiv : englishDiv;
+                const el = sec.querySelector('[data-anchor="' + jumpTo[k] + '"]');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+    }
+
+    const upArrow = document.getElementById('scrollUp');
+    const downArrow = document.getElementById('scrollDown');
+    const doubleUp = document.getElementById('doubleUpScroll');
+    const doubleDown = document.getElementById('doubleDownScroll');
+    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+})();
+</script>
+
+<script id="ux-enhance-v1-js">
+(function () {
+  var PLAY = '<svg class="ux-ic-play" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>';
+  var PAUSE = '<svg class="ux-ic-pause" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>';
+  var ARROWS = {"su": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 15l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "sd": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 9l6 6 6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "du": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 12l6-6 6 6M6 18l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "dd": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 6l6 6 6-6M6 12l6 6 6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"};
+  function isEn() {
+    var id = document.getElementById('indonesian-content');
+    return id ? id.classList.contains('hidden') || getComputedStyle(id).display === 'none' : true;
+  }
+  function allAudio() { return document.querySelectorAll('audio'); }
+  function labels() {
+    document.querySelectorAll('.ux-pdf-dyn .ux-pdf-label').forEach(function (l) { l.textContent = isEn() ? 'Save as PDF' : 'Simpan sebagai PDF'; });
+    document.querySelectorAll('.ux-play-btn').forEach(function (b) {
+      var p = b.classList.contains('playing');
+      var t = p ? (isEn() ? 'Pause recitation' : 'Jeda bacaan') : (isEn() ? 'Play recitation' : 'Putar bacaan');
+      b.setAttribute('aria-label', t); b.title = t;
+    });
+  }
+  function enhanceAudio() {
+    allAudio().forEach(function (audio) {
+      if (audio.dataset.uxEnhanced) return;
+      audio.dataset.uxEnhanced = '1';
+      audio.removeAttribute('controls');
+      audio.classList.add('ux-hidden-audio');
+      if (!audio.getAttribute('preload')) audio.setAttribute('preload', 'none');
+      var wrap = document.createElement('div');
+      wrap.className = 'ux-play-wrap';
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'ux-play-btn'; btn.innerHTML = PLAY + PAUSE;
+      btn.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        if (audio.paused) { var pr = audio.play(); if (pr && pr.catch) pr.catch(function () {}); } else audio.pause();
+      });
+      audio.addEventListener('play', function () {
+        allAudio().forEach(function (o) { if (o !== audio && !o.paused) o.pause(); });
+        btn.classList.add('playing'); labels();
+      });
+      audio.addEventListener('pause', function () { btn.classList.remove('playing'); labels(); });
+      audio.addEventListener('ended', function () { btn.classList.remove('playing'); labels(); });
+      wrap.appendChild(btn);
+      audio.parentNode.insertBefore(wrap, audio);
+    });
+    labels();
+  }
+  function addMissingArrows() {
+    var specs = [];
+    if (!document.querySelector('.scroll-arrow')) specs.push(['scroll-arrow', 'up', ARROWS.su, function () { window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }); }],
+                                                            ['scroll-arrow', 'down', ARROWS.sd, function () { window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }); }]);
+    if (!document.querySelector('.scroll-arrow-double')) specs.push(['scroll-arrow-double', 'up', ARROWS.du, function () { window.scrollTo({ top: 0, behavior: 'smooth' }); }],
+                                                                   ['scroll-arrow-double', 'down', ARROWS.dd, function () { window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' }); }]);
+    specs.forEach(function (s) {
+      var d = document.createElement('div');
+      d.className = s[0] + ' ux-added-arrow ux-' + s[1];
+      d.title = s[0] === 'scroll-arrow' ? (s[1] === 'up' ? 'Scroll up' : 'Scroll down') : (s[1] === 'up' ? 'Go to top' : 'Go to bottom');
+      d.innerHTML = s[2];
+      d.addEventListener('click', s[3]);
+      document.body.appendChild(d);
+    });
+  }
+  // Save as PDF via the browser print dialog (printed in light mode)
+  var wasDark = false;
+  window.addEventListener('beforeprint', function () {
+    wasDark = document.body.classList.contains('dark-mode');
+    document.body.classList.remove('dark-mode');
+  });
+  window.addEventListener('afterprint', function () { if (wasDark) document.body.classList.add('dark-mode'); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.ux-pdf-btn');
+    if (b) { e.preventDefault(); allAudio().forEach(function (o) { o.pause(); }); window.print(); }
+  });
+  var lt = document.getElementById('languageToggle');
+  if (lt) lt.addEventListener('click', function () { allAudio().forEach(function (o) { o.pause(); }); setTimeout(labels, 0); });
+  function init() { enhanceAudio(); addMissingArrows(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  window.addEventListener('load', enhanceAudio);
+})();
+</script>
+
+<style id="ux-audio-seek-v1">
+.ux-seek { display: flex; align-items: center; justify-content: center; gap: 8px; max-width: 460px; margin: 4px auto 12px; padding: 0 6px; font-size: 12.5px; color: var(--text-color, #334155); }
+.ux-seek .ux-time { min-width: 38px; text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; opacity: 0.85; }
+.ux-seek input[type=range] { flex: 1 1 auto; min-width: 80px; height: 22px; margin: 0; cursor: pointer; accent-color: var(--link-color, #1e5f8e); background: transparent; }
+.ux-seek .ux-skip { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--link-color, #1e5f8e); background: transparent; color: var(--link-color, #1e5f8e); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; transition: background 0.2s ease, transform 0.2s ease; }
+.ux-seek .ux-skip:hover { background: rgba(30, 95, 142, 0.10); transform: scale(1.06); }
+.ux-seek .ux-skip:focus-visible, .ux-seek input[type=range]:focus-visible { outline: 2px solid var(--link-color, #1e5f8e); outline-offset: 2px; }
+.ux-seek .ux-skip svg { display: block; }
+@media (max-width: 480px) { .ux-seek { gap: 6px; font-size: 11.5px; } .ux-seek .ux-time { min-width: 32px; } .ux-seek .ux-skip { width: 30px; height: 30px; } }
+@media print { .ux-seek { display: none !important; } }
+</style>
+<script id="ux-audio-seek-v1-js">
+(function () {
+  var BACK = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z" fill="currentColor"/><text x="12" y="16.2" text-anchor="middle" font-size="6.5" font-family="sans-serif" font-weight="700" fill="currentColor">10</text></svg>';
+  var FWD = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5V2l5 4-5 4V7a6 6 0 1 0 6 6h2a8 8 0 1 1-8-8z" fill="currentColor"/><text x="12" y="16.2" text-anchor="middle" font-size="6.5" font-family="sans-serif" font-weight="700" fill="currentColor">10</text></svg>';
+  function fmt(t) {
+    if (!isFinite(t) || t < 0) t = 0;
+    var h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = Math.floor(t % 60);
+    return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function isEnEl(el) { return !!(el.closest && el.closest('#english-content')); }
+  function build(wrap, audio) {
+    if (wrap.dataset.uxSeek) return;
+    wrap.dataset.uxSeek = '1';
+    var en = isEnEl(wrap);
+    var row = document.createElement('div'); row.className = 'ux-seek';
+    var back = document.createElement('button'); back.type = 'button'; back.className = 'ux-skip'; back.innerHTML = BACK;
+    var fwd = document.createElement('button'); fwd.type = 'button'; fwd.className = 'ux-skip'; fwd.innerHTML = FWD;
+    back.title = en ? 'Back 10 seconds' : 'Mundur 10 detik'; back.setAttribute('aria-label', back.title);
+    fwd.title = en ? 'Forward 10 seconds' : 'Maju 10 detik'; fwd.setAttribute('aria-label', fwd.title);
+    var cur = document.createElement('span'); cur.className = 'ux-time'; cur.textContent = '0:00';
+    var dur = document.createElement('span'); dur.className = 'ux-time'; dur.textContent = '0:00';
+    var bar = document.createElement('input'); bar.type = 'range'; bar.min = 0; bar.max = 1000; bar.step = 1; bar.value = 0;
+    bar.setAttribute('aria-label', en ? 'Seek recitation' : 'Geser posisi bacaan');
+    row.appendChild(back); row.appendChild(cur); row.appendChild(bar); row.appendChild(dur); row.appendChild(fwd);
+    wrap.parentNode.insertBefore(row, wrap.nextSibling);
+    var dragging = false, pending = null;
+    function ready() { return isFinite(audio.duration) && audio.duration > 0; }
+    function ensureLoaded() {
+      if (!ready() && audio.readyState === 0) { audio.preload = 'metadata'; try { audio.load(); } catch (e) {} }
+    }
+    function paint() {
+      if (ready()) {
+        dur.textContent = fmt(audio.duration);
+        if (!dragging) bar.value = Math.round(audio.currentTime / audio.duration * 1000);
+        cur.textContent = fmt(dragging ? bar.value / 1000 * audio.duration : audio.currentTime);
+      }
+      var pct = (bar.value / 10) + '%';
+      bar.style.background = 'linear-gradient(to right, var(--link-color, #1e5f8e) ' + pct + ', rgba(127,127,127,0.25) ' + pct + ')';
+      bar.style.borderRadius = '4px'; bar.style.height = '6px';
+    }
+    function seekTo(frac) {
+      if (ready()) { audio.currentTime = Math.max(0, Math.min(audio.duration - 0.25, frac * audio.duration)); paint(); }
+      else { pending = { frac: frac }; ensureLoaded(); }
+    }
+    function skip(sec) {
+      if (ready()) { audio.currentTime = Math.max(0, Math.min(audio.duration - 0.25, audio.currentTime + sec)); paint(); }
+      else { pending = { delta: sec }; ensureLoaded(); }
+    }
+    audio.addEventListener('loadedmetadata', function () {
+      if (pending) {
+        if (pending.frac != null) audio.currentTime = pending.frac * audio.duration;
+        else audio.currentTime = Math.max(0, audio.currentTime + pending.delta);
+        pending = null;
+      }
+      paint();
+    });
+    audio.addEventListener('timeupdate', paint);
+    audio.addEventListener('durationchange', paint);
+    audio.addEventListener('seeked', paint);
+    audio.addEventListener('ended', function () { bar.value = 1000; paint(); });
+    bar.addEventListener('pointerdown', function () { dragging = true; ensureLoaded(); });
+    bar.addEventListener('input', function () { dragging = true; paint(); if (ready()) cur.textContent = fmt(bar.value / 1000 * audio.duration); });
+    bar.addEventListener('change', function () { dragging = false; seekTo(bar.value / 1000); });
+    bar.addEventListener('keydown', function () { ensureLoaded(); });
+    back.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); skip(-10); });
+    fwd.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); skip(10); });
+    paint();
+  }
+  function init() {
+    document.querySelectorAll('.ux-play-wrap').forEach(function (wrap) {
+      var a = wrap.nextElementSibling;
+      while (a && a.tagName !== 'AUDIO') a = a.nextElementSibling;
+      if (!a) { var p = wrap.parentNode; a = p && p.querySelector('audio'); }
+      if (a) build(wrap, a);
+    });
+  }
+  function run() { init(); setTimeout(init, 300); setTimeout(init, 1200); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('load', init);
+})();
+</script>
+</body>
+</html>
+

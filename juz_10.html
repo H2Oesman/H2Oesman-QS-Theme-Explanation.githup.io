@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Juz 10 - Tafsir Tematik | Thematic Tafsir</title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #1e2a3e;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #1e5f8e;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --link-color: #1e5f8e;
+            --link-hover: #0d3d5a;
+            --theme-card-bg: #ffffffdd;
+            --translation-color: #2c3e50;
+            --arrow-bg: #2c3e50;
+            --arrow-text: white;
+        }
+        .dark-mode {
+            --bg-color: #121826;
+            --text-color: #eef2ff;
+            --container-bg: #1e293b;
+            --arabic-color: #7bc9ff;
+            --section-title-color: #7bc9ff;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #5dade2;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1f3a2f;
+            --link-color: #93c5fd;
+            --link-hover: #c3e2ff;
+            --theme-card-bg: #1e293bdd;
+            --translation-color: #cbd5e1;
+            --arrow-bg: #3e5a77;
+            --arrow-text: #eef2ff;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        a { color: var(--link-color); text-decoration: none; transition: 0.2s; }
+        a:hover { color: var(--link-hover); text-decoration: underline; }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0 10px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: right;
+            margin: 0 0 10px 0;
+            display: none;
+        }
+        .dark-mode .transliteration { color: #b0c4de; }
+        .translation {
+            font-size: 16px;
+            text-align: left;
+            color: var(--translation-color);
+            margin: 5px 0 15px 0;
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.03);
+            border-radius: 12px;
+            border-left: 3px solid var(--link-color);
+        }
+        .dark-mode .translation {
+            background: rgba(255,255,255,0.05);
+        }
+        .surah-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, #2c7da0, #1e5f8e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section { margin: 30px 0; }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #1e7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        .dark-mode .verse-title, .dark-mode .theme-title { color: #66d9a7; }
+        .tafsir-box {
+            background-color: var(--tafsir-bg);
+            padding: 15px;
+            border-radius: 16px;
+            margin-top: 15px;
+            border: 1px solid var(--tafsir-border);
+        }
+        .hidden { display: none; }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            margin-right: 15px;
+            padding: 8px 16px;
+            border-radius: 40px;
+            border: 1px solid var(--link-color);
+            font-weight: 500;
+        }
+        .top-home-link:hover { background-color: var(--link-color); color: white; text-decoration: none; }
+        .theme-card {
+            background: var(--theme-card-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 6px solid #2c7da0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .benefits-list {
+            background: var(--benefits-bg);
+            padding: 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+        .theme-overview, .special-benefits {
+            background: var(--bonus-bg);
+            padding: 25px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .info-box {
+            background: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .audio-player {
+            max-width: 400px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        /* Single scroll arrows (LEFT) */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 22px;
+        }
+        .scroll-arrow:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow.up { top: 200px; }
+        .scroll-arrow.down { bottom: 90px; }
+        /* Double arrows (RIGHT) for top/bottom fast */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: var(--arrow-bg);
+            color: var(--arrow-text);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 1000;
+            transition: 0.2s;
+            border: 1px solid var(--verse-border);
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover { transform: scale(1.05); background: var(--link-color); color: white; }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+        
+        .surah-pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--verse-border);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .pagination-prev, .pagination-next {
+            background: var(--verse-bg);
+            padding: 10px 24px;
+            border-radius: 60px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+            transition: 0.2s;
+        }
+        .pagination-prev:hover, .pagination-next:hover { background: var(--link-color); color: white; text-decoration: none; }
+        .pagination-center {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1001;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            backdrop-filter: blur(2px);
+        }
+        .language-toggle { top: 20px; background: #2c7da0; }
+        .transliteration-toggle { top: 80px; background: #27ae60; }
+        .dark-mode-toggle { top: 140px; background: #8e44ad; }
+        @media (max-width: 640px) {
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle { padding: 5px 12px; font-size: 12px; right: 12px; }
+            .scroll-arrow, .scroll-arrow-double { width: 38px; height: 38px; left: 12px; }
+            .scroll-arrow.up, .scroll-arrow-double.up-double { top: 170px; }
+            .scroll-arrow.down, .scroll-arrow-double.down-double { bottom: 70px; }
+            .arabic { font-size: 30px; }
+            .surah-pagination { flex-direction: column; gap: 10px; align-items: stretch; }
+            .pagination-prev, .pagination-next { justify-content: center; }
+        }
+        footer { text-align: center; margin-top: 40px; font-size: 13px; opacity: 0.7; }
+        .fa, .fas, .far { margin-right: 4px; }
+        .structure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .structure-item {
+            background: var(--structure-bg);
+            padding: 15px;
+            border-radius: 20px;
+            border-left: 4px solid #2c7da0;
+        }
+        .blink-click {
+            animation: gentle-blink 1.2s infinite;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 5px;
+        }
+        @keyframes gentle-blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; text-shadow: 0 0 2px currentColor; }
+            100% { opacity: 1; }
+        }
+        .three-columns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .column-card {
+            flex: 1;
+            background: var(--verse-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--structure-bg);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .theme-table th, .theme-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--verse-border);
+            text-align: left;
+        }
+        .theme-table th {
+            background: #2c7da0;
+            color: white;
+        }
+        .key-verse {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fa 100%);
+            border-left: 6px solid #2c7da0;
+            padding: 25px;
+            border-radius: 24px;
+            margin: 30px 0;
+        }
+        .dark-mode .key-verse {
+            background: linear-gradient(135deg, #1e2a3a 0%, #1a2535 100%);
+        }
+        .relationship-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 30px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        .timeline-item {
+            background: var(--verse-bg);
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 12px;
+        }
+        .hikmah-section {
+            background: var(--bonus-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .historical-section {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 24px;
+            margin: 25px 0;
+        }
+        .tafsir-source {
+            text-align: right;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            opacity: 0.8;
+            font-style: italic;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style id="ux-enhance-v1">
+/* ---- Single round play / pause button ---- */
+.ux-play-wrap { display: flex; justify-content: center; margin: 12px 0 6px; }
+.ux-play-btn { position: relative; width: 60px; height: 60px; border-radius: 50%; border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; background: var(--link-color, #1e5f8e); color: #fff; box-shadow: 0 4px 14px rgba(30, 95, 142, 0.28); transition: transform 0.2s ease, box-shadow 0.2s ease; padding: 0; margin: 0; }
+.dark-mode .ux-play-btn { color: var(--container-bg, #1e293b); }
+.ux-play-btn:hover { transform: scale(1.08); box-shadow: 0 6px 18px rgba(30, 95, 142, 0.38); }
+.ux-play-btn:focus-visible { outline: 2px solid var(--link-color, #1e5f8e); outline-offset: 4px; }
+.ux-play-btn svg { display: block; }
+.ux-play-btn .ux-ic-play { margin-left: 3px; }
+.ux-play-btn .ux-ic-pause { display: none; }
+.ux-play-btn.playing .ux-ic-play { display: none; }
+.ux-play-btn.playing .ux-ic-pause { display: block; }
+.ux-play-btn.playing::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; border: 2px solid var(--link-color, #1e5f8e); animation: ux-play-pulse 1.6s ease-out infinite; }
+@keyframes ux-play-pulse { from { opacity: 0.7; transform: scale(0.92); } to { opacity: 0; transform: scale(1.25); } }
+audio.ux-hidden-audio, .audio-player .audio-controls, .audio-controls:has(.speed-select) { display: none !important; }
+
+/* ---- Animated directional arrows ---- */
+.scroll-arrow, .scroll-arrow-double { display: flex; align-items: center; justify-content: center; }
+.ux-arrow-ic { display: block; }
+.scroll-arrow.ux-up .ux-arrow-ic, .scroll-arrow-double.ux-up .ux-arrow-ic { animation: ux-nudge-up 1.8s ease-in-out infinite; }
+.scroll-arrow.ux-down .ux-arrow-ic, .scroll-arrow-double.ux-down .ux-arrow-ic { animation: ux-nudge-down 1.8s ease-in-out infinite; }
+.scroll-arrow:hover .ux-arrow-ic, .scroll-arrow-double:hover .ux-arrow-ic { animation-duration: 0.9s; }
+@keyframes ux-nudge-up { 0%, 100% { transform: translateY(2px); } 50% { transform: translateY(-4px); } }
+@keyframes ux-nudge-down { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(4px); } }
+.ux-added-arrow { position: fixed; width: 44px; height: 44px; border-radius: 50%; background: var(--arrow-bg, #2c3e50); color: var(--arrow-text, #fff); box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; z-index: 1000; transition: 0.2s; border: 1px solid var(--verse-border, #e0e0e0); }
+.ux-added-arrow:hover { transform: scale(1.05); background: var(--link-color, #1e5f8e); color: #fff; }
+.ux-added-arrow.scroll-arrow { left: 20px; }
+.ux-added-arrow.scroll-arrow-double { right: 20px; }
+.ux-added-arrow.ux-up { top: 200px; }
+.ux-added-arrow.ux-down { bottom: 90px; }
+.scroll-arrow-double.ux-up:not(.up-double) { top: 200px; bottom: auto; }
+.scroll-arrow-double.ux-down:not(.down-double) { bottom: 90px; top: auto; }
+@media (max-width: 640px) {
+  .scroll-arrow-double.ux-up:not(.up-double) { top: 170px; }
+  .scroll-arrow-double.ux-down:not(.down-double) { bottom: 70px; }
+  .scroll-arrow-double { left: auto !important; right: 12px !important; }
+  .ux-added-arrow { width: 38px; height: 38px; }
+  .ux-added-arrow.scroll-arrow { left: 12px; }
+  .ux-added-arrow.ux-up { top: 170px; }
+  .ux-added-arrow.ux-down { bottom: 70px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ux-arrow-ic, .ux-play-btn.playing::after { animation: none !important; }
+}
+
+/* ---- Save as PDF ---- */
+.ux-pdf-btn { cursor: pointer; }
+@media print {
+  @page { margin: 14mm; }
+  .language-toggle, .transliteration-toggle, .dark-mode-toggle, .scroll-arrow, .scroll-arrow-double,
+  .ux-pdf-btn, .ux-play-wrap, audio, .audio-player, .audio-controls,
+  .top-home-link, .menu-link, .surah-pagination, .pagination-center { display: none !important; }
+  body { background: #fff !important; }
+  .container { box-shadow: none !important; }
+  .verse, .theme-card, .structure-item, .tafsir-box, .dhikr-card { break-inside: avoid; }
+  .section-title { break-after: avoid; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div id="languageToggle" class="language-toggle"><i class="fas fa-flag"></i> 🇬🇧 English</div>
+<div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+<div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+<!-- Single scroll arrows (LEFT) -->
+<div id="scrollUp" class="scroll-arrow up ux-up"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 15l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div id="scrollDown" class="scroll-arrow down ux-down"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+<!-- Double arrows (RIGHT: top/bottom fast) -->
+<div id="doubleUpScroll" class="scroll-arrow-double up-double ux-up" title="Go to top"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 12l6-6 6 6M6 18l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<div id="doubleDownScroll" class="scroll-arrow-double down-double ux-down" title="Go to bottom"><svg class="ux-arrow-ic" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l6 6 6-6M6 12l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+<div class="container" id="mainContainer">
+    <div id="indonesian-content">
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Menu Utama</a>
+            <a href="#" class="top-home-link ux-pdf-btn" role="button"><i class="fas fa-file-pdf"></i> Simpan sebagai PDF</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Daftar Juz</a>
+        </div>
+        <h1 class="surah-title">Juz 10 - Tafsir Tematik</h1>
+        <div class="surah-source"><strong>Sumber Tafsir:</strong> <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/8?from=41&to=75" target="_blank">Qur'an Kemenag <span class="blink-click"><i class="fas fa-hand-point-left"></i> Klik Detail</span></a> &nbsp;|&nbsp; <a href="https://quran.com/juz/10" target="_blank">Quran.com - Juz 10</a></div>
+        <div class="arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+        <div class="transliteration">Bismillaahir-rahmaanir-rahiim</div>
+        <div class="translation">"Dengan nama Allah Yang Maha Pengasih, Maha Penyayang."</div>
+
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Gambaran Umum Juz 10</h3>
+            <p>Juz 10 memuat Surah Al-Anfal ayat 41–75 dan Surah At-Taubah ayat 1–93. Bagian akhir Al-Anfal menjelaskan pembagian ghanimah, adab menghadapi musuh, persiapan kekuatan, kesediaan menerima perdamaian, serta persaudaraan kaum Muhajirin dan Ansar. Surah At-Taubah, satu-satunya surah tanpa basmalah, berisi pemutusan perjanjian dengan kaum musyrik yang berkhianat, kisah hijrah Nabi dan Abu Bakar di Gua Tsur, Perang Tabuk, serta pembongkaran sifat orang-orang munafik.</p>
+            <div class="timeline">
+                <div class="timeline-item"><strong>Halaman:</strong> 182–201</div>
+                <div class="timeline-item"><strong>Awal juz:</strong> QS Al-Anfal [8]: 41</div>
+                <div class="timeline-item"><strong>Akhir juz:</strong> QS At-Taubah [9]: 93</div>
+                <div class="timeline-item"><strong>Jumlah surah:</strong> 2</div>
+            </div>
+            <p style="font-size: 0.9em; opacity: 0.8;"><em>Pembagian juz dan halaman mengikuti Mushaf Al-Qur'an Standar Indonesia (Kemenag).</em></p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-list-ol"></i> Isi Juz 10</h2>
+            <table class="theme-table">
+                <thead><tr><th>No.</th><th>Surah</th><th>Ayat</th><th>Keterangan</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><a href="#seg-id-8">Al-Anfal</a> (8) – Rampasan Perang</td><td style="white-space: nowrap;">41–75</td><td>Sebagian · Madaniyah</td></tr>
+                    <tr><td>2</td><td><a href="#seg-id-9">At-Taubah</a> (9) – Pengampunan</td><td style="white-space: nowrap;">1–93</td><td>Sebagian · Madaniyah</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-verse" data-anchor="key-verse">
+            <h3><i class="fas fa-key"></i> Ayat Pilihan Juz 10</h3>
+            <div class="arabic">اِلَّا تَنْصُرُوْهُ فَقَدْ نَصَرَهُ اللّٰهُ اِذْ اَخْرَجَهُ الَّذِيْنَ كَفَرُوْا ثَانِيَ اثْنَيْنِ اِذْ هُمَا فِى الْغَارِ اِذْ يَقُوْلُ لِصَاحِبِهٖ لَا تَحْزَنْ اِنَّ اللّٰهَ مَعَنَاۚ فَاَنْزَلَ اللّٰهُ سَكِيْنَتَهٗ عَلَيْهِ وَاَيَّدَهٗ بِجُنُوْدٍ لَّمْ تَرَوْهَا وَجَعَلَ كَلِمَةَ الَّذِيْنَ كَفَرُوا السُّفْلٰىۗ وَكَلِمَةُ اللّٰهِ هِيَ الْعُلْيَاۗ وَاللّٰهُ عَزِيْزٌ حَكِيْمٌ ﴿٤٠﴾</div>
+            <div class="transliteration">Illaa tanshuruuhu faqad nasharahullaahu idz akhrajahul-ladziina kafaruu tsaaniyatsnaini idz humaa fil-ghaari idz yaquulu lishaahibihii laa tahzan innallaaha ma'anaa, fa anzalallaahu sakiinatahuu 'alaihi wa ayyadahuu bijunuudil lam tarauhaa wa ja'ala kalimatal-ladziina kafarus-suflaa, wakalimatullaahi hiyal-'ulyaa, wallaahu 'aziizun hakiim</div>
+            <div class="translation"><strong>Terjemahan:</strong> "Jika kamu tidak menolongnya (Muhammad), sesungguhnya Allah telah menolongnya (yaitu) ketika orang-orang kafir mengusirnya (dari Mekah); sedang dia salah seorang dari dua orang ketika keduanya berada dalam gua, ketika itu dia berkata kepada sahabatnya, “Jangan engkau bersedih, sesungguhnya Allah bersama kita.” Maka Allah menurunkan ketenangan kepadanya (Muhammad) dan membantu dengan bala tentara (malaikat-malaikat) yang tidak terlihat olehmu, dan Dia menjadikan seruan orang-orang kafir itu rendah. Dan firman Allah itulah yang tinggi. Allah Mahaperkasa, Mahabijaksana." (QS At-Taubah [9]: 40)</div>
+            <div class="tafsir-box"><strong>Tafsir Ringkas Kemenag:</strong> Jika kamu tidak menolong Nabi Muhammad, sesungguhnya Allah telah menolongnya ketika orang-orang kafir mengusirnya dari Makkah, sedangkan ia salah seorang dari dua orang ketika keduanya berada dalam gua, yaitu ketika ia berkata kepada sahabatnya, Abu Bakar, "Jangan engkau bersedih, sesungguhnya Allah bersama kita." Maka Allah menurunkan ketenangan kepadanya dan memperkuatnya dengan bala tentara yang tidak terlihat, serta menjadikan seruan orang kafir rendah dan kalimat Allah tinggi. <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/9?from=40&to=40" target="_blank">📖 Baca tafsir Kemenag (Ayat 40)</a></div>
+        </div>
+
+        <div class="section" id="seg-id-8">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> 1. Surah Al-Anfal (Rampasan Perang) · Ayat 41–75</h2>
+            <div class="overview-box info-box"><p>Bagian akhir Surah Al-Anfal menetapkan pembagian ghanimah, seperlima untuk Allah, Rasul, kerabat, anak yatim, orang miskin, dan ibnu sabil. Allah mengingatkan suasana Perang Badar, memerintahkan keteguhan, zikir, dan persatuan ketika menghadapi musuh, serta melarang berbantah-bantahan. Orang beriman diperintahkan menyiapkan kekuatan untuk menggentarkan musuh, tetapi menerima perdamaian bila musuh condong kepadanya. Surah ditutup dengan persaudaraan kaum Muhajirin dan Ansar.</p></div>
+            <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah Al-Anfal</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/008.mp3" type="audio/mpeg"></audio></div>
+            <h3 class="theme-title"><i class="fas fa-table"></i> Pembagian Tema Berdasarkan Ayat</h3>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>41–44</strong></td><td>Petunjuk, Pemisahan, dan Persiapan Perang</td><td>Janji Allah untuk memberi petunjuk, pemisahan antara kebenaran dan kebatilan di hari pertemuan (Badar), serta perintah tetap teguh saat bertemu musuh.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>45–64</strong></td><td>Kekuatan, Kesabaran, dan Persiapan</td><td>Perintah tetap teguh, mengingat Allah, dan persiapan kekuatan maksimal untuk pertahanan.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>65–75</strong></td><td>Keringanan, Tawanan, dan Persaudaraan</td><td>Keringanan jumlah pasukan, hukum tawanan perang, dan persaudaraan kaum muslim (muhajirin &amp; anshar).</td></tr>
+                </tbody>
+            </table>
+            <h3 class="theme-title"><i class="fas fa-star"></i> Pesan Akidah, Ibadah, dan Akhlak</h3>
+            <div class="three-columns">
+                <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Allah Maha Mendengar dan Maha Mengetahui mengatur pertemuan dua pasukan (ayat 42); Allah tidak mengubah nikmat suatu kaum sebelum mereka mengubah diri sendiri (ayat 53).</div>
+                <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Menunaikan seperlima ghanimah (ayat 41), berzikir banyak ketika menghadapi musuh (ayat 45), dan bertawakal setelah berdamai (ayat 61).</div>
+                <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Tidak berbantah-bantahan agar tidak lemah (ayat 46), bersabar, dan menjaga persaudaraan iman (ayat 72–75).</div>
+            </div>
+            <p style="text-align: center; margin: 15px 0;"><a href="008.html" class="access-link"><i class="fas fa-book"></i> Baca Tafsir Tematik Surah Al-Anfal</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/8?from=41&to=75" target="_blank" class="access-link">Teks, terjemahan, dan tafsir Kemenag</a></p>
+        </div>
+
+        <div class="section" id="seg-id-9">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> 2. Surah At-Taubah (Pengampunan) · Ayat 1–93</h2>
+            <div class="overview-box info-box"><p>Surah At-Taubah dibuka tanpa basmalah dengan pernyataan pemutusan perjanjian dengan kaum musyrik yang berkhianat, disertai tenggang waktu empat bulan dan kesempatan bertobat. Allah menegaskan bahwa yang memakmurkan masjid adalah orang beriman, mengingatkan pertolongan-Nya pada Perang Hunain dan saat hijrah di Gua Tsur, serta menyeru berangkat berjuang dalam Perang Tabuk. Bagian ini membongkar alasan-alasan orang munafik, menetapkan delapan golongan penerima zakat, dan memuji orang-orang beriman yang saling menolong.</p></div>
+            <div class="audio-player"><div class="audio-title">🎧 Dengarkan Surah At-Taubah</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/009.mp3" type="audio/mpeg"></audio></div>
+            <h3 class="theme-title"><i class="fas fa-table"></i> Pembagian Tema Berdasarkan Ayat</h3>
+            <table class="theme-table">
+                <thead><tr><th>Rentang Ayat</th><th>Tema Utama</th><th>Inti Pesan</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>1–16</strong></td><td>Pemutusan Perjanjian dengan Musyrikin</td><td>Deklarasi pembatalan perjanjian, ultimatum 4 bulan, dan perintah memerangi musyrikin yang melanggar.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>17–29</strong></td><td>Larangan bagi Musyrikin di Masjidil Haram</td><td>Orang musyrik tidak berhak mengurus masjid, larangan mereka mendekati Masjidil Haram, dan perintah memerangi Ahli Kitab yang kafir.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>30–37</strong></td><td>Kesesatan Ahli Kitab dan Larangan Mengubah Bulan Haram</td><td>Kesesatan Yahudi dan Nasrani dalam akidah, serta larangan menggeser bulan haram (nasi').</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>38–72</strong></td><td>Jihad dan Kritik terhadap Orang Munafik</td><td>Perintah berjihad, kritik terhadap orang yang tidak ikut Perang Tabuk, dan sifat-sifat orang munafik.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>73–93</strong></td><td>Orang Munafik dan Kemunafikan Mereka</td><td>Allah mengancam orang munafik dengan azab di dunia dan akhirat. Mereka suka bersumpah palsu, takut diketahui aibnya, dan lebih memilih dunia daripada akhirat.</td></tr>
+                </tbody>
+            </table>
+            <h3 class="theme-title"><i class="fas fa-star"></i> Pesan Akidah, Ibadah, dan Akhlak</h3>
+            <div class="three-columns">
+                <div class="column-card"><i class="fas fa-certificate"></i> <strong>Akidah:</strong> Yang memakmurkan masjid hanyalah orang beriman (ayat 18); tidak ada yang menimpa kita kecuali yang telah Allah tetapkan (ayat 51).</div>
+                <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah:</strong> Menunaikan zakat kepada delapan golongan (ayat 60), berjuang dengan harta dan jiwa (ayat 41), serta bertawakal kepada Allah.</div>
+                <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlak:</strong> Saling menolong sesama mukmin dalam kebaikan (ayat 71), tidak menimbun harta (ayat 34–35), dan menjauhi sifat munafik (ayat 67).</div>
+            </div>
+            <p style="text-align: center; margin: 15px 0;"><a href="009.html" class="access-link"><i class="fas fa-book"></i> Baca Tafsir Tematik Surah At-Taubah</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/9?from=1&to=93" target="_blank" class="access-link">Teks, terjemahan, dan tafsir Kemenag</a></p>
+        </div>
+
+        <div class="surah-pagination">
+            <a href="juz_09.html" class="pagination-prev"><i class="fas fa-arrow-left"></i> Juz Sebelumnya: Juz 9</a>
+            <a href="juz_11.html" class="pagination-next">Juz Berikutnya: Juz 11 <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a><a href="juz_summary.html" class="top-home-link"><i class="fas fa-list"></i> Menu Ringkasan Juz</a></div>
+    </div>
+
+    <div id="english-content" class="hidden">
+        <div style="margin-bottom: 20px;">
+            <a href="index.html" class="top-home-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+            <a href="#" class="top-home-link ux-pdf-btn" role="button"><i class="fas fa-file-pdf"></i> Save as PDF</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Juz List</a>
+        </div>
+        <h1 class="surah-title">Juz 10 - Thematic Tafsir</h1>
+        <div class="surah-source"><strong>Tafsir Source:</strong> <a href="https://quran.com/juz/10" target="_blank">Quran.com - Juz 10 <span class="blink-click"><i class="fas fa-hand-point-left"></i> Click Details</span></a> &nbsp;|&nbsp; <a href="https://www.islamicstudies.info/tafheem.php" target="_blank">IslamicStudies.info</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/" target="_blank">Qur'an Kemenag</a></div>
+        <div class="arabic">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+        <div class="transliteration">Bismillāhir-raḥmānir-raḥīm</div>
+        <div class="translation">"In the name of Allah, the Entirely Merciful, the Especially Merciful."</div>
+
+        <div class="theme-overview">
+            <h3><i class="fas fa-star"></i> Overview of Juz 10</h3>
+            <p>Juz 10 contains Al-Anfal 41-75 and At-Taubah 1-92. The end of Al-Anfal explains the division of spoils, conduct before the enemy, preparing strength, accepting peace, and the brotherhood of the Emigrants and Ansar. At-Taubah, the only surah without the basmalah, declares the end of treaties with treacherous polytheists, recalls the Prophet and Abu Bakr in the cave during the Hijrah, addresses the expedition to Tabuk, and exposes the hypocrites.</p>
+            <div class="timeline">
+                <div class="timeline-item"><strong>Pages:</strong> 182–201</div>
+                <div class="timeline-item"><strong>Juz begins:</strong> Al-Anfal 8:41</div>
+                <div class="timeline-item"><strong>Juz ends:</strong> At-Taubah 9:92</div>
+                <div class="timeline-item"><strong>Number of surahs:</strong> 2</div>
+            </div>
+            <p style="font-size: 0.9em; opacity: 0.8;"><em>Juz divisions and pages follow the standard Madinah Mushaf.</em></p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title"><i class="fas fa-list-ol"></i> Contents of Juz 10</h2>
+            <table class="theme-table">
+                <thead><tr><th>No.</th><th>Surah</th><th>Verses</th><th>Note</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td><a href="#seg-en-8">Al-Anfal</a> (8) – The Spoils of War</td><td style="white-space: nowrap;">41–75</td><td>Partial · Medinan</td></tr>
+                    <tr><td>2</td><td><a href="#seg-en-9">At-Taubah</a> (9) – The Repentance</td><td style="white-space: nowrap;">1–92</td><td>Partial · Medinan</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="key-verse" data-anchor="key-verse">
+            <h3><i class="fas fa-key"></i> Selected Verse of Juz 10</h3>
+            <div class="arabic">اِلَّا تَنْصُرُوْهُ فَقَدْ نَصَرَهُ اللّٰهُ اِذْ اَخْرَجَهُ الَّذِيْنَ كَفَرُوْا ثَانِيَ اثْنَيْنِ اِذْ هُمَا فِى الْغَارِ اِذْ يَقُوْلُ لِصَاحِبِهٖ لَا تَحْزَنْ اِنَّ اللّٰهَ مَعَنَاۚ فَاَنْزَلَ اللّٰهُ سَكِيْنَتَهٗ عَلَيْهِ وَاَيَّدَهٗ بِجُنُوْدٍ لَّمْ تَرَوْهَا وَجَعَلَ كَلِمَةَ الَّذِيْنَ كَفَرُوا السُّفْلٰىۗ وَكَلِمَةُ اللّٰهِ هِيَ الْعُلْيَاۗ وَاللّٰهُ عَزِيْزٌ حَكِيْمٌ ﴿٤٠﴾</div>
+            <div class="transliteration">Illā tanṣurūhu faqad naṣarahullāhu idh akhrajahul-ladhīna kafarū thāniyathnaini idh humā fil-ghāri idh yaqūlu liṣāḥibihī lā taḥzan innallāha ma‘anā, fa anzalallāhu sakīnatahū ‘alaihi wa ayyadahū bijunūdil lam tarauhā wa ja‘ala kalimatal-ladhīna kafarus-suflā, wakalimatullāhi hiyal-‘ulyā, wallāhu ‘azīzun ḥakīm</div>
+            <div class="translation"><strong>Translation:</strong> "If you do not aid the Prophet - Allah has already aided him when those who disbelieved had driven him out [of Makkah] as one of two, when they were in the cave and he said to his companion, "Do not grieve; indeed Allah is with us." And Allah sent down his tranquillity upon him and supported him with angels you did not see and made the word of those who disbelieved the lowest, while the word of Allah - that is the highest. And Allah is Exalted in Might and Wise." (At-Taubah 9:40)</div>
+            <div class="tafsir-box"><strong>Tafsir Summary (Kemenag):</strong> If you do not help the Prophet, Allah already helped him when the disbelievers drove him out of Mecca, the second of two in the cave, when he said to his companion Abu Bakr, "Do not grieve; Allah is with us." Allah sent His tranquillity upon him, supported him with forces unseen, made the word of the disbelievers lowest, and the word of Allah is the highest. <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/9?from=40&to=40" target="_blank">📖 Read the Kemenag tafsir (Verses 40)</a></div>
+        </div>
+
+        <div class="section" id="seg-en-8">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> 1. Surah Al-Anfal (The Spoils of War) · Verses 41–75</h2>
+            <div class="overview-box info-box"><p>The latter part of Al-Anfal sets the division of spoils, a fifth for Allah, the Messenger, kin, orphans, the poor, and travellers. Allah recalls Badr, commands firmness, remembrance, and unity before the enemy, and forbids disputing. Believers are told to prepare strength to deter the enemy yet accept peace if the enemy inclines to it. The surah closes with the brotherhood of the Emigrants and Ansar.</p></div>
+            <div class="audio-player"><div class="audio-title">🎧 Listen to Surah Al-Anfal</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/008.mp3" type="audio/mpeg"></audio></div>
+            <h3 class="theme-title"><i class="fas fa-table"></i> Thematic Division by Verses</h3>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>41–44</strong></td><td>Guidance, Criterion, and Battle Preparation</td><td>Allah's promise to grant guidance, separation between truth and falsehood on the day of encounter (Badr), and command to remain steadfast when facing the enemy.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>45–64</strong></td><td>Strength, Patience, and Preparation</td><td>Command to remain steadfast, remember Allah, and prepare maximum strength for defense.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>65–75</strong></td><td>Lightening, Prisoners, and Brotherhood</td><td>Lightening of numbers, rules of prisoners of war, and brotherhood among Muslims (Muhajirun &amp; Ansar).</td></tr>
+                </tbody>
+            </table>
+            <h3 class="theme-title"><i class="fas fa-star"></i> Messages of Creed, Worship, and Character</h3>
+            <div class="three-columns">
+                <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Allah arranged the meeting of the two armies (8:42); Allah does not change a people's blessing until they change themselves (8:53).</div>
+                <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Giving the fifth of the spoils (8:41), remembering Allah much before the enemy (8:45), and relying on Allah when making peace (8:61).</div>
+                <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Not disputing lest one weaken (8:46), patience, and preserving the brotherhood of faith (8:72-75).</div>
+            </div>
+            <p style="text-align: center; margin: 15px 0;"><a href="008.html" class="access-link"><i class="fas fa-book"></i> Read the Thematic Tafsir of Surah Al-Anfal</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/8?from=41&to=75" target="_blank" class="access-link">Kemenag text, translation, and tafsir</a></p>
+        </div>
+
+        <div class="section" id="seg-en-9">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> 2. Surah At-Taubah (The Repentance) · Verses 1–92</h2>
+            <div class="overview-box info-box"><p>At-Taubah opens without the basmalah, declaring the end of treaties with treacherous polytheists, with a four-month grace period and the chance to repent. Allah affirms that mosques are maintained by believers, recalls His help at Hunayn and in the cave during the Hijrah, and calls the believers to march to Tabuk. It exposes the hypocrites' excuses, names the eight categories of zakah recipients, and praises believers who are allies of one another.</p></div>
+            <div class="audio-player"><div class="audio-title">🎧 Listen to Surah At-Taubah</div><audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/009.mp3" type="audio/mpeg"></audio></div>
+            <h3 class="theme-title"><i class="fas fa-table"></i> Thematic Division by Verses</h3>
+            <table class="theme-table">
+                <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                <tbody>
+                    <tr><td style="white-space: nowrap;"><strong>1–16</strong></td><td>Termination of Treaties with Polytheists</td><td>Declaration of treaty cancellation, 4-month ultimatum, and command to fight those who violate.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>17–29</strong></td><td>Prohibition for Polytheists in Masjid al-Haram</td><td>Polytheists have no right to maintain mosques, prohibition from approaching the Sacred Mosque, and command to fight People of the Book who disbelieve.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>30–37</strong></td><td>Deviation of People of the Book and Prohibition of Changing Sacred Months</td><td>The deviant beliefs of Jews and Christians, and the prohibition of postponing the sacred months (nasi').</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>38–72</strong></td><td>Jihad and Criticism of Hypocrites</td><td>Command to go forth for jihad, criticism of those who stayed behind from Tabuk, and characteristics of hypocrites.</td></tr>
+                    <tr><td style="white-space: nowrap;"><strong>73–92</strong></td><td>Hypocrites and Their Hypocrisy</td><td>Allah threatens hypocrites with punishment in this world and the Hereafter. They swear false oaths, fear exposure of their secrets, and prefer this world over the Hereafter.</td></tr>
+                </tbody>
+            </table>
+            <h3 class="theme-title"><i class="fas fa-star"></i> Messages of Creed, Worship, and Character</h3>
+            <div class="three-columns">
+                <div class="column-card"><i class="fas fa-certificate"></i> <strong>Aqidah (Creed):</strong> Only believers maintain the mosques (9:18); nothing befalls us but what Allah has decreed (9:51).</div>
+                <div class="column-card"><i class="fas fa-pray"></i> <strong>Ibadah (Worship):</strong> Paying zakah to the eight categories (9:60), striving with wealth and life (9:41), and relying on Allah.</div>
+                <div class="column-card"><i class="fas fa-heart"></i> <strong>Akhlaq (Character):</strong> Mutual support among believers (9:71), not hoarding wealth (9:34-35), and shunning hypocrisy (9:67).</div>
+            </div>
+            <p style="text-align: center; margin: 15px 0;"><a href="009.html" class="access-link"><i class="fas fa-book"></i> Read the Thematic Tafsir of Surah At-Taubah</a> &nbsp;|&nbsp; <a href="https://quran.kemenag.go.id/quran/per-ayat/surah/9?from=1&to=92" target="_blank" class="access-link">Kemenag text, translation, and tafsir</a></p>
+        </div>
+
+        <div class="surah-pagination">
+            <a href="juz_09.html" class="pagination-prev"><i class="fas fa-arrow-left"></i> Previous Juz: Juz 9</a>
+            <a href="juz_11.html" class="pagination-next">Next Juz: Juz 11 <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="pagination-center"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a><a href="juz_summary.html" class="top-home-link"><i class="fas fa-list"></i> Juz Summary Menu</a></div>
+    </div>
+</div>
+<footer>© 1448 AH / 2026 AD — Tafsir: Kemenag RI (Bahasa Indonesia), IslamicStudies.info &amp; Ibn Kathir (English) · Terjemahan/Translation: Kemenag RI 2019, Saheeh International · Guidance for Reflection</footer>
+
+<script>
+(function() {
+    const englishDiv = document.getElementById('english-content');
+    const indoDiv = document.getElementById('indonesian-content');
+    const langToggle = document.getElementById('languageToggle');
+    const translitToggle = document.getElementById('transliterationToggle');
+    const darkToggle = document.getElementById('darkModeToggle');
+    const translitElements = document.querySelectorAll('.transliteration');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    let langParam = null;
+    if (urlParams.has('English')) langParam = 'english';
+    else if (urlParams.has('Indonesian')) langParam = 'indonesian';
+    let currentLang = langParam || localStorage.getItem('language') || 'indonesian';
+
+    function setLanguage(lang) {
+        const isEnglish = (lang === 'english');
+        if (isEnglish) {
+            englishDiv.classList.remove('hidden');
+            indoDiv.classList.add('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇮🇩 Bahasa Indonesia';
+        } else {
+            englishDiv.classList.add('hidden');
+            indoDiv.classList.remove('hidden');
+            langToggle.innerHTML = '<i class="fas fa-flag"></i> 🇬🇧 English';
+        }
+        localStorage.setItem('language', lang);
+    }
+    setLanguage(currentLang);
+    langToggle.addEventListener('click', () => {
+        const newLang = englishDiv.classList.contains('hidden') ? 'english' : 'indonesian';
+        setLanguage(newLang);
+    });
+
+    let translitVisible = localStorage.getItem('transliteration') === 'true';
+    if (urlParams.has('Transliteration')) translitVisible = true;
+    function setTransliteration(show) {
+        translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+        translitToggle.innerHTML = show ? '<i class="fas fa-language"></i> Hide Transliteration' : '<i class="fas fa-language"></i> Show Transliteration';
+        localStorage.setItem('transliteration', show);
+    }
+    setTransliteration(translitVisible);
+    translitToggle.addEventListener('click', () => {
+        const currently = translitElements[0]?.style.display === 'block';
+        setTransliteration(!currently);
+    });
+
+    let darkActive = false;
+    if (urlParams.has('Dark')) darkActive = true;
+    else darkActive = localStorage.getItem('darkMode') === 'true';
+    if (darkActive) document.body.classList.add('dark-mode');
+    function setDarkModeUI() {
+        const active = document.body.classList.contains('dark-mode');
+        darkToggle.innerHTML = active ? '<i class="fas fa-sun"></i> Light Mode' : '<i class="fas fa-moon"></i> Dark Mode';
+        localStorage.setItem('darkMode', active);
+    }
+    setDarkModeUI();
+    darkToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        setDarkModeUI();
+    });
+
+    const jumpTo = { Kursi: 'key-verse', Deep: 'themes-end' };
+    for (const k in jumpTo) {
+        if (urlParams.has(k)) {
+            setTimeout(() => {
+                const sec = englishDiv.classList.contains('hidden') ? indoDiv : englishDiv;
+                const el = sec.querySelector('[data-anchor="' + jumpTo[k] + '"]');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+    }
+
+    const upArrow = document.getElementById('scrollUp');
+    const downArrow = document.getElementById('scrollDown');
+    const doubleUp = document.getElementById('doubleUpScroll');
+    const doubleDown = document.getElementById('doubleDownScroll');
+    if (upArrow) upArrow.addEventListener('click', () => window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }));
+    if (downArrow) downArrow.addEventListener('click', () => window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }));
+    if (doubleUp) doubleUp.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    if (doubleDown) doubleDown.addEventListener('click', () => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }));
+})();
+</script>
+
+<script id="ux-enhance-v1-js">
+(function () {
+  var PLAY = '<svg class="ux-ic-play" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>';
+  var PAUSE = '<svg class="ux-ic-pause" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>';
+  var ARROWS = {"su": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 15l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "sd": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 9l6 6 6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "du": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 12l6-6 6 6M6 18l6-6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "dd": "<svg class=\"ux-arrow-ic\" viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M6 6l6 6 6-6M6 12l6 6 6-6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>"};
+  function isEn() {
+    var id = document.getElementById('indonesian-content');
+    return id ? id.classList.contains('hidden') || getComputedStyle(id).display === 'none' : true;
+  }
+  function allAudio() { return document.querySelectorAll('audio'); }
+  function labels() {
+    document.querySelectorAll('.ux-pdf-dyn .ux-pdf-label').forEach(function (l) { l.textContent = isEn() ? 'Save as PDF' : 'Simpan sebagai PDF'; });
+    document.querySelectorAll('.ux-play-btn').forEach(function (b) {
+      var p = b.classList.contains('playing');
+      var t = p ? (isEn() ? 'Pause recitation' : 'Jeda bacaan') : (isEn() ? 'Play recitation' : 'Putar bacaan');
+      b.setAttribute('aria-label', t); b.title = t;
+    });
+  }
+  function enhanceAudio() {
+    allAudio().forEach(function (audio) {
+      if (audio.dataset.uxEnhanced) return;
+      audio.dataset.uxEnhanced = '1';
+      audio.removeAttribute('controls');
+      audio.classList.add('ux-hidden-audio');
+      if (!audio.getAttribute('preload')) audio.setAttribute('preload', 'none');
+      var wrap = document.createElement('div');
+      wrap.className = 'ux-play-wrap';
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'ux-play-btn'; btn.innerHTML = PLAY + PAUSE;
+      btn.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        if (audio.paused) { var pr = audio.play(); if (pr && pr.catch) pr.catch(function () {}); } else audio.pause();
+      });
+      audio.addEventListener('play', function () {
+        allAudio().forEach(function (o) { if (o !== audio && !o.paused) o.pause(); });
+        btn.classList.add('playing'); labels();
+      });
+      audio.addEventListener('pause', function () { btn.classList.remove('playing'); labels(); });
+      audio.addEventListener('ended', function () { btn.classList.remove('playing'); labels(); });
+      wrap.appendChild(btn);
+      audio.parentNode.insertBefore(wrap, audio);
+    });
+    labels();
+  }
+  function addMissingArrows() {
+    var specs = [];
+    if (!document.querySelector('.scroll-arrow')) specs.push(['scroll-arrow', 'up', ARROWS.su, function () { window.scrollBy({ top: -window.innerHeight, behavior: 'smooth' }); }],
+                                                            ['scroll-arrow', 'down', ARROWS.sd, function () { window.scrollBy({ top: window.innerHeight, behavior: 'smooth' }); }]);
+    if (!document.querySelector('.scroll-arrow-double')) specs.push(['scroll-arrow-double', 'up', ARROWS.du, function () { window.scrollTo({ top: 0, behavior: 'smooth' }); }],
+                                                                   ['scroll-arrow-double', 'down', ARROWS.dd, function () { window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' }); }]);
+    specs.forEach(function (s) {
+      var d = document.createElement('div');
+      d.className = s[0] + ' ux-added-arrow ux-' + s[1];
+      d.title = s[0] === 'scroll-arrow' ? (s[1] === 'up' ? 'Scroll up' : 'Scroll down') : (s[1] === 'up' ? 'Go to top' : 'Go to bottom');
+      d.innerHTML = s[2];
+      d.addEventListener('click', s[3]);
+      document.body.appendChild(d);
+    });
+  }
+  // Save as PDF via the browser print dialog (printed in light mode)
+  var wasDark = false;
+  window.addEventListener('beforeprint', function () {
+    wasDark = document.body.classList.contains('dark-mode');
+    document.body.classList.remove('dark-mode');
+  });
+  window.addEventListener('afterprint', function () { if (wasDark) document.body.classList.add('dark-mode'); });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('.ux-pdf-btn');
+    if (b) { e.preventDefault(); allAudio().forEach(function (o) { o.pause(); }); window.print(); }
+  });
+  var lt = document.getElementById('languageToggle');
+  if (lt) lt.addEventListener('click', function () { allAudio().forEach(function (o) { o.pause(); }); setTimeout(labels, 0); });
+  function init() { enhanceAudio(); addMissingArrows(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  window.addEventListener('load', enhanceAudio);
+})();
+</script>
+
+<style id="ux-audio-seek-v1">
+.ux-seek { display: flex; align-items: center; justify-content: center; gap: 8px; max-width: 460px; margin: 4px auto 12px; padding: 0 6px; font-size: 12.5px; color: var(--text-color, #334155); }
+.ux-seek .ux-time { min-width: 38px; text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; opacity: 0.85; }
+.ux-seek input[type=range] { flex: 1 1 auto; min-width: 80px; height: 22px; margin: 0; cursor: pointer; accent-color: var(--link-color, #1e5f8e); background: transparent; }
+.ux-seek .ux-skip { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--link-color, #1e5f8e); background: transparent; color: var(--link-color, #1e5f8e); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; padding: 0; transition: background 0.2s ease, transform 0.2s ease; }
+.ux-seek .ux-skip:hover { background: rgba(30, 95, 142, 0.10); transform: scale(1.06); }
+.ux-seek .ux-skip:focus-visible, .ux-seek input[type=range]:focus-visible { outline: 2px solid var(--link-color, #1e5f8e); outline-offset: 2px; }
+.ux-seek .ux-skip svg { display: block; }
+@media (max-width: 480px) { .ux-seek { gap: 6px; font-size: 11.5px; } .ux-seek .ux-time { min-width: 32px; } .ux-seek .ux-skip { width: 30px; height: 30px; } }
+@media print { .ux-seek { display: none !important; } }
+</style>
+<script id="ux-audio-seek-v1-js">
+(function () {
+  var BACK = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z" fill="currentColor"/><text x="12" y="16.2" text-anchor="middle" font-size="6.5" font-family="sans-serif" font-weight="700" fill="currentColor">10</text></svg>';
+  var FWD = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 5V2l5 4-5 4V7a6 6 0 1 0 6 6h2a8 8 0 1 1-8-8z" fill="currentColor"/><text x="12" y="16.2" text-anchor="middle" font-size="6.5" font-family="sans-serif" font-weight="700" fill="currentColor">10</text></svg>';
+  function fmt(t) {
+    if (!isFinite(t) || t < 0) t = 0;
+    var h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = Math.floor(t % 60);
+    return (h ? h + ':' + (m < 10 ? '0' : '') : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function isEnEl(el) { return !!(el.closest && el.closest('#english-content')); }
+  function build(wrap, audio) {
+    if (wrap.dataset.uxSeek) return;
+    wrap.dataset.uxSeek = '1';
+    var en = isEnEl(wrap);
+    var row = document.createElement('div'); row.className = 'ux-seek';
+    var back = document.createElement('button'); back.type = 'button'; back.className = 'ux-skip'; back.innerHTML = BACK;
+    var fwd = document.createElement('button'); fwd.type = 'button'; fwd.className = 'ux-skip'; fwd.innerHTML = FWD;
+    back.title = en ? 'Back 10 seconds' : 'Mundur 10 detik'; back.setAttribute('aria-label', back.title);
+    fwd.title = en ? 'Forward 10 seconds' : 'Maju 10 detik'; fwd.setAttribute('aria-label', fwd.title);
+    var cur = document.createElement('span'); cur.className = 'ux-time'; cur.textContent = '0:00';
+    var dur = document.createElement('span'); dur.className = 'ux-time'; dur.textContent = '0:00';
+    var bar = document.createElement('input'); bar.type = 'range'; bar.min = 0; bar.max = 1000; bar.step = 1; bar.value = 0;
+    bar.setAttribute('aria-label', en ? 'Seek recitation' : 'Geser posisi bacaan');
+    row.appendChild(back); row.appendChild(cur); row.appendChild(bar); row.appendChild(dur); row.appendChild(fwd);
+    wrap.parentNode.insertBefore(row, wrap.nextSibling);
+    var dragging = false, pending = null;
+    function ready() { return isFinite(audio.duration) && audio.duration > 0; }
+    function ensureLoaded() {
+      if (!ready() && audio.readyState === 0) { audio.preload = 'metadata'; try { audio.load(); } catch (e) {} }
+    }
+    function paint() {
+      if (ready()) {
+        dur.textContent = fmt(audio.duration);
+        if (!dragging) bar.value = Math.round(audio.currentTime / audio.duration * 1000);
+        cur.textContent = fmt(dragging ? bar.value / 1000 * audio.duration : audio.currentTime);
+      }
+      var pct = (bar.value / 10) + '%';
+      bar.style.background = 'linear-gradient(to right, var(--link-color, #1e5f8e) ' + pct + ', rgba(127,127,127,0.25) ' + pct + ')';
+      bar.style.borderRadius = '4px'; bar.style.height = '6px';
+    }
+    function seekTo(frac) {
+      if (ready()) { audio.currentTime = Math.max(0, Math.min(audio.duration - 0.25, frac * audio.duration)); paint(); }
+      else { pending = { frac: frac }; ensureLoaded(); }
+    }
+    function skip(sec) {
+      if (ready()) { audio.currentTime = Math.max(0, Math.min(audio.duration - 0.25, audio.currentTime + sec)); paint(); }
+      else { pending = { delta: sec }; ensureLoaded(); }
+    }
+    audio.addEventListener('loadedmetadata', function () {
+      if (pending) {
+        if (pending.frac != null) audio.currentTime = pending.frac * audio.duration;
+        else audio.currentTime = Math.max(0, audio.currentTime + pending.delta);
+        pending = null;
+      }
+      paint();
+    });
+    audio.addEventListener('timeupdate', paint);
+    audio.addEventListener('durationchange', paint);
+    audio.addEventListener('seeked', paint);
+    audio.addEventListener('ended', function () { bar.value = 1000; paint(); });
+    bar.addEventListener('pointerdown', function () { dragging = true; ensureLoaded(); });
+    bar.addEventListener('input', function () { dragging = true; paint(); if (ready()) cur.textContent = fmt(bar.value / 1000 * audio.duration); });
+    bar.addEventListener('change', function () { dragging = false; seekTo(bar.value / 1000); });
+    bar.addEventListener('keydown', function () { ensureLoaded(); });
+    back.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); skip(-10); });
+    fwd.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); skip(10); });
+    paint();
+  }
+  function init() {
+    document.querySelectorAll('.ux-play-wrap').forEach(function (wrap) {
+      var a = wrap.nextElementSibling;
+      while (a && a.tagName !== 'AUDIO') a = a.nextElementSibling;
+      if (!a) { var p = wrap.parentNode; a = p && p.querySelector('audio'); }
+      if (a) build(wrap, a);
+    });
+  }
+  function run() { init(); setTimeout(init, 300); setTimeout(init, 1200); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  window.addEventListener('load', init);
+})();
+</script>
+</body>
+</html>
+
