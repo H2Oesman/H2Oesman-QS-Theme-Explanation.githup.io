@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juz 26 - Surah Thematic Analysis </title>
+    <style>
+        :root {
+            --bg-color: #f5f9fc;
+            --text-color: #333;
+            --container-bg: white;
+            --arabic-color: #1a5276;
+            --section-title-color: #2980b9;
+            --verse-bg: #f8f9fa;
+            --verse-border: #e0e0e0;
+            --bonus-bg: #e8f4fc;
+            --tafsir-bg: #fffde7;
+            --tafsir-border: #ffe082;
+            --structure-bg: #f0f7ff;
+            --benefits-bg: #f1f8e9;
+            --praise-bg: #fff0f0;
+            --guidance-bg: #f0fff0;
+            --table-header-bg: #3498db;
+            --table-header-color: white;
+            --table-row-even: #f9f9f9;
+            --table-row-odd: #ffffff;
+            --link-color: #2980b9;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --text-color: #e6e6e6;
+            --container-bg: #16213e;
+            --arabic-color: #4cc9f0;
+            --section-title-color: #3498db;
+            --verse-bg: #2d3748;
+            --verse-border: #4a5568;
+            --bonus-bg: #1e3a5f;
+            --tafsir-bg: #2d3748;
+            --tafsir-border: #4a5568;
+            --structure-bg: #1e3a5f;
+            --benefits-bg: #1b3c1b;
+            --praise-bg: #3a1f1f;
+            --guidance-bg: #1f3a1f;
+            --table-header-bg: #2c3e50;
+            --table-header-color: #ecf0f1;
+            --table-row-even: #2d3748;
+            --table-row-odd: #1a202c;
+            --link-color: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: var(--arabic-color);
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+            line-height: 2;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 18px;
+            text-align: center;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        .surah-title {
+            font-size: 36px;
+            color: var(--text-color);
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .section {
+            margin: 30px 0;
+            padding: 0 10px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: var(--section-title-color);
+            margin-bottom: 15px;
+            border-left: 5px solid #3498db;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title-icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .verse, .theme-point {
+            background-color: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 1px solid var(--verse-border);
+            transition: all 0.3s ease;
+        }
+        .verse-title, .theme-title {
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .verse-title-icon {
+            margin-right: 8px;
+        }
+        .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #3498db;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 100;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .language-toggle { top: 20px; }
+        .transliteration-toggle { top: 60px; background: #2ecc71; }
+        .dark-mode-toggle { top: 100px; background: #9b59b6; }
+        .hidden { display: none; }
+        .surah-source {
+            text-align: center;
+            margin-top: -15px;
+            margin-bottom: 20px;
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .main-menu { text-align: center; margin: 15px 0; }
+        .top-home-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid var(--link-color);
+            transition: background-color 0.3s;
+        }
+        .top-home-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid var(--verse-border);
+        }
+        .theme-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-table th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-color);
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid var(--verse-border);
+        }
+        .theme-table td {
+            padding: 15px;
+            border: 1px solid var(--verse-border);
+            background-color: var(--table-row-odd);
+        }
+        .theme-table tr:nth-child(even) td {
+            background-color: var(--table-row-even);
+        }
+        .audio-player {
+            width: 100%;
+            margin: 20px 0;
+            background: var(--verse-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .audio-player h3 { margin-top: 0; color: var(--section-title-color); }
+        .message-box {
+            background: var(--structure-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .message-box h3 { margin-top: 0; color: #2980b9; }
+        .message-box ul { padding-left: 20px; }
+        .message-box li { margin-bottom: 10px; }
+        .access-link {
+            display: inline-block;
+            margin: 10px 0;
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 15px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            border: 1px solid var(--link-color);
+            background: var(--verse-bg);
+        }
+        .access-link:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--verse-bg);
+            border-radius: 8px;
+            border: 1px solid var(--verse-border);
+        }
+        .pagination a {
+            color: var(--link-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--link-color);
+            transition: all 0.3s;
+        }
+        .pagination a:hover {
+            background-color: var(--link-color);
+            color: white;
+        }
+        .surah-divider {
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            margin: 50px 0;
+            border-radius: 2px;
+        }
+        .overview-box {
+            background: var(--structure-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #2c3e50;
+        }
+        .overview-box h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .dark-mode .overview-box {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        .juz-overview {
+            background: linear-gradient(135deg, #e8f4fc 0%, #f0f7ff 100%);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #3498db;
+        }
+        .dark-mode .juz-overview {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d3748 100%);
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        #scroll-up { top: 200px; }
+        #scroll-down { bottom: 90px; }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double { top: 200px; }
+        .scroll-arrow-double.down-double { bottom: 90px; }
+
+        @media (max-width: 768px) {
+            .arabic { font-size: 32px; }
+            .surah-title { font-size: 28px; }
+            .language-toggle, .transliteration-toggle, .dark-mode-toggle {
+                position: static;
+                margin: 10px 0;
+                display: inline-block;
+            }
+            .theme-table { display: block; overflow-x: auto; }
+            .pagination { flex-direction: column; gap: 15px; text-align: center; }
+            .container { padding: 15px; }
+            .scroll-arrow, .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow { left: 12px; }
+            .scroll-arrow-double { right: 12px; }
+            #scroll-up, .scroll-arrow-double.up-double { top: 170px; }
+            #scroll-down, .scroll-arrow-double.down-double { bottom: 70px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- two simple screen scroll arrows -->
+    <div id="scroll-up" class="scroll-arrow" onclick="window.scrollBy(0, -window.innerHeight)"><i class="fas fa-chevron-up"></i></div>
+    <div id="scroll-down" class="scroll-arrow" onclick="window.scrollBy(0, window.innerHeight)"><i class="fas fa-chevron-down"></i></div>
+    <div id="doubleUpScroll" class="scroll-arrow-double" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double" onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container">
+        <div class="language-toggle" id="languageToggle">Switch to Indonesian</div>
+        <div class="transliteration-toggle" id="transliterationToggle">Show Transliteration</div>
+        <div class="dark-mode-toggle" id="darkModeToggle">Dark Mode</div>
+
+        <!-- Indonesian Content (Default) -->
+        <div id="indonesian-content">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Menu Ringkasan Juz</a>
+            <h1 class="surah-title">Juz 26 - Analisis Tematik </h1>
+            <div class="surah-source"><strong>Sumber:</strong> IslamicStudies.info (Tafhim al-Qur'an) dengan tambahan wawasan</div>
+
+            <!-- Juz 26 Overview (enriched) -->
+            <div class="juz-overview">
+                <h3><i class="fas fa-info-circle"></i> Gambaran Umum Juz 26</h3>
+                <p>Juz 26 (halaman 502–521) terdiri dari bagian akhir Surah Al-Ahqaf (27-35), seluruh Surah Muhammad (1-38), Al-Fath (1-29), Al-Hujraat (1-18), Qaf (1-45), dan bagian awal Surah Adh-Dhariyat (1-30). Juz ini dikenal sebagai "Wa laqad ahlakna". Tema utama: keimanan, peringatan, kebangkitan, etika sosial, dan janji kemenangan.</p>
+                <p><strong>Hizb:</strong> 51-52</p>
+                <p><strong>Konteks Lebih Luas (Tafhim):</strong> Juz ini memadukan surah-surah Makkiyah yang menekankan akidah dan kebangkitan (Al-Ahqaf, Qaf, Adh-Dhariyat) dengan surah-surah Madaniyah yang mengatur kehidupan bermasyarakat dan jihad (Muhammad, Al-Fath, Al-Hujraat). Al-Hujraat memberikan panduan etika yang sangat rinci, sementara Al-Fath menggemakan kemenangan setelah Perjanjian Hudaibiyah.</p>
+                <p><strong>Surah dalam Juz ini:</strong></p>
+                <ul>
+                    <li><a href="https://quran.com/46:27?translations=33" target="_blank">Surah Al-Ahqaf (Bukit-bukit Pasir) - Ayat 27-35</a></li>
+                    <li><a href="https://quran.com/47:1?translations=33" target="_blank">Surah Muhammad - Ayat 1-38</a></li>
+                    <li><a href="https://quran.com/48:1?translations=33" target="_blank">Surah Al-Fath (Kemenangan) - Ayat 1-29</a></li>
+                    <li><a href="https://quran.com/49:1?translations=33" target="_blank">Surah Al-Hujraat (Kamar-kamar) - Ayat 1-18</a></li>
+                    <li><a href="https://quran.com/50:1?translations=33" target="_blank">Surah Qaf - Ayat 1-45</a></li>
+                    <li><a href="https://quran.com/51:1?translations=33" target="_blank">Surah Adh-Dhariyat (Angin yang Menerbangkan) - Ayat 1-30</a></li>
+                </ul>
+            </div>
+
+            <!-- Akses Teks Lengkap Juz 26 -->
+            <div class="message-box">
+                <h3><i class="fas fa-external-link-alt"></i> Akses Teks Lengkap Juz 26</h3>
+                <p><a href="https://quran.com/juz/26?translations=33" target="_blank" class="access-link"><i class="fas fa-book"></i> Quran.com - Juz 26 (terjemahan Indonesia)</a></p>
+            </div>
+
+            <!-- Surah Al-Ahqaf (bagian akhir) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ahqaf (Bukit-bukit Pasir) - Ayat 27-35</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Bagian Akhir Surah Al-Ahqaf</h3>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Bagian penutup surah ini mengingatkan kaum musyrik Mekah bahwa banyak negeri di sekitar mereka (seperti kaum 'Ad dan Tsamud) telah dibinasakan karena kedurhakaan mereka. Ayat 29-32 menceritakan sekelompok jin yang mendengar bacaan Al-Qur'an dan langsung beriman – sebuah pelajaran bahwa kebenaran akan diterima oleh hati yang bersih, baik dari kalangan manusia maupun jin. Ayat-ayat terakhir menegaskan kekuasaan Allah menciptakan langit dan bumi, dan memerintahkan Nabi untuk bersabar sebagaimana rasul-rasul ulul 'azmi bersabar.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Ahqaf (Ayat 27-35)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/046.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/46:27-35?translations=33" target="_blank" class="access-link">Quran.com - Surah Al-Ahqaf (27-35)</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat (Juz 26)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 27-28</td>
+                                <td>Peringatan dari Kehancuran Umat Terdahulu</td>
+                                <td>Kehancuran negeri-negeri sekitar Mekah karena kekafiran; tanda-tanda Allah yang diperlihatkan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 29-32</td>
+                                <td>Kisah Jin yang Mendengar Al-Qur'an</td>
+                                <td>Jin yang mendengarkan Al-Qur'an lalu beriman; pengakuan mereka terhadap kebenaran; seruan kepada kaumnya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 33-35</td>
+                                <td>Seruan untuk Iman dan Kesabaran</td>
+                                <td>Kekuasaan Allah menciptakan langit dan bumi; seruan untuk beriman; perintah untuk bersabar</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan bahwa Allah menghancurkan umat yang mendustakan rasul, keimanan pada kekuasaan Allah menciptakan langit dan bumi, keyakinan bahwa Al-Qur'an adalah petunjuk, penolakan terhadap penyembahan selain Allah.</li>
+                        <li><strong>Ibadah:</strong> Mendengarkan dan mengamalkan Al-Qur'an, berdoa kepada Allah dengan penuh harap, bersabar dalam menghadapi ejekan.</li>
+                        <li><strong>Akhlak:</strong> Mengambil pelajaran dari kehancuran umat terdahulu, berdakwah dengan bijak, sabar menghadapi penolakan.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=46&verse=27&to=35" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Muhammad -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Muhammad - Ayat 1-38</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Muhammad</h3>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Surah Madaniyah ini sering disebut "Surah Qital" (perang) karena banyak membahas jihad. Di awal, Allah menjelaskan perbedaan nasib orang kafir dan orang beriman: amal orang kafir sia-sia, sedangkan dosa orang beriman dihapuskan. Ayat-ayat berikutnya memberikan petunjuk tentang tawanan perang, mengajak berinfak, dan memperingatkan orang-orang munafik yang enggan berjuang. Surah ini menegaskan bahwa kehidupan dunia hanyalah permainan, dan akhirat lebih baik bagi orang bertakwa.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Muhammad</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/047.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/47:1-38?translations=33" target="_blank" class="access-link">Quran.com - Surah Muhammad (1-38)</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-11</td>
+                                <td>Perbandingan Orang Beriman dan Kafir</td>
+                                <td>Orang kafir amalnya sia-sia; orang beriman diampuni dosanya; pertolongan Allah bagi mukminin</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 12-19</td>
+                                <td>Balasan di Akhirat dan Ujian</td>
+                                <td>Surga bagi orang beriman; neraka bagi orang kafir; ujian untuk menguji keimanan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 20-28</td>
+                                <td>Kewajiban Perang dan Hukum Tawanan</td>
+                                <td>Perintah berperang; hukum tawanan perang; celaan terhadap munafik</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 29-34</td>
+                                <td>Sifat Munafik dan Peringatan</td>
+                                <td>Tanda-tanda munafik; peringatan terhadap kemunafikan; balasan bagi munafik</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 35-38</td>
+                                <td>Ajakan Berinfak dan Penutup</td>
+                                <td>Ajakan berinfak di jalan Allah; janji pengganti yang lebih baik; penegasan tentang kebenaran</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan bahwa Allah menghapus amal orang kafir, keimanan pada pertolongan Allah, keyakinan pada surga dan neraka, penolakan terhadap kemunafikan.</li>
+                        <li><strong>Ibadah:</strong> Berperang di jalan Allah, membaca Al-Qur'an dengan khusyuk, berinfak di jalan Allah, shalat dengan khusyuk.</li>
+                        <li><strong>Akhlak:</strong> Konsisten dalam keimanan, tidak menjadi munafik, sabar dalam menghadapi ujian, berkata jujur.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=47&verse=1&to=38" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Fath -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fath (Kemenangan) - Ayat 1-29</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Fath</h3>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Surah ini turun setelah Perjanjian Hudaibiyah, yang oleh sebagian sahabat dirasakan sebagai kekalahan, tetapi Allah menyebutnya "kemenangan yang nyata" (fath mubin). Di dalamnya Allah menjanjikan ampunan, rahmat, dan jalan yang lurus. Juga disebutkan bai'at ridwan di bawah pohon yang membuat Allah ridha kepada orang-orang beriman. Surah ini menegaskan bahwa misi Rasulullah akan disempurnakan dan Islam akan mengatasi semua agama.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Fath</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/048.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/48:1-29?translations=33" target="_blank" class="access-link">Quran.com - Surah Al-Fath (1-29)</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-7</td>
+                                <td>Janji Kemenangan dan Ampunan</td>
+                                <td>Kemenangan yang nyata; ampunan Allah; pertolongan Allah; kekuatan orang beriman</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 8-10</td>
+                                <td>Saksi atas Kerasulan Muhammad</td>
+                                <td>Muhammad sebagai rasul Allah; saksi atas kerasulannya; bai'at ridwan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 11-17</td>
+                                <td>Orang-orang yang Tertinggal dan Uzur</td>
+                                <td>Orang Arab Badui yang tertinggal; orang yang punya uzur; ketaatan kepada Allah dan Rasul</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 18-21</td>
+                                <td>Kepuasan Allah dan Janji Masa Depan</td>
+                                <td>Allah ridha kepada orang beriman; janji rampasan perang di masa depan; jaminan kemenangan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 22-29</td>
+                                <td>Kekuatan Orang Kafir dan Penutup</td>
+                                <td>Kekuatan orang kafir akan dikalahkan; sifat-sifat Rasulullah; perumpamaan umat Islam</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan pada janji kemenangan dari Allah, keimanan pada ampunan Allah, keyakinan pada kerasulan Muhammad SAW, iman pada pertolongan Allah.</li>
+                        <li><strong>Ibadah:</strong> Bai'at (sumpah setia) kepada Allah dan Rasul, shalat dengan khusyuk, berdzikir kepada Allah.</li>
+                        <li><strong>Akhlak:</strong> Taat kepada Allah dan Rasul, sabar dalam menghadapi ujian, rendah hati, jujur dalam perkataan.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=48&verse=1&to=29" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Hujraat -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Hujraat (Kamar-kamar) - Ayat 1-18</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Al-Hujraat</h3>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Surah ini merupakan konstitusi etika masyarakat Islam. Dimulai dengan adab terhadap Rasulullah: tidak meninggikan suara di hadapannya. Kemudian aturan tentang tabayyun (klarifikasi) ketika menerima berita, mendamaikan dua kelompok muslim yang bertikai, dan larangan mengolok-olok, memanggil dengan gelar buruk, serta berprasangka. Ayat 13 menegaskan bahwa kemuliaan di sisi Allah hanya berdasarkan takwa. Ayat 14-18 membedakan antara Islam (tunduk lahir) dan Iman (keyakinan dalam hati).</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Al-Hujraat</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/049.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/49:1-18?translations=33" target="_blank" class="access-link">Quran.com - Surah Al-Hujraat (1-18)</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-5</td>
+                                <td>Adab terhadap Rasulullah</td>
+                                <td>Larangan mendahului Allah dan Rasul; merendahkan suara di hadapan Rasul; etika memanggil Rasul</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 6-10</td>
+                                <td>Etika Menerima Berita dan Islah</td>
+                                <td>Tabayyun (cek kebenaran) terhadap berita; mendamaikan saudara yang berselisih; persaudaraan Islam</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 11-13</td>
+                                <td>Etika Sosial dan Persaudaraan</td>
+                                <td>Larangan mengolok-olok; larangan memanggil dengan gelar buruk; larangan berprasangka; persaudaraan seiman</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 14-18</td>
+                                <td>Iman yang Hakiki dan Penutup</td>
+                                <td>Perbedaan iman dan Islam; kesempurnaan iman; Allah mengetahui segala isi hati; ridha Allah</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan bahwa Allah Maha Mendengar dan Maha Mengetahui, keimanan yang sebenarnya, keyakinan bahwa Allah mengetahui isi hati, penolakan terhadap prasangka buruk.</li>
+                        <li><strong>Ibadah:</strong> Bertakwa kepada Allah, berbuat islah (mendamaikan), beriman dengan sungguh-sungguh.</li>
+                        <li><strong>Akhlak:</strong> Adab terhadap Rasulullah, tabayyun (cek kebenaran), tidak mengolok-olok, tidak berprasangka buruk, persaudaraan Islam.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=49&verse=1&to=18" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Qaf -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Qaf - Ayat 1-45</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Surah Qaf</h3>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Surah Makkiyah ini membantah orang-orang yang mengingkari kebangkitan. Allah bersumpah dengan langit dan bumi serta pohon-pohon yang tinggi untuk menegaskan bahwa menghidupkan kembali manusia yang telah mati adalah mudah bagi-Nya. Di dalamnya disebutkan malaikat pencatat amal, gambaran sakaratul maut, hari kebangkitan, serta balasan surga dan neraka. Rasulullah diperintahkan untuk bersabar menghadapi penolakan mereka, sebagaimana rasul-rasul sebelumnya juga bersabar.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Qaf</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/050.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/50:1-45?translations=33" target="_blank" class="access-link">Quran.com - Surah Qaf (1-45)</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-15</td>
+                                <td>Pengingkaran dan Kebangkitan</td>
+                                <td>Pengakuan Al-Qur'an; pengingkaran orang kafir terhadap kebangkitan; proses kebangkitan</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 16-22</td>
+                                <td>Penciptaan dan Pengawasan Allah</td>
+                                <td>Penciptaan manusia; malaikat pencatat amal; saksi pada hari kiamat</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 23-35</td>
+                                <td>Keadaan di Akhirat</td>
+                                <td>Percakapan di akhirat; surga bagi orang bertakwa; neraka bagi pendusta</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 36-45</td>
+                                <td>Peringatan dan Penutup</td>
+                                <td>Kisah umat terdahulu; peringatan sebelum azab; penguatan Nabi Muhammad</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan pada kebangkitan setelah mati, keimanan pada malaikat pencatat amal, keyakinan pada hari hisab, penolakan terhadap pengingkaran.</li>
+                        <li><strong>Ibadah:</strong> Mengingat Allah dalam segala keadaan, bersabar menghadapi ejekan, bertasbih memuji Allah.</li>
+                        <li><strong>Akhlak:</strong> Tidak mengingkari kebenaran, mengambil pelajaran dari umat terdahulu, bersyukur atas nikmat Allah.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=50&verse=1&to=45" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="surah-divider"></div>
+
+            <!-- Surah Adh-Dhariyat (bagian awal) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Adh-Dhariyat (Angin yang Menerbangkan) - Ayat 1-30</h2>
+                
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Gambaran Umum Bagian Awal Surah Adh-Dhariyat</h3>
+                    <p><em>Dari Tafhim al-Qur'an:</em> Surah ini diawali dengan sumpah demi angin yang menerbangkan debu, awan yang mengandung hujan, dan kapal yang berlayar, untuk menegaskan bahwa hari pembalasan pasti terjadi. Kemudian disebutkan dua golongan manusia: mereka yang selalu dalam keraguan dan mereka yang bertakwa (yang akan mendapat surga). Ayat 20-23 mengajak merenungkan tanda-tanda kekuasaan Allah di bumi dan dalam diri manusia. Bagian ini ditutup dengan kisah tamu mulia Ibrahim (para malaikat) yang menyampaikan kabar gembira tentang kelahiran Ishak serta tugas mereka mengazab kaum Luth.</p>
+                </div>
+
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Dengarkan Surah Adh-Dhariyat (Ayat 1-30)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/051.mp3" type="audio/mpeg">
+                        Browser Anda tidak mendukung elemen audio.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Teks Lengkap: 
+                        <a href="https://quran.com/51:1-30?translations=33" target="_blank" class="access-link">Quran.com - Surah Adh-Dhariyat (1-30)</a>
+                    </p>
+                </div>
+
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Pembagian Tema Berdasarkan Ayat (Juz 26)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Rentang Ayat</th>
+                                <th>Tema Utama</th>
+                                <th>Inti Pesan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Ayat 1-6</td>
+                                <td>Sumpah Allah dan Kepastian Hari Pembalasan</td>
+                                <td>Sumpah Allah dengan makhluk-Nya; kepastian hari pembalasan; kebenaran agama</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 7-19</td>
+                                <td>Peringatan dan Balasan</td>
+                                <td>Langit yang mempunyai jalan; ancaman bagi pendusta; balasan bagi orang bertakwa dan durhaka</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 20-23</td>
+                                <td>Tanda-tanda Kekuasaan Allah</td>
+                                <td>Tanda kekuasaan Allah di bumi; rezeki dari Allah; sumpah Allah dengan diri-Nya</td>
+                            </tr>
+                            <tr>
+                                <td>Ayat 24-30</td>
+                                <td>Kisah Nabi Ibrahim dan Malaikat</td>
+                                <td>Kedatangan malaikat kepada Ibrahim; kabar gembira kelahiran Ishak; kisah kaum Luth</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Pesan Akidah, Ibadah, & Akhlak</h3>
+                    <ul>
+                        <li><strong>Akidah:</strong> Keyakinan pada hari pembalasan, keimanan pada tanda-tanda kekuasaan Allah, keyakinan pada rezeki dari Allah, iman pada kebenaran agama.</li>
+                        <li><strong>Ibadah:</strong> Bertakwa kepada Allah, berdoa di waktu malam, bersyukur atas nikmat Allah.</li>
+                        <li><strong>Akhlak:</strong> Tidak mendustakan kebenaran, membantu orang miskin, memuliakan tamu seperti Ibrahim.</li>
+                    </ul>
+                </div>
+
+                <p style="text-align: center; margin: 20px 0;">
+                    <a href="https://www.islamicstudies.info/tafheem.php?sura=51&verse=1&to=30" target="_blank" class="access-link">
+                        <i class="fas fa-book"></i> Tafsir Lengkap di IslamicStudies.info
+                    </a>
+                </p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_25.html"><i class="fas fa-arrow-left"></i> Juz Sebelumnya</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 26</span>
+                <a href="juz_27.html"><i class="fas fa-arrow-right"></i> Juz Berikutnya</a>
+            </div>
+
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Kembali ke Menu Utama</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Menu Ringkasan Juz</a></div>
+        </div>
+
+        <!-- English Content (Hidden by Default) -->
+        <div id="english-content" class="hidden">
+            <a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Juz Summary List</a>
+            <h1 class="surah-title">Juz 26 - Thematic Analysis </h1>
+            <div class="surah-source"><strong>Source:</strong> IslamicStudies.info (Tafhim al-Qur'an) with additional insights</div>
+
+            <div class="juz-overview">
+                <h3><i class="fas fa-info-circle"></i> Overview of Juz 26</h3>
+                <p>Juz 26 (pages 502–521) consists of the final part of Surah Al-Ahqaf (27-35) and the complete Surahs Muhammad (1-38), Al-Fath (1-29), Al-Hujraat (1-18), Qaf (1-45), and the beginning of Surah Adh-Dhariyat (1-30). This Juz is known as "Wa laqad ahlakna". Main themes: faith, warnings, resurrection, social ethics, and the promise of victory.</p>
+                <p><strong>Hizb:</strong> 51-52</p>
+                <p><strong>Broader Context (Tafhim):</strong> This Juz combines Meccan surahs emphasizing creed and resurrection (Al-Ahqaf, Qaf, Adh-Dhariyat) with Medinan surahs regulating community life and jihad (Muhammad, Al-Fath, Al-Hujraat). Al-Hujraat provides detailed ethical guidance, while Al-Fath echoes the victory after the Treaty of Hudaibiyah.</p>
+                <p><strong>Surahs in this Juz:</strong></p>
+                <ul>
+                    <li><a href="https://recitequran.com/46:27" target="_blank">Surah Al-Ahqaf (The Sand Dunes) - Verses 27-35</a></li>
+                    <li><a href="https://recitequran.com/47:1" target="_blank">Surah Muhammad - Verses 1-38</a></li>
+                    <li><a href="https://recitequran.com/48:1" target="_blank">Surah Al-Fath (The Victory) - Verses 1-29</a></li>
+                    <li><a href="https://recitequran.com/49:1" target="_blank">Surah Al-Hujraat (The Rooms) - Verses 1-18</a></li>
+                    <li><a href="https://recitequran.com/50:1" target="_blank">Surah Qaf - Verses 1-45</a></li>
+                    <li><a href="https://recitequran.com/51:1" target="_blank">Surah Adh-Dhariyat (The Scattering Winds) - Verses 1-30</a></li>
+                </ul>
+            </div>
+
+            <div class="message-box">
+                <h3><i class="fas fa-external-link-alt"></i> Access Complete Text of Juz 26</h3>
+                <p><a href="https://quran.com/juz/26?translations=131" target="_blank" class="access-link"><i class="fas fa-book"></i> Quran.com - Juz 26 (English trans.)</a></p>
+            </div>
+
+            <!-- Surah Al-Ahqaf (English) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Ahqaf (The Sand Dunes) - Verses 27-35</h2>
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of the Final Part of Surah Al-Ahqaf</h3>
+                    <p><em>From Tafhim al-Qur'an:</em> The concluding part of this surah reminds the Meccan polytheists that many towns around them (like 'Ad and Thamud) were destroyed because of their rebellion. Verses 29-32 tell of a group of jinn who heard the Qur'an and immediately believed – a lesson that truth is accepted by pure hearts, whether human or jinn. The final verses affirm Allah's power in creating the heavens and earth, and command the Prophet to be patient as the messengers of strong will were patient.</p>
+                </div>
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Ahqaf (Verses 27-35)</h3>
+                    <audio controls style="width: 100%;">
+                        <source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/046.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        <i class="fas fa-external-link-alt"></i> Complete Text: 
+                        <a href="https://recitequran.com/46:27" target="_blank" class="access-link">reciteQuran.com - Surah Al-Ahqaf (27-35)</a>
+                    </p>
+                </div>
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table section-title-icon"></i> Theme Division by Verses (Juz 26)</h3>
+                    <table class="theme-table">
+                        <thead>
+                            <tr>
+                                <th>Verse Range</th>
+                                <th>Main Theme</th>
+                                <th>Core Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Verses 27-28</td>
+                                <td>Warning from Destruction of Previous Nations</td>
+                                <td>Destruction of cities around Mecca due to disbelief; Allah's signs shown repeatedly</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 29-32</td>
+                                <td>Story of Jinn Who Heard the Qur'an</td>
+                                <td>Jinn who listened to Qur'an then believed; their acknowledgment of truth; call to their people</td>
+                            </tr>
+                            <tr>
+                                <td>Verses 33-35</td>
+                                <td>Call to Faith and Patience</td>
+                                <td>Allah's power creating heavens and earth; call to believe; command to be patient</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message of Aqidah, Worship, & Akhlaq</h3>
+                    <ul>
+                        <li><strong>Aqidah (Creed):</strong> Belief that Allah destroys nations who reject messengers, faith in Allah's power creating heavens and earth, belief that Qur'an is guidance, rejection of worship besides Allah.</li>
+                        <li><strong>Worship:</strong> Listen to and practice the Qur'an, pray to Allah with hope, be patient facing mockery.</li>
+                        <li><strong>Akhlak (Morality):</strong> Learn lessons from destruction of previous nations, preach wisely, be patient facing rejection.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center;"><a href="https://www.islamicstudies.info/tafheem.php?sura=46&verse=27&to=35" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir at IslamicStudies.info</a></p>
+            </div>
+            <div class="surah-divider"></div>
+
+            <!-- Surah Muhammad (English) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Muhammad - Verses 1-38</h2>
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Muhammad</h3>
+                    <p><em>From Tafhim al-Qur'an:</em> This Medinan surah is often called "Surah Qital" (fighting) because it extensively discusses jihad. It opens by contrasting the fate of disbelievers and believers: the deeds of disbelievers are wasted, while the sins of believers are forgiven. Subsequent verses provide guidance on prisoners of war, call to spending, and warn the hypocrites who are reluctant to strive. The surah affirms that the life of this world is but play, and the Hereafter is better for the righteous.</p>
+                </div>
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Muhammad</h3>
+                    <audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/047.mp3" type="audio/mpeg"></audio>
+                    <p><a href="https://recitequran.com/47:1" target="_blank" class="access-link">reciteQuran.com - Surah Muhammad</a></p>
+                </div>
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table"></i> Theme Division</h3>
+                    <table class="theme-table">
+                        <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                        <tbody>
+                            <tr><td>1-11</td><td>Comparison of Believers and Disbelievers</td><td>Disbelievers' deeds wasted; believers' sins forgiven; Allah's help for believers</td></tr>
+                            <tr><td>12-19</td><td>Recompense in Hereafter and Tests</td><td>Paradise for believers; Hell for disbelievers; tests to examine faith</td></tr>
+                            <tr><td>20-28</td><td>Obligation of Fighting and Prisoner Laws</td><td>Command to fight; laws of prisoners of war; criticism of hypocrites</td></tr>
+                            <tr><td>29-34</td><td>Characteristics of Hypocrites and Warning</td><td>Signs of hypocrites; warning against hypocrisy; recompense for hypocrites</td></tr>
+                            <tr><td>35-38</td><td>Invitation to Spend and Conclusion</td><td>Invitation to spend in Allah's way; promise of better replacement; affirmation of truth</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message</h3>
+                    <ul>
+                        <li><strong>Aqidah:</strong> Belief that Allah wastes disbelievers' deeds, faith in Allah's help, belief in Paradise and Hell, rejection of hypocrisy.</li>
+                        <li><strong>Worship:</strong> Fight in Allah's way, read Qur'an attentively, spend in Allah's way, pray with devotion.</li>
+                        <li><strong>Akhlak:</strong> Be consistent in faith, do not be hypocritical, be patient in facing tests, speak truthfully.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center;"><a href="https://www.islamicstudies.info/tafheem.php?sura=47&verse=1&to=38" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir</a></p>
+            </div>
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Fath (English) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Fath (The Victory) - Verses 1-29</h2>
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Fath</h3>
+                    <p><em>From Tafhim al-Qur'an:</em> This surah was revealed after the Treaty of Hudaibiyah, which some companions perceived as a defeat, but Allah called it a "clear victory" (fath mubin). It promises forgiveness, mercy, and a straight path. It mentions the pledge of satisfaction (bay'at ridwan) under the tree, with which Allah was pleased. The surah affirms that the mission of the Messenger will be completed and Islam will prevail over all religions.</p>
+                </div>
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Fath</h3>
+                    <audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/048.mp3" type="audio/mpeg"></audio>
+                    <p><a href="https://recitequran.com/48:1" target="_blank" class="access-link">reciteQuran.com - Surah Al-Fath</a></p>
+                </div>
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table"></i> Theme Division</h3>
+                    <table class="theme-table">
+                        <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                        <tbody>
+                            <tr><td>1-7</td><td>Promise of Victory and Forgiveness</td><td>Clear victory; Allah's forgiveness; Allah's help; strength of believers</td></tr>
+                            <tr><td>8-10</td><td>Witness to Muhammad's Messengership</td><td>Muhammad as Allah's messenger; witness to his messengership; pledge of satisfaction</td></tr>
+                            <tr><td>11-17</td><td>Those Who Stayed Behind and Excused</td><td>Bedouin Arabs who stayed behind; those with valid excuses; obedience to Allah and His Messenger</td></tr>
+                            <tr><td>18-21</td><td>Allah's Satisfaction and Future Promise</td><td>Allah's pleasure with believers; promise of future spoils; guarantee of victory</td></tr>
+                            <tr><td>22-29</td><td>Strength of Disbelievers and Conclusion</td><td>Disbelievers' strength will be defeated; characteristics of Prophet Muhammad; parable of Muslims</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message</h3>
+                    <ul>
+                        <li><strong>Aqidah:</strong> Belief in Allah's promise of victory, faith in Allah's forgiveness, belief in Muhammad's messengership, faith in Allah's help.</li>
+                        <li><strong>Worship:</strong> Pledge allegiance to Allah and His Messenger, pray with devotion, remember Allah.</li>
+                        <li><strong>Akhlak:</strong> Obey Allah and His Messenger, be patient in facing tests, be humble, speak truthfully.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center;"><a href="https://www.islamicstudies.info/tafheem.php?sura=48&verse=1&to=29" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir</a></p>
+            </div>
+            <div class="surah-divider"></div>
+
+            <!-- Surah Al-Hujraat (English) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Al-Hujraat (The Rooms) - Verses 1-18</h2>
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Al-Hujraat</h3>
+                    <p><em>From Tafhim al-Qur'an:</em> This surah is the constitution of ethics for the Muslim community. It begins with manners towards the Prophet: not raising voices above his. Then rules about verifying news, reconciling two warring groups of believers, and prohibiting ridicule, bad nicknames, and suspicion. Verse 13 declares that nobility with Allah is only through taqwa. Verses 14-18 distinguish between Islam (outward submission) and Iman (inner conviction).</p>
+                </div>
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Al-Hujraat</h3>
+                    <audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/049.mp3" type="audio/mpeg"></audio>
+                    <p><a href="https://recitequran.com/49:1" target="_blank" class="access-link">reciteQuran.com - Surah Al-Hujraat</a></p>
+                </div>
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table"></i> Theme Division</h3>
+                    <table class="theme-table">
+                        <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                        <tbody>
+                            <tr><td>1-5</td><td>Manners towards the Messenger</td><td>Prohibition of preceding Allah and His Messenger; lowering voice before Messenger; etiquette of calling Messenger</td></tr>
+                            <tr><td>6-10</td><td>Etiquette of Receiving News and Reconciliation</td><td>Verification of news; reconciling disputing brothers; Islamic brotherhood</td></tr>
+                            <tr><td>11-13</td><td>Social Etiquette and Brotherhood</td><td>Prohibition of ridicule; prohibition of bad nicknames; prohibition of suspicion; brotherhood in faith</td></tr>
+                            <tr><td>14-18</td><td>True Faith and Conclusion</td><td>Difference between faith and Islam; perfection of faith; Allah knows what is in hearts; Allah's pleasure</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message</h3>
+                    <ul>
+                        <li><strong>Aqidah:</strong> Belief that Allah is Hearing and Knowing, true faith, belief that Allah knows what is in hearts, rejection of bad suspicion.</li>
+                        <li><strong>Worship:</strong> Fear Allah, make reconciliation, believe sincerely.</li>
+                        <li><strong>Akhlak:</strong> Manners towards the Messenger, verify news, do not ridicule, do not suspect badly, Islamic brotherhood.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center;"><a href="https://www.islamicstudies.info/tafheem.php?sura=49&verse=1&to=18" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir</a></p>
+            </div>
+            <div class="surah-divider"></div>
+
+            <!-- Surah Qaf (English) -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Qaf - Verses 1-45</h2>
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of Surah Qaf</h3>
+                    <p><em>From Tafhim al-Qur'an:</em> This Meccan surah refutes those who deny resurrection. Allah swears by the high heaven, the earth, and the towering trees to affirm that reviving the dead is easy for Him. It mentions the recording angels, the agony of death, the Day of Resurrection, and the rewards of Paradise and Hell. The Prophet is commanded to be patient as the previous messengers were patient.</p>
+                </div>
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Qaf</h3>
+                    <audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/050.mp3" type="audio/mpeg"></audio>
+                    <p><a href="https://recitequran.com/50:1" target="_blank" class="access-link">reciteQuran.com - Surah Qaf</a></p>
+                </div>
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table"></i> Theme Division</h3>
+                    <table class="theme-table">
+                        <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                        <tbody>
+                            <tr><td>1-15</td><td>Denial and Resurrection</td><td>Acknowledgment of Qur'an; disbelievers' denial of resurrection; process of resurrection</td></tr>
+                            <tr><td>16-22</td><td>Creation and Allah's Supervision</td><td>Creation of humans; recording angels; witnesses on Judgment Day</td></tr>
+                            <tr><td>23-35</td><td>Condition in Hereafter</td><td>Conversation in Hereafter; Paradise for the pious; Hell for liars</td></tr>
+                            <tr><td>36-45</td><td>Warning and Conclusion</td><td>Story of previous nations; warning before punishment; strengthening of Prophet Muhammad</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message</h3>
+                    <ul>
+                        <li><strong>Aqidah:</strong> Belief in resurrection after death, faith in recording angels, belief in Day of Reckoning, rejection of denial.</li>
+                        <li><strong>Worship:</strong> Remember Allah in all circumstances, be patient facing mockery, glorify and praise Allah.</li>
+                        <li><strong>Akhlak:</strong> Do not deny truth, learn lessons from previous nations, be grateful for Allah's favors.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center;"><a href="https://www.islamicstudies.info/tafheem.php?sura=50&verse=1&to=45" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir</a></p>
+            </div>
+            <div class="surah-divider"></div>
+
+            <!-- Surah Adh-Dhariyat (early part) English -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-book-open section-title-icon"></i> Surah Adh-Dhariyat (The Scattering Winds) - Verses 1-30</h2>
+                <div class="overview-box">
+                    <h3 style="margin-top: 0; color: #2c3e50;"><i class="fas fa-info-circle"></i> Overview of the Early Part of Surah Adh-Dhariyat</h3>
+                    <p><em>From Tafhim al-Qur'an:</em> The surah opens with oaths by the winds scattering dust, clouds carrying rain, and ships sailing, to emphasize that the Day of Recompense is certain. It then mentions two groups of people: those who are in doubt and the righteous (who will be in Paradise). Verses 20-23 invite reflection on Allah's signs in the earth and within themselves. This part concludes with the story of Ibrahim's noble guests (the angels) who gave him glad tidings of Isaac and their mission to punish the people of Lut.</p>
+                </div>
+                <div class="audio-player">
+                    <h3><i class="fas fa-music"></i> Listen to Surah Adh-Dhariyat (Verses 1-30)</h3>
+                    <audio controls><source src="https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/051.mp3" type="audio/mpeg"></audio>
+                    <p><a href="https://recitequran.com/51:1" target="_blank" class="access-link">reciteQuran.com - Surah Adh-Dhariyat (1-30)</a></p>
+                </div>
+                <div class="section">
+                    <h3 class="theme-title"><i class="fas fa-table"></i> Theme Division (Juz 26)</h3>
+                    <table class="theme-table">
+                        <thead><tr><th>Verses</th><th>Main Theme</th><th>Core Message</th></tr></thead>
+                        <tbody>
+                            <tr><td>1-6</td><td>Allah's Oath and Certainty of Day of Recompense</td><td>Allah's oath by His creations; certainty of day of recompense; truth of religion</td></tr>
+                            <tr><td>7-19</td><td>Warning and Recompense</td><td>Sky having pathways; threat to liars; recompense for pious and wicked</td></tr>
+                            <tr><td>20-23</td><td>Signs of Allah's Power</td><td>Signs of Allah's power on earth; provision from Allah; Allah's oath by Himself</td></tr>
+                            <tr><td>24-30</td><td>Story of Prophet Ibrahim and Angels</td><td>Angels' visit to Ibrahim; glad tidings of Isaac's birth; story of Lot's people</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="message-box">
+                    <h3><i class="fas fa-star"></i> Message</h3>
+                    <ul>
+                        <li><strong>Aqidah:</strong> Belief in day of recompense, faith in signs of Allah's power, belief in provision from Allah, faith in truth of religion.</li>
+                        <li><strong>Worship:</strong> Fear Allah, pray at night, be grateful for Allah's favors.</li>
+                        <li><strong>Akhlak:</strong> Do not deny truth, help the poor, honor guests like Ibrahim.</li>
+                    </ul>
+                </div>
+                <p style="text-align: center;"><a href="https://www.islamicstudies.info/tafheem.php?sura=51&verse=1&to=30" target="_blank" class="access-link"><i class="fas fa-book"></i> Detailed Tafsir</a></p>
+            </div>
+
+            <div class="pagination">
+                <a href="juz_25.html"><i class="fas fa-arrow-left"></i> Previous Juz</a>
+                <span style="color: var(--text-color); font-weight: bold;">Juz 26</span>
+                <a href="juz_27.html"><i class="fas fa-arrow-right"></i> Next Juz</a>
+            </div>
+            <div class="main-menu"><a href="index.html" class="top-home-link"><i class="fas fa-home"></i> Back to Main Menu</a>
+            <a href="juz_summary.html" class="top-home-link"><i class="fas fa-list-ul"></i> Juz Summary List</a></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; (2026 AD) 1447 AH - Juz 26 Thematic Analysis | Based on IslamicStudies.info | Curated by Hermansjah</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const eng = document.getElementById('english-content');
+            const ind = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const transToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitEls = document.querySelectorAll('.transliteration');
+
+            // language
+            const curLang = localStorage.getItem('language') || 'indonesian';
+            if (curLang === 'english') {
+                eng.classList.remove('hidden');
+                ind.classList.add('hidden');
+                langToggle.textContent = 'Switch to Indonesian';
+            } else {
+                eng.classList.add('hidden');
+                ind.classList.remove('hidden');
+                langToggle.textContent = 'Switch to English';
+            }
+            langToggle.addEventListener('click', function() {
+                if (eng.classList.contains('hidden')) {
+                    eng.classList.remove('hidden');
+                    ind.classList.add('hidden');
+                    langToggle.textContent = 'Switch to Indonesian';
+                    localStorage.setItem('language', 'english');
+                } else {
+                    eng.classList.add('hidden');
+                    ind.classList.remove('hidden');
+                    langToggle.textContent = 'Switch to English';
+                    localStorage.setItem('language', 'indonesian');
+                }
+            });
+
+            // transliteration
+            const transVis = localStorage.getItem('transliteration') === 'true';
+            if (transVis) {
+                translitEls.forEach(el => el.style.display = 'block');
+                transToggle.textContent = 'Hide Transliteration';
+            }
+            transToggle.addEventListener('click', function() {
+                if (translitEls.length && (translitEls[0].style.display === 'none' || translitEls[0].style.display === '')) {
+                    translitEls.forEach(el => el.style.display = 'block');
+                    transToggle.textContent = 'Hide Transliteration';
+                    localStorage.setItem('transliteration', 'true');
+                } else {
+                    translitEls.forEach(el => el.style.display = 'none');
+                    transToggle.textContent = 'Show Transliteration';
+                    localStorage.setItem('transliteration', 'false');
+                }
+            });
+
+            // dark mode
+            const dark = localStorage.getItem('darkMode') === 'true';
+            if (dark) {
+                document.body.classList.add('dark-mode');
+                darkToggle.textContent = 'Light Mode';
+            }
+            darkToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                if (document.body.classList.contains('dark-mode')) {
+                    darkToggle.textContent = 'Light Mode';
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    darkToggle.textContent = 'Dark Mode';
+                    localStorage.setItem('darkMode', 'false');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
