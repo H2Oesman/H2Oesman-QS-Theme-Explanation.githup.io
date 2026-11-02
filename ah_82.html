@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>82. Al-Afuww - Yang Maha Pemaaf | The Pardoner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            color: #1e2a3e;
+            background-color: #f5f9fc;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #1f2a3e;
+            color: #eef2ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 28px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        body.dark-mode .container {
+            background: #2a3649;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .arabic {
+            font-size: 42px;
+            text-align: right;
+            direction: rtl;
+            margin: 20px 0;
+            color: #1a5276;
+            font-family: 'Uthmanic Script', 'Uthmanic Script HAFS', 'Traditional Arabic', 'Scheherazade New', serif;
+        }
+        body.dark-mode .arabic {
+            color: #9ad0ff;
+        }
+        .transliteration {
+            font-style: italic;
+            color: #5f6c7a;
+            font-size: 18px;
+            text-align: right;
+            margin: -15px 0 20px;
+            display: none;
+        }
+        body.dark-mode .transliteration {
+            color: #cbd5e6;
+        }
+        .name-title {
+            font-size: 32px;
+            color: #2c3e50;
+            border-bottom: 3px solid #2c7da0;
+            padding-bottom: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        body.dark-mode .name-title {
+            color: #eef2ff;
+            border-bottom-color: #5fa7cf;
+        }
+        .section {
+            margin: 40px 0;
+        }
+        .section-title {
+            font-size: 26px;
+            color: #1e5f8e;
+            margin-bottom: 20px;
+            border-left: 5px solid #2c7da0;
+            padding-left: 18px;
+        }
+        body.dark-mode .section-title {
+            color: #7bc9ff;
+            border-left-color: #5fa7cf;
+        }
+        .dua,
+        .amalan,
+        .dalil-item {
+            background-color: #f8fafc;
+            padding: 24px;
+            border-radius: 28px;
+            margin: 25px 0;
+            border: 1px solid #e2e8f0;
+            transition: 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        body.dark-mode .dua,
+        body.dark-mode .amalan,
+        body.dark-mode .dalil-item {
+            background-color: #1f2a3c;
+            border-color: #3e4a5f;
+        }
+        .dua-title,
+        .amalan-title {
+            font-weight: bold;
+            color: #1f7e5c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        body.dark-mode .dua-title,
+        body.dark-mode .amalan-title {
+            color: #66d9a7;
+        }
+        .back-to-top {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2c7da0;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        body.dark-mode .back-to-top {
+            color: #90caf9;
+        }
+
+        /* toggle buttons (right) */
+        .language-toggle,
+        .transliteration-toggle,
+        .dark-mode-toggle {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 40px;
+            cursor: pointer;
+            z-index: 1100;
+            font-weight: bold;
+            font-size: 14px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .language-toggle {
+            top: 20px;
+            background: #2c7da0;
+        }
+        .transliteration-toggle {
+            top: 80px;
+            background: #27ae60;
+        }
+        .dark-mode-toggle {
+            top: 140px;
+            background: #8e44ad;
+        }
+
+        /* === SCROLL ARROWS (left side: single step) === */
+        .scroll-arrow {
+            position: fixed;
+            left: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            border: none;
+            font-size: 22px;
+        }
+        .scroll-arrow:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow {
+            background: #3e5a77;
+        }
+        .scroll-arrow.up {
+            top: 200px;
+        }
+        .scroll-arrow.down {
+            bottom: 90px;
+        }
+
+        /* === DOUBLE ARROWS (right side: top / bottom fast) === */
+        .scroll-arrow-double {
+            position: fixed;
+            right: 20px;
+            background: #2c3e50;
+            color: white;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1050;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 20px;
+        }
+        .scroll-arrow-double:hover {
+            transform: scale(1.05);
+            background: #2c7da0;
+        }
+        body.dark-mode .scroll-arrow-double {
+            background: #3e5a77;
+        }
+        .scroll-arrow-double.up-double {
+            top: 200px;
+        }
+        .scroll-arrow-double.down-double {
+            bottom: 90px;
+        }
+
+        /* link visibility in dark mode */
+        body.dark-mode a {
+            color: #a3c6ff;
+            text-decoration: none;
+        }
+        body.dark-mode a:hover {
+            color: #c9e0ff;
+            text-decoration: underline;
+        }
+        .main-menu-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .menu-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #eef2f5;
+            padding: 8px 18px;
+            border-radius: 40px;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+        body.dark-mode .menu-link {
+            background: #253446;
+            color: #eef2ff;
+        }
+        .menu-link:hover {
+            background: #d4e2ec;
+            text-decoration: none;
+        }
+        body.dark-mode .menu-link:hover {
+            background: #2f405b;
+        }
+        .bonus {
+            background-color: #e8f4fc;
+            padding: 18px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #2c7da0;
+        }
+        body.dark-mode .bonus {
+            background-color: #1f3a4b;
+            border-left-color: #5fa7cf;
+        }
+        .tafsir-box {
+            background-color: #fef9e6;
+            padding: 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #ffe0a3;
+        }
+        body.dark-mode .tafsir-box {
+            background-color: #2f3a2a;
+            border-color: #5e6b44;
+        }
+        .audio-player {
+            margin-top: 15px;
+        }
+        .audio-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .name-source {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            opacity: 0.7;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+        }
+        body.dark-mode footer {
+            border-top-color: #3a4a62;
+        }
+        /* pagination links */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0 10px;
+            flex-wrap: wrap;
+        }
+        .pagination .menu-link {
+            min-width: 120px;
+            justify-content: center;
+        }
+        @media (max-width: 680px) {
+            .scroll-arrow,
+            .scroll-arrow-double {
+                width: 38px;
+                height: 38px;
+                font-size: 18px;
+            }
+            .scroll-arrow.up,
+            .scroll-arrow-double.up-double {
+                top: 170px;
+            }
+            .scroll-arrow.down,
+            .scroll-arrow-double.down-double {
+                bottom: 70px;
+            }
+            .language-toggle,
+            .transliteration-toggle,
+            .dark-mode-toggle {
+                padding: 5px 12px;
+                font-size: 11px;
+                right: 12px;
+            }
+            .language-toggle {
+                top: 12px;
+            }
+            .transliteration-toggle {
+                top: 68px;
+            }
+            .dark-mode-toggle {
+                top: 124px;
+            }
+            .arabic {
+                font-size: 32px;
+            }
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Fixed Toggle Buttons (Right) -->
+    <div id="languageToggle" class="language-toggle"><i class="fas fa-globe"></i> 🇬🇧 English</div>
+    <div id="transliterationToggle" class="transliteration-toggle"><i class="fas fa-language"></i> Show Transliteration</div>
+    <div id="darkModeToggle" class="dark-mode-toggle"><i class="fas fa-moon"></i> Dark Mode</div>
+
+    <!-- Single-step arrows (LEFT) -->
+    <div id="scrollUp" class="scroll-arrow up"><i class="fas fa-chevron-up"></i></div>
+    <div id="scrollDown" class="scroll-arrow down"><i class="fas fa-chevron-down"></i></div>
+
+    <!-- Double arrows (RIGHT side: top & bottom) -->
+    <div id="doubleUpScroll" class="scroll-arrow-double up-double" title="Go to top"><i class="fas fa-angles-up"></i></div>
+    <div id="doubleDownScroll" class="scroll-arrow-double down-double" title="Go to bottom"><i class="fas fa-angles-down"></i></div>
+
+    <div class="container" id="mainContainer">
+        <!-- INDONESIAN CONTENT -->
+        <div id="indonesian-content">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">82. Al-Afuww (Yang Maha Pemaaf)</h1>
+            <div class="name-source"><strong>Sumber:</strong> <a href="https://myislam.org/99-names-of-allah/al-afuw/" target="_blank">myislam.org/99-names-of-allah/al-afuw/</a> | Kementerian Agama RI</div>
+
+            <div class="arabic">ٱلْعَفُوُّ</div>
+            <div class="transliteration">Transliterasi: Al-Afuww</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Dengarkan Lafal Ism Husna Ini</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/82.%20al-afuww.mp3" type="audio/mpeg">
+                    Browser Anda tidak mendukung elemen audio.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Makna</h2>
+                <p>Al-Afuww muncul dalam Al-Quran lima kali (<a href="https://quran.com/4/43?translations=33" target="_blank">4:43</a>, <a href="https://quran.com/4/99?translations=33" target="_blank">4:99</a>, <a href="https://quran.com/4/149?translations=33" target="_blank">4:149</a>, <a href="https://quran.com/22/60?translations=33" target="_blank">22:60</a>, <a href="https://quran.com/58/2?translations=33" target="_blank">58:2</a>) dengan makna mendalam:</p>
+                <ul>
+                    <li><strong>Yang Maha Pemaaf:</strong> Yang menghapus dosa sepenuhnya</li>
+                    <li><strong>Yang Menghilangkan:</strong> Yang menghapus jejak kesalahan</li>
+                </ul>
+                <p>Menurut Kementerian Agama RI dalam Tafsir Kementerian Agama, Al-Afuww adalah Allah Yang Maha Pemaaf yang menghapus dosa-dosa hamba-Nya setelah mereka bertaubat. Sebagaimana disebutkan dalam <a href="https://quran.com/39/53?translations=33" target="_blank">Surah Az-Zumar 39:53</a>: "Sesungguhnya Allah mengampuni segala dosa."</p>
+                <p>Kementerian Agama RI menjelaskan bahwa sifat ini menunjukkan kasih sayang Allah yang luar biasa, dimana Dia tidak hanya mengampuni tetapi benar-benar menghapus jejak-jejak kesalahan.</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Dari Al-Quran &amp; Hadits)</h2>
+
+                <div class="dalil-item">
+                    <strong>Referensi Utama Al-Quran:</strong>
+                    <a href="https://quran.com/4/149?translations=33" target="_blank">Surah An-Nisa 4:149</a>
+                    <div class="arabic">إِن تُبْدُوا۟ خَيْرًا أَوْ تُخْفُوهُ أَوْ تَعْفُوا۟ عَن سُوٓءٍۢ فَإِنَّ ٱللَّهَ كَانَ عَفُوًّۭا قَدِيرًۭا</div>
+                    <div class="transliteration">In tubdū khayran aw tukhfūhu aw taʿfū ʿan sū'in fa-inna Allāha kāna ʿafuwwan qadīrā</div>
+                    <p>"Jika kamu menyatakan kebaikan atau menyembunyikannya atau memaafkan kesalahan, maka sesungguhnya Allah Maha Pemaaf lagi Maha Kuasa."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Kementerian Agama RI:</strong> Ayat ini menunjukkan bahwa Allah sebagai Al-Afuww mendorong manusia untuk saling memaafkan. Menurut penjelasan Kemenag, pemaafan manusia merupakan cerminan dari sifat Allah Yang Maha Pemaaf.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Al-Quran:</strong>
+                    <a href="https://quran.com/22/60?translations=33" target="_blank">Surah Al-Hajj 22:60</a>
+                    <div class="arabic">وَإِنْ عَاقَبْتُمْ فَعَاقِبُوا۟ بِمِثْلِ مَا عُوقِبْتُم بِهِۦ ۖ وَلَئِن صَبَرْتُمْ لَهُوَ خَيْرٌۭ لِّلصَّـٰبِرِينَ * وَٱصْبِرْ وَمَا صَبْرُكَ إِلَّا بِٱللَّهِ ۚ وَلَا تَحْزَنْ عَلَيْهِمْ وَلَا تَكُ فِى ضَيْقٍۢ مِّمَّا يَمْكُرُونَ * إِنَّ ٱللَّهَ مَعَ ٱلَّذِينَ ٱتَّقَوا۟ وَّٱلَّذِينَ هُم مُّحْسِنُونَ</div>
+                    <div class="transliteration">Wa in ʿāqabtum fa-ʿāqibū bi-mithli mā ʿūqibtum bih, wa la-in ṣabartum la-huwa khayrun liṣ-ṣābirīn * Wa ṣbir wa mā ṣabruka illā bi-Llāh, wa lā taḥzan ʿalayhim wa lā taku fī ḍayqim mimmā yamkurūn * Inna Allāha maʿa lladhīna ttaqaw wa lladhīna hum muḥsinūn</div>
+                    <p>"Dan jika kamu membalas, maka balaslah dengan yang setimpal. Tetapi jika kamu bersabar, itu lebih baik bagi orang yang sabar. Bersabarlah, dan kesabaranmu itu tidak lain hanyalah dengan pertolongan Allah. Janganlah kamu bersedih terhadap mereka dan janganlah kamu bersempit dada terhadap tipu daya mereka. Sesungguhnya Allah beserta orang-orang yang bertakwa dan orang-orang yang berbuat kebaikan."</p>
+                    <div class="tafsir-box">
+                        <strong>Kementerian Agama RI:</strong> Ayat ini menunjukkan keseimbangan antara keadilan dan pemaafan. Kementerian Agama RI menjelaskan bahwa meskipun pembalasan diizinkan, Allah sebagai Al-Afuww memberi pahala lebih besar bagi mereka yang memilih kesabaran dan pemaafan.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Referensi Hadits:</strong> <a href="https://sunnah.com/bukhari:7509" target="_blank">Sahih Bukhari 7509</a>
+                    <div class="arabic">وَاللَّهُ عَفُوٌّ يُحِبُّ الْعَفْوَ</div>
+                    <div class="transliteration">Wa Llāhu ʿafuwwun yuḥibbu l-ʿafw</div>
+                    <p>"Allah Maha Pemaaf dan menyukai pemaafan."</p>
+                    <div class="tafsir-box">
+                        <strong>Keterangan Kementerian Agama RI:</strong> Nabi (ﷺ) menggambarkan sifat Allah sebagai Al-Afuww yang tidak hanya memaafkan tetapi menyukai ketika hamba-Nya memaafkan orang lain. Dalam penjelasan Kemenag, hadits ini sering dijadikan dasar untuk mengajarkan pentingnya memaafkan.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Doa</h2>
+                <div class="dua">
+                    <div class="dua-title">Untuk Pemaafan Sempurna</div>
+                    <div class="arabic">يَا عَفُوُّ يَا غَفُورُ اغْفِرْ لِي ذُنُوبِي كُلَّهَا وَاعْفُ عَنِّي سَيِّئَاتِي بِفَضْلِكَ وَكَرَمِكَ</div>
+                    <div class="transliteration">Yā ʿAfuwwu yā Ghafūru ghfir lī dhunūbī kullahā waʿfu ʿannī sayyi'ātī bi-faḍlika wa karamik</div>
+                    <p><strong>Terjemahan:</strong> "Wahai Yang Maha Pemaaf, wahai Yang Maha Pengampun, ampunilah semua dosaku dan maafkan kesalahanku dengan karunia dan kemurahan-Mu."</p>
+                    <p><strong>Manfaat:</strong> Doa ini diajarkan dalam kitab-kitab Kementerian Agama RI untuk memohon pengampunan total. Nabi (ﷺ) mengajarkan bahwa pemaafan Allah menghapus semua jejak dosa (Tirmidzi).</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">Untuk Kemampuan Memaafkan</div>
+                    <div class="arabic">اللَّهُمَّ أَنْتَ الْعَفُوُّ وَمِنْكَ الْعَفْوُ، أَعْطِنِي قَلْبًا عَفُوًّا وَاجْعَلْنِي مِمَّنْ تَغْمُرُهُمْ رَحْمَتُكَ</div>
+                    <div class="transliteration">Allāhumma anta l-ʿAfuwwu wa minka l-ʿafw, aʿṭinī qalban ʿafuwwan wa-jʿalnī mimman taghmaruhum raḥmatuk</div>
+                    <p><strong>Terjemahan:</strong> "Ya Allah, Engkau adalah Al-Afuww dan dari-Mu datang pemaafan. Berikan aku hati yang pemaaf dan jadikan aku termasuk orang-orang yang diliputi rahmat-Mu."</p>
+                    <p><strong>Sumber:</strong> Dianjurkan dalam kitab Kementerian Agama RI yang menjadi rujukan, terinspirasi oleh ajaran Nabi (ﷺ) tentang pemaafan (Muslim).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Amalan Mencari Pemaafan</div>
+                    <p>Untuk pembersihan spiritual sempurna menurut panduan Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Baca "Yā ʿAfuww" 100 kali sebelum Subuh</li>
+                        <li>Baca <a href="https://quran.com/3/133-136?translations=33" target="_blank">Surah Al-Imran 3:133-136</a> setiap hari</li>
+                        <li>Maafkan seseorang yang menyakitimu setiap hari</li>
+                    </ol>
+                    <p><strong>Manfaat:</strong> Amalan ini:</p>
+                    <ul>
+                        <li>Menghubungkan dengan sifat Allah yang memaafkan sepenuhnya</li>
+                        <li>Menyucikan hati dari dendam</li>
+                        <li>Mendatangkan rahmat dan pengampunan ilahi</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Malam Pemaafan</div>
+                    <p>Amalan khusus pada malam Jumat menurut tradisi Kementerian Agama RI:</p>
+                    <ol>
+                        <li>Tulis "Al-Afuww" dengan air mawar</li>
+                        <li>Simpan di bawah bantal saat tidur</li>
+                        <li>Baca Ayat al-Kursi (<a href="https://quran.com/2/255?translations=33" target="_blank">2:255</a>) sebelum tidur</li>
+                    </ol>
+                    <p><strong>Dasar Historis:</strong> Orang-orang shaleh biasa mencari pemaafan Allah terutama pada malam Jumat, sebagaimana tercatat dalam kitab-kitab klasik yang menjadi rujukan Kementerian Agama RI.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir</h2>
+                <p>Ibnu Katsir menjelaskan Al-Afuww melalui tiga dimensi:</p>
+                <ol>
+                    <li><strong>Penghapusan Sempurna:</strong>
+                        <ul>
+                            <li>Menghapus dosa sepenuhnya (<a href="https://quran.com/39/53?translations=33" target="_blank">39:53</a>)</li>
+                            <li>Menghilangkan jejak kesalahan (<a href="https://quran.com/4/31?translations=33" target="_blank">4:31</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Melampaui Pengampunan:</strong>
+                        <ul>
+                            <li>Tidak hanya menutupi tetapi menghilangkan dosa (<a href="https://quran.com/42/25?translations=33" target="_blank">42:25</a>)</li>
+                            <li>Mengubah perbuatan buruk menjadi baik (<a href="https://quran.com/25/70?translations=33" target="_blank">25:70</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Pemaafan Bersyarat:</strong>
+                        <ul>
+                            <li>Memerlukan taubat yang tulus (<a href="https://quran.com/66/8?translations=33" target="_blank">66:8</a>)</li>
+                            <li>Perlu memaafkan orang lain (<a href="https://quran.com/24/22?translations=33" target="_blank">24:22</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>Dalam <a href="https://quran.com/64/14?translations=33" target="_blank">Surah At-Taghabun 64:14</a>, Allah menyeimbangkan sifat ini: "Jika kamu memaafkan dan tidak mempersoalkan dan mengampuni, maka sungguh, Allah Maha Pengampun lagi Maha Penyayang." menunjukkan bagaimana pemaafan manusia terhubung dengan pemaafan ilahi.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_81.html" class="menu-link"><i class="fas fa-chevron-left"></i> Sebelumnya (81)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Daftar</a>
+                <a href="ah_83.html" class="menu-link">Selanjutnya (83) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Kembali ke Atas</a>
+        </div>
+        <!-- ENGLISH CONTENT -->
+        <div id="english-content" class="hidden">
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <h1 class="name-title">82. Al-Afuww (The Pardoner)</h1>
+            <div class="name-source"><strong>Source:</strong> <a href="https://myislam.org/99-names-of-allah/al-afuw/" target="_blank">myislam.org/99-names-of-allah/al-afuw/</a></div>
+
+            <!-- Bonus section only in English -->
+            <div class="bonus">
+                <strong>Bonus:</strong> Listen to the beautiful explanation of Al Asma Ul Husna at <a href="https://qfatima.com/a99-audio" target="_blank">qfatima.com</a>.
+
+                <div class="audio-player">
+                    <div class="audio-title">Listen to the beautiful explanation of this Ism Husna</div>
+                    <audio controls style="width: 100%;">
+                        <source src="https://qfatima.com/wp-content/uploads/2020/05/AH_83Afw.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+
+            <div class="arabic">ٱلْعَفُوُّ</div>
+            <div class="transliteration">Transliteration: Al-Afuww</div>
+
+            <div class="audio-player">
+                <div class="audio-title">Listen to pronunciation (lafz) of this Ism Husna</div>
+                <audio controls style="width: 100%;">
+                    <source src="https://quranaudio.myislam.org/audio/99%20names%20of%20Allah/audio/82.%20al-afuww.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Meaning</h2>
+                <p>Al-Afuww appears in the Quran five times (<a href="https://quran.com/4/43?translations=131" target="_blank">4:43</a>, <a href="https://quran.com/4/99?translations=131" target="_blank">4:99</a>, <a href="https://quran.com/4/149?translations=131" target="_blank">4:149</a>, <a href="https://quran.com/22/60?translations=131" target="_blank">22:60</a>, <a href="https://quran.com/58/2?translations=131" target="_blank">58:2</a>) with profound meanings:</p>
+                <ul>
+                    <li><strong>The Pardoner:</strong> The One who erases sins completely</li>
+                    <li><strong>The Eliminator:</strong> The One who removes the traces of wrongdoing</li>
+                </ul>
+                <p>Ibn Kathir explains: "He pardons sins and overlooks faults, wiping them away as if they never occurred." This name reminds us of Allah's supreme forgiveness, as mentioned in <a href="https://quran.com/39/53?translations=131" target="_blank">Surah Az-Zumar 39:53</a>: "Indeed, Allah forgives all sins."</p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Dalil (Evidence from Quran &amp; Hadith)</h2>
+
+                <div class="dalil-item">
+                    <strong>Primary Quranic Reference:</strong>
+                    <a href="https://quran.com/4/149?translations=131" target="_blank">Surah An-Nisa 4:149</a>
+                    <div class="arabic">إِن تُبْدُوا۟ خَيْرًا أَوْ تُخْفُوهُ أَوْ تَعْفُوا۟ عَن سُوٓءٍۢ فَإِنَّ ٱللَّهَ كَانَ عَفُوًّۭا قَدِيرًۭا</div>
+                    <div class="transliteration">In tubdū khayran aw tukhfūhu aw taʿfū ʿan sū'in fa-inna Allāha kāna ʿafuwwan qadīrā</div>
+                    <p>"Whether you show what is good or conceal it or pardon evil - indeed, Allah is ever Pardoning and Competent."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This verse connects human forgiveness with divine pardon. Ibn Kathir notes that Allah's attribute as Al-Afuww encourages believers to forgive others, with the promise of greater divine forgiveness.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Quranic Reference:</strong>
+                    <a href="https://quran.com/22/60?translations=131" target="_blank">Surah Al-Hajj 22:60</a>
+                    <div class="arabic">وَإِنْ عَاقَبْتُمْ فَعَاقِبُوا۟ بِمِثْلِ مَا عُوقِبْتُم بِهِۦ ۖ وَلَئِن صَبَرْتُمْ لَهُوَ خَيْرٌۭ لِّلصَّـٰبِرِينَ * وَٱصْبِرْ وَمَا صَبْرُكَ إِلَّا بِٱللَّهِ ۚ وَلَا تَحْزَنْ عَلَيْهِمْ وَلَا تَكُ فِى ضَيْقٍۢ مِّمَّا يَمْكُرُونَ * إِنَّ ٱللَّهَ مَعَ ٱلَّذِينَ ٱتَّقَوا۟ وَّٱلَّذِينَ هُم مُّحْسِنُونَ</div>
+                    <div class="transliteration">Wa in ʿāqabtum fa-ʿāqibū bi-mithli mā ʿūqibtum bih, wa la-in ṣabartum la-huwa khayrun liṣ-ṣābirīn * Wa ṣbir wa mā ṣabruka illā bi-Llāh, wa lā taḥzan ʿalayhim wa lā taku fī ḍayqim mimmā yamkurūn * Inna Allāha maʿa lladhīna ttaqaw wa lladhīna hum muḥsinūn</div>
+                    <p>"And if you punish, then punish with the like of that with which you were harmed. But if you are patient - it is better for those who are patient. And be patient, and your patience is not but through Allah. And do not grieve over them and do not be in distress over what they conspire. Indeed, Allah is with those who fear Him and those who are doers of good."</p>
+                    <div class="tafsir-box">
+                        <strong>Tafsir Ibn Kathir:</strong> This passage shows the balance between justice and forgiveness. Ibn Kathir explains that while retaliation is permitted, Allah as Al-Afuww rewards those who choose patience and pardon.
+                    </div>
+                </div>
+
+                <div class="dalil-item">
+                    <strong>Hadith Reference:</strong> <a href="https://sunnah.com/bukhari:7509" target="_blank">Sahih Bukhari 7509</a>
+                    <div class="arabic">وَاللَّهُ عَفُوٌّ يُحِبُّ الْعَفْوَ</div>
+                    <div class="transliteration">Wa Llāhu ʿafuwwun yuḥibbu l-ʿafw</div>
+                    <p>"Allah is Pardoning and loves forgiveness."</p>
+                    <div class="tafsir-box">
+                        <strong>Context:</strong> The Prophet (ﷺ) described Allah's nature as Al-Afuww who not only forgives but loves when His servants forgive others. This complements the Quranic concept of divine pardon.
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Du'a (Supplications)</h2>
+                <div class="dua">
+                    <div class="dua-title">For Complete Pardon</div>
+                    <div class="arabic">يَا عَفُوُّ يَا غَفُورُ اغْفِرْ لِي ذُنُوبِي كُلَّهَا وَاعْفُ عَنِّي سَيِّئَاتِي بِفَضْلِكَ وَكَرَمِكَ</div>
+                    <div class="transliteration">Yā ʿAfuwwu yā Ghafūru ghfir lī dhunūbī kullahā waʿfu ʿannī sayyi'ātī bi-faḍlika wa karamik</div>
+                    <p><strong>Translation:</strong> "O Pardoner, O Forgiver, forgive all my sins and pardon my misdeeds by Your favor and generosity."</p>
+                    <p><strong>Benefits:</strong> This comprehensive dua combines seeking both forgiveness (maghfirah) and complete pardon (ʿafw). The Prophet (ﷺ) taught that Allah's pardon removes all traces of sin (Tirmidhi).</p>
+                </div>
+
+                <div class="dua">
+                    <div class="dua-title">For the Ability to Forgive</div>
+                    <div class="arabic">اللَّهُمَّ أَنْتَ الْعَفُوُّ وَمِنْكَ الْعَفْوُ، أَعْطِنِي قَلْبًا عَفُوًّا وَاجْعَلْنِي مِمَّنْ تَغْمُرُهُمْ رَحْمَتُكَ</div>
+                    <div class="transliteration">Allāhumma anta l-ʿAfuwwu wa minka l-ʿafw, aʿṭinī qalban ʿafuwwan wa-jʿalnī mimman taghmaruhum raḥmatuk</div>
+                    <p><strong>Translation:</strong> "O Allah, You are Al-Afuww and from You comes pardon. Grant me a forgiving heart and make me among those overwhelmed by Your mercy."</p>
+                    <p><strong>Source:</strong> Inspired by the Prophet's (ﷺ) teachings on forgiveness (Muslim).</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Amalan (Practices)</h2>
+                <div class="amalan">
+                    <div class="amalan-title">Pardon Seeking Practice</div>
+                    <p>For complete spiritual cleansing:</p>
+                    <ol>
+                        <li>Recite "Yā ʿAfuww" 100 times before Fajr</li>
+                        <li>Read <a href="https://quran.com/3/133-136?translations=131" target="_blank">Surah Al-Imran 3:133-136</a> daily</li>
+                        <li>Forgive someone who wronged you each day</li>
+                    </ol>
+                    <p><strong>Benefits:</strong> This practice:</p>
+                    <ul>
+                        <li>Connects with Allah's attribute of complete pardon</li>
+                        <li>Purifies the heart from resentment</li>
+                        <li>Attracts divine mercy and forgiveness</li>
+                    </ul>
+                </div>
+
+                <div class="amalan">
+                    <div class="amalan-title">Night of Pardon</div>
+                    <p>Special practice on Friday nights:</p>
+                    <ol>
+                        <li>Write "Al-Afuww" with rose water</li>
+                        <li>Keep it under your pillow while sleeping</li>
+                        <li>Recite Ayat al-Kursi (<a href="https://quran.com/2/255?translations=131" target="_blank">2:255</a>) before sleep</li>
+                    </ol>
+                    <p><strong>Historical Basis:</strong> The righteous would seek Allah's complete pardon especially on Friday nights, as recorded in Ibn Sunni's 'Amal al-Yawm wal-Laylah.</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Tafsir Ibn Kathir (Deep Dive)</h2>
+                <p>Ibn Kathir explains Al-Afuww through three dimensions:</p>
+                <ol>
+                    <li><strong>Complete Erasure:</strong>
+                        <ul>
+                            <li>Removes sins entirely (<a href="https://quran.com/39/53?translations=131" target="_blank">39:53</a>)</li>
+                            <li>Wipes traces of wrongdoing (<a href="https://quran.com/4/31?translations=131" target="_blank">4:31</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Beyond Forgiveness:</strong>
+                        <ul>
+                            <li>Not just covering but eliminating sins (<a href="https://quran.com/42/25?translations=131" target="_blank">42:25</a>)</li>
+                            <li>Transforming bad deeds into good (<a href="https://quran.com/25/70?translations=131" target="_blank">25:70</a>)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Conditional Pardon:</strong>
+                        <ul>
+                            <li>Requires sincere repentance (<a href="https://quran.com/66/8?translations=131" target="_blank">66:8</a>)</li>
+                            <li>Needs forgiving others (<a href="https://quran.com/24/22?translations=131" target="_blank">24:22</a>)</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>In <a href="https://quran.com/64/14?translations=131" target="_blank">Surah At-Taghabun 64:14</a>, Allah balances this attribute: "If you pardon and overlook and forgive, then indeed, Allah is Forgiving and Merciful." showing how human forgiveness connects with divine pardon.</p>
+            </div>
+
+            <!-- Pagination & Navigation -->
+            <div class="pagination">
+                <a href="ah_81.html" class="menu-link"><i class="fas fa-chevron-left"></i> Previous (81)</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-list"></i> Index</a>
+                <a href="ah_83.html" class="menu-link">Next (83) <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="main-menu-links">
+                <a href="index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Main Menu</a>
+                <a href="ah_index.html" class="menu-link"><i class="fas fa-arrow-left"></i> Asmaul Husna Menu</a>
+            </div>
+            <a href="#top" class="back-to-top">Back To Top</a>
+        </div>
+    </div>
+    <footer>© 1447 AH / 2026 AD - Al-Afuww: The Pardoner. Curated and Maintained by Hermansjah.</footer>
+
+    <script>
+        (function() {
+            // DOM elements
+            const englishDiv = document.getElementById('english-content');
+            const indoDiv = document.getElementById('indonesian-content');
+            const langToggle = document.getElementById('languageToggle');
+            const translitToggle = document.getElementById('transliterationToggle');
+            const darkToggle = document.getElementById('darkModeToggle');
+            const translitElements = document.querySelectorAll('.transliteration');
+            const body = document.body;
+
+            // Helper: URL parameter override
+            function getParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Language override
+            let langFromUrl = null;
+            if (getParam('English') !== null) langFromUrl = 'english';
+            else if (getParam('Indonesian') !== null) langFromUrl = 'indonesian';
+            let currentLang = langFromUrl || localStorage.getItem('language') || 'indonesian';
+
+            function updateLangUI() {
+                const isEnglish = (currentLang === 'english');
+                if (isEnglish) {
+                    englishDiv.classList.remove('hidden');
+                    indoDiv.classList.add('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇮🇩 Bahasa Indonesia';
+                } else {
+                    englishDiv.classList.add('hidden');
+                    indoDiv.classList.remove('hidden');
+                    langToggle.innerHTML = '<i class="fas fa-globe"></i> 🇬🇧 English';
+                }
+                localStorage.setItem('language', currentLang);
+                updateTranslitButtonText();
+                updateDarkModeButtonText();
+            }
+
+            function updateTranslitButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const anyVisible = translitElements.length && translitElements[0].style.display !== 'none';
+                if (isEnglish) {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Hide Transliteration' :
+                        '<i class="fas fa-language"></i> Show Transliteration';
+                } else {
+                    translitToggle.innerHTML = anyVisible ? '<i class="fas fa-language"></i> Sembunyikan Transliterasi' :
+                        '<i class="fas fa-language"></i> Tampilkan Transliterasi';
+                }
+            }
+
+            function updateDarkModeButtonText() {
+                const isEnglish = (currentLang === 'english');
+                const isDark = body.classList.contains('dark-mode');
+                if (isEnglish) {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Light Mode' :
+                        '<i class="fas fa-moon"></i> Dark Mode';
+                } else {
+                    darkToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i> Mode Terang' :
+                        '<i class="fas fa-moon"></i> Mode Gelap';
+                }
+            }
+
+            // Transliteration
+            let translitVisible = localStorage.getItem('transliteration');
+            if (translitVisible === null) translitVisible = false;
+            else translitVisible = (translitVisible === 'true');
+            if (getParam('Transliteration') !== null) translitVisible = true;
+
+            function setTransliteration(show) {
+                translitElements.forEach(el => el.style.display = show ? 'block' : 'none');
+                updateTranslitButtonText();
+                localStorage.setItem('transliteration', show);
+            }
+
+            // Dark Mode
+            let darkActive = localStorage.getItem('darkMode');
+            if (darkActive === null) darkActive = false;
+            else darkActive = (darkActive === 'true');
+            if (getParam('Dark') !== null) darkActive = true;
+            if (darkActive) body.classList.add('dark-mode');
+
+            function setDarkModeUI() {
+                updateDarkModeButtonText();
+                localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+            }
+
+            // Event listeners
+            langToggle.addEventListener('click', () => {
+                currentLang = (currentLang === 'english') ? 'indonesian' : 'english';
+                updateLangUI();
+            });
+
+            translitToggle.addEventListener('click', () => {
+                const currently = (translitElements[0]?.style.display !== 'none');
+                setTransliteration(!currently);
+            });
+
+            darkToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                setDarkModeUI();
+            });
+
+            // Scroll arrows (single-step)
+            document.getElementById('scrollUp')?.addEventListener('click', () => window.scrollBy({ top: -window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('scrollDown')?.addEventListener('click', () => window.scrollBy({ top: window
+                    .innerHeight, behavior: 'smooth' }));
+            document.getElementById('doubleUpScroll')?.addEventListener('click', () => window.scrollTo({ top: 0,
+                    behavior: 'smooth' }));
+            document.getElementById('doubleDownScroll')?.addEventListener('click', () => window.scrollTo({ top: document
+                    .body.scrollHeight, behavior: 'smooth' }));
+
+            // Initial setup
+            setTransliteration(translitVisible);
+            updateLangUI();
+            setDarkModeUI();
+
+            // if any scroll anchor from url fragments
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const el = document.querySelector(window.location.hash);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 200);
+            }
+        })();
+    </script>
+</body>
+</html>
